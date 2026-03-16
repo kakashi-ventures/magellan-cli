@@ -44,7 +44,16 @@ FASE 3 — VALIDAZIONE FINALE
 │ portfolio-level   │
 └──────────┬───────┘
            ▼
-    results/*.md + state/session.json
+    Session Health → results/*.md + state/session.json
+
+LAYER TRASVERSALE — GUARD & HOOKS
+┌─────────────────────────────────────────────────┐
+│  Post-fase guards (retry → fallback → abort)    │
+│  Blocking SubagentStop hooks (exit 2)           │
+│  Stop hook (anti-terminazione prematura)        │
+│  PreCompact/PostCompact (backup/restore state)  │
+│  PostToolUseFailure (tracking WebSearch fails)  │
+└─────────────────────────────────────────────────┘
 ```
 
 ### Perché 8 agenti e non 7
@@ -129,6 +138,8 @@ La v3 usava solo file markdown nella directory `results/`. La v4 usa un sistema 
   "mode": "scout|targeted|open|problem",
   "phase": 0,
   "cycle": 1,
+  "status": "running|success|partial|degraded|failed",
+  "status_reason": "...",
   "scout_targets": [...],
   "selected_target": {...},
   "literature_context": {...},
@@ -138,11 +149,34 @@ La v3 usava solo file markdown nella directory `results/`. La v4 usa un sistema 
   },
   "final": [...],
   "diversity_scores": [...],
-  "metadata": { "start_time": "...", "model": "opus-4.6", "total_hypotheses_generated": 0, "kill_rate": 0 }
+  "metadata": {
+    "start_time": "...", "model": "opus-4.6",
+    "total_hypotheses_generated": 0, "kill_rate": 0,
+    "fallback_used": false, "literature_unavailable": false,
+    "generation_degraded": false, "web_search_failures": 0,
+    "retries_needed": 0
+  },
+  "progress": {
+    "phases_completed": [{"phase": "scout", "outcome": "3 targets", "timestamp": "..."}],
+    "current_phase": "generation"
+  },
+  "health": {
+    "scout_targets_found": 3, "hypotheses_generated": 12,
+    "survived_critique": 5, "passed_quality_gate": 2,
+    "fallback_used": false, "retries_needed": 0,
+    "web_search_failures": 0
+  }
 }
 ```
 
 Questo risolve il problema della perdita di informazioni durante la compaction del contesto. Ogni agente legge e aggiorna `state/session.json` come source of truth, non il contesto conversazionale.
+
+### Campi aggiunti in v4.1 (Autonomy Hardening)
+
+- **`status`** / **`status_reason`**: Classificazione esplicita dell'esito della sessione (SUCCESS/PARTIAL/DEGRADED/FAILED) con motivazione. Elimina il caso in cui l'utente riceve un summary dall'aspetto completo ma con 0 ipotesi approvate.
+- **`progress`**: Timeline delle fasi completate con esito e timestamp. Consultabile via `/status` durante l'esecuzione.
+- **`health`**: Contatori aggregati per diagnostica rapida: quanti target trovati, quante ipotesi generate, quante sopravvissute alla critica, quante hanno passato il Quality Gate.
+- **`metadata` estesa**: Traccia fallback (target parametrici usati al posto di quelli web-verificati), degradazione (Generator ha prodotto meno del minimo), e fallimenti WebSearch.
 
 ---
 
@@ -218,9 +252,37 @@ Le modalità targeted/open/problem esistono come alternative per testing e debug
 | Scout gravita verso topic popolari (non genuinely underexplored) | Alta | Strategia 7 (Swanson ABC) e 8 (Contradiction Mining) forzano esplorazione non-ovvia. Literature Scout verifica che i target non siano già pubblicati. |
 | Hallucination cascade (errori si accumulano tra agenti) | Media | Critic con web search obbligatorio. Groundedness scoring. Cross-model validation con GPT-5.4. |
 | Convergenza delle ipotesi | Media | Diversity check nel Ranker + diversity constraint nell'Evolver. |
-| Context drift su run lunghi | Media-bassa | State in JSON, non in contesto conversazionale. Ogni agente rilegge lo stato. |
+| Context drift su run lunghi | Media-bassa | State in JSON, non in contesto conversazionale. Ogni agente rilegge lo stato. PreCompact hook fa backup dello state; PostCompact hook lo ripristina se corrotto. |
 | Ipotesi "triviali" travestite da novel | Media | Triviality Kill nel Critic. Web search novelty check. Cross-model validation. |
 | Rabbit holes (esplorazione di vicoli ciechi) | Media | 2 cicli max per session. Orchestrator ha istruzioni esplicite di procedere, non approfondire all'infinito. |
+| **Scout produce 0 target** | Media | Guard post-Scout: retry con soglia più bassa → fallback a 3 target parametrici hardcoded. |
+| **Generator produce < 3 ipotesi** | Media-bassa | Blocking SubagentStop hook (exit 2) forza re-esecuzione. Guard post-Generation: retry con tutte le tecniche → degrade gracefully. |
+| **Critic uccide tutte le ipotesi** | Media | Guard post-Critique: rigenera con meccanismi diversi e claim più conservativi → re-critica. Se fallisce due volte: sessione marcata FAILED con causa esplicita. |
+| **Pipeline si ferma prematuramente** (compaction, errore agente) | Media-bassa | Stop hook blocca la terminazione se phase ≠ "complete"/"failed". PostCompact ripristina stato e istruisce la continuazione. |
+| **WebSearch/WebFetch non disponibili** | Bassa | PostToolUseFailure hook traccia i fallimenti. Scout passa a modo parametric-only dopo 3+ fallimenti. Stato registra `web_search_failures`. |
+| **Output silenziosamente vuoto** (worst case v3) | **Eliminato** | Session Health Classification: ogni sessione termina con SUCCESS/PARTIAL/DEGRADED/FAILED. Lo status è la prima riga del session-summary.md. Per FAILED: nessuna hypothesis card, solo causa + azione suggerita. |
+
+### Autonomy Hardening (v4.1)
+
+Il gap più critico della v4 iniziale era la **degradazione silenziosa**: il pipeline procedeva ciecamente attraverso ogni fase senza verificare che l'output fosse valido. L'utente non esperto poteva ricevere un `session-summary.md` dall'aspetto completo ma con 0 ipotesi approvate e nessuna spiegazione.
+
+L'hardening opera su tre livelli:
+
+**1. Guard Logic nell'Orchestratore** — Blocchi condizionali dopo ogni fase che verificano l'output, ritentano con parametri diversi, usano fallback, o abortiscono con causa esplicita. Il flusso è: verifica → retry → fallback → abort.
+
+**2. Blocking Hooks** — SubagentStop hooks per-agente che bloccano (exit code 2) quando l'output è insufficiente:
+- `scout-stop-gate.py`: blocca se 0 target
+- `generator-stop-gate.py`: blocca se < 3 ipotesi
+- `critic-stop-hook.py`: warn-only (il critic può legittimamente uccidere tutto)
+- `orchestrator-stop-gate.py`: Stop hook che impedisce la terminazione prematura del pipeline
+
+**3. Session Health Classification** — Ogni sessione termina con uno status esplicito:
+- **SUCCESS**: ≥2 ipotesi hanno passato il Quality Gate con Groundedness ≥5
+- **PARTIAL**: 1 ipotesi passata, o tutte con bassa Groundedness
+- **DEGRADED**: Pipeline completato, 0 passano il Quality Gate (cards presentate con warning)
+- **FAILED**: Pipeline non completabile (0 target, tutte uccise, errore agente)
+
+Hook aggiuntivi: `PostToolUseFailure` traccia fallimenti WebSearch/WebFetch, `PreCompact` fa backup dello stato, `PostCompact` ripristina da backup se lo stato è corrotto.
 
 ### Come valutare i risultati
 
