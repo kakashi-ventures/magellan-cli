@@ -92,6 +92,13 @@ Strategy used: [which of the 8]
 
 Also update state/session.json scout_targets array with structured data.
 
+## FALLBACK: If Web Search Unavailable
+If 3+ WebSearch calls fail consecutively:
+- Switch to PARAMETRIC-ONLY mode (strategies 2, 3, 5, 6)
+- Mark targets with "web_verified": false in state/session.json scout_targets
+- Note in results/scout-targets.md: "Web search unavailable — parametric targets only, not novelty-verified"
+- Still produce at least 3 targets using parametric knowledge
+
 ## Rules
 - Be SPECIFIC. "Biology × physics" is useless.
 - Prefer connections where the bridge MECHANISM is non-obvious

@@ -41,6 +41,8 @@ cat > state/session.json << 'EOF'
   "mode": "",
   "phase": 0,
   "cycle": 1,
+  "status": "running",
+  "status_reason": "",
   "scout_targets": [],
   "selected_target": null,
   "literature_context": null,
@@ -50,7 +52,25 @@ cat > state/session.json << 'EOF'
     "start_time": "",
     "model": "opus-4.6",
     "total_hypotheses_generated": 0,
-    "kill_rate": 0
+    "kill_rate": 0,
+    "fallback_used": false,
+    "literature_unavailable": false,
+    "generation_degraded": false,
+    "web_search_failures": 0,
+    "retries_needed": 0
+  },
+  "progress": {
+    "phases_completed": [],
+    "current_phase": null
+  },
+  "health": {
+    "scout_targets_found": 0,
+    "hypotheses_generated": 0,
+    "survived_critique": 0,
+    "passed_quality_gate": 0,
+    "fallback_used": false,
+    "retries_needed": 0,
+    "web_search_failures": 0
   }
 }
 EOF
@@ -71,6 +91,8 @@ Parse the prompt from /discover command:
 
 ## PHASE 0: EXPLORATION (Scout + Literature Scout in parallel)
 
+Update progress: `current_phase = "scout"`.
+
 ### For SCOUT MODE:
 Launch TWO subagents in parallel using Agent:
 
@@ -88,9 +110,28 @@ Launch TWO subagents in parallel using Agent:
 > Write to results/literature-landscape.md"
 
 Wait for BOTH to complete.
+
+### GUARD: Post-Scout Validation
+After both agents complete, read state/session.json:
+- IF scout_targets is empty (0 entries):
+  → INCREMENT metadata.retries_needed
+  → RETRY: Re-run sde-scout: "Broaden search. Lower novelty threshold. Use strategies 1, 7, 8. Find at least 2 candidates."
+  → IF retry also 0: USE FALLBACK TARGETS from parametric knowledge:
+    1. Circadian biology × tumor immune evasion
+    2. Topological data analysis × protein misfolding dynamics
+    3. Gut-brain axis metabolites × neurodegeneration biomarkers
+  → Set metadata.fallback_used = true, health.fallback_used = true
+  → Write fallback targets to state/session.json scout_targets and results/scout-targets.md
+- IF literature_context is null:
+  → Proceed with parametric knowledge only
+  → Set metadata.literature_unavailable = true
+- ONLY proceed when selected_target is non-null
+
 Read state/session.json → select TOP target.
 Read results/literature-landscape.md → extract relevant context.
 Update state: selected_target, literature_context, phase=1.
+Update progress: append `{"phase": "scout", "outcome": "N targets", "timestamp": "..."}` to phases_completed.
+Update health.scout_targets_found.
 
 ### For TARGETED/OPEN/PROBLEM MODE:
 Skip Scout. Run Literature Scout on the specified fields/topic:
@@ -104,6 +145,7 @@ Skip Scout. Run Literature Scout on the specified fields/topic:
 
 ## PHASE 2: GENERATION
 
+Update progress: `current_phase = "generation"`.
 Read state/session.json for selected_target and literature_context.
 
 Use Agent to invoke `sde-generator`:
@@ -116,7 +158,18 @@ Use Agent to invoke `sde-generator`:
 > Write to results/raw-hypotheses-cycle{N}.md
 > Update state/session.json hypotheses.cycle{N}.raw"
 
+### GUARD: Post-Generation Validation
+After Generator completes, read state/session.json:
+- IF hypotheses.cycle{N}.raw is empty or length < 3:
+  → INCREMENT metadata.retries_needed
+  → RETRY Generator: "Use ALL techniques including facet recombination, adversarial prompting, analogy transfer, and negation exploration. Produce at least 4 hypotheses."
+  → IF retry still < 3: proceed with what exists, set metadata.generation_degraded = true
+- Update health.hypotheses_generated with total count.
+- Update progress: append `{"phase": "generation", "outcome": "N hypotheses", "timestamp": "..."}`.
+
 ## PHASE 3: CRITIQUE
+
+Update progress: `current_phase = "critique"`.
 
 Use Agent to invoke `sde-critic`:
 > "Think very hard about this. Hypotheses: [from state]
@@ -129,7 +182,20 @@ Use Agent to invoke `sde-critic`:
 > Write to results/critiqued-cycle{N}.md
 > Update state/session.json hypotheses.cycle{N}.critiqued"
 
+### GUARD: Post-Critique Validation
+After Critic completes, read state/session.json:
+- Count survivors (hypotheses not killed) in hypotheses.cycle{N}.critiqued
+- Update health.survived_critique with count
+- IF ALL hypotheses KILLED (0 survivors):
+  → INCREMENT metadata.retries_needed
+  → Re-run Generator with NEW bridge mechanisms: "Previous hypotheses were all killed by critic. Generate 4-6 hypotheses using DIFFERENT bridge mechanisms and more conservative claims."
+  → Then run Critic again on new hypotheses
+  → IF still all killed after retry: set phase = "failed", status = "failed", status_reason = "All hypotheses killed in both attempts", skip to Session Summary
+- Update progress: append `{"phase": "critique", "outcome": "N survivors", "timestamp": "..."}`.
+
 ## PHASE 4: RANK
+
+Update progress: `current_phase = "ranking"`.
 
 Use Agent to invoke `sde-ranker`:
 > "Think very hard about this. Critiqued hypotheses: [from state]
@@ -140,7 +206,11 @@ Use Agent to invoke `sde-ranker`:
 > Write to results/ranked-cycle{N}.md
 > Update state/session.json hypotheses.cycle{N}.ranked"
 
+Update progress: append `{"phase": "ranking", "outcome": "ranked", "timestamp": "..."}`.
+
 ## PHASE 5: EVOLVE
+
+Update progress: `current_phase = "evolution"`.
 
 Use Agent to invoke `sde-evolver`:
 > "Think very hard about this. Top ranked hypotheses: [from state]
@@ -150,6 +220,8 @@ Use Agent to invoke `sde-evolver`:
 > Write to results/evolved-cycle{N}.md
 > Update state/session.json hypotheses.cycle{N}.evolved"
 
+Update progress: append `{"phase": "evolution", "outcome": "N evolved", "timestamp": "..."}`.
+
 ## CYCLE 2: Repeat Phases 2-5
 
 Update state: cycle=2, phase=2.
@@ -158,9 +230,20 @@ Instruct Generator to produce BOTH:
 - 4-6 hypotheses building on cycle 1 survivors
 - 2-3 completely FRESH hypotheses using different techniques
 
+### ABORT CHECK (before Quality Gate)
+After cycle 2 critique, read state:
+IF both cycles produced 0 surviving hypotheses:
+- Set phase = "failed", status = "failed"
+- Set status_reason = "Both cycles produced 0 surviving hypotheses after critique"
+- Write session-summary with FAILED status and kill reasons
+- Do NOT run Quality Gate on empty results
+- Skip directly to SESSION SUMMARY
+
 ## QUALITY GATE (inline, no separate agent)
 
-After cycle 2, YOU (Orchestrator) perform the final quality check.
+Update progress: `current_phase = "quality_gate"`.
+
+After cycle 2 (if not aborted), YOU (Orchestrator) perform the final quality check.
 For each surviving hypothesis, verify:
 - [ ] Clear A → B → C structure
 - [ ] Mechanism specific enough for domain expert evaluation
@@ -173,6 +256,8 @@ For each surviving hypothesis, verify:
 - [ ] Language precise enough for specialists
 
 PASS or FAIL each hypothesis with reasons.
+Update health.passed_quality_gate with count of PASSED hypotheses.
+Update progress: append `{"phase": "quality_gate", "outcome": "N passed", "timestamp": "..."}`.
 
 ## WEB GROUNDING (final pass)
 
@@ -181,9 +266,46 @@ For each surviving hypothesis:
 2. WebSearch: "[bridge concept] contradicted OR failed" — counter-evidence
 3. Update confidence and groundedness in state
 
+## SESSION HEALTH (determine FIRST, write FIRST in session-summary.md)
+
+Classify session based on pipeline outcome:
+- **SUCCESS**: ≥2 hypotheses passed Quality Gate with Groundedness ≥5
+- **PARTIAL**: 1 hypothesis passed, or all have low Groundedness (<5)
+- **DEGRADED**: Pipeline completed, 0 passed Quality Gate
+- **FAILED**: Pipeline could not complete (0 targets, all killed, agent failure)
+
+Update state/session.json:
+```json
+{
+  "status": "success|partial|degraded|failed",
+  "status_reason": "one sentence explanation"
+}
+```
+
+Update health counters in state with final values.
+
 ## SESSION SUMMARY
 
-Write results/session-summary.md containing:
+Write results/session-summary.md. Start with health status:
+
+```markdown
+# Session Summary
+## Status: [SUCCESS|PARTIAL|DEGRADED|FAILED]
+## Reason: [1 sentence explanation]
+```
+
+For **FAILED**:
+- Do NOT present hypothesis cards
+- Write cause of failure with specific phase and reason
+- Write: "Run `/discover` again to retry, or `/discover [topic]` with a specific target."
+- Include kill reasons if available
+
+For **DEGRADED**:
+- Present cards with warning: "**Warning: Did not pass Quality Gate — for reference only.**"
+- Explain what failed in Quality Gate
+- Suggest running `/validate [hypothesis]` for deeper analysis
+
+For **PARTIAL** and **SUCCESS**, include:
 - Mode used, target selected, why
 - Pipeline stats: generated → survived → ranked → evolved → approved
 - Each final hypothesis card
