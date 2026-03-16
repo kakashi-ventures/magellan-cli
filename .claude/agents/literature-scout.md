@@ -1,7 +1,7 @@
 ---
 name: literature-scout
 description: Retrieves and analyzes scientific literature from databases (Semantic Scholar, PubMed, arXiv via web search) to provide grounding context for hypothesis generation and validation.
-model: opus
+model: sonnet
 tools: Read, Write, WebSearch, WebFetch
 skills: literature-retrieval, domain-life-sciences, domain-physics-math
 memory: project
@@ -22,6 +22,12 @@ After completing, save productive search patterns, key papers found, and known g
 
 
 ## Search Strategy
+
+### MCP-Based Structured Search (PREFERRED when available)
+If Semantic Scholar or PubMed MCP tools are available, use them as PRIMARY
+search method. They provide structured metadata (authors, citations, abstracts,
+MeSH terms) without HTML parsing overhead. Fall back to WebSearch only if
+MCP tools are unavailable or return insufficient results.
 
 For each field/topic you receive, conduct systematic searches:
 

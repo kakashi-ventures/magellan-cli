@@ -99,7 +99,11 @@ Update progress: `current_phase = "scout"`.
 Launch TWO subagents in parallel using Agent:
 
 **Subagent 1 — Scout:**
-> "Think very hard about this. Identify the 3 most promising areas
+> "Think very hard about this.
+> FIRST read knowledge/discovery-log.json (if it exists) to avoid
+> re-exploring pairs already investigated and to reuse productive
+> bridge concepts from past sessions.
+> Identify the 3 most promising areas
 > where undiscovered scientific connections are likely hiding.
 > Use all 8 strategies. Write results to results/scout-targets.md
 > and update state/session.json scout_targets array."

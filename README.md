@@ -73,16 +73,17 @@ See `prompts/orchestration-guide.md` for step-by-step instructions.
 
 ```
 CLAUDE.md                                    ← Project memory
+.mcp.json                                   ← MCP servers (Semantic Scholar, PubMed)
 .claude/
   settings.json                              ← Permissions, hooks, Agent Teams
   agents/
-    discovery-orchestrator.md                 ← Coordinates all phases + Quality Gate
-    scout.md                                 ← Finds WHERE (8 strategies)
-    literature-scout.md                      ← Retrieves literature context
-    generator.md                             ← Creates hypotheses
-    critic.md                                ← Attacks hypotheses
-    ranker.md                                ← 6-dimension scoring + diversity check
-    evolver.md                               ← Recombines with diversity constraint
+    discovery-orchestrator.md                 ← Coordinates all phases + Quality Gate [Opus]
+    scout.md                                 ← Finds WHERE (8 strategies) [Opus]
+    literature-scout.md                      ← Retrieves literature context [Sonnet]
+    generator.md                             ← Creates hypotheses [Opus]
+    critic.md                                ← Attacks hypotheses (8 attack vectors) [Opus]
+    ranker.md                                ← 6-dimension scoring + diversity check [Sonnet]
+    evolver.md                               ← Recombines with diversity constraint [Sonnet]
   commands/
     discover.md                              ← /discover (main entry point)
     validate.md                              ← /validate deep check
@@ -109,6 +110,18 @@ knowledge/                                   ← Persistent discovery log across
   discovery-log.json                         ← Explored pairs, productive bridges, kill reasons
 ```
 
+## Architecture
+
+7 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks):
+
+- **Scout** [Opus] — 8 strategies to find WHERE undiscovered connections hide
+- **Literature Scout** [Sonnet] — Structured retrieval via MCP servers (Semantic Scholar, PubMed) + WebSearch fallback + full-text paper retrieval
+- **Generator** [Opus] — Parametric creativity + literature context → 6-8 hypotheses per cycle
+- **Critic** [Opus] — 8 adversarial attack vectors including hallucination-as-novelty check
+- **Ranker** [Sonnet] — 6-dimension scoring (incl. Groundedness 20%) + diversity check
+- **Evolver** [Sonnet] — Crossover, mutation, specification with diversity constraint
+- **Orchestrator** [Opus] — Coordinates pipeline, Quality Gate, session health classification
+
 ## Conceptual Foundation
 
 MAGELLAN operationalizes Don Swanson's **Undiscovered Public Knowledge** (1986):
@@ -120,11 +133,19 @@ the connections latent in their parameters. The challenge shifts from detecting
 citation disjointness to **eliciting cross-domain connections** through structured
 multi-agent reasoning.
 
-## Design Rationale
+## State of the Art (March 2026)
 
-See `docs/methodology-v4.md` for the full evidence-based rationale,
-including comparison with Google AI Co-Scientist, FutureHouse Kosmos,
-MOOSE-Chem, and Aletheia.
+MAGELLAN sits in a sparsely populated niche: **fully autonomous** target selection.
+Most comparable systems (Google AI Co-Scientist, FutureHouse Kosmos, SciAgents)
+require human-specified research objectives.
+
+Key validations from the field:
+- **MOOSE-Chem** (ICLR 2025): LLMs encode "latent scientific knowledge associations not yet recognized by humans" — direct validation of MAGELLAN's UPK thesis
+- **FrontierScience Benchmark**: 52-point gap between structured (77%) and open-ended research (25%) tasks validates multi-agent approach
+- **Google AI Co-Scientist**: 3 experimentally validated discoveries using parallel architecture (Generate/Reflect/Rank/Evolve)
+
+See `docs/methodology-v4.md` for full comparison with state-of-the-art systems,
+evidence-based design rationale, and risk analysis.
 
 ## License
 

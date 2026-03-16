@@ -7,7 +7,7 @@ MAGELLAN è un **esperimento sulla capacità dei sistemi agentici AI moderni di 
 
 Non è uno strumento per ricercatori. È un test di capability. L'utente lancia `/discover`, esce dalla stanza, e torna a trovare ipotesi scientifiche testabili. Queste vengono poi validate cross-model e, idealmente, sottoposte a esperti di dominio per valutazione.
 
-Progettato per Claude Code (marzo 2026) con Opus 4.6, sfrutta Agent Teams, hooks deterministici, e un paradigma ibrido **parametric-generation + retrieval-validation**.
+Progettato per Claude Code (marzo 2026) con Opus 4.6 (ragionamento profondo) e Sonnet 4.6 (task strutturati), sfrutta Agent Teams, hooks deterministici, MCP servers per retrieval strutturato, e un paradigma ibrido **parametric-generation + retrieval-validation**.
 
 ---
 
@@ -99,6 +99,33 @@ La v3 aveva un overlap funzionale tra Critic e Meta-Reviewer. La v4:
 
 Agenti v4: Scout, Literature Scout, Orchestrator, Generator, Critic, Ranker (con Diversity + Groundedness), Evolver, Quality Gate (fase finale dell'Orchestrator).
 
+### Differenziazione modelli (v4.3)
+
+Non tutti gli agenti richiedono lo stesso livello di ragionamento:
+
+| Agente | Modello | Razionale |
+|---|---|---|
+| **Scout** | Opus | Ragionamento profondo per identificare connessioni non ovvie |
+| **Generator** | Opus | Creatività cross-disciplinare e costruzione di meccanismi |
+| **Critic** | Opus | Valutazione adversariale richiede ragionamento complesso |
+| **Orchestrator** | Opus | Coordinamento pipeline, Quality Gate, decisioni strategiche |
+| **Literature Scout** | Sonnet | Search-intensive — richiede giudizio su rilevanza, non ragionamento profondo |
+| **Ranker** | Sonnet | Task strutturato su 6 dimensioni con pesi fissi |
+| **Evolver** | Sonnet | Operazioni evolutive guidate da regole (crossover, mutation, specification) |
+
+Riduzione costi stimata: ~30% rispetto a Opus per tutti. Il ragionamento profondo è riservato agli agenti che ne beneficiano realmente (Scout, Generator, Critic, Orchestrator).
+
+### MCP Servers per retrieval strutturato (v4.3)
+
+Il retrieval via WebSearch/WebFetch è fragile e richiede parsing HTML. MAGELLAN integra MCP servers come fonte primaria per la ricerca bibliografica:
+
+- **Semantic Scholar MCP** (`@xbghc/semanticscholar-mcp`): Search strutturato, metadati autori, reti citazionali, abstract senza parsing HTML
+- **PubMed MCP** (`pubmed-mcp`): Letteratura biomedica con termini MeSH, metadata strutturato
+
+Configurazione in `.mcp.json` nella root del progetto. I Literature Scout e gli agenti con accesso web usano i tool MCP come metodo primario, con fallback a WebSearch quando i tool MCP non sono disponibili o restituiscono risultati insufficienti.
+
+Questo risolve il problema del retrieval come single point of failure (R3 nella valutazione dei rischi): i MCP servers forniscono un canale di retrieval indipendente dal web search generico.
+
 ---
 
 ## Il paradigma ibrido: Parametric Generation + Retrieval Validation
@@ -123,7 +150,7 @@ La conoscenza parametrica è **il motore generativo** — è dove risiedono le c
 4. **Critic (parametrico + web search)**: Attacca ogni ipotesi, cerca counter-evidence via web
 5. **Ranker**: Include **Groundedness** come 6ª dimensione di scoring
 6. **Evolver**: Opera sulle ipotesi top, con **diversity constraint**
-7. **Knowledge Persistence**: A fine sessione, l'Orchestrator aggiorna `knowledge/discovery-log.json` con coppie esplorate, bridge produttivi, ipotesi sopravvissute e uccise — per efficienza cumulativa tra sessioni
+7. **Knowledge Persistence**: A fine sessione, l'Orchestrator aggiorna `knowledge/discovery-log.json` con coppie esplorate, bridge produttivi, ipotesi sopravvissute e uccise — per efficienza cumulativa tra sessioni. Lo Scout riceve istruzione esplicita di leggere il discovery-log prima di iniziare l'esplorazione, per evitare ri-esplorazioni e riutilizzare bridge produttivi
 
 ---
 
@@ -193,6 +220,16 @@ In v4.2, i bridge concepts sono **obbligatori per ogni target**, non solo per la
 | **Testability** | 20% | Verificabile con metodi/dati esistenti? |
 | **Impact** | 10% | Se vera, quanto cambia la comprensione? |
 | **Groundedness** | 20% | I componenti dell'ipotesi sono supportati da evidenze retrievable? |
+
+### Hallucination-as-Novelty Check (v4.3)
+
+Lo studio Science/AAAS dimostra che la novelty AI-generated crolla dopo test sperimentali (da 5.38 a 3.41 su 10). Le ipotesi possono sembrare nuove solo perché sono sbagliate. Il Critic include un attack vector dedicato (#8) che affronta questo rischio:
+
+- Per ipotesi con alta novelty, il Critic chiede esplicitamente: "Questa sembra nuova perché è genuinamente inesplorata, o perché è sbagliata in modi non ovvi?"
+- Verifica via web search che il meccanismo bridge esista indipendentemente dall'ipotesi
+- Se la novelty dipende interamente da un claim fattuale inverificabile su Field A o C, la "novelty" è probabilmente un artefatto di conoscenza parametrica incorretta → KILL o downgrade severo
+
+Questo complementa il Groundedness scoring (che misura il supporto evidenziale complessivo) con un check specifico sulla relazione inversa novelty↔correttezza.
 
 ### Diversity Check
 
@@ -279,6 +316,42 @@ Questo risolve il problema della perdita di informazioni durante la compaction d
 
 ### Timeline modelli GPT-5
 GPT-5.0 (ago 2025) → 5.1 (ott 2025) → 5.2 (dic 2025) → 5.3-Codex (feb 2026) → **5.4 (5 marzo 2026)**. GPT-5.4 è il modello corrente; 5.2 Thinking sarà ritirato il 5 giugno 2026.
+
+---
+
+## Posizionamento nello stato dell'arte (marzo 2026)
+
+### Sistemi comparabili
+
+| Sistema | Architettura | Innovazione Chiave | Status |
+|---------|-------------|-------------------|--------|
+| **Google AI Co-Scientist** | 6 agenti su Gemini 2.0, ranking Elo a torneo | 3 scoperte validate sperimentalmente (KIRA6/AML, fibrosi epatica, cf-PICIs) | Partnership DOE, 17 National Labs |
+| **SciAgents** (MIT) | Ontologist + Scientists + Critic su KG (33K+ nodi) | Cross-disciplinary via graph path sampling | Open source |
+| **Kosmos** (FutureHouse) | World model + agenti specializzati | 12h esecuzione, 42K righe codice, 1500 paper | Open source |
+| **AI Scientist v2** (Sakana) | Ideation + Tree Search + Paper Gen | Primo paper AI accettato a ICLR 2025 peer review | Open source |
+| **POPPER** (Stanford) | Falsification-based con controllo errore Type-I | Comparabile a scienziati umani a 10x velocità | Open source |
+| **Virtual Lab** (Nature 2025) | PI agent + scientist agents | 92 nanobody progettati, 2 con binding migliorato | Pubblicato |
+| **Aletheia** (DeepMind) | Generator-Verifier-Reviser su Gemini Deep Think | 4 problemi Erdős risolti, ma 68.5% errori su 700 problemi aperti | Interno |
+
+### Come MAGELLAN si differenzia
+
+**Differenziatori unici**:
+- **Selezione autonoma del target** (Scout): Quasi tutti gli altri sistemi richiedono obiettivi di ricerca umani. MAGELLAN è tra i pochissimi a decidere autonomamente *cosa esplorare*
+- **Groundedness scoring formale** (20%): Non presente come dimensione esplicita in altri sistemi — innovativo rispetto al campo
+- **Diversity constraint a doppio livello**: Sia nel Ranker che nell'Evolver, mitiga la saturazione documentata da Si et al. (2024)
+- **Hook-based autonomy hardening**: Quality gates deterministici via SubagentStop hooks — pattern unico
+
+**Gap rispetto allo stato dell'arte**:
+- **Nessun Knowledge Graph**: SciAgents dimostra che KG path sampling tra 33K+ nodi trova connessioni che il solo parametric+web search manca
+- **Scoring lineare vs Elo tournament**: Google usa ranking comparativo a coppie che correla meglio con valutazioni esperte
+- **Nessuna validazione computazionale**: Virtual Lab e MARS eseguono simulazioni; MAGELLAN si ferma alla validazione letteraria
+
+### Evidenze empiriche chiave
+
+- **FrontierScience Benchmark** (OpenAI, dic 2025): Gap di 52 punti tra task strutturati (77%) e ricerca aperta (25%) — valida la necessità di architetture multi-agente per task open-ended
+- **MOOSE-Chem** (ICLR 2025): I LLM codificano "associazioni di conoscenza scientifica latenti non ancora riconosciute dagli umani" — validazione diretta della tesi UPK di MAGELLAN
+- **TruthHypo** (IJCAI 2025): I LLM lottano con la generazione di ipotesi veritiere senza supporto di grounding — validazione del paradigma parametric+retrieval
+- **Studio Science/AAAS**: Novelty AI-generated crolla dopo test sperimentali (5.38→3.41); la novelty umana cala meno (4.60→3.97). L'AI tende a embellire claim di novelty che non sopravvivono ai test
 
 ---
 

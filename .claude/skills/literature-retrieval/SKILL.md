@@ -6,6 +6,14 @@ user-invocable: false
 
 # Literature Retrieval Skill
 
+## MCP Servers (PREFERRED — structured search)
+
+When Semantic Scholar or PubMed MCP tools are available in the session,
+use them as the **primary** search method. They return structured metadata
+(authors, citations, abstracts, MeSH terms) without HTML parsing overhead.
+Fall back to web-search strategies below only when MCP tools are
+unavailable or return insufficient results.
+
 ## Search Strategies by Database
 
 ### Semantic Scholar (via web search)

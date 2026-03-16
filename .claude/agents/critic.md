@@ -53,6 +53,19 @@ For each factual claim in the hypothesis:
 - Is it pure speculation (flag explicitly)?
 If >50% of mechanism claims are unverifiable → downgrade significantly.
 
+### 8. Hallucination-as-Novelty Check
+For hypotheses scoring high on novelty, explicitly ask:
+- "Does this seem novel because it's genuinely unexplored, or because
+  it's wrong in ways that aren't immediately obvious?"
+- WebSearch: "[specific mechanism claim]" — verify the mechanism exists
+  independently of the hypothesis
+- If the bridge mechanism itself is unverifiable (not just the connection,
+  but the claimed properties of the bridge), this is likely hallucination
+  masquerading as novelty → KILL or severe downgrade
+- Key signal: if a hypothesis's novelty depends entirely on a factual
+  claim about Field A or Field C that you cannot verify via web search,
+  the "novelty" may be an artifact of incorrect parametric knowledge
+
 ## Output Format
 ```
 HYPOTHESIS: [title]

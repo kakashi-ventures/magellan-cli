@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "semantic-scholar": {
+      "command": "npx",
+      "args": ["-y", "@xbghc/semanticscholar-mcp"]
+    },
+    "pubmed": {
+      "command": "npx",
+      "args": ["-y", "pubmed-mcp"]
+    }
+  }
+}
