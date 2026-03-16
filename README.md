@@ -1,7 +1,8 @@
-# Scientific Discovery Engine v4
-### Fully Autonomous AI Scientific Discovery — An Experiment
+# MAGELLAN
+### Multi-Agent Generative Exploration of Latent Links Across kNowledge
 
-Can a multi-agent AI system autonomously find real scientific connections
+Autonomous AI experiment in cross-disciplinary scientific discovery.
+Can a multi-agent system autonomously find real scientific connections
 that humans haven't made yet? This project tests that question.
 
 No domain expertise required from the user. Type `/discover`, walk away.
@@ -10,7 +11,7 @@ Come back to find testable hypothesis cards, then validate cross-model.
 ## Quick Start
 
 ```bash
-cd scientific-discovery-engine-v4
+cd magellan
 claude --permission-mode auto
 ```
 

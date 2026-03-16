@@ -1,8 +1,9 @@
-# Scientific Discovery Engine v4 — Methodology
+# MAGELLAN — Methodology
+### Multi-Agent Generative Exploration of Latent Links Across kNowledge
 
 ## Principio guida
 
-Questo sistema è un **esperimento sulla capacità dei sistemi agentici AI moderni di fare scoperte scientifiche autonome**. L'ipotesi di fondo: una buona architettura multi-agente con modelli frontier (marzo 2026) è in grado di trovare connessioni reali tra corpi di conoscenza esistenti che gli umani non hanno ancora collegato — operando in totale autonomia, senza input di dominio da parte dell'utente.
+MAGELLAN è un **esperimento sulla capacità dei sistemi agentici AI moderni di fare scoperte scientifiche autonome**. L'ipotesi di fondo: una buona architettura multi-agente con modelli frontier (marzo 2026) è in grado di trovare connessioni reali tra corpi di conoscenza esistenti che gli umani non hanno ancora collegato — operando in totale autonomia, senza input di dominio da parte dell'utente.
 
 Non è uno strumento per ricercatori. È un test di capability. L'utente lancia `/discover`, esce dalla stanza, e torna a trovare ipotesi scientifiche testabili. Queste vengono poi validate cross-model e, idealmente, sottoposte a esperti di dominio per valutazione.
 
@@ -79,7 +80,7 @@ Tuttavia:
 - **FrontierScience-Research** (ricerca aperta): GPT-5.2 raggiunge solo 25.3%
 - La letteratura scientifica peer-reviewed dietro paywall è largamente assente dai dati di training
 
-### Il compromesso SDE v4
+### Il compromesso MAGELLAN
 
 La conoscenza parametrica è **il motore generativo** — è dove risiedono le connessioni cross-disciplinari non ovvie. Ma ogni claim fattuale viene verificato tramite retrieval. Il flusso è:
 
@@ -208,7 +209,7 @@ GPT-5.0 (ago 2025) → 5.1 (ott 2025) → 5.2 (dic 2025) → 5.3-Codex (feb 2026
 - **Aletheia (DeepMind)**: 4 problemi aperti di Erdős risolti autonomamente, 6/10 FirstProof challenge problems.
 - **FutureHouse Kosmos**: 79.4% accuracy complessiva, ma solo 57.9% su affermazioni di sintesi/interpretazione nuove. Caution: "often goes down rabbit holes."
 
-### Cosa implica per SDE
+### Cosa implica per MAGELLAN
 L'evidenza mostra che:
 1. L'architettura multi-agente è il differenziatore (LLM general-purpose singoli falliscono dove il multi-agente riesce)
 2. La validazione esterna è essenziale (nessun sistema validato opera senza retrieval)
@@ -232,7 +233,7 @@ L'evidenza mostra che:
 
 **`/discover` senza argomenti è la modalità primaria.** L'intero progetto esiste per rispondere alla domanda: "Può un sistema agentico AI trovare autonomamente connessioni scientifiche reali?"
 
-Questo differenzia SDE da Google AI Co-Scientist (che opera con scientist-in-the-loop) e da FutureHouse Kosmos (che riceve obiettivi di ricerca umani). SDE è più ambizioso: lo Scout deve decidere autonomamente *cosa è interessante* — una capacità che Demis Hassabis (2026) ritiene sia ancora 5-10 anni lontana per l'AI.
+Questo differenzia MAGELLAN da Google AI Co-Scientist (che opera con scientist-in-the-loop) e da FutureHouse Kosmos (che riceve obiettivi di ricerca umani). SDE è più ambizioso: lo Scout deve decidere autonomamente *cosa è interessante* — una capacità che Demis Hassabis (2026) ritiene sia ancora 5-10 anni lontana per l'AI.
 
 Le modalità targeted/open/problem esistono come alternative per testing e debugging, non come uso primario.
 

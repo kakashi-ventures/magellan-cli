@@ -1,4 +1,4 @@
-# Scientific Discovery Engine — Gemini 3.1 Pro / Deep Think Validation
+# MAGELLAN — Gemini 3.1 Pro / Deep Think Validation
 # Paste into Gemini AI Studio with 3.1 Pro or Deep Think selected.
 
 ## Your Role

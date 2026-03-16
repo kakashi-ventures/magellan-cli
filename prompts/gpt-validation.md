@@ -1,4 +1,4 @@
-# Scientific Discovery Engine — GPT-5.4 Deep Research Validation
+# MAGELLAN — GPT-5.4 Deep Research Validation
 # Paste into ChatGPT with GPT-5.4 Thinking or Pro selected, Deep Research mode.
 
 ## Your Role

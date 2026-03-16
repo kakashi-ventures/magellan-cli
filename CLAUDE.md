@@ -1,7 +1,7 @@
-# Scientific Discovery Engine v4
+# MAGELLAN — Multi-Agent Generative Exploration of Latent Links Across kNowledge
 
-Experiment in fully autonomous AI scientific discovery. Tests whether
-a multi-agent system with frontier models (March 2026) can find real
+Autonomous AI experiment in cross-disciplinary scientific discovery. Tests
+whether a multi-agent system with frontier models (March 2026) can find real
 connections between existing bodies of knowledge that humans haven't
 linked yet — with zero human input on what to explore.
 

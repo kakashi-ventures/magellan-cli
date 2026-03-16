@@ -4,7 +4,7 @@ description: Core methodology for AI-powered scientific hypothesis generation. A
 user-invocable: false
 ---
 
-# Scientific Discovery Engine v4 — Core Methodology
+# MAGELLAN — Core Methodology
 
 ## Hypothesis Generation Techniques
 
