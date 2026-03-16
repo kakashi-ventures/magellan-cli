@@ -73,12 +73,12 @@ CLAUDE.md                                    ← Project memory
   settings.json                              ← Permissions, hooks, Agent Teams
   agents/
     discovery-orchestrator.md                 ← Coordinates all phases + Quality Gate
-    sde-scout.md                             ← Finds WHERE (8 strategies)
-    sde-literature-scout.md                  ← Retrieves literature context
-    sde-generator.md                         ← Creates hypotheses
-    sde-critic.md                            ← Attacks hypotheses
-    sde-ranker.md                            ← 6-dimension scoring + diversity check
-    sde-evolver.md                           ← Recombines with diversity constraint
+    scout.md                                 ← Finds WHERE (8 strategies)
+    literature-scout.md                      ← Retrieves literature context
+    generator.md                             ← Creates hypotheses
+    critic.md                                ← Attacks hypotheses
+    ranker.md                                ← 6-dimension scoring + diversity check
+    evolver.md                               ← Recombines with diversity constraint
   commands/
     discover.md                              ← /discover (main entry point)
     validate.md                              ← /validate deep check

@@ -233,7 +233,7 @@ L'evidenza mostra che:
 
 **`/discover` senza argomenti è la modalità primaria.** L'intero progetto esiste per rispondere alla domanda: "Può un sistema agentico AI trovare autonomamente connessioni scientifiche reali?"
 
-Questo differenzia MAGELLAN da Google AI Co-Scientist (che opera con scientist-in-the-loop) e da FutureHouse Kosmos (che riceve obiettivi di ricerca umani). SDE è più ambizioso: lo Scout deve decidere autonomamente *cosa è interessante* — una capacità che Demis Hassabis (2026) ritiene sia ancora 5-10 anni lontana per l'AI.
+Questo differenzia MAGELLAN da Google AI Co-Scientist (che opera con scientist-in-the-loop) e da FutureHouse Kosmos (che riceve obiettivi di ricerca umani). MAGELLAN è più ambizioso: lo Scout deve decidere autonomamente *cosa è interessante* — una capacità che Demis Hassabis (2026) ritiene sia ancora 5-10 anni lontana per l'AI.
 
 Le modalità targeted/open/problem esistono come alternative per testing e debugging, non come uso primario.
 
@@ -289,7 +289,7 @@ Hook aggiuntivi: `PostToolUseFailure` traccia fallimenti WebSearch/WebFetch, `Pr
 
 Dato che l'utente non ha competenza di dominio, il workflow di valutazione è:
 
-1. **SDE produce ipotesi** → `results/session-summary.md`
+1. **MAGELLAN produce ipotesi** → `results/session-summary.md`
 2. **Cross-model validation** → `/export gpt` e `/export gemini` → incolla in GPT-5.4 Pro e Gemini Deep Think
 3. **Triangolazione**: Se almeno 2 modelli su 3 assegnano alta confidenza e novelty, l'ipotesi è candidata
 4. **Expert review**: Le ipotesi candidate vengono presentate a esperti di dominio (professori, ricercatori) per valutazione qualitativa. Questo è il ground truth.

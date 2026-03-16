@@ -1,5 +1,5 @@
 ---
-name: sde-ranker
+name: ranker
 description: Scores surviving hypotheses on 6 dimensions including Groundedness. Applies diversity check to prevent convergence. Selects top candidates for evolution.
 model: opus
 tools: Read, Write

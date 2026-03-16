@@ -1,5 +1,5 @@
 ---
-name: sde-scout
+name: scout
 description: Autonomously identifies the most promising areas for undiscovered scientific connections. Uses 8 strategies including Swanson ABC bridging and contradiction mining. Launch when user provides no specific input.
 model: opus
 tools: Read, Write, WebSearch, WebFetch

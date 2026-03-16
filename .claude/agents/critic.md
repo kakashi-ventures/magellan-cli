@@ -1,5 +1,5 @@
 ---
-name: sde-critic
+name: critic
 description: Aggressively attacks scientific hypotheses. Finds counter-evidence via web search, checks novelty against published literature, identifies logical fallacies and mechanism implausibilities.
 model: opus
 tools: Read, Write, WebSearch, WebFetch

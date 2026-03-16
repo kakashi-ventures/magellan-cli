@@ -115,7 +115,7 @@ Wait for BOTH to complete.
 After both agents complete, read state/session.json:
 - IF scout_targets is empty (0 entries):
   → INCREMENT metadata.retries_needed
-  → RETRY: Re-run sde-scout: "Broaden search. Lower novelty threshold. Use strategies 1, 7, 8. Find at least 2 candidates."
+  → RETRY: Re-run scout: "Broaden search. Lower novelty threshold. Use strategies 1, 7, 8. Find at least 2 candidates."
   → IF retry also 0: USE FALLBACK TARGETS from parametric knowledge:
     1. Circadian biology × tumor immune evasion
     2. Topological data analysis × protein misfolding dynamics
@@ -148,7 +148,7 @@ Skip Scout. Run Literature Scout on the specified fields/topic:
 Update progress: `current_phase = "generation"`.
 Read state/session.json for selected_target and literature_context.
 
-Use Agent to invoke `sde-generator`:
+Use Agent to invoke `generator`:
 > "Think very hard about this. Fields: [Field A] × [Field C].
 > Literature context: [paste literature_context from state]
 >
@@ -171,7 +171,7 @@ After Generator completes, read state/session.json:
 
 Update progress: `current_phase = "critique"`.
 
-Use Agent to invoke `sde-critic`:
+Use Agent to invoke `critic`:
 > "Think very hard about this. Hypotheses: [from state]
 > Literature context: [from state]
 >
@@ -197,7 +197,7 @@ After Critic completes, read state/session.json:
 
 Update progress: `current_phase = "ranking"`.
 
-Use Agent to invoke `sde-ranker`:
+Use Agent to invoke `ranker`:
 > "Think very hard about this. Critiqued hypotheses: [from state]
 >
 > Score on ALL 6 dimensions including Groundedness.
@@ -212,7 +212,7 @@ Update progress: append `{"phase": "ranking", "outcome": "ranked", "timestamp": 
 
 Update progress: `current_phase = "evolution"`.
 
-Use Agent to invoke `sde-evolver`:
+Use Agent to invoke `evolver`:
 > "Think very hard about this. Top ranked hypotheses: [from state]
 >
 > Recombine and refine. Track conceptual diversity.

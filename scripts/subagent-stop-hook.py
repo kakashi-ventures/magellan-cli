@@ -12,29 +12,29 @@ try:
     if os.path.exists(state_path):
         d = json.load(open(state_path))
 
-        if agent_type == "sde-scout":
+        if agent_type == "scout":
             targets = d.get("scout_targets", [])
             if not targets:
                 warnings.append("Scout finished but scout_targets is empty in state")
 
-        elif agent_type == "sde-generator":
+        elif agent_type == "generator":
             hyps = d.get("metadata", {}).get("total_hypotheses_generated", 0)
             if hyps == 0:
                 warnings.append("Generator finished but no hypotheses recorded in state")
 
-        elif agent_type == "sde-critic":
+        elif agent_type == "critic":
             cycle = d.get("cycle", 1)
             critiqued = d.get("hypotheses", {}).get(f"cycle{cycle}", {}).get("critiqued", None)
             if not critiqued:
                 warnings.append(f"Critic finished but no critiqued data for cycle{cycle} in state")
 
-        elif agent_type == "sde-ranker":
+        elif agent_type == "ranker":
             cycle = d.get("cycle", 1)
             ranked = d.get("hypotheses", {}).get(f"cycle{cycle}", {}).get("ranked", None)
             if not ranked:
                 warnings.append(f"Ranker finished but no ranked data for cycle{cycle} in state")
 
-        elif agent_type == "sde-evolver":
+        elif agent_type == "evolver":
             cycle = d.get("cycle", 1)
             evolved = d.get("hypotheses", {}).get(f"cycle{cycle}", {}).get("evolved", None)
             if not evolved:

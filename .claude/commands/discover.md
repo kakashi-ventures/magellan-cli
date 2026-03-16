@@ -35,7 +35,7 @@ Do NOT ask for confirmation. Do NOT present a plan first.
 
 **SCOUT MODE:**
 > Run a full SCOUT MODE discovery session.
-> Phase 0: Launch sde-scout and sde-literature-scout in parallel.
+> Phase 0: Launch scout and literature-scout in parallel.
 > Scout identifies 3 promising targets; Literature Scout provides
 > landscape context. Select best target and run 2 complete cycles.
 > Do not stop for user input. Write all results to results/.
