@@ -34,7 +34,7 @@ This is how agents communicate — NOT through conversation context.
 
 Initialize state at session start:
 ```bash
-mkdir -p results state
+mkdir -p results results/papers state knowledge
 cat > state/session.json << 'EOF'
 {
   "session_id": "",
@@ -46,6 +46,8 @@ cat > state/session.json << 'EOF'
   "scout_targets": [],
   "selected_target": null,
   "literature_context": null,
+  "disjointness_status": null,
+  "papers_retrieved": [],
   "hypotheses": {},
   "final": [],
   "metadata": {
@@ -107,6 +109,9 @@ Launch TWO subagents in parallel using Agent:
 > (last 12 months) across major scientific domains. Identify
 > papers/findings that have cross-domain implications not yet
 > explored. Focus on high-impact journals.
+> Use WebFetch to retrieve full text of the top 5-10 most relevant
+> papers and save them to results/papers/.
+> Run disjointness verification for promising field pairs.
 > Write to results/literature-landscape.md"
 
 Wait for BOTH to complete.
@@ -139,6 +144,9 @@ Skip Scout. Run Literature Scout on the specified fields/topic:
 > in [Field A], (2) recent breakthroughs in [Field C],
 > (3) existing work connecting these fields,
 > (4) known anomalies or contradictions in both fields.
+> Use WebFetch to retrieve full text of the top 5-10 most relevant
+> papers per field and save them to results/papers/.
+> Run disjointness verification for the proposed field pair.
 > Write structured summary to results/literature-context.md"
 
 ---
@@ -150,11 +158,16 @@ Read state/session.json for selected_target and literature_context.
 
 Use Agent to invoke `generator`:
 > "Think very hard about this. Fields: [Field A] × [Field C].
+> Bridge concepts from Scout: [paste bridge concepts from scout_targets]
 > Literature context: [paste literature_context from state]
+> Disjointness status: [paste disjointness_status from state]
+> Full-text papers available in results/papers/ — read them for
+> mechanism-level detail beyond abstracts.
 >
-> Generate 6-8 raw hypotheses. You have both your parametric
-> knowledge AND the literature context. Use parametric knowledge
-> for creative connections; use literature context for grounding.
+> FIRST build a Structured Relationship Map for both fields.
+> THEN generate 6-8 raw hypotheses using the map as seeds.
+> Use parametric knowledge for creative connections; use literature
+> context and full papers for grounding.
 > Write to results/raw-hypotheses-cycle{N}.md
 > Update state/session.json hypotheses.cycle{N}.raw"
 
@@ -323,5 +336,37 @@ Since the user has no domain expertise, include explicit next steps:
 4. List specific types of domain experts who could evaluate each hypothesis
 
 Update state/session.json: phase="complete", final=[...].
+
+## KNOWLEDGE PERSISTENCE (after session summary)
+
+Update `knowledge/discovery-log.json` for cumulative learning across sessions:
+```python
+# Read existing log or create new
+# Append this session's data:
+{
+  "date": "[ISO date]",
+  "session_id": "[from state]",
+  "mode": "[mode used]",
+  "targets": [
+    {
+      "field_a": "[Field A]",
+      "field_c": "[Field C]",
+      "bridge_concepts": ["concept1", "concept2"],
+      "disjointness": "[DISJOINT|PARTIALLY EXPLORED|WELL-EXPLORED]",
+      "outcome": "[success|partial|degraded|failed]"
+    }
+  ],
+  "productive_bridges": ["bridges that led to surviving hypotheses"],
+  "killed_hypotheses": [
+    {"title": "hypothesis title", "kill_reason": "why it was killed"}
+  ],
+  "surviving_hypotheses": ["titles of hypotheses that passed quality gate"]
+}
+```
+
+This enables:
+- Avoiding re-exploration of exhausted pairs
+- Reusing productive bridge concepts in future sessions
+- Preventing regeneration of previously killed hypotheses
 
 Present session summary to user.

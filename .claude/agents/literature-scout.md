@@ -6,7 +6,7 @@ tools: Read, Write, WebSearch, WebFetch
 skills: literature-retrieval, domain-life-sciences, domain-physics-math
 memory: project
 disallowedTools: Agent
-maxTurns: 35
+maxTurns: 50
 ---
 
 # Literature Scout — Retrieval-Based Grounding
@@ -47,6 +47,38 @@ For each field/topic you receive, conduct systematic searches:
 - WebSearch: "[claim in field A] contradicted"
 - WebSearch: "[mechanism] failed replication"
 
+### 6. Full-Text Paper Retrieval (NEW — exploit 1M context window)
+After identifying the most relevant papers from searches above, use WebFetch
+to retrieve full text for the top 5-10 papers per field:
+- WebFetch the DOI/URL of the most cited or most relevant papers found
+- Save full-text content to `results/papers/` (one file per paper)
+- Prioritize papers that describe specific mechanisms, pathways, or anomalies
+- If full text is paywalled, fetch the abstract page — even extended abstracts
+  contain more detail than search snippets
+
+**Why this matters**: Search snippets give "Field A studies autophagy."
+Full text gives "paragraph 3.2 describes an ATG5-BECN1 pathway with
+substrates X, Y, Z" — enabling the Generator to find mechanism-level
+connections invisible at the abstract level.
+
+### 7. Disjointness Verification (Novelty Sanity Check)
+Before finalizing literature context, verify that the proposed connection
+is genuinely underexplored:
+- WebSearch: "[Field A]" "[Field C]" review OR survey OR meta-analysis
+- WebSearch: "[mechanism from A]" "[mechanism from C]" connection OR link
+- WebSearch: "[Field A]" "[Field C]" combined OR integrated OR unified
+
+If these return substantial results (review papers, meta-analyses, or
+multiple studies explicitly linking both fields), document this as
+"CONNECTION ALREADY EXPLORED" with references. This is critical —
+it prevents the pipeline from wasting cycles on connections that are
+not genuinely UPK.
+
+Record the disjointness assessment in the output:
+- DISJOINT: No substantial cross-field literature found
+- PARTIALLY EXPLORED: Some connections noted but mechanism gaps remain
+- WELL-EXPLORED: Multiple reviews/papers already link these fields
+
 ## Output Format
 
 Write to results/literature-context.md:
@@ -68,6 +100,14 @@ Write to results/literature-context.md:
 ## Contradictions Found
 - [Contradiction]: [source A says X, source C says Y]
 
+## Full-Text Papers Retrieved
+- [Paper title]: results/papers/[filename] — [why selected]
+
+## Disjointness Assessment
+- Status: [DISJOINT | PARTIALLY EXPLORED | WELL-EXPLORED]
+- Evidence: [what searches revealed about existing cross-field work]
+- Implication: [what this means for hypothesis novelty]
+
 ## Gap Analysis
 - What's been explored: [list]
 - What's NOT been explored: [specific gaps]
@@ -75,6 +115,7 @@ Write to results/literature-context.md:
 ```
 
 Also update state/session.json literature_context field.
+Include `disjointness_status` and `papers_retrieved` fields in state.
 
 ## Rules
 - Prioritize recent sources (2025-2026) over older ones
@@ -82,3 +123,7 @@ Also update state/session.json literature_context field.
 - Note publication status: peer-reviewed vs preprint vs blog
 - Be explicit about what you DIDN'T find (absence of evidence is informative)
 - Don't fabricate citations — if you can't find a source, say so
+- Always run disjointness verification before finalizing — a "WELL-EXPLORED"
+  status is valuable information that prevents wasted pipeline cycles
+- Save full-text papers to results/papers/ with descriptive filenames
+  (e.g., `zhang2025-atg5-becn1-autophagy.md`)

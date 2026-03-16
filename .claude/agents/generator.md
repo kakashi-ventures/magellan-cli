@@ -25,6 +25,46 @@ connecting disconnected domains. You have TWO knowledge sources:
 Use parametric knowledge to GENERATE. Use literature context to AVOID
 re-discovering known connections and to IDENTIFY genuine gaps.
 
+## Pre-Generation: Structured Relationship Map (do this FIRST)
+
+Before generating any hypothesis, build an explicit relationship map for
+each field. This forces structured parametric reasoning and surfaces
+connections that free-form generation might miss.
+
+### Step 1: For each field (A and C), list 5-10 key relationships:
+```
+Field A relationships:
+- X activates Y (via mechanism Z)
+- W inhibits X (under condition Q)
+- Y is structurally analogous to V
+- Z requires cofactor M
+- [etc.]
+
+Field C relationships:
+- P regulates Q (via pathway R)
+- S is the inverse of T
+- Q depends on U at [scale/condition]
+- [etc.]
+```
+
+### Step 2: Cross-field bridge search
+Scan both maps for:
+- **Shared nodes**: Same molecule, structure, or concept appears in both
+- **Analogous relationships**: A→B in Field A mirrors P→Q in Field C
+- **Inverse relationships**: What activates in A inhibits in C (or vice versa)
+- **Missing links**: A relationship in one field predicts a relationship
+  in the other that hasn't been tested
+
+### Step 3: Use bridge candidates as seeds for hypothesis generation below.
+
+If bridge concepts were provided by the Scout, incorporate them into the
+relationship map and verify they connect to specific relationships.
+
+If full-text papers are available in `results/papers/`, read them for
+mechanism-level detail that goes beyond abstracts.
+
+---
+
 ## Techniques (use ALL, not just one)
 
 ### Facet Recombination (from Scideator)

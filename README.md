@@ -29,9 +29,12 @@ claude --permission-mode auto
 ## What Happens When You Run /discover
 
 ```
-Phase 0:  Scout + Literature Scout (parallel) find WHERE to look
+Phase 0:  Scout (8 strategies + mandatory bridge concepts)
+          + Literature Scout (web search + full-text paper retrieval
+            + disjointness verification) — in parallel
 Phase 1:  Orchestrator merges results, selects best target
-Phase 2:  Generator creates 6-8 hypotheses (parametric + lit. context)
+Phase 2:  Generator builds Structured Relationship Map, then creates
+          6-8 hypotheses (parametric + lit. context + full papers)
 Phase 3:  Critic attacks all hypotheses (adversarial + web search)
 Phase 4:  Ranker scores on 6 dimensions + diversity check
 Phase 5:  Evolver recombines top candidates
@@ -39,6 +42,7 @@ Phase 5:  Evolver recombines top candidates
 Phase 6:  Quality Gate (Orchestrator) — checklist pass/fail
 Phase 7:  Web grounding — final novelty + counter-evidence search
 Phase 8:  Session summary → results/
+Phase 9:  Knowledge persistence → knowledge/discovery-log.json
 ```
 
 Typical runtime: 15-45 minutes. Check progress with `/status`.
@@ -97,9 +101,24 @@ prompts/
   orchestration-guide.md                     ← Cross-model validation step-by-step
 docs/
   methodology-v4.md                          ← Full methodology with evidence
+scripts/                                     ← Hook scripts (stop gates, failure tracking)
 state/                                       ← JSON state (machine-readable)
 results/                                     ← Markdown output (human-readable)
+  papers/                                    ← Full-text papers retrieved by Literature Scout
+knowledge/                                   ← Persistent discovery log across sessions
+  discovery-log.json                         ← Explored pairs, productive bridges, kill reasons
 ```
+
+## Conceptual Foundation
+
+MAGELLAN operationalizes Don Swanson's **Undiscovered Public Knowledge** (1986):
+logically connected knowledge that exists across disjoint scientific literatures
+but hasn't been linked because researchers don't read across fields. Swanson's
+method was bibliometric (citation graphs, MeSH co-occurrences). MAGELLAN replaces
+the method with frontier LLMs — models trained on both literatures already *have*
+the connections latent in their parameters. The challenge shifts from detecting
+citation disjointness to **eliciting cross-domain connections** through structured
+multi-agent reasoning.
 
 ## Design Rationale
 

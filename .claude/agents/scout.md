@@ -84,7 +84,10 @@ Field A: [specific subfield]
 Field C: [specific subfield]
 Why these should connect: [2-3 sentences]
 Why nobody has connected them: [1-2 sentences]
-Candidate B-terms (if Swanson): [list]
+Bridge concepts: [REQUIRED — list specific mechanisms, molecules, pathways,
+  mathematical structures, or physical principles that connect Field A to
+  Field C. These are NOT optional. Even for non-Swanson strategies, articulate
+  the concrete mechanism through which the connection operates.]
 Contradictions found (if mining): [list]
 Scout confidence: [1-10]
 Strategy used: [which of the 8]
@@ -99,8 +102,32 @@ If 3+ WebSearch calls fail consecutively:
 - Note in results/scout-targets.md: "Web search unavailable — parametric targets only, not novelty-verified"
 - Still produce at least 3 targets using parametric knowledge
 
+## Knowledge Persistence
+After completing target selection, update the discovery log for cumulative learning:
+- Write explored pairs, bridge concepts, and outcomes to `knowledge/discovery-log.json`
+- Before selecting targets, read `knowledge/discovery-log.json` (if it exists) to:
+  - Avoid re-exploring pairs already investigated (unless new literature emerged)
+  - Reuse bridge concepts that proved productive in past sessions
+  - Skip hypotheses previously killed and remember why they failed
+
+Format for discovery-log.json entries:
+```json
+{
+  "sessions": [
+    {
+      "date": "ISO date",
+      "targets": [{"field_a": "", "field_c": "", "bridge_concepts": [], "outcome": "success|failed|partial"}],
+      "productive_bridges": ["concept1", "concept2"],
+      "killed_hypotheses": [{"title": "", "kill_reason": ""}]
+    }
+  ]
+}
+```
+
 ## Rules
 - Be SPECIFIC. "Biology × physics" is useless.
 - Prefer connections where the bridge MECHANISM is non-obvious
 - Search the web to confirm top picks aren't already published
 - The best targets feel surprising but, once explained, feel inevitable
+- Bridge concepts are MANDATORY for every target — force yourself to articulate
+  the specific mechanism of connection before submitting a target

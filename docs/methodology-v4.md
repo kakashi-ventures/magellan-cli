@@ -11,6 +11,39 @@ Progettato per Claude Code (marzo 2026) con Opus 4.6, sfrutta Agent Teams, hooks
 
 ---
 
+## Fondamento concettuale: l'Undiscovered Public Knowledge di Swanson
+
+MAGELLAN è, nella sua essenza, una macchina per trovare **Undiscovered Public Knowledge (UPK)** — un concetto formulato da Don R. Swanson nel 1986.
+
+### Il concetto
+
+Swanson osservò che la letteratura scientifica contiene connessioni logiche che nessuno ha ancora fatto, non perché l'informazione sia segreta, ma perché risiede in **letterature disgiunte** — corpi di conoscenza che non si citano reciprocamente. L'esempio fondativo: la letteratura sul magnesio (effetti vasodilatatori, anti-aggreganti piastrinici) e la letteratura sull'emicrania (vasocostrizione, aggregazione piastrinica) contenevano tutte le premesse per ipotizzare che il magnesio potesse trattare l'emicrania. Nessuno aveva fatto il collegamento perché i due campi non dialogavano. Swanson lo fece nel 1988, e studi clinici successivi confermarono l'ipotesi.
+
+Swanson formalizzò questo nel modello **ABC**: il Campo A e il Campo C non si citano, ma condividono un concetto intermedio B (il *bridge term*) che compare in entrambi. La scoperta consiste nell'identificare B e nel costruire l'inferenza A→B→C.
+
+### Il metodo originale (superato)
+
+Per trovare queste connessioni, Swanson sviluppò un metodo **bibliometrico**: analisi di co-occorrenze di MeSH terms, grafi citazionali, matrici di frequenza. Sistemi come Arrowsmith, BITOLA, e più recentemente LBD automatizzati hanno raffinato questo approccio per decenni.
+
+Questo metodo è **superato dai modelli frontier del 2026**, per una ragione fondamentale: il problema dell'UPK esiste perché nessun ricercatore umano può leggere entrambe le letterature. Un LLM addestrato su milioni di paper ha già *assorbito* entrambe. Il problema non è più rilevare la disgiunzione citazionale — è **elicitare le connessioni latenti** dalla conoscenza parametrica del modello.
+
+Le evidenze lo confermano: nessuno dei breakthrough AI-driven del 2025-2026 (GPT-5 + Ginkgo, Google AI Co-Scientist, Aletheia) ha usato analisi bibliometrica. Tutti usano conoscenza parametrica + architettura multi-agente + debate/evoluzione.
+
+### Come MAGELLAN eredita il concetto e supera il metodo
+
+| Swanson (1986) | MAGELLAN v4 (2026) |
+|---|---|
+| Il problema: UPK esiste tra letterature disgiunte | Stesso problema, stessa motivazione |
+| Il bridge: concetto B condiviso tra A e C | **Bridge concepts obbligatori** in ogni target dello Scout |
+| Il metodo: analisi bibliometrica (MeSH, citazioni) | **Conoscenza parametrica** dell'LLM come lettore universale |
+| Rilevamento: co-occorrenze statistiche | **Elicitazione**: Structured Relationship Map, facet recombination, adversarial probing |
+| Validazione: ricerca manuale in database | **Retrieval automatico**: Literature Scout + WebFetch + verifica disgiunzione |
+| Scala: una coppia A-C per studio, mesi di lavoro | **8 strategie parallele**, 2 cicli evolutivi, 15-45 minuti |
+
+Il modello ABC resta la struttura portante dell'output: ogni ipotesi MAGELLAN ha la forma `Field A → Bridge mechanism → Field C`. La differenza è *come* si arriva al bridge — non con statistiche citazionali, ma con il ragionamento parametrico di un modello che ha già letto entrambe le letterature.
+
+---
+
 ## Architettura: 8 agenti, 3 fasi
 
 L'architettura v4 introduce un **Literature Scout** dedicato e un **Diversity Gate**, risolvendo le due lacune critiche della v3: assenza di retrieval sistematico e convergenza delle ipotesi.
@@ -84,12 +117,49 @@ Tuttavia:
 
 La conoscenza parametrica è **il motore generativo** — è dove risiedono le connessioni cross-disciplinari non ovvie. Ma ogni claim fattuale viene verificato tramite retrieval. Il flusso è:
 
-1. **Scout (parametrico)**: Identifica DOVE cercare usando deep reasoning
-2. **Literature Scout (retrieval)**: Verifica che i target non siano già esplorati, trova letteratura recente nei campi target
-3. **Generator (parametrico + contesto letteratura)**: Genera ipotesi usando reasoning + contesto da literature scout
+1. **Scout (parametrico)**: Identifica DOVE cercare usando deep reasoning. Produce **bridge concepts obbligatori** — meccanismi specifici che connettono Field A a Field C
+2. **Literature Scout (retrieval)**: Verifica che i target non siano già esplorati, trova letteratura recente nei campi target. **Recupera il testo completo dei top 5-10 paper** via WebFetch per sfruttare la finestra da 1M token. Esegue una **verifica di disgiunzione** per confermare che la connessione è genuinamente UPK
+3. **Generator (parametrico + contesto letteratura + paper completi)**: Costruisce prima una **Structured Relationship Map** (KG on-the-fly parametrico) per ciascun campo, poi genera ipotesi usando reasoning + contesto + paper completi
 4. **Critic (parametrico + web search)**: Attacca ogni ipotesi, cerca counter-evidence via web
 5. **Ranker**: Include **Groundedness** come 6ª dimensione di scoring
 6. **Evolver**: Opera sulle ipotesi top, con **diversity constraint**
+7. **Knowledge Persistence**: A fine sessione, l'Orchestrator aggiorna `knowledge/discovery-log.json` con coppie esplorate, bridge produttivi, ipotesi sopravvissute e uccise — per efficienza cumulativa tra sessioni
+
+---
+
+## Sfruttamento della finestra da 1M token
+
+Il Literature Scout non si limita più a snippet di ricerca. Per i top 5-10 paper per campo, usa **WebFetch per recuperare il testo completo** e lo salva in `results/papers/`. Il Generator legge questi paper direttamente, ragionando a livello di frase e meccanismo anziché di abstract.
+
+La differenza: "il Campo A studia l'autofagia" vs. "il paragrafo 3.2 del paper di Zhang et al. descrive un pathway ATG5-BECN1 che è strutturalmente analogo al pathway che Smith et al. descrivono nel Campo C, ma con substrati diversi."
+
+## Verifica di disgiunzione (Novelty Sanity Check)
+
+Prima di finalizzare il contesto letteratura, il Literature Scout verifica che la connessione proposta sia genuinamente underexplored:
+- Cerca review, survey e meta-analisi che colleghino esplicitamente i due campi
+- Classifica il risultato come **DISJOINT** (nessuna letteratura cross-field), **PARTIALLY EXPLORED** (alcune connessioni ma gap nei meccanismi), o **WELL-EXPLORED** (connessione già ampiamente pubblicata)
+
+Questo previene che il pipeline sprechi cicli su connessioni che non sono genuinamente UPK. Un risultato "WELL-EXPLORED" è informazione di alto valore — non un fallimento.
+
+## Structured Relationship Map (KG on-the-fly)
+
+Il Generator, prima di produrre ipotesi, costruisce un **Knowledge Graph parametrico on-the-fly** per ciascun campo:
+1. Lista 5-10 relazioni chiave (X attiva Y, W inibisce X, Y è analogo a V...)
+2. Cerca **nodi condivisi** tra i due campi (stessa molecola/struttura/concetto)
+3. Cerca **relazioni analoghe** (A→B in Field A specchia P→Q in Field C)
+4. Cerca **relazioni inverse** e **link mancanti** (una relazione in un campo predice una relazione nell'altro non ancora testata)
+
+Questo sfrutta il concetto KG senza l'infrastruttura KG esterna: l'LLM FA il knowledge graph reasoning internamente — basta chiederglelo esplicitamente nel prompt.
+
+## Knowledge Persistence tra sessioni
+
+L'Orchestrator mantiene un registro strutturato in `knowledge/discovery-log.json`:
+- Coppie di campi già investigate e loro esito
+- Bridge concepts che si sono dimostrati produttivi
+- Ipotesi uccise e relative motivazioni
+- Ipotesi sopravvissute
+
+Questo permette allo Scout di evitare ri-esplorazioni, riutilizzare bridge produttivi, e non rigenerare ipotesi già uccise. Il file è consultato all'inizio di ogni sessione.
 
 ---
 
@@ -106,6 +176,10 @@ La conoscenza parametrica è **il motore generativo** — è dove risiedono le c
 ### Nuove strategie (v4)
 7. **Swanson ABC Bridging** — Identificazione sistematica di letterature disgiunte con concetti intermedi condivisi. Metodo fondazionale della Literature-Based Discovery (Swanson 1986). Il Literature Scout cerca sistematicamente "B terms" che compaiono in entrambi i campi A e C senza che A e C si citino reciprocamente.
 8. **Contradiction Mining** — Ricerca attiva di contraddizioni nella letteratura come fonti di ipotesi. Ispirata da ContraCrow di FutureHouse. Se due paper in campi diversi affermano cose mutuamente esclusive, la risoluzione della contraddizione spesso rivela una connessione non banale.
+
+### Bridge concepts obbligatori
+
+In v4.2, i bridge concepts sono **obbligatori per ogni target**, non solo per la strategia Swanson. Anche per Anomaly Hunting, Tool Transfer o Scale Bridging, lo Scout deve articolare il meccanismo concreto di connessione (molecole, pathway, strutture matematiche, principi fisici). Questo forza un ragionamento più strutturato e dà al Generator un punto di partenza più ricco rispetto a una semplice coppia di campi.
 
 ---
 
@@ -144,6 +218,8 @@ La v3 usava solo file markdown nella directory `results/`. La v4 usa un sistema 
   "scout_targets": [...],
   "selected_target": {...},
   "literature_context": {...},
+  "disjointness_status": "DISJOINT|PARTIALLY EXPLORED|WELL-EXPLORED",
+  "papers_retrieved": ["results/papers/zhang2025-atg5.md", "..."],
   "hypotheses": {
     "cycle1": { "raw": [...], "critiqued": [...], "ranked": [...], "evolved": [...] },
     "cycle2": { ... }
@@ -171,6 +247,11 @@ La v3 usava solo file markdown nella directory `results/`. La v4 usa un sistema 
 ```
 
 Questo risolve il problema della perdita di informazioni durante la compaction del contesto. Ogni agente legge e aggiorna `state/session.json` come source of truth, non il contesto conversazionale.
+
+### Campi aggiunti in v4.2 (Deep Grounding)
+
+- **`disjointness_status`**: Risultato della verifica di disgiunzione del Literature Scout (DISJOINT / PARTIALLY EXPLORED / WELL-EXPLORED). Informa il Generator sulla genuina novità della connessione.
+- **`papers_retrieved`**: Lista dei paper full-text recuperati via WebFetch, salvati in `results/papers/`. Il Generator li legge per ragionamento a livello di meccanismo.
 
 ### Campi aggiunti in v4.1 (Autonomy Hardening)
 
