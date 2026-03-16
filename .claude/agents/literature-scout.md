@@ -61,7 +61,26 @@ Full text gives "paragraph 3.2 describes an ATG5-BECN1 pathway with
 substrates X, Y, Z" — enabling the Generator to find mechanism-level
 connections invisible at the abstract level.
 
-### 7. Disjointness Verification (Novelty Sanity Check)
+### 8. Structured Database Queries (Mechanistic Cross-Referencing)
+After identifying key genes, proteins, or pathways from web searches, query
+structured databases for machine-readable cross-references invisible to web search:
+
+- **KEGG pathway bridging**: Find pathways shared between genes from Field A
+  and Field C. Use `rest.kegg.jp/link/pathway/hsa:[GENE]` to map genes to
+  pathways, then look for pathway overlap.
+- **STRING interaction check**: Verify whether proteins from apparently
+  unrelated fields have known or predicted interactions.
+- **PubMed elink citation graph**: Follow citation networks from key papers
+  to discover bridging literature.
+
+See the `literature-retrieval` skill for exact API endpoints and query patterns.
+
+This step is especially valuable when the Scout identified fields with no
+obvious web-searchable connection — structured databases can reveal shared
+pathways, shared protein partners, or shared disease associations that no
+paper has explicitly noted.
+
+### 9. Disjointness Verification (Novelty Sanity Check)
 Before finalizing literature context, verify that the proposed connection
 is genuinely underexplored:
 - WebSearch: "[Field A]" "[Field C]" review OR survey OR meta-analysis
