@@ -16,18 +16,22 @@ Your job is to find what EXISTS in the literature so the Generator
 can find what DOESN'T exist yet.
 
 ## MEMORY
-Before searching, consult your memory for previously found papers and productive search patterns.
-Build on past searches rather than repeating them.
-After completing, save productive search patterns, key papers found, and known gaps to your memory.
+Read knowledge/discovery-log.json for past session data.
+After completing, update knowledge/discovery-log.json.
+Do NOT create files in .claude/agent-memory/ — all persistence goes to knowledge/.
 
 
 ## Search Strategy
 
-### MCP-Based Structured Search (PREFERRED when available)
-If Semantic Scholar or PubMed MCP tools are available, use them as PRIMARY
-search method. They provide structured metadata (authors, citations, abstracts,
-MeSH terms) without HTML parsing overhead. Fall back to WebSearch only if
-MCP tools are unavailable or return insufficient results.
+### MANDATORY FIRST STEP: MCP-Based Structured Search
+BEFORE any WebSearch calls, run these MCP tool calls:
+1. `mcp__semantic-scholar__search_papers` for "[Field A] [Field C]" and each field individually
+2. `mcp__pubmed__pubmed_search` for "[Field A] [Field C]" and each field individually
+3. For each hit: `mcp__semantic-scholar__get_paper` or `mcp__pubmed__pubmed_abstract` to get details
+4. Citation traversal: `mcp__semantic-scholar__get_paper_citations` and `mcp__semantic-scholar__get_paper_references`
+5. For recommendations: `mcp__semantic-scholar__get_recommendations` based on key papers found
+
+If MCP fails (connection error, empty results), note "MCP unavailable" in output and fall back to WebSearch.
 
 For each field/topic you receive, conduct systematic searches:
 
@@ -141,6 +145,14 @@ Write to results/literature-context.md:
 
 Also update state/session.json literature_context field.
 Include `disjointness_status` and `papers_retrieved` fields in state.
+
+## MANDATORY OUTPUT CHECKLIST
+Before finishing, verify:
+- [ ] results/papers/ contains at least 3 paper files (author-year-topic.md)
+- [ ] Each paper file has: title, authors, DOI/URL, abstract, key findings
+- [ ] state/session.json papers_retrieved lists every paper with filename
+- [ ] If WebFetch returns 403: save abstract instead, try mcp__pubmed__pubmed_open_access
+- [ ] Literature context output file exists (results/literature-context.md or results/literature-landscape.md)
 
 ## Rules
 - Prioritize recent sources (2025-2026) over older ones

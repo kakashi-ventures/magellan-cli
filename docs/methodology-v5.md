@@ -44,7 +44,7 @@ Il modello ABC resta la struttura portante dell'output: ogni ipotesi MAGELLAN ha
 
 ---
 
-## Architettura: 7 agenti, 3 fasi
+## Architettura: 8 agenti, 3 fasi
 
 ```
 FASE 1 — ESPLORAZIONE (Agent Teams: parallela)
@@ -57,7 +57,7 @@ FASE 1 — ESPLORAZIONE (Agent Teams: parallela)
        └──────────┬────────┘
                   ▼
            Orchestrator [Opus]
-           (merge + select)
+           (merge + select + dispatch)
 
 FASE 2 — GENERAZIONE & CRITICA (2 cicli)
 ┌────────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
@@ -72,9 +72,9 @@ FASE 2 — GENERAZIONE & CRITICA (2 cicli)
 FASE 3 — VALIDAZIONE FINALE
 ┌──────────────────┐
 │  Quality Gate     │
-│  (Orchestrator)   │
-│ checklist + score │
-│ portfolio-level   │
+│    [Opus]         │
+│ 9-point rubric    │
+│ + web grounding   │
 └──────────┬───────┘
            ▼
     Session Health → results/*.md + state/session.json
@@ -84,24 +84,34 @@ LAYER TRASVERSALE — GUARD & HOOKS
 │  Post-fase guards (retry → fallback → abort)    │
 │  Blocking SubagentStop hooks (exit 2)           │
 │  Stop hook (anti-terminazione prematura)        │
+│  PostToolUse dispatch logging (verify-dispatch)  │
 │  PreCompact/PostCompact (backup/restore state)  │
 │  PostToolUseFailure (tracking WebSearch fails)  │
 └─────────────────────────────────────────────────┘
 ```
 
-### I 7 agenti
+### Gli 8 agenti
 
 | Agente | Modello | Ruolo |
 |---|---|---|
 | **Scout** | Opus | Identifica DOVE cercare: 8 strategie per trovare connessioni non ovvie tra campi scientifici disgiunti |
-| **Literature Scout** | Sonnet | Retrieval strutturato: MCP servers (Semantic Scholar, PubMed) + WebSearch + full-text paper retrieval + verifica di disgiunzione |
+| **Literature Scout** | Sonnet | Retrieval strutturato: MCP servers (Semantic Scholar, PubMed) come passo obbligatorio + WebSearch fallback + full-text paper retrieval + verifica di disgiunzione |
 | **Generator** | Opus | Costruisce Structured Relationship Map per campo, poi genera 6-8 ipotesi usando ragionamento parametrico + contesto letteratura + paper completi |
-| **Critic** | Opus | 8 attack vectors adversariali: novelty kill, mechanism kill, logic kill, falsifiability kill, triviality kill, counter-evidence search, groundedness attack, hallucination-as-novelty check |
-| **Ranker** | Sonnet | Scoring su 6 dimensioni con pesi fissi + diversity check per prevenire convergenza |
+| **Critic** | Opus | 8 attack vectors adversariali + minimum adversarial standard (kill rate 30-50% è sano; 0% è red flag) |
+| **Ranker** | Sonnet | Scoring su 6 dimensioni con pesi fissi canonici + formato tabella obbligatorio per-ipotesi + diversity check |
 | **Evolver** | Sonnet | Operazioni evolutive (crossover, mutation, specification, generalization, combination) con diversity constraint |
-| **Orchestrator** | Opus | Coordina l'intero pipeline, esegue il Quality Gate finale, classifica la sessione, gestisce il knowledge log |
+| **Quality Gate** | Opus | Rubrica a 9 punti + web grounding per novelty e plausibilità meccanismo. PASS/FAIL per ogni ipotesi |
+| **Orchestrator** | Opus | Coordina il pipeline via dispatch obbligatorio (non esegue fasi inline), guard logic, session health, knowledge log |
 
-La scelta del modello segue un principio: **Opus per il ragionamento profondo e creativo, Sonnet per i task strutturati e search-intensive**. Scout, Generator e Critic richiedono ragionamento cross-disciplinare e valutazione adversariale complessa. Literature Scout, Ranker ed Evolver eseguono task più strutturati dove la capacità di giudizio è importante ma non richiede la profondità di Opus. Il Quality Gate è integrato nell'Orchestrator (non è un agente separato) per evitare overlap funzionale.
+La scelta del modello segue un principio: **Opus per il ragionamento profondo e creativo, Sonnet per i task strutturati e search-intensive**. Scout, Generator, Critic e Quality Gate richiedono ragionamento cross-disciplinare e valutazione profonda. Literature Scout, Ranker ed Evolver eseguono task più strutturati dove la capacità di giudizio è importante ma non richiede la profondità di Opus.
+
+### Dispatch obbligatorio (v5)
+
+L'Orchestratore è un puro coordinatore: NON ha accesso a WebSearch/WebFetch e NON può eseguire fasi inline. Ogni fase viene dispatched al sub-agente specializzato via Agent tool. Questo garantisce:
+- **Isolamento dei tool**: il Generator non può fare web search, il Critic non può generare ipotesi
+- **Specializzazione**: ogni agente carica solo le skill rilevanti
+- **Contesto fresco**: ogni dispatch ha un contesto conversazionale pulito, evitando degradazione nelle fasi tardive
+- **Verificabilità**: `state/dispatch-log.json` traccia ogni dispatch per audit post-sessione
 
 ---
 
@@ -133,14 +143,14 @@ La conoscenza parametrica è **il motore generativo** — è dove risiedono le c
 
 ## Retrieval strutturato
 
-### MCP Servers (fonte primaria)
+### MCP Servers (passo obbligatorio — v5)
 
-Il retrieval via WebSearch/WebFetch è fragile e richiede parsing HTML. MAGELLAN integra MCP servers come fonte primaria per la ricerca bibliografica:
+Il retrieval via WebSearch/WebFetch è fragile e richiede parsing HTML. MAGELLAN integra MCP servers come **primo passo obbligatorio** per la ricerca bibliografica:
 
-- **Semantic Scholar MCP** (`@xbghc/semanticscholar-mcp`): Search strutturato, metadati autori, reti citazionali, abstract senza parsing HTML
-- **PubMed MCP** (`pubmed-mcp`): Letteratura biomedica con termini MeSH, metadata strutturato
+- **Semantic Scholar MCP** (`@xbghc/semanticscholar-mcp`): `search_papers`, `get_paper`, `get_paper_citations`, `get_paper_references`, `get_recommendations`, `batch_get_papers`
+- **PubMed MCP** (`pubmed-mcp`): `pubmed_search`, `pubmed_abstract`, `pubmed_full_text`, `pubmed_open_access`, `pubmed_cited_by`, `pubmed_cites`, `pubmed_similar`
 
-Configurazione in `.mcp.json` nella root del progetto. Il Literature Scout usa i tool MCP come metodo primario, con fallback a WebSearch quando i tool MCP non sono disponibili o restituiscono risultati insufficienti. Questo fornisce un canale di retrieval indipendente dal web search generico, mitigando il rischio di single point of failure.
+Configurazione in `.mcp.json` nella root del progetto. Il Literature Scout DEVE chiamare i tool MCP **prima** di qualsiasi WebSearch. Fallback a WebSearch solo se MCP restituisce errore di connessione o risultati insufficienti. Questo fornisce un canale di retrieval strutturato indipendente dal web search generico, con metadata machine-readable (autori, citazioni, abstract, MeSH terms) senza parsing HTML.
 
 ### API strutturate (via WebFetch)
 
@@ -203,6 +213,10 @@ Il Critic è genuinamente adversariale. Il suo obiettivo è distruggere le ipote
 7. **Groundedness Attack** — Per ogni claim fattuale: è dalla letteratura (grounded)? dalla conoscenza parametrica (verifica con web search)? pura speculazione (flag)? Se >50% dei claim è inverificabile → downgrade significativo
 8. **Hallucination-as-Novelty Check** — Per ipotesi con alta novelty: "Sembra nuova perché è genuinamente inesplorata, o perché è sbagliata in modi non ovvi?" Verifica via web search che il meccanismo bridge esista indipendentemente dall'ipotesi. Se la novelty dipende interamente da un claim fattuale inverificabile → la "novelty" è probabilmente un artefatto di conoscenza parametrica incorretta → KILL o downgrade severo
 
+### Minimum adversarial standard (v5)
+
+Un kill rate dello 0% è un red flag. Se il Critic passa tutte le ipotesi, deve ri-esaminarle chiedendosi "Sto essendo troppo generoso?". Un kill rate sano è 30-50%; sotto il 15% indica pressione adversariale insufficiente.
+
 L'attack vector #8 affronta un rischio documentato dallo studio Science/AAAS: la novelty AI-generated crolla dopo test sperimentali (da 5.38 a 3.41 su 10). Le ipotesi possono sembrare nuove solo perché sono sbagliate. L'hallucination-as-novelty check complementa il Groundedness scoring (che misura il supporto evidenziale complessivo) con un check specifico sulla relazione inversa novelty↔correttezza.
 
 ---
@@ -218,7 +232,11 @@ L'attack vector #8 affronta un rischio documentato dallo studio Science/AAAS: la
 | **Impact** | 10% | Se vera, quanto cambia la comprensione? |
 | **Groundedness** | 20% | I componenti dell'ipotesi sono supportati da evidenze retrievable? |
 
-Composito = media pesata.
+Composito = media pesata. I pesi sono **canonici e immutabili** — evidenziati in grassetto nella definizione dell'agente per evitare drift tra cicli.
+
+### Formato di scoring obbligatorio (v5)
+
+Il Ranker DEVE produrre una tabella per-dimensione per **ogni** ipotesi con giustificazioni di almeno 2 frasi per dimensione. L'output thin (senza scoring individuale dettagliato) viene bloccato dal `ranker-stop-gate.py` che impone un minimo di 3KB per `ranked-cycle{N}.md`.
 
 ### Diversity check
 
@@ -294,6 +312,24 @@ Campi chiave:
 - **`health`**: Contatori aggregati per diagnostica rapida
 - **`metadata` estesa**: Traccia fallback, degradazione, e fallimenti WebSearch
 
+### Timestamp protocol (v5)
+
+Per ogni transizione di fase, l'Orchestratore esegue `date -u +%Y-%m-%dT%H:%M:%SZ` via Bash prima e dopo il dispatch. I timestamp non vengono mai scritti da memoria — sempre dal comando `date`. Questo garantisce che i timestamp in `progress.phases_completed` siano reali e verificabili.
+
+### Kill rate (v5)
+
+Formula esatta:
+- `killed` = conteggio verdetti "KILLED" in TUTTI gli array critiqued (ciclo 1 + ciclo 2)
+- `total` = totale ipotesi raw generate in tutti i cicli
+- `kill_rate = killed / total * 100`
+- `attrition_rate = (total - len(final)) / total * 100`
+
+Entrambi i valori vengono riportati nel session summary e validati dall'`orchestrator-stop-gate.py`.
+
+### Dispatch log (v5)
+
+Ogni invocazione di Agent tool viene loggata automaticamente dal `verify-dispatch.py` hook in `state/dispatch-log.json`. A fine sessione, l'orchestrator-stop-gate verifica che tutti gli agenti richiesti (scout, literature-scout, generator, critic, ranker, evolver, quality-gate) siano stati invocati.
+
 ---
 
 ## Robustezza: guard logic, hooks, session health
@@ -314,10 +350,13 @@ SubagentStop hooks per-agente che bloccano (exit code 2) quando l'output è insu
 
 - `scout-stop-gate.py`: blocca se 0 target
 - `generator-stop-gate.py`: blocca se < 3 ipotesi
+- `literature-scout-stop-gate.py` (v5): blocca se 0 paper in `results/papers/`, nessun output letteratura, o `papers_retrieved` vuoto nello state
+- `ranker-stop-gate.py` (v5): blocca se `ranked-cycle{N}.md` < 3KB (previene output thin senza scoring dettagliato)
 - `critic-stop-hook.py`: warn-only (il critic può legittimamente uccidere tutto)
-- `orchestrator-stop-gate.py`: Stop hook che impedisce la terminazione prematura del pipeline
+- `orchestrator-stop-gate.py`: Stop hook che impedisce la terminazione prematura del pipeline + valida kill rate + verifica dispatch log
 
 Hook aggiuntivi:
+- `verify-dispatch.py` (v5): PostToolUse hook su Agent tool — logga ogni dispatch a `state/dispatch-log.json`. L'orchestrator-stop-gate verifica che tutti i 7+ agenti siano stati invocati
 - `PostToolUseFailure`: Traccia fallimenti WebSearch/WebFetch. Dopo 3+ fallimenti lo Scout passa a modo parametric-only
 - `PreCompact`: Backup dello stato prima della compaction del contesto
 - `PostCompact`: Ripristina da backup se lo stato è corrotto dopo compaction
@@ -390,7 +429,7 @@ L'evidenza mostra che:
 
 | Agente | Modello | Razionale |
 |---|---|---|
-| Scout, Generator, Critic, Orchestrator | Claude Opus 4.6 | Ragionamento profondo, creatività cross-disciplinare, valutazione adversariale |
+| Scout, Generator, Critic, Quality Gate, Orchestrator | Claude Opus 4.6 | Ragionamento profondo, creatività cross-disciplinare, valutazione adversariale |
 | Literature Scout, Ranker, Evolver | Claude Sonnet 4.6 | Task strutturati e search-intensive, riduzione costi ~30% |
 
 ### Modelli esterni (validazione cross-model)
@@ -456,6 +495,9 @@ Le modalità targeted/open/problem esistono come alternative per testing e debug
 | Pipeline si ferma prematuramente | Media-bassa | Stop hook blocca la terminazione se phase ≠ "complete"/"failed". PostCompact ripristina stato e istruisce la continuazione |
 | WebSearch/WebFetch non disponibili | Bassa | PostToolUseFailure hook traccia i fallimenti. MCP servers come canale alternativo. Scout passa a modo parametric-only dopo 3+ fallimenti |
 | Output silenziosamente vuoto | **Eliminato** | Session Health Classification: ogni sessione termina con SUCCESS/PARTIAL/DEGRADED/FAILED. Lo status è la prima riga del session-summary.md |
+| Orchestratore esegue fasi inline (bypass agenti) | **Eliminato (v5)** | WebSearch/WebFetch rimossi dall'orchestratore, maxTurns ridotto a 50, direttiva anti-inlining, dispatch log con verifica post-sessione |
+| Ranked output thin (senza scoring dettagliato) | **Eliminato (v5)** | `ranker-stop-gate.py` blocca output < 3KB, formato tabella per-ipotesi obbligatorio |
+| Literature Scout non salva paper | **Eliminato (v5)** | `literature-scout-stop-gate.py` blocca se `results/papers/` vuoto, checklist output obbligatoria |
 
 ---
 

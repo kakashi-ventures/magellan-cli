@@ -8,7 +8,7 @@ disallowedTools: WebSearch, WebFetch, Bash, Agent
 hooks:
   stop:
     - type: command
-      command: python3 "$CLAUDE_PROJECT_DIR/scripts/generator-stop-hook.py"
+      command: python3 "$CLAUDE_PROJECT_DIR/scripts/generator-stop-gate.py"
       timeout: 10
 maxTurns: 20
 ---

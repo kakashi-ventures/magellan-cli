@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Stop hook for orchestrator. Blocks premature termination if pipeline is incomplete."""
+"""Stop hook for orchestrator. Blocks premature termination if pipeline is incomplete.
+Also validates kill rate and dispatch log on completion."""
 import sys, json, os
 
 try:
@@ -9,14 +10,57 @@ try:
         phase = d.get("phase", None)
         status = d.get("status", None)
 
-        # Allow stop if pipeline completed or explicitly failed
-        if phase in ("complete", "failed") or status in ("success", "partial", "degraded", "failed"):
-            print(json.dumps({"decision": "allow"}))
-            sys.exit(0)
-
         # Allow stop if no session active (no mode set = not a discovery run)
         if not d.get("mode"):
             print(json.dumps({"decision": "allow"}))
+            sys.exit(0)
+
+        # Allow stop if pipeline completed or explicitly failed
+        if phase in ("complete", "failed") or status in ("success", "partial", "degraded", "failed"):
+            warnings = []
+
+            # Validate kill rate matches formula
+            metadata = d.get("metadata", {})
+            hypotheses = d.get("hypotheses", {})
+            total_raw = 0
+            total_killed = 0
+            for cycle_key in sorted(hypotheses.keys()):
+                cycle_data = hypotheses[cycle_key]
+                raw = cycle_data.get("raw", [])
+                total_raw += len(raw) if isinstance(raw, list) else 0
+                critiqued = cycle_data.get("critiqued", [])
+                if isinstance(critiqued, list):
+                    for h in critiqued:
+                        if isinstance(h, dict) and h.get("verdict", "").upper() == "KILLED":
+                            total_killed += 1
+
+            if total_raw > 0:
+                expected_kill_rate = round(total_killed / total_raw * 100, 1)
+                reported_kill_rate = metadata.get("kill_rate", 0)
+                if abs(expected_kill_rate - reported_kill_rate) > 5:
+                    warnings.append(
+                        f"Kill rate mismatch: reported {reported_kill_rate}%, "
+                        f"calculated {expected_kill_rate}% ({total_killed}/{total_raw})"
+                    )
+
+            # Check dispatch log for required agents
+            dispatch_log_path = "state/dispatch-log.json"
+            if os.path.exists(dispatch_log_path):
+                dispatch_log = json.load(open(dispatch_log_path))
+                dispatched = set(d.get("agent", "") for d in dispatch_log.get("dispatches", []))
+                required = {"scout", "literature-scout", "generator", "critic", "ranker", "evolver", "quality-gate"}
+                missing = required - dispatched
+                if missing and status not in ("failed",):
+                    warnings.append(f"Missing agent dispatches: {', '.join(sorted(missing))}")
+
+            if warnings:
+                print(json.dumps({
+                    "feedback": f"Orchestrator gate PASSED with warnings: {'; '.join(warnings)}"
+                }))
+            else:
+                print(json.dumps({
+                    "feedback": "Orchestrator gate PASSED: pipeline complete."
+                }))
             sys.exit(0)
 
         # Block: pipeline is mid-run

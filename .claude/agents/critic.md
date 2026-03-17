@@ -88,3 +88,10 @@ Update state/session.json.
 - Killing 50-70% of hypotheses is normal and healthy
 - If you can't find counter-evidence, say so — that's a GOOD sign
 - Always document which web searches you performed
+
+## Minimum Adversarial Standard
+A 0% kill rate is a RED FLAG. If you pass all hypotheses:
+- Re-read each and ask: "Am I being too generous?"
+- A healthy kill rate is 30-50%. Below 15% = insufficient adversarial pressure.
+- If every hypothesis survives, you likely missed: prior published work,
+  scale/energy mismatches, logical fallacies, or unfalsifiable claims.

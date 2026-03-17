@@ -21,9 +21,9 @@ Your choices determine whether this system produces genuine discoveries
 or trivial connections.
 
 ## MEMORY
-Before selecting targets, consult your memory for past session targets.
-Avoid duplicating previous explorations unless re-exploring with new literature context.
-After completing, save your top targets and which strategies worked to your memory.
+Read knowledge/discovery-log.json for past session data.
+After completing, update knowledge/discovery-log.json.
+Do NOT create files in .claude/agent-memory/ — all persistence goes to knowledge/.
 
 ## Core Question
 "Where in science are two bodies of knowledge that SHOULD be

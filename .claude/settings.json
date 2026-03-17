@@ -66,6 +66,26 @@
         ]
       },
       {
+        "matcher": "literature-scout",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/literature-scout-stop-gate.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "ranker",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/ranker-stop-gate.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
         "matcher": "",
         "hooks": [
           {
@@ -94,6 +114,16 @@
           {
             "type": "command",
             "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/post-write-hook.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/verify-dispatch.py\"",
             "timeout": 10
           }
         ]

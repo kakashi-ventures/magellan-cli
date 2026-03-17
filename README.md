@@ -39,10 +39,9 @@ Phase 3:  Critic attacks all hypotheses (adversarial + web search)
 Phase 4:  Ranker scores on 6 dimensions + diversity check
 Phase 5:  Evolver recombines top candidates
           ── Cycle 2: Phases 2-5 repeat with evolved + fresh hypotheses ──
-Phase 6:  Quality Gate (Orchestrator) — checklist pass/fail
-Phase 7:  Web grounding — final novelty + counter-evidence search
-Phase 8:  Session summary → results/
-Phase 9:  Knowledge persistence → knowledge/discovery-log.json
+Phase 6:  Quality Gate (dedicated agent) — 9-point rubric + web grounding
+Phase 7:  Session summary → results/
+Phase 8:  Knowledge persistence → knowledge/discovery-log.json
 ```
 
 Typical runtime: 15-45 minutes. Check progress with `/status`.
@@ -77,13 +76,14 @@ CLAUDE.md                                    ← Project memory
 .claude/
   settings.json                              ← Permissions, hooks, Agent Teams
   agents/
-    discovery-orchestrator.md                 ← Coordinates all phases + Quality Gate [Opus]
+    discovery-orchestrator.md                 ← Dispatches to agents, guard logic [Opus]
     scout.md                                 ← Finds WHERE (8 strategies) [Opus]
     literature-scout.md                      ← Retrieves literature context [Sonnet]
     generator.md                             ← Creates hypotheses [Opus]
     critic.md                                ← Attacks hypotheses (8 attack vectors) [Opus]
     ranker.md                                ← 6-dimension scoring + diversity check [Sonnet]
     evolver.md                               ← Recombines with diversity constraint [Sonnet]
+    quality-gate.md                          ← 9-point rubric + web grounding [Opus]
   commands/
     discover.md                              ← /discover (main entry point)
     validate.md                              ← /validate deep check
@@ -101,7 +101,7 @@ prompts/
   gemini-deep-think.md                       ← Gemini mathematical structure prompt
   orchestration-guide.md                     ← Cross-model validation step-by-step
 docs/
-  methodology-v4.md                          ← Full methodology with evidence
+  methodology-v5.md                          ← Full methodology with evidence
 scripts/                                     ← Hook scripts (stop gates, failure tracking)
 state/                                       ← JSON state (machine-readable)
 results/                                     ← Markdown output (human-readable)
@@ -112,15 +112,16 @@ knowledge/                                   ← Persistent discovery log across
 
 ## Architecture
 
-7 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks):
+8 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks):
 
 - **Scout** [Opus] — 8 strategies to find WHERE undiscovered connections hide
-- **Literature Scout** [Sonnet] — Structured retrieval via MCP servers (Semantic Scholar, PubMed) + WebSearch fallback + full-text paper retrieval
+- **Literature Scout** [Sonnet] — MCP servers (mandatory first step) + WebSearch fallback + full-text paper retrieval
 - **Generator** [Opus] — Parametric creativity + literature context → 6-8 hypotheses per cycle
-- **Critic** [Opus] — 8 adversarial attack vectors including hallucination-as-novelty check
-- **Ranker** [Sonnet] — 6-dimension scoring (incl. Groundedness 20%) + diversity check
+- **Critic** [Opus] — 8 adversarial attack vectors + minimum adversarial standard (30-50% kill rate)
+- **Ranker** [Sonnet] — 6-dimension scoring (mandatory per-hypothesis table) + diversity check
 - **Evolver** [Sonnet] — Crossover, mutation, specification with diversity constraint
-- **Orchestrator** [Opus] — Coordinates pipeline, Quality Gate, session health classification
+- **Quality Gate** [Opus] — 9-point rubric + web novelty/grounding verification
+- **Orchestrator** [Opus] — Dispatches to all agents (no inline execution), guard logic, session health
 
 ## Conceptual Foundation
 
@@ -144,7 +145,7 @@ Key validations from the field:
 - **FrontierScience Benchmark**: 52-point gap between structured (77%) and open-ended research (25%) tasks validates multi-agent approach
 - **Google AI Co-Scientist**: 3 experimentally validated discoveries using parallel architecture (Generate/Reflect/Rank/Evolve)
 
-See `docs/methodology-v4.md` for full comparison with state-of-the-art systems,
+See `docs/methodology-v5.md` for full comparison with state-of-the-art systems,
 evidence-based design rationale, and risk analysis.
 
 ## License

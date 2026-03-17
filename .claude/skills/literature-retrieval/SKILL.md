@@ -6,13 +6,34 @@ user-invocable: false
 
 # Literature Retrieval Skill
 
-## MCP Servers (PREFERRED — structured search)
+## MCP Servers (MANDATORY first step)
 
 When Semantic Scholar or PubMed MCP tools are available in the session,
-use them as the **primary** search method. They return structured metadata
-(authors, citations, abstracts, MeSH terms) without HTML parsing overhead.
-Fall back to web-search strategies below only when MCP tools are
-unavailable or return insufficient results.
+use them as the **primary** search method BEFORE any WebSearch calls.
+They return structured metadata (authors, citations, abstracts, MeSH terms)
+without HTML parsing overhead. Fall back to web-search strategies below
+only when MCP tools are unavailable or return insufficient results.
+
+### MCP Tool Reference
+**Semantic Scholar tools:**
+- `mcp__semantic-scholar__search_papers` — keyword search with year/citation filters
+- `mcp__semantic-scholar__get_paper` — get paper by ID (DOI, ArXiv ID, S2 ID, etc.)
+- `mcp__semantic-scholar__get_paper_citations` — who cited this paper
+- `mcp__semantic-scholar__get_paper_references` — what this paper cites
+- `mcp__semantic-scholar__get_recommendations` — similar papers
+- `mcp__semantic-scholar__search_authors` — find researchers
+- `mcp__semantic-scholar__get_author` — author details + h-index
+- `mcp__semantic-scholar__get_author_papers` — author's publication list
+- `mcp__semantic-scholar__batch_get_papers` — bulk paper retrieval
+
+**PubMed tools:**
+- `mcp__pubmed__pubmed_search` — search PubMed by query
+- `mcp__pubmed__pubmed_abstract` — get abstract by PMID
+- `mcp__pubmed__pubmed_full_text` — get full text (open access)
+- `mcp__pubmed__pubmed_open_access` — check open access availability
+- `mcp__pubmed__pubmed_cited_by` — papers citing this one
+- `mcp__pubmed__pubmed_cites` — references of this paper
+- `mcp__pubmed__pubmed_similar` — similar articles
 
 ## Search Strategies by Database
 

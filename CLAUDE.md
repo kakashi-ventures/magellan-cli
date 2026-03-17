@@ -28,17 +28,18 @@ claude --permission-mode auto
 
 ## Architecture
 
-Seven agent files + Quality Gate inline in Orchestrator:
+Eight agents. Orchestrator dispatches to all — never executes phases inline:
 
 | Agent | Role |
 |---|---|
 | **Scout** | Finds WHERE to look (8 strategies, parametric + web) |
-| **Literature Scout** | Retrieves scientific literature for grounding |
-| **Orchestrator** | Coordinates all phases, manages state, runs Quality Gate |
+| **Literature Scout** | MCP mandatory first, then WebSearch fallback |
+| **Orchestrator** | Dispatches to agents, guard logic, session health |
 | **Generator** | Creates hypotheses (parametric + literature context) |
-| **Critic** | Attacks hypotheses (adversarial + web search) |
-| **Ranker** | Scores 6 dimensions (incl. Groundedness 20%) + diversity check |
+| **Critic** | Attacks hypotheses (8 vectors + min adversarial standard) |
+| **Ranker** | 6-dimension scoring (mandatory per-hypothesis table) + diversity |
 | **Evolver** | Recombines with diversity constraint |
+| **Quality Gate** | 9-point rubric + web novelty/grounding verification |
 
 ## State Management
 
@@ -62,7 +63,7 @@ Every hypothesis MUST have: specific mechanism, falsifiable prediction,
 literature-verified novelty, counter-evidence, test protocol, calibrated
 confidence, groundedness assessment.
 
-## Key Design Decisions (v4)
+## Key Design Decisions (v5)
 1. **Parametric generation + retrieval validation** — LLM generates,
    external sources validate. Not parametric-only, not retrieval-only.
 2. **Groundedness scoring** (20% weight) — prevents fluent hallucinations
@@ -71,3 +72,16 @@ confidence, groundedness assessment.
    hypotheses to prevent convergence.
 4. **Structured state** — JSON state file survives context compaction.
 5. **Agent Teams for Phase 0** — Scout + Literature Scout run in parallel.
+6. **Mandatory agent dispatch** — Orchestrator has no WebSearch/WebFetch,
+   maxTurns=50. Cannot execute phases inline. Must dispatch to sub-agents.
+7. **MCP-first literature retrieval** — Semantic Scholar + PubMed MCP
+   tools are mandatory first step before any WebSearch.
+8. **Quality Gate as separate agent** — Dedicated Opus agent with web
+   tools for 9-point rubric + novelty verification.
+
+## Documentation Rules
+When modifying the pipeline (agents, hooks, skills, commands), update:
+- `CLAUDE.md` — Architecture table, design decisions
+- `README.md` — Architecture, phase list, project structure
+- `docs/methodology-v5.md` — Full methodology with evidence
+Keep all three aligned. Docs drift = architectural confusion.

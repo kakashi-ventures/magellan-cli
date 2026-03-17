@@ -1,6 +1,6 @@
 ---
 description: "Run an autonomous scientific discovery session. Primary mode: /discover (no arguments) — Scout autonomously finds where undiscovered connections are hiding. Alternative modes: /discover [A] × [C], /discover [topic], /discover solve: [problem]."
-allowed-tools: Agent, WebSearch, WebFetch, Read, Write, Bash, Glob, Grep
+allowed-tools: Agent, Read, Write, Bash, Glob, Grep
 ---
 
 # Autonomous Scientific Discovery Session v4
