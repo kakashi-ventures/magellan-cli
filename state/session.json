@@ -1,0 +1,607 @@
+{
+  "session_id": "2026-03-17-scout-002",
+  "mode": "scout",
+  "phase": "complete",
+  "cycle": 2,
+  "status": "success",
+  "status_reason": "3 hypotheses passed Quality Gate with Groundedness >= 5. All novel, specific, and testable.",
+  "scout_targets": [
+    {
+      "title": "Topological Defects in Active Matter x Stem Cell Niche Architecture",
+      "field_a": "Active matter physics \u2014 topological defects in biological nematic systems",
+      "field_c": "Stem cell niche biology \u2014 spatial organization and mechanical regulation of adult stem cell niches",
+      "bridge_concepts": [
+        "+1/2 comet defects as compression zones that concentrate morphogens",
+        "-1/2 trefoil defects as extrusion sites maintaining niche purity",
+        "YAP/TAZ mechanotransduction at defect stress sites maintaining stemness",
+        "Intestinal crypt positioning as topological defect lattice",
+        "Hair follicle spacing as epidermal nematic defect tiling"
+      ],
+      "disjointness": "DISJOINT",
+      "confidence": 8,
+      "strategy": "Scale Bridging + Tool Transfer",
+      "web_verified": false
+    },
+    {
+      "title": "Ferroptosis-Driven Lipid Peroxidation x Bacterial Quorum Sensing Autoinducer Chemistry",
+      "field_a": "Ferroptosis biology \u2014 iron-dependent regulated cell death via lipid peroxidation",
+      "field_c": "Bacterial quorum sensing biochemistry \u2014 acyl-homoserine lactone signaling",
+      "bridge_concepts": [
+        "4-HNE structural similarity to short-chain AHLs (alpha,beta-unsaturated carbonyls)",
+        "ox-PE threshold dynamics paralleling quorum sensing threshold switching",
+        "LasR/RhlR receptor promiscuity for non-cognate lipid signals",
+        "GPX4 as gatekeeper for host-microbiome lipid signaling",
+        "Iron availability as shared variable (ferroptosis vs siderophores)"
+      ],
+      "disjointness": "DISJOINT",
+      "confidence": 7,
+      "strategy": "Swanson ABC Bridging + Converging Vocabularies",
+      "web_verified": false
+    },
+    {
+      "title": "Mitochondrial Cristae Ultrastructure Dynamics x Synaptic Plasticity Encoding",
+      "field_a": "Mitochondrial cristae remodeling \u2014 OPA1/MICOS/MICU1 cristae geometry control",
+      "field_c": "Synaptic plasticity mechanisms \u2014 LTP/LTD, dendritic spine plasticity, synaptic tagging",
+      "bridge_concepts": [
+        "MICU1 gating threshold as synapse-specific LTP/LTD switch",
+        "Cristae density as physical record of past synaptic activity",
+        "Crista-to-crista membrane potential heterogeneity as multi-bit register",
+        "Drp1-mediated fission as synaptic tag capture mechanism",
+        "MICOS-dependent cristae junction remodeling as metaplasticity substrate"
+      ],
+      "disjointness": "PARTIALLY_EXPLORED",
+      "confidence": 7,
+      "strategy": "Anomaly Hunting + Failed Paradigm Recycling",
+      "web_verified": false
+    }
+  ],
+  "selected_target": {
+    "title": "Topological Defects in Active Matter x Stem Cell Niche Architecture",
+    "field_a": "Active matter physics \u2014 topological defects in biological nematic systems",
+    "field_c": "Stem cell niche biology \u2014 spatial organization and mechanical regulation of adult stem cell niches",
+    "bridge_concepts": [
+      "+1/2 comet defects as compression zones that concentrate morphogens",
+      "-1/2 trefoil defects as extrusion sites maintaining niche purity",
+      "YAP/TAZ mechanotransduction at defect stress sites maintaining stemness",
+      "Intestinal crypt positioning as topological defect lattice",
+      "Hair follicle spacing as epidermal nematic defect tiling"
+    ],
+    "disjointness": "DISJOINT",
+    "why_selected": "Highest confidence (8/10), strongest bridge mechanisms via YAP/TAZ, immediately testable with existing imaging technology, and DISJOINT literatures maximize novelty potential"
+  },
+  "literature_context": "Active matter physics has established that topological defects (+1/2 comet, -1/2 trefoil) in cell monolayers concentrate mechanical stress and drive cell fate decisions (Saw 2017, Maroudas-Sacks 2021). Stem cell niche biology has established that mechanical forces regulate stemness via YAP/TAZ mechanotransduction, and that niche positioning is invariant after injury. The gap: nobody has mapped nematic alignment fields in adult tissues to determine whether stem cell niches correspond to topological defect positions. Key anomalies include unexplained crypt budding/fission patterns and the geometric precision of niche reformation after injury. No review articles connect active matter defects to stem cell niche positioning.",
+  "disjointness_status": "DISJOINT \u2014 No cross-citations between active matter topological defect literature and stem cell niche positioning literature. Some work on mechanics in stem cells exists but does NOT use topological defect framework.",
+  "papers_retrieved": [],
+  "hypotheses": {
+    "cycle1": {
+      "raw": [
+        {
+          "id": "H1",
+          "title": "Intestinal Crypt Positions Are Determined by +1/2 Topological Defects in the Villus Epithelial Nematic Field",
+          "bridge": "Defect-stress -> YAP/TAZ -> stemness",
+          "confidence": 6,
+          "groundedness": "MEDIUM"
+        },
+        {
+          "id": "H2",
+          "title": "Hair Follicle Placode Spacing Emerges from a Topological Defect Lattice in the Embryonic Epidermal Nematic",
+          "bridge": "Defect lattice -> spacing constraints via Edar mechanosensitivity",
+          "confidence": 5,
+          "groundedness": "MEDIUM"
+        },
+        {
+          "id": "H3",
+          "title": "Bone Marrow HSC Niche Quiescence Is Maintained by Shear-Free Zones at -1/2 Nematic Defects in Sinusoidal Endothelium",
+          "bridge": "Defect shear-free zones -> quiescence",
+          "confidence": 5,
+          "groundedness": "MEDIUM"
+        },
+        {
+          "id": "H4",
+          "title": "Topological Defect Dynamics Drive Crypt Fission as a Nematic Defect-Splitting Instability",
+          "bridge": "Defect splitting instability -> crypt division",
+          "confidence": 5,
+          "groundedness": "MEDIUM"
+        },
+        {
+          "id": "H5",
+          "title": "Cancer Stem Cell Niches Self-Organize at Topological Defects in Tumor Cell Nematic Fields",
+          "bridge": "Tumor nematic defects -> YAP/TAZ -> CSC niche",
+          "confidence": 5,
+          "groundedness": "MEDIUM"
+        },
+        {
+          "id": "H6",
+          "title": "Active Nematic Defects Create Morphogen Concentration Maxima That Template Signaling Centers Without Requiring Turing Instabilities",
+          "bridge": "Advective morphogen concentration at defects",
+          "confidence": 5,
+          "groundedness": "MEDIUM"
+        },
+        {
+          "id": "H7",
+          "title": "Stem Cell Niche Aging Is Driven by Loss of Nematic Order and Consequent Defect Delocalization",
+          "bridge": "Age-related nematic order loss -> defect delocalization",
+          "confidence": 4,
+          "groundedness": "LOW-MEDIUM"
+        },
+        {
+          "id": "H8",
+          "title": "Regeneration After Injury Uses Defect-Mediated Niche Reformation via Wound-Edge Transient +1/2 Defects",
+          "bridge": "Wound-edge nematic alignment -> transient defect creation",
+          "confidence": 5,
+          "groundedness": "MEDIUM"
+        }
+      ],
+      "critiqued": [
+        {
+          "id": "H1",
+          "title": "Intestinal Crypt Positions Are Determined by +1/2 Topological Defects in the Villus Epithelial Nematic Field",
+          "verdict": "WOUNDED",
+          "revised_confidence": 5,
+          "key_attack": "Developmental timing; 2D to 3D curvature"
+        },
+        {
+          "id": "H2",
+          "title": "Hair Follicle Placode Spacing Emerges from a Topological Defect Lattice in the Embryonic Epidermal Nematic",
+          "verdict": "KILLED",
+          "revised_confidence": 3,
+          "key_attack": "Edar bridge speculative; Turing models sufficient"
+        },
+        {
+          "id": "H3",
+          "title": "Bone Marrow HSC Niche Quiescence Is Maintained by Shear-Free Zones at -1/2 Nematic Defects in Sinusoidal Endothelium",
+          "verdict": "KILLED",
+          "revised_confidence": 3,
+          "key_attack": "Sinusoidal endothelium too disordered; wrong compartment"
+        },
+        {
+          "id": "H4",
+          "title": "Topological Defect Dynamics Drive Crypt Fission as a Nematic Defect-Splitting Instability",
+          "verdict": "SURVIVES",
+          "revised_confidence": 5,
+          "key_attack": "Organoid counter-evidence; 2D to 3D gap"
+        },
+        {
+          "id": "H5",
+          "title": "Cancer Stem Cell Niches Self-Organize at Topological Defects in Tumor Cell Nematic Fields",
+          "verdict": "KILLED",
+          "revised_confidence": 3,
+          "key_attack": "Active area; low novelty; CSC model contested"
+        },
+        {
+          "id": "H6",
+          "title": "Active Nematic Defects Create Morphogen Concentration Maxima That Template Signaling Centers Without Requiring Turing Instabilities",
+          "verdict": "WOUNDED",
+          "revised_confidence": 4,
+          "key_attack": "Enhancement too small for free diffusion"
+        },
+        {
+          "id": "H7",
+          "title": "Stem Cell Niche Aging Is Driven by Loss of Nematic Order and Consequent Defect Delocalization",
+          "verdict": "KILLED",
+          "revised_confidence": 2,
+          "key_attack": "Vocabulary re-description; fabricated parameters"
+        },
+        {
+          "id": "H8",
+          "title": "Regeneration After Injury Uses Defect-Mediated Niche Reformation via Wound-Edge Transient +1/2 Defects",
+          "verdict": "SURVIVES",
+          "revised_confidence": 5,
+          "key_attack": "Chemotaxis alternative; good gap-filling"
+        }
+      ],
+      "critic_questions": [
+        {
+          "hypothesis_id": "H1",
+          "question": "Can you address the developmental timing issue? Does nematic order exist in intestinal epithelium BEFORE crypt positions are established?"
+        },
+        {
+          "hypothesis_id": "H6",
+          "question": "Can you identify specific morphogens with restricted diffusion (D ~ 1 um2/s) that are relevant to the proposed defect-concentration mechanism?"
+        },
+        {
+          "hypothesis_id": "H4",
+          "question": "How do you reconcile the 2D defect splitting mechanism with the fundamentally 3D nature of crypt fission?"
+        },
+        {
+          "hypothesis_id": "general",
+          "question": "All surviving hypotheses rely on intestinal epithelium having measurable nematic order. Can you provide evidence or argument for why this tissue should be nematic?"
+        }
+      ],
+      "ranked": [
+        {
+          "id": "H4",
+          "title": "Topological Defect Dynamics Drive Crypt Fission as a Nematic Defect-Splitting Instability",
+          "composite": 7.0,
+          "verdict": "SURVIVES",
+          "scores": {
+            "novelty": 8,
+            "mechanism": 7,
+            "distance": 8,
+            "testability": 7,
+            "impact": 7,
+            "groundedness": 6
+          }
+        },
+        {
+          "id": "H8",
+          "title": "Regeneration After Injury Uses Defect-Mediated Niche Reformation via Wound-Edge Transient +1/2 Defects",
+          "composite": 6.9,
+          "verdict": "SURVIVES",
+          "scores": {
+            "novelty": 8,
+            "mechanism": 6,
+            "distance": 7,
+            "testability": 7,
+            "impact": 8,
+            "groundedness": 6
+          }
+        },
+        {
+          "id": "H1",
+          "title": "Intestinal Crypt Positions Are Determined by +1/2 Topological Defects in the Villus Epithelial Nematic Field",
+          "composite": 6.6,
+          "verdict": "WOUNDED",
+          "scores": {
+            "novelty": 7,
+            "mechanism": 7,
+            "distance": 8,
+            "testability": 7,
+            "impact": 8,
+            "groundedness": 5
+          }
+        },
+        {
+          "id": "H6",
+          "title": "Active Nematic Defects Create Morphogen Concentration Maxima That Template Signaling Centers Without Requiring Turing Instabilities",
+          "composite": 6.2,
+          "verdict": "WOUNDED",
+          "scores": {
+            "novelty": 6,
+            "mechanism": 7,
+            "distance": 6,
+            "testability": 8,
+            "impact": 6,
+            "groundedness": 5
+          }
+        }
+      ],
+      "evolved": [
+        {
+          "id": "E1",
+          "title": "Activity-Dependent Crypt Fission Is Triggered When Local Epithelial Contractility Exceeds the Nematic Defect-Splitting Threshold",
+          "parent": "H4+H1",
+          "operation": "Specification + Combination",
+          "confidence": 6,
+          "bridge": "Myosin II activity threshold -> defect splitting"
+        },
+        {
+          "id": "E2",
+          "title": "Wound-Induced Topological Defects Serve as Transient Stem Cell Attractors That Become Permanent Niches When Pinned by ECM Stiffness Gradients",
+          "parent": "H8",
+          "operation": "Specification",
+          "confidence": 6,
+          "bridge": "ECM stiffness gradient -> defect pinning -> niche establishment"
+        },
+        {
+          "id": "E3",
+          "title": "Nematic Defects Template Restricted-Diffusion Morphogen Maxima That Set the Pre-Pattern for Signaling Center Spacing in Curved Epithelia",
+          "parent": "H6",
+          "operation": "Specification + Mutation",
+          "confidence": 5,
+          "bridge": "Restricted-diffusion morphogen advection at curved-surface defects"
+        }
+      ]
+    },
+    "cycle2": {
+      "raw": [
+        {
+          "id": "C2-1",
+          "title": "Intestinal Epithelial Nematic Order Is Established by PCP During Crypt Morphogenesis \u2014 Resolving the Developmental Timing Paradox",
+          "bridge": "PCP-driven nematic establishment",
+          "confidence": 5,
+          "groundedness": "MEDIUM"
+        },
+        {
+          "id": "C2-2",
+          "title": "Crypt Fission Proceeds Through a 3D Defect Loop Nucleation",
+          "bridge": "3D disclination loop nucleation",
+          "confidence": 5,
+          "groundedness": "MEDIUM"
+        },
+        {
+          "id": "C2-3",
+          "title": "Topological Defect Dynamics in Lung Alveolar Epithelium Determine Type II Pneumocyte Niche Positioning",
+          "bridge": "Alveolar surface topology + defect-niche mapping",
+          "confidence": 5,
+          "groundedness": "MEDIUM"
+        },
+        {
+          "id": "C2-4",
+          "title": "Organoid Symmetry Breaking Is a Topological Defect Nucleation Event",
+          "bridge": "Spherical nematic topology + organoid geometry",
+          "confidence": 6,
+          "groundedness": "MEDIUM-HIGH"
+        },
+        {
+          "id": "C2-5",
+          "title": "Topological Defect Annihilation Events Drive Cell Extrusion Waves That Clear Senescent Cells",
+          "bridge": "Defect annihilation dynamics",
+          "confidence": 5,
+          "groundedness": "MEDIUM"
+        },
+        {
+          "id": "C2-6",
+          "title": "Geometric Frustration of the Nematic Field at Tissue Boundaries Creates Defect Reservoirs That Maintain Stem Cell Pools",
+          "bridge": "Geometric frustration at tissue interfaces",
+          "confidence": 4,
+          "groundedness": "LOW-MEDIUM"
+        },
+        {
+          "id": "C2-7",
+          "title": "Topological Charge Conservation Constrains the Total Number of Stem Cell Niches Per Organ",
+          "bridge": "Global topological charge conservation",
+          "confidence": 4,
+          "groundedness": "LOW-MEDIUM"
+        }
+      ],
+      "critiqued": [
+        {
+          "id": "C2-1",
+          "title": "PCP Establishes Nematic Order (Timing Paradox)",
+          "verdict": "WOUNDED",
+          "revised_confidence": 3,
+          "key_attack": "PCP (polar) vs nematic (apolar) conflation"
+        },
+        {
+          "id": "C2-2",
+          "title": "3D Defect Loop Nucleation for Crypt Fission",
+          "verdict": "SURVIVES",
+          "revised_confidence": 5,
+          "key_attack": "Monolayer vs bulk 3D correction needed"
+        },
+        {
+          "id": "C2-3",
+          "title": "Lung Alveolar AT2 Niche Positioning",
+          "verdict": "WOUNDED",
+          "revised_confidence": 3,
+          "key_attack": "AT1 cells not nematic"
+        },
+        {
+          "id": "C2-4",
+          "title": "Organoid Symmetry Breaking = Defect Nucleation",
+          "verdict": "SURVIVES",
+          "revised_confidence": 6,
+          "key_attack": "Variable bud number; cell nematic order uncertain"
+        },
+        {
+          "id": "C2-5",
+          "title": "Defect Annihilation Clears Senescent Cells",
+          "verdict": "WOUNDED",
+          "revised_confidence": 4,
+          "key_attack": "Immune clearance dominates; senescent cell adhesion"
+        },
+        {
+          "id": "C2-6",
+          "title": "Geometric Frustration -> Boundary Stem Cells",
+          "verdict": "KILLED",
+          "revised_confidence": 2,
+          "key_attack": "Universality claim falsified"
+        },
+        {
+          "id": "C2-7",
+          "title": "Topological Charge -> Organ Size",
+          "verdict": "KILLED",
+          "revised_confidence": 1,
+          "key_attack": "Mathematically invalid"
+        }
+      ],
+      "ranked": [
+        {
+          "id": "C2-4",
+          "title": "Organoid Symmetry Breaking Is a Topological Defect Nucleation Event",
+          "composite": 7.6,
+          "verdict": "SURVIVES",
+          "scores": {
+            "novelty": 8,
+            "mechanism": 8,
+            "distance": 8,
+            "testability": 9,
+            "impact": 8,
+            "groundedness": 6
+          }
+        },
+        {
+          "id": "E1",
+          "title": "Activity-Dependent Crypt Fission via Defect-Splitting Threshold",
+          "composite": 7.3,
+          "verdict": "SURVIVES",
+          "scores": {
+            "novelty": 8,
+            "mechanism": 8,
+            "distance": 8,
+            "testability": 7,
+            "impact": 7,
+            "groundedness": 6
+          }
+        },
+        {
+          "id": "E2",
+          "title": "Wound Defect Pinning -> Permanent Niche via ECM Stiffness",
+          "composite": 7.1,
+          "verdict": "SURVIVES",
+          "scores": {
+            "novelty": 8,
+            "mechanism": 7,
+            "distance": 7,
+            "testability": 7,
+            "impact": 8,
+            "groundedness": 6
+          }
+        },
+        {
+          "id": "E3",
+          "title": "Restricted-Diffusion Morphogen Maxima at Curved-Surface Defects",
+          "composite": 6.3,
+          "verdict": "WOUNDED",
+          "scores": {
+            "novelty": 6,
+            "mechanism": 7,
+            "distance": 6,
+            "testability": 8,
+            "impact": 6,
+            "groundedness": 5
+          }
+        },
+        {
+          "id": "C2-5",
+          "title": "Defect Annihilation Clears Senescent Cells",
+          "composite": 6.1,
+          "verdict": "WOUNDED",
+          "scores": {
+            "novelty": 7,
+            "mechanism": 5,
+            "distance": 7,
+            "testability": 7,
+            "impact": 7,
+            "groundedness": 5
+          }
+        }
+      ]
+    },
+    "quality_gate": [
+      {
+        "id": "C2-4",
+        "title": "Organoid Symmetry Breaking Is a Topological Defect Nucleation Event",
+        "verdict": "PASS",
+        "final_confidence": 6,
+        "final_groundedness": 5,
+        "composite": 7.6,
+        "reason": "Mathematically rigorous topological argument with exceptionally testable predictions. 9/9 rubric points satisfied."
+      },
+      {
+        "id": "E1",
+        "title": "Activity-Dependent Crypt Fission Is Triggered When Local Epithelial Contractility Exceeds the Nematic Defect-Splitting Threshold",
+        "verdict": "PASS",
+        "final_confidence": 6,
+        "final_groundedness": 5,
+        "composite": 7.3,
+        "reason": "Quantitative discriminating prediction (blebbistatin blocks fission despite Wnt activation). Physics framework solid, extrapolation reasonable."
+      },
+      {
+        "id": "E2",
+        "title": "Wound-Induced Topological Defects Serve as Transient Stem Cell Attractors That Become Permanent Niches When Pinned by ECM Stiffness Gradients",
+        "verdict": "PASS",
+        "final_confidence": 6,
+        "final_groundedness": 6,
+        "composite": 7.1,
+        "reason": "Best-grounded hypothesis. Multiple independently grounded components. WIHN model provides elegant test. Clinical relevance via Marjolin ulcer."
+      }
+    ]
+  },
+  "final": [
+    {
+      "id": "C2-4",
+      "title": "Organoid Symmetry Breaking Is a Topological Defect Nucleation Event",
+      "composite": 7.6,
+      "confidence": 6,
+      "groundedness": 5,
+      "bridge": "Spherical nematic topology + organoid geometry"
+    },
+    {
+      "id": "E1",
+      "title": "Activity-Dependent Crypt Fission Is Triggered When Local Epithelial Contractility Exceeds the Nematic Defect-Splitting Threshold",
+      "composite": 7.3,
+      "confidence": 6,
+      "groundedness": 5,
+      "bridge": "Myosin II activity threshold -> defect splitting"
+    },
+    {
+      "id": "E2",
+      "title": "Wound-Induced Topological Defects Serve as Transient Stem Cell Attractors That Become Permanent Niches When Pinned by ECM Stiffness Gradients",
+      "composite": 7.1,
+      "confidence": 6,
+      "groundedness": 6,
+      "bridge": "ECM stiffness gradient -> defect pinning -> niche establishment"
+    }
+  ],
+  "metadata": {
+    "start_time": "2026-03-17T15:01:02Z",
+    "model": "opus-4.6",
+    "total_hypotheses_generated": 15,
+    "kill_rate": 40.0,
+    "fallback_used": false,
+    "literature_unavailable": true,
+    "generation_degraded": false,
+    "web_search_failures": 5,
+    "retries_needed": 0,
+    "cycle_decision": "early_complete",
+    "evolver_skipped": true,
+    "literature_reinforcement": false,
+    "attrition_rate": 80.0
+  },
+  "progress": {
+    "phases_completed": [
+      {
+        "phase": "init",
+        "outcome": "state initialized",
+        "timestamp": "2026-03-17T15:01:53Z"
+      },
+      {
+        "phase": "scout",
+        "outcome": "3 targets identified, top target selected: Topological Defects x Stem Cell Niches",
+        "timestamp": "2026-03-17T15:04:26Z"
+      },
+      {
+        "phase": "generation_cycle1",
+        "outcome": "8 hypotheses generated across 4 distinct bridge mechanisms",
+        "timestamp": "2026-03-17T15:08:16Z"
+      },
+      {
+        "phase": "critique_cycle1",
+        "outcome": "4 killed (H2,H3,H5,H7), 2 wounded (H1,H6), 2 survived (H4,H8). Kill rate 50%.",
+        "timestamp": "2026-03-17T15:11:36Z"
+      },
+      {
+        "phase": "ranking_cycle1",
+        "outcome": "Top 4 ranked: H4(7.0), H8(6.9), H1(6.6), H6(6.2). Decision: standard cycle 2.",
+        "timestamp": "2026-03-17T15:13:20Z"
+      },
+      {
+        "phase": "evolution_cycle1",
+        "outcome": "3 evolved hypotheses (E1, E2, E3) from 4 ranked survivors. All improved.",
+        "timestamp": "2026-03-17T15:15:11Z"
+      },
+      {
+        "phase": "generation_cycle2",
+        "outcome": "7 hypotheses generated (4 building on cycle 1, 3 fresh) with 6 distinct bridges",
+        "timestamp": "2026-03-17T15:17:53Z"
+      },
+      {
+        "phase": "critique_cycle2",
+        "outcome": "2 killed (C2-6, C2-7), 3 wounded (C2-1, C2-3, C2-5), 2 survived (C2-2, C2-4). Combined kill rate: 6/15 = 40%.",
+        "timestamp": "2026-03-17T15:20:05Z"
+      },
+      {
+        "phase": "ranking_cycle2",
+        "outcome": "Top 5 ranked: C2-4(7.6), E1(7.3), E2(7.1), E3(6.3), C2-5(6.1). Evolver skipped (top-3 >= 6.5, diverse). Proceeding to Quality Gate.",
+        "timestamp": "2026-03-17T15:22:02Z"
+      },
+      {
+        "phase": "quality_gate",
+        "outcome": "3/3 passed Quality Gate. All PASS with Groundedness >= 5.",
+        "timestamp": "2026-03-17T15:25:09Z"
+      }
+    ],
+    "current_phase": "complete"
+  },
+  "health": {
+    "scout_targets_found": 3,
+    "hypotheses_generated": 15,
+    "survived_critique": 9,
+    "passed_quality_gate": 3,
+    "fallback_used": false,
+    "retries_needed": 0,
+    "web_search_failures": 0
+  }
+}

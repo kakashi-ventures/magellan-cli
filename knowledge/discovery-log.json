@@ -67,5 +67,92 @@
       "pH-mediated mechanisms are more tractable than direct electric field effects on condensates",
       "The most groundable hypotheses use INDIRECT bioelectric effects (via pH, Ca2+) rather than direct electric field effects"
     ]
+  },
+  {
+    "date": "2026-03-17",
+    "session_id": "2026-03-17-scout-002",
+    "mode": "scout",
+    "targets": [
+      {
+        "field_a": "Active matter physics -- topological defects in biological nematic systems",
+        "field_c": "Stem cell niche biology -- spatial organization and mechanical regulation",
+        "bridge_concepts": ["+1/2 comet defects as compression zones", "YAP/TAZ mechanotransduction at defect stress sites", "Poincare-Hopf defect positioning on curved surfaces", "defect splitting instability as crypt fission trigger", "ECM stiffness-mediated defect pinning"],
+        "disjointness": "DISJOINT",
+        "outcome": "success"
+      },
+      {
+        "field_a": "Ferroptosis biology -- iron-dependent regulated cell death via lipid peroxidation",
+        "field_c": "Bacterial quorum sensing biochemistry -- acyl-homoserine lactone signaling",
+        "bridge_concepts": ["4-HNE structural similarity to short-chain AHLs", "LasR/RhlR receptor promiscuity", "GPX4 as gatekeeper for host-microbiome lipid signaling", "iron availability as shared variable"],
+        "disjointness": "DISJOINT",
+        "outcome": "not_explored_this_session"
+      },
+      {
+        "field_a": "Mitochondrial cristae remodeling -- OPA1/MICOS/MICU1 cristae geometry control",
+        "field_c": "Synaptic plasticity mechanisms -- LTP/LTD, dendritic spine plasticity",
+        "bridge_concepts": ["MICU1 gating threshold as synapse-specific switch", "cristae density as physical record of activity", "MICOS-dependent cristae junction remodeling as metaplasticity substrate"],
+        "disjointness": "PARTIALLY_EXPLORED",
+        "outcome": "not_explored_this_session"
+      }
+    ],
+    "productive_bridges": [
+      "Poincare-Hopf theorem constraining defect positions on organoid surfaces",
+      "Defect splitting instability (Giomi 2014) as quantitative crypt fission trigger via alpha_c ~ K/R^2",
+      "ECM stiffness-mediated defect pinning converting transient wound defects to permanent niches",
+      "YAP/TAZ mechanotransduction at defect compressive stress sites maintaining stemness"
+    ],
+    "killed_hypotheses": [
+      {
+        "title": "Hair Follicle Placode Spacing Emerges from a Topological Defect Lattice in the Embryonic Epidermal Nematic",
+        "kill_reason": "Edar mechanosensitivity bridge entirely speculative. Turing reaction-diffusion models already explain spacing. Adds complexity without added explanatory power."
+      },
+      {
+        "title": "Bone Marrow HSC Niche Quiescence Is Maintained by Shear-Free Zones at -1/2 Nematic Defects in Sinusoidal Endothelium",
+        "kill_reason": "Sinusoidal endothelium is fenestrated and too disordered for nematic order. Also targets wrong vascular compartment (HSC quiescence is arteriolar, not sinusoidal)."
+      },
+      {
+        "title": "Cancer Stem Cell Niches Self-Organize at Topological Defects in Tumor Cell Nematic Fields",
+        "kill_reason": "Active area (Saw group already exploring defects in cancer). Reduced novelty. CSC identity may be a dynamic state, not positionable. 3D tumor complexity limits 2D framework."
+      },
+      {
+        "title": "Stem Cell Niche Aging Is Driven by Loss of Nematic Order and Consequent Defect Delocalization",
+        "kill_reason": "Vocabulary re-description of known phenomena (aging -> tissue disorganization). Fabricated quantitative parameters (S values). No mechanistic advantage over existing explanations."
+      },
+      {
+        "title": "Geometric Frustration of the Nematic Field at Tissue Boundaries Creates Defect Reservoirs",
+        "kill_reason": "Universality claim falsified (many tissue interfaces lack stem cells). Reverses developmental causation."
+      },
+      {
+        "title": "Topological Charge Conservation Constrains the Total Number of Stem Cell Niches Per Organ",
+        "kill_reason": "Mathematically invalid. Topological charge conservation constrains NET charge, not TOTAL defect number. Small intestine has ~10M crypts vs topological minimum of 0."
+      }
+    ],
+    "surviving_hypotheses": [
+      "Organoid Symmetry Breaking Is a Topological Defect Nucleation Event",
+      "Activity-Dependent Crypt Fission Is Triggered When Local Epithelial Contractility Exceeds the Nematic Defect-Splitting Threshold",
+      "Wound-Induced Topological Defects Serve as Transient Stem Cell Attractors That Become Permanent Niches When Pinned by ECM Stiffness Gradients"
+    ],
+    "key_papers": [
+      "Saw et al. 2017 Nature -- topological defects drive cell extrusion in MDCK monolayers",
+      "Maroudas-Sacks et al. 2021 Nature Physics -- defects organize body axis in Hydra",
+      "Giomi et al. 2014 -- defect splitting instability in active nematics",
+      "Duclos et al. 2017 -- Frank elastic constants in cell monolayers",
+      "Blanch-Mercader et al. 2021 -- active stress measurements in epithelial sheets",
+      "Nikolaev et al. 2020 Nature -- organoids in shaped microwells",
+      "Ito et al. 2007 -- wound-induced hair neogenesis (WIHN)",
+      "Yui et al. 2018 -- YAP in intestinal stem cell maintenance",
+      "Bowick et al. 2009 -- curvature-defect coupling on curved surfaces",
+      "Kleman & Lavrentovich 2003 -- defect pinning in liquid crystals"
+    ],
+    "lessons_learned": [
+      "Poincare-Hopf theorem provides mathematically NECESSARY predictions that cannot be dismissed -- the strongest possible foundation for a hypothesis",
+      "The single most critical assumption is whether a given tissue exhibits measurable nematic order -- this determines whether the entire framework applies",
+      "Quantitative back-of-envelope estimates are essential: the concentration enhancement for free diffusion was negligible (~1%), killing the original H6 mechanism, while restricted-diffusion morphogens gave meaningful ~30% enhancement",
+      "Universal claims are dangerous: 'all tissue interfaces have stem cells' was immediately falsifiable. Scope hypotheses to specific tissues where the assumptions hold",
+      "Vocabulary re-description without mechanistic insight is a failure mode (H7 'nematic order parameter' was just 'cell polarity' in physics language)",
+      "Mathematical validity must be checked: the topological charge conservation hypothesis was mathematically invalid because it confused NET charge with TOTAL defect number",
+      "The organoid experimental system provides the cleanest test: controlled geometry + topology + existing culture technology = rapid falsification",
+      "DISJOINT field pairs continue to produce the highest novelty -- active matter physicists and stem cell biologists have zero cross-citations"
+    ]
   }
 ]
