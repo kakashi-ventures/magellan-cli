@@ -95,11 +95,11 @@ LAYER TRASVERSALE — GUARD & HOOKS
 | Agente | Modello | Ruolo |
 |---|---|---|
 | **Scout** | Opus | Identifica DOVE cercare: 8 strategie + TARGET QUALITY CHECK reflection (v5.1) |
-| **Literature Scout** | Sonnet | Retrieval strutturato: MCP servers (Semantic Scholar, PubMed) obbligatorio + WebSearch fallback + full-text + disgiunzione |
+| **Literature Scout** | Sonnet | Retrieval strutturato: MCP servers (Semantic Scholar, PubMed) obbligatorio + WebSearch fallback + full-text + disgiunzione + RETRIEVAL QUALITY CHECK reflection (v5.2) |
 | **Generator** | Opus | Structured Relationship Map + 6-8 ipotesi (parametric + lit. context) + SELF-CRITIQUE reflection (v5.1) |
 | **Critic** | Opus | 8 attack vectors + META-CRITIQUE reflection (v5.1) + critic_questions feedback (v5.1) |
 | **Ranker** | Sonnet | Scoring su 6 dimensioni con pesi fissi canonici + tabella obbligatoria + diversity check |
-| **Evolver** | Sonnet | Operazioni evolutive con diversity constraint. Condizionalmente skippabile (v5.1) |
+| **Evolver** | Sonnet | Operazioni evolutive con diversity constraint + EVOLUTION QUALITY CHECK reflection (v5.2). Condizionalmente skippabile (v5.1) |
 | **Quality Gate** | Opus | Rubrica a 9 punti + web grounding + META-VALIDATION reflection (v5.1) |
 | **Orchestrator** | Opus | Dispatch obbligatorio, cicli adattivi (v5.1), guard logic, session health, knowledge log |
 
@@ -135,6 +135,8 @@ Quattro agenti hanno sezioni di self-review prima dell'output finale:
 | **Critic** | META-CRITIQUE | Calibra kill rate, identifica la ragione più forte per uccidere ogni SURVIVES, verifica completezza web search |
 | **Scout** | TARGET QUALITY CHECK | Verifica specificità bridge, diversità strategica, non-ovvietà |
 | **Quality Gate** | META-VALIDATION | Verifica confidenza nei PASS, completezza web search, impatto di claim UNVERIFIABLE |
+| **Literature Scout** | RETRIEVAL QUALITY CHECK | Verifica completezza MCP, paper count per campo, specificità gap analysis (v5.2) |
+| **Evolver** | EVOLUTION QUALITY CHECK | Verifica genuino miglioramento su parent, duplicazione bridge, coerenza crossover (v5.2) |
 
 La reflection è un moltiplicatore di capacità: un modello migliore riflette più efficacemente. La struttura di valutazione esterna (SubagentStop hooks, ranker 3KB gate) impedisce che la reflection diventi auto-congratulazione.
 
@@ -420,6 +422,39 @@ Ogni sessione termina con uno status esplicito:
 - **FAILED**: Pipeline non completabile (0 target, tutte uccise, errore agente)
 
 Lo status è la prima riga del `session-summary.md`. Per sessioni FAILED: nessuna hypothesis card, solo causa e azione suggerita.
+
+---
+
+## Principi di Prompt Engineering (v5.2)
+
+I prompt degli agenti seguono le best practice 2026 per i modelli frontier. Le scelte sono motivate empiricamente dalle guide ufficiali di Anthropic, OpenAI e Google.
+
+### Struttura e separazione
+
+- **XML tags** (`<goal>`, `<constraints>`, `<strategies>`, `<reflection>`, `<output_format>`): Separano sezioni semantiche in modo non ambiguo. Anthropic: "XML tags help Claude parse complex prompts unambiguously."
+- **Role sentences**: Una frase iniziale che definisce il ruolo dell'agente. Focalizza il comportamento senza overhead.
+- **Data-top / Task-bottom dispatch**: L'Orchestratore struttura i prompt di dispatch con contesto in alto e istruzioni in fondo. Anthropic: "Put longform data at the top... Queries at the end can improve response quality by up to 30%."
+
+### Calibrazione del linguaggio
+
+- **Riduzione MUST/CRITICAL/MANDATORY**: Opus 4.6 usa adaptive thinking — le istruzioni enfatiche causano overthinking e spreco di token. Le istruzioni normali producono risultati migliori. Eccezione: i guardrail funzionali dell'Orchestratore (anti-inlining) restano invariati.
+- **Positive framing**: Istruzioni formulate come azioni da compiere anziché divieti. "Continue autonomously between phases" invece di "Do NOT stop to ask questions."
+- **WHY explanations sui constraint**: Spiegare il motivo di un vincolo permette al modello di generalizzare correttamente ai casi limite. Esempio: "bridge concepts required — the Generator uses bridge concepts as seeds, so vague bridges produce vague hypotheses."
+
+### Arricchimento contenutistico
+
+- **Few-shot examples**: Generator (2 esempi: forte + debole), Critic (1 attacco completo), Ranker (1 tabella scoring), Evolver (1 operazione evolutiva). Sia Anthropic ("3-5 examples dramatically improve accuracy") che Google ("Prompts without few-shot examples are likely less effective") lo raccomandano. Esempi sintetici dominio-neutri per non biasare le sessioni future.
+- **Reflection loops aggiuntive**: RETRIEVAL QUALITY CHECK per il Literature Scout (verifica completezza MCP, paper count, specificità gap analysis) e EVOLUTION QUALITY CHECK per l'Evolver (verifica genuino miglioramento, duplicazione bridge, coerenza crossover).
+
+### Tuning model-specifico
+
+- **Opus 4.6**: Istruzioni generali anziché step prescrittivi ("general instructions often produce better reasoning than prescriptive plans"). Anti-overengineering: "Select 3 targets and move on" (Scout), "Generate all 6-8 before refining" (Generator). Niente "Think very hard" — l'adaptive thinking decide autonomamente.
+- **Sonnet 4.6**: Step sequence esplicita nel Ranker (Sonnet beneficia più di scaffolding). Esempi strutturati come ancora di formato.
+
+### Prompt per modelli esterni
+
+- **GPT-5.4** (`prompts/gpt-validation.md`): Output contract (sezioni obbligatorie per ipotesi), completeness checklist, empty-result recovery, citation grounding esplicito, ricerca Plan→Retrieve→Synthesize.
+- **Gemini 3.1 Pro** (`prompts/gemini-deep-think.md`): Behavioral constraints in testa, 1 few-shot example completo, context-first (hypothesis cards in cima, task in fondo), strict grounding ("If you cannot write the formal mapping, do not claim one exists").
 
 ---
 

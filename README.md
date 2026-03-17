@@ -120,14 +120,14 @@ knowledge/                                   ← Persistent discovery log across
 ## Architecture
 
 8 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks).
-Agent prompts use GOAL/CONSTRAINTS/STRATEGIES structure for model scalability (v5.1):
+Agent prompts use GOAL/CONSTRAINTS/STRATEGIES structure for model scalability (v5.1) with v5.2 prompt engineering best practices:
 
 - **Scout** [Opus] — 8 strategies to find WHERE undiscovered connections hide + TARGET QUALITY CHECK reflection
-- **Literature Scout** [Sonnet] — MCP servers (mandatory first step) + WebSearch fallback + full-text paper retrieval
+- **Literature Scout** [Sonnet] — MCP servers (mandatory first step) + WebSearch fallback + full-text paper retrieval + RETRIEVAL QUALITY CHECK reflection
 - **Generator** [Opus] — Parametric creativity + literature context → 6-8 hypotheses per cycle + SELF-CRITIQUE reflection
 - **Critic** [Opus] — 8 adversarial attack vectors + META-CRITIQUE reflection + critic_questions feedback
 - **Ranker** [Sonnet] — 6-dimension scoring (mandatory per-hypothesis table) + diversity check
-- **Evolver** [Sonnet] — Crossover, mutation, specification with diversity constraint (conditionally skippable)
+- **Evolver** [Sonnet] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
 - **Quality Gate** [Opus] — 9-point rubric + web novelty/grounding + META-VALIDATION reflection
 - **Orchestrator** [Opus] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health
 

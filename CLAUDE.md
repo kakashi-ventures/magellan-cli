@@ -29,17 +29,17 @@ claude --permission-mode auto
 ## Architecture
 
 Eight agents. Orchestrator dispatches to all — never executes phases inline.
-Agent prompts use GOAL/CONSTRAINTS/STRATEGIES structure (v5.1) for model scalability:
+Agent prompts use GOAL/CONSTRAINTS/STRATEGIES structure (v5.1) with v5.2 prompt engineering best practices:
 
 | Agent | Role |
 |---|---|
 | **Scout** | Finds WHERE to look (8 strategies, parametric + web). TARGET QUALITY CHECK reflection |
-| **Literature Scout** | MCP mandatory first, then WebSearch fallback |
+| **Literature Scout** | MCP mandatory first, then WebSearch fallback. RETRIEVAL QUALITY CHECK reflection |
 | **Orchestrator** | Dispatches to agents, guard logic, adaptive cycles, session health |
 | **Generator** | Creates hypotheses (parametric + literature context). SELF-CRITIQUE reflection |
 | **Critic** | Attacks hypotheses (8 vectors + META-CRITIQUE reflection). Writes critic_questions for Generator |
 | **Ranker** | 6-dimension scoring (mandatory per-hypothesis table) + diversity |
-| **Evolver** | Recombines with diversity constraint. Conditionally skippable |
+| **Evolver** | Recombines with diversity constraint. EVOLUTION QUALITY CHECK reflection. Conditionally skippable |
 | **Quality Gate** | 9-point rubric + web novelty/grounding + META-VALIDATION reflection |
 
 ## State Management
@@ -64,7 +64,7 @@ Every hypothesis MUST have: specific mechanism, falsifiable prediction,
 literature-verified novelty, counter-evidence, test protocol, calibrated
 confidence, groundedness assessment.
 
-## Key Design Decisions (v5/v5.1)
+## Key Design Decisions (v5/v5.1/v5.2)
 1. **Parametric generation + retrieval validation** — LLM generates,
    external sources validate. Not parametric-only, not retrieval-only.
 2. **Groundedness scoring** (20% weight) — prevents fluent hallucinations
@@ -91,6 +91,14 @@ confidence, groundedness assessment.
 12. **Bidirectional feedback** (v5.1) — Critic writes critic_questions to
     state; Orchestrator forwards to Generator in cycle 2. Indirect feedback
     preserves centralized pattern.
+13. **Prompt engineering alignment (v5.2)** — Agent prompts follow
+    2026 best practices: XML tags for content separation, role sentences,
+    WHY explanations on constraints, few-shot examples (Generator, Critic,
+    Ranker, Evolver), reduced MUST/CRITICAL language for Opus 4.6,
+    data-top/task-bottom dispatch structure, reflection loops for
+    Literature Scout and Evolver, Sonnet-specific scaffolding, model-specific
+    export prompts (GPT-5.4: output contracts + verification loops,
+    Gemini 3.1: few-shot + context-first + strict grounding).
 
 ## Documentation Rules
 When modifying the pipeline (agents, hooks, skills, commands), update:
