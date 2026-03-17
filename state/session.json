@@ -5,6 +5,7 @@
   "cycle": 2,
   "status": "success",
   "status_reason": "3 hypotheses passed Quality Gate with Groundedness >= 5. All novel, specific, and testable.",
+  "results_dir": "results/2026-03-17-scout-002",
   "scout_targets": [
     {
       "title": "Topological Defects in Active Matter x Stem Cell Niche Architecture",
