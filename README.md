@@ -35,11 +35,18 @@ Phase 0:  Scout (8 strategies + mandatory bridge concepts)
 Phase 1:  Orchestrator merges results, selects best target
 Phase 2:  Generator builds Structured Relationship Map, then creates
           6-8 hypotheses (parametric + lit. context + full papers)
+          → SELF-CRITIQUE reflection before output
 Phase 3:  Critic attacks all hypotheses (adversarial + web search)
+          → META-CRITIQUE reflection + critic_questions for Generator
+          → Groundedness reinforcement (if majority LOW/SPECULATIVE)
 Phase 4:  Ranker scores on 6 dimensions + diversity check
-Phase 5:  Evolver recombines top candidates
+          → ADAPTIVE CYCLE DECISION: early-complete | standard | extended
+Phase 5:  Evolver recombines top candidates (conditionally skippable)
           ── Cycle 2: Phases 2-5 repeat with evolved + fresh hypotheses ──
+          ── Critic questions forwarded to Generator in cycle 2 ──
+          ── Conditional: skip Evolver if cycle 2 top-3 >= 6.5 ──
 Phase 6:  Quality Gate (dedicated agent) — 9-point rubric + web grounding
+          → META-VALIDATION reflection before output
 Phase 7:  Session summary → results/
 Phase 8:  Knowledge persistence → knowledge/discovery-log.json
 ```
@@ -112,16 +119,17 @@ knowledge/                                   ← Persistent discovery log across
 
 ## Architecture
 
-8 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks):
+8 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks).
+Agent prompts use GOAL/CONSTRAINTS/STRATEGIES structure for model scalability (v5.1):
 
-- **Scout** [Opus] — 8 strategies to find WHERE undiscovered connections hide
+- **Scout** [Opus] — 8 strategies to find WHERE undiscovered connections hide + TARGET QUALITY CHECK reflection
 - **Literature Scout** [Sonnet] — MCP servers (mandatory first step) + WebSearch fallback + full-text paper retrieval
-- **Generator** [Opus] — Parametric creativity + literature context → 6-8 hypotheses per cycle
-- **Critic** [Opus] — 8 adversarial attack vectors + minimum adversarial standard (30-50% kill rate)
+- **Generator** [Opus] — Parametric creativity + literature context → 6-8 hypotheses per cycle + SELF-CRITIQUE reflection
+- **Critic** [Opus] — 8 adversarial attack vectors + META-CRITIQUE reflection + critic_questions feedback
 - **Ranker** [Sonnet] — 6-dimension scoring (mandatory per-hypothesis table) + diversity check
-- **Evolver** [Sonnet] — Crossover, mutation, specification with diversity constraint
-- **Quality Gate** [Opus] — 9-point rubric + web novelty/grounding verification
-- **Orchestrator** [Opus] — Dispatches to all agents (no inline execution), guard logic, session health
+- **Evolver** [Sonnet] — Crossover, mutation, specification with diversity constraint (conditionally skippable)
+- **Quality Gate** [Opus] — 9-point rubric + web novelty/grounding + META-VALIDATION reflection
+- **Orchestrator** [Opus] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health
 
 ## Conceptual Foundation
 

@@ -94,14 +94,14 @@ LAYER TRASVERSALE — GUARD & HOOKS
 
 | Agente | Modello | Ruolo |
 |---|---|---|
-| **Scout** | Opus | Identifica DOVE cercare: 8 strategie per trovare connessioni non ovvie tra campi scientifici disgiunti |
-| **Literature Scout** | Sonnet | Retrieval strutturato: MCP servers (Semantic Scholar, PubMed) come passo obbligatorio + WebSearch fallback + full-text paper retrieval + verifica di disgiunzione |
-| **Generator** | Opus | Costruisce Structured Relationship Map per campo, poi genera 6-8 ipotesi usando ragionamento parametrico + contesto letteratura + paper completi |
-| **Critic** | Opus | 8 attack vectors adversariali + minimum adversarial standard (kill rate 30-50% è sano; 0% è red flag) |
-| **Ranker** | Sonnet | Scoring su 6 dimensioni con pesi fissi canonici + formato tabella obbligatorio per-ipotesi + diversity check |
-| **Evolver** | Sonnet | Operazioni evolutive (crossover, mutation, specification, generalization, combination) con diversity constraint |
-| **Quality Gate** | Opus | Rubrica a 9 punti + web grounding per novelty e plausibilità meccanismo. PASS/FAIL per ogni ipotesi |
-| **Orchestrator** | Opus | Coordina il pipeline via dispatch obbligatorio (non esegue fasi inline), guard logic, session health, knowledge log |
+| **Scout** | Opus | Identifica DOVE cercare: 8 strategie + TARGET QUALITY CHECK reflection (v5.1) |
+| **Literature Scout** | Sonnet | Retrieval strutturato: MCP servers (Semantic Scholar, PubMed) obbligatorio + WebSearch fallback + full-text + disgiunzione |
+| **Generator** | Opus | Structured Relationship Map + 6-8 ipotesi (parametric + lit. context) + SELF-CRITIQUE reflection (v5.1) |
+| **Critic** | Opus | 8 attack vectors + META-CRITIQUE reflection (v5.1) + critic_questions feedback (v5.1) |
+| **Ranker** | Sonnet | Scoring su 6 dimensioni con pesi fissi canonici + tabella obbligatoria + diversity check |
+| **Evolver** | Sonnet | Operazioni evolutive con diversity constraint. Condizionalmente skippabile (v5.1) |
+| **Quality Gate** | Opus | Rubrica a 9 punti + web grounding + META-VALIDATION reflection (v5.1) |
+| **Orchestrator** | Opus | Dispatch obbligatorio, cicli adattivi (v5.1), guard logic, session health, knowledge log |
 
 La scelta del modello segue un principio: **Opus per il ragionamento profondo e creativo, Sonnet per i task strutturati e search-intensive**. Scout, Generator, Critic e Quality Gate richiedono ragionamento cross-disciplinare e valutazione profonda. Literature Scout, Ranker ed Evolver eseguono task più strutturati dove la capacità di giudizio è importante ma non richiede la profondità di Opus.
 
@@ -112,6 +112,50 @@ L'Orchestratore è un puro coordinatore: NON ha accesso a WebSearch/WebFetch e N
 - **Specializzazione**: ogni agente carica solo le skill rilevanti
 - **Contesto fresco**: ogni dispatch ha un contesto conversazionale pulito, evitando degradazione nelle fasi tardive
 - **Verificabilità**: `state/dispatch-log.json` traccia ogni dispatch per audit post-sessione
+
+### Struttura prompt GOAL/CONSTRAINTS/STRATEGIES (v5.1)
+
+Tutti i prompt agente (tranne l'Orchestratore) sono ristrutturati in 3 sezioni:
+
+1. **GOAL** (immutabile) — Cosa l'agente deve produrre, definito da criteri di qualità dell'output
+2. **CONSTRAINTS** (hard) — Requisiti che devono essere rispettati qualunque sia l'approccio
+3. **STRATEGIES** (advisory) — Approcci suggeriti, esplicitamente marcati come raccomandati ma non obbligatori
+
+**Perché scala**: Un modello più capace, dato un goal e vincoli, trova percorsi di ragionamento migliori rispetto a seguire passi prescritti. Le CONSTRAINTS preservano il floor di qualità. Le STRATEGIES restano come guida per modelli meno capaci. I SubagentStop hooks catturano output sotto-soglia indipendentemente dal modello.
+
+L'Orchestratore NON è ristrutturato — è un dispatcher, non un reasoner. Il suo prompt è procedurale per design (leggi state → dispatcha → leggi state → guarda gate → dispatcha successivo).
+
+### Reflection loops (v5.1)
+
+Quattro agenti hanno sezioni di self-review prima dell'output finale:
+
+| Agente | Reflection | Cosa fa |
+|--------|-----------|---------|
+| **Generator** | SELF-CRITIQUE | Verifica specificità meccanismo, duplicazione bridge, ragioni di errore parametrico |
+| **Critic** | META-CRITIQUE | Calibra kill rate, identifica la ragione più forte per uccidere ogni SURVIVES, verifica completezza web search |
+| **Scout** | TARGET QUALITY CHECK | Verifica specificità bridge, diversità strategica, non-ovvietà |
+| **Quality Gate** | META-VALIDATION | Verifica confidenza nei PASS, completezza web search, impatto di claim UNVERIFIABLE |
+
+La reflection è un moltiplicatore di capacità: un modello migliore riflette più efficacemente. La struttura di valutazione esterna (SubagentStop hooks, ranker 3KB gate) impedisce che la reflection diventi auto-congratulazione.
+
+### Cicli adattivi (v5.1)
+
+L'Orchestratore ha 3 decision points per adattare il pipeline alla qualità dell'output:
+
+1. **Groundedness Reinforcement** (dopo critique ciclo 1): Se la maggior parte delle ipotesi ha Groundedness LOW/SPECULATIVE, ri-dispatcha il Literature Scout con ricerche mirate sui meccanismi specifici. Alimenta il Generator nel ciclo 2.
+
+2. **Adaptive Cycle Decision** (dopo ranking ciclo 1):
+   - Top-3 ≥ 7.0 AND diversity passed → **early complete** (dispatcha Quality Gate, skip ciclo 2)
+   - Survival < 30% OR top-3 < 4.0 → **extended** (richiedi ciclo 2, considera ciclo 3)
+   - Altrimenti → **standard** (ciclo 2 normale)
+
+3. **Conditional Evolution** (ciclo 2, dopo ranking): Se top-3 ≥ 6.5, diversity passed, nessun bridge condiviso → skip Evolver, procedi a Quality Gate. `orchestrator-stop-gate.py` aggiornato per non bloccare su evolver skip legittimo.
+
+**Perché scala**: Un modello migliore produce output di qualità superiore prima nella pipeline. Senza adattività, il sistema spreca compute. Con essa, Opus 5 potrebbe completare in 1 ciclo ciò che Opus 4.6 necessita 2.
+
+### Feedback bidirezionale indiretto (v5.1)
+
+Il Critic può scrivere domande specifiche in `state/session.json` sotto `hypotheses.cycle{N}.critic_questions` quando un meccanismo è troppo vago per essere attaccato propriamente. L'Orchestratore inoltra queste domande al Generator nel dispatch del ciclo 2. Il feedback indiretto (via state JSON) preserva il pattern centralizzato.
 
 ---
 
@@ -213,9 +257,11 @@ Il Critic è genuinamente adversariale. Il suo obiettivo è distruggere le ipote
 7. **Groundedness Attack** — Per ogni claim fattuale: è dalla letteratura (grounded)? dalla conoscenza parametrica (verifica con web search)? pura speculazione (flag)? Se >50% dei claim è inverificabile → downgrade significativo
 8. **Hallucination-as-Novelty Check** — Per ipotesi con alta novelty: "Sembra nuova perché è genuinamente inesplorata, o perché è sbagliata in modi non ovvi?" Verifica via web search che il meccanismo bridge esista indipendentemente dall'ipotesi. Se la novelty dipende interamente da un claim fattuale inverificabile → la "novelty" è probabilmente un artefatto di conoscenza parametrica incorretta → KILL o downgrade severo
 
-### Minimum adversarial standard (v5)
+### Minimum adversarial standard e META-CRITIQUE (v5/v5.1)
 
 Un kill rate dello 0% è un red flag. Se il Critic passa tutte le ipotesi, deve ri-esaminarle chiedendosi "Sto essendo troppo generoso?". Un kill rate sano è 30-50%; sotto il 15% indica pressione adversariale insufficiente.
+
+La v5.1 estende questo in una META-CRITIQUE completa: dopo tutti gli attacchi, il Critic (1) calibra il proprio kill rate, (2) per ogni SURVIVES scrive la ragione più forte per cui avrebbe dovuto essere ucciso, (3) verifica di aver eseguito web search per ogni ipotesi. Inoltre, quando un meccanismo è troppo vago, il Critic scrive **critic_questions** nello state JSON, che l'Orchestratore inoltra al Generator nel ciclo 2 — feedback bidirezionale indiretto.
 
 L'attack vector #8 affronta un rischio documentato dallo studio Science/AAAS: la novelty AI-generated crolla dopo test sperimentali (da 5.38 a 3.41 su 10). Le ipotesi possono sembrare nuove solo perché sono sbagliate. L'hallucination-as-novelty check complementa il Groundedness scoring (che misura il supporto evidenziale complessivo) con un check specifico sulla relazione inversa novelty↔correttezza.
 
@@ -287,7 +333,10 @@ Il sistema usa un doppio binario:
     "total_hypotheses_generated": 0, "kill_rate": 0,
     "fallback_used": false, "literature_unavailable": false,
     "generation_degraded": false, "web_search_failures": 0,
-    "retries_needed": 0
+    "retries_needed": 0,
+    "cycle_decision": null,
+    "evolver_skipped": false,
+    "literature_reinforcement": false
   },
   "progress": {
     "phases_completed": [{"phase": "scout", "outcome": "3 targets", "timestamp": "..."}],
@@ -310,7 +359,7 @@ Campi chiave:
 - **`papers_retrieved`**: Paper full-text recuperati, salvati in `results/papers/`. Il Generator li legge per ragionamento a livello di meccanismo
 - **`progress`**: Timeline delle fasi completate con esito e timestamp. Consultabile via `/status` durante l'esecuzione
 - **`health`**: Contatori aggregati per diagnostica rapida
-- **`metadata` estesa**: Traccia fallback, degradazione, e fallimenti WebSearch
+- **`metadata` estesa**: Traccia fallback, degradazione, fallimenti WebSearch, decisioni adattive (`cycle_decision`, `evolver_skipped`, `literature_reinforcement`)
 
 ### Timestamp protocol (v5)
 
@@ -488,7 +537,7 @@ Le modalità targeted/open/problem esistono come alternative per testing e debug
 | Convergenza delle ipotesi | Media | Diversity check nel Ranker + diversity constraint nell'Evolver — doppio livello |
 | Context drift su run lunghi | Media-bassa | State in JSON, non in contesto conversazionale. Ogni agente rilegge lo stato. PreCompact/PostCompact hooks per backup/restore |
 | Ipotesi "triviali" travestite da novel | Media | Triviality Kill nel Critic. Web search novelty check. Cross-model validation |
-| Rabbit holes (esplorazione di vicoli ciechi) | Media | 2 cicli max per session. Orchestrator ha istruzioni esplicite di procedere, non approfondire all'infinito |
+| Rabbit holes (esplorazione di vicoli ciechi) | Media | Cicli adattivi (v5.1): 1-3 cicli basati sulla qualità. Early complete previene over-processing. Orchestrator ha istruzioni esplicite di procedere |
 | Scout produce 0 target | Media | Guard post-Scout: retry con soglia più bassa → fallback a 3 target parametrici hardcoded |
 | Generator produce < 3 ipotesi | Media-bassa | Blocking SubagentStop hook (exit 2) forza re-esecuzione. Guard post-Generation: retry con tutte le tecniche → degrade gracefully |
 | Critic uccide tutte le ipotesi | Media | Guard post-Critique: rigenera con meccanismi diversi e claim più conservativi → re-critica. Se fallisce due volte: sessione FAILED |

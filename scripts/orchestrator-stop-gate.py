@@ -48,7 +48,11 @@ try:
             if os.path.exists(dispatch_log_path):
                 dispatch_log = json.load(open(dispatch_log_path))
                 dispatched = set(d.get("agent", "") for d in dispatch_log.get("dispatches", []))
-                required = {"scout", "literature-scout", "generator", "critic", "ranker", "evolver", "quality-gate"}
+                required = {"scout", "literature-scout", "generator", "critic", "ranker", "quality-gate"}
+                # Evolver is conditionally skippable in v5.1
+                evolver_skipped = d.get("metadata", {}).get("evolver_skipped", False)
+                if not evolver_skipped:
+                    required.add("evolver")
                 missing = required - dispatched
                 if missing and status not in ("failed",):
                     warnings.append(f"Missing agent dispatches: {', '.join(sorted(missing))}")

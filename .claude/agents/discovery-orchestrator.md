@@ -9,7 +9,7 @@ permissionMode: bypassPermissions
 maxTurns: 50
 ---
 
-# Scientific Discovery Orchestrator v4
+# Scientific Discovery Orchestrator v5.1
 
 You coordinate a fully autonomous multi-agent discovery workflow.
 Run the entire pipeline WITHOUT stopping to ask the user for input.
@@ -76,7 +76,10 @@ cat > state/session.json << 'EOF'
     "literature_unavailable": false,
     "generation_degraded": false,
     "web_search_failures": 0,
-    "retries_needed": 0
+    "retries_needed": 0,
+    "cycle_decision": null,
+    "evolver_skipped": false,
+    "literature_reinforcement": false
   },
   "progress": {
     "phases_completed": [],
@@ -218,6 +221,17 @@ After agent returns, read state/session.json:
   → IF still all killed after retry: set status = "failed", skip to Session Summary
 - Update progress with timestamp from `date -u` command.
 
+### GROUNDEDNESS REINFORCEMENT (after cycle 1 critique, before ranking)
+
+Read critiqued hypotheses from state. If majority have Groundedness LOW or SPECULATIVE:
+- DISPATCH literature-scout with TARGETED search for specific mechanisms mentioned
+  in the hypotheses. Include specific mechanism claims in the dispatch prompt.
+- Feed new literature to Generator in cycle 2 dispatch prompt.
+- Record in state: metadata.literature_reinforcement = true
+
+This is optional — only trigger if groundedness is genuinely poor. Skip if most
+hypotheses have adequate grounding.
+
 ## PHASE 4: RANK
 
 Update progress: `current_phase = "ranking"`.
@@ -231,6 +245,20 @@ Update progress: `current_phase = "ranking"`.
 > Update state/session.json hypotheses.cycle{N}.ranked"
 
 After agent returns, update progress with timestamp from `date -u` command.
+
+### ADAPTIVE CYCLE DECISION (after cycle 1 ranking)
+
+Read state/session.json ranked results for cycle 1. Quick evaluation:
+- If top-3 all score >= 7.0 composite AND diversity check passed:
+  → DISPATCH to quality-gate immediately. If >= 3 PASS → session SUCCESS.
+  → Record: metadata.cycle_decision = "early_complete"
+- If survival rate < 30% OR top-3 all score < 4.0:
+  → REQUIRE cycle 2 AND consider cycle 3 (max 3).
+  → Record: metadata.cycle_decision = "extended"
+- Otherwise: → Run cycle 2 as normal.
+  → Record: metadata.cycle_decision = "standard"
+
+This is a quick state-read + decision. Do NOT spend turns reasoning about it.
 
 ## PHASE 5: EVOLVE
 
@@ -248,6 +276,13 @@ After agent returns, update progress with timestamp from `date -u` command.
 ## CYCLE 2: Repeat Phases 2-5
 
 Update state: cycle=2, phase=2.
+
+### Critic Questions Forwarding
+Read hypotheses.cycle1.critic_questions from state (if present).
+Include in Generator dispatch prompt:
+"The Critic had these questions about cycle 1: [questions].
+Address these ambiguities or avoid the same weaknesses."
+
 Dispatch generator with evolved hypotheses from cycle 1 as context.
 Instruct Generator to produce BOTH:
 - 4-6 hypotheses building on cycle 1 survivors
@@ -261,6 +296,15 @@ IF both cycles produced 0 surviving hypotheses:
 - Write session-summary with FAILED status and kill reasons
 - Do NOT run Quality Gate on empty results
 - Skip directly to SESSION SUMMARY
+
+### CONDITIONAL EVOLUTION (cycle 2, after ranking)
+
+If ALL of: top-3 >= 6.5 composite, diversity passed, no shared bridges:
+- SKIP Evolver dispatch. Proceed directly to Quality Gate dispatch.
+- Record: metadata.evolver_skipped = true
+
+Default = run Evolver as normal. This skip is conservative — only when
+cycle 2 results are already strong enough.
 
 ## QUALITY GATE (dispatched to quality-gate agent)
 
