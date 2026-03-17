@@ -36,8 +36,13 @@ disjointness assessment, and gap analysis.
    - `mcp__semantic-scholar__search_papers` for "[Field A] [Field C]" and each field individually
    - `mcp__pubmed__pubmed_search` for "[Field A] [Field C]" and each field individually
    - For each hit: `mcp__semantic-scholar__get_paper` or `mcp__pubmed__pubmed_abstract` for details
-   - Citation traversal: `mcp__semantic-scholar__get_paper_citations` and `get_paper_references`
+   - Citation traversal: `mcp__semantic-scholar__get_paper_citations` for forward citations.
+     For references (what a paper cites), use `mcp__pubmed__pubmed_cites` with the PMID
+     (`mcp__semantic-scholar__get_paper_references` is currently broken upstream)
    - For recommendations: `mcp__semantic-scholar__get_recommendations` based on key papers
+   - `mcp__semantic-scholar__search_papers` may hit rate limits on consecutive calls —
+     if you get rate-limit errors, wait a few seconds between calls or fall back to
+     `mcp__pubmed__pubmed_search` which has no rate-limit issues
    If MCP fails (connection error, empty results), note "MCP unavailable" and fall back to WebSearch — MCP tools return structured metadata (authors, citations, abstracts) without HTML parsing overhead, faster and more reliable than web search
 
 2. **Disjointness verification (mandatory)**: Before finalizing, verify
