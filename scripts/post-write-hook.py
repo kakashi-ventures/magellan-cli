@@ -11,7 +11,8 @@ try:
         phase = d.get("phase", "?")
         cycle = d.get("cycle", "?")
         hyps = d.get("metadata", {}).get("total_hypotheses_generated", 0)
-        print(json.dumps({"feedback": f"State OK \u2014 phase={phase}, cycle={cycle}, hypotheses={hyps}"}))
+        results_dir = d.get("results_dir", "results")
+        print(json.dumps({"feedback": f"State OK \u2014 phase={phase}, cycle={cycle}, hypotheses={hyps}, results_dir={results_dir}"}))
     elif "/results/" in path and path.endswith(".md"):
         print(json.dumps({"feedback": f"Result file saved: {os.path.basename(path)}"}))
     # Other files: exit silently

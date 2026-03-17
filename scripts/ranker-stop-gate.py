@@ -1,21 +1,27 @@
 #!/usr/bin/env python3
-"""Ranker SubagentStop gate. BLOCKS if ranked output is too thin (< 3KB)."""
-import sys, json, os, glob
+"""Ranker SubagentStop gate. BLOCKS if ranked output is too thin (< 3KB).
+Supports session-scoped results directories."""
+import sys, json, os
 
 try:
     state_path = "state/session.json"
     cycle = 1
+    results_dir = "results"
 
     if os.path.exists(state_path):
         d = json.load(open(state_path))
         cycle = d.get("cycle", 1)
+        results_dir = d.get("results_dir", "results")
 
-    ranked_file = f"results/ranked-cycle{cycle}.md"
+    # Check both session-scoped and legacy paths
+    ranked_file = os.path.join(results_dir, f"ranked-cycle{cycle}.md")
+    if not os.path.exists(ranked_file):
+        ranked_file = f"results/ranked-cycle{cycle}.md"
 
     if not os.path.exists(ranked_file):
         print(json.dumps({
             "decision": "block",
-            "reason": f"BLOCKED: {ranked_file} does not exist. Ranker must write output."
+            "reason": f"BLOCKED: ranked-cycle{cycle}.md does not exist in {results_dir}. Ranker must write output."
         }), file=sys.stderr)
         sys.exit(2)
 

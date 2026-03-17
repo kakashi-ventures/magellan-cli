@@ -12,7 +12,7 @@ try:
 
         # Allow stop if no session active (no mode set = not a discovery run)
         if not d.get("mode"):
-            print(json.dumps({"decision": "allow"}))
+            print(json.dumps({"decision": "approve"}))
             sys.exit(0)
 
         # Allow stop if pipeline completed or explicitly failed
@@ -26,6 +26,8 @@ try:
             total_killed = 0
             for cycle_key in sorted(hypotheses.keys()):
                 cycle_data = hypotheses[cycle_key]
+                if not isinstance(cycle_data, dict):
+                    continue
                 raw = cycle_data.get("raw", [])
                 total_raw += len(raw) if isinstance(raw, list) else 0
                 critiqued = cycle_data.get("critiqued", [])
@@ -47,7 +49,11 @@ try:
             dispatch_log_path = "state/dispatch-log.json"
             if os.path.exists(dispatch_log_path):
                 dispatch_log = json.load(open(dispatch_log_path))
-                dispatched = set(d.get("agent", "") for d in dispatch_log.get("dispatches", []))
+                dispatches = dispatch_log.get("dispatches", [])
+                dispatched = set()
+                for entry in dispatches:
+                    if isinstance(entry, dict):
+                        dispatched.add(entry.get("agent", ""))
                 required = {"scout", "literature-scout", "generator", "critic", "ranker", "quality-gate"}
                 # Evolver is conditionally skippable in v5.1
                 evolver_skipped = d.get("metadata", {}).get("evolver_skipped", False)
@@ -77,10 +83,10 @@ try:
         sys.exit(0)
     else:
         # No state file = not a discovery session, allow stop
-        print(json.dumps({"decision": "allow"}))
+        print(json.dumps({"decision": "approve"}))
         sys.exit(0)
 
 except Exception as e:
     # On error, allow stop to prevent deadlock
-    print(json.dumps({"decision": "allow"}))
+    print(json.dumps({"decision": "approve"}))
     sys.exit(0)

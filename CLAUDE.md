@@ -12,7 +12,8 @@ linked yet — with zero human input on what to explore.
 /discover
 ```
 The Scout autonomously decides WHERE to look. The full pipeline runs.
-You come back to find hypothesis cards in `results/`.
+You come back to find hypothesis cards in `results/{session-id}/`.
+**IMPORTANT**: Do NOT run `/discover` in plan mode. The pipeline auto-exits plan mode if active.
 
 ### Alternative modes (for testing/debugging)
 ```
@@ -45,8 +46,9 @@ Agent prompts use GOAL/CONSTRAINTS/STRATEGIES structure (v5.1) with v5.2 prompt 
 ## State Management
 
 All structured state lives in `state/session.json`.
-Human-readable outputs in `results/*.md`.
+Human-readable outputs in `results/{session-id}/*.md` (session-scoped directories).
 Every agent reads/writes `state/session.json` as source of truth.
+Dispatch log in `state/dispatch-log.json` tracks every agent dispatch with timestamps.
 
 ## Commands
 - `/discover` — Full autonomous (Scout finds targets)
@@ -64,17 +66,17 @@ Every hypothesis MUST have: specific mechanism, falsifiable prediction,
 literature-verified novelty, counter-evidence, test protocol, calibrated
 confidence, groundedness assessment.
 
-## Key Design Decisions (v5/v5.1/v5.2)
+## Key Design Decisions (v5/v5.1/v5.2/v5.3)
 1. **Parametric generation + retrieval validation** — LLM generates,
    external sources validate. Not parametric-only, not retrieval-only.
 2. **Groundedness scoring** (20% weight) — prevents fluent hallucinations
-   from scoring high.
+   from scoring high. Always integer 1-10 in JSON.
 3. **Diversity constraint** — Evolver tracks conceptual distance between
    hypotheses to prevent convergence.
 4. **Structured state** — JSON state file survives context compaction.
 5. **Agent Teams for Phase 0** — Scout + Literature Scout run in parallel.
 6. **Mandatory agent dispatch** — Orchestrator has no WebSearch/WebFetch,
-   maxTurns=50. Cannot execute phases inline. Must dispatch to sub-agents.
+   maxTurns=80. Cannot execute phases inline. Must dispatch to sub-agents.
 7. **MCP-first literature retrieval** — Semantic Scholar + PubMed MCP
    tools are mandatory first step before any WebSearch.
 8. **Quality Gate as separate agent** — Dedicated Opus agent with web
@@ -99,6 +101,15 @@ confidence, groundedness assessment.
     Literature Scout and Evolver, Sonnet-specific scaffolding, model-specific
     export prompts (GPT-5.4: output contracts + verification loops,
     Gemini 3.1: few-shot + context-first + strict grounding).
+14. **Session-scoped results (v5.3)** — Each session writes to
+    `results/{session-id}/` to prevent file conflicts between sessions.
+    No more need for manual archiving.
+15. **Plan mode auto-exit (v5.3)** — `/discover` automatically exits plan
+    mode before launching. The pipeline is fully autonomous and cannot
+    operate under plan mode's read-only constraint.
+16. **Hook schema compliance (v5.3)** — All hooks use correct Claude Code
+    schema (`"approve"/"block"` not `"allow"`, stdin for PostToolUse,
+    `"verdict"` field for kill detection).
 
 ## Documentation Rules
 When modifying the pipeline (agents, hooks, skills, commands), update:

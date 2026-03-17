@@ -47,7 +47,7 @@ Phase 5:  Evolver recombines top candidates (conditionally skippable)
           ── Conditional: skip Evolver if cycle 2 top-3 >= 6.5 ──
 Phase 6:  Quality Gate (dedicated agent) — 9-point rubric + web grounding
           → META-VALIDATION reflection before output
-Phase 7:  Session summary → results/
+Phase 7:  Session summary → results/{session-id}/
 Phase 8:  Knowledge persistence → knowledge/discovery-log.json
 ```
 
@@ -111,8 +111,19 @@ docs/
   methodology-v5.md                          ← Full methodology with evidence
 scripts/                                     ← Hook scripts (stop gates, failure tracking)
 state/                                       ← JSON state (machine-readable)
+  session.json                               ← Current session state (source of truth)
+  dispatch-log.json                          ← Agent dispatch log with timestamps
 results/                                     ← Markdown output (human-readable)
-  papers/                                    ← Full-text papers retrieved by Literature Scout
+  {session-id}/                              ← Session-scoped results directory
+    papers/                                  ← Full-text papers retrieved by Literature Scout
+    scout-targets.md                         ← Phase 0 output
+    raw-hypotheses-cycle{N}.md               ← Generation output
+    critiqued-cycle{N}.md                    ← Critique output
+    ranked-cycle{N}.md                       ← Ranking output
+    evolved-cycle{N}.md                      ← Evolution output
+    quality-gate.md                          ← Quality Gate rubric
+    final-hypotheses.md                      ← Final hypothesis cards
+    session-summary.md                       ← Session overview
 knowledge/                                   ← Persistent discovery log across sessions
   discovery-log.json                         ← Explored pairs, productive bridges, kill reasons
 ```
@@ -120,7 +131,7 @@ knowledge/                                   ← Persistent discovery log across
 ## Architecture
 
 8 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks).
-Agent prompts use GOAL/CONSTRAINTS/STRATEGIES structure for model scalability (v5.1) with v5.2 prompt engineering best practices:
+Agent prompts use GOAL/CONSTRAINTS/STRATEGIES structure for model scalability (v5.1) with v5.2 prompt engineering best practices and v5.3 operational fixes:
 
 - **Scout** [Opus] — 8 strategies to find WHERE undiscovered connections hide + TARGET QUALITY CHECK reflection
 - **Literature Scout** [Sonnet] — MCP servers (mandatory first step) + WebSearch fallback + full-text paper retrieval + RETRIEVAL QUALITY CHECK reflection
@@ -129,7 +140,7 @@ Agent prompts use GOAL/CONSTRAINTS/STRATEGIES structure for model scalability (v
 - **Ranker** [Sonnet] — 6-dimension scoring (mandatory per-hypothesis table) + diversity check
 - **Evolver** [Sonnet] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
 - **Quality Gate** [Opus] — 9-point rubric + web novelty/grounding + META-VALIDATION reflection
-- **Orchestrator** [Opus] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health
+- **Orchestrator** [Opus, 80 turns] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health
 
 ## Conceptual Foundation
 

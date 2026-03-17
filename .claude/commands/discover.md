@@ -1,15 +1,21 @@
 ---
 description: "Run an autonomous scientific discovery session. Primary mode: /discover (no arguments) — Scout autonomously finds where undiscovered connections are hiding. Alternative modes: /discover [A] × [C], /discover [topic], /discover solve: [problem]."
-allowed-tools: Agent, Read, Write, Bash, Glob, Grep
+allowed-tools: Agent, Read, Write, Bash, Glob, Grep, ExitPlanMode
 ---
 
-# Autonomous Scientific Discovery Session v4
+# Autonomous Scientific Discovery Session v5
 
 This system tests whether AI can autonomously discover real scientific
 connections. The user is NOT expected to have domain expertise.
 
 ## User Input
 $ARGUMENTS
+
+## Step 0: Exit Plan Mode (if active)
+
+The discovery pipeline is fully autonomous and CANNOT run in plan mode.
+If plan mode is active, call ExitPlanMode IMMEDIATELY before proceeding.
+Do not write a plan file. Do not ask for confirmation.
 
 ## Step 1: Determine Mode
 
@@ -21,8 +27,7 @@ Parse the input:
 
 ## Step 2: Initialize
 ```bash
-mkdir -p results state
-echo "$(date +%Y-%m-%d)" > results/.session-date
+mkdir -p state
 cat > state/session.json << 'EOF'
 {"phase":"init","cycle":0,"scout_targets":[],"hypotheses":{},"final":[],"metadata":{"total_hypotheses_generated":0}}
 EOF
@@ -38,7 +43,7 @@ Do NOT ask for confirmation. Do NOT present a plan first.
 > Phase 0: Launch scout and literature-scout in parallel.
 > Scout identifies 3 promising targets; Literature Scout provides
 > landscape context. Select best target and run 2 complete cycles.
-> Do not stop for user input. Write all results to results/.
+> Do not stop for user input. Write all results to results/{session-id}/.
 > Manage state in state/session.json.
 
 **TARGETED MODE:**

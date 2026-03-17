@@ -16,7 +16,7 @@ try:
             killed = 0
             if isinstance(critiqued, list):
                 for h in critiqued:
-                    if isinstance(h, dict) and h.get("status") == "killed":
+                    if isinstance(h, dict) and h.get("verdict", "").upper() == "KILLED":
                         killed += 1
                     else:
                         survivors += 1

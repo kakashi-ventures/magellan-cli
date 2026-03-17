@@ -77,7 +77,7 @@ FASE 3 — VALIDAZIONE FINALE
 │ + web grounding   │
 └──────────┬───────┘
            ▼
-    Session Health → results/*.md + state/session.json
+    Session Health → results/{session-id}/*.md + state/session.json
 
 LAYER TRASVERSALE — GUARD & HOOKS
 ┌─────────────────────────────────────────────────┐
@@ -308,7 +308,7 @@ Questo sfrutta il concetto KG senza infrastruttura KG esterna: l'LLM FA il knowl
 
 Il sistema usa un doppio binario:
 
-- **`results/*.md`** — Output human-readable (hypothesis cards, session summary)
+- **`results/{session-id}/*.md`** — Output human-readable (hypothesis cards, session summary), session-scoped
 - **`state/session.json`** — Stato strutturato della sessione, leggibile da ogni agente
 
 ```json
@@ -579,9 +579,29 @@ Le modalità targeted/open/problem esistono come alternative per testing e debug
 | Pipeline si ferma prematuramente | Media-bassa | Stop hook blocca la terminazione se phase ≠ "complete"/"failed". PostCompact ripristina stato e istruisce la continuazione |
 | WebSearch/WebFetch non disponibili | Bassa | PostToolUseFailure hook traccia i fallimenti. MCP servers come canale alternativo. Scout passa a modo parametric-only dopo 3+ fallimenti |
 | Output silenziosamente vuoto | **Eliminato** | Session Health Classification: ogni sessione termina con SUCCESS/PARTIAL/DEGRADED/FAILED. Lo status è la prima riga del session-summary.md |
-| Orchestratore esegue fasi inline (bypass agenti) | **Eliminato (v5)** | WebSearch/WebFetch rimossi dall'orchestratore, maxTurns ridotto a 50, direttiva anti-inlining, dispatch log con verifica post-sessione |
+| Orchestratore esegue fasi inline (bypass agenti) | **Eliminato (v5)** | WebSearch/WebFetch rimossi dall'orchestratore, maxTurns=80 (aumentato da 50 in v5.3 per garantire completamento pipeline), direttiva anti-inlining, dispatch log con verifica post-sessione |
 | Ranked output thin (senza scoring dettagliato) | **Eliminato (v5)** | `ranker-stop-gate.py` blocca output < 3KB, formato tabella per-ipotesi obbligatorio |
-| Literature Scout non salva paper | **Eliminato (v5)** | `literature-scout-stop-gate.py` blocca se `results/papers/` vuoto, checklist output obbligatoria |
+| Literature Scout non salva paper | **Mitigato (v5.3)** | `literature-scout-stop-gate.py` degrada a warning se MCP/web non disponibili; blocca solo se manca il file di output principale |
+| Plan mode blocca pipeline autonomo | **Eliminato (v5.3)** | `/discover` chiama ExitPlanMode automaticamente prima di lanciare l'Orchestratore |
+| Hook schema invalido causa errori silenziosi | **Eliminato (v5.3)** | Tutti gli hook aggiornati allo schema Claude Code corrente (`"approve"/"block"` non `"allow"`, stdin per PostToolUse, campo `"verdict"` per conteggio kill) |
+| Orchestratore si ferma prima del Quality Gate | **Mitigato (v5.3)** | maxTurns aumentato da 50 a 80. Il budget di turni consente il completamento dell'intero pipeline incluso Quality Gate + Session Summary |
+| File di sessioni diverse si sovrascrivono | **Eliminato (v5.3)** | Ogni sessione scrive in `results/{session-id}/`. Nessun bisogno di archiviazione manuale |
+
+---
+
+## Fix operativi (v5.3)
+
+Basati sull'analisi post-sessione della seconda esecuzione (2026-03-17-scout-002):
+
+1. **Hook schema compliance**: `orchestrator-stop-gate.py` usava `"decision": "allow"` (non valido nello schema Claude Code — solo `"approve"` o `"block"` sono accettati). Tutti gli hook aggiornati.
+2. **verify-dispatch.py**: Leggeva da `os.environ["CLAUDE_TOOL_INPUT"]` (sbagliato) anziché da stdin (protocollo PostToolUse). Riscritto per leggere correttamente da stdin e loggare più informazioni (descrizione, preview risultato).
+3. **critic-stop-hook.py**: Cercava `h.get("status") == "killed"` ma il campo corretto è `h.get("verdict", "").upper() == "KILLED"`. Il conteggio dei kill era sempre 0.
+4. **literature-scout-stop-gate.py**: Bloccava la pipeline se `results/papers/` era vuoto, anche quando MCP e WebSearch non erano disponibili. Ora degrada a warning e permette il proseguimento in modalità degradata.
+5. **Session-scoped results**: I risultati ora vanno in `results/{session-id}/` per evitare conflitti tra sessioni.
+6. **Orchestrator maxTurns**: Aumentato da 50 a 80. La sessione 2 aveva esaurito i turni prima del Quality Gate.
+7. **Plan mode auto-exit**: `/discover` ora chiama ExitPlanMode automaticamente — il pipeline autonomo non può operare sotto i vincoli read-only del plan mode.
+8. **Groundedness standardization**: Tutti i valori groundedness in session.json devono essere integer 1-10 (non stringhe come "MEDIUM").
+9. **Cycle decision labeling**: Chiarito che `"early_complete"` significa saltare il ciclo 2, non semplicemente "il risultato è buono". Se il ciclo 2 viene eseguito, il label corretto è `"standard"`.
 
 ---
 
@@ -589,7 +609,7 @@ Le modalità targeted/open/problem esistono come alternative per testing e debug
 
 Dato che l'utente non ha competenza di dominio, il workflow di valutazione è:
 
-1. **MAGELLAN produce ipotesi** → `results/session-summary.md`
+1. **MAGELLAN produce ipotesi** → `results/{session-id}/session-summary.md`
 2. **Cross-model validation** → `/export gpt` e `/export gemini` → incolla in GPT-5.4 Pro e Gemini Deep Think
 3. **Triangolazione**: Se almeno 2 modelli su 3 assegnano alta confidenza e novelty, l'ipotesi è candidata
 4. **Expert review**: Le ipotesi candidate vengono presentate a esperti di dominio (professori, ricercatori) per valutazione qualitativa. Questo è il ground truth
