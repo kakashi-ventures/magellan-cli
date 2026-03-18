@@ -1,10 +1,15 @@
 ---
 name: domain-life-sciences
-description: Domain knowledge for life sciences hypothesis generation. Auto-loaded when exploring biomedicine, genetics, microbiome, neuroscience, cancer, immunology, drug discovery, or protein biology.
+description: Primary discovery domain — pipeline retrieval (PubMed, KEGG, STRING), scoring weights, and hypothesis format are structurally optimized for life sciences. Auto-loaded when exploring biomedicine, genetics, microbiome, neuroscience, cancer, immunology, drug discovery, or protein biology.
 user-invocable: false
 ---
 
-# Life Sciences Discovery Guide
+# Life Sciences Discovery Guide — Primary Domain
+
+Life sciences is the pipeline's primary discovery domain. Retrieval tools
+(PubMed, KEGG, STRING), hypothesis format (molecular mechanisms/pathways),
+and 60% of scoring weight (Testability + Groundedness + Mechanistic
+Specificity) are structurally aligned with this domain.
 
 ## High-Potential Connection Zones (updated 2026)
 - Microbiome ↔ non-gut organs (skin, lung, brain, urogenital)

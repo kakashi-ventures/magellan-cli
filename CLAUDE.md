@@ -66,7 +66,7 @@ Every hypothesis MUST have: specific mechanism, falsifiable prediction,
 literature-verified novelty, counter-evidence, test protocol, calibrated
 confidence, groundedness assessment.
 
-## Key Design Decisions (v5/v5.1/v5.2/v5.3)
+## Key Design Decisions (v5/v5.1/v5.2/v5.3/v5.4)
 1. **Parametric generation + retrieval validation** — LLM generates,
    external sources validate. Not parametric-only, not retrieval-only.
 2. **Groundedness scoring** (20% weight) — prevents fluent hallucinations
@@ -110,6 +110,13 @@ confidence, groundedness assessment.
 16. **Hook schema compliance (v5.3)** — All hooks use correct Claude Code
     schema (`"approve"/"block"` not `"allow"`, stdin for PostToolUse,
     `"verdict"` field for kill detection).
+17. **Life sciences domain optimization (v5.4)** — Il pipeline è strutturalmente
+    ottimizzato per cross-disciplinary discovery nelle life sciences. I tool di
+    retrieval (PubMed, KEGG, STRING), il formato ipotesi (meccanismi molecolari/
+    pathway), e il 60% del peso di scoring (Testability + Groundedness +
+    Mechanistic Specificity) favoriscono campi con letteratura densa e database
+    strutturati. Ipotesi in fisica/matematica avranno scores strutturalmente
+    più bassi — questo è atteso, non un difetto.
 
 ## Documentation Rules
 When modifying the pipeline (agents, hooks, skills, commands), update:

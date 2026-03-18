@@ -7,6 +7,9 @@ that humans haven't made yet? This project tests that question.
 
 No domain expertise required from the user. Type `/discover`, walk away.
 Come back to find testable hypothesis cards, then validate cross-model.
+Optimized for cross-disciplinary life sciences discovery (retrieval tools,
+scoring weights, hypothesis format); other domains are supported but
+scores reflect infrastructure asymmetry, not hypothesis quality.
 
 ## Quick Start
 

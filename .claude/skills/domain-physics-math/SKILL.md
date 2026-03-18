@@ -17,6 +17,20 @@ user-invocable: false
 - Continuous mathematics tools applied to discrete algorithmic problems
   (cf. Aletheia resolving Erdős problems, Feb 2026)
 
+## Scoring Expectations
+
+Physics and pure mathematics hypotheses will score structurally lower on
+Testability and Groundedness. This reflects asymmetry in retrieval
+infrastructure (PubMed/KEGG/STRING are bio-specific; no equivalent for
+arXiv/INSPIRE-HEP/MathSciNet is integrated) and scoring weights
+(Testability 20% + Groundedness 20% + Mechanistic Specificity 20% = 60%
+favoring experimental sciences with structured databases). This is an
+infrastructure limitation, not a quality judgment.
+
+Cross-domain hypotheses with a life sciences component (e.g. "Quantum error
+correction ↔ biological robustness") partially benefit from the bio
+retrieval infrastructure and will score higher than pure physics/math ones.
+
 ## Critical Distinction: Analogy Depth
 - **Surface analogy** (LOW value): Same word, different structures
 - **Structural correspondence** (HIGH value): Same formal properties

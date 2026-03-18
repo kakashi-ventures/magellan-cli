@@ -292,6 +292,54 @@ Dopo il ranking, il Ranker esamina le top-5 ipotesi. Per ogni coppia valuta: con
 
 ---
 
+## Ottimizzazione di dominio: life sciences come dominio primario
+
+### Perché le life sciences
+
+MAGELLAN è strutturalmente ottimizzato per la scoperta cross-disciplinare nelle life sciences. Non è una scelta arbitraria — tre fattori convergono:
+
+1. **Frammentazione strutturale** — Le life sciences sono il dominio con la più alta densità di "missing links" latenti. Sotto-discipline come microbioma, cronobiologia, epigenetica, immunologia e neuroscienze operano con letterature largamente disgiunte nonostante meccanismi molecolari condivisi. Questo è esattamente il terreno dell'Undiscovered Public Knowledge di Swanson.
+
+2. **Infrastruttura di retrieval disponibile** — PubMed (38M+ articoli con abstract strutturati), KEGG (pathway metabolici e di segnalazione), STRING (interazioni proteiche) forniscono grounding strutturato e query programmatiche. Nessun equivalente comparabile esiste per fisica teorica o matematica pura (arXiv non ha API di query semantica; INSPIRE-HEP e MathSciNet non sono integrati come MCP server).
+
+3. **Falsificabilità rapida** — Le ipotesi biomediche cross-disciplinari sono testabili con esperimenti wet-lab o analisi computazionali su dataset esistenti (GEO, TCGA, UK Biobank). Le ipotesi in fisica teorica o matematica spesso richiedono anni di sviluppo formale prima di poter essere valutate.
+
+### I tre bias strutturali
+
+Il pipeline presenta tre bias non indipendenti che favoriscono le life sciences:
+
+| Livello | Bias | Impatto |
+|---|---|---|
+| **Retrieval** | PubMed, KEGG, STRING sono tutti bio-specifici. Nessun MCP server equivalente per arXiv, INSPIRE-HEP, MathSciNet | Le ipotesi non-bio hanno contesto letterario più debole → Groundedness più basso |
+| **Scoring** | Testability (20%) + Groundedness (20%) + Mechanistic Specificity (20%) = **60% del peso** favorisce scienze sperimentali con database strutturati | Ipotesi in fisica/matematica pura ricevono scores strutturalmente più bassi su 3 delle 6 dimensioni |
+| **Format** | Template ipotesi, esempi few-shot (Generator, Critic, Ranker, Evolver) usano linguaggio molecolare/pathway | Il Generator tende a produrre ipotesi formulate in termini di meccanismi biologici anche quando il target è cross-domain |
+
+Questi bias non sono difetti da correggere — sono conseguenze naturali dell'infrastruttura disponibile e del fatto che le life sciences sono il dominio con più opportunità di discovery latente. I pesi del Ranker restano **canonici e immutabili** (vedi sopra).
+
+### Guida all'interpretazione degli scores
+
+Gli scores di ipotesi non-bio **non sono direttamente comparabili** con quelli bio:
+
+- Un'ipotesi in fisica teorica con score composito 5.5 può essere qualitativamente equivalente a un'ipotesi biomedica con score 7.0
+- Il gap è principalmente su Testability (mancanza di dataset pubblici per validazione rapida), Groundedness (nessun MCP server per retrieval strutturato), e Mechanistic Specificity (meccanismi formali vs. molecolari)
+- Le dimensioni Novelty, Cross-field Distance e Impact sono relativamente domain-agnostiche
+
+Le ipotesi cross-domain con componente bio (es. "topological defects in active matter ↔ stem cell niche organization") beneficiano parzialmente dell'infrastruttura di retrieval e ottengono scores intermedi.
+
+### Roadmap futura per estensione multi-dominio
+
+Per supportare altri domini con qualità comparabile servirebbero:
+
+- **arXiv API / Semantic Scholar per fisica** — MCP server per query strutturate su preprint di fisica e matematica
+- **Simulation validation** — Per fisica teorica, la "testabilità" potrebbe includere simulazioni numeriche come proxy di esperimenti
+- **Database materiali** — Materials Project, AFLOW per ipotesi in scienza dei materiali
+- **Pesi adattivi per dominio** — Profili di scoring domain-specific (es. ridurre peso Testability per matematica, aumentare Formal Rigor)
+- **Few-shot multi-dominio** — Esempi nel Generator/Critic/Ranker che coprono diversi stili di ipotesi
+
+Queste estensioni non sono pianificate per v5.4. L'architettura le supporterebbe senza modifiche strutturali al pipeline.
+
+---
+
 ## Structured Relationship Map (KG on-the-fly)
 
 Il Generator, prima di produrre ipotesi, costruisce un **Knowledge Graph parametrico on-the-fly** per ciascun campo:
