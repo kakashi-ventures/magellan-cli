@@ -534,7 +534,7 @@
     "fallback_used": false,
     "literature_unavailable": true,
     "generation_degraded": false,
-    "web_search_failures": 5,
+    "web_search_failures": 27,
     "retries_needed": 0,
     "cycle_decision": "early_complete",
     "evolver_skipped": true,
