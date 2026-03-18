@@ -103,6 +103,69 @@
       "timestamp": "2026-03-18T00:25:25Z",
       "prompt_preview": "I need to understand the MAGELLAN pipeline's orchestrator and hook patterns to plan adding 3 new agents. Explore these files thoroughly:\n\n1. `/home/am",
       "result_preview": ""
+    },
+    {
+      "agent": "discovery-orchestrator",
+      "description": "Targeted discovery ferroptosis\u00d7QS",
+      "timestamp": "2026-03-18T02:00:59Z",
+      "prompt_preview": "Run a full TARGETED discovery session.\nField A: Ferroptosis biology \u2014 iron-dependent regulated cell death via lipid peroxidation (4-HNE, ox-PE, GPX4, ",
+      "result_preview": ""
+    },
+    {
+      "agent": "generator",
+      "description": "Generate ferroptosis\u00d7QS hypotheses",
+      "timestamp": "2026-03-18T02:07:22Z",
+      "prompt_preview": "<context>\nFields: Ferroptosis biology (iron-dependent regulated cell death via lipid peroxidation) \u00d7 Bacterial quorum sensing biochemistry (AHL signal",
+      "result_preview": ""
+    },
+    {
+      "agent": "critic",
+      "description": "Critique ferroptosis\u00d7QS hypotheses",
+      "timestamp": "2026-03-18T02:16:53Z",
+      "prompt_preview": "<context>\nSession: 2026-03-18-targeted-001\nFields: Ferroptosis biology \u00d7 Bacterial quorum sensing\nDisjointness: DISJOINT\n\nRead the hypotheses from sta",
+      "result_preview": ""
+    },
+    {
+      "agent": "ranker",
+      "description": "Rank ferroptosis\u00d7QS cycle 1",
+      "timestamp": "2026-03-18T02:25:10Z",
+      "prompt_preview": "<context>\nSession: 2026-03-18-targeted-001\nFields: Ferroptosis biology \u00d7 Bacterial quorum sensing\nCycle: 1\n\nRead the critiqued hypotheses from state/s",
+      "result_preview": ""
+    },
+    {
+      "agent": "evolver",
+      "description": "Evolve ferroptosis\u00d7QS cycle 1",
+      "timestamp": "2026-03-18T02:34:34Z",
+      "prompt_preview": "<context>\nSession: 2026-03-18-targeted-001\nFields: Ferroptosis biology \u00d7 Bacterial quorum sensing\nCycle: 1\n\nRead ranked hypotheses from state/session.",
+      "result_preview": ""
+    },
+    {
+      "agent": "generator",
+      "description": "Generate ferroptosis\u00d7QS cycle 2",
+      "timestamp": "2026-03-18T02:43:16Z",
+      "prompt_preview": "<context>\nSession: 2026-03-18-targeted-001, CYCLE 2\nFields: Ferroptosis biology \u00d7 Bacterial quorum sensing\nDisjointness: DISJOINT (ferroptosis-to-QS d",
+      "result_preview": ""
+    },
+    {
+      "agent": "critic",
+      "description": "Critique ferroptosis\u00d7QS cycle 2",
+      "timestamp": "2026-03-18T02:56:20Z",
+      "prompt_preview": "<context>\nSession: 2026-03-18-targeted-001, CYCLE 2\nFields: Ferroptosis biology \u00d7 Bacterial quorum sensing\n\nRead hypotheses from state/session.json (h",
+      "result_preview": ""
+    },
+    {
+      "agent": "ranker",
+      "description": "Rank ferroptosis\u00d7QS cycle 2",
+      "timestamp": "2026-03-18T03:03:31Z",
+      "prompt_preview": "<context>\nSession: 2026-03-18-targeted-001, CYCLE 2\nFields: Ferroptosis biology \u00d7 Bacterial quorum sensing\n\nRead critiqued hypotheses from state/sessi",
+      "result_preview": ""
+    },
+    {
+      "agent": "quality-gate",
+      "description": "Quality Gate ferroptosis\u00d7QS top 3",
+      "timestamp": "2026-03-18T03:12:41Z",
+      "prompt_preview": "<context>\nSession: 2026-03-18-targeted-001\nFields: Ferroptosis biology \u00d7 Bacterial quorum sensing\nDisjointness: DISJOINT (ferroptosis\u2192QS direction)\n\nT",
+      "result_preview": ""
     }
   ],
   "stage": "running"
