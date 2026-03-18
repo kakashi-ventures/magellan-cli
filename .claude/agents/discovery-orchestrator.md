@@ -368,8 +368,10 @@ Update progress: `current_phase = "quality_gate"`.
 > </context>
 >
 > <task>
-> Run the 9-point rubric on each hypothesis.
-> Perform web-based novelty and grounding verification.
+> Run the 10-point rubric on each hypothesis.
+> Perform BOTH connection-level novelty AND per-claim grounding verification.
+> Verify each [GROUNDED] claim individually via web search.
+> Citation hallucination or fabricated protein property = automatic FAIL.
 > PASS or FAIL each hypothesis with detailed reasons.
 > Write to {results_dir}/quality-gate.md.
 > Update state/session.json with quality_gate verdicts and

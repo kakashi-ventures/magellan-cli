@@ -37,11 +37,11 @@ Agent prompts use GOAL/CONSTRAINTS/STRATEGIES structure (v5.1) with v5.2 prompt 
 | **Scout** | Finds WHERE to look (8 strategies, parametric + web). TARGET QUALITY CHECK reflection |
 | **Literature Scout** | MCP mandatory first, then WebSearch fallback. RETRIEVAL QUALITY CHECK reflection |
 | **Orchestrator** | Dispatches to agents, guard logic, adaptive cycles, session health |
-| **Generator** | Creates hypotheses (parametric + literature context). SELF-CRITIQUE reflection |
-| **Critic** | Attacks hypotheses (8 vectors + META-CRITIQUE reflection). Writes critic_questions for Generator |
+| **Generator** | Creates hypotheses (parametric + literature context). SELF-CRITIQUE + claim-level verification reflection |
+| **Critic** | Attacks hypotheses (9 vectors incl. claim-level fact verification + META-CRITIQUE reflection). Writes critic_questions for Generator |
 | **Ranker** | 6-dimension scoring (mandatory per-hypothesis table) + diversity |
 | **Evolver** | Recombines with diversity constraint. EVOLUTION QUALITY CHECK reflection. Conditionally skippable |
-| **Quality Gate** | 9-point rubric + web novelty/grounding + META-VALIDATION reflection |
+| **Quality Gate** | 10-point rubric + web novelty + per-claim grounding verification + META-VALIDATION reflection |
 
 ## State Management
 
@@ -110,7 +110,15 @@ confidence, groundedness assessment.
 16. **Hook schema compliance (v5.3)** — All hooks use correct Claude Code
     schema (`"approve"/"block"` not `"allow"`, stdin for PostToolUse,
     `"verdict"` field for kill detection).
-17. **Life sciences domain optimization (v5.4)** — Il pipeline è strutturalmente
+17. **Claim-level fact verification (v5.4)** — Generator SELF-CRITIQUE now
+    verifies each [GROUNDED] tag has a specific citation (author+year+journal),
+    correct directionality, correct compartment, and sufficient quantities.
+    Critic has a 9th attack vector for per-claim web search. Quality Gate
+    has a 10th rubric point requiring individual verification of every
+    [GROUNDED] claim. Citation hallucination or fabricated protein property
+    = automatic FAIL. This addresses the #1 pipeline failure mode from
+    sessions 1-2 (3/7 hypotheses contained fabricated mechanism claims).
+18. **Life sciences domain optimization (v5.4)** — Il pipeline è strutturalmente
     ottimizzato per cross-disciplinary discovery nelle life sciences. I tool di
     retrieval (PubMed, KEGG, STRING), il formato ipotesi (meccanismi molecolari/
     pathway), e il 60% del peso di scoring (Testability + Groundedness +

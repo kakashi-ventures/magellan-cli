@@ -97,10 +97,10 @@ LAYER TRASVERSALE — GUARD & HOOKS
 | **Scout** | Opus | Identifica DOVE cercare: 8 strategie + TARGET QUALITY CHECK reflection (v5.1) |
 | **Literature Scout** | Sonnet | Retrieval strutturato: MCP servers (Semantic Scholar, PubMed) obbligatorio + WebSearch fallback + full-text + disgiunzione + RETRIEVAL QUALITY CHECK reflection (v5.2) |
 | **Generator** | Opus | Structured Relationship Map + 6-8 ipotesi (parametric + lit. context) + SELF-CRITIQUE reflection (v5.1) |
-| **Critic** | Opus | 8 attack vectors + META-CRITIQUE reflection (v5.1) + critic_questions feedback (v5.1) |
+| **Critic** | Opus | 9 attack vectors (incl. claim-level fact verification v5.4) + META-CRITIQUE reflection (v5.1) + critic_questions feedback (v5.1) |
 | **Ranker** | Sonnet | Scoring su 6 dimensioni con pesi fissi canonici + tabella obbligatoria + diversity check |
 | **Evolver** | Sonnet | Operazioni evolutive con diversity constraint + EVOLUTION QUALITY CHECK reflection (v5.2). Condizionalmente skippabile (v5.1) |
-| **Quality Gate** | Opus | Rubrica a 9 punti + web grounding + META-VALIDATION reflection (v5.1) |
+| **Quality Gate** | Opus | Rubrica a 10 punti (incl. per-claim grounding verification v5.4) + web grounding + META-VALIDATION reflection (v5.1) |
 | **Orchestrator** | Opus | Dispatch obbligatorio, cicli adattivi (v5.1), guard logic, session health, knowledge log |
 
 La scelta del modello segue un principio: **Opus per il ragionamento profondo e creativo, Sonnet per i task strutturati e search-intensive**. Scout, Generator, Critic e Quality Gate richiedono ragionamento cross-disciplinare e valutazione profonda. Literature Scout, Ranker ed Evolver eseguono task più strutturati dove la capacità di giudizio è importante ma non richiede la profondità di Opus.
@@ -180,7 +180,7 @@ La conoscenza parametrica è **il motore generativo** — è dove risiedono le c
 1. **Scout (parametrico)**: Identifica DOVE cercare usando deep reasoning. Produce **bridge concepts obbligatori** — meccanismi specifici che connettono Field A a Field C. Prima di esplorare, consulta `knowledge/discovery-log.json` per evitare ri-esplorazioni e riutilizzare bridge produttivi da sessioni precedenti
 2. **Literature Scout (retrieval)**: Verifica che i target non siano già esplorati, trova letteratura recente nei campi target. Usa **MCP servers** (Semantic Scholar, PubMed) come fonte primaria e WebSearch come fallback. **Recupera il testo completo dei top 5-10 paper** per sfruttare la finestra da 1M token. Esegue una **verifica di disgiunzione** per confermare che la connessione è genuinamente UPK
 3. **Generator (parametrico + contesto letteratura + paper completi)**: Costruisce prima una **Structured Relationship Map** (KG on-the-fly parametrico) per ciascun campo, poi genera ipotesi usando reasoning + contesto + paper completi
-4. **Critic (parametrico + web search)**: Attacca ogni ipotesi con 8 attack vectors, cerca counter-evidence via web, esegue l'hallucination-as-novelty check
+4. **Critic (parametrico + web search)**: Attacca ogni ipotesi con 9 attack vectors (inclusa verifica claim-level v5.4), cerca counter-evidence via web, esegue l'hallucination-as-novelty check
 5. **Ranker**: Scoring su 6 dimensioni inclusa **Groundedness** (20%), poi diversity check
 6. **Evolver**: Opera sulle ipotesi top con **diversity constraint**
 7. **Knowledge Persistence**: A fine sessione, l'Orchestrator aggiorna `knowledge/discovery-log.json` con coppie esplorate, bridge produttivi, ipotesi sopravvissute e uccise — per efficienza cumulativa tra sessioni
@@ -246,7 +246,7 @@ Prima di iniziare l'esplorazione, lo Scout consulta `knowledge/discovery-log.jso
 
 ---
 
-## Il Critic: 8 attack vectors
+## Il Critic: 9 attack vectors
 
 Il Critic è genuinamente adversariale. Il suo obiettivo è distruggere le ipotesi deboli — uccidere il 50-70% è normale e salutare.
 
@@ -650,6 +650,40 @@ Basati sull'analisi post-sessione della seconda esecuzione (2026-03-17-scout-002
 7. **Plan mode auto-exit**: `/discover` ora chiama ExitPlanMode automaticamente — il pipeline autonomo non può operare sotto i vincoli read-only del plan mode.
 8. **Groundedness standardization**: Tutti i valori groundedness in session.json devono essere integer 1-10 (non stringhe come "MEDIUM").
 9. **Cycle decision labeling**: Chiarito che `"early_complete"` significa saltare il ciclo 2, non semplicemente "il risultato è buono". Se il ciclo 2 viene eseguito, il label corretto è `"standard"`.
+
+---
+
+## Verifica claim-level (v5.4)
+
+La validazione post-sessione delle 7 ipotesi prodotte nelle sessioni 1-2 ha rivelato il failure mode più critico del pipeline: **claim meccanistici fabbricati che passano come [GROUNDED]**.
+
+### Evidenze dal post-mortem
+
+| Sessione | Ipotesi | Claim fabbricato | Tipo di errore |
+|---|---|---|---|
+| S1 | FINAL-1 | "Bhatt et al., Cell 2024" | Citation hallucination (paper è Dai et al.) |
+| S1 | FINAL-2 | "CaMKII fosforila FUS" | Kinase-substrate relationship inesistente |
+| S1 | FINAL-3 | "V-ATPase acidifica citoplasma" | Errore compartimentale (acidifica lumen) |
+| S2 | E2 | "R-spondin è GPI-ancorata" | Protein property fabbricata (è secreta) |
+
+Questi errori hanno una caratteristica comune: ogni claim suona plausibile e specifico, il che lo rende indistinguibile da un claim genuino senza verifica esterna. Il pipeline pre-v5.4 verificava la **novelty della connessione** (A→C pubblicata?) ma non la **correttezza dei singoli claim** (il ponte B esiste veramente?).
+
+### Fix a tre livelli
+
+1. **Generator SELF-CRITIQUE (v5.4)**: 5 nuovi check obbligatori prima dell'output — citation specificity, directionality, compartmental check, quantitative sanity, protein property verification. Ogni claim [GROUNDED] deve avere author+year+journal espliciti.
+
+2. **Critic attack vector 9 (v5.4)**: "Claim-Level Fact Verification" — web search OGNI claim [GROUNDED] individualmente. Citation hallucination o protein property fabbricata = KILL automatico.
+
+3. **Quality Gate rubric point 10 (v5.4)**: "Per-Claim Grounding Verification" — verifica web di ogni claim [GROUNDED]. maxTurns aumentato da 25 a 35 per il budget di ricerca aggiuntivo. Automatic FAIL per: citation hallucination, fabricated protein property, inverted directionality, compartmental error.
+
+### Impatto atteso
+
+Se queste verifiche fossero state attive nelle sessioni 1-2:
+- **FINAL-1**: SELF-CRITIQUE avrebbe corretto "Bhatt" → "Dai". Critic avrebbe verificato V-ATPase directionality. QG avrebbe verificato quantitative sufficiency. Groundedness rivisto da MEDIUM-HIGH a LOW.
+- **FINAL-2**: SELF-CRITIQUE avrebbe downgraded CaMKII→FUS da [GROUNDED] a [SPECULATIVE]. Critic avrebbe KILLED per fabricated kinase-substrate relationship.
+- **E2**: SELF-CRITIQUE avrebbe verificato R-spondin anchor type → caught as [PARAMETRIC]. Critic avrebbe KILLED per fabricated protein property.
+
+Stimiamo che 4 dei 7 problemi sarebbero stati catturati a livello Generator (impedendo la propagazione), e i restanti 3 sarebbero stati catturati da Critic o Quality Gate.
 
 ---
 

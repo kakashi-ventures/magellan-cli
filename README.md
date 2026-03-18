@@ -138,11 +138,11 @@ Agent prompts use GOAL/CONSTRAINTS/STRATEGIES structure for model scalability (v
 
 - **Scout** [Opus] — 8 strategies to find WHERE undiscovered connections hide + TARGET QUALITY CHECK reflection
 - **Literature Scout** [Sonnet] — MCP servers (mandatory first step) + WebSearch fallback + full-text paper retrieval + RETRIEVAL QUALITY CHECK reflection
-- **Generator** [Opus] — Parametric creativity + literature context → 6-8 hypotheses per cycle + SELF-CRITIQUE reflection
-- **Critic** [Opus] — 8 adversarial attack vectors + META-CRITIQUE reflection + critic_questions feedback
+- **Generator** [Opus] — Parametric creativity + literature context → 6-8 hypotheses per cycle + SELF-CRITIQUE + claim-level verification reflection
+- **Critic** [Opus] — 9 adversarial attack vectors (incl. claim-level fact verification) + META-CRITIQUE reflection + critic_questions feedback
 - **Ranker** [Sonnet] — 6-dimension scoring (mandatory per-hypothesis table) + diversity check
 - **Evolver** [Sonnet] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
-- **Quality Gate** [Opus] — 9-point rubric + web novelty/grounding + META-VALIDATION reflection
+- **Quality Gate** [Opus, 35 turns] — 10-point rubric + web novelty + per-claim grounding verification + META-VALIDATION reflection
 - **Orchestrator** [Opus, 80 turns] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health
 
 ## Conceptual Foundation
