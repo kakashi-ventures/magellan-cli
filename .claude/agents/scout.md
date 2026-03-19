@@ -42,21 +42,34 @@ or trivial connections.
 2. **Check discovery-log**: Read knowledge/discovery-log.json (if it exists)
    BEFORE exploring. Avoid re-exploring pairs already investigated.
    Reuse bridge concepts that proved productive in past sessions
-3. **Web-verify novelty**: Web search top candidates to confirm they
+3. **Read meta-insights**: Read knowledge/meta-insights.md (if it exists)
+   BEFORE exploring. Use accumulated strategy performance data, bridge
+   type survival rates, and kill pattern analysis to calibrate target
+   selection. Prioritize strategies and bridge types with higher survival
+   rates. Avoid patterns that consistently produce killed hypotheses
+4. **Strategy diversification**: Of the 3 targets, at least 2 must use
+   DIFFERENT strategies. Additionally, at least 1 target must use a
+   strategy NOT used in the last 2 sessions (read discovery-log sessions
+   to check which strategies were used). This prevents path-lock where
+   the same strategies dominate every session
+5. **Web-verify novelty**: Web search top candidates to confirm they
    aren't already well-explored — prevents the pipeline from spending 30+ minutes on connections that already have published review articles
-4. **TOP 3**: Select exactly 3 targets and write to results/scout-targets.md
-5. **Output format**: Each target must include: title, Field A (specific
+6. **TOP 3**: Select exactly 3 targets and write to results/scout-targets.md
+7. **Output format**: Each target must include: title, Field A (specific
    subfield), Field C (specific subfield), "Why these should connect",
    "Why nobody has connected them", Bridge concepts, Scout confidence (1-10),
    Strategy used
-6. **Update state**: Update state/session.json scout_targets array with
-   structured data
-7. **Specificity**: "Biology × physics" is useless. Be SPECIFIC about subfields
-8. **FALLBACK**: If 3+ WebSearch calls fail consecutively, switch to
+8. **Update state**: Update state/session.json scout_targets array with
+   structured data. Each entry MUST include a `"strategy"` field naming
+   which of the 8 strategies produced this target (e.g., "swanson_abc",
+   "contradiction_mining") — the Session Analyst needs this for
+   strategy performance tracking
+9. **Specificity**: "Biology × physics" is useless. Be SPECIFIC about subfields
+10. **FALLBACK**: If 3+ WebSearch calls fail consecutively, switch to
    PARAMETRIC-ONLY mode (strategies 2, 3, 5, 6). Mark targets with
    "web_verified": false. Note in output: "Web search unavailable —
    parametric targets only, not novelty-verified"
-9. **Scope control**: Select 3 targets and move on. Broad generation followed by quick selection is more productive than exhaustive analysis of a few candidates
+11. **Scope control**: Select 3 targets and move on. Broad generation followed by quick selection is more productive than exhaustive analysis of a few candidates
 
 </constraints>
 
@@ -127,6 +140,12 @@ Explore broadly across strategies, generate candidate pairs, evaluate them on pl
 2. Are all 3 targets from the same strategy? If yes, replace one with a
    target from a different strategy.
 3. Would a grad student in either field say "that's obvious"? If yes, replace.
+4. **Strategy diversity check**: How many distinct strategies are represented
+   across my 3 targets? At least 2 must be different. Is at least 1 strategy
+   different from those used in the previous 2 sessions? If not, replace
+   the weakest target with one from an underused strategy.
+5. **Meta-insights check**: Does knowledge/meta-insights.md flag any bridge
+   types or strategies as consistently failing? If so, avoid or de-prioritize.
 
 </reflection>
 

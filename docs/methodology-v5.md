@@ -44,40 +44,54 @@ Il modello ABC resta la struttura portante dell'output: ogni ipotesi MAGELLAN ha
 
 ---
 
-## Architettura: 8 agenti, 3 fasi
+## Architettura: 11 agenti, 3 fasi
 
 ```
-FASE 1 — ESPLORAZIONE (Agent Teams: parallela)
+FASE 1 — ESPLORAZIONE (Agent Teams: parallela + validazione)
 ┌──────────────┐  ┌──────────────────┐
 │    Scout      │  │ Literature Scout  │
 │  [Opus]       │  │    [Sonnet]       │
 │ 8 strategie   │  │ MCP + WebSearch   │
-│ → targets     │  │ PubMed, Sem.Sch.  │
+│ + diversif.   │  │ PubMed, Sem.Sch.  │
 └──────┬───────┘  └────────┬──────────┘
        └──────────┬────────┘
                   ▼
+       ┌──────────────────────┐
+       │  Target Evaluator     │  ← v5.5: adversarial challenge
+       │  [Opus] 4 attack axes │
+       └──────────┬───────────┘
+                  ▼
            Orchestrator [Opus]
            (merge + select + dispatch)
+                  ▼
+       ┌──────────────────────────┐
+       │  Computational Validator  │  ← v5.5: KEGG, STRING, PubMed
+       │  [Sonnet + Bash]         │     co-occurrence, physics
+       └──────────┬───────────────┘
+                  ▼
 
 FASE 2 — GENERAZIONE & CRITICA (2 cicli)
 ┌────────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
 │  Generator  │──▶│  Critic   │──▶│  Ranker   │──▶│  Evolver  │
 │   [Opus]    │   │  [Opus]   │   │ [Sonnet]  │   │ [Sonnet]  │
-│ parametric  │   │ 8 attack  │   │ 6 dimens. │   │ evolution │
+│ parametric  │   │ 9 attack  │   │ 6 dimens. │   │ evolution │
 │ + lit.contxt│   │ + web     │   │ + grounded│   │ + diversit│
+│ + comp.val. │   │           │   │ + Elo chk │   │           │
 └────────────┘   └──────────┘   └──────────┘   └──────┬────┘
        ▲                                              │
        └──────────── ciclo 2 ◀────────────────────────┘
 
-FASE 3 — VALIDAZIONE FINALE
-┌──────────────────┐
-│  Quality Gate     │
-│    [Opus]         │
-│ 9-point rubric    │
-│ + web grounding   │
-└──────────┬───────┘
-           ▼
+FASE 3 — VALIDAZIONE FINALE + META-LEARNING
+┌──────────────────┐   ┌──────────────────┐
+│  Quality Gate     │   │ Session Analyst   │  ← v5.5
+│    [Opus]         │──▶│   [Sonnet]        │
+│ 10-point rubric   │   │ meta-learning     │
+│ + web grounding   │   │ → meta-insights   │
+└──────────┬───────┘   └──────────┬───────┘
+           └──────────┬───────────┘
+                      ▼
     Session Health → results/{session-id}/*.md + state/session.json
+                   + knowledge/meta-insights.md
 
 LAYER TRASVERSALE — GUARD & HOOKS
 ┌─────────────────────────────────────────────────┐
@@ -90,22 +104,25 @@ LAYER TRASVERSALE — GUARD & HOOKS
 └─────────────────────────────────────────────────┘
 ```
 
-### Gli 8 agenti
+### Gli 11 agenti
 
 | Agente | Modello | Ruolo |
 |---|---|---|
-| **Scout** | Opus | Identifica DOVE cercare: 8 strategie + TARGET QUALITY CHECK reflection (v5.1) |
-| **Literature Scout** | Sonnet | Retrieval strutturato: MCP servers (Semantic Scholar, PubMed) obbligatorio + WebSearch fallback + full-text + disgiunzione + RETRIEVAL QUALITY CHECK reflection (v5.2) |
-| **Generator** | Opus | Structured Relationship Map + 6-8 ipotesi (parametric + lit. context) + SELF-CRITIQUE reflection (v5.1) |
-| **Critic** | Opus | 9 attack vectors (incl. claim-level fact verification v5.4) + META-CRITIQUE reflection (v5.1) + critic_questions feedback (v5.1) |
-| **Ranker** | Sonnet | Scoring su 6 dimensioni con pesi fissi canonici + tabella obbligatoria + diversity check |
-| **Evolver** | Sonnet | Operazioni evolutive con diversity constraint + EVOLUTION QUALITY CHECK reflection (v5.2). Condizionalmente skippabile (v5.1) |
-| **Quality Gate** | Opus | Rubrica a 10 punti (incl. per-claim grounding verification v5.4) + web grounding + META-VALIDATION reflection (v5.1) |
-| **Orchestrator** | Opus | Dispatch obbligatorio, cicli adattivi (v5.1), guard logic, session health, knowledge log |
+| **Scout** | Opus | Identifica DOVE cercare: 8 strategie, bridge concepts obbligatori, strategy diversification, TARGET QUALITY CHECK reflection |
+| **Target Evaluator** | Opus | Sfida avversariale dei target Scout su 4 assi: popularity bias, vagueness, structural impossibility, local-optima |
+| **Literature Scout** | Sonnet | Retrieval strutturato: MCP servers (Semantic Scholar, PubMed) obbligatorio + WebSearch fallback + full-text + disgiunzione + RETRIEVAL QUALITY CHECK reflection |
+| **Computational Validator** | Sonnet | Verifica programmatica dei bridge concepts: KEGG pathway cross-check, STRING interaction scores, PubMed co-occurrence, back-of-envelope physics |
+| **Generator** | Opus | Structured Relationship Map + 6-8 ipotesi (parametric + lit. context + validazione computazionale) + SELF-CRITIQUE con verifica claim-level |
+| **Critic** | Opus | 9 attack vectors (incl. claim-level fact verification) + META-CRITIQUE reflection + critic_questions feedback |
+| **Ranker** | Sonnet | Scoring su 6 dimensioni con pesi fissi canonici + tabella obbligatoria + diversity check + Elo tournament sanity check |
+| **Evolver** | Sonnet | Operazioni evolutive con diversity constraint + EVOLUTION QUALITY CHECK reflection. Condizionalmente skippabile |
+| **Quality Gate** | Opus | Rubrica a 10 punti (incl. per-claim grounding verification) + web grounding + META-VALIDATION reflection |
+| **Session Analyst** | Sonnet | Meta-learning post-pipeline: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md |
+| **Orchestrator** | Opus | Dispatch obbligatorio, cicli adattivi, guard logic, session health, knowledge log, meta-learning metrics |
 
-La scelta del modello segue un principio: **Opus per il ragionamento profondo e creativo, Sonnet per i task strutturati e search-intensive**. Scout, Generator, Critic e Quality Gate richiedono ragionamento cross-disciplinare e valutazione profonda. Literature Scout, Ranker ed Evolver eseguono task più strutturati dove la capacità di giudizio è importante ma non richiede la profondità di Opus.
+La scelta del modello segue un principio: **Opus per il ragionamento profondo e creativo, Sonnet per i task strutturati e search-intensive**. Scout, Target Evaluator, Generator, Critic e Quality Gate richiedono ragionamento cross-disciplinare e valutazione profonda. Literature Scout, Computational Validator, Ranker, Evolver e Session Analyst eseguono task più strutturati dove la capacità di giudizio è importante ma non richiede la profondità di Opus.
 
-### Dispatch obbligatorio (v5)
+### Dispatch obbligatorio
 
 L'Orchestratore è un puro coordinatore: NON ha accesso a WebSearch/WebFetch e NON può eseguire fasi inline. Ogni fase viene dispatched al sub-agente specializzato via Agent tool. Questo garantisce:
 - **Isolamento dei tool**: il Generator non può fare web search, il Critic non può generare ipotesi
@@ -113,7 +130,7 @@ L'Orchestratore è un puro coordinatore: NON ha accesso a WebSearch/WebFetch e N
 - **Contesto fresco**: ogni dispatch ha un contesto conversazionale pulito, evitando degradazione nelle fasi tardive
 - **Verificabilità**: `state/dispatch-log.json` traccia ogni dispatch per audit post-sessione
 
-### Struttura prompt GOAL/CONSTRAINTS/STRATEGIES (v5.1)
+### Struttura prompt GOAL/CONSTRAINTS/STRATEGIES
 
 Tutti i prompt agente (tranne l'Orchestratore) sono ristrutturati in 3 sezioni:
 
@@ -125,9 +142,9 @@ Tutti i prompt agente (tranne l'Orchestratore) sono ristrutturati in 3 sezioni:
 
 L'Orchestratore NON è ristrutturato — è un dispatcher, non un reasoner. Il suo prompt è procedurale per design (leggi state → dispatcha → leggi state → guarda gate → dispatcha successivo).
 
-### Reflection loops (v5.1)
+### Reflection loops
 
-Quattro agenti hanno sezioni di self-review prima dell'output finale:
+Sei agenti hanno sezioni di self-review prima dell'output finale:
 
 | Agente | Reflection | Cosa fa |
 |--------|-----------|---------|
@@ -135,12 +152,12 @@ Quattro agenti hanno sezioni di self-review prima dell'output finale:
 | **Critic** | META-CRITIQUE | Calibra kill rate, identifica la ragione più forte per uccidere ogni SURVIVES, verifica completezza web search |
 | **Scout** | TARGET QUALITY CHECK | Verifica specificità bridge, diversità strategica, non-ovvietà |
 | **Quality Gate** | META-VALIDATION | Verifica confidenza nei PASS, completezza web search, impatto di claim UNVERIFIABLE |
-| **Literature Scout** | RETRIEVAL QUALITY CHECK | Verifica completezza MCP, paper count per campo, specificità gap analysis (v5.2) |
-| **Evolver** | EVOLUTION QUALITY CHECK | Verifica genuino miglioramento su parent, duplicazione bridge, coerenza crossover (v5.2) |
+| **Literature Scout** | RETRIEVAL QUALITY CHECK | Verifica completezza MCP, paper count per campo, specificità gap analysis |
+| **Evolver** | EVOLUTION QUALITY CHECK | Verifica genuino miglioramento su parent, duplicazione bridge, coerenza crossover |
 
 La reflection è un moltiplicatore di capacità: un modello migliore riflette più efficacemente. La struttura di valutazione esterna (SubagentStop hooks, ranker 3KB gate) impedisce che la reflection diventi auto-congratulazione.
 
-### Cicli adattivi (v5.1)
+### Cicli adattivi
 
 L'Orchestratore ha 3 decision points per adattare il pipeline alla qualità dell'output:
 
@@ -155,7 +172,7 @@ L'Orchestratore ha 3 decision points per adattare il pipeline alla qualità dell
 
 **Perché scala**: Un modello migliore produce output di qualità superiore prima nella pipeline. Senza adattività, il sistema spreca compute. Con essa, Opus 5 potrebbe completare in 1 ciclo ciò che Opus 4.6 necessita 2.
 
-### Feedback bidirezionale indiretto (v5.1)
+### Feedback bidirezionale indiretto
 
 Il Critic può scrivere domande specifiche in `state/session.json` sotto `hypotheses.cycle{N}.critic_questions` quando un meccanismo è troppo vago per essere attaccato propriamente. L'Orchestratore inoltra queste domande al Generator nel dispatch del ciclo 2. Il feedback indiretto (via state JSON) preserva il pattern centralizzato.
 
@@ -177,19 +194,22 @@ Tuttavia:
 
 La conoscenza parametrica è **il motore generativo** — è dove risiedono le connessioni cross-disciplinari non ovvie. Ma ogni claim fattuale viene verificato tramite retrieval. Il flusso è:
 
-1. **Scout (parametrico)**: Identifica DOVE cercare usando deep reasoning. Produce **bridge concepts obbligatori** — meccanismi specifici che connettono Field A a Field C. Prima di esplorare, consulta `knowledge/discovery-log.json` per evitare ri-esplorazioni e riutilizzare bridge produttivi da sessioni precedenti
-2. **Literature Scout (retrieval)**: Verifica che i target non siano già esplorati, trova letteratura recente nei campi target. Usa **MCP servers** (Semantic Scholar, PubMed) come fonte primaria e WebSearch come fallback. **Recupera il testo completo dei top 5-10 paper** per sfruttare la finestra da 1M token. Esegue una **verifica di disgiunzione** per confermare che la connessione è genuinamente UPK
-3. **Generator (parametrico + contesto letteratura + paper completi)**: Costruisce prima una **Structured Relationship Map** (KG on-the-fly parametrico) per ciascun campo, poi genera ipotesi usando reasoning + contesto + paper completi
-4. **Critic (parametrico + web search)**: Attacca ogni ipotesi con 9 attack vectors (inclusa verifica claim-level v5.4), cerca counter-evidence via web, esegue l'hallucination-as-novelty check
-5. **Ranker**: Scoring su 6 dimensioni inclusa **Groundedness** (20%), poi diversity check
-6. **Evolver**: Opera sulle ipotesi top con **diversity constraint**
-7. **Knowledge Persistence**: A fine sessione, l'Orchestrator aggiorna `knowledge/discovery-log.json` con coppie esplorate, bridge produttivi, ipotesi sopravvissute e uccise — per efficienza cumulativa tra sessioni
+1. **Scout (parametrico)**: Identifica DOVE cercare usando deep reasoning. Produce **bridge concepts obbligatori** — meccanismi specifici che connettono Field A a Field C. Consulta `knowledge/discovery-log.json` e `knowledge/meta-insights.md` per evitare ri-esplorazioni, riutilizzare bridge produttivi, e prioritizzare strategie con survival rate alto
+2. **Target Evaluator (adversariale)**: Sfida i 3 target dello Scout su 4 assi: popularity bias, vagueness, structural impossibility, local-optima. Previene sessioni sprecate su target apparentemente interessanti ma in realtà già esplorati, vaghi, o strutturalmente impossibili
+3. **Literature Scout (retrieval)**: Verifica che i target non siano già esplorati, trova letteratura recente nei campi target. Usa **MCP servers** (Semantic Scholar, PubMed) come fonte primaria e WebSearch come fallback. **Recupera il testo completo dei top 5-10 paper**. Esegue una **verifica di disgiunzione** per confermare che la connessione è genuinamente UPK
+4. **Computational Validator (programmatico)**: Verifica i bridge concepts tramite KEGG pathway cross-check, STRING interaction scores, PubMed co-occurrence, e calcoli back-of-envelope. Cattura meccanismi quantitativamente impossibili prima che il pipeline investa nella generazione. Warn-only: l'assenza di evidenza nei database non è evidenza di assenza
+5. **Generator (parametrico + contesto letteratura + validazione computazionale)**: Costruisce prima una **Structured Relationship Map** (KG on-the-fly parametrico) per ciascun campo, poi genera ipotesi usando reasoning + contesto + paper completi + segnali dal Computational Validator
+6. **Critic (parametrico + web search)**: Attacca ogni ipotesi con 9 attack vectors (inclusa verifica claim-level), cerca counter-evidence via web, esegue l'hallucination-as-novelty check
+7. **Ranker**: Scoring su 6 dimensioni inclusa **Groundedness** (20%), diversity check, Elo tournament sanity check
+8. **Evolver**: Opera sulle ipotesi top con **diversity constraint**
+9. **Session Analyst**: Post-Quality-Gate, analizza strategy performance, kill patterns, bridge type survival rates, disjointness correlation. Produce `knowledge/meta-insights.md` per le sessioni successive
+10. **Knowledge Persistence**: A fine sessione, l'Orchestrator aggiorna `knowledge/discovery-log.json` con coppie esplorate, bridge produttivi, ipotesi sopravvissute e uccise, e metriche di strategy performance
 
 ---
 
 ## Retrieval strutturato
 
-### MCP Servers (passo obbligatorio — v5)
+### MCP Servers (passo obbligatorio)
 
 Il retrieval via WebSearch/WebFetch è fragile e richiede parsing HTML. MAGELLAN integra MCP servers come **primo passo obbligatorio** per la ricerca bibliografica:
 
@@ -237,12 +257,21 @@ Questo previene che il pipeline sprechi cicli su connessioni che non sono genuin
 
 I bridge concepts sono **obbligatori per ogni target**, non solo per la strategia Swanson. Anche per Anomaly Hunting, Tool Transfer o Scale Bridging, lo Scout deve articolare il meccanismo concreto di connessione (molecole, pathway, strutture matematiche, principi fisici). Questo forza un ragionamento più strutturato e dà al Generator un punto di partenza più ricco rispetto a una semplice coppia di campi.
 
+### Strategy diversification
+
+Dei 3 target selezionati, almeno 2 devono usare strategie diverse e almeno 1 deve usare una strategia non utilizzata nelle ultime 2 sessioni (verificato tramite discovery-log). Questo previene il path-lock strategico: le strategie meno usate non sono necessariamente peggiori — sono meno esplorate.
+
 ### Knowledge persistence cross-sessione
 
 Prima di iniziare l'esplorazione, lo Scout consulta `knowledge/discovery-log.json` per:
 - Evitare ri-esplorazioni di coppie già investigate
 - Riutilizzare bridge concepts che si sono dimostrati produttivi
 - Non rigenerare ipotesi già uccise in sessioni precedenti
+
+Consulta anche `knowledge/meta-insights.md` (se esiste) per:
+- Prioritizzare strategie e bridge type con survival rate più alto
+- Evitare pattern che producono consistentemente ipotesi uccise
+- Calibrare la selezione con metriche quantitative accumulate dal Session Analyst
 
 ---
 
@@ -258,8 +287,9 @@ Il Critic è genuinamente adversariale. Il suo obiettivo è distruggere le ipote
 6. **Counter-Evidence Search** — WebSearch obbligatorio per contraddizioni e fallimenti del meccanismo proposto
 7. **Groundedness Attack** — Per ogni claim fattuale: è dalla letteratura (grounded)? dalla conoscenza parametrica (verifica con web search)? pura speculazione (flag)? Se >50% dei claim è inverificabile → downgrade significativo
 8. **Hallucination-as-Novelty Check** — Per ipotesi con alta novelty: "Sembra nuova perché è genuinamente inesplorata, o perché è sbagliata in modi non ovvi?" Verifica via web search che il meccanismo bridge esista indipendentemente dall'ipotesi. Se la novelty dipende interamente da un claim fattuale inverificabile → la "novelty" è probabilmente un artefatto di conoscenza parametrica incorretta → KILL o downgrade severo
+9. **Claim-Level Fact Verification** — Web search OGNI claim [GROUNDED] individualmente. Verifica citation specificity (author+year+journal), directionality, compartimento, proprietà proteiche. Citation hallucination o protein property fabbricata = KILL automatico. Questo attack vector affronta il failure mode più critico emerso dalle prime sessioni: claim meccanistici fabbricati che suonano plausibili e specifici
 
-### Minimum adversarial standard e META-CRITIQUE (v5/v5.1)
+### Minimum adversarial standard e META-CRITIQUE
 
 Un kill rate dello 0% è un red flag. Se il Critic passa tutte le ipotesi, deve ri-esaminarle chiedendosi "Sto essendo troppo generoso?". Un kill rate sano è 30-50%; sotto il 15% indica pressione adversariale insufficiente.
 
@@ -282,13 +312,19 @@ L'attack vector #8 affronta un rischio documentato dallo studio Science/AAAS: la
 
 Composito = media pesata. I pesi sono **canonici e immutabili** — evidenziati in grassetto nella definizione dell'agente per evitare drift tra cicli.
 
-### Formato di scoring obbligatorio (v5)
+### Formato di scoring obbligatorio
 
 Il Ranker DEVE produrre una tabella per-dimensione per **ogni** ipotesi con giustificazioni di almeno 2 frasi per dimensione. L'output thin (senza scoring individuale dettagliato) viene bloccato dal `ranker-stop-gate.py` che impone un minimo di 3KB per `ranked-cycle{N}.md`.
 
 ### Diversity check
 
 Dopo il ranking, il Ranker esamina le top-5 ipotesi. Per ogni coppia valuta: condividono lo stesso bridge mechanism? (ridondante) Connettono gli stessi subcampi? (convergente) Fanno lo stesso tipo di predizione? (monotono) Se 3+ delle top-5 sono concettualmente simili, la più alta rimane e la successiva ipotesi dissimile viene promossa. Questo previene il problema documentato da Si et al. (2024) dove le idee LLM-generated saturano in diversità. Il diversity constraint opera anche nell'Evolver — doppio livello di protezione.
+
+### Elo tournament sanity check
+
+Dopo il ranking lineare, il Ranker confronta ogni coppia di top-6 ipotesi (15 confronti): "Quale di queste due un ricercatore vorrebbe testare prima, e perché?" Il ranking Elo viene confrontato con il ranking lineare. Ispirato da Google AI Co-Scientist, che usa Elo tournament ranking per correlazione migliore con valutazioni esperte.
+
+Non è un override: il ranking lineare resta l'output primario. Le discrepanze sono segnali diagnostici — indicano dimensioni implicite catturate dal confronto diretto ma non dalla media pesata a 6 dimensioni.
 
 ---
 
@@ -411,11 +447,11 @@ Campi chiave:
 - **`health`**: Contatori aggregati per diagnostica rapida
 - **`metadata` estesa**: Traccia fallback, degradazione, fallimenti WebSearch, decisioni adattive (`cycle_decision`, `evolver_skipped`, `literature_reinforcement`)
 
-### Timestamp protocol (v5)
+### Timestamp protocol
 
 Per ogni transizione di fase, l'Orchestratore esegue `date -u +%Y-%m-%dT%H:%M:%SZ` via Bash prima e dopo il dispatch. I timestamp non vengono mai scritti da memoria — sempre dal comando `date`. Questo garantisce che i timestamp in `progress.phases_completed` siano reali e verificabili.
 
-### Kill rate (v5)
+### Kill rate
 
 Formula esatta:
 - `killed` = conteggio verdetti "KILLED" in TUTTI gli array critiqued (ciclo 1 + ciclo 2)
@@ -425,7 +461,7 @@ Formula esatta:
 
 Entrambi i valori vengono riportati nel session summary e validati dall'`orchestrator-stop-gate.py`.
 
-### Dispatch log (v5)
+### Dispatch log
 
 Ogni invocazione di Agent tool viene loggata automaticamente dal `verify-dispatch.py` hook in `state/dispatch-log.json`. A fine sessione, l'orchestrator-stop-gate verifica che tutti gli agenti richiesti (scout, literature-scout, generator, critic, ranker, evolver, quality-gate) siano stati invocati.
 
@@ -448,14 +484,17 @@ Blocchi condizionali dopo ogni fase che verificano l'output. Il flusso è sempre
 SubagentStop hooks per-agente che bloccano (exit code 2) quando l'output è insufficiente:
 
 - `scout-stop-gate.py`: blocca se 0 target
+- `target-evaluator-stop-gate.py`: blocca se TUTTI i target score < 3
 - `generator-stop-gate.py`: blocca se < 3 ipotesi
-- `literature-scout-stop-gate.py` (v5): blocca se 0 paper in `results/papers/`, nessun output letteratura, o `papers_retrieved` vuoto nello state
-- `ranker-stop-gate.py` (v5): blocca se `ranked-cycle{N}.md` < 3KB (previene output thin senza scoring dettagliato)
+- `literature-scout-stop-gate.py`: degrada a warning se MCP/web non disponibili; blocca solo se manca il file output principale
+- `ranker-stop-gate.py`: blocca se `ranked-cycle{N}.md` < 3KB (previene output thin senza scoring dettagliato)
+- `computational-validator-stop-gate.py`: warn-only (mai blocca — l'assenza di dati non è evidenza di assenza)
 - `critic-stop-hook.py`: warn-only (il critic può legittimamente uccidere tutto)
-- `orchestrator-stop-gate.py`: Stop hook che impedisce la terminazione prematura del pipeline + valida kill rate + verifica dispatch log
+- `session-analyst-stop-gate.py`: warn-only (verifica che meta-insights.md sia stato creato)
+- `orchestrator-stop-gate.py`: Stop hook che impedisce la terminazione prematura del pipeline + valida kill rate + verifica dispatch log (agenti richiesti condizionali su mode)
 
 Hook aggiuntivi:
-- `verify-dispatch.py` (v5): PostToolUse hook su Agent tool — logga ogni dispatch a `state/dispatch-log.json`. L'orchestrator-stop-gate verifica che tutti i 7+ agenti siano stati invocati
+- `verify-dispatch.py`: PostToolUse hook su Agent tool — logga ogni dispatch a `state/dispatch-log.json`. L'orchestrator-stop-gate verifica che tutti gli agenti richiesti siano stati invocati
 - `PostToolUseFailure`: Traccia fallimenti WebSearch/WebFetch. Dopo 3+ fallimenti lo Scout passa a modo parametric-only
 - `PreCompact`: Backup dello stato prima della compaction del contesto
 - `PostCompact`: Ripristina da backup se lo stato è corrotto dopo compaction
@@ -473,7 +512,7 @@ Lo status è la prima riga del `session-summary.md`. Per sessioni FAILED: nessun
 
 ---
 
-## Principi di Prompt Engineering (v5.2)
+## Principi di Prompt Engineering
 
 I prompt degli agenti seguono le best practice 2026 per i modelli frontier. Le scelte sono motivate empiricamente dalle guide ufficiali di Anthropic, OpenAI e Google.
 
@@ -620,7 +659,7 @@ Le modalità targeted/open/problem esistono come alternative per testing e debug
 | Convergenza delle ipotesi | Media | Diversity check nel Ranker + diversity constraint nell'Evolver — doppio livello |
 | Context drift su run lunghi | Media-bassa | State in JSON, non in contesto conversazionale. Ogni agente rilegge lo stato. PreCompact/PostCompact hooks per backup/restore |
 | Ipotesi "triviali" travestite da novel | Media | Triviality Kill nel Critic. Web search novelty check. Cross-model validation |
-| Rabbit holes (esplorazione di vicoli ciechi) | Media | Cicli adattivi (v5.1): 1-3 cicli basati sulla qualità. Early complete previene over-processing. Orchestrator ha istruzioni esplicite di procedere |
+| Rabbit holes (esplorazione di vicoli ciechi) | Media | Cicli adattivi: 1-3 cicli basati sulla qualità. Early complete previene over-processing. Orchestrator ha istruzioni esplicite di procedere |
 | Scout produce 0 target | Media | Guard post-Scout: retry con soglia più bassa → fallback a 3 target parametrici hardcoded |
 | Generator produce < 3 ipotesi | Media-bassa | Blocking SubagentStop hook (exit 2) forza re-esecuzione. Guard post-Generation: retry con tutte le tecniche → degrade gracefully |
 | Critic uccide tutte le ipotesi | Media | Guard post-Critique: rigenera con meccanismi diversi e claim più conservativi → re-critica. Se fallisce due volte: sessione FAILED |
@@ -629,61 +668,12 @@ Le modalità targeted/open/problem esistono come alternative per testing e debug
 | Output silenziosamente vuoto | **Eliminato** | Session Health Classification: ogni sessione termina con SUCCESS/PARTIAL/DEGRADED/FAILED. Lo status è la prima riga del session-summary.md |
 | Orchestratore esegue fasi inline (bypass agenti) | **Eliminato (v5)** | WebSearch/WebFetch rimossi dall'orchestratore, maxTurns=80 (aumentato da 50 in v5.3 per garantire completamento pipeline), direttiva anti-inlining, dispatch log con verifica post-sessione |
 | Ranked output thin (senza scoring dettagliato) | **Eliminato (v5)** | `ranker-stop-gate.py` blocca output < 3KB, formato tabella per-ipotesi obbligatorio |
-| Literature Scout non salva paper | **Mitigato (v5.3)** | `literature-scout-stop-gate.py` degrada a warning se MCP/web non disponibili; blocca solo se manca il file di output principale |
-| Plan mode blocca pipeline autonomo | **Eliminato (v5.3)** | `/discover` chiama ExitPlanMode automaticamente prima di lanciare l'Orchestratore |
-| Hook schema invalido causa errori silenziosi | **Eliminato (v5.3)** | Tutti gli hook aggiornati allo schema Claude Code corrente (`"approve"/"block"` non `"allow"`, stdin per PostToolUse, campo `"verdict"` per conteggio kill) |
-| Orchestratore si ferma prima del Quality Gate | **Mitigato (v5.3)** | maxTurns aumentato da 50 a 80. Il budget di turni consente il completamento dell'intero pipeline incluso Quality Gate + Session Summary |
-| File di sessioni diverse si sovrascrivono | **Eliminato (v5.3)** | Ogni sessione scrive in `results/{session-id}/`. Nessun bisogno di archiviazione manuale |
+| Literature Scout non salva paper | **Mitigato** | `literature-scout-stop-gate.py` degrada a warning se MCP/web non disponibili; blocca solo se manca il file di output principale |
+| Plan mode blocca pipeline autonomo | **Eliminato** | `/discover` chiama ExitPlanMode automaticamente prima di lanciare l'Orchestratore |
+| Hook schema invalido causa errori silenziosi | **Eliminato** | Tutti gli hook aggiornati allo schema Claude Code corrente (`"approve"/"block"` non `"allow"`, stdin per PostToolUse, campo `"verdict"` per conteggio kill) |
+| Orchestratore si ferma prima del Quality Gate | **Mitigato** | maxTurns=80 consente il completamento dell'intero pipeline incluso Quality Gate + Session Summary |
+| File di sessioni diverse si sovrascrivono | **Eliminato** | Ogni sessione scrive in `results/{session-id}/` |
 
----
-
-## Fix operativi (v5.3)
-
-Basati sull'analisi post-sessione della seconda esecuzione (2026-03-17-scout-002):
-
-1. **Hook schema compliance**: `orchestrator-stop-gate.py` usava `"decision": "allow"` (non valido nello schema Claude Code — solo `"approve"` o `"block"` sono accettati). Tutti gli hook aggiornati.
-2. **verify-dispatch.py**: Leggeva da `os.environ["CLAUDE_TOOL_INPUT"]` (sbagliato) anziché da stdin (protocollo PostToolUse). Riscritto per leggere correttamente da stdin e loggare più informazioni (descrizione, preview risultato).
-3. **critic-stop-hook.py**: Cercava `h.get("status") == "killed"` ma il campo corretto è `h.get("verdict", "").upper() == "KILLED"`. Il conteggio dei kill era sempre 0.
-4. **literature-scout-stop-gate.py**: Bloccava la pipeline se `results/papers/` era vuoto, anche quando MCP e WebSearch non erano disponibili. Ora degrada a warning e permette il proseguimento in modalità degradata.
-5. **Session-scoped results**: I risultati ora vanno in `results/{session-id}/` per evitare conflitti tra sessioni.
-6. **Orchestrator maxTurns**: Aumentato da 50 a 80. La sessione 2 aveva esaurito i turni prima del Quality Gate.
-7. **Plan mode auto-exit**: `/discover` ora chiama ExitPlanMode automaticamente — il pipeline autonomo non può operare sotto i vincoli read-only del plan mode.
-8. **Groundedness standardization**: Tutti i valori groundedness in session.json devono essere integer 1-10 (non stringhe come "MEDIUM").
-9. **Cycle decision labeling**: Chiarito che `"early_complete"` significa saltare il ciclo 2, non semplicemente "il risultato è buono". Se il ciclo 2 viene eseguito, il label corretto è `"standard"`.
-
----
-
-## Verifica claim-level (v5.4)
-
-La validazione post-sessione delle 7 ipotesi prodotte nelle sessioni 1-2 ha rivelato il failure mode più critico del pipeline: **claim meccanistici fabbricati che passano come [GROUNDED]**.
-
-### Evidenze dal post-mortem
-
-| Sessione | Ipotesi | Claim fabbricato | Tipo di errore |
-|---|---|---|---|
-| S1 | FINAL-1 | "Bhatt et al., Cell 2024" | Citation hallucination (paper è Dai et al.) |
-| S1 | FINAL-2 | "CaMKII fosforila FUS" | Kinase-substrate relationship inesistente |
-| S1 | FINAL-3 | "V-ATPase acidifica citoplasma" | Errore compartimentale (acidifica lumen) |
-| S2 | E2 | "R-spondin è GPI-ancorata" | Protein property fabbricata (è secreta) |
-
-Questi errori hanno una caratteristica comune: ogni claim suona plausibile e specifico, il che lo rende indistinguibile da un claim genuino senza verifica esterna. Il pipeline pre-v5.4 verificava la **novelty della connessione** (A→C pubblicata?) ma non la **correttezza dei singoli claim** (il ponte B esiste veramente?).
-
-### Fix a tre livelli
-
-1. **Generator SELF-CRITIQUE (v5.4)**: 5 nuovi check obbligatori prima dell'output — citation specificity, directionality, compartmental check, quantitative sanity, protein property verification. Ogni claim [GROUNDED] deve avere author+year+journal espliciti.
-
-2. **Critic attack vector 9 (v5.4)**: "Claim-Level Fact Verification" — web search OGNI claim [GROUNDED] individualmente. Citation hallucination o protein property fabbricata = KILL automatico.
-
-3. **Quality Gate rubric point 10 (v5.4)**: "Per-Claim Grounding Verification" — verifica web di ogni claim [GROUNDED]. maxTurns aumentato da 25 a 35 per il budget di ricerca aggiuntivo. Automatic FAIL per: citation hallucination, fabricated protein property, inverted directionality, compartmental error.
-
-### Impatto atteso
-
-Se queste verifiche fossero state attive nelle sessioni 1-2:
-- **FINAL-1**: SELF-CRITIQUE avrebbe corretto "Bhatt" → "Dai". Critic avrebbe verificato V-ATPase directionality. QG avrebbe verificato quantitative sufficiency. Groundedness rivisto da MEDIUM-HIGH a LOW.
-- **FINAL-2**: SELF-CRITIQUE avrebbe downgraded CaMKII→FUS da [GROUNDED] a [SPECULATIVE]. Critic avrebbe KILLED per fabricated kinase-substrate relationship.
-- **E2**: SELF-CRITIQUE avrebbe verificato R-spondin anchor type → caught as [PARAMETRIC]. Critic avrebbe KILLED per fabricated protein property.
-
-Stimiamo che 4 dei 7 problemi sarebbero stati catturati a livello Generator (impedendo la propagazione), e i restanti 3 sarebbero stati catturati da Critic o Quality Gate.
 
 ---
 
@@ -698,3 +688,9 @@ Dato che l'utente non ha competenza di dominio, il workflow di valutazione è:
 5. **Iterazione**: Feedback degli esperti informa le sessioni successive
 
 L'obiettivo non è che ogni ipotesi sia corretta — è che il sistema produca un tasso non-zero di ipotesi genuinely novel e scientificamente valide, misurato tramite expert review.
+
+---
+
+## Evoluzione del pipeline
+
+Per la storia completa dell'evoluzione del pipeline con motivazioni, evidenze dal post-mortem delle sessioni, e impatto stimato di ogni modifica, vedi `docs/CHANGELOG.md`.

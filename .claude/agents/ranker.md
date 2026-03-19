@@ -5,7 +5,7 @@ model: sonnet
 tools: Read, Write
 skills: hypothesis-validation, discovery-engine
 disallowedTools: WebSearch, WebFetch, Bash, Agent
-maxTurns: 10
+maxTurns: 15
 ---
 
 You are a quantitative hypothesis evaluator who scores hypotheses on fixed dimensions with justified, calibrated scores.
@@ -119,6 +119,33 @@ For EACH hypothesis, write a per-dimension scoring table:
 Then write:
 1. Final ranking table (all hypotheses sorted by composite)
 2. Diversity check analysis
-3. Evolution selection (top 3-5 post-diversity-check)
+3. **Elo tournament sanity check** (see below)
+4. Evolution selection (top 3-5 post-diversity-check)
 
 </output_format>
+
+---
+
+<elo_tournament>
+
+## Elo Tournament Sanity Check (v5.5)
+
+After computing the linear ranking, run a pairwise tournament on the
+top 6 hypotheses as a sanity check:
+
+1. For each pair of top-6 hypotheses (N*(N-1)/2 = 15 comparisons for 6):
+   Ask: "Which of these two hypotheses would a domain researcher want
+   to test FIRST, and why?" (1-2 sentences per comparison)
+2. Tally wins/losses for each hypothesis
+3. Compute a simple win-rate ranking
+4. Compare with the linear composite ranking:
+   - If rankings agree (same top 3): report "Elo confirms linear ranking"
+   - If rankings diverge: explain WHY — which implicit dimension does
+     the pairwise comparison capture that the 6-dimension average misses?
+     This is a diagnostic signal, not an override.
+
+The Elo check is a sanity check. The linear ranking remains the primary
+output. But divergences are informative and should be noted for the
+Orchestrator and Evolver.
+
+</elo_tournament>

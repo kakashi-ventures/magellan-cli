@@ -54,7 +54,13 @@ try:
                 for entry in dispatches:
                     if isinstance(entry, dict):
                         dispatched.add(entry.get("agent", ""))
-                required = {"scout", "literature-scout", "generator", "critic", "ranker", "quality-gate"}
+                required = {"literature-scout", "generator", "critic", "ranker", "quality-gate",
+                            "computational-validator", "session-analyst"}
+                # Scout and Target Evaluator are only required in scout mode
+                mode = d.get("mode", "")
+                if mode == "scout":
+                    required.add("scout")
+                    required.add("target-evaluator")
                 # Evolver is conditionally skippable in v5.1
                 evolver_skipped = d.get("metadata", {}).get("evolver_skipped", False)
                 if not evolver_skipped:

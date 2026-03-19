@@ -86,6 +86,36 @@
         ]
       },
       {
+        "matcher": "target-evaluator",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/target-evaluator-stop-gate.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "computational-validator",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/computational-validator-stop-gate.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "session-analyst",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/session-analyst-stop-gate.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
         "matcher": "",
         "hooks": [
           {
