@@ -19,22 +19,36 @@ try:
         if phase in ("complete", "failed") or status in ("success", "partial", "degraded", "failed"):
             warnings = []
 
-            # Validate kill rate matches formula
+            # Validate kill rate matches formula (v5.6: read from phase files)
             metadata = d.get("metadata", {})
-            hypotheses = d.get("hypotheses", {})
             total_raw = 0
             total_killed = 0
-            for cycle_key in sorted(hypotheses.keys()):
-                cycle_data = hypotheses[cycle_key]
-                if not isinstance(cycle_data, dict):
-                    continue
-                raw = cycle_data.get("raw", [])
-                total_raw += len(raw) if isinstance(raw, list) else 0
-                critiqued = cycle_data.get("critiqued", [])
-                if isinstance(critiqued, list):
-                    for h in critiqued:
-                        if isinstance(h, dict) and h.get("verdict", "").upper() == "KILLED":
-                            total_killed += 1
+            for cycle_num in [1, 2, 3]:
+                raw_path = f"state/phases/cycle{cycle_num}-raw.json"
+                crit_path = f"state/phases/cycle{cycle_num}-critiqued.json"
+                if os.path.exists(raw_path):
+                    raw_data = json.load(open(raw_path))
+                    total_raw += len(raw_data) if isinstance(raw_data, list) else 0
+                if os.path.exists(crit_path):
+                    crit_data = json.load(open(crit_path))
+                    if isinstance(crit_data, list):
+                        for h in crit_data:
+                            if isinstance(h, dict) and h.get("verdict", "").upper() == "KILLED":
+                                total_killed += 1
+            # Fallback: try legacy hypotheses object in session.json
+            if total_raw == 0:
+                hypotheses = d.get("hypotheses", {})
+                for cycle_key in sorted(hypotheses.keys()):
+                    cycle_data = hypotheses[cycle_key]
+                    if not isinstance(cycle_data, dict):
+                        continue
+                    raw = cycle_data.get("raw", [])
+                    total_raw += len(raw) if isinstance(raw, list) else 0
+                    critiqued = cycle_data.get("critiqued", [])
+                    if isinstance(critiqued, list):
+                        for h in critiqued:
+                            if isinstance(h, dict) and h.get("verdict", "").upper() == "KILLED":
+                                total_killed += 1
 
             if total_raw > 0:
                 expected_kill_rate = round(total_killed / total_raw * 100, 1)

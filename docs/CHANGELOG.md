@@ -5,6 +5,24 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.6.1 — Slim State Architecture (19 marzo 2026)
+
+**Motivazione**: `state/session.json` cresceva proporzionalmente alla complessità delle sessioni (28KB+ con 71% occupato dai dati delle ipotesi). Ogni agente consumava contesto leggendo dati che non gli servivano.
+
+### Refactor: Slim Index + Phase Files
+- **`state/session.json`** diventa un indice di coordinamento slim (~3KB): fase, ciclo, status, selected_target, health counters, progress. MAI contenuto delle ipotesi
+- **`state/phases/*.json`** — File per-fase con dati strutturati leggeri (IDs, titoli, scores, verdicts). Ogni fase scrive il proprio file, la fase successiva legge solo quello che le serve
+- **`results/{session-id}/*.md`** — Testo completo delle ipotesi (meccanismi, evidenze, etc.) vive SOLO qui
+- **Orchestratore aggiornato** — Legge phase files specifici per ogni dispatch, non l'intero stato
+- **Stop gate aggiornato** — `orchestrator-stop-gate.py` legge da phase files con fallback legacy
+- **Export command aggiornato** — Legge `state/phases/final.json` con fallback a session.json
+- **Cross-model validator aggiornato** — Legge `state/phases/final.json`
+
+### Convenzione di naming
+`state/phases/{fase}.json` dove fase è: `scout`, `literature`, `computational`, `cycle{N}-raw`, `cycle{N}-critiqued`, `cycle{N}-ranked`, `cycle{N}-evolved`, `quality-gate`, `final`, `meta-insights`, `cross-model`
+
+---
+
 ## v5.6 — Cross-Model Validation automatica (19 marzo 2026)
 
 **Motivazione**: Rendere la pipeline completamente autonoma end-to-end, inclusa la validazione indipendente delle ipotesi da parte di modelli concorrenti. Fino a v5.5, l'utente doveva manualmente copiare i prompt di export in ChatGPT/Gemini. Ora il pipeline chiama direttamente le API.

@@ -137,8 +137,20 @@ docs/
   CHANGELOG.md                               ← Pipeline evolution history
 scripts/                                     ← Hook scripts (stop gates, failure tracking)
 state/                                       ← JSON state (machine-readable)
-  session.json                               ← Current session state (source of truth)
+  session.json                               ← Slim coordination index (~3KB)
   dispatch-log.json                          ← Agent dispatch log with timestamps
+  phases/                                    ← Per-phase structured data
+    scout.json                               ← Scout targets + quality scores
+    literature.json                          ← Literature context + paper metadata
+    computational.json                       ← Computational readiness checks
+    cycle{N}-raw.json                        ← Raw hypotheses (IDs, titles, scores)
+    cycle{N}-critiqued.json                  ← Critique verdicts + critic_questions
+    cycle{N}-ranked.json                     ← Rankings + composite scores
+    cycle{N}-evolved.json                    ← Evolved hypotheses with lineage
+    quality-gate.json                        ← Quality gate verdicts
+    final.json                               ← PASS/CONDITIONAL_PASS only
+    meta-insights.json                       ← Session analyst output
+    cross-model.json                         ← Cross-model validation consensus
 results/                                     ← Markdown output (human-readable)
   {session-id}/                              ← Session-scoped results directory
     papers/                                  ← Full-text papers retrieved by Literature Scout

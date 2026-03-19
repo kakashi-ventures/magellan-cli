@@ -175,7 +175,7 @@ L'Orchestratore ha 3 decision points per adattare il pipeline alla qualità dell
 
 ### Feedback bidirezionale indiretto
 
-Il Critic può scrivere domande specifiche in `state/session.json` sotto `hypotheses.cycle{N}.critic_questions` quando un meccanismo è troppo vago per essere attaccato propriamente. L'Orchestratore inoltra queste domande al Generator nel dispatch del ciclo 2. Il feedback indiretto (via state JSON) preserva il pattern centralizzato.
+Il Critic può scrivere domande specifiche in `state/phases/cycle{N}-critiqued.json` sotto `critic_questions` quando un meccanismo è troppo vago per essere attaccato propriamente. L'Orchestratore inoltra queste domande al Generator nel dispatch del ciclo 2. Il feedback indiretto (via state JSON) preserva il pattern centralizzato.
 
 ---
 
@@ -395,7 +395,8 @@ Questo sfrutta il concetto KG senza infrastruttura KG esterna: l'LLM FA il knowl
 Il sistema usa un doppio binario:
 
 - **`results/{session-id}/*.md`** — Output human-readable (hypothesis cards, session summary), session-scoped
-- **`state/session.json`** — Stato strutturato della sessione, leggibile da ogni agente
+- **`state/session.json`** — Indice di coordinamento slim (~3KB): fase, ciclo, status, target, contatori
+- **`state/phases/*.json`** — Dati per-fase: scout targets, ipotesi (ID, titoli, scores, verdicts), quality gate, cross-model
 
 ```json
 {
@@ -439,7 +440,7 @@ Il sistema usa un doppio binario:
 }
 ```
 
-Ogni agente legge e aggiorna `state/session.json` come source of truth, non il contesto conversazionale. Questo risolve il problema della perdita di informazioni durante la compaction del contesto.
+Lo stato è diviso in un **indice slim** (`state/session.json`, ~3KB) e **file per-fase** (`state/phases/*.json`). Il testo completo delle ipotesi vive solo in `results/*.md`. Gli agenti ricevono i dati necessari via dispatch prompt dall'Orchestratore — non leggono state files direttamente. Questo previene il bloat dello stato e riduce il consumo di contesto.
 
 Campi chiave:
 - **`status`** / **`status_reason`**: Classificazione esplicita dell'esito della sessione con motivazione. Elimina il caso di output silenziosamente vuoti

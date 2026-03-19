@@ -8,8 +8,9 @@ allowed-tools: Read, Write, Glob
 ## Target
 $ARGUMENTS
 
-Read final hypothesis cards from state/session.json `final` array.
-Read `results_dir` from state/session.json for session-scoped output path.
+Read final hypothesis cards from `state/phases/final.json`.
+Read `results_dir` from `state/session.json` for session-scoped output path.
+If `state/phases/final.json` is missing, try `state/session.json` `final` array as fallback.
 If `results_dir` is missing, use `results/` as fallback.
 
 ### For GPT (argument: gpt or empty)

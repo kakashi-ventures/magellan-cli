@@ -48,12 +48,19 @@ Twelve agents. Orchestrator dispatches to all — never executes phases inline.
 
 **Model selection principle**: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate). Sonnet for structured, search-intensive tasks (Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator).
 
-## State Management
+## State Management (v5.6 — Slim Index + Phase Files)
 
-All structured state lives in `state/session.json`.
-Human-readable outputs in `results/{session-id}/*.md` (session-scoped directories).
-Every agent reads/writes `state/session.json` as source of truth.
-Dispatch log in `state/dispatch-log.json` tracks every agent dispatch with timestamps.
+State is split into a **slim coordination index** and **per-phase data files**:
+- `state/session.json` — Slim index (~3KB): phase, cycle, status, selected_target,
+  health counters, progress. NEVER contains hypothesis content.
+- `state/phases/*.json` — Per-phase structured data: scout targets, hypotheses
+  (IDs, titles, scores, verdicts), quality gate results, cross-model consensus.
+- `results/{session-id}/*.md` — Human-readable outputs with full hypothesis text.
+- `state/dispatch-log.json` — Tracks every agent dispatch with timestamps.
+
+**Principle**: Full hypothesis text lives ONLY in `results/`. Phase files contain
+lightweight metadata. session.json contains ONLY coordination state.
+Agents receive data via dispatch prompts, never read state files directly.
 
 ## Commands
 - `/discover` — Full autonomous (Scout finds targets)
@@ -131,7 +138,9 @@ confidence, groundedness assessment.
 - **Hook schema** — All hooks use correct Claude Code schema (`"approve"/"block"`,
   stdin for PostToolUse, `"verdict"` field for kill detection).
 - **MCP-first retrieval** — Semantic Scholar + PubMed MCP tools mandatory before WebSearch.
-- **Structured state** — JSON state file survives context compaction.
+- **Slim state + phase files** (v5.6) — session.json is a ~3KB coordination index.
+  Per-phase data in `state/phases/*.json`. Full text only in `results/*.md`.
+  Prevents state bloat and reduces context consumption by agents.
 
 ## Documentation Rules
 When modifying the pipeline (agents, hooks, skills, commands), update:
