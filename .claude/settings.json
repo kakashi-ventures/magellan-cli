@@ -116,6 +116,16 @@
         ]
       },
       {
+        "matcher": "cross-model-validator",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/cross-model-validator-stop-gate.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
         "matcher": "",
         "hooks": [
           {

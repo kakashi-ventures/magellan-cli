@@ -54,18 +54,33 @@ Phase 5:  Evolver recombines top candidates (conditionally skippable)
 Phase 6:  Quality Gate — 10-point rubric + web grounding + per-claim verification
           → META-VALIDATION reflection before output
           → Session Analyst — meta-learning metrics → knowledge/meta-insights.md
-Phase 7:  Session summary → results/{session-id}/
-Phase 8:  Knowledge persistence → knowledge/discovery-log.json + strategy metrics
+Phase 7:  Cross-Model Validation — GPT-5.4 Pro + Gemini 3.1 Pro (automatic if
+          API keys set, export files only otherwise) → consensus report
+Phase 8:  Session summary → results/{session-id}/
+Phase 9:  Knowledge persistence → knowledge/discovery-log.json + strategy metrics
 ```
 
 Typical runtime: 20-55 minutes. Check progress with `/status`.
 
 ## After Discovery: Cross-Model Validation
 
+**Automatic (v5.6)**: If `OPENAI_API_KEY` and/or `GEMINI_API_KEY` are set,
+the pipeline automatically calls GPT-5.4 Pro and Gemini 3.1 Pro for
+independent validation and generates a consensus report.
+
+```bash
+# Enable automatic cross-model validation (optional)
+export OPENAI_API_KEY="sk-..."
+export GEMINI_API_KEY="AI..."
+npm install   # one-time setup for API dependencies
 ```
-/export gpt       → produces results/export-gpt.md
+
+**Manual fallback**: If no API keys are set, export files are generated:
 ```
-Copy the file content into ChatGPT (GPT-5.4 Thinking/Pro + Deep Research).
+/export gpt       → produces results/{session-id}/export-gpt.md
+/export gemini    → produces results/{session-id}/export-gemini.md
+```
+Copy into ChatGPT / Gemini AI Studio.
 See `prompts/orchestration-guide.md` for step-by-step instructions.
 
 ## Commands
@@ -136,6 +151,11 @@ results/                                     ← Markdown output (human-readable
     evolved-cycle{N}.md                      ← Evolution output
     quality-gate.md                          ← Quality Gate rubric
     session-analysis.md                      ← Session Analyst output
+    export-gpt.md                            ← GPT validation prompt
+    export-gemini.md                         ← Gemini validation prompt
+    validation-gpt.md                        ← GPT-5.4 Pro response (if API key set)
+    validation-gemini.md                     ← Gemini 3.1 Pro response (if API key set)
+    cross-model-consensus.md                 ← Consensus report (if any API key set)
     final-hypotheses.md                      ← Final hypothesis cards
     session-summary.md                       ← Session overview
 knowledge/                                   ← Persistent data across sessions
@@ -145,7 +165,7 @@ knowledge/                                   ← Persistent data across sessions
 
 ## Architecture
 
-11 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks):
+12 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks):
 
 - **Scout** [Opus] — 8 strategies to find WHERE undiscovered connections hide. TARGET QUALITY CHECK + strategy diversification reflection
 - **Target Evaluator** [Opus] — Adversarial challenge of Scout targets on 4 axes (popularity, vagueness, impossibility, local-optima)
@@ -157,6 +177,7 @@ knowledge/                                   ← Persistent data across sessions
 - **Evolver** [Sonnet] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
 - **Quality Gate** [Opus, 35 turns] — 10-point rubric + web novelty + per-claim grounding verification + META-VALIDATION reflection
 - **Session Analyst** [Sonnet] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
+- **Cross-Model Validator** [Sonnet] — Calls GPT-5.4 Pro + Gemini 3.1 Pro APIs for independent validation → consensus report (requires API keys; falls back to export files)
 - **Orchestrator** [Opus, 80 turns] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health, meta-learning metrics
 
 ## Conceptual Foundation

@@ -118,9 +118,10 @@ LAYER TRASVERSALE — GUARD & HOOKS
 | **Evolver** | Sonnet | Operazioni evolutive con diversity constraint + EVOLUTION QUALITY CHECK reflection. Condizionalmente skippabile |
 | **Quality Gate** | Opus | Rubrica a 10 punti (incl. per-claim grounding verification) + web grounding + META-VALIDATION reflection |
 | **Session Analyst** | Sonnet | Meta-learning post-pipeline: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md |
+| **Cross-Model Validator** | Sonnet | Chiama GPT-5.4 Pro (reasoning high) + Gemini 3.1 Pro (thinking HIGH) via API per validazione indipendente → consensus report. Fallback a file di export se API keys assenti |
 | **Orchestrator** | Opus | Dispatch obbligatorio, cicli adattivi, guard logic, session health, knowledge log, meta-learning metrics |
 
-La scelta del modello segue un principio: **Opus per il ragionamento profondo e creativo, Sonnet per i task strutturati e search-intensive**. Scout, Target Evaluator, Generator, Critic e Quality Gate richiedono ragionamento cross-disciplinare e valutazione profonda. Literature Scout, Computational Validator, Ranker, Evolver e Session Analyst eseguono task più strutturati dove la capacità di giudizio è importante ma non richiede la profondità di Opus.
+La scelta del modello segue un principio: **Opus per il ragionamento profondo e creativo, Sonnet per i task strutturati e search-intensive**. Scout, Target Evaluator, Generator, Critic e Quality Gate richiedono ragionamento cross-disciplinare e valutazione profonda. Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst e Cross-Model Validator eseguono task più strutturati dove la capacità di giudizio è importante ma non richiede la profondità di Opus.
 
 ### Dispatch obbligatorio
 
@@ -203,7 +204,8 @@ La conoscenza parametrica è **il motore generativo** — è dove risiedono le c
 7. **Ranker**: Scoring su 6 dimensioni inclusa **Groundedness** (20%), diversity check, Elo tournament sanity check
 8. **Evolver**: Opera sulle ipotesi top con **diversity constraint**
 9. **Session Analyst**: Post-Quality-Gate, analizza strategy performance, kill patterns, bridge type survival rates, disjointness correlation. Produce `knowledge/meta-insights.md` per le sessioni successive
-10. **Knowledge Persistence**: A fine sessione, l'Orchestrator aggiorna `knowledge/discovery-log.json` con coppie esplorate, bridge produttivi, ipotesi sopravvissute e uccise, e metriche di strategy performance
+10. **Cross-Model Validator** (v5.6): Post-Session-Analyst. Genera prompt di validazione adattati alle ipotesi specifiche, poi chiama le API di OpenAI (GPT-5.4 Pro, reasoning high) e Google (Gemini 3.1 Pro, thinking HIGH) in parallelo tramite `scripts/validate-crossmodel.mjs`. Produce un consensus report che identifica convergenze e divergenze tra i modelli. Se le API key non sono configurate, genera solo i file di export per validazione manuale. **Non-blocking**: fallimenti non cambiano lo status della sessione
+11. **Knowledge Persistence**: A fine sessione, l'Orchestrator aggiorna `knowledge/discovery-log.json` con coppie esplorate, bridge produttivi, ipotesi sopravvissute e uccise, e metriche di strategy performance
 
 ---
 
@@ -603,12 +605,14 @@ L'evidenza mostra che:
 | Scout, Generator, Critic, Quality Gate, Orchestrator | Claude Opus 4.6 | Ragionamento profondo, creatività cross-disciplinare, valutazione adversariale |
 | Literature Scout, Ranker, Evolver | Claude Sonnet 4.6 | Task strutturati e search-intensive, riduzione costi ~30% |
 
-### Modelli esterni (validazione cross-model)
+### Modelli esterni (validazione cross-model automatica, v5.6)
 
-| Fase | Modello | Razionale |
-|---|---|---|
-| Validation | GPT-5.4 (Pro) Deep Research | Il più fattuale di OpenAI (33% meno errori vs 5.2), exhaustive literature search, experimental design |
-| Mathematical structures | Gemini Deep Think | ARC-AGI-2 leader (84.6%), strutture formali, 4 problemi Erdős risolti da Aletheia |
+| Fase | Modello | API | Razionale |
+|---|---|---|---|
+| Empirical validation | GPT-5.4 Pro | OpenAI Responses API, `reasoning.effort: "high"` | Il più fattuale di OpenAI (33% meno errori vs 5.2), novelty verification, citation checking, experimental design |
+| Structural analysis | Gemini 3.1 Pro | Google GenAI SDK, `thinkingLevel: HIGH` | ARC-AGI-2 leader, strutture formali, mappature matematiche, predizioni quantitative |
+
+La validazione cross-model è ora **automatica** (v5.6): il Cross-Model Validator genera i prompt, chiama entrambe le API in parallelo via `scripts/validate-crossmodel.mjs`, e produce un consensus report. Richiede `OPENAI_API_KEY` e/o `GEMINI_API_KEY`. Se assenti, genera solo i file di export per validazione manuale (`/export gpt|gemini`).
 
 ### Benchmark di riferimento (marzo 2026)
 - **Claude Opus 4.6** (feb 2026): GPQA Diamond 91.3%, ARC-AGI-2 68.8%, HLE 53.1% con tools. Time horizon METR: 14h30m. Context: 200K (1M beta)

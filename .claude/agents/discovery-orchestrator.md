@@ -474,6 +474,37 @@ Update progress with timestamp from `date -u` command.
 After agent returns, read state/session.json for updated metrics.
 Include key meta-insights in session summary if available.
 
+## POST-SESSION-ANALYST: CROSS-MODEL VALIDATION (v5.6)
+
+Only run if session status is SUCCESS or PARTIAL (at least 1 hypothesis passed).
+Skip entirely for DEGRADED or FAILED sessions.
+
+Update progress: `current_phase = "cross_model_validation"`.
+
+**DISPATCH to `cross-model-validator` agent via Agent tool:**
+> "<context>
+> Session state: state/session.json (read for final hypotheses and results_dir)
+> Prompt templates: prompts/gpt-validation.md, prompts/gemini-deep-think.md
+> </context>
+>
+> <task>
+> Generate export prompts for all PASS/CONDITIONAL_PASS hypotheses.
+> Check if OPENAI_API_KEY and/or GEMINI_API_KEY are available.
+> If any API keys are set: install deps (npm install), run
+> scripts/validate-crossmodel.mjs to call GPT-5.4 Pro and/or Gemini 3.1 Pro,
+> then parse responses and write cross-model consensus report.
+> If no API keys: generate export files only for manual validation.
+> Write all outputs to {results_dir}/.
+> Update state/session.json with cross_model_validation object.
+> </task>"
+
+After agent returns, read state/session.json for cross_model_validation status.
+- If `status = "completed"`: include consensus highlights in session summary
+- If `status = "manual_export_only"`: note that export files are ready for manual validation
+- If agent failed: log error, continue to session summary (non-blocking)
+
+This phase is NON-BLOCKING — failures do not affect session health status.
+
 ## Kill Rate Calculation (EXACT formula)
 Before writing session summary, calculate:
 - killed = count of "KILLED" verdicts across ALL critiqued arrays (cycle1 + cycle2)
@@ -530,13 +561,22 @@ For **PARTIAL** and **SUCCESS**, include:
 - Remaining targets for future sessions
 - Suggested follow-ups
 
-**Validation Workflow for Non-Expert User:**
-Since the user has no domain expertise, include explicit next steps:
-1. "Run `/export gpt` and paste into ChatGPT with GPT-5.4 Pro for
-   independent validation"
-2. "Run `/export gemini` for mathematical structure analysis"
-3. "Hypotheses where 2+ models agree on high novelty + confidence are
-   your best candidates for expert review"
+**Cross-Model Validation Results:**
+If cross_model_validation.status == "completed":
+- Include the consensus summary from {results_dir}/cross-model-consensus.md
+- Highlight HIGH PRIORITY candidates (where both models agree)
+- Flag divergences that need investigation
+- "Cross-model validation was performed automatically by GPT-5.4 Pro and Gemini 3.1 Pro."
+
+If cross_model_validation.status == "manual_export_only":
+- "Export files were generated for manual validation (no API keys configured)."
+- Include instructions:
+  1. "Open `{results_dir}/export-gpt.md` and paste into ChatGPT with GPT-5.4 Pro"
+  2. "Open `{results_dir}/export-gemini.md` and paste into Gemini AI Studio with 3.1 Pro"
+  3. "Hypotheses where 2+ models agree on high novelty + confidence are your best candidates"
+- "To enable automatic validation in future sessions, set OPENAI_API_KEY and/or GEMINI_API_KEY."
+
+**For Non-Expert User:**
 4. List specific types of domain experts who could evaluate each hypothesis
 
 Update state/session.json: phase="complete", final=[...].

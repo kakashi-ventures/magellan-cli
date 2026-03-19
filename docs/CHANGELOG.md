@@ -5,6 +5,38 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.6 — Cross-Model Validation automatica (19 marzo 2026)
+
+**Motivazione**: Rendere la pipeline completamente autonoma end-to-end, inclusa la validazione indipendente delle ipotesi da parte di modelli concorrenti. Fino a v5.5, l'utente doveva manualmente copiare i prompt di export in ChatGPT/Gemini. Ora il pipeline chiama direttamente le API.
+
+### Nuovi componenti
+- **Cross-Model Validator** [Sonnet] — Nuovo agente che genera prompt di validazione, chiama le API OpenAI (GPT-5.4 Pro con reasoning high) e Google Gemini (3.1 Pro con thinking HIGH) in parallelo, e produce un report di consenso
+- **scripts/validate-crossmodel.mjs** — Script Node.js che esegue le chiamate API in parallelo (OpenAI Responses API + Google GenAI SDK)
+- **cross-model-validator-stop-gate.py** — Hook warn-only che verifica la produzione degli output
+- **package.json** — Dipendenze: `openai` v5+, `@google/genai` v1.45+
+
+### Flusso pipeline aggiornato
+- Dopo Session Analyst → Cross-Model Validator (Phase 7)
+- Se `OPENAI_API_KEY` e/o `GEMINI_API_KEY` sono configurate: validazione API automatica → consensus report
+- Se nessuna API key: genera solo i file di export (fallback al workflow manuale)
+- **Non-blocking**: fallimenti nella validazione cross-model non cambiano lo status della sessione
+
+### Modelli utilizzati
+- **OpenAI**: `gpt-5.4-pro` via Responses API con `reasoning.effort: "high"` — validazione empirica (novelty, citations, mechanism plausibility, counter-evidence, experimental design)
+- **Google**: `gemini-3.1-pro` via `@google/genai` con `thinkingLevel: HIGH` + `includeThoughts: true` — analisi strutturale (mappature formali, isomorfismi, predizioni quantitative)
+
+### Output
+- `{results_dir}/export-gpt.md` — Prompt di validazione GPT (sempre generato)
+- `{results_dir}/export-gemini.md` — Prompt di validazione Gemini (sempre generato)
+- `{results_dir}/validation-gpt.md` — Risposta GPT-5.4 Pro (se API key presente)
+- `{results_dir}/validation-gemini.md` — Risposta Gemini 3.1 Pro (se API key presente)
+- `{results_dir}/cross-model-consensus.md` — Report di consenso con analisi agreement/divergence
+
+### State
+- Nuovo campo `cross_model_validation` in session.json: status, models_used, consensus per ipotesi
+
+---
+
 ## v5.5 — Meta-learning e validazione computazionale (19 marzo 2026)
 
 **Motivazione**: Confronto critico con Aletheia (Gemini Deep Think, DeepMind) e Google AI Co-Scientist. Analisi dei gap emersi dalle sessioni 1-3.

@@ -29,7 +29,7 @@ claude --permission-mode auto
 
 ## Architecture
 
-Eleven agents. Orchestrator dispatches to all — never executes phases inline.
+Twelve agents. Orchestrator dispatches to all — never executes phases inline.
 
 | Agent | Model | Role |
 |---|---|---|
@@ -43,9 +43,10 @@ Eleven agents. Orchestrator dispatches to all — never executes phases inline.
 | **Evolver** | Sonnet | Genetic operations with diversity constraint. EVOLUTION QUALITY CHECK reflection. Conditionally skippable |
 | **Quality Gate** | Opus | 10-point rubric + web novelty + per-claim grounding verification. META-VALIDATION reflection |
 | **Session Analyst** | Sonnet | Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md |
+| **Cross-Model Validator** | Sonnet | Calls GPT-5.4 Pro + Gemini 3.1 Pro APIs for independent hypothesis validation. Generates consensus report |
 | **Orchestrator** | Opus | Pure dispatcher: guard logic, adaptive cycles, session health, meta-learning metrics. No WebSearch/WebFetch |
 
-**Model selection principle**: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate). Sonnet for structured, search-intensive tasks (Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst).
+**Model selection principle**: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate). Sonnet for structured, search-intensive tasks (Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator).
 
 ## State Management
 
@@ -118,6 +119,11 @@ confidence, groundedness assessment.
   Scout and Generator read this in future sessions.
 - **Strategy diversification** — Scout must use at least 2 different strategies
   across 3 targets, with at least 1 not used in the last 2 sessions.
+- **Cross-model validation** (v5.6) — After Quality Gate, surviving hypotheses
+  are automatically sent to GPT-5.4 Pro (empirical validation) and Gemini 3.1
+  Pro (structural analysis) via their APIs. Consensus report synthesizes where
+  models agree/diverge. Requires `OPENAI_API_KEY` and/or `GEMINI_API_KEY`;
+  falls back to export file generation if keys are absent. Non-blocking.
 
 ### Operational
 - **Session-scoped results** — Each session writes to `results/{session-id}/`.

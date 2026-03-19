@@ -1,0 +1,14 @@
+{
+  "name": "magellan",
+  "version": "5.6.0",
+  "private": true,
+  "type": "module",
+  "description": "Multi-Agent Generative Exploration of Latent Links Across kNowledge",
+  "scripts": {
+    "validate": "node scripts/validate-crossmodel.mjs"
+  },
+  "dependencies": {
+    "openai": "^5",
+    "@google/genai": "^1.45"
+  }
+}
