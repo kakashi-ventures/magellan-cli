@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Multi-Agent Generative Exploration of Latent Links Across kNowledge",
   "scripts": {
-    "validate": "node scripts/validate-crossmodel.mjs"
+    "validate": "node --env-file=.env.local scripts/validate-crossmodel.mjs"
   },
   "dependencies": {
     "openai": "^5",

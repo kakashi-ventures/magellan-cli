@@ -4,7 +4,7 @@
 // for independent validation of MAGELLAN hypotheses.
 //
 // Usage:
-//   node scripts/validate-crossmodel.mjs \
+//   node --env-file=.env.local scripts/validate-crossmodel.mjs \
 //     --gpt-prompt <file> --gpt-out <file> \
 //     --gemini-prompt <file> --gemini-out <file>
 //
@@ -12,6 +12,7 @@
 //   OPENAI_API_KEY  — required for GPT validation
 //   GEMINI_API_KEY  — required for Gemini validation
 //   At least one must be set.
+//   Put keys in .env.local and use --env-file=.env.local flag.
 
 import { readFileSync, writeFileSync } from 'fs';
 
@@ -34,14 +35,15 @@ const geminiOutFile    = getArg('--gemini-out');
 // ---------------------------------------------------------------------------
 async function callOpenAI(promptFile, outputFile) {
   const { default: OpenAI } = await import('openai');
-  const client = new OpenAI(); // reads OPENAI_API_KEY from env
+  const client = new OpenAI({ timeout: 15 * 60 * 1000 }); // 15 min timeout for complex reasoning
 
   const prompt = readFileSync(promptFile, 'utf8');
   const start = Date.now();
 
-  process.stderr.write('[OpenAI] Calling gpt-5.4-pro (reasoning: high)...\n');
+  process.stderr.write('[OpenAI] Calling gpt-5.4-pro (reasoning: high, streaming)...\n');
 
-  const response = await client.responses.create({
+  // Use streaming to show progress in real-time
+  const stream = await client.responses.create({
     model: 'gpt-5.4-pro',
     input: [
       {
@@ -50,24 +52,58 @@ async function callOpenAI(promptFile, outputFile) {
       },
     ],
     reasoning: { effort: 'high', summary: 'auto' },
+    stream: true,
   });
 
-  // Extract text from output
-  const messageItem = response.output.find(o => o.type === 'message');
-  const text = messageItem?.content?.[0]?.text
-    || JSON.stringify(response.output, null, 2);
-
-  // Extract reasoning summary if available
-  const reasoningItem = response.output.find(o => o.type === 'reasoning');
+  let text = '';
   let reasoningSummary = '';
-  if (reasoningItem?.summary) {
-    reasoningSummary = reasoningItem.summary
-      .map(s => s.text)
-      .join('\n');
-  }
+  let annotations = [];
+  let reasoningStarted = false;
+  let outputStarted = false;
 
-  // Extract annotations/citations if present
-  const annotations = messageItem?.content?.[0]?.annotations || [];
+  for await (const event of stream) {
+    // Track reasoning phase
+    if (event.type === 'response.reasoning_summary_part.added') {
+      if (!reasoningStarted) {
+        reasoningStarted = true;
+        const elapsed = Math.round((Date.now() - start) / 1000);
+        process.stderr.write(`[OpenAI] Reasoning started (${elapsed}s)...\n`);
+      }
+    }
+
+    // Reasoning summary text deltas
+    if (event.type === 'response.reasoning_summary_text.delta') {
+      reasoningSummary += event.delta;
+      // Print a dot every ~200 chars to show progress
+      if (reasoningSummary.length % 200 < event.delta.length) {
+        process.stderr.write('.');
+      }
+    }
+
+    // Reasoning done, output starting
+    if (event.type === 'response.reasoning_summary_text.done') {
+      const elapsed = Math.round((Date.now() - start) / 1000);
+      process.stderr.write(`\n[OpenAI] Reasoning complete (${elapsed}s), generating output...\n`);
+    }
+
+    // Output text deltas
+    if (event.type === 'response.output_text.delta') {
+      if (!outputStarted) {
+        outputStarted = true;
+        const elapsed = Math.round((Date.now() - start) / 1000);
+        process.stderr.write(`[OpenAI] Output streaming started (${elapsed}s)...\n`);
+      }
+      text += event.delta;
+    }
+
+    // Completed
+    if (event.type === 'response.completed') {
+      // Extract annotations from the completed response
+      const response = event.response;
+      const messageItem = response?.output?.find(o => o.type === 'message');
+      annotations = messageItem?.content?.[0]?.annotations || [];
+    }
+  }
 
   const duration = Math.round((Date.now() - start) / 1000);
   process.stderr.write(`[OpenAI] Completed in ${duration}s\n`);
@@ -105,10 +141,11 @@ async function callGemini(promptFile, outputFile) {
   const prompt = readFileSync(promptFile, 'utf8');
   const start = Date.now();
 
-  process.stderr.write('[Gemini] Calling gemini-3.1-pro (thinking: HIGH)...\n');
+  process.stderr.write('[Gemini] Calling gemini-3.1-pro-preview (thinking: HIGH, streaming)...\n');
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-3.1-pro',
+  // Use streaming to show thinking progress in real-time
+  const stream = await ai.models.generateContentStream({
+    model: 'gemini-3.1-pro-preview',
     contents: prompt,
     config: {
       thinkingConfig: {
@@ -118,22 +155,36 @@ async function callGemini(promptFile, outputFile) {
     },
   });
 
-  // Extract thoughts and answer from response parts
   let thoughts = '';
   let answer = '';
+  let thinkingStarted = false;
+  let answerStarted = false;
 
-  const parts = response.candidates?.[0]?.content?.parts || [];
-  for (const part of parts) {
-    if (part.thought) {
-      thoughts += part.text + '\n';
-    } else if (part.text) {
-      answer += part.text;
+  for await (const chunk of stream) {
+    const parts = chunk.candidates?.[0]?.content?.parts || [];
+    for (const part of parts) {
+      if (!part.text) continue;
+
+      if (part.thought) {
+        if (!thinkingStarted) {
+          thinkingStarted = true;
+          const elapsed = Math.round((Date.now() - start) / 1000);
+          process.stderr.write(`[Gemini] Thinking started (${elapsed}s)...\n`);
+        }
+        thoughts += part.text;
+        // Print a dot every ~200 chars to show progress
+        if (thoughts.length % 200 < part.text.length) {
+          process.stderr.write('.');
+        }
+      } else {
+        if (!answerStarted) {
+          answerStarted = true;
+          const elapsed = Math.round((Date.now() - start) / 1000);
+          process.stderr.write(`\n[Gemini] Thinking done, answer streaming (${elapsed}s)...\n`);
+        }
+        answer += part.text;
+      }
     }
-  }
-
-  // Fallback: use response.text if parts parsing yielded nothing
-  if (!answer && response.text) {
-    answer = response.text;
   }
 
   const duration = Math.round((Date.now() - start) / 1000);
@@ -149,7 +200,7 @@ async function callGemini(promptFile, outputFile) {
   writeFileSync(outputFile, output);
   return {
     status: 'completed',
-    model: 'gemini-3.1-pro',
+    model: 'gemini-3.1-pro-preview',
     duration_s: duration,
     has_thoughts: !!thoughts,
   };

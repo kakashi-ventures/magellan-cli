@@ -61,10 +61,19 @@ For each passing hypothesis, create a self-contained prompt that includes:
 
 ### Step 3: Check API Availability
 
+The validation script auto-loads `.env.local` if present (keys don't need to be
+exported to shell). Check both shell env AND .env.local:
+
 ```bash
-echo "OPENAI=$([ -n "$OPENAI_API_KEY" ] && echo 'available' || echo 'not set')"
-echo "GEMINI=$([ -n "$GEMINI_API_KEY" ] && echo 'available' || echo 'not set')"
+# Check shell env
+echo "OPENAI_ENV=$([ -n "$OPENAI_API_KEY" ] && echo 'available' || echo 'not set')"
+echo "GEMINI_ENV=$([ -n "$GEMINI_API_KEY" ] && echo 'available' || echo 'not set')"
+# Check .env.local
+grep -q 'OPENAI_API_KEY' .env.local 2>/dev/null && echo "OPENAI_FILE=available" || echo "OPENAI_FILE=not set"
+grep -q 'GEMINI_API_KEY' .env.local 2>/dev/null && echo "GEMINI_FILE=available" || echo "GEMINI_FILE=not set"
 ```
+
+Keys are available if present in EITHER shell env OR .env.local.
 
 If BOTH keys are unset:
 - Write export files (already done in Step 2)
@@ -91,10 +100,10 @@ If BOTH keys are unset:
 cd /home/ameft/kva/magellan && npm install --silent 2>&1 | tail -1
 ```
 
-Then run the validation script:
+Then run the validation script with `--env-file` to load API keys from `.env.local`:
 
 ```bash
-node scripts/validate-crossmodel.mjs \
+cd /home/ameft/kva/magellan && node --env-file=.env.local scripts/validate-crossmodel.mjs \
   --gpt-prompt "{results_dir}/export-gpt.md" \
   --gpt-out "{results_dir}/validation-gpt.md" \
   --gemini-prompt "{results_dir}/export-gemini.md" \
@@ -170,7 +179,7 @@ Update `state/session.json` with:
   "cross_model_validation": {
     "status": "completed",
     "gpt_model": "gpt-5.4-pro",
-    "gemini_model": "gemini-3.1-pro",
+    "gemini_model": "gemini-3.1-pro-preview",
     "models_used": ["openai", "gemini"],
     "consensus": {
       "{hypothesis_id}": {
