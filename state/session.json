@@ -1,308 +1,394 @@
 {
-  "session_id": "2026-03-18-targeted-001",
-  "mode": "targeted",
+  "session_id": "2026-03-19-scout-004",
+  "mode": "scout",
   "phase": "complete",
   "cycle": 2,
-  "status": "partial",
-  "status_reason": "1 hypothesis passed Quality Gate (CONDITIONAL PASS). C2-3 pyocyanin/DHODH ferroptosis is web-verified novel with 82% groundedness, but has cell-type counter-evidence (Muller 2016).",
-  "results_dir": "results/2026-03-18-targeted-001",
-  "scout_targets": [],
+  "status": "success",
+  "status_reason": "2 hypotheses passed Quality Gate (1 PASS + 1 CONDITIONAL_PASS) across 2 cycles. Best: E2-3 (inter-complex vibronic networks, 7.5/10). Session validated thermal-activation paradigm for quantum biology and citation verification as critical quality component.",
+  "results_dir": "results/2026-03-19-scout-004",
+  "scout_targets": [
+    {
+      "title": "Terahertz Quantum Spectroscopy \u00d7 Biological Quantum Coherence",
+      "field_a": "Terahertz quantum motion spectroscopy",
+      "field_c": "Biological quantum coherence mechanisms",
+      "bridge_concepts": [
+        "Terahertz-frequency collective quantum oscillations in enzyme active sites",
+        "Cryptochrome radical pair dynamics detectable via terahertz quantum spectroscopy",
+        "Terahertz detection of quantum coherence lifetimes in photosynthetic complexes",
+        "Sub-picosecond protein conformational changes coupled to quantum tunnel events",
+        "Terahertz signatures of quantum entanglement in biological systems"
+      ],
+      "disjointness": "DISJOINT",
+      "confidence": 8,
+      "strategy": "recent_breakthrough_radiation"
+    },
+    {
+      "title": "Mitochondrial Hormesis Threshold Switching \u00d7 Cellular Aging Hallmarks",
+      "field_a": "Mitochondrial hormesis mechanisms",
+      "field_c": "Mitochondrial dysfunction as aging hallmark",
+      "bridge_concepts": [
+        "Critical ROS concentration thresholds switching adaptive to maladaptive responses",
+        "Age-dependent changes in hormetic response capacity",
+        "Mitochondrial stress response pathway dysregulation as aging mechanism",
+        "Temporal dynamics of stress exposure determining hormetic vs aging outcomes",
+        "Mitochondrial membrane potential fluctuations as cellular stress response switch"
+      ],
+      "disjointness": "PARTIALLY_EXPLORED",
+      "confidence": 7,
+      "strategy": "contradiction_mining"
+    },
+    {
+      "title": "Terahertz Microscopy \u00d7 Protein Structural Dynamics",
+      "field_a": "Terahertz quantum spectroscopy",
+      "field_c": "Protein structural biology",
+      "bridge_concepts": [
+        "Terahertz detection of sub-picosecond protein conformational transitions",
+        "Quantum vibrational coupling between protein domains via terahertz spectroscopy",
+        "Terahertz mapping of allosteric pathway dynamics",
+        "Ultrafast hydration shell reorganization during protein folding",
+        "Terahertz signatures of protein-protein interaction dynamics"
+      ],
+      "disjointness": "DISJOINT",
+      "confidence": 9,
+      "strategy": "tool_transfer_opportunities"
+    }
+  ],
   "selected_target": {
-    "field_a": "Ferroptosis biology -- iron-dependent regulated cell death via lipid peroxidation (4-HNE, ox-PE, GPX4, System Xc-)",
-    "field_c": "Bacterial quorum sensing biochemistry -- acyl-homoserine lactone (AHL) signaling, autoinducer synthesis, LuxR-family receptors",
+    "title": "Terahertz Quantum Spectroscopy \u00d7 Biological Quantum Coherence",
+    "field_a": "Terahertz quantum motion spectroscopy",
+    "field_c": "Biological quantum coherence mechanisms",
     "bridge_concepts": [
-      "4-HNE structural similarity to short-chain AHLs (alpha,beta-unsaturated carbonyls)",
-      "ox-PE threshold dynamics paralleling quorum sensing threshold switching",
-      "LasR/RhlR receptor promiscuity for non-cognate lipid signals",
-      "GPX4 as gatekeeper for host-microbiome lipid signaling",
-      "Iron availability as shared variable (ferroptosis vs siderophores)"
+      "Terahertz-frequency collective quantum oscillations in enzyme active sites",
+      "Cryptochrome radical pair dynamics detectable via terahertz quantum spectroscopy",
+      "Terahertz detection of quantum coherence lifetimes in photosynthetic complexes",
+      "Sub-picosecond protein conformational changes coupled to quantum tunnel events",
+      "Terahertz signatures of quantum entangement in biological systems"
     ],
-    "disjointness": "DISJOINT"
+    "disjointness": "DISJOINT",
+    "confidence": 8,
+    "strategy": "recent_breakthrough_radiation",
+    "evaluation_score": 7.75,
+    "selection_reason": "Highest evaluation score with genuine novelty - no existing literature connecting terahertz quantum spectroscopy to biological quantum coherence mechanisms"
   },
-  "literature_context": "Ferroptosis x QS fields are DISJOINT. No published work connects ferroptosis lipid peroxidation products to bacterial QS receptor activation. Closest work: (1) AHL effects on mammalian cells (one-directional), (2) iron competition in infection (nutritional immunity), (3) QS-immune crosstalk. Key gaps: 4-HNE as QS mimic, GPX4 as inter-kingdom gatekeeper, ferroptotic iron release as virulence trigger, threshold dynamics homology. Recent breakthroughs: FSP1/DHODH parallel ferroptosis pathways, LuxR solo receptors responding to exogenous signals, 3-oxo-C12-HSL activating host T2R38. 4-HNE has alpha,beta-unsaturated carbonyl structure similar to short-chain AHLs. LuxR receptors show broader ligand promiscuity than crystal structures suggest. Literature context compiled from parametric knowledge (literature scout agent failed); all claims need web-search verification by Critic.",
-  "disjointness_status": "PARTIALLY_DISJOINT",
-  "papers_retrieved": [],
+  "literature_context": "results/2026-03-19-scout-004/literature-context.md",
+  "disjointness_status": "DISJOINT",
+  "papers_retrieved": [
+    {
+      "filename": "azizi2023-terahertz-protein-modes.md",
+      "title": "Examining the origins of observed terahertz modes from an optically pumped atomistic model protein in aqueous solution",
+      "authors": "Azizi K, Gori M, Morzan U, Hassanali A, Kurian P",
+      "year": 2023,
+      "pmid": 37575674,
+      "relevance": "Direct evidence of terahertz modes in photoexcited proteins"
+    },
+    {
+      "filename": "huang2025-terahertz-2d-spectroscopy.md",
+      "title": "Terahertz 2D coherent spectroscopy for probing and controlling multicorrelations in quantum matter",
+      "authors": "Chuankun Huang, M. Mootz, L. Luo, I. Perakis, Jigang Wang",
+      "year": 2025,
+      "semantic_scholar_id": "35d682dc480f762ac43d581e70d802cbbc5b79a9",
+      "relevance": "State-of-the-art THz-2DCS methodology for quantum coherence detection"
+    },
+    {
+      "filename": "romanello2026-quantum-enzyme.md",
+      "title": "A quantum logic gate framework for triosephosphase isomerase: Decoherence-induced toxicity",
+      "authors": "Romanello D, Romanello A",
+      "year": 2026,
+      "pmid": 41651056,
+      "relevance": "Quantum computational model of enzyme catalysis demonstrating active research in enzyme quantum effects"
+    }
+  ],
   "hypotheses": {
     "cycle1": {
       "raw": [
         {
           "id": "H1",
-          "title": "4-HNE as a Cross-Kingdom Quorum Sensing Mimic that Activates LuxR Solo Receptors in Gut Commensals",
-          "connection": "Ferroptosis lipid peroxidation (4-HNE) -> Structural mimicry of short-chain AHLs -> LuxR solo receptor activation",
-          "bridge_mechanism": "structural_mimicry",
-          "confidence": 5,
-          "groundedness": "MEDIUM"
+          "title": "Cryptochrome Radical Pair Terahertz Resonance Enables Quantum Compass Navigation",
+          "confidence": 6,
+          "groundedness": 5
         },
         {
           "id": "H2",
-          "title": "Ferroptotic Iron Release Creates Localized Siderophore-Independent Iron Bonanza Triggering QS Threshold Collapse in P. aeruginosa",
-          "connection": "Ferroptosis labile iron release -> Iron bonanza bypassing siderophore requirement -> Accelerated QS threshold activation",
-          "bridge_mechanism": "shared_resource_iron",
-          "confidence": 6,
-          "groundedness": "MEDIUM-HIGH"
+          "title": "Enzyme Active Site Quantum Oscillations Create Catalytic Fr\u00f6hlich Condensates",
+          "confidence": 4,
+          "groundedness": 3
         },
         {
           "id": "H3",
-          "title": "GPX4 as Inter-Kingdom Signal Gatekeeper Preventing Ferroptotic 4-HNE from Activating Bacterial QS",
-          "connection": "GPX4 enzymatic activity -> Reduction of lipid hydroperoxides -> Prevention of QS-mimetic signal release",
-          "bridge_mechanism": "enzymatic_gatekeeper",
-          "confidence": 4,
-          "groundedness": "MEDIUM"
+          "title": "Photosystem II Exciton Coherence Lifetimes Are Extended by Terahertz Phonon Coupling",
+          "confidence": 5,
+          "groundedness": 5
         },
         {
           "id": "H4",
-          "title": "ox-PE Bistable Switch Dynamics Mathematically Isomorphic to AHL QS Enabling Cross-Activation",
-          "connection": "Ferroptosis ox-PE threshold -> Shared bistable switch topology -> Coupled activation with bacterial QS",
-          "bridge_mechanism": "coupled_dynamical_systems",
+          "title": "Microtubule Tryptophan Networks Generate Terahertz Quantum Information Highways",
           "confidence": 3,
-          "groundedness": "LOW"
+          "groundedness": 3
         },
         {
           "id": "H5",
-          "title": "Bacterial AHL Lactonases Degrade 4-HNE Cyclic Derivatives as Microbial Detoxification Service",
-          "connection": "Bacterial quorum quenching lactonases -> Promiscuous hydrolysis of 4-HNE cyclization products -> Host tissue protection",
-          "bridge_mechanism": "enzymatic_cross_reactivity",
-          "confidence": 4,
-          "groundedness": "MEDIUM"
+          "title": "Protein Folding Quantum Tunneling Events Are Coordinated by Terahertz Coherence",
+          "confidence": 2,
+          "groundedness": 2
         },
         {
           "id": "H6",
-          "title": "Ferroptosis-Derived Isoprostanes as Host-Produced Quorum Quenching Molecules via LuxR Competitive Inhibition",
-          "connection": "Ferroptotic isoprostane generation -> Competitive antagonism at LuxR binding pockets -> Host quorum quenching",
-          "bridge_mechanism": "structural_mimicry",
-          "confidence": 4,
-          "groundedness": "MEDIUM"
+          "title": "Biological Quantum Entanglement Manifests as Terahertz Bell State Oscillations",
+          "confidence": 1,
+          "groundedness": 2
         },
         {
           "id": "H7",
-          "title": "ACSL4 Ferroptosis Sensitivity Under Balancing Selection from Pathogen QS-Triggered Iron Theft",
-          "connection": "Bacterial QS-activated virulence -> Host ferroptosis as collateral damage -> Positive selection on ACSL4",
-          "bridge_mechanism": "shared_resource_iron",
-          "confidence": 3,
-          "groundedness": "MEDIUM"
+          "title": "ATP Synthase Rotor Dynamics Are Quantized Through Terahertz Cavity Resonances",
+          "confidence": 2,
+          "groundedness": 5
         },
         {
           "id": "H8",
-          "title": "3-oxo-C12-HSL Directly Inhibits GPX4 via Selenocysteine Modification to Induce Host Ferroptosis",
-          "connection": "P. aeruginosa 3-oxo-C12-HSL -> Covalent modification of GPX4 Sec46 -> Host cell ferroptosis induction",
-          "bridge_mechanism": "covalent_chemical_modification",
-          "confidence": 5,
-          "groundedness": "MEDIUM"
+          "title": "DNA Base Stacking Quantum Coherence Is Stabilized by Terahertz Sugar-Phosphate Oscillations",
+          "confidence": 3,
+          "groundedness": 5
         }
       ],
       "critiqued": [
         {
           "id": "H1",
-          "title": "4-HNE as a Cross-Kingdom Quorum Sensing Mimic that Activates LuxR Solo Receptors in Gut Commensals",
-          "verdict": "WOUNDED",
-          "revised_confidence": 3,
-          "key_weakness": "Lactone ring required for all known LuxR activation; 4-HNE half-life < 2 min; no ring-free LuxR activator known; mucus barrier blocks diffusion"
+          "title": "Cryptochrome Radical Pair Terahertz Resonance Enables Quantum Compass Navigation",
+          "verdict": "KILLED",
+          "confidence": 1,
+          "groundedness": 3,
+          "kill_reason": "Fundamental energy scale mismatch: 0.28 THz = 1.16 meV << 26 meV thermal energy at 300K. Thermal fluctuations overwhelm quantum oscillations by 22x."
         },
         {
           "id": "H2",
-          "title": "Ferroptotic Iron Release Creates Localized Siderophore-Independent Iron Bonanza Triggering QS Threshold Collapse in P. aeruginosa",
-          "verdict": "SURVIVES",
-          "revised_confidence": 4,
-          "key_weakness": "LIP may not expand during ferroptosis (2025 bioRxiv); Fur represses virulence under iron excess; field rapidly converging (2025 Nature Comms PQS paper)"
+          "title": "Enzyme Active Site Quantum Oscillations Create Catalytic Fr\u00f6hlich Condensates",
+          "verdict": "KILLED",
+          "confidence": 1,
+          "groundedness": 2,
+          "kill_reason": "Coherent Fr\u00f6hlich condensates thermodynamically impossible at biological temperatures (requires 100M K)"
         },
         {
           "id": "H3",
-          "title": "GPX4 as Inter-Kingdom Signal Gatekeeper Preventing Ferroptotic 4-HNE from Activating Bacterial QS",
-          "verdict": "KILLED",
-          "revised_confidence": 2,
-          "key_weakness": "Complete dependency on unproven H1; incorrect mouse model citation (Matsushita 2015 was T cells not intestinal epithelium); Occam's razor"
+          "title": "Photosystem II Exciton Coherence Lifetimes Are Extended by Terahertz Phonon Coupling",
+          "verdict": "SURVIVE",
+          "confidence": 4,
+          "groundedness": 4,
+          "survival_note": "Core exciton coherence well-established (Science Advances 2025). Phonon coupling speculative but not impossible. Energy scales challenging but viable for sub-ps coherence."
         },
         {
           "id": "H4",
-          "title": "ox-PE Bistable Switch Dynamics Mathematically Isomorphic to AHL QS Enabling Cross-Activation",
+          "title": "Microtubule Tryptophan Networks Generate Terahertz Quantum Information Highways",
           "verdict": "KILLED",
-          "revised_confidence": 1,
-          "key_weakness": "Analogy-as-mechanism fallacy; spatial scale mismatch; POVPC structurally dissimilar to LAI-1; borders on unfalsifiability"
+          "confidence": 1,
+          "groundedness": 2,
+          "kill_reason": "Quantum information storage impossible in noisy biological environment; mechanism unfalsifiable; quantitative claims unverifiable"
         },
         {
           "id": "H5",
-          "title": "Bacterial AHL Lactonases Degrade 4-HNE Cyclic Derivatives as Microbial Detoxification Service",
-          "verdict": "WOUNDED",
-          "revised_confidence": 2,
-          "key_weakness": "4-HNE cyclization produces cyclic ethers not lactones; AHL lactonases highly specific for AHLs; chemical error in mechanism"
+          "title": "Protein Folding Quantum Tunneling Events Are Coordinated by Terahertz Coherence",
+          "verdict": "KILLED",
+          "confidence": 1,
+          "groundedness": 1,
+          "kill_reason": "Heavy-atom quantum tunneling coordination thermodynamically implausible at biological temperatures"
         },
         {
           "id": "H6",
-          "title": "Ferroptosis-Derived Isoprostanes as Host-Produced Quorum Quenching Molecules via LuxR Competitive Inhibition",
+          "title": "Biological Quantum Entanglement Manifests as Terahertz Bell State Oscillations",
           "verdict": "KILLED",
-          "revised_confidence": 1,
-          "key_weakness": "Isoprostanes too bulky for fully enclosed LuxR binding pocket; no non-AHL-scaffold LuxR inhibitor known; MW overlap meaningless for binding"
+          "confidence": 1,
+          "groundedness": 1,
+          "kill_reason": "Quantum entanglement impossible to maintain in biological environments; detection scheme technically infeasible"
         },
         {
           "id": "H7",
-          "title": "ACSL4 Ferroptosis Sensitivity Under Balancing Selection from Pathogen QS-Triggered Iron Theft",
-          "verdict": "WOUNDED",
-          "revised_confidence": 3,
-          "key_weakness": "Brain function selection pressure on ACSL4 dwarfs infection-driven selection; multi-link causal chain with confounders"
+          "title": "ATP Synthase Rotor Dynamics Are Quantized Through Terahertz Cavity Resonances",
+          "verdict": "KILLED",
+          "confidence": 1,
+          "groundedness": 3,
+          "kill_reason": "Quantum rotor dynamics unnecessary; classical conformational mechanics fully explains observed behavior. Energy level spacing << thermal energy."
         },
         {
           "id": "H8",
-          "title": "3-oxo-C12-HSL Directly Inhibits GPX4 via Selenocysteine Modification to Induce Host Ferroptosis",
-          "verdict": "SURVIVES",
-          "revised_confidence": 4,
-          "key_weakness": "Direct covalent Sec46 modification unlikely (GPX4 tetrad suppresses nucleophilicity; beta-keto weak electrophile); survives via revised indirect mechanism"
+          "title": "DNA Base Stacking Quantum Coherence Is Stabilized by Terahertz Sugar-Phosphate Oscillations",
+          "verdict": "SURVIVE",
+          "confidence": 2,
+          "groundedness": 4,
+          "survival_note": "Core DNA physics sound. Charge transport documented. Multi-base-pair quantum coherence speculative but not impossible in principle."
         }
+      ],
+      "critic_questions": [
+        "For H3: What is the specific coupling constant between phonon modes and P680-ChlD1 exciton coherence? How strong must coupling be to extend coherence 3-8x?",
+        "For H8: What physical mechanism allows quantum coherence to persist over 3-8 base pairs despite thermal fluctuations and water interactions? Provide quantitative decoherence rate estimates.",
+        "General: For all hypotheses, provide rigorous energy scale analysis comparing proposed quantum effects to thermal noise (kT = 26 meV at 300K). How do mechanisms overcome thermal decoherence?"
       ],
       "ranked": [
         {
-          "id": "H8",
-          "title": "3-oxo-C12-HSL Directly Inhibits GPX4 via Selenocysteine Modification to Induce Host Ferroptosis",
+          "id": "H3",
+          "title": "Photosystem II Exciton Coherence Lifetimes Are Extended by Terahertz Phonon Coupling",
           "rank": 1,
-          "composite_score": 7.6,
-          "dimension_scores": {
-            "novelty": 9,
-            "mechanistic_specificity": 7,
-            "cross_field_distance": 8,
-            "testability": 9,
-            "impact": 8,
-            "groundedness": 5
-          },
-          "selected_for_evolution": true,
-          "evolution_priority": 1
-        },
-        {
-          "id": "H7",
-          "title": "ACSL4 Ferroptosis Sensitivity Under Balancing Selection from Pathogen QS-Triggered Iron Theft",
-          "rank": 2,
-          "composite_score": 5.8,
-          "dimension_scores": {
+          "composite_score": 7.2,
+          "scores": {
             "novelty": 8,
-            "mechanistic_specificity": 4,
-            "cross_field_distance": 9,
-            "testability": 5,
-            "impact": 7,
-            "groundedness": 4
-          },
-          "selected_for_evolution": true,
-          "evolution_priority": 2
-        },
-        {
-          "id": "H5",
-          "title": "Bacterial AHL Lactonases Degrade 4-HNE Cyclic Derivatives as Microbial Detoxification Service",
-          "rank": 3,
-          "composite_score": 5.6,
-          "dimension_scores": {
-            "novelty": 7,
-            "mechanistic_specificity": 3,
+            "mechanistic_specificity": 6,
             "cross_field_distance": 7,
-            "testability": 9,
-            "impact": 5,
-            "groundedness": 3
+            "testability": 8,
+            "impact": 7,
+            "groundedness": 7
           },
-          "selected_for_evolution": true,
-          "evolution_priority": 3
+          "selected_for_evolution": true
         },
         {
           "id": "H1",
-          "title": "4-HNE as a Cross-Kingdom Quorum Sensing Mimic that Activates LuxR Solo Receptors in Gut Commensals",
-          "rank": 4,
-          "composite_score": 5.5,
-          "dimension_scores": {
-            "novelty": 8,
-            "mechanistic_specificity": 4,
+          "title": "Cryptochrome Radical Pair Terahertz Resonance Enables Quantum Compass Navigation",
+          "rank": 2,
+          "composite_score": 6.8,
+          "scores": {
+            "novelty": 9,
+            "mechanistic_specificity": 5,
             "cross_field_distance": 8,
             "testability": 8,
-            "impact": 6,
-            "groundedness": 3
+            "impact": 8,
+            "groundedness": 6
           },
-          "selected_for_evolution": true,
-          "evolution_priority": 4
+          "selected_for_evolution": true
         },
         {
-          "id": "H2",
-          "title": "Ferroptotic Iron Release Creates Localized Siderophore-Independent Iron Bonanza Triggering QS Threshold Collapse in P. aeruginosa",
-          "rank": 5,
-          "composite_score": 5.5,
-          "dimension_scores": {
-            "novelty": 5,
-            "mechanistic_specificity": 5,
+          "id": "H7",
+          "title": "ATP Synthase Rotor Dynamics Are Quantized Through Terahertz Cavity Resonances",
+          "rank": 3,
+          "composite_score": 6.6,
+          "scores": {
+            "novelty": 8,
+            "mechanistic_specificity": 6,
             "cross_field_distance": 7,
-            "testability": 7,
+            "testability": 6,
             "impact": 6,
+            "groundedness": 6
+          },
+          "selected_for_evolution": true
+        },
+        {
+          "id": "H4",
+          "title": "Microtubule Tryptophan Networks Generate Terahertz Quantum Information Highways",
+          "rank": 4,
+          "composite_score": 6.4,
+          "scores": {
+            "novelty": 9,
+            "mechanistic_specificity": 4,
+            "cross_field_distance": 9,
+            "testability": 5,
+            "impact": 9,
             "groundedness": 4
           },
-          "selected_for_evolution": false,
-          "evolution_priority": null
+          "selected_for_evolution": false
+        },
+        {
+          "id": "H8",
+          "title": "DNA Base Stacking Quantum Coherence Is Stabilized by Terahertz Sugar-Phosphate Oscillations",
+          "rank": 5,
+          "composite_score": 6.4,
+          "scores": {
+            "novelty": 8,
+            "mechanistic_specificity": 5,
+            "cross_field_distance": 6,
+            "testability": 7,
+            "impact": 6,
+            "groundedness": 5
+          },
+          "selected_for_evolution": false
         }
       ],
       "evolved": [
         {
-          "id": "E-H8",
-          "parent_id": "H8",
-          "title": "3-oxo-C12-HSL Induces Host Ferroptosis via System Xc- Competitive Inhibition and GSH Depletion",
-          "operation": "Specification + Mutation",
-          "connection": "P. aeruginosa 3-oxo-C12-HSL -> SLC7A11 (System Xc-) acyl-chain competitive inhibition -> GSH depletion below GPX4 co-substrate threshold -> Lipid hydroperoxide accumulation -> Host cell ferroptosis",
-          "bridge_mechanism": "3oxoC12_System_Xc_GSH_depletion_ferroptosis",
-          "confidence": 6,
-          "groundedness": "MEDIUM"
+          "id": "E3",
+          "parent_id": "H3",
+          "title": "Quantitative Vibronic Coherence Extension in PSII Reaction Centers",
+          "operation": "SPECIFICATION",
+          "lineage": "Evolved from H3 via SPECIFICATION",
+          "improvements": [
+            "Added quantitative coupling constants (Huang-Rhys factors)",
+            "Specified exact residues and molecular interactions",
+            "Provided falsifiable correlation predictions (R\u00b2 > 0.7)",
+            "Included isotope substitution controls"
+          ]
         },
         {
-          "id": "E-H7",
-          "parent_id": "H7",
-          "title": "ACSL4 rs2278190 Myeloid-Specific Regulatory Variant Under Pathogen-Driven Balancing Selection in Pre-Antibiotic-Era Populations",
-          "operation": "Specification",
-          "connection": "P. aeruginosa QS-activated ExoU phospholipase -> AA liberation from PE in high-ACSL4 myeloid cells -> Ferroptotic death -> Selection pressure on rs2278190",
-          "bridge_mechanism": "ACSL4_myeloid_isoform_rs2278190_pathogen_selection",
-          "confidence": 5,
-          "groundedness": "MEDIUM-LOW"
-        },
-        {
-          "id": "E-H5",
-          "parent_id": "H5",
-          "title": "Gut Microbiome AHL Lactonases Hydrolyze 4-Hydroxy-Nonenoic Acid Gamma-Lactone (HNE-GL) as Novel Inter-Kingdom Detoxification",
-          "operation": "Mutation (substrate identity correction)",
-          "connection": "Ferroptosis 4-HNE release -> ALDH3A1 oxidation to 4-HNA -> Spontaneous gamma-lactonization to HNE-GL -> AiiA/QsdA AHL lactonase hydrolysis",
-          "bridge_mechanism": "ALDH3A1_gamma_lactonization_AHL_lactonase_promiscuity",
-          "confidence": 5,
-          "groundedness": "MEDIUM"
-        },
-        {
-          "id": "E-H1",
+          "id": "E1",
           "parent_id": "H1",
-          "title": "4-HNE-Glutathione Conjugate (4-HNE-GSH) as a Stable Ring-Bearing SdiA Partial Agonist via MRP1 Export",
-          "operation": "Crossover (H5 x H1)",
-          "connection": "Ferroptotic GSH depletion -> 4-HNE-GSH Michael adduct -> MRP1 export -> SdiA partial agonism via gamma-glutamyl pseudo-ring",
-          "bridge_mechanism": "4HNE_GSH_conjugate_MRP1_export_SdiA_partial_agonism",
-          "confidence": 4,
-          "groundedness": "MEDIUM-LOW"
+          "title": "Magnetocrystalline Resonance Detection of Cryptochrome Radical Pair Dynamics",
+          "operation": "MUTATION + SPECIFICATION",
+          "lineage": "Evolved from H1 via MUTATION + SPECIFICATION",
+          "improvements": [
+            "Eliminated problematic oscillation claim",
+            "Corrected mechanism using realistic triplet state physics",
+            "Added quantitative angular dependence",
+            "Provided biological validation pathway"
+          ]
+        },
+        {
+          "id": "E7",
+          "parent_id": "H7",
+          "title": "Thermally-Activated Quantum Rotor States in ATP Synthase F\u2081 Complex",
+          "operation": "CROSSOVER + SPECIFICATION",
+          "lineage": "Evolved from H7 via CROSSOVER + SPECIFICATION",
+          "improvements": [
+            "Addressed thermal energy mismatch",
+            "Added classical-quantum crossover criteria",
+            "Specified realistic energy scales",
+            "Provided functional prediction"
+          ]
         }
       ],
-      "count": 8,
-      "bridge_mechanisms_used": [
-        "structural_mimicry",
-        "shared_resource_iron",
-        "enzymatic_gatekeeper",
-        "coupled_dynamical_systems",
-        "enzymatic_cross_reactivity",
-        "covalent_chemical_modification"
-      ],
-      "evolved_bridge_mechanisms": [
-        "3oxoC12_System_Xc_GSH_depletion_ferroptosis",
-        "ACSL4_myeloid_isoform_rs2278190_pathogen_selection",
-        "ALDH3A1_gamma_lactonization_AHL_lactonase_promiscuity",
-        "4HNE_GSH_conjugate_MRP1_export_SdiA_partial_agonism"
-      ],
-      "timestamp": "2026-03-18T02:15:00Z",
-      "critique_timestamp": "2026-03-18T03:45:00Z",
-      "ranking_timestamp": "2026-03-18T04:30:00Z",
-      "evolution_timestamp": "2026-03-18T05:30:00Z",
-      "critic_questions": [
+      "quality_gate": [
         {
-          "hypothesis_id": "H8",
-          "question": "Can you propose an alternative indirect mechanism for 3-oxo-C12-HSL inducing ferroptosis (e.g., GSH depletion, iron mobilization, system Xc- inhibition) given that direct GPX4 Sec46 covalent modification is unlikely due to the catalytic tetrad suppressing selenocysteine nucleophilicity?"
+          "id": "E3",
+          "title": "Quantitative Vibronic Coherence Extension in PSII Reaction Centers",
+          "verdict": "CONDITIONAL_PASS",
+          "gate_score": 6.5,
+          "confidence": 4,
+          "groundedness": 5,
+          "novelty": "PARTIALLY_EXPLORED",
+          "novelty_detail": "March 2026 arxiv paper (2603.14476) demonstrates THz cavity hybridization of R-phycoerythrin vibrations. E3's specific PSII vibronic coherence mechanism via THz-2DCS remains unpublished.",
+          "claims_verified": 7,
+          "claims_total": 7,
+          "claims_contradicted": 0,
+          "key_risks": [
+            "Energy scale: THz phonon energies (1-4 meV) << kT (26 meV) at 300K",
+            "Vibrational vs electronic coherence ambiguity in 2DES measurements",
+            "Froehlich condensation controversy",
+            "March 2026 paper partially explores general THz-photosynthetic protein territory"
+          ],
+          "pass_reason": "Sound mechanistic basis with verified grounding. Specific PSII + THz-2DCS mechanism remains novel. Honest counter-evidence. Actionable test protocol."
         },
         {
-          "hypothesis_id": "H2",
-          "question": "How does your iron bonanza model account for Fur-mediated repression of PvdS and PrrF sRNAs under iron-replete conditions, which may paradoxically SUPPRESS some QS-linked virulence genes when iron is abundant?"
+          "id": "E1",
+          "title": "Magnetocrystalline Resonance Detection of Cryptochrome Radical Pair Dynamics",
+          "verdict": "FAIL",
+          "gate_score": 3.0,
+          "confidence": 2,
+          "groundedness": 3,
+          "novelty": "NOVEL",
+          "novelty_detail": "Novel because physically questionable. Radical pair spin dynamics operate at EPR frequencies (GHz), not THz.",
+          "claims_verified": 4,
+          "claims_total": 7,
+          "claims_contradicted": 0,
+          "claims_unverifiable": 3,
+          "fail_reason": "MECHANISM IMPLAUSIBLE: Fundamental frequency mismatch between THz spectroscopy (vibrational probe) and radical pair spin dynamics (GHz EPR phenomenon). Parent H1 correctly killed by Critic; evolution did not resolve core physical issue."
         },
         {
-          "hypothesis_id": "general",
-          "question": "Given that PQS already induces macrophage ferroptosis (2025 Nature Comms), should the hypothesis set pivot to explore ferroptosis-to-QS signaling more exclusively, rather than repeating the QS-to-ferroptosis direction being actively explored?"
+          "id": "E7",
+          "title": "Thermally-Activated Quantum Rotor States in ATP Synthase F1 Complex",
+          "verdict": "FAIL",
+          "gate_score": 1.5,
+          "confidence": 1,
+          "groundedness": 2,
+          "novelty": "NOVEL",
+          "novelty_detail": "Novel because physically impossible at biological temperatures. arxiv 2506.23439 explicitly demonstrates quantum rotor states irrelevant for ATP synthase.",
+          "claims_verified": 4,
+          "claims_total": 9,
+          "claims_contradicted": 3,
+          "claims_unverifiable": 2,
+          "fail_reason": "MECHANISM IMPLAUSIBLE: Directly contradicted by arxiv 2506.23439. Quantized rotational state energy spacing << thermal energy by orders of magnitude. Tunneling probability ~0. Classical mechanics fully explains ATP synthase rotation."
         }
       ]
     },
@@ -310,473 +396,380 @@
       "raw": [
         {
           "id": "C2-1",
-          "title": "3-oxo-C12-HSL Induces Ferroptosis via TRIM25-Mediated GPX4 Proteasomal Degradation, Not Direct Chemical Inhibition",
-          "connection": "P. aeruginosa 3-oxo-C12-HSL -> NF-kB activation -> TRIM25 E3 ligase upregulation -> GPX4 K48-linked polyubiquitination and proteasomal degradation -> Host epithelial ferroptosis",
-          "bridge_mechanism": "E3_ligase_mediated_protein_degradation",
-          "confidence": 5,
-          "groundedness": "MEDIUM",
-          "builds_on": "E-H8",
-          "critic_question_addressed": "H8: alternative indirect mechanism for 3-oxo-C12-HSL inducing ferroptosis"
+          "title": "Photosystem I Quinone-Iron Cluster THz Coherence Exhibits Temperature-Independent Vibronic Protection",
+          "confidence": 6,
+          "groundedness": 5
         },
         {
           "id": "C2-2",
-          "title": "Ferroptotic HMGB1 Release Modulates P. aeruginosa QS via HMGB1-DNA Competitive Displacement at Lux-Box Promoters",
-          "connection": "Ferroptotic DAMP release (all-thiol HMGB1) -> Bacterial uptake -> HMGB1 Box-A minor groove binding at lux-box-adjacent DNA -> LasR dimer displacement -> QS transcriptional reprogramming",
-          "bridge_mechanism": "protein_DNA_competitive_displacement",
-          "confidence": 3,
-          "groundedness": "LOW",
-          "builds_on": null,
-          "critic_question_addressed": "general: ferroptosis-to-QS direction"
+          "title": "Cryptochrome-6 Plant Magnetoreception Uses Dual-Frequency THz Absorption for Solar Compass Navigation",
+          "confidence": 5,
+          "groundedness": 5
         },
         {
           "id": "C2-3",
-          "title": "Pyocyanin-Initiated Mitochondrial Lipid Peroxidation Radical Chain Reactions Induce DHODH-Pathway-Specific Ferroptosis",
-          "connection": "P. aeruginosa QS-regulated pyocyanin -> Mitochondrial redox cycling -> Superoxide/Fenton radical chain PUFA-PE oxidation -> DHODH-pathway overwhelmed -> Compartment-specific ferroptosis",
-          "bridge_mechanism": "redox_cycling_radical_chain_initiation",
-          "confidence": 7,
-          "groundedness": "HIGH",
-          "builds_on": null,
-          "critic_question_addressed": "general: novel QS-to-ferroptosis mechanism orthogonal to PQS-TFR1"
+          "title": "V-Type ATPase Quantum Rotor Networks Create Tissue-Scale THz Standing Wave Patterns",
+          "confidence": 4,
+          "groundedness": 3
         },
         {
           "id": "C2-4",
-          "title": "Ferroptotic 15-HpETE-PE Export via Microvesicle Shedding Activates P. aeruginosa PqsR as Non-Cognate Ligand Creating Positive Feedback Loop",
-          "connection": "Ferroptosis 15-LOX/PEBP1 ox-PE generation -> Microvesicle shedding -> Bacterial membrane fusion -> Phospholipase liberation of 15-HpETE -> PqsR activation -> PQS amplification -> More ferroptosis",
-          "bridge_mechanism": "vesicle_mediated_lipid_signal_delivery",
+          "title": "DNA Polymerase Quantum Coherence Enables Ultra-High Fidelity Through THz Sugar-Phosphate Oscillation Stabilization",
           "confidence": 4,
-          "groundedness": "MEDIUM",
-          "builds_on": null,
-          "critic_question_addressed": "general: ferroptosis-to-QS direction with amplification loop"
+          "groundedness": 3
         },
         {
           "id": "C2-5",
-          "title": "QS-Regulated Bacterial GSH Import Creates Pericellular GSH Desert that Sensitizes Host Epithelial Cells to Ferroptosis",
-          "connection": "Bacterial QS activation -> Upregulated GSH import (GsiABCD) and GGT -> Pericellular GSH depletion -> Host intracellular GSH falls below GPX4 Km -> Ferroptosis sensitization",
-          "bridge_mechanism": "bacterial_nutrient_scavenging_ferroptosis_sensitization",
-          "confidence": 5,
-          "groundedness": "MEDIUM",
-          "builds_on": "E-H8",
-          "critic_question_addressed": "H8: alternative GSH depletion mechanism (extracellular rather than transporter-mediated)"
+          "title": "Biological Cavity Quantum Electrodynamics in Chlorophyll-Protein Antenna Complexes",
+          "confidence": 3,
+          "groundedness": 3
         },
         {
           "id": "C2-6",
-          "title": "4-HNE-Cysteine Thiazolidine Ring (from Bacterial GGT Processing of Exported GS-HNE) Activates SdiA as AHL Structural Mimic",
-          "connection": "Ferroptotic 4-HNE -> GST A4-4 conjugation -> MRP1 export of GS-HNE -> Bacterial GGT hydrolysis -> 4-HNE-Cys thiazolidine cyclization -> SdiA activation via 5-membered heterocyclic ring mimicry",
-          "bridge_mechanism": "thiazolidine_ring_mimicry_via_bacterial_processing",
-          "confidence": 5,
-          "groundedness": "MEDIUM",
-          "builds_on": "E-H1",
-          "critic_question_addressed": "H1: provides genuine 5-membered ring via biologically plausible route"
+          "title": "Microtubule Quantum Criticality Enables Long-Range Cellular Signaling via THz Coherent Oscillations",
+          "confidence": 2,
+          "groundedness": 3
         },
         {
           "id": "C2-7",
-          "title": "Fur-Mediated Transcriptional Rewiring Under Ferroptotic Iron Excess Decouples PQS from Iron Scavenging, Enabling Repurposing as Cytotoxic Ferroptosis-Amplification Signal",
-          "connection": "Ferroptotic iron/heme release -> Fur activation -> Siderophore repression + heme uptake maintenance -> PQS decoupled from iron scavenging -> PQS repurposed as ferroptosis amplifier (via CNMT-TFR1) -> Positive feedback loop",
-          "bridge_mechanism": "transcriptional_regulatory_rewiring_PQS_functional_switch",
-          "confidence": 6,
-          "groundedness": "MEDIUM-HIGH",
-          "builds_on": "H2 (iron bonanza)",
-          "critic_question_addressed": "H2: directly resolves Fur repression paradox"
+          "title": "Enzymatic Quantum Interference Creates Catalytic Selectivity Through Destructive THz Pathway Coupling",
+          "confidence": 3,
+          "groundedness": 3
         }
       ],
       "critiqued": [
         {
           "id": "C2-1",
-          "title": "3-oxo-C12-HSL Induces Ferroptosis via TRIM25-Mediated GPX4 Proteasomal Degradation",
-          "verdict": "KILLED",
-          "revised_confidence": 2,
-          "key_weakness": "TRIM25-GPX4 already published (N6F11, Li 2023 Sci Transl Med); NF-kB does NOT transcriptionally induce TRIM25 (TRIM25 is ISG, not NF-kB target -- causal arrow reversed); Kravchenko 2008 citation wrong journal (Science not J Biol Chem) and shows NF-kB disruption in macrophages"
+          "title": "Photosystem I Quinone-Iron Cluster THz Coherence Exhibits Temperature-Independent Vibronic Protection",
+          "verdict": "WOUNDED",
+          "confidence": 4,
+          "groundedness": 6,
+          "survival_note": "Novel extension of proven vibronic coupling, but temperature independence claims lack empirical support"
         },
         {
           "id": "C2-2",
-          "title": "Ferroptotic HMGB1 Release Displaces LuxR from DNA",
+          "title": "Cryptochrome-6 Plant Magnetoreception Uses Dual-Frequency THz Absorption for Solar Compass Navigation",
           "verdict": "KILLED",
-          "revised_confidence": 1,
-          "key_weakness": "HMGB1 (25 kDa) cannot enter gram-negative bacteria (porin cutoff ~600 Da); LuxR binds major groove but HMGB1 binds minor groove; concentrations off by >100-fold; three independently fatal barriers"
+          "confidence": 1,
+          "groundedness": 2,
+          "kill_reason": "Citation hallucination - Ahmad et al. 2024 reference cannot be verified"
         },
         {
           "id": "C2-3",
-          "title": "Pyocyanin-Initiated DHODH-Pathway Ferroptosis",
-          "verdict": "SURVIVES",
-          "revised_confidence": 5,
-          "key_weakness": "Compartment-specific DHODH prediction may be oversimplified (pyocyanin attacks all three anti-ferroptotic axes); borderline trivially deducible from existing knowledge; pyocyanin pleiotropic effects may mask ferroptosis contribution"
+          "title": "V-Type ATPase Quantum Rotor Networks Create Tissue-Scale THz Standing Wave Patterns",
+          "verdict": "KILLED",
+          "confidence": 2,
+          "groundedness": 3,
+          "kill_reason": "Collective quantum effects at tissue scales lack empirical foundation"
         },
         {
           "id": "C2-4",
-          "title": "15-HpETE-PE Activates PqsR via Microvesicles",
-          "verdict": "KILLED",
-          "revised_confidence": 1,
-          "key_weakness": "PqsR requires aromatic quinolone ring for Tyr258 pi-pi stacking; 15-HpETE is linear eicosanoid with no aromatic ring; all known PqsR ligands are aromatic; microvesicle-bacterial membrane fusion thermodynamically unfavorable"
+          "title": "DNA Polymerase Quantum Coherence Enables Ultra-High Fidelity Through THz Sugar-Phosphate Oscillation Stabilization",
+          "verdict": "WOUNDED",
+          "confidence": 3,
+          "groundedness": 5,
+          "survival_note": "Addresses cycle 1 critic question with quantitative analysis, but aqueous environment challenges coherence claims"
         },
         {
           "id": "C2-5",
-          "title": "Bacterial GSH Scavenging Creates Ferroptosis-Sensitizing GSH Desert",
-          "verdict": "WOUNDED",
-          "revised_confidence": 3,
-          "key_weakness": "GsiABCD characterized in E. coli not P. aeruginosa; QS regulation of GSH import unverified; host GGT competes for extracellular GSH; GPX4 Km for GSH uncertain (could be 100x lower than claimed); mucus barrier reduces bacterial access"
+          "title": "Biological Cavity Quantum Electrodynamics in Chlorophyll-Protein Antenna Complexes",
+          "verdict": "KILLED",
+          "confidence": 1,
+          "groundedness": 3,
+          "kill_reason": "Biological systems lack electromagnetic properties necessary for cavity QED"
         },
         {
           "id": "C2-6",
-          "title": "4-HNE-Cys Thiazolidine Activates SdiA as AHL Mimic",
-          "verdict": "WOUNDED",
-          "revised_confidence": 3,
-          "key_weakness": "H-bonding mismatch (thiazolidine NH donor vs lactone O acceptor); thiazolidine ring equilibrium reversible at physiological pH; non-AHL SdiA modulators tend to be inhibitors not agonists; SdiA pocket may not accommodate 9-carbon chain"
+          "title": "Microtubule Quantum Criticality Enables Long-Range Cellular Signaling via THz Coherent Oscillations",
+          "verdict": "KILLED",
+          "confidence": 1,
+          "groundedness": 3,
+          "kill_reason": "Quantum criticality requires impossible precision in biological systems"
         },
         {
           "id": "C2-7",
-          "title": "Fur-PQS Functional Switch Under Ferroptotic Iron Excess",
-          "verdict": "SURVIVES",
-          "revised_confidence": 4,
-          "key_weakness": "PrrF-antR pathway reduces PQS under iron excess (contradicts 'PQS unaffected' claim); PQS-Fe3+ chelation may be inseparable from cytotoxicity (undermines 'functional switch' framing); host iron re-sequestration limits temporal window"
+          "title": "Enzymatic Quantum Interference Creates Catalytic Selectivity Through Destructive THz Pathway Coupling",
+          "verdict": "WOUNDED",
+          "confidence": 2,
+          "groundedness": 5,
+          "survival_note": "Novel quantum mechanism proposal but phase coherence requirements likely too stringent for biology"
         }
+      ],
+      "critic_questions": [
+        "Energy Scale Validation: How do proposed quantum effects maintain coherence when thermal energy (kBT = 26 meV) exceeds most quantum energy scales by 10-100x?",
+        "Citation Verification: Provide complete bibliographic information for Ahmad et al. 2024 - journal, volume, pages. This citation could not be verified.",
+        "Collective Quantum Effects: What physical mechanism enables quantum coherence maintenance across tissue scales (>10 \u03bcm) in noisy biological environments?",
+        "Parameter Verification: Provide literature sources for specific coupling constants, critical temperatures, and quantum interference parameters."
       ],
       "ranked": [
         {
-          "id": "C2-3",
-          "title": "Pyocyanin-Initiated Mitochondrial Lipid Peroxidation Induces DHODH-Pathway-Specific Ferroptosis",
+          "id": "C2-1",
+          "title": "Photosystem I Quinone-Iron Cluster THz Coherence Exhibits Temperature-Independent Vibronic Protection",
           "rank": 1,
-          "composite_score": 7.9,
-          "dimension_scores": {
+          "composite_score": 7.2,
+          "scores": {
             "novelty": 8,
-            "mechanistic_specificity": 8,
-            "cross_field_distance": 7,
-            "testability": 9,
-            "impact": 7,
-            "groundedness": 7
-          },
-          "cycle": 2,
-          "parent_id": null,
-          "selected_for_evolution": true,
-          "evolution_priority": 1
-        },
-        {
-          "id": "C2-7",
-          "title": "Fur-Mediated Transcriptional Rewiring Decouples PQS from Iron Scavenging as Ferroptosis-Amplification Signal",
-          "rank": 2,
-          "composite_score": 7.1,
-          "dimension_scores": {
-            "novelty": 7,
             "mechanistic_specificity": 7,
             "cross_field_distance": 7,
             "testability": 8,
             "impact": 7,
             "groundedness": 6
           },
-          "cycle": 2,
-          "parent_id": "H2",
-          "selected_for_evolution": true,
-          "evolution_priority": 2
+          "selected_for_evolution": true
         },
         {
-          "id": "E-H8",
-          "title": "3-oxo-C12-HSL Induces Host Ferroptosis via System Xc- Competitive Inhibition and GSH Depletion",
-          "rank": 3,
-          "composite_score": 7.0,
-          "dimension_scores": {
-            "novelty": 8,
-            "mechanistic_specificity": 7,
+          "id": "C2-7",
+          "title": "Enzymatic Quantum Interference Creates Catalytic Selectivity Through Destructive THz Pathway Coupling",
+          "rank": 2,
+          "composite_score": 6.9,
+          "scores": {
+            "novelty": 9,
+            "mechanistic_specificity": 6,
             "cross_field_distance": 8,
+            "testability": 7,
+            "impact": 7,
+            "groundedness": 5
+          },
+          "selected_for_evolution": true
+        },
+        {
+          "id": "C2-4",
+          "title": "DNA Polymerase Quantum Coherence Enables Ultra-High Fidelity Through THz Sugar-Phosphate Oscillation Stabilization",
+          "rank": 3,
+          "composite_score": 6.8,
+          "scores": {
+            "novelty": 8,
+            "mechanistic_specificity": 8,
+            "cross_field_distance": 6,
+            "testability": 6,
+            "impact": 6,
+            "groundedness": 5
+          },
+          "selected_for_evolution": false
+        },
+        {
+          "id": "E3",
+          "title": "Quantitative Vibronic Coherence Extension in PSII Reaction Centers",
+          "rank": 3,
+          "composite_score": 6.8,
+          "scores": {
+            "novelty": 7,
+            "mechanistic_specificity": 8,
+            "cross_field_distance": 7,
             "testability": 8,
             "impact": 7,
             "groundedness": 5
           },
-          "cycle": "evolved_c1",
-          "parent_id": "H8",
           "selected_for_evolution": true,
-          "evolution_priority": 3
-        },
-        {
-          "id": "E-H5",
-          "title": "Gut Microbiome AHL Lactonases Hydrolyze 4-Hydroxy-Nonenoic Acid Gamma-Lactone (HNE-GL) as Novel Inter-Kingdom Detoxification",
-          "rank": 4,
-          "composite_score": 6.9,
-          "dimension_scores": {
-            "novelty": 8,
-            "mechanistic_specificity": 7,
-            "cross_field_distance": 8,
-            "testability": 8,
-            "impact": 6,
-            "groundedness": 5
-          },
-          "cycle": "evolved_c1",
-          "parent_id": "H5",
-          "selected_for_evolution": true,
-          "evolution_priority": 4
-        },
-        {
-          "id": "C2-6",
-          "title": "4-HNE-Cysteine Thiazolidine Ring Activates SdiA as AHL Structural Mimic via Bacterial GGT Processing",
-          "rank": 5,
-          "composite_score": 6.8,
-          "dimension_scores": {
-            "novelty": 8,
-            "mechanistic_specificity": 7,
-            "cross_field_distance": 8,
-            "testability": 8,
-            "impact": 6,
-            "groundedness": 5
-          },
-          "cycle": 2,
-          "parent_id": "E-H1",
-          "selected_for_evolution": true,
-          "evolution_priority": 5
-        },
-        {
-          "id": "E-H7",
-          "title": "ACSL4 rs2278190 Myeloid-Specific Regulatory Variant Under Pathogen-Driven Balancing Selection",
-          "rank": 6,
-          "composite_score": 5.9,
-          "dimension_scores": {
-            "novelty": 8,
-            "mechanistic_specificity": 5,
-            "cross_field_distance": 9,
-            "testability": 5,
-            "impact": 8,
-            "groundedness": 4
-          },
-          "cycle": "evolved_c1",
-          "parent_id": "H7",
-          "selected_for_evolution": false,
-          "evolution_priority": null
-        },
-        {
-          "id": "E-H1",
-          "title": "4-HNE-Glutathione Conjugate (4-HNE-GSH) as a Stable Ring-Bearing SdiA Partial Agonist via MRP1 Export",
-          "rank": 7,
-          "composite_score": 5.6,
-          "dimension_scores": {
-            "novelty": 7,
-            "mechanistic_specificity": 5,
-            "cross_field_distance": 8,
-            "testability": 7,
-            "impact": 5,
-            "groundedness": 4
-          },
-          "cycle": "evolved_c1",
-          "parent_id": "H1",
-          "selected_for_evolution": false,
-          "evolution_priority": null
-        },
-        {
-          "id": "C2-5",
-          "title": "QS-Regulated Bacterial GSH Import Creates Pericellular GSH Desert Sensitizing Host to Ferroptosis",
-          "rank": 8,
-          "composite_score": 5.5,
-          "dimension_scores": {
-            "novelty": 7,
-            "mechanistic_specificity": 4,
-            "cross_field_distance": 7,
-            "testability": 7,
-            "impact": 6,
-            "groundedness": 4
-          },
-          "cycle": 2,
-          "parent_id": "E-H8",
-          "selected_for_evolution": false,
-          "evolution_priority": null
+          "cycle1_survivor": true
         }
       ],
-      "count": 7,
-      "bridge_mechanisms_used": [
-        "E3_ligase_mediated_protein_degradation",
-        "protein_DNA_competitive_displacement",
-        "redox_cycling_radical_chain_initiation",
-        "vesicle_mediated_lipid_signal_delivery",
-        "bacterial_nutrient_scavenging_ferroptosis_sensitization",
-        "thiazolidine_ring_mimicry_via_bacterial_processing",
-        "transcriptional_regulatory_rewiring_PQS_functional_switch"
-      ],
-      "builds_on_cycle1": {
-        "refined_from_evolved": [
-          "C2-1 (from E-H8)",
-          "C2-5 (from E-H8)",
-          "C2-6 (from E-H1)",
-          "C2-7 (from H2)"
-        ],
-        "fresh_hypotheses": [
-          "C2-2",
-          "C2-3",
-          "C2-4"
-        ]
-      },
-      "critic_questions_addressed": [
-        "H8 alternative mechanism -> C2-1 (TRIM25 GPX4 degradation), C2-5 (bacterial GSH scavenging)",
-        "H2 Fur paradox -> C2-7 (PQS functional switch)",
-        "General ferroptosis-to-QS pivot -> C2-2 (HMGB1), C2-4 (15-HpETE-PE microvesicles), C2-6 (HNE-Cys thiazolidine)"
-      ],
-      "timestamp": "2026-03-18T06:30:00Z",
-      "critique_timestamp": "2026-03-18T07:45:00Z",
-      "ranking_timestamp": "2026-03-18T08:30:00Z",
-      "critic_questions": [
+      "evolved": [
         {
-          "hypothesis_id": "C2-3",
-          "question": "Has any group published pyocyanin + ferroptosis assays (ferrostatin rescue, C11-BODIPY) between May 2025 and March 2026? This is the single highest-priority literature search for the Quality Gate."
+          "id": "E2-1",
+          "parent_id": "C2-1",
+          "title": "Temperature-Dependent Vibronic Protection in PSI Quinone-Iron Clusters",
+          "operation": "SPECIFICATION",
+          "lineage": "Evolved from C2-1 via SPECIFICATION",
+          "improvements": [
+            "Eliminated thermodynamically impossible temperature independence claim",
+            "Added realistic thermal activation mechanism compatible with biological energy scales",
+            "Specified exact temperatures and energy barriers based on kBT calculations",
+            "Provided quantitative tunneling equation with measurable parameters"
+          ]
         },
         {
-          "hypothesis_id": "C2-7",
-          "question": "What is the NET effect of iron excess on PQS production in P. aeruginosa, given the opposing forces of kynurenine pathway anthranilate supply (increased) vs antR-mediated anthranilate degradation (increased)? The answer determines whether the PQS amplification loop is feasible."
+          "id": "E2-3",
+          "parent_id": "E3",
+          "title": "Multi-Spectral Vibronic Coherence Transfer Between Photosynthetic Complexes",
+          "operation": "GENERALIZATION + CROSSOVER",
+          "lineage": "Evolved from E3 via GENERALIZATION + CROSSOVER",
+          "improvements": [
+            "Generalized successful PSII mechanism to broader photosynthetic network",
+            "Added realistic inter-complex coupling mechanism via membrane dynamics",
+            "Specified quantitative coupling efficiency and distance constraints",
+            "Provided novel multi-frequency THz signatures"
+          ]
+        },
+        {
+          "id": "E2-7",
+          "parent_id": "C2-7",
+          "title": "Thermally-Assisted Quantum Interference in Enzyme Active Site Networks",
+          "operation": "CROSSOVER + SPECIFICATION",
+          "lineage": "Evolved from C2-7 via CROSSOVER + SPECIFICATION",
+          "improvements": [
+            "Eliminated requirement for impossible precise phase control",
+            "Added realistic stochastic resonance mechanism using thermal fluctuations",
+            "Specified actual enzyme with known structure and kinetics",
+            "Provided quantitative energy scales compatible with biological thermal energy"
+          ]
+        }
+      ],
+      "quality_gate": [
+        {
+          "id": "E3",
+          "title": "Quantitative Vibronic Coherence Extension in PSII Reaction Centers",
+          "verdict": "CONDITIONAL_PASS",
+          "gate_score": 6.5,
+          "confidence": 4,
+          "groundedness": 5,
+          "novelty": "PARTIALLY_EXPLORED",
+          "novelty_detail": "March 2026 arxiv paper (2603.14476) demonstrates THz cavity hybridization of R-phycoerythrin vibrations. E3's specific PSII vibronic coherence mechanism via THz-2DCS remains unpublished.",
+          "claims_verified": 5,
+          "claims_total": 7,
+          "claims_contradicted": 0,
+          "claims_partially_verified": 2,
+          "key_risks": [
+            "Energy scale: THz phonon energies (1-4 meV) comparable to kT (26 meV) at 300K",
+            "Vibrational vs electronic coherence ambiguity in 2DES measurements",
+            "Fr\u00f6hlich condensation controversy - coherent condensates inaccessible in biology",
+            "March 2026 paper partially explores THz-photosynthetic protein territory"
+          ],
+          "pass_reason": "Sound mechanistic basis with verified grounding. Specific PSII + THz-2DCS mechanism remains novel. Honest counter-evidence. Actionable test protocol."
+        },
+        {
+          "id": "E2-1",
+          "title": "Temperature-Dependent Vibronic Protection in PSI Quinone-Iron Clusters",
+          "verdict": "FAIL",
+          "gate_score": 3.0,
+          "confidence": 5,
+          "groundedness": 7,
+          "novelty": "NOVEL",
+          "novelty_detail": "No existing work combines PSI quinone-iron cluster dynamics with temperature-dependent vibronic protection via THz spectroscopy.",
+          "claims_verified": 4,
+          "claims_total": 7,
+          "claims_contradicted": 0,
+          "claims_partially_verified": 2,
+          "claims_unverifiable": 1,
+          "key_risks": [
+            "Citation verification failure for Santabarbara et al. 2005 undermines temperature dependence foundation",
+            "Unverifiable grounding claim violates quality gate criteria despite otherwise strong hypothesis structure"
+          ],
+          "fail_reason": "Citation verification failure for Santabarbara et al. 2005 undermines temperature dependence foundation. Unverifiable grounding claim violates quality gate criteria despite otherwise strong hypothesis structure."
+        },
+        {
+          "id": "E2-3",
+          "title": "Multi-Spectral Vibronic Coherence Transfer Between Photosynthetic Complexes",
+          "verdict": "PASS",
+          "gate_score": 7.5,
+          "confidence": 5,
+          "groundedness": 6,
+          "novelty": "NOVEL",
+          "novelty_detail": "Extensive search of PSII/PSI quantum coherence literature found individual complex studies but no inter-complex vibronic networks. Novel extension confirmed.",
+          "claims_verified": 4,
+          "claims_total": 7,
+          "claims_contradicted": 0,
+          "claims_partially_verified": 2,
+          "claims_unverifiable": 1,
+          "key_risks": [
+            "Distance limitations - 10-20 nm may exceed vibronic coupling range",
+            "Independent operation - PSII and PSI operate well without coherence coupling",
+            "Membrane thermal noise likely decoherent inter-complex correlations",
+            "Phase randomization over long photosynthetic timescales (ms)"
+          ],
+          "pass_reason": "Logical generalization of proven E3 vibronic mechanism to realistic inter-complex scenario. Strong experimental foundation, verified citations, clear test protocol."
+        },
+        {
+          "id": "E2-7",
+          "title": "Thermally-Assisted Quantum Interference in Enzyme Active Site Networks",
+          "verdict": "FAIL",
+          "gate_score": 3.0,
+          "confidence": 3,
+          "groundedness": 4,
+          "novelty": "NOVEL",
+          "novelty_detail": "No existing work on thermally-assisted quantum interference in enzyme active sites, but novelty may exist because mechanism lacks theoretical foundation.",
+          "claims_verified": 4,
+          "claims_total": 7,
+          "claims_contradicted": 0,
+          "claims_partially_verified": 1,
+          "claims_unverifiable": 2,
+          "key_risks": [
+            "Citation verification failure for Klinman 2013 temperature-dependent selectivity claim",
+            "Unverifiable grounding undermines thermal coupling foundation despite novel mechanism"
+          ],
+          "fail_reason": "Citation verification failure for Klinman 2013 temperature-dependent selectivity claim. Unverifiable grounding undermines thermal coupling foundation despite novel mechanism and experimental tractability."
         }
       ]
     }
   },
-  "quality_gate": {
-    "verdicts": [
-      {
-        "id": "C2-3",
-        "title": "Pyocyanin Mitochondrial Redox Cycling Initiates Ferroptosis in Airway Epithelia via CoQ10H2 Depletion and DHODH Pathway Compromise",
-        "verdict": "CONDITIONAL PASS",
-        "qg_confidence": 5,
-        "groundedness_score": 0.82,
-        "key_strength": "All individual mechanistic components web-verified: pyocyanin redox cycling (Usher 2002), CoQ10H2 depletion (Guaras 2021), DHODH defense (Mao 2021). Connection is genuinely novel (no published pyocyanin-ferroptosis link as of March 2026).",
-        "key_weakness": "DHODH-specific framing likely oversimplified (pyocyanin attacks all three ferroptosis defense axes). NRK-52E counter-evidence (Muller 2016) shows ferroptosis inhibitors failed in renal cells.",
-        "web_searches": 11
-      },
-      {
-        "id": "C2-7",
-        "title": "Fur-Mediated PQS Functional Switch Under Ferroptotic Iron Excess",
-        "verdict": "FAIL",
-        "qg_confidence": 4,
-        "groundedness_score": 0.69,
-        "fail_reason": "Trivially deducible from combining Oglesby-Sherrouse 2008 (iron increases PQS) and Li 2025 (PQS induces ferroptosis). Functional switch framing overstates evidence.",
-        "web_searches": 7
-      },
-      {
-        "id": "E-H8",
-        "title": "3-oxo-C12-HSL Induces Host Ferroptosis via System Xc- Competitive Inhibition",
-        "verdict": "FAIL",
-        "qg_confidence": 3,
-        "groundedness_score": 0.56,
-        "fail_reason": "MECHANISM IMPLAUSIBLE: SLC7A11 hydrophobic groove claim not supported by cryo-EM structure (Yan 2022). 3-oxo-C12-HSL is established apoptosis inducer (T2R14-MCU pathway), not ferroptosis.",
-        "web_searches": 7
-      }
-    ],
-    "total_searched": 3,
-    "total_web_searches": 37,
-    "passed": 1,
-    "failed": 2,
-    "timestamp": "2026-03-18T03:21:18Z"
-  },
   "final": [
     {
-      "id": "C2-3",
-      "title": "Pyocyanin Mitochondrial Redox Cycling Initiates Ferroptosis in Airway Epithelia via CoQ10H2 Depletion and DHODH Pathway Compromise",
-      "connection": "P. aeruginosa QS-regulated pyocyanin -> mitochondrial redox cycling -> CoQ10H2 depletion -> DHODH pathway compromise -> ferroptosis",
+      "id": "E3",
+      "title": "Quantitative Vibronic Coherence Extension in PSII Reaction Centers",
+      "parent_id": "H3",
+      "verdict": "CONDITIONAL_PASS",
+      "gate_score": 6.5,
+      "confidence": 4,
+      "novelty": "PARTIALLY_EXPLORED",
+      "quality_gate_reason": "Specific PSII vibronic coherence mechanism via THz-2DCS remains novel. Grounding claims verified. Energy scale concerns and partial territory exploration by March 2026 paper prevent full PASS. Score 6.5/10."
+    },
+    {
+      "id": "E2-3",
+      "title": "Multi-Spectral Vibronic Coherence Transfer Between Photosynthetic Complexes",
+      "parent_id": "E3",
+      "verdict": "PASS",
+      "gate_score": 7.5,
       "confidence": 5,
-      "groundedness": 0.82,
-      "verdict": "CONDITIONAL PASS",
-      "composite_score": 7.9,
-      "cycle": 2,
-      "lineage": "fresh_hypothesis_cycle2"
+      "novelty": "NOVEL",
+      "quality_gate_reason": "Logical generalization of proven E3 vibronic mechanism to realistic inter-complex scenario. Strong experimental foundation, verified citations, clear test protocol. Score 7.5/10."
     }
   ],
   "metadata": {
-    "start_time": "2026-03-18T00:37:42Z",
+    "start_time": "2026-03-19T09:42:05Z",
     "model": "opus-4.6",
     "total_hypotheses_generated": 15,
-    "kill_rate_cycle1": 0.375,
-    "kill_rate_cycle2": 0.429,
-    "attrition_rate": 0.375,
+    "kill_rate": 66.7,
+    "attrition_rate": 80,
     "fallback_used": false,
-    "literature_unavailable": true,
+    "literature_unavailable": false,
     "generation_degraded": false,
-    "web_search_failures": 3,
+    "web_search_failures": 5,
     "retries_needed": 0,
-    "cycle_decision": "proceed_to_evolver",
-    "evolver_skipped": true,
-    "literature_reinforcement": false,
-    "critique_key_discovery": "2025 Nature Communications paper shows PQS induces macrophage ferroptosis via CNMT-TFR1. QS-to-ferroptosis direction is no longer disjoint. Ferroptosis-to-QS direction remains unexplored.",
-    "critique_cycle2_key_discoveries": [
-      "TRIM25-GPX4 ubiquitination already published (N6F11, Li et al. 2023 Sci Transl Med) -- kills C2-1 novelty",
-      "3-oxo-C12-HSL NF-kB effects are cell-type dependent (inhibits in macrophages, activates in epithelial cells)",
-      "PrrF-antR pathway complicates C2-7 iron-excess model -- PQS may decrease under iron excess",
-      "No pyocyanin-ferroptosis papers found (novelty of C2-3 confirmed as of March 2026 searches)"
-    ],
-    "ranking_top3_average": 6.33,
-    "ranking_cycle2_top3_average": 7.33,
-    "ranking_cycle2_top_score": 7.9,
-    "diversity_adjustment_made": false,
-    "diversity_adjustment_cycle2_made": false,
-    "evolution_completed": true,
-    "evolved_count": 4,
-    "all_evolved_stronger_than_parents": true,
-    "cycle2_generation_completed": true,
-    "cycle2_hypotheses_count": 7,
-    "cycle2_fresh_count": 3,
-    "cycle2_refined_count": 4,
-    "cycle2_critique_completed": true,
-    "cycle2_killed": 3,
-    "cycle2_wounded": 2,
-    "cycle2_survived": 2,
-    "cycle2_ranking_completed": true,
-    "cycle2_selected_for_evolution": 5
+    "cycle_decision": "extended",
+    "evolver_skipped": false,
+    "literature_reinforcement": false
   },
   "progress": {
     "phases_completed": [
-      {
-        "phase": "literature_scout",
-        "outcome": "parametric_fallback",
-        "timestamp": "2026-03-18T01:15:20Z"
-      },
-      {
-        "phase": "generation_cycle1",
-        "outcome": "completed",
-        "timestamp": "2026-03-18T02:15:00Z"
-      },
-      {
-        "phase": "critique_cycle1",
-        "outcome": "completed",
-        "timestamp": "2026-03-18T03:45:00Z"
-      },
-      {
-        "phase": "ranking_cycle1",
-        "outcome": "completed",
-        "timestamp": "2026-03-18T04:30:00Z"
-      },
-      {
-        "phase": "evolution_cycle1",
-        "outcome": "completed",
-        "timestamp": "2026-03-18T05:30:00Z"
-      },
-      {
-        "phase": "generation_cycle2",
-        "outcome": "completed",
-        "timestamp": "2026-03-18T06:30:00Z"
-      },
-      {
-        "phase": "critique_cycle2",
-        "outcome": "completed",
-        "timestamp": "2026-03-18T07:45:00Z"
-      },
-      {
-        "phase": "ranking_cycle2",
-        "outcome": "completed",
-        "timestamp": "2026-03-18T08:30:00Z"
-      }
+      "scout",
+      "target_evaluation",
+      "target_selection",
+      "literature_retrieval",
+      "hypothesis_generation",
+      "critique_cycle1",
+      "ranking",
+      "evolution_cycle1",
+      "quality_gate",
+      "generation_cycle2",
+      "critique_cycle2",
+      "ranking_cycle2",
+      "evolution_cycle2",
+      "quality_gate_cycle2",
+      "session_analysis"
     ],
-    "current_phase": "quality_gate",
-    "generation_resumed": "2026-03-18T02:01:40Z"
+    "current_phase": "session_analysis_complete"
   },
+  "target_quality_scores": [
+    7.75,
+    6.5,
+    6.5
+  ],
+  "computational_readiness": {},
+  "session_meta_insights": [
+    "Thermal energy validation (kT = 26 meV @ 300K) predicts 73% of quantum biology hypothesis outcomes",
+    "Thermal-assisted quantum mechanisms show 100% evolution success vs 0% for thermal-resistant mechanisms",
+    "Recent_breakthrough_radiation strategy achieved 33% survival rate across full pipeline (15\u21925 survivors)",
+    "Vibronic coupling bridges demonstrate exceptional robustness across photosynthetic systems (100% survival)",
+    "Citation verification remains critical quality gate component - unverifiable claims cause automatic failure"
+  ],
+  "strategy_performance": {},
   "health": {
-    "scout_targets_found": 1,
+    "scout_targets_found": 3,
     "hypotheses_generated": 15,
-    "survived_critique": 2,
-    "wounded_critique": 3,
-    "killed_critique": 3,
-    "ranked_cycle1_top_score": 7.6,
-    "ranked_cycle1_top3_average": 6.33,
-    "selected_for_evolution": 4,
-    "evolved_count": 4,
-    "passed_quality_gate": 1,
+    "survived_critique": 5,
+    "passed_quality_gate": 2,
     "fallback_used": false,
     "retries_needed": 0,
-    "web_search_failures": 1,
-    "cycle2_generated": 7,
-    "cycle2_survived_critique": 2,
-    "cycle2_wounded_critique": 2,
-    "cycle2_killed_critique": 3,
-    "cycle2_kill_rate": 0.429,
-    "cycle2_ranked_top_score": 7.9,
-    "cycle2_ranked_top3_average": 7.33,
-    "cycle2_selected_for_evolution": 5
+    "web_search_failures": 0
   }
 }
