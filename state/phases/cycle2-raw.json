@@ -1,0 +1,118 @@
+{
+  "phase": "generation",
+  "cycle": 2,
+  "session_id": "2026-03-21-scout-007",
+  "timestamp": "2026-03-21T14:30:00Z",
+  "model": "opus-4.6",
+  "hypotheses_generated": 7,
+  "refined": 4,
+  "fresh": 3,
+  "self_critique_searches": 18,
+  "hypotheses": [
+    {
+      "id": "H2.1",
+      "title": "IRP1 [4Fe-4S] Cluster Occupancy as Feeding-Entrained Iron-Redox Chronostat",
+      "technique": "Critic-guided refinement",
+      "parents": ["H4"],
+      "confidence": 7,
+      "novelty": "Partially_explored",
+      "groundedness": 8,
+      "impact": "High",
+      "bridge": "Feeding → dual iron supply + redox arms → IRP1 cluster occupancy → IRE-mRNA regulation",
+      "key_claim": "IRP1 [4Fe-4S] cluster occupancy oscillates diurnally via feeding-entrained iron supply and redox convergence, providing a fast post-translational IRE-mRNA regulatory layer distinct from IRP2 transcriptional oscillation"
+    },
+    {
+      "id": "H2.2",
+      "title": "Frataxin-Gated Fe-S Assembly Oscillation via Mitochondrial LIP in FTMT-Negative Tissues",
+      "technique": "Critic-guided refinement",
+      "parents": ["H8"],
+      "confidence": 6,
+      "novelty": "Novel",
+      "groundedness": 7,
+      "impact": "High",
+      "bridge": "Hepcidin-driven serum iron → mitochondrial LIP (unbuffered in FTMT-absent liver) → frataxin iron donation → Fe-S assembly rate",
+      "key_claim": "Liver mitochondria lack FTMT, creating an unbuffered mitochondrial LIP that amplifies diurnal plasma iron oscillation into frataxin-dependent Fe-S assembly rate oscillation"
+    },
+    {
+      "id": "H2.3",
+      "title": "CISD2 [2Fe-2S] as Redox-Gated ER-Mitochondrial Calcium Timer (Forward Direction Only)",
+      "technique": "Critic-guided refinement",
+      "parents": ["H2"],
+      "confidence": 5,
+      "novelty": "Novel",
+      "groundedness": 6,
+      "impact": "High",
+      "bridge": "NAD+/NADH oscillation → CISD2 [2Fe-2S] redox cycling → MAM conformation → ER-mito Ca2+ transfer",
+      "key_claim": "CISD2's stable-but-redox-sensitive [2Fe-2S] cluster acts as a molecular redox sensor at MAMs, converting circadian NAD+/NADH oscillations into oscillating ER-mitochondrial calcium transfer"
+    },
+    {
+      "id": "H2.4",
+      "title": "Cytoplasmic Prx1/2 H2O2 Oscillation as Non-Transcriptional Timer for Cytoplasmic Fe-S Proteins",
+      "technique": "Critic-guided refinement",
+      "parents": ["H3"],
+      "confidence": 5,
+      "novelty": "Novel",
+      "groundedness": 6,
+      "impact": "Transformative",
+      "bridge": "Prx2 circadian hyperoxidation → cytoplasmic H2O2 transient → IRP1/ABCE1/XPD [4Fe-4S] cluster damage",
+      "key_claim": "Circadian Prx1/2 hyperoxidation cycles generate transient cytoplasmic H2O2 pulses that selectively damage labile [4Fe-4S] clusters on cytoplasmic Fe-S proteins"
+    },
+    {
+      "id": "H2.5",
+      "title": "NADPH→FDXR→FDX2 Electron Supply Chain as Circadian Fe-S Assembly Gatekeeper",
+      "technique": "Network bottleneck analysis + stoichiometric constraint",
+      "parents": [],
+      "confidence": 6,
+      "novelty": "Novel",
+      "groundedness": 7,
+      "impact": "High",
+      "bridge": "NADPH circadian oscillation → FDXR → FDX2 reduction + FDX2 cluster stability → FDX2:FXN stoichiometric balance → Fe-S assembly rate",
+      "key_claim": "The FDX2:FXN stoichiometric constraint (Lill 2025) makes Fe-S assembly exquisitely sensitive to circadian FDX2 oscillation via stoichiometric deviation"
+    },
+    {
+      "id": "H2.6",
+      "title": "CIA Pathway as LIP/ROS-Responsive Circadian Gate for Cytoplasmic Fe-S Proteome",
+      "technique": "Cross-pathway transfer bridge",
+      "parents": [],
+      "confidence": 5,
+      "novelty": "Novel",
+      "groundedness": 7,
+      "impact": "Transformative",
+      "bridge": "Diurnal LIP + ROS oscillation → CIAO3 interaction dynamics → CIA efficiency → coordinated maturation of ~20 cytoplasmic Fe-S proteins",
+      "key_claim": "CIAO3's documented sensitivity to LIP and ROS creates a previously unrecognized circadian gatekeeper for the entire cytoplasmic Fe-S proteome"
+    },
+    {
+      "id": "H2.7",
+      "title": "Conserved Fe-S Requirement in Clock Neurons — Drosophila to Mammalian SCN",
+      "technique": "Cross-species conservation transfer",
+      "parents": [],
+      "confidence": 6,
+      "novelty": "Partially_explored",
+      "groundedness": 7,
+      "impact": "Transformative",
+      "bridge": "Drosophila Fe-S gene RNAi → circadian disruption (Mandilaras 2012) predicts mammalian SCN NFS1 conditional KO → arrhythmicity",
+      "key_claim": "The 14-year-old Drosophila finding predicts a conserved mammalian phenotype: conditional NFS1 knockout in SCN neurons will abolish circadian behavioral rhythms"
+    }
+  ],
+  "diversity_check": "PASSED",
+  "diversity_classes": {
+    "H2.1": "Post-translational mRNA regulation (IRP1 apo/holo, feeding-entrained)",
+    "H2.2": "Substrate supply bottleneck (iron → frataxin, mitochondrial compartment)",
+    "H2.3": "ER-mitochondria Ca2+ signaling (CISD2 redox sensor at MAMs)",
+    "H2.4": "Non-transcriptional redox timer (Prx2 → H2O2 → cytoplasmic Fe-S)",
+    "H2.5": "Electron supply + stoichiometric constraint (NADPH → FDX2, Lill 2025)",
+    "H2.6": "Cytoplasmic maturation pathway (CIA → CIAO3 LIP/ROS → Fe-S proteome)",
+    "H2.7": "Reverse direction / conservation (Fe-S → clock in neurons)"
+  },
+  "killed_not_regenerated": ["H1", "H5", "H6", "H7"],
+  "critic_questions_addressed": {
+    "H2_CISD2": ["cluster half-life refined via pH stability data", "forward direction only - feedback dropped", "15% mito Ca2+ effect size calculated"],
+    "H3_Prx": ["Prx3 resistance acknowledged - redirected to cytoplasmic Prx1/2", "cytoplasmic H2O2 transients during Prx2 hyperoxidation", "cytoplasmic Fe-S proteins (IRP1, ABCE1, XPD) targeted instead"],
+    "H4_IRP1": ["feeding → postprandial iron + NADH dual mechanism specified", "IRP2 KO mouse separation test designed", "~2-3 fold IRP1 vs 10-fold IRP2 magnitude quantified"],
+    "H8_Frataxin": ["no published diurnal LIP hepatocyte data - acknowledged as gap", "mitoferrin circadian unknown - acknowledged as gap and testable prediction", "FA carrier power analysis: n=20/group, 4 timepoints, power ~0.7"]
+  },
+  "total_generated": 7,
+  "cycle2_total": 7,
+  "building_on_cycle1": 4,
+  "fresh_hypotheses": 3
+}

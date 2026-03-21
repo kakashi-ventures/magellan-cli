@@ -1,0 +1,78 @@
+{
+  "target": {
+    "field_a": "Mitochondrial Fe-S cluster biogenesis (NFS1/ISCU2/FDX2/frataxin/GLRX5 machinery)",
+    "field_c": "Mammalian circadian clock regulation (CLOCK/BMAL1-CRY/PER feedback loop)"
+  },
+  "disjointness_check": {
+    "queries": [
+      {"query": "NFS1 AND circadian", "pubmed_results": 1, "verdict": "DISJOINT (non-mechanistic)"},
+      {"query": "iron-sulfur cluster AND circadian", "pubmed_results": 6, "verdict": "VERY LOW (1 mechanistic: Drosophila 2012)"},
+      {"query": "CISD2 AND circadian", "pubmed_results": 1, "verdict": "DISJOINT (coincidental)"},
+      {"query": "GLRX5 AND circadian", "pubmed_results": 0, "verdict": "CONFIRMED DISJOINT (zero papers)"},
+      {"query": "heme AND circadian (positive control)", "pubmed_results": 203, "verdict": "HIGH (known bridge)"}
+    ],
+    "overall_verdict": "DISJOINT",
+    "string_verification": "Zero interactions between Fe-S proteins (NFS1, CISD2, GLRX5, FDX2) and clock proteins (BMAL1, CRY1, PER2, CLOCK) at any confidence threshold",
+    "kegg_verification": "Zero shared genes between hsa04122 (Sulfur relay) and hsa04710 (Circadian rhythm)"
+  },
+  "key_papers": [
+    {
+      "pmid": "22885802",
+      "title": "Genes for iron metabolism influence circadian rhythms in Drosophila melanogaster",
+      "year": 2012,
+      "journal": "Metallomics",
+      "relevance": "CRITICAL: NFS1/IscS RNAi disrupts circadian activity in Drosophila clock neurons. 14-year-old with ZERO mammalian follow-up. THE KEY UNEXPLOITED LEAD."
+    },
+    {
+      "pmid": "38773499",
+      "title": "Diurnal control of IRE-containing mRNAs via IRP1/IRP2",
+      "year": 2024,
+      "journal": "Unknown (Nadimpalli et al.)",
+      "relevance": "IRP1 is a [4Fe-4S] protein. Diurnal IRE-mRNA control is the downstream readout that validates upstream Fe-S oscillation."
+    },
+    {
+      "pmid": "41480765",
+      "title": "Glioblastoma stem cells resist cuproptosis with circadian variation of copper levels",
+      "year": 2026,
+      "journal": "JCI",
+      "relevance": "NEAREST PRECEDENT: BMAL1 -> ATP7A -> copper -> Fe-S cluster protein destabilization. First mammalian evidence of circadian -> metal -> Fe-S stability. BUT: focuses on cuproptosis/copper, not Fe-S BIOGENESIS machinery."
+    },
+    {
+      "pmid": "40141425",
+      "title": "NFS1 selective inhibitor Compound 53",
+      "year": 2025,
+      "journal": "Int J Mol Sci (Zhu et al.)",
+      "relevance": "First selective NFS1 inhibitor (IC50 = 16.3 uM). TOOL COMPOUND for testing circadian NFS1 hypothesis."
+    },
+    {
+      "pmid": "40797101",
+      "title": "D-cysteine inhibits NFS1",
+      "year": 2025,
+      "journal": "Nature Metabolism (Zangari et al.)",
+      "relevance": "Second NFS1 inhibitor. D-cysteine as tool compound. Published 2025."
+    },
+    {
+      "pmid": "23166209",
+      "title": "Peroxiredoxin 24h oxidation cycles",
+      "year": 2012,
+      "journal": "Nature (Edgar et al.)",
+      "relevance": "Established 24h peroxiredoxin oxidation cycle conserved across all domains of life. Upstream redox oscillator."
+    },
+    {
+      "pmid": "24051248",
+      "title": "Circadian NAD+/NADH oscillation in mouse liver",
+      "year": 2013,
+      "journal": "Science (Peek et al.)",
+      "relevance": "~30% NAD+/NADH amplitude change over 24h in mouse liver. Input value for Nernst calculation."
+    }
+  ],
+  "literature_context": "Fe-S cluster biogenesis x Circadian clock is CONFIRMED DISJOINT in mammalian systems. GLRX5 x circadian = 0 papers. NFS1 x circadian = 1 non-mechanistic paper. STRING shows zero interactions between Fe-S and clock protein networks. The 2012 Drosophila paper (Mandilaras & Missirlis, PMID 22885802) is the ONLY mechanistic evidence: NFS1/IscS RNAi disrupts circadian activity — 14 years with zero mammalian follow-up. The 2026 JCI paper (PMID 41480765) is the nearest mammalian precedent: BMAL1 controls copper homeostasis affecting Fe-S protein stability. Key enablers: (1) NFS1 has two tool compounds published 2025 (Compound 53 and D-cysteine), (2) IRP1 aconitase/IRE-BP switch provides measurable downstream readout validated as diurnal by Nadimpalli 2024, (3) Nernst calculation gives 3.07-fold Kd shift from 30mV redox oscillation, (4) Labile cluster half-lives (1-8h) give 31-94% amplitude tracking of 24h oscillation.",
+  "computational_notes": {
+    "nernst_check": "30mV/n=1 at 310K: exp(30/26.71) = 3.07-fold Kd shift. VERIFIED.",
+    "cluster_halflife_check": "t_half 2-8h gives 31-80% amplitude tracking of 24h oscillation. PLAUSIBLE.",
+    "nfs1_km_check": "NFS1 Km ~50uM, [Cys] ~150uM: 17% activity change from +/-30% cysteine. MARGINAL — primary mechanism likely direct redox modification, not substrate.",
+    "kegg_overlap": "Zero shared genes between Fe-S (hsa04122) and circadian (hsa04710) pathways.",
+    "ampk_bridge": "AMPK in circadian pathway can indirectly regulate mitochondrial Fe-S via PGC-1alpha. 2-3 steps removed.",
+    "compartmentalization": "NFS1/ISCU2 are mitochondrial; CRY1/BMAL1 are nuclear. Bridge via mitochondrial redox -> Fe-S assembly -> GLRX5/CIA export to cytoplasm."
+  }
+}

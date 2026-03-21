@@ -1,0 +1,62 @@
+{
+  "scout_targets": [
+    {
+      "id": 1,
+      "field_a": "Cuproptosis — copper-dependent cell death via FDX1-mediated aggregation of lipoylated mitochondrial proteins (DLAT, DLST, GCSH, DBT)",
+      "field_c": "Chemolithotrophic copper-sulfide metabolism — bacteria (A. ferrooxidans, deep-sea vent sulfur-oxidizers) metabolizing copper sulfide minerals via copper-containing electron transport chains",
+      "bridge_concepts": [
+        "FDX1/ferredoxin protein family (shared across domains)",
+        "Lipoic acid synthase (LIAS) and lipoylation pathway conservation",
+        "Copper chaperones (ScoI bacterial / ATOX1 human, PDB structures available)",
+        "Rusticyanin copper electron carrier (A. ferrooxidans, PDB: 1RCY)",
+        "CopA copper ATPase efflux pump"
+      ],
+      "strategy": "mechanism_transfer",
+      "disjointness": "DISJOINT",
+      "confidence": 7,
+      "target_quality_score": 7,
+      "rationale": "Chemolithotrophic bacteria thrive in mM copper that triggers cuproptosis in eukaryotes. They must protect lipoylated TCA enzymes from copper-induced aggregation. Identifying these protection mechanisms could reveal therapeutic targets for modulating cuproptosis in cancer. Both fields have named proteins with crystal structures and published kinetics."
+    },
+    {
+      "id": 2,
+      "field_a": "Biomolecular condensate physics — stress-responsive liquid-liquid phase separation in bacterial systems, stress granule-like bodies, RNA-protein condensates",
+      "field_c": "Antibiotic persistence — phenotypic tolerance via reversible dormancy, toxin-antitoxin module activation, metabolic shutdown with confirmed protein aggregation",
+      "bridge_concepts": [
+        "(p)ppGpp alarmone (RelA/SpoT synthase) triggering both stress condensates and persistence",
+        "TisB membrane toxin-induced protein aggregation (Leinberger et al. 2024)",
+        "DnaK/ClpB disaggregase system controlling aggregate dissolution kinetics",
+        "Lon protease degrading both misfolded proteins and TA antitoxins",
+        "Nε-lysine acetylation as condensate property regulator (Stojowska-Swędrzyńska et al. 2024)"
+      ],
+      "strategy": "implicit_disjoint",
+      "disjointness": "DISJOINT",
+      "confidence": 8,
+      "target_quality_score": 8,
+      "rationale": "Infection biology pair with shared metabolic intermediates (highest productivity category). Persister formation involves massive protein aggregation but field treats it as passive. Condensate field shows bacterial aggregation is functional and regulatable. Reframing: persister aggregation as regulated phase transition predicts new antibiotic strategies targeting condensate-specific properties of TA modules."
+    },
+    {
+      "id": 3,
+      "field_a": "Mitochondrial Fe-S cluster assembly — NFS1/ISCU2/FDX2/frataxin/GLRX5 machinery building [2Fe-2S] and [4Fe-4S] clusters for ~50 cellular Fe-S proteins",
+      "field_c": "Mammalian circadian clock — CLOCK/BMAL1-CRY/PER transcriptional feedback loop, FBXL3-mediated CRY degradation, peroxiredoxin redox oscillation",
+      "bridge_concepts": [
+        "CISD2/NAF-1 [2Fe-2S] longevity protein (PDB: 3FNV, ER-mito Ca²⁺ regulation)",
+        "GLRX5 glutaredoxin central hub for Fe-S transfer (redox-sensitive, Pandey et al. 2025)",
+        "Peroxiredoxin ~24h oxidation cycle (conserved across all domains of life)",
+        "NFS1 cysteine desulfurase (rate-limiting, selective inhibitor published Zhu et al. 2025)",
+        "CRY1/2 FAD cofactor as potential Fe-S/redox sensor"
+      ],
+      "strategy": "network_gap_analysis",
+      "disjointness": "DISJOINT",
+      "confidence": 8,
+      "target_quality_score": 8,
+      "rationale": "Fe-S assembly is redox-sensitive, circadian clock generates 24h redox oscillations. If Fe-S assembly rates oscillate with the clock, all Fe-S-dependent processes show circadian variation (respiration, TCA, DNA repair, ribosome recycling). CISD2 is a [2Fe-2S] longevity gene at the intersection. Labile cluster half-lives (hours) compatible with 24h period. Quantitative Nernst framework: 30mV oscillation shifts cluster Kd 3-fold."
+    }
+  ],
+  "target_quality_scores": [7, 8, 8],
+  "strategies_used": ["mechanism_transfer", "implicit_disjoint", "network_gap_analysis"],
+  "strategy_diversification": {
+    "strategies_used": ["mechanism_transfer", "implicit_disjoint", "network_gap_analysis"],
+    "novel_strategy": "mechanism_transfer, implicit_disjoint",
+    "sessions_005_006_strategies": ["scale_bridging", "network_gap_analysis", "contradiction_mining", "evolutionary_conservation_gap"]
+  }
+}

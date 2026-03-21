@@ -1,0 +1,57 @@
+{
+  "session_id": "2026-03-20-scout-005",
+  "cycle": 1,
+  "generation_date": "2026-03-20",
+  "target": {
+    "field_a": "Ferroptosis",
+    "field_c": "Serpentinization geochemistry"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "title": "Geochemical Peroxidation Potential Index — mineral-catalyzed rate constants predict ferroptosis sensitivity",
+      "type": "quantitative_prediction",
+      "confidence": 5,
+      "groundedness": 6,
+      "key_claim": "Ferrihydrite-surface Fenton k values predict RSL3 EC50 across cell lines (r > 0.7)"
+    },
+    {
+      "id": "H2",
+      "title": "Ferrihydrite nanoparticles recapitulate ferroptosis PLOOH profile in synthetic protocells",
+      "type": "experimental_chemistry",
+      "confidence": 7,
+      "groundedness": 7,
+      "key_claim": "PLOOH positional isomers from ferrihydrite-vesicle system match ferroptosis signature"
+    },
+    {
+      "id": "H3",
+      "title": "GPX4 selenocysteine evolved to outcompete serpentinization-pH Fenton kinetics",
+      "type": "evolutionary_biology",
+      "confidence": 6,
+      "groundedness": 7,
+      "key_claim": "GPX4 Sec/Cys activity ratio increases >5x from pH 7.4 to pH 10 (serpentinization conditions)"
+    },
+    {
+      "id": "H4",
+      "title": "PHREEQC geochemical speciation code predicts labile iron pool dynamics in ferroptosis",
+      "type": "tool_transfer",
+      "confidence": 5,
+      "groundedness": 6,
+      "key_claim": "PHREEQC iron speciation model outperforms one-compartment LIP models for ferroptosis Fe(II)/Fe(III) dynamics"
+    },
+    {
+      "id": "H5",
+      "title": "Fe(II)/Fe(III) ≈ 1 is a universal peroxidation tipping point conserved from geology to biology",
+      "type": "universal_physics",
+      "confidence": 6,
+      "groundedness": 7,
+      "key_claim": "Ferroptosis onset and mineral-system maximum peroxidation both occur at Fe(II)/Fe(III) ≈ 0.8-1.2"
+    }
+  ],
+  "total_generated": 5,
+  "diversity_check": "PASS — 5 distinct angles: quantitative prediction, experimental chemistry, evolutionary biology, tool transfer, universal physics",
+  "self_critique_performed": true,
+  "claims_verified": 8,
+  "claims_flagged": 1,
+  "generator_warnings_applied": ["GPX4 axis framed as evolved suppression not parallel regulation", "Lab-scale timescales only", "Ferrihydrite highlighted as specific catalyst", "1333x Fe(II) concentration advantage noted"]
+}

@@ -1,0 +1,176 @@
+{
+  "cycle": 2,
+  "session_id": "2026-03-21-scout-007",
+  "hypotheses_critiqued": 7,
+  "results": [
+    {
+      "id": "H2.1",
+      "title": "IRP1 [4Fe-4S] Cluster Occupancy as Feeding-Entrained Iron-Redox Chronostat",
+      "verdict": "SURVIVES",
+      "revised_confidence": 7,
+      "revised_groundedness": 8,
+      "critical_flaws": [],
+      "strengths_retained": [
+        "Best-grounded hypothesis (groundedness 8)",
+        "Directly addresses unmeasured variable in Nadimpalli 2024",
+        "IRP2 KO separation test is elegant experimental design",
+        "Dual output (IRE binding + aconitase) provides mechanistic distinction",
+        "Honest magnitude assessment (2-3 fold, 15-25% contribution)"
+      ],
+      "key_concerns": [
+        "IRP1 may contribute too little (15-25%) to be functionally measurable above noise",
+        "IRP1 cluster half-life ~3h is parametric; no direct measurement found",
+        "IRP1-C437S mutant has chronic effects confounding circadian analysis"
+      ],
+      "strength": "STRONG"
+    },
+    {
+      "id": "H2.2",
+      "title": "Frataxin-Gated Fe-S Assembly Oscillation via Mitochondrial LIP in FTMT-Negative Tissues",
+      "verdict": "WEAKENED",
+      "revised_confidence": 5,
+      "revised_groundedness": 6,
+      "critical_flaws": [
+        "Mitochondrial LIP amplification (20-30% > cytoplasmic 10-15%) quantitatively unjustified",
+        "Mitoferrin rate-limiting step unknown — could completely decouple serum iron from mito LIP",
+        "Multiple unverified intermediate steps in signal chain",
+        "FA carrier power analysis underpowered (0.7 < 0.8)"
+      ],
+      "strengths_retained": [
+        "FTMT tissue specificity argument is creative and well-grounded",
+        "Leverages Lill 2025 stoichiometric constraint effectively",
+        "FA carrier translational angle is innovative",
+        "FTMT rescue experiment is excellent control"
+      ],
+      "key_concerns": [
+        "Quantitative chain serum iron → mito LIP → assembly rate has too many unverified steps",
+        "FTMT absence may reflect low mitochondrial iron demand, not high throughput",
+        "Serum iron in mice is 20-30% (Am J Hematol 2024), not 30-50% as cited"
+      ],
+      "strength": "MODERATE"
+    },
+    {
+      "id": "H2.3",
+      "title": "CISD2 [2Fe-2S] as Redox-Gated ER-Mitochondrial Calcium Timer",
+      "verdict": "FATAL",
+      "revised_confidence": 0,
+      "revised_groundedness": 0,
+      "critical_flaws": [
+        "CISD2 redox midpoint is +24 mV (Biomedicines 2021), NOT -10 mV as claimed from Zuris 2011 mitoNEET data",
+        "At cytoplasmic redox potential (-280 to -320 mV), CISD2 cluster is >99.99% reduced under ALL conditions",
+        "NAD+/NADH 30% oscillation cannot drive CISD2 cluster redox cycling — thermodynamically impossible",
+        "Entire Nernst calculation and 15% mito Ca2+ prediction collapse with correct midpoint"
+      ],
+      "strengths_retained": [],
+      "key_concerns": [
+        "Core mechanism (NAD+/NADH → CISD2 cluster redox cycling) is thermodynamically implausible",
+        "Misattribution of mitoNEET (CISD1) data to CISD2 — these are different proteins"
+      ],
+      "strength": "KILLED",
+      "kill_reason": "Wrong CISD2 redox midpoint (+24 mV actual, not -10 mV claimed) renders the core NAD+/NADH → cluster redox cycling mechanism thermodynamically implausible. Comparable to Cycle 1 H6 kill (GSH/GSSG no diurnal rhythm): the transduction mechanism does not operate as described."
+    },
+    {
+      "id": "H2.4",
+      "title": "Cytoplasmic Prx1/2 H2O2 Oscillation as Non-Transcriptional Timer for Cytoplasmic Fe-S Proteins",
+      "verdict": "WEAKENED",
+      "revised_confidence": 4,
+      "revised_groundedness": 5,
+      "critical_flaws": [
+        "~2-3 orders of magnitude H2O2 gap: predicted pulse 10-100 nM vs IRP1 activation threshold ~1-10 µM (Pantopoulos 1998)",
+        "IRP1 H2O2 → [3Fe-4S] does NOT directly activate IRE binding in vitro (Beinert 1999); requires cellular machinery",
+        "Prx2 circadian mechanism in nucleated cells differs from RBCs (Srx repair, no hemoglobin driver)"
+      ],
+      "strengths_retained": [
+        "Creative connection between two ancient conserved oscillatory systems",
+        "BMAL1 KO test is strongest discriminating test for non-transcriptional mechanisms",
+        "Genuine novelty (zero publications)",
+        "Would be transformative if true"
+      ],
+      "key_concerns": [
+        "Quantitative H2O2 gap is the most serious concern — 100-1000× below threshold",
+        "Prx2 hyperoxidation in nucleated cells may not produce cytoplasmic H2O2 pulses like in RBCs",
+        "Multiple scavengers (catalase, GPx) compete with Prx2 H2O2 signal"
+      ],
+      "strength": "WEAK"
+    },
+    {
+      "id": "H2.5",
+      "title": "NADPH→FDXR→FDX2 Electron Supply Chain as Circadian Fe-S Assembly Gatekeeper",
+      "verdict": "SURVIVES",
+      "revised_confidence": 6,
+      "revised_groundedness": 7,
+      "critical_flaws": [],
+      "strengths_retained": [
+        "Best quantitative analysis in the set",
+        "Honest self-correction of FDXR saturation problem",
+        "Leverages cutting-edge Lill 2025 stoichiometric constraint",
+        "Partial FDX2 knockdown test directly tests in vivo sensitivity",
+        "Therapeutic implications for Friedreich's ataxia"
+      ],
+      "key_concerns": [
+        "FDX2 cluster half-life (~4h) is estimated, not measured",
+        "Stoichiometric sensitivity may be buffered in vivo",
+        "No published circadian data for any component (FDX2, FDXR, mito NADPH)",
+        "FDXR Km for NADPH is parametric"
+      ],
+      "strength": "STRONG"
+    },
+    {
+      "id": "H2.6",
+      "title": "CIA Pathway as LIP/ROS-Responsive Circadian Gate for Cytoplasmic Fe-S Proteome",
+      "verdict": "SURVIVES",
+      "revised_confidence": 5,
+      "revised_groundedness": 7,
+      "critical_flaws": [],
+      "strengths_retained": [
+        "Built on experimentally verified CIAO3 biology (Maio 2022)",
+        "Broad impact — 20+ cytoplasmic Fe-S proteins coordinately regulated",
+        "Concordant dual inputs (LIP + ROS) strengthen the mechanism",
+        "Excellent test design — especially mass spec pulldown",
+        "Clinical relevance via circadian DNA repair (XPD)"
+      ],
+      "key_concerns": [
+        "Acute perturbation → circadian extrapolation gap",
+        "Cytoplasmic LIP oscillation (~10-15%) may be below CIAO3 response threshold",
+        "Long-lived Fe-S proteins (half-life >> 24h) would not track 24h CIA oscillation",
+        "CIAO3 dose-response at physiological iron/ROS ranges unknown"
+      ],
+      "strength": "MODERATE"
+    },
+    {
+      "id": "H2.7",
+      "title": "Conserved Fe-S Requirement in Clock Neurons — Drosophila to Mammalian SCN",
+      "verdict": "SURVIVES",
+      "revised_confidence": 6,
+      "revised_groundedness": 7,
+      "critical_flaws": [],
+      "strengths_retained": [
+        "Built on solid published data (5 genes, convergent phenotype in Drosophila)",
+        "14-year translational gap is striking",
+        "Clear falsifiable mammalian prediction",
+        "dCRY alternative is WEAKER than feared (dCRY is FAD, not Fe-S) — strengthens hypothesis",
+        "Good test hierarchy (cell line → ex vivo → in vivo)"
+      ],
+      "key_concerns": [
+        "NFS1flox/flox mouse availability uncertain",
+        "General neurodegeneration vs specific circadian disruption challenge",
+        "Mechanism may be generic (energetic failure) rather than revealing specific Fe-S ↔ clock interaction",
+        "No proposed identity for specific Fe-S protein in clock mechanism"
+      ],
+      "strength": "MODERATE"
+    }
+  ],
+  "survival_count": 6,
+  "kill_count": 1,
+  "survival_rate": 0.86,
+  "meta_critique": "Leniency check PASSED: found ≥2 factual errors (CISD2 redox midpoint, IRP1 H2O2/IRE binding oversimplification). Harshness check PASSED: no kills on magnitude alone without calculation. Vocabulary re-description check PASSED: all survivors make genuinely new predictions. Calibration check PASSED: 1/7 killed (14.3%) + 2/7 weakened (28.6%) = 42.9% impaired, consistent with stronger cycle 2 hypotheses.",
+  "quality_gate_predictions": ["H2.1", "H2.5", "H2.7"],
+  "web_searches_performed": 18,
+  "critic_questions": [
+    "H2.1: What is the minimum detectable IRP1 contribution to IRE regulation? Is 15-25% above native PAGE assay detection limit?",
+    "H2.2: What is the dose-response of mitochondrial LIP on frataxin activity? Is 10-15% cytoplasmic LIP oscillation sufficient after mitoferrin rate-limiting?",
+    "H2.4: Can the 2-3 order-of-magnitude H2O2 gap (10-100 nM predicted vs 1-10 µM threshold, Pantopoulos 1998) be narrowed with local concentration or slow kinetics evidence?",
+    "H2.5: Any published circadian/diurnal data for FDX2, FDXR protein, or mitochondrial NADPH? Even CircaDB transcriptomic data would help.",
+    "H2.6: What evidence exists that circadian-scale LIP oscillation (~10-15%) is above CIAO3 interaction modulation threshold? Any graded dose-response data?"
+  ]
+}

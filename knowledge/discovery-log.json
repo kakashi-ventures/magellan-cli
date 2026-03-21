@@ -288,5 +288,296 @@
       "checks_passed": 2,
       "implausible_flags": ["thermal_overwhelm", "impossible_temperatures", "decoherence_timescales"]
     }
+  },
+  {
+    "date": "2026-03-20",
+    "session_id": "2026-03-20-scout-005",
+    "mode": "scout",
+    "targets": [
+      {
+        "field_a": "Ferroptosis (iron-dependent cell death via lipid peroxidation)",
+        "field_c": "Serpentinization geochemistry (abiotic Fe(II)/Fe(III) redox cycling)",
+        "bridge_concepts": [
+          "Fe(II)/Fe(III) Fenton cycling kinetics",
+          "phospholipid hydroperoxide (PLOOH) intermediate chemistry",
+          "ferrihydrite surface-catalyzed lipid peroxidation rate constants"
+        ],
+        "strategy": "scale-bridging",
+        "disjointness": "DISJOINT",
+        "outcome": "success"
+      },
+      {
+        "field_a": "Mitochondrial cristae remodeling",
+        "field_c": "Lyotropic liquid crystal phase transitions",
+        "bridge_concepts": ["cardiolipin packing parameter", "Gaussian curvature elasticity"],
+        "strategy": "mechanism_transfer",
+        "disjointness": "PARTIALLY_CONNECTED",
+        "outcome": "not_explored_this_session"
+      },
+      {
+        "field_a": "Acoustic mechanotransduction",
+        "field_c": "Topological phononics",
+        "bridge_concepts": ["phononic bandgap engineering for mechanotransduction"],
+        "strategy": "tool_transfer_opportunities",
+        "disjointness": "WEAKLY_CONNECTED",
+        "outcome": "not_explored_this_session"
+      }
+    ],
+    "productive_bridges": [
+      "Radical regioselectivity contrast (abiotic statistical vs enzymatic 15-LOX)",
+      "Ferrihydrite nanoparticle dissolution kinetics framework applied to ferritin",
+      "PHREEQC geochemistry code for intracellular iron speciation modeling",
+      "Pourbaix stability field diagram as experiment design framework for lipid peroxidation"
+    ],
+    "killed_hypotheses": [
+      {"title": "Serpentinization-Derived Abiotic Lipid Peroxidation as Primordial Ferroptosis", "kill_reason": "FTT synthesis at serpentinization conditions does NOT produce PUFAs. Substrate assumption fatal."},
+      {"title": "Abiotic vs Enzymatic Lipid Peroxidation Identity Prediction (r>0.9)", "kill_reason": "r>0.9 identity prediction guaranteed false; abiotic Fenton is non-selective while 15-LOX is >95% C15-selective."},
+      {"title": "Serpentinization pH Enables Selenocysteine Advantage for GPX4", "kill_reason": "pKa advantage disappears at serpentinization pH 10 (Sec/Cys ratio goes from 8.9x to 1.0x)."},
+      {"title": "Iron Compartment Topology During Ferroptosis Mirrors Serpentinization Partitioning", "kill_reason": "Vocabulary re-description. Kd formalism inappropriate for active transport-dominated system. No predictive power added."}
+    ],
+    "surviving_hypotheses": [
+      "Abiotic vs Enzymatic PLOOH Regioselectivity as Chemical Fossil of Antioxidant Evolution",
+      "Ferritin Protein Shell as Kinetic Barrier Controlling Ferrihydrite Fenton Activity",
+      "PHREEQC Iron Speciation Model Predicts GSH-Dependent Fenton Activity Amplification",
+      "Pourbaix Stability Field Mapping of Ferrihydrite-Catalyzed PLOOH Production"
+    ],
+    "key_papers": [
+      "Kuhn et al. BBA 2015 - ALOX15 >95% C15 selectivity",
+      "Kagan et al. Nat Chem Biol 2017 - oxidized PUFA-PE drives ferroptosis",
+      "Milne et al. Methods Enzymol 2007 - non-enzymatic isoprostane regiochemistry",
+      "Kwan & Voelker EST 2003 - mineral-catalyzed Fenton rate constants",
+      "Petigara et al. EST 2002 - ferrihydrite Fenton at circumneutral pH",
+      "Harrison & Arosio BBA 1996 - ferritin structure (ferrihydrite core)",
+      "Theil Annu Rev Nutr 2004 - ferritin channel dimensions",
+      "Dixon et al. Cell 2012 - erastin/ferroptosis mechanism",
+      "Hider & Kong Dalton Trans 2013 - iron speciation in cytosol",
+      "Beverskog & Puigdomenech Corros Sci 1996 - revised Pourbaix diagrams for iron",
+      "PMC12236665 July 2025 - LIP does NOT expand during ferroptosis (critical counter-evidence)"
+    ],
+    "lessons_learned": [
+      "Scale-bridging strategy highly effective for geochemistry-biology pairs: shared iron chemistry enables 4 distinct hypothesis approaches from 1 target",
+      "Tool transfer (PHREEQC, Pourbaix) outperforms condition transfer (alkaline pH, abiotic PUFAs): applying geochemistry tools to biology has high novelty; trying to replicate geochemistry conditions in biology fails",
+      "Back-of-envelope consistency checks are essential: PHREEQC crossover prediction was ~40x off from its own stated log K values, caught only at Quality Gate and cross-model validation",
+      "Counter-evidence drives dramatic cycle improvement: cycle 1 survival 40% -> cycle 2 survival 86% by incorporating LIP non-expansion, ferryl pH transition, and GPX4/ACSL4 dominance",
+      "Bridge must be diagnostic: GPT correctly identified that ferrihydrite/PHREEQC/Pourbaix are generic iron chemistry tools, not serpentinization-specific. Future sessions should ensure bridge concepts are specific to the claimed geochemical setting",
+      "Mathematical correctness != biological relevance: Gemini scored all hypotheses 8-10/10 (math correct) while GPT scored 2-4/10 (biology uncertain). Both perspectives are needed",
+      "Journal attribution errors are a recurring minor issue: Theil 2004 (Nutr not Biochem), Hider 2013 (Dalton Trans not BioMetals). Content was accurate in both cases. Add journal verification to groundedness protocol",
+      "Vocabulary re-description remains a kill pattern: applying geochemical notation (Kd partition coefficients) to cell biology without predictive power is always caught by the Critic"
+    ],
+    "strategy_performance": {
+      "scale_bridging": {
+        "targets_produced": 1,
+        "hypotheses_survived": 8,
+        "quality_gate_passed": 4,
+        "avg_composite": 6.75
+      }
+    },
+    "bridge_type_performance": {
+      "radical_regioselectivity": {"used": 1, "survived": 1, "survival_rate": 1.0},
+      "nanoparticle_dissolution_kinetics": {"used": 1, "survived": 1, "survival_rate": 1.0},
+      "speciation_thermodynamics": {"used": 1, "survived": 1, "survival_rate": 1.0},
+      "pourbaix_thermodynamics": {"used": 1, "survived": 1, "survival_rate": 1.0},
+      "abiotic_PUFA_synthesis": {"used": 2, "survived": 0, "survival_rate": 0.0},
+      "homogeneous_Fenton_wrong_pH": {"used": 2, "survived": 0, "survival_rate": 0.0},
+      "vocabulary_re_description": {"used": 1, "survived": 0, "survival_rate": 0.0}
+    },
+    "computational_validation_summary": {
+      "checks_run": 5,
+      "checks_passed": 4,
+      "implausible_flags": ["GPX4/GSH enzymatic axis NOT transferable to abiotic system"]
+    }
+  },
+  {
+    "date": "2026-03-21",
+    "session_id": "2026-03-21-scout-006",
+    "mode": "scout",
+    "targets": [
+      {
+        "field_a": "Ferroptosis lipid peroxidation (4-HNE, PUFA-PE oxidation, GPX4 regulation)",
+        "field_c": "Bacterial quorum sensing (AHL autoinducers, LasI/R and RhlI/R systems)",
+        "bridge_concepts": [
+          "PYO-mediated GSH depletion disabling GPX4 defense",
+          "4-HNE electrophilic covalent modification of QS receptors",
+          "Iron as shared regulatory variable (host sequestration vs bacterial siderophores)",
+          "Quantitative extracellular scavenging budget for inter-kingdom signaling",
+          "LoxA + PYO dual-pathway synergy for ferroptosis induction"
+        ],
+        "strategy": "network_gap_analysis",
+        "disjointness": "DISJOINT",
+        "outcome": "success"
+      },
+      {
+        "field_a": "Piezoelectric properties of collagen",
+        "field_c": "Hematopoietic stem cell fate decisions in bone marrow niches",
+        "bridge_concepts": ["collagen piezoelectric field at HSC niche"],
+        "strategy": "contradiction_mining",
+        "disjointness": "DISJOINT",
+        "outcome": "killed_by_target_evaluator_debye_screening"
+      },
+      {
+        "field_a": "Bacterial outer membrane vesicle (OMV) biogenesis",
+        "field_c": "Mammalian extracellular vesicle (exosome) biogenesis and immunomodulation",
+        "bridge_concepts": ["conserved membrane budding physics", "sRNA cargo sorting parallels"],
+        "strategy": "evolutionary_conservation_gap",
+        "disjointness": "DISJOINT",
+        "outcome": "not_explored_this_session"
+      }
+    ],
+    "productive_bridges": [
+      "PYO → GSH depletion → GPX4 inactivation → ferroptosis (indirect enzymatic cascade)",
+      "LoxA + PYO dual-pathway synergy (coherent feed-forward loop motif)",
+      "Quantitative scavenging budget for 4-HNE inter-kingdom transit",
+      "ACSL4 expression as tissue-specific ferroptosis vulnerability predictor"
+    ],
+    "killed_hypotheses": [
+      {"title": "Bacterial N-Acyl Amides Protect Host Epithelium from Ferroptosis", "kill_reason": "Concentration 1000x too low for radical scavenging. Simpler GSH-based alternatives."},
+      {"title": "Ferroptotic Membrane Fragments as QS Signal Carriers", "kill_reason": "No range extension over aqueous diffusion. Efferocytosis clears debris."},
+      {"title": "Host ALOX15 Stereospecific Oxylipins Selectively Inhibit RhlR", "kill_reason": "Zero evidence oxylipins bind QS receptors. Structural comparison too generic."},
+      {"title": "Ferroptosis-Derived Isoprostanes as False Quorum Signals", "kill_reason": "Structural comparison invalid (cyclopentane vs quinoline). PqsR highly specific."},
+      {"title": "Ferroptotic oxPS as Bacterial Sensor Signal", "kill_reason": "No precedent for bacterial phospholipid sensing. Simpler host damage signals."}
+    ],
+    "surviving_hypotheses": [
+      "Pyocyanin-GPX4-Ferroptosis Bidirectional Axis with Quantitative Kinetic Framework",
+      "GPX4 as Inter-Kingdom Signal Gatekeeper with Extracellular Scavenging Budget",
+      "Dual-Pathway Ferroptosis Induction by P. aeruginosa — PYO and LoxA Synergy",
+      "4-HNE as Irreversible QS Modulator via Covalent Modification of Holo-LasR",
+      "Bacterial Lactonase Enzymes Degrade 4-HNE Lactol",
+      "ACSL4 Expression as Tissue-Specific Vulnerability Map for Ferroptosis-QS Cross-Talk"
+    ],
+    "key_papers": [
+      "Dar et al. 2018 Science — PA LoxA induces host ferroptosis (CRITICAL PRIOR WORK)",
+      "McCready et al. 2018 Cell Chem Biol — Non-native LasR agonists, L3 loop-out conformation",
+      "Wilson et al. 1988 J Clin Invest — PYO concentrations in CF sputum",
+      "Muller 2002 Free Radic Biol Med — PYO depletes GSH via redox cycling",
+      "Ursini & Maiorino 2020 Free Radic Biol Med — GPX4 requires 2 GSH per cycle",
+      "Kagan et al. 2017 Nat Chem Biol — ACSL4/LPCAT3 pathway in ferroptosis",
+      "Petersen & Doorn 2004 Free Radic Biol Med — 4-HNE Michael addition rate constants",
+      "Dong et al. 2001 — AiiA lactonase quorum quenching",
+      "Molecules 2014 PMID 24448067 — Oxidized fatty acids as inter-kingdom signals"
+    ],
+    "lessons_learned": [
+      "Network gap analysis with DISJOINT confirmation yields highest novelty and survival rate",
+      "PYO-GPX4 depletion is the most robust bridge: 100% survival, 3 final hypotheses",
+      "Structural mimicry claims without formal verification are the dominant kill pattern (40%)",
+      "Counter-evidence integration (Dar et al. 2018) converts threats into synergy hypotheses",
+      "Quantitative scavenging budget framework is a transferable methodological contribution",
+      "Target Evaluator Debye screening check saved pipeline from fatally flawed piezoelectric target",
+      "Infection biology pairs with shared metabolic intermediates are high-productivity targets"
+    ],
+    "strategy_performance": {
+      "network_gap_analysis": {
+        "targets_produced": 1,
+        "hypotheses_survived": 9,
+        "quality_gate_passed": 6,
+        "avg_composite": 7.26
+      }
+    },
+    "bridge_type_performance": {
+      "pyo_gpx4_depletion": {"used": 3, "survived": 3, "survival_rate": 1.0},
+      "iron_competition": {"used": 2, "survived": 1, "survival_rate": 0.5},
+      "electrophilic_modification": {"used": 2, "survived": 1, "survival_rate": 0.5},
+      "lactonase_promiscuity": {"used": 1, "survived": 1, "survival_rate": 1.0},
+      "structural_mimicry_unverified": {"used": 3, "survived": 0, "survival_rate": 0.0},
+      "novel_receptor_no_precedent": {"used": 1, "survived": 0, "survival_rate": 0.0}
+    },
+    "computational_validation_summary": {
+      "checks_run": 7,
+      "checks_passed": 5,
+      "implausible_flags": ["4-HNE lacks lactone ring for direct mimicry", "4-HNE half-life short (~2-5 min)"]
+    }
+  },
+  {
+    "date": "2026-03-21",
+    "session_id": "2026-03-21-scout-007",
+    "mode": "scout",
+    "phase": "complete",
+    "targets": [
+      {
+        "field_a": "Fe-S cluster biogenesis (NFS1, ISCU2, FDX2, FXN, GLRX5, CISD2)",
+        "field_c": "Circadian clock regulation",
+        "strategy": "network_gap_analysis",
+        "disjointness": "DISJOINT",
+        "outcome": "success"
+      }
+    ],
+    "productive_bridges": [
+      "IRP1 [4Fe-4S] cluster occupancy as feeding-entrained iron-redox sensor (published gap: Nadimpalli 2024)",
+      "CISD2 [2Fe-2S] at MAMs as redox-gated Ca2+ regulator (triple intersection: longevity × circadian × Fe-S)",
+      "CIA/CIAO3 pathway as LIP/ROS-responsive gate for ~20 cytoplasmic Fe-S proteins",
+      "Frataxin as substrate-sensitive bottleneck in FTMT-negative tissues",
+      "Conserved Fe-S → clock dependency in neurons (14-year Drosophila → mammalian gap)"
+    ],
+    "killed_hypotheses": [
+      {
+        "title": "CISD2 [2Fe-2S] as Redox-Gated ER-Mito Ca2+ Timer (original version)",
+        "kill_reason": "Critic FATAL: CISD2 redox midpoint +24mV actual (Biomedicines 2021), not -10mV claimed from mitoNEET data. NAD+/NADH cycling thermodynamically impossible at correct potential. QG later gave CONDITIONAL_PASS with corrected parameters."
+      },
+      {
+        "title": "NADPH→FDXR→FDX2 Electron Supply Chain as Circadian Fe-S Assembly Gatekeeper",
+        "kill_reason": "QG FAIL: FDXR Km = 0.7µM (Barros & Carlson 1992), not ~5µM as estimated. At physiological NADPH (50-100µM), FDXR >99% saturated. 30% NADPH oscillation produces <1% rate change."
+      },
+      {
+        "title": "Cytoplasmic Prx1/2 H2O2 Oscillation as Non-Transcriptional Timer for Fe-S Proteins",
+        "kill_reason": "Critic WEAKENED: 2-3 orders of magnitude H2O2 gap — predicted 10-100 nM pulse vs IRP1 threshold ~1-10 µM (Pantopoulos 1998). Prx2 hyperoxidation in nucleated cells may not produce cytoplasmic H2O2 pulses like in RBCs."
+      }
+    ],
+    "surviving_hypotheses": [
+      "IRP1 [4Fe-4S] Cluster Occupancy as Feeding-Entrained Iron-Redox Chronostat (PASS 8/10)",
+      "CISD2 [2Fe-2S] as Redox-Gated ER-Mitochondrial Calcium Timer — forward direction only (CONDITIONAL_PASS 7/10)",
+      "CIA Pathway as LIP/ROS-Responsive Circadian Gate for Cytoplasmic Fe-S Proteome (CONDITIONAL_PASS 7/10)",
+      "Frataxin-Gated Fe-S Assembly via Mitochondrial LIP in FTMT-Negative Tissues (CONDITIONAL_PASS 6/10)",
+      "Conserved Fe-S Requirement in Clock Neurons — Drosophila to Mammalian SCN (CONDITIONAL_PASS 6/10)"
+    ],
+    "key_papers": [
+      "Nadimpalli et al. 2024 Genome Biol — IRP2 oscillates 10-fold daily; IRP1 Fe-S occupancy UNMEASURED across 24h (PMID 38773499)",
+      "Lill et al. 2025 Nature — FDX2:FXN 1:1 stoichiometry; cross-regulation (DOI 10.1038/s41586-025-09822-1)",
+      "Maio & Rouault 2022 JBC — CIAO3 regulation by iron/ROS in cytoplasmic Fe-S maturation",
+      "Mandilaras & Missirlis 2012 Metallomics — 5 Fe-S genes in Drosophila clock neurons (PMID 22885802)",
+      "Edgar et al. 2012 Nature — Prx2 hyperoxidation cycles",
+      "Peek et al. 2013 Science — NAD+/NADH 30% circadian amplitude",
+      "JCI 2026 — BMAL1→ATP7A→Cu→Fe-S pathway (PMID 41480765)",
+      "Karmi et al. 2018 JBIC — NEET protein cluster lability (PMID 29435647)",
+      "Biomedicines 2021 — CISD2/NAF-1 redox midpoint +24mV (PMC8067432)"
+    ],
+    "disjointness_verification": {
+      "status": "CONFIRMED_DISJOINT",
+      "string_api": "ZERO interactions between NFS1/ISCU2/GLRX5 and BMAL1/CLOCK/CRY1/CRY2",
+      "kegg_api": "ZERO shared pathways between sulfur relay (hsa04122) and circadian clock pathways",
+      "pubmed_search": "NFS1 circadian=0; ISCU2 circadian=0; GLRX5 circadian=0; FDX2 circadian=0",
+      "mammalian_rnai_screen": "Fe-S biogenesis genes NOT in human genome-wide circadian RNAi screen (2009)",
+      "existing_cross_field": "3 papers — all Drosophila, all lacking mechanism, none with mammalian follow-up"
+    },
+    "lessons_learned": [
+      "Published gap papers are gold: Nadimpalli 2024 explicitly identifies IRP1 cluster occupancy as unmeasured → H2.1 scored highest (PASS 8/10). Scout should search for review papers listing 'unmeasured variables'",
+      "Km pre-verification is essential: FDXR Km=0.7µM killed H2.5. For any enzyme-gated mechanism, verify Km vs physiological [S]. If Km << [S], enzyme is saturated",
+      "Critic/QG calibration: Critic FATAL on H2.3 (wrong midpoint) vs QG CONDITIONAL_PASS (correctable error). Correctable parametric errors should not be FATAL kills",
+      "Redox midpoint must be verified for the specific protein isoform, not homologs: mitoNEET ≠ CISD2",
+      "Fe-S biology is an excellent domain: rich molecular infrastructure, published quantitative gaps, JCI 2026 precedent establishes field is active",
+      "Triple-intersection bridges (longevity × circadian × Fe-S via CISD2) produce highest novelty but higher parametric error risk",
+      "Conservation gap with time lag (14-year Drosophila → mammalian follow-up gap) is a productive bridge type",
+      "6 distinct bridge types across 6 hypotheses with zero convergence — unprecedented diversity. Diversity constraint working well",
+      "network_gap_analysis confirmed as dominant strategy: 38% QG pass rate across S006+S007 (11/29)"
+    ],
+    "strategy_performance": {
+      "network_gap_analysis": {
+        "targets_produced": 1,
+        "targets_selected": 1,
+        "hypotheses_generated": 15,
+        "hypotheses_survived_critique": 10,
+        "quality_gate_passed": 5,
+        "quality_gate_failed": 1,
+        "survival_rate": 0.67,
+        "quality_gate_rate": 0.33,
+        "effectiveness": "SUCCESS"
+      }
+    },
+    "bridge_type_performance": {
+      "published_gap_variable": {"used": 1, "survived": 1, "qg_passed": 1, "verdict": "PASS"},
+      "er_mito_ca2_signaling": {"used": 1, "survived": 1, "qg_passed": 1, "verdict": "COND_PASS"},
+      "cytoplasmic_maturation_gate": {"used": 1, "survived": 1, "qg_passed": 1, "verdict": "COND_PASS"},
+      "substrate_supply_bottleneck": {"used": 1, "survived": 1, "qg_passed": 1, "verdict": "COND_PASS"},
+      "conservation_gap_reverse": {"used": 1, "survived": 1, "qg_passed": 1, "verdict": "COND_PASS"},
+      "enzyme_km_saturation": {"used": 1, "survived": 0, "qg_passed": 0, "verdict": "FAIL"}
+    }
   }
 ]

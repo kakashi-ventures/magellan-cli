@@ -1,0 +1,62 @@
+{
+  "computational_readiness": {
+    "target": "Fe-S cluster biogenesis x Circadian clock regulation",
+    "checks": [
+      {
+        "name": "Nernst equation: 30mV redox oscillation, n=1, T=310K",
+        "status": "PLAUSIBLE",
+        "detail": "exp(30/26.71) = 3.07-fold Kd shift in [2Fe-2S] cluster stability. Mathematically correct. Sensitivity: 20mV gives 2.11x, 40mV gives 4.47x. Even conservative 20mV is biologically meaningful."
+      },
+      {
+        "name": "Labile cluster half-life vs 24h circadian period",
+        "status": "PLAUSIBLE",
+        "detail": "t_half 2-8h gives 31-80% amplitude tracking of 24h oscillation. ISCU2 (~1h) = 94% tracking. CISD2 (~2h) = 80%. GLRX5/FDX2 (~4h) = 55%. IRP1 (~3h) = 66%. All assembly hub proteins in high-sensitivity window."
+      },
+      {
+        "name": "NFS1 Km sensitivity to cysteine oscillation",
+        "status": "MARGINAL",
+        "detail": "NFS1 Km ~50uM, [Cys] ~150uM. +/-30% cysteine oscillation gives only 17% activity change. Primary mechanism more likely direct redox modification of NFS1 Cys328, not substrate driven."
+      },
+      {
+        "name": "KEGG pathway overlap: Fe-S (hsa04122) vs Circadian (hsa04710)",
+        "status": "NOT_CONNECTED",
+        "detail": "Zero shared genes. CISD2 and GLRX5 absent from all KEGG pathways. AMPK is the nearest indirect bridge (2-3 steps). Confirms genuine novelty."
+      },
+      {
+        "name": "STRING protein interactions: Fe-S proteins vs clock proteins",
+        "status": "NOT_FOUND",
+        "detail": "Zero interactions at any confidence threshold between NFS1/CISD2/GLRX5/FDX2 and BMAL1/CRY1/PER2/CLOCK. Confirms disjointness. Mechanism is metabolic flux, not PPI."
+      },
+      {
+        "name": "PubMed co-occurrence: GLRX5 AND circadian",
+        "status": "DISJOINT",
+        "detail": "0 papers. NFS1 AND circadian = 1 (non-mechanistic). CISD2 AND circadian = 1 (coincidental). Compared to heme AND circadian = 203."
+      },
+      {
+        "name": "Compartmentalization: mitochondrial Fe-S assembly vs nuclear clock",
+        "status": "PLAUSIBLE",
+        "detail": "NFS1/ISCU2 are mitochondrial. CRY1/BMAL1 are nuclear. Bridge via: Clock -> transcription of NADPH enzymes -> mitochondrial redox -> NFS1/ISCU2 activity -> GLRX5/CIA export to cytoplasm -> IRP1 switch. Established export pathway exists."
+      },
+      {
+        "name": "IRP1 aconitase/IRE-BP switch as measurable readout",
+        "status": "PLAUSIBLE",
+        "detail": "IRP1 is [4Fe-4S] protein switching to IRE-binding form when cluster lost. t_half ~3h = 66% circadian tracking. Nadimpalli 2024 already confirmed diurnal IRE-mRNA control. Validates concept."
+      }
+    ],
+    "overall": "GO",
+    "warnings": [
+      "CRY1/2 uses FAD, NOT Fe-S clusters. Do not propose CRY-Fe-S direct binding.",
+      "2026 JCI paper (PMID 41480765) shows BMAL1 -> copper -> Fe-S protein stability in glioblastoma. Differentiate from biogenesis mechanism.",
+      "NFS1 cysteine substrate oscillation alone is MARGINAL (17% effect). Primary mechanism should be direct redox modification of NFS1 active site.",
+      "CISD2 and GLRX5 absent from KEGG - database gap, not biological absence."
+    ],
+    "recommendations": [
+      "Prioritize NFS1 activity oscillation via direct Cys328 redox modification, not substrate Km",
+      "IRP1/ACO1 aconitase switch is the best measurable readout (validated diurnal by Nadimpalli 2024)",
+      "CISD2/NAF-1 longevity x circadian connection has zero prior work - high novelty",
+      "Use two NFS1 inhibitors (Compound 53, D-cysteine) as ready experimental tools",
+      "Reference 2012 Drosophila paper as key lead, 2026 JCI paper as nearest mammalian precedent",
+      "Build tiered half-life spectrum as core prediction: assembly proteins oscillate, structural proteins don't"
+    ]
+  }
+}

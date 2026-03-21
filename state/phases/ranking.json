@@ -1,0 +1,151 @@
+{
+  "session_id": "2026-03-21-scout-007",
+  "cycle": 1,
+  "rankings": [
+    {
+      "rank": 1,
+      "id": "H4",
+      "title": "IRP1 [4Fe-4S] Cluster Occupancy as Mechanistic Driver of Diurnal IRE-mRNA Control",
+      "composite_score": 7.55,
+      "scores": {
+        "novelty": 7,
+        "mechanistic_specificity": 8,
+        "testability": 9,
+        "groundedness": 8,
+        "impact": 6,
+        "counter_evidence_resilience": 6
+      },
+      "critic_verdict": "WEAKENED",
+      "original_confidence": 7,
+      "revised_confidence": 5,
+      "key_strengths": [
+        "Closes explicitly acknowledged gap in Nadimpalli 2024",
+        "Cheapest and fastest test (native gel, $8K, 2 months)",
+        "Highest groundedness in set (8/10)",
+        "IRP1 switch textbook biochemistry with quantified predictions"
+      ],
+      "key_weaknesses": [
+        "IRP2 oscillates 10-fold vs IRP1 predicted ~2-fold",
+        "Nadimpalli 2024 attributes rhythm to feeding not intrinsic clock",
+        "IRP1-C437S chronic iron effects may confound circadian measurements"
+      ]
+    },
+    {
+      "rank": 2,
+      "id": "H2",
+      "title": "CISD2/NAF-1 as Circadian ER-Mitochondrial Calcium Timer via [2Fe-2S] Cluster Lability",
+      "composite_score": 6.50,
+      "scores": {
+        "novelty": 9,
+        "mechanistic_specificity": 6,
+        "testability": 7,
+        "groundedness": 5,
+        "impact": 7,
+        "counter_evidence_resilience": 5
+      },
+      "critic_verdict": "WEAKENED",
+      "original_confidence": 6,
+      "revised_confidence": 5,
+      "key_strengths": [
+        "Zero-publication novelty confirmed",
+        "Triple convergence of circadian inputs (redox, pH, Ca2+) at one protein",
+        "Unique MAM position among Fe-S proteins",
+        "CISD2 as longevity gene creates aging-circadian clinical connection"
+      ],
+      "key_weaknesses": [
+        "Cluster half-life (~2h) estimated from in vitro kinetics, not cellular measurement",
+        "NADH feedback loop adds 3-4 untested steps",
+        "Aging phenotype confound in CISD2 KO mice"
+      ]
+    },
+    {
+      "rank": 3,
+      "id": "H8",
+      "title": "Frataxin Iron Donation as Circadian Fe-S Assembly Rheostat Gated by Hepcidin-Driven Labile Iron Oscillation",
+      "composite_score": 6.45,
+      "scores": {
+        "novelty": 8,
+        "mechanistic_specificity": 6,
+        "testability": 6,
+        "groundedness": 7,
+        "impact": 7,
+        "counter_evidence_resilience": 4
+      },
+      "critic_verdict": "WEAKENED",
+      "original_confidence": 6,
+      "revised_confidence": 4,
+      "key_strengths": [
+        "All cited literature VERIFIED (highest literal groundedness in set)",
+        "Lill 2025 Nature stoichiometry finding genuinely new constraint",
+        "FA carrier prediction clinical and testable in existing cohorts",
+        "Distinct substrate-supply bottleneck mechanism"
+      ],
+      "key_weaknesses": [
+        "Ferritin buffering potently dampens LIP oscillation (~<10% LIP from 30-50% plasma)",
+        "Mitoferrin may rate-limit independently of LIP changes",
+        "FA carrier effect size may be below clinical detection"
+      ]
+    },
+    {
+      "rank": 4,
+      "id": "H3",
+      "title": "Peroxiredoxin Oxidation Cycle as Non-Transcriptional Fe-S Clock via H2O2-Mediated Cluster Destruction",
+      "composite_score": 6.25,
+      "scores": {
+        "novelty": 9,
+        "mechanistic_specificity": 5,
+        "testability": 8,
+        "groundedness": 4,
+        "impact": 8,
+        "counter_evidence_resilience": 3
+      },
+      "critic_verdict": "WEAKENED",
+      "original_confidence": 5,
+      "revised_confidence": 4,
+      "key_strengths": [
+        "Most transformative potential in set if H2O2 gap resolved",
+        "BMAL1 KO test is cheapest initial experiment ($10K, 2 months)",
+        "Evolutionary logic compelling",
+        "HyPer7-mito sensor test directly addresses core quantitative uncertainty"
+      ],
+      "key_weaknesses": [
+        "Mitochondrial Prx3 resistant to hyperoxidation (Cox 2009 Biochem J)",
+        "Matrix H2O2 ~0.15µM, one order of magnitude below >1µM threshold",
+        "Edgar 2012 system (RBCs) lacks mitochondria and Fe-S proteins targeted"
+      ]
+    }
+  ],
+  "top3_composite_average": 6.83,
+  "adaptive_cycle_check": {
+    "early_completion_eligible": false,
+    "threshold": 7.0,
+    "top3_average": 6.83,
+    "decision": "proceed_to_evolution"
+  },
+  "diversity_check": "PASS — all four survivors span distinct bridge mechanisms (redox cluster lability, Ca2+ cascade, iron substrate supply, H2O2 destruction), different Fe-S proteins in different compartments (IRP1 cytoplasmic [4Fe-4S], CISD2 OMM/MAM [2Fe-2S], frataxin-ISCU2 matrix complex, generic labile clusters), and different testability approaches. No convergence detected.",
+  "elo_sanity": "DISCREPANCY (minor) — Elo ranking: H4 > H2 > H3 > H8. Linear ranking: H4 > H2 > H8 > H3. H3 and H8 swap positions 3-4. The swap captures experiment sequencing efficiency (H3 BMAL1 KO assay cheap/fast vs H8 expensive cohort study) vs groundedness penalty (H3 groundedness 4 vs H8 groundedness 7). Top-2 unaffected. Linear composite is primary output.",
+  "selected_for_evolution": ["H4", "H2", "H8", "H3"],
+  "critic_questions_forwarded": {
+    "H4": [
+      "Design test separating IRP1 cluster contribution from IRP2 transcriptional contribution",
+      "If feeding-driven, what SPECIFIC mechanism connects feeding to IRP1 cluster occupancy?",
+      "Predicted magnitude of IRP1 vs IRP2 contribution quantified numerically?"
+    ],
+    "H2": [
+      "Provide more rigorous CISD2 cluster half-life in cellulo estimate",
+      "Does forward direction (clock to CISD2 to Ca2+) stand alone without NADH feedback?",
+      "Expected effect size of CISD2 cluster oscillation on mitochondrial Ca2+ uptake?"
+    ],
+    "H8": [
+      "Published LIP oscillation amplitude in hepatocytes over 24h — is it >10%?",
+      "Does mitoferrin expression or activity show circadian variation?",
+      "Minimum detectable effect size in a FA carrier cohort study?"
+    ],
+    "H3": [
+      "Address Prx3 hyperoxidation resistance directly — how do you reconcile?",
+      "Would the mechanism work through cytoplasmic Prx1/2 affecting cytoplasmic Fe-S proteins (IRP1, ABCE1)?",
+      "Evidence for transient matrix H2O2 pulses exceeding 1µM?"
+    ]
+  },
+  "ranked_at": "2026-03-21T12:00:00Z"
+}

@@ -1,0 +1,139 @@
+{
+  "phase": "ranking",
+  "cycle": 2,
+  "session_id": "2026-03-21-scout-007",
+  "timestamp": "2026-03-21T16:00:00Z",
+  "model": "opus-4.6",
+  "rankings": [
+    {
+      "id": "H2.1",
+      "title": "IRP1 [4Fe-4S] Cluster Occupancy as Feeding-Entrained Iron-Redox Chronostat",
+      "rank": 1,
+      "composite": 7.60,
+      "novelty": 7,
+      "specificity": 8,
+      "testability": 8,
+      "groundedness": 8,
+      "impact": 7,
+      "resilience": 7,
+      "key_strength": "Highest groundedness; all claims verified; IRP2 KO separation test definitive; addressed all Cycle 1 criticisms",
+      "key_weakness": "IRP1 contributes only 15-25% of IRE regulation; IRP2 dominates; distinction from JCI 2026 BMAL1→ATP7A→Cu pathway unclear"
+    },
+    {
+      "id": "H2.3",
+      "title": "CISD2 [2Fe-2S] as Redox-Gated ER-Mitochondrial Calcium Timer (Forward Direction Only)",
+      "rank": 2,
+      "composite": 6.85,
+      "novelty": 9,
+      "specificity": 6,
+      "testability": 7,
+      "groundedness": 6,
+      "impact": 8,
+      "resilience": 6,
+      "key_strength": "Zero-publication novelty confirmed; forward-only parsimony; longevity × circadian × Fe-S triple intersection",
+      "key_weakness": "CISD2 cluster stability vs redox sensitivity tension; redox midpoint confusion; effect size extrapolated from KO"
+    },
+    {
+      "id": "H2.6",
+      "title": "CIA Pathway as LIP/ROS-Responsive Circadian Gate for Cytoplasmic Fe-S Proteome",
+      "rank": 3,
+      "composite": 6.50,
+      "novelty": 7,
+      "specificity": 6,
+      "testability": 7,
+      "groundedness": 7,
+      "impact": 7,
+      "resilience": 5,
+      "key_strength": "All literature verified; pathway-level scope affecting ~20 proteins; dual LIP+ROS input alignment",
+      "key_weakness": "Acute perturbation evidence extrapolated to circadian; cytoplasmic LIP oscillation may be below CIAO3 threshold"
+    },
+    {
+      "id": "H2.2",
+      "title": "Frataxin-Gated Fe-S Assembly via Mitochondrial LIP in FTMT-Negative Tissues",
+      "rank": 4,
+      "composite": 6.00,
+      "novelty": 7,
+      "specificity": 6,
+      "testability": 6,
+      "groundedness": 6,
+      "impact": 6,
+      "resilience": 5,
+      "key_strength": "FTMT tissue-specificity novel and verified; Lill 2025 stoichiometric amplification; FA carrier translational angle",
+      "key_weakness": "Mitochondrial LIP oscillation purely speculative; 'unbuffered' overstated; FA carrier power optimistic"
+    },
+    {
+      "id": "H2.7",
+      "title": "Conserved Fe-S Requirement in Clock Neurons — Drosophila to Mammalian SCN",
+      "rank": 5,
+      "composite": 5.90,
+      "novelty": 7,
+      "specificity": 5,
+      "testability": 6,
+      "groundedness": 6,
+      "impact": 7,
+      "resilience": 5,
+      "key_strength": "14-year zero mammalian follow-up; reverse direction complementary; mouse genetic tools available",
+      "key_weakness": "dCRY-specific confound; neurodegeneration vs specific clock disruption; Mandilaras primary was Fer2LCH"
+    },
+    {
+      "id": "H2.5",
+      "title": "NADPH→FDXR→FDX2 Electron Supply Chain as Circadian Fe-S Assembly Gatekeeper",
+      "rank": 6,
+      "composite": 4.80,
+      "novelty": 7,
+      "specificity": 4,
+      "testability": 5,
+      "groundedness": 5,
+      "impact": 5,
+      "resilience": 3,
+      "key_strength": "FDX2:FXN stoichiometric sensitivity real (Lill 2025); non-linear amplification valid",
+      "key_weakness": "NADPH arm quantitatively dead (FDXR Km=0.7µM, >99% saturated); double bottleneck collapsed to single arm"
+    }
+  ],
+  "diversity_check": "PASSED",
+  "diversity_detail": {
+    "H2.1": "Post-translational mRNA regulation (IRP1 apo/holo → IRE binding)",
+    "H2.3": "ER-mitochondria Ca2+ signaling (CISD2 redox sensor at MAMs)",
+    "H2.6": "Cytoplasmic maturation pathway (CIA → CIAO3 → Fe-S proteome)",
+    "H2.2": "Substrate supply bottleneck (iron → frataxin, mitochondrial compartment)",
+    "H2.7": "Reverse direction / conservation (Fe-S → clock in neurons)",
+    "H2.5": "Electron supply + stoichiometric constraint (NADPH → FDX2)"
+  },
+  "elo_tournament": {
+    "k_factor": 32,
+    "starting_elo": 1500,
+    "matchups": [
+      {"pair": ["H2.1", "H2.3"], "winner": "H2.1", "reason": "Groundedness 8 vs 6; testability 8 vs 7"},
+      {"pair": ["H2.1", "H2.6"], "winner": "H2.1", "reason": "Higher specificity and resilience"},
+      {"pair": ["H2.1", "H2.2"], "winner": "H2.1", "reason": "Higher groundedness and testability"},
+      {"pair": ["H2.1", "H2.7"], "winner": "H2.1", "reason": "Stronger quantitative foundation"},
+      {"pair": ["H2.1", "H2.5"], "winner": "H2.1", "reason": "H2.5 NADPH arm dead"},
+      {"pair": ["H2.3", "H2.6"], "winner": "H2.3", "reason": "Novelty 9 decisive; longevity angle"},
+      {"pair": ["H2.3", "H2.2"], "winner": "H2.3", "reason": "Zero-publication novelty; forward-only parsimony"},
+      {"pair": ["H2.3", "H2.7"], "winner": "H2.3", "reason": "More specific mechanism; triple convergence"},
+      {"pair": ["H2.3", "H2.5"], "winner": "H2.3", "reason": "Stronger overall"},
+      {"pair": ["H2.6", "H2.2"], "winner": "H2.6", "reason": "Pathway-level scope; 20 proteins vs 1 bottleneck"},
+      {"pair": ["H2.6", "H2.7"], "winner": "H2.6", "reason": "Published CIAO3 regulation data"},
+      {"pair": ["H2.6", "H2.5"], "winner": "H2.6", "reason": "Both arms intact vs one arm dead"},
+      {"pair": ["H2.2", "H2.7"], "winner": "H2.2", "reason": "FTMT argument novel; FA carrier angle"},
+      {"pair": ["H2.2", "H2.5"], "winner": "H2.2", "reason": "Both arms intact"},
+      {"pair": ["H2.7", "H2.5"], "winner": "H2.7", "reason": "Conservation logic; reverse direction"}
+    ],
+    "final_elo": {
+      "H2.1": 1573,
+      "H2.3": 1543,
+      "H2.6": 1514,
+      "H2.2": 1484,
+      "H2.7": 1453,
+      "H2.5": 1421
+    },
+    "elo_ranking": ["H2.1", "H2.3", "H2.6", "H2.2", "H2.7", "H2.5"],
+    "concordance_with_composite": true
+  },
+  "top3_average": 6.98,
+  "advancement": {
+    "advance_all": true,
+    "evolver_skipped": true,
+    "rationale": "Top-3 average 6.98 exceeds 6.5 threshold. All 6 survivors advance to Quality Gate. Evolver skipped for Cycle 2."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "phase": "cross_model_validation",
+  "session": "2026-03-21-scout-007",
+  "timestamp": "2026-03-21T18:30:00Z",
+  "status": "export_fallback",
+  "status_reason": "OPENAI_API_KEY and GEMINI_API_KEY both absent. Export files generated for manual validation.",
+  "gpt_model": "gpt-5.4-pro",
+  "gemini_model": "gemini-3.1-pro-preview",
+  "models_used": [],
+  "hypotheses_submitted": 5,
+  "hypotheses_ids": ["H2.1", "H2.3", "H2.6", "H2.2", "H2.7"],
+  "consensus": {},
+  "key_divergences": [],
+  "key_agreements": [],
+  "priority_ranking": [
+    "H2.1 — PASS (rubric 8/10, highest groundedness)",
+    "H2.3 — CONDITIONAL_PASS (rubric 7/10, highest novelty)",
+    "H2.6 — CONDITIONAL_PASS (rubric 7/10, pathway-level scope)",
+    "H2.2 — CONDITIONAL_PASS (rubric 6/10, FTMT argument novel)",
+    "H2.7 — CONDITIONAL_PASS (rubric 6/10, reverse direction)"
+  ],
+  "files": {
+    "gpt_prompt": "results/2026-03-21-scout-007/export-gpt.md",
+    "gemini_prompt": "results/2026-03-21-scout-007/export-gemini.md"
+  }
+}

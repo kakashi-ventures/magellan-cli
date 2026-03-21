@@ -1,0 +1,50 @@
+{
+  "session_id": "2026-03-21-scout-007",
+  "cycle": 1,
+  "evolver_skipped": true,
+  "evolver_skip_reason": "Top-3 avg 6.97 >= 6.5, diversity passed (4 distinct mechanism types), no shared bridges",
+  "timestamp": "2026-03-21T11:38:27Z",
+  "evolved_hypotheses": [
+    {
+      "id": "H4",
+      "title": "IRP1 [4Fe-4S] Cluster Occupancy as Mechanistic Driver of Diurnal IRE-mRNA Control",
+      "rank": 1,
+      "composite": 7.40,
+      "groundedness": 8,
+      "novelty": 6,
+      "mechanism_type": "post-transcriptional RNA regulation",
+      "key_weakness": "Nadimpalli 2024 feeding attribution; IRP2 10-fold vs IRP1 2-fold"
+    },
+    {
+      "id": "H8",
+      "title": "Frataxin Iron Donation as Circadian Fe-S Rheostat via Hepcidin LIP",
+      "rank": 2,
+      "composite": 6.80,
+      "groundedness": 7,
+      "novelty": 7,
+      "mechanism_type": "systemic iron homeostasis",
+      "key_weakness": "Ferritin buffering dampens LIP oscillation; mitoferrin rate-limiting"
+    },
+    {
+      "id": "H2",
+      "title": "CISD2/NAF-1 as Circadian ER-Mito Calcium Timer via [2Fe-2S] Lability",
+      "rank": 3,
+      "composite": 6.70,
+      "groundedness": 6,
+      "novelty": 9,
+      "mechanism_type": "ER-mitochondria calcium signaling",
+      "key_weakness": "Cluster half-life estimated not measured; 3-4 untested steps in NADH feedback"
+    },
+    {
+      "id": "H3",
+      "title": "Peroxiredoxin Cycle as Non-Transcriptional Fe-S Clock via H2O2",
+      "rank": 4,
+      "composite": 5.75,
+      "groundedness": 5,
+      "novelty": 8,
+      "mechanism_type": "ROS/redox cycling",
+      "key_weakness": "Matrix H2O2 ~0.15uM << 1uM threshold needed for Fe-S destruction"
+    }
+  ],
+  "diversity_check": "PASSED"
+}

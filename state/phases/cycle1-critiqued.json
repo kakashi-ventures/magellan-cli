@@ -1,0 +1,175 @@
+{
+  "cycle": 1,
+  "session_id": "2026-03-21-scout-007",
+  "critiques": [
+    {
+      "id": "H1",
+      "verdict": "FATAL",
+      "original_confidence": 7,
+      "revised_confidence": 3,
+      "critical_flaws": [
+        "Cys328 is E. coli IscS catalytic residue, not human NFS1 regulatory cysteine — species numbering error",
+        "No documented redox-regulatory cysteine in human NFS1 beyond catalytic Cys381"
+      ],
+      "strengths_retained": [
+        "General concept (NFS1 redox gating) plausible with correct residue",
+        "Nernst framework valid",
+        "Mandilaras 2012 connection genuine"
+      ],
+      "critic_questions": [
+        "Which SPECIFIC cysteine in human NFS1 is the proposed redox sensor? Provide PDB evidence.",
+        "Could the mechanism work through Cys381 directly?",
+        "Has any redox proteomics study identified oscillating cysteine oxidation on human NFS1?"
+      ]
+    },
+    {
+      "id": "H2",
+      "verdict": "WEAKENED",
+      "original_confidence": 6,
+      "revised_confidence": 5,
+      "critical_flaws": [
+        "Cluster half-life (~2h) estimated not measured in cells",
+        "NADH feedback loop adds 3-4 untested steps",
+        "CISD2 KO aging phenotype may confound circadian measurements"
+      ],
+      "strengths_retained": [
+        "Zero-publication novelty CONFIRMED",
+        "Triple convergence (redox, pH, Ca2+) at single protein",
+        "Testable predictions specific and feasible",
+        "Unique MAM position among Fe-S proteins"
+      ],
+      "critic_questions": [
+        "Provide more rigorous CISD2 cluster half-life in cellulo estimate",
+        "Does forward direction (clock → CISD2 → Ca2+) stand alone without feedback?",
+        "Expected effect size of CISD2 cluster oscillation on mitochondrial Ca2+?"
+      ]
+    },
+    {
+      "id": "H3",
+      "verdict": "WEAKENED",
+      "original_confidence": 5,
+      "revised_confidence": 4,
+      "critical_flaws": [
+        "Mitochondrial Prx3 resistant to hyperoxidation (Cox 2009 Biochem J)",
+        "Matrix H2O2 steady-state ~0.15µM, below Fe-S destruction threshold >1µM",
+        "Edgar 2012 RBC system lacks mitochondria and most Fe-S proteins"
+      ],
+      "strengths_retained": [
+        "Evolutionary logic compelling",
+        "BMAL1 KO test genuinely novel",
+        "Transformative impact if quantitative gap resolved"
+      ],
+      "critic_questions": [
+        "Address Prx3 hyperoxidation resistance directly",
+        "Evidence for transient matrix H2O2 pulses >1µM?",
+        "Would mechanism work through cytoplasmic Prx1/2 on cytoplasmic Fe-S proteins?"
+      ]
+    },
+    {
+      "id": "H4",
+      "verdict": "WEAKENED",
+      "original_confidence": 7,
+      "revised_confidence": 5,
+      "critical_flaws": [
+        "Nadimpalli 2024 attributes rhythm to FEEDING not intrinsic clock",
+        "IRP2 oscillates 10-fold vs IRP1 predicted ~2-fold — IRP2 likely dominant",
+        "IRP1-C437S chronic iron effects confound circadian measurements"
+      ],
+      "strengths_retained": [
+        "Unmeasured IRP1 cluster occupancy gap REAL and literature-acknowledged",
+        "Even as minor contributor, scientifically significant",
+        "Apo/holo native gel assay cheap, fast, directly measures prediction",
+        "Highest groundedness (8/10) warranted"
+      ],
+      "critic_questions": [
+        "If feeding-driven, what SPECIFIC mechanism connects feeding to IRP1 cluster occupancy?",
+        "Design test separating IRP1 cluster from IRP2 transcriptional contribution",
+        "Predicted magnitude of IRP1 vs IRP2 contribution?"
+      ]
+    },
+    {
+      "id": "H5",
+      "verdict": "FATAL",
+      "original_confidence": 6,
+      "revised_confidence": 3,
+      "critical_flaws": [
+        "Dependent on H1 (Cys328 mechanism) which is FATAL",
+        "No independent mechanism for NFS1 activity oscillation"
+      ],
+      "strengths_retained": [
+        "Tool compounds real and characterized",
+        "Chronopharmacology concept viable if NFS1 oscillation mechanism found",
+        "Test protocol practical and cheap"
+      ],
+      "critic_questions": [
+        "Provide independent mechanism for NFS1 activity oscillation not depending on Cys328",
+        "If NFS1 mRNA oscillates, would protein-level change suffice given long half-life?"
+      ]
+    },
+    {
+      "id": "H6",
+      "verdict": "FATAL",
+      "original_confidence": 6,
+      "revised_confidence": 2,
+      "critical_flaws": [
+        "GSH/GSSG ratio shows NO significant diurnal rhythm (Pekovic-Vaughan 2014 PNAS)",
+        "Mitochondrial GSH imported independently via SLC25A39"
+      ],
+      "strengths_retained": [
+        "GLRX5 as central hub real and under-studied",
+        "Phase-delay concept independently interesting",
+        "Zero-publication novelty confirmed"
+      ],
+      "critic_questions": [
+        "Alternative mechanism for circadian GLRX5 regulation beyond GSH?",
+        "Could GLRX5 be regulated by phosphorylation or protein-protein interactions?"
+      ]
+    },
+    {
+      "id": "H7",
+      "verdict": "FATAL",
+      "original_confidence": 5,
+      "revised_confidence": 2,
+      "critical_flaws": [
+        "Direction error: Lamia 2009 showed AMPK → CRY1, not BMAL1 → AMPK",
+        "Vocabulary re-description: clock → energy sensor → mitochondrial gene is known",
+        "Generator self-flagged risk"
+      ],
+      "strengths_retained": [
+        "NFS1 as PGC-1α target checkable in ChIP-seq databases"
+      ],
+      "critic_questions": [
+        "Do not regenerate — direction error and vocabulary re-description not recoverable"
+      ]
+    },
+    {
+      "id": "H8",
+      "verdict": "WEAKENED",
+      "original_confidence": 6,
+      "revised_confidence": 4,
+      "critical_flaws": [
+        "Ferritin buffering potently dampens LIP oscillation",
+        "Mitoferrin may rate-limit independently of frataxin",
+        "FA carrier effect size may be below clinical detection"
+      ],
+      "strengths_retained": [
+        "All cited literature VERIFIED",
+        "Lill 2025 stoichiometry genuinely new",
+        "FA carrier prediction testable if detectable",
+        "Distinct substrate-supply bottleneck type"
+      ],
+      "critic_questions": [
+        "Published LIP oscillation amplitude in hepatocytes over 24h?",
+        "Does mitoferrin expression show circadian variation?",
+        "Minimum detectable effect size in FA carrier cohort?"
+      ]
+    }
+  ],
+  "total_survived": 0,
+  "total_weakened": 4,
+  "total_fatal": 4,
+  "kill_rate": 0.5,
+  "meta_critique": "50% kill rate within healthy 30-70% range. Fatal verdicts backed by specific literature: Cys328 species error, GSH ratio no rhythm, Lamia 2009 direction error. Quality Gate predictions: H2 (CISD2) and H4 (IRP1) most likely to pass.",
+  "quality_gate_predictions": ["H2", "H4"],
+  "web_searches_performed": 20
+}

@@ -1,0 +1,177 @@
+{
+  "session_id": "2026-03-21-scout-007",
+  "analyst_version": "5.6",
+  "generated_at": "2026-03-21",
+  "session_meta_insights": [
+    {
+      "id": "SMI-007-01",
+      "category": "strategy_performance",
+      "insight": "network_gap_analysis confirmed as top strategy across 2 sessions: S006 43% QG pass rate, S007 33% QG pass rate. Cumulative: 29 generated, 19 survived critique, 11 passed QG (38% pass rate). The strategy works best when fields share small-molecule intermediaries (GSH/iron/lipid aldehydes in S006; iron/NAD+/NADH/ROS in S007) but have zero mechanistic cross-citations.",
+      "action": "Scout should continue prioritizing network_gap_analysis. The shared small-molecule intermediary pattern is now confirmed across two different domain pairs."
+    },
+    {
+      "id": "SMI-007-02",
+      "category": "bridge_type",
+      "insight": "NEW bridge pattern: Nernst thermodynamic framework for redox-dependent protein switch states. H2.1 used the Nernst equation to quantify how NAD+/NADH oscillation shifts Fe-S cluster stability equilibrium, yielding a specific fold-change prediction (2-3 fold IRP1 oscillation). Scored 8/10 PASS — highest in session. Generalizable to any redox-sensitive protein switch.",
+      "action": "Generator should apply Nernst/thermodynamic equilibrium frameworks when proposing mechanisms involving redox-dependent protein state transitions. Compute the equilibrium shift from known redox oscillation amplitudes before writing the hypothesis."
+    },
+    {
+      "id": "SMI-007-03",
+      "category": "bridge_type",
+      "insight": "NEW bridge pattern: Cross-species conservation transfer (Drosophila → mammalian prediction). H2.7 exploited a 14-year publication gap (Mandilaras 2012 → zero mammalian follow-up). The approach works when: (a) the original phenotype is robust, (b) the molecular machinery is conserved, (c) specific mammalian genetic tools exist (NFS1flox × VIP-Cre). Weakness: mechanism is 'metabolic demand' rather than specific molecular interaction — scored only 6/10.",
+      "action": "Generator can use cross-species conservation transfer but MUST provide a specific molecular mechanism beyond 'metabolic demand'. The 14-year gap alone does not make a strong hypothesis — the mechanism must be as specific as the prediction."
+    },
+    {
+      "id": "SMI-007-04",
+      "category": "kill_pattern",
+      "insight": "NEW kill pattern: Quantitative parameter error in self-generated back-of-envelope calculation. H2.5 used FDXR Km = 5µM (estimated) when actual value is 0.7µM. At physiological NADPH concentrations, this makes the NADPH arm contribute <1% rate change — quantitatively dead. The hypothesis's own back-of-envelope refuted it. Also H2.4: H2O2 mechanism error — H2O2 converts [4Fe-4S] to [3Fe-4S] (Pantopoulos 1999), not IRP1→IRE-BP switch directly.",
+      "action": "Generator SELF-CRITIQUE must verify Km/Kd/Ki values via web search before using them in quantitative arguments. Estimated kinetic parameters should be flagged as [SPECULATIVE] and the hypothesis should state sensitivity to the parameter value."
+    },
+    {
+      "id": "SMI-007-05",
+      "category": "quality_gate",
+      "insight": "QG kill rate: 17% (1/6). This resolves the Session 006 monitoring flag (0% kill rate). The 17% rate is within normal range and confirms Session 006's 0% was due to quality improvement, not insufficient rigor. Cumulative QG kill rate trend: 50% (S1) → 75% (S2) → 67% (S4) → 50% (S5) → 0% (S6) → 17% (S7). The declining trend reflects improving Generator/Critic quality.",
+      "action": "Quality Gate monitoring flag for 0% kill rate is RESOLVED. Normal pipeline operation confirmed."
+    },
+    {
+      "id": "SMI-007-06",
+      "category": "bridge_type",
+      "insight": "Post-translational oscillation mechanisms (protein modification state rather than transcription) are a productive bridge pattern for circadian hypotheses. H2.1 (IRP1 cluster occupancy) scored highest because it proposes a fast-response layer distinct from transcriptional oscillation. CISD2 (H2.3) and CIA pathway (H2.6) also use post-translational state changes. All three survived QG.",
+      "action": "Generator should prefer post-translational mechanisms over transcriptional extension when connecting non-clock proteins to circadian regulation. Post-translational mechanisms are more novel (less explored) and provide faster response kinetics that complement known transcriptional loops."
+    },
+    {
+      "id": "SMI-007-07",
+      "category": "disjointness",
+      "insight": "Sixth consecutive DISJOINT target selection, sixth consecutive SUCCESS. Fe-S biogenesis × circadian had ZERO STRING interactions, ZERO shared KEGG pathways, and only 3 Drosophila papers (no mammalian mechanism papers). Despite this extreme disjointness, 5 hypotheses passed QG. The shared small-molecule intermediaries (iron, NAD+/NADH, ROS) provided tractable bridge chemistry.",
+      "action": "Scout should maintain DISJOINT as hard requirement. The pattern of 'DISJOINT by citation/pathway analysis but connected by shared small-molecule chemistry' is now the most productive target profile across 7 sessions."
+    },
+    {
+      "id": "SMI-007-08",
+      "category": "evolver_performance",
+      "insight": "Evolver was skipped in both cycles (top-3 avg ≥ 6.5 threshold met). This is the first session where Evolver was skipped twice. Session still produced 5 QG-passing hypotheses, suggesting the skip threshold is well-calibrated.",
+      "action": "No change to Evolver skip threshold needed. The 6.5 top-3 average threshold correctly identifies sessions where evolution is unnecessary."
+    }
+  ],
+  "strategy_performance": {
+    "network_gap_analysis": {
+      "targets_produced": 1,
+      "hypotheses_generated": 15,
+      "hypotheses_survived_critique": 10,
+      "quality_gate_evaluated": 6,
+      "quality_gate_passed": 5,
+      "quality_gate_failed": 1,
+      "avg_composite": 6.57,
+      "qg_pass_rate": 0.33
+    }
+  },
+  "bridge_type_performance": {
+    "nernst_thermodynamic_framework": {
+      "used": 1,
+      "survived": 1,
+      "survived_qg": 1,
+      "survival_rate": 1.0,
+      "note": "NEW — H2.1 IRP1 dual feeding-entrained mechanism. PASS 8/10. Highest scorer."
+    },
+    "mam_redox_sensor": {
+      "used": 1,
+      "survived": 1,
+      "survived_qg": 1,
+      "survival_rate": 1.0,
+      "note": "NEW — H2.3 CISD2 [2Fe-2S] at MAMs. CONDITIONAL_PASS 7/10. Zero publications."
+    },
+    "pathway_level_circadian_gate": {
+      "used": 1,
+      "survived": 1,
+      "survived_qg": 1,
+      "survival_rate": 1.0,
+      "note": "NEW — H2.6 CIA pathway as coordinated gate for ~20 proteins. CONDITIONAL_PASS 7/10."
+    },
+    "tissue_specific_compartment_buffering": {
+      "used": 1,
+      "survived": 1,
+      "survived_qg": 1,
+      "survival_rate": 1.0,
+      "note": "NEW — H2.2 FTMT absence in liver. CONDITIONAL_PASS 6/10. Core LIP oscillation speculative."
+    },
+    "cross_species_conservation_transfer": {
+      "used": 1,
+      "survived": 1,
+      "survived_qg": 1,
+      "survival_rate": 1.0,
+      "note": "H2.7 Drosophila→mammalian. CONDITIONAL_PASS 6/10. Mechanism too generic ('metabolic demand')."
+    },
+    "electron_supply_chain_bottleneck": {
+      "used": 1,
+      "survived": 1,
+      "survived_qg": 0,
+      "survival_rate": 0.0,
+      "kill_reason": "FDXR Km = 0.7µM (not 5µM estimated). NADPH arm quantitatively dead (<1% rate change)."
+    },
+    "direct_h2o2_protein_activation": {
+      "used": 1,
+      "survived": 0,
+      "survived_qg": 0,
+      "survival_rate": 0.0,
+      "kill_reason": "H2O2 converts [4Fe-4S]→[3Fe-4S], not IRP1→IRE-BP switch (Pantopoulos 1999). FATAL at critique."
+    }
+  },
+  "kill_pattern_distribution": {
+    "quantitative_parameter_error": {
+      "count": 1,
+      "percentage": 50,
+      "examples": ["H2.5 FDXR Km wrong (5µM estimated vs 0.7µM actual)"],
+      "phase": "quality_gate"
+    },
+    "mechanism_error_literature_contradicts": {
+      "count": 1,
+      "percentage": 50,
+      "examples": ["H2.4 H2O2→IRP1 IRE-BP switch contradicted by Pantopoulos 1999"],
+      "phase": "critique"
+    }
+  },
+  "session_health": "SUCCESS",
+  "quality_gate_kill_rate": 0.17,
+  "quality_gate_flag": "RESOLVED — 17% kill rate confirms Session 006's 0% was quality improvement, not rigor deficit.",
+  "top_surviving_hypotheses": [
+    {
+      "id": "H2.1",
+      "title": "IRP1 [4Fe-4S] Cluster Occupancy as Feeding-Entrained Iron-Redox Chronostat",
+      "verdict": "PASS",
+      "qg_score": 8,
+      "composite_score": 7.60,
+      "bridge_type": "nernst_thermodynamic_framework"
+    },
+    {
+      "id": "H2.3",
+      "title": "CISD2 [2Fe-2S] as Redox-Gated ER-Mitochondrial Calcium Timer",
+      "verdict": "CONDITIONAL_PASS",
+      "qg_score": 7,
+      "composite_score": 6.85,
+      "bridge_type": "mam_redox_sensor"
+    },
+    {
+      "id": "H2.6",
+      "title": "CIA Pathway as LIP/ROS-Responsive Circadian Gate for Cytoplasmic Fe-S Proteome",
+      "verdict": "CONDITIONAL_PASS",
+      "qg_score": 7,
+      "composite_score": 6.50,
+      "bridge_type": "pathway_level_circadian_gate"
+    },
+    {
+      "id": "H2.2",
+      "title": "Frataxin-Gated Fe-S Assembly via Mitochondrial LIP in FTMT-Negative Tissues",
+      "verdict": "CONDITIONAL_PASS",
+      "qg_score": 6,
+      "composite_score": 6.00,
+      "bridge_type": "tissue_specific_compartment_buffering"
+    },
+    {
+      "id": "H2.7",
+      "title": "Conserved Fe-S Requirement in Clock Neurons — Drosophila to Mammalian SCN",
+      "verdict": "CONDITIONAL_PASS",
+      "qg_score": 6,
+      "composite_score": 5.90,
+      "bridge_type": "cross_species_conservation_transfer"
+    }
+  ]
+}

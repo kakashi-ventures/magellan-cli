@@ -1,0 +1,60 @@
+{
+  "session_id": "2026-03-21-scout-007",
+  "timestamp": "2026-03-21T12:31:54Z",
+  "strategy_performance": {
+    "network_gap_analysis": {
+      "targets_produced": 1,
+      "targets_selected": 1,
+      "hypotheses_generated": 15,
+      "hypotheses_survived": 10,
+      "quality_gate_passed": 5,
+      "quality_gate_failed": 1,
+      "survival_rate": 0.67,
+      "quality_gate_rate": 0.83,
+      "effectiveness": "HIGH_SUCCESS"
+    }
+  },
+  "bridge_type_performance": {
+    "irp1_apo_holo_switch": {"used": 1, "survived": 1, "qg_passed": 1, "survival_rate": 1.0},
+    "cisd2_redox_calcium": {"used": 1, "survived": 1, "qg_passed": 1, "survival_rate": 1.0},
+    "cia_pathway_ciao3": {"used": 1, "survived": 1, "qg_passed": 1, "survival_rate": 1.0},
+    "frataxin_lip_oscillation": {"used": 1, "survived": 1, "qg_passed": 1, "survival_rate": 1.0},
+    "cross_species_conservation": {"used": 1, "survived": 1, "qg_passed": 1, "survival_rate": 1.0},
+    "nadph_fdxr_electron_supply": {"used": 1, "survived": 1, "qg_passed": 0, "survival_rate": 0.0},
+    "prx_h2o2_direct_cluster": {"used": 1, "survived": 0, "qg_passed": 0, "survival_rate": 0.0},
+    "nfs1_cys328_redox": {"used": 2, "survived": 0, "qg_passed": 0, "survival_rate": 0.0},
+    "gsh_gssg_glrx5": {"used": 1, "survived": 0, "qg_passed": 0, "survival_rate": 0.0},
+    "bmal1_ampk_pgc1a_nfs1": {"used": 1, "survived": 0, "qg_passed": 0, "survival_rate": 0.0}
+  },
+  "kill_patterns": {
+    "species_numbering_error": 1,
+    "factual_error_cited_paper": 1,
+    "direction_error_pathway": 1,
+    "dependency_cascade": 1,
+    "mechanism_error_biochemistry": 1,
+    "quantitative_kill_km_saturation": 1,
+    "vocabulary_re_description": 1,
+    "no_diurnal_rhythm": 1
+  },
+  "session_quality_metrics": {
+    "cycle1_survival_rate": 0.50,
+    "cycle2_survival_rate": 0.86,
+    "cycle_improvement_ratio": 1.72,
+    "top_composite_score": 7.60,
+    "top_rubric_score": 7.5,
+    "avg_groundedness_final": 6.6,
+    "quality_gate_pass_rate": 0.83,
+    "quality_gate_kill_rate": 0.17,
+    "disjointness_confirmed": true,
+    "evolver_skipped": true
+  },
+  "key_learnings": [
+    "Species numbering errors are a NEW kill pattern: Generator must verify residue numbering against species-specific PDB structures",
+    "All cycle 2 kills were quantitative (Km saturation, concentration gap) — Generator improving at avoiding mechanism fabrication",
+    "6 distinct bridge types across 6 QG-evaluated hypotheses — unprecedented diversity with zero convergence",
+    "Post-translational regulation bridges (IRP1 apo/holo) survive best when grounded in measurable switches",
+    "network_gap_analysis with DISJOINT target: 2nd consecutive session producing 5+ QG passers",
+    "Evolver skip was appropriate both cycles — top-3 avg 6.97-6.98 consistently above 6.5",
+    "Quantitative kills (FDXR Km=0.7uM, H2O2 0.15uM<<1uM) are the dominant cycle 2 failure mode"
+  ]
+}
