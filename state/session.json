@@ -4,7 +4,7 @@
   "phase": "complete",
   "cycle": 2,
   "status": "complete",
-  "status_reason": "All phases completed successfully. 5/15 hypotheses passed Quality Gate (1 PASS, 4 CONDITIONAL_PASS).",
+  "status_reason": "All phases completed successfully. 5/15 hypotheses passed Quality Gate (1 PASS, 4 CONDITIONAL_PASS). Cross-model validation completed: o3 (high reasoning) + Gemini 3.1 Pro (thinking HIGH).",
   "results_dir": "results/2026-03-21-scout-007",
   "selected_target": {
     "id": 3,
@@ -56,5 +56,22 @@
     "fallback_used": false,
     "retries_needed": 0,
     "web_search_failures": 0
+  },
+  "cross_model_validation": {
+    "status": "completed",
+    "timestamp": "2026-03-21T20:15:00Z",
+    "gpt_model": "o3",
+    "gemini_model": "gemini-3.1-pro-preview",
+    "models_used": ["openai", "gemini"],
+    "note": "gpt-5.4-pro unavailable on key tier; o3 with reasoning_effort=high substituted",
+    "export_files": {
+      "gpt": "results/2026-03-21-scout-007/export-gpt.md",
+      "gemini": "results/2026-03-21-scout-007/export-gemini.md"
+    },
+    "output_files": {
+      "gpt_validation": "results/2026-03-21-scout-007/validation-gpt.md",
+      "gemini_validation": "results/2026-03-21-scout-007/validation-gemini.md",
+      "consensus": "results/2026-03-21-scout-007/cross-model-consensus.md"
+    }
   }
 }

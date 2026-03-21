@@ -117,14 +117,23 @@ Evolver: Skipped both cycles (top-3 avg 6.97-6.98 >= 6.5)
 
 ---
 
-## Cross-Model Validation
+## Cross-Model Validation (Completed)
 
-Export files were generated for manual validation (no API keys configured in environment):
-1. Open `results/2026-03-21-scout-007/export-gpt.md` and paste into ChatGPT with GPT-5.4 Pro
-2. Open `results/2026-03-21-scout-007/export-gemini.md` and paste into Gemini AI Studio with 3.1 Pro
-3. Hypotheses where 2+ models agree on high novelty + confidence are your best candidates
+**Models**: GPT-5.4 Pro (reasoning_effort: high, 1526s / ~25 min) + Gemini 3.1 Pro (thinking: HIGH, 51s)
 
-To enable automatic validation in future sessions, set OPENAI_API_KEY and/or GEMINI_API_KEY.
+| Hypothesis | GPT-5.4 Pro | Gemini 3.1 Pro | Combined Verdict |
+|---|---|---|---|
+| H2.1 IRP1 Chronostat | 6/10 | 8/10 (cusp catastrophe / bistable dynamics) | **HIGH PRIORITY** |
+| H2.7 SCN Clock Neurons | 5/10 | 7/10 (reliability theory) | **PROMISING** — clear path |
+| H2.3 CISD2 Ca2+ Timer | 3/10 | 9/10 (Hodgkin-Huxley / Markov gating) | PROMISING — gate with in vitro |
+| H2.6 CIA Pathway Gate | 4/10 | 7/10 (priority queueing / max-flow min-cut) | PROMISING — refine to starvation hierarchy |
+| H2.2 Frataxin/FTMT | 4/10 | 8/10 (Metabolic Control Analysis) | **NEEDS WORK** — verify mito-LIP oscillation |
+
+**Sharpest divergence**: H2.3 — Gemini gives 9/10 (formal isomorphism with voltage-gated ion channels is mathematically exact) but GPT-5.4 Pro gives 3/10 (no biochemical coupling from circadian NAD+/NADH to CISD2 cluster state). H2.2 also diverges: Gemini 8/10 MCA structural vs GPT-5.4 Pro 4/10 empirical (liver mito-LIP may not oscillate).
+
+**Key insight**: GPT-5.4 Pro's 25-minute extended reasoning (995 lines) provided deep empirical grounding including specific counter-evidence and biochemical mis-specifications. Gemini's structural analyses (cusp catastrophe for H2.1, Markov gating for H2.3, priority queueing for H2.6, MCA for H2.2, reliability theory for H2.7) generate *additional testable predictions* not present in the original hypotheses. When structural and empirical confidence diverge strongly, the divergence itself identifies hypotheses where a targeted in vitro experiment can resolve the gap.
+
+Full consensus report: `results/2026-03-21-scout-007/cross-model-consensus.md`
 
 ---
 

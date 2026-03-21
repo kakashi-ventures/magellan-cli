@@ -517,10 +517,13 @@ Update progress: `current_phase = "cross_model_validation"`.
 > <task>
 > Generate export prompts for all PASS/CONDITIONAL_PASS hypotheses.
 > Check if OPENAI_API_KEY and/or GEMINI_API_KEY are available.
+> IMPORTANT: Keys may be in .env.local, NOT in shell environment.
+> Run: source <(grep -v '^#' .env.local 2>/dev/null | sed 's/^/export /')
+> Then check $OPENAI_API_KEY and $GEMINI_API_KEY.
 > If any API keys are set: install deps (npm install), run
 > scripts/validate-crossmodel.mjs to call GPT-5.4 Pro and/or Gemini 3.1 Pro,
 > then parse responses and write cross-model consensus report.
-> If no API keys: generate export files only for manual validation.
+> If no API keys in EITHER shell env or .env.local: generate export files only.
 > Write all outputs to {results_dir}/.
 > Write structured data to state/phases/cross-model.json.
 > </task>"

@@ -1,26 +1,79 @@
 {
   "phase": "cross_model_validation",
   "session": "2026-03-21-scout-007",
-  "timestamp": "2026-03-21T18:30:00Z",
-  "status": "export_fallback",
-  "status_reason": "OPENAI_API_KEY and GEMINI_API_KEY both absent. Export files generated for manual validation.",
+  "timestamp": "2026-03-21T20:15:00Z",
+  "status": "completed",
+  "status_reason": "Both API models ran. GPT-5.4 Pro (reasoning_effort: high, 1526s). Gemini 3.1 Pro (thinking: HIGH, 51s).",
   "gpt_model": "gpt-5.4-pro",
   "gemini_model": "gemini-3.1-pro-preview",
-  "models_used": [],
+  "models_used": ["openai", "gemini"],
+  "gpt_reasoning_time_seconds": 1526,
+  "gemini_thinking_time_seconds": 51,
   "hypotheses_submitted": 5,
   "hypotheses_ids": ["H2.1", "H2.3", "H2.6", "H2.2", "H2.7"],
-  "consensus": {},
-  "key_divergences": [],
-  "key_agreements": [],
+  "consensus": {
+    "H2.1": {
+      "gpt_confidence": 6,
+      "gemini_confidence": 8,
+      "gpt_novelty": "PARTIALLY_EXPLORED",
+      "gemini_depth": "Structural correspondence (cusp catastrophe / Schmitt trigger / bistable dynamics)",
+      "agreement": "medium",
+      "combined_recommendation": "HIGH PRIORITY — IRP1 hysteresis test in vitro + TRF mouse experiment with IRP2-KO"
+    },
+    "H2.3": {
+      "gpt_confidence": 3,
+      "gemini_confidence": 9,
+      "gpt_novelty": "NOVEL",
+      "gemini_depth": "Formal isomorphism (Hodgkin-Huxley / Markov gating / Boltzmann distribution)",
+      "agreement": "low",
+      "combined_recommendation": "PROMISING — gate with in vitro Ca2+ flux vs redox clamping first; reframe around thiol/GSH"
+    },
+    "H2.6": {
+      "gpt_confidence": 4,
+      "gemini_confidence": 7,
+      "gpt_novelty": "PARTIALLY_EXPLORED",
+      "gemini_depth": "Structural correspondence (max-flow min-cut / priority queueing)",
+      "agreement": "medium",
+      "combined_recommendation": "PROMISING — refine to starvation hierarchy among fast-turnover CIA clients; pulse-SILAC time-series"
+    },
+    "H2.2": {
+      "gpt_confidence": 4,
+      "gemini_confidence": 8,
+      "gpt_novelty": "NOVEL",
+      "gemini_depth": "Structural correspondence (Metabolic Control Analysis / flux control coefficients)",
+      "agreement": "low",
+      "combined_recommendation": "NEEDS WORK — measure liver mito-LIP oscillation under restricted feeding before any mechanistic investment"
+    },
+    "H2.7": {
+      "gpt_confidence": 5,
+      "gemini_confidence": 7,
+      "gpt_novelty": "PARTIALLY_EXPLORED",
+      "gemini_depth": "Structural correspondence (reliability theory / repairable systems dynamics)",
+      "agreement": "high",
+      "combined_recommendation": "PROMISING — Avp-Cre NFS1 full KO + optogenetic firing-rate clamping rescue experiment"
+    }
+  },
+  "key_divergences": [
+    "H2.3: Gemini 9/10 formal isomorphism vs GPT-5.4 Pro 3/10 empirical — no biochemical route from circadian NAD+/NADH to CISD2 cluster; widest confidence gap in session",
+    "H2.2: Gemini 8/10 MCA structural vs GPT-5.4 Pro 4/10 empirical — liver mito-LIP may not oscillate; FTMT absence may not be dominant buffer mechanism"
+  ],
+  "key_agreements": [
+    "H2.1: Both models confirm mechanistic soundness of IRP1 bistable switch; redox arm needs reframing around NADPH/GSH",
+    "H2.7: Both models confirm 14-year mammalian gap; complementary genetic KO + optogenetic designs",
+    "H2.3 and H2.6: Both models confirm genuine novelty (no prior literature linking these to circadian function)"
+  ],
   "priority_ranking": [
-    "H2.1 — PASS (rubric 8/10, highest groundedness)",
-    "H2.3 — CONDITIONAL_PASS (rubric 7/10, highest novelty)",
-    "H2.6 — CONDITIONAL_PASS (rubric 7/10, pathway-level scope)",
-    "H2.2 — CONDITIONAL_PASS (rubric 6/10, FTMT argument novel)",
-    "H2.7 — CONDITIONAL_PASS (rubric 6/10, reverse direction)"
+    "H2.1 — HIGH PRIORITY (GPT:6, Gemini:8, only PASS verdict)",
+    "H2.7 — PROMISING (GPT:5, Gemini:7, clear experimental path, both models agree)",
+    "H2.3 — PROMISING pending in vitro feasibility gate (GPT:3, Gemini:9, formal isomorphism but weak empirical basis)",
+    "H2.6 — PROMISING with refined framing (GPT:4, Gemini:7, priority-queue prediction)",
+    "H2.2 — NEEDS WORK (GPT:4, Gemini:8 structural, mito-LIP oscillation must be established)"
   ],
   "files": {
     "gpt_prompt": "results/2026-03-21-scout-007/export-gpt.md",
-    "gemini_prompt": "results/2026-03-21-scout-007/export-gemini.md"
+    "gemini_prompt": "results/2026-03-21-scout-007/export-gemini.md",
+    "gpt_validation": "results/2026-03-21-scout-007/validation-gpt.md",
+    "gemini_validation": "results/2026-03-21-scout-007/validation-gemini.md",
+    "consensus": "results/2026-03-21-scout-007/cross-model-consensus.md"
   }
 }

@@ -27,6 +27,17 @@ You come back to find hypothesis cards in `results/{session-id}/`.
 claude --permission-mode auto
 ```
 
+### Publishing results to the website
+After a session completes, publish to the MAGELLAN website (`../magellan-web/`):
+```bash
+cd ../magellan-web
+npm run db:seed                            # Parse results, upsert to Postgres
+npx tsx scripts/generate-summaries.ts      # Generate plain-language summaries via Claude API
+git add . && git commit && git push        # Auto-deploys to Vercel
+```
+The seed script reads `results/{session-id}/` markdown files. New sessions must be added to the `SESSIONS` array in `scripts/seed.ts`.
+Website repo: https://github.com/kakashi-ventures/magellan-web
+
 ## Architecture
 
 Twelve agents. Orchestrator dispatches to all — never executes phases inline.
@@ -129,7 +140,8 @@ confidence, groundedness assessment.
 - **Cross-model validation** (v5.6) — After Quality Gate, surviving hypotheses
   are automatically sent to GPT-5.4 Pro (empirical validation) and Gemini 3.1
   Pro (structural analysis) via their APIs. Consensus report synthesizes where
-  models agree/diverge. Requires `OPENAI_API_KEY` and/or `GEMINI_API_KEY`;
+  models agree/diverge. Requires `OPENAI_API_KEY` and/or `GEMINI_API_KEY`
+  (stored in `.env.local` — agents must source this file before checking);
   falls back to export file generation if keys are absent. Non-blocking.
 
 ### Operational
