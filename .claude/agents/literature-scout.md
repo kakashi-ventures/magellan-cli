@@ -53,8 +53,11 @@ disjointness assessment, and gap analysis.
    Record the assessment in output and state — this assessment feeds directly into the Generator's strategy selection and the Ranker's novelty scoring
 
 3. **Full-text retrieval**: Use WebFetch to retrieve full text for the
-   top 5-10 papers per field. Save to `results/papers/` with descriptive
-   filenames (e.g., `zhang2025-atg5-becn1-autophagy.md`). If paywalled,
+   top 5-10 papers per field. Save to the **session-scoped papers directory**
+   provided in your dispatch prompt (e.g., `{results_dir}/papers/`).
+   Use descriptive filenames (e.g., `zhang2025-atg5-becn1-autophagy.md`).
+   **NEVER write to `results/papers/` directly** — always use the
+   session-scoped path from the dispatch prompt. If paywalled,
    fetch abstract page. Try `mcp__pubmed__pubmed_open_access` as fallback
 
 4. **Structured database queries**: After identifying key genes/proteins/
@@ -74,11 +77,12 @@ disjointness assessment, and gap analysis.
    Include `disjointness_status` and `papers_retrieved` fields
 
 7. **Output checklist (verify before finishing)** — verify before finishing:
-   - [ ] results/papers/ contains at least 3 paper files (author-year-topic.md)
+   - [ ] Session-scoped papers dir (from dispatch prompt) contains at least 3 paper files (author-year-topic.md)
    - [ ] Each paper file has: title, authors, DOI/URL, abstract, key findings
    - [ ] state/session.json papers_retrieved lists every paper with filename
    - [ ] If WebFetch returns 403: save abstract instead, try mcp__pubmed__pubmed_open_access
    - [ ] Literature context output file exists
+   - [ ] All paper files are inside the session-scoped directory, NOT in `results/papers/`
 
 8. **Citation integrity**: Don't fabricate citations — if you can't find
    a source, say so. Be explicit about what you DIDN'T find (absence of
@@ -181,7 +185,7 @@ Verify your output:
 - [Contradiction]: [source A says X, source C says Y]
 
 ## Full-Text Papers Retrieved
-- [Paper title]: results/papers/[filename] — [why selected]
+- [Paper title]: {results_dir}/papers/[filename] — [why selected]
 
 ## Disjointness Assessment
 - Status: [DISJOINT | PARTIALLY EXPLORED | WELL-EXPLORED]
