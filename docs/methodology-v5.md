@@ -38,37 +38,50 @@ Le evidenze lo confermano: nessuno dei breakthrough AI-driven del 2025-2026 (GPT
 | Il metodo: analisi bibliometrica (MeSH, citazioni) | **Conoscenza parametrica** dell'LLM come lettore universale |
 | Rilevamento: co-occorrenze statistiche | **Elicitazione**: Structured Relationship Map, facet recombination, adversarial probing |
 | Validazione: ricerca manuale in database | **Retrieval automatico**: Literature Scout + MCP servers + verifica disgiunzione |
-| Scala: una coppia A-C per studio, mesi di lavoro | **8 strategie parallele**, 2 cicli evolutivi, 15-45 minuti |
+| Scala: una coppia A-C per studio, mesi di lavoro | **10 strategie parallele**, 2 cicli evolutivi, 15-45 minuti |
 
 Il modello ABC resta la struttura portante dell'output: ogni ipotesi MAGELLAN ha la forma `Field A → Bridge mechanism → Field C`. La differenza è *come* si arriva al bridge — non con statistiche citazionali, ma con il ragionamento parametrico di un modello che ha già letto entrambe le letterature.
 
 ---
 
-## Architettura: 11 agenti, 3 fasi
+## Architettura: 12 agenti, 3 fasi (v5.8)
 
 ```
-FASE 1 — ESPLORAZIONE (Agent Teams: parallela + validazione)
-┌──────────────┐  ┌──────────────────┐
-│    Scout      │  │ Literature Scout  │
-│  [Opus]       │  │    [Sonnet]       │
-│ 8 strategie   │  │ MCP + WebSearch   │
-│ + diversif.   │  │ PubMed, Sem.Sch.  │
-└──────┬───────┘  └────────┬──────────┘
-       └──────────┬────────┘
-                  ▼
-       ┌──────────────────────┐
-       │  Target Evaluator     │  ← v5.5: adversarial challenge
-       │  [Opus] 4 attack axes │
-       └──────────┬───────────┘
-                  ▼
-           Orchestrator [Opus]
-           (merge + select + dispatch)
-                  ▼
-       ┌──────────────────────────┐
-       │  Computational Validator  │  ← v5.5: KEGG, STRING, PubMed
-       │  [Sonnet + Bash]         │     co-occurrence, physics
-       └──────────┬───────────────┘
-                  ▼
+FASE 1 — ESPLORAZIONE (Sequential Narrowing — v5.8)
+┌──────────────┐
+│    Scout      │  Phase 0a: genera 5-6 candidati
+│  [Opus]       │
+│ 10 strategie  │
+│ + diversif.   │
+│ + exploration │
+│   slot        │
+│ + creativity  │
+│   constraint  │
+└──────┬───────┘
+       ▼
+┌──────────────────┐
+│ Literature Scout  │  Phase 0b: verifica disjointness per TUTTI
+│    [Sonnet]       │  + domain-aware retrieval
+│ MCP + WebSearch   │  + bridge validation
+└──────┬───────────┘
+       ▼
+  Orchestrator [Opus]   Phase 0c: narrow da 5-6 a 3
+  (DISJOINT priority    (WELL_EXPLORED esclusi, DISJOINT preferiti)
+   + strategy diversity)
+       ▼
+┌──────────────────────┐
+│  Target Evaluator     │  Phase 0d: adversarial challenge
+│  [Opus] 4 attack axes │
+└──────────┬───────────┘
+       ▼
+  Orchestrator [Opus]   Phase 1: select + dispatch
+  (disjointness hard constraint)
+       ▼
+┌──────────────────────────┐
+│  Computational Validator  │  KEGG, STRING, PubMed
+│  [Sonnet + Bash]         │  co-occurrence, physics
+└──────────┬───────────────┘
+       ▼
 
 FASE 2 — GENERAZIONE & CRITICA (2 cicli)
 ┌────────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
@@ -77,6 +90,8 @@ FASE 2 — GENERAZIONE & CRITICA (2 cicli)
 │ parametric  │   │ 9 attack  │   │ 6 dimens. │   │ evolution │
 │ + lit.contxt│   │ + web     │   │ + grounded│   │ + diversit│
 │ + comp.val. │   │           │   │ + Elo chk │   │           │
+│ + bisociat. │   │           │   │           │   │           │
+│ + multi-lvl │   │           │   │           │   │           │
 └────────────┘   └──────────┘   └──────────┘   └──────┬────┘
        ▲                                              │
        └──────────── ciclo 2 ◀────────────────────────┘
@@ -104,11 +119,11 @@ LAYER TRASVERSALE — GUARD & HOOKS
 └─────────────────────────────────────────────────┘
 ```
 
-### Gli 11 agenti
+### I 12 agenti
 
 | Agente | Modello | Ruolo |
 |---|---|---|
-| **Scout** | Opus | Identifica DOVE cercare: 8 strategie, bridge concepts obbligatori, strategy diversification, TARGET QUALITY CHECK reflection |
+| **Scout** | Opus | Identifica DOVE cercare: 10 strategie (incl. isomorfismo strutturale + serendipity), bridge concepts obbligatori, strategy diversification, exploration slot, rotating creativity constraint, TARGET QUALITY CHECK reflection |
 | **Target Evaluator** | Opus | Sfida avversariale dei target Scout su 4 assi: popularity bias, vagueness, structural impossibility, local-optima |
 | **Literature Scout** | Sonnet | Retrieval strutturato: MCP servers (Semantic Scholar, PubMed) obbligatorio + WebSearch fallback + full-text + disgiunzione + RETRIEVAL QUALITY CHECK reflection |
 | **Computational Validator** | Sonnet | Verifica programmatica dei bridge concepts: KEGG pathway cross-check, STRING interaction scores, PubMed co-occurrence, back-of-envelope physics |
@@ -195,8 +210,9 @@ Tuttavia:
 
 La conoscenza parametrica è **il motore generativo** — è dove risiedono le connessioni cross-disciplinari non ovvie. Ma ogni claim fattuale viene verificato tramite retrieval. Il flusso è:
 
-1. **Scout (parametrico)**: Identifica DOVE cercare usando deep reasoning. Produce **bridge concepts obbligatori** — meccanismi specifici che connettono Field A a Field C. Consulta `knowledge/discovery-log.json` e `knowledge/meta-insights.md` per evitare ri-esplorazioni, riutilizzare bridge produttivi, e prioritizzare strategie con survival rate alto
-2. **Target Evaluator (adversariale)**: Sfida i 3 target dello Scout su 4 assi: popularity bias, vagueness, structural impossibility, local-optima. Previene sessioni sprecate su target apparentemente interessanti ma in realtà già esplorati, vaghi, o strutturalmente impossibili
+1. **Scout (parametrico)**: Identifica DOVE cercare usando deep reasoning con 10 strategie. Produce **bridge concepts obbligatori** — meccanismi specifici che connettono Field A a Field C. Genera 5-6 candidati (pool ampio). Consulta `knowledge/discovery-log.json` e `knowledge/meta-insights.md` per evitare ri-esplorazioni, riutilizzare bridge produttivi, e prioritizzare strategie con survival rate alto
+1b. **Literature Scout (verifica)**: Verifica la disjointness per TUTTI i 5-6 candidati dello Scout usando sorgenti domain-appropriate. Valida i bridge concepts. L'Orchestratore poi filtra a 3 candidati (priorità DISJOINT)
+2. **Target Evaluator (adversariale)**: Sfida i 3 target filtrati su 4 assi: popularity bias, vagueness, structural impossibility, local-optima. Previene sessioni sprecate su target apparentemente interessanti ma in realtà già esplorati, vaghi, o strutturalmente impossibili
 3. **Literature Scout (retrieval)**: Verifica che i target non siano già esplorati, trova letteratura recente nei campi target. Usa **MCP servers** (Semantic Scholar, PubMed) come fonte primaria e WebSearch come fallback. **Recupera il testo completo dei top 5-10 paper**. Esegue una **verifica di disgiunzione** per confermare che la connessione è genuinamente UPK
 4. **Computational Validator (programmatico)**: Verifica i bridge concepts tramite KEGG pathway cross-check, STRING interaction scores, PubMed co-occurrence, e calcoli back-of-envelope. Cattura meccanismi quantitativamente impossibili prima che il pipeline investa nella generazione. Warn-only: l'assenza di evidenza nei database non è evidenza di assenza
 5. **Generator (parametrico + contesto letteratura + validazione computazionale)**: Costruisce prima una **Structured Relationship Map** (KG on-the-fly parametrico) per ciascun campo, poi genera ipotesi usando reasoning + contesto + paper completi + segnali dal Computational Validator
@@ -244,7 +260,7 @@ Questo previene che il pipeline sprechi cicli su connessioni che non sono genuin
 
 ---
 
-## Lo Scout: 8 strategie
+## Lo Scout: 10 strategie
 
 1. **Recent Breakthrough Radiation** — Implicazioni di scoperte recenti su campi non ovvi
 2. **Anomaly Hunting** — Fenomeni riproducibili ma inspiegati
@@ -254,14 +270,22 @@ Questo previene che il pipeline sprechi cicli su connessioni che non sono genuin
 6. **Failed Paradigm Recycling** — Idee abbandonate in un campo che potrebbero funzionare altrove
 7. **Swanson ABC Bridging** — Identificazione sistematica di letterature disgiunte con concetti intermedi condivisi. Metodo fondazionale della Literature-Based Discovery (Swanson 1986). Il Literature Scout cerca sistematicamente "B terms" che compaiono in entrambi i campi A e C senza che A e C si citino reciprocamente
 8. **Contradiction Mining** — Ricerca attiva di contraddizioni nella letteratura come fonti di ipotesi. Ispirata da ContraCrow di FutureHouse. Se due paper in campi diversi affermano cose mutuamente esclusive, la risoluzione della contraddizione spesso rivela una connessione non banale
+9. **Structural Isomorphism Discovery** (v5.8) — Cerca campi che condividono la STESSA struttura formale (equazioni matematiche, topologia di network, vincoli information-theoretic, dinamiche di transizione di fase) ma con substrati fisici COMPLETAMENTE diversi. Il bridge concept è l'OGGETTO MATEMATICO stesso, non una molecola o un pathway. Questa strategia è domain-agnostic — funziona per qualsiasi campo scientifico. Esempio: teoria della percolazione connette epidemiologia e frattura dei materiali
+10. **Serendipity Through Random Encounter** (v5.8) — Invece di cercare con scopo definito, esposizione a conoscenza inattesa: (1) scegliere un dominio MAI esplorato in sessioni precedenti, (2) cercare la scoperta più SORPRENDENTE recente in quel dominio, (3) chiedersi "quale campo DISTANTE sarebbe più trasformato se sapesse di questa scoperta?". La connessione deve attraversare almeno 2 confini disciplinari. Mima la serendipità di sfogliare una biblioteca fisica
 
 ### Bridge concepts obbligatori
 
 I bridge concepts sono **obbligatori per ogni target**, non solo per la strategia Swanson. Anche per Anomaly Hunting, Tool Transfer o Scale Bridging, lo Scout deve articolare il meccanismo concreto di connessione (molecole, pathway, strutture matematiche, principi fisici). Questo forza un ragionamento più strutturato e dà al Generator un punto di partenza più ricco rispetto a una semplice coppia di campi.
 
-### Strategy diversification
+### Strategy diversification + exploration slot
 
 Dei 3 target selezionati, almeno 2 devono usare strategie diverse e almeno 1 deve usare una strategia non utilizzata nelle ultime 2 sessioni (verificato tramite discovery-log). Questo previene il path-lock strategico: le strategie meno usate non sono necessariamente peggiori — sono meno esplorate.
+
+**Exploration slot** (v5.8): Almeno 1 dei 3 target DEVE usare una strategia con meno di 2 sessioni di dati primari. Questo impedisce al pipeline di convergere sempre sulla strategia con il miglior QG pass rate (es. network_gap_analysis al 39%) a scapito di strategie più creative ma meno testate.
+
+### Rotating creativity constraint (v5.8)
+
+L'Orchestratore assegna allo Scout un vincolo creativo diverso ad ogni sessione (rotazione mod 5): ponte cross-disciplina, ponte matematico/formale, gap temporale >50 anni, tool transfer, unsolved problem. Questo forza lo Scout a esplorare territori che altrimenti eviterebbe, impedendo la convergenza verso zone "safe".
 
 ### Knowledge persistence cross-sessione
 
@@ -312,7 +336,11 @@ L'attack vector #8 affronta un rischio documentato dallo studio Science/AAAS: la
 | **Impact** | 10% | Se vera, quanto cambia la comprensione? |
 | **Groundedness** | 20% | I componenti dell'ipotesi sono supportati da evidenze retrievable? |
 
-Composito = media pesata. I pesi sono **canonici e immutabili** — evidenziati in grassetto nella definizione dell'agente per evitare drift tra cicli.
+Composito = media pesata. I pesi delle 6 dimensioni sono **canonici e immutabili** — evidenziati in grassetto nella definizione dell'agente per evitare drift tra cicli.
+
+### Cross-domain creativity bonus (v5.8)
+
+Dopo il calcolo del composito pesato, si applica un bonus di **+0.5** al punteggio composito per ipotesi che attraversano 2+ confini disciplinari (es. materials science → neuroscience, topology → developmental biology, information theory → genetics). Il bonus compensa la penalizzazione sistematica dell'infrastruttura bio-centrica: le ipotesi non-biomediche ricevono scores strutturalmente più bassi su Testability e Groundedness perché PubMed/KEGG/STRING sono bio-specifici, non perché le ipotesi siano più deboli. I pesi delle dimensioni individuali restano immutabili; il bonus opera sul composito finale.
 
 ### Formato di scoring obbligatorio
 
@@ -352,7 +380,7 @@ Il pipeline presenta tre bias non indipendenti che favoriscono le life sciences:
 | **Scoring** | Testability (20%) + Groundedness (20%) + Mechanistic Specificity (20%) = **60% del peso** favorisce scienze sperimentali con database strutturati | Ipotesi in fisica/matematica pura ricevono scores strutturalmente più bassi su 3 delle 6 dimensioni |
 | **Format** | Template ipotesi, esempi few-shot (Generator, Critic, Ranker, Evolver) usano linguaggio molecolare/pathway | Il Generator tende a produrre ipotesi formulate in termini di meccanismi biologici anche quando il target è cross-domain |
 
-Questi bias non sono difetti da correggere — sono conseguenze naturali dell'infrastruttura disponibile e del fatto che le life sciences sono il dominio con più opportunità di discovery latente. I pesi del Ranker restano **canonici e immutabili** (vedi sopra).
+Questi bias non sono difetti da correggere — sono conseguenze naturali dell'infrastruttura disponibile e del fatto che le life sciences sono il dominio con più opportunità di discovery latente. I pesi delle 6 dimensioni del Ranker restano **canonici e immutabili**, ma un bonus cross-domain di +0.5 (v5.8) compensa parzialmente il bias infrastrutturale per ipotesi che attraversano 2+ confini disciplinari (vedi sezione "Cross-domain creativity bonus" sopra).
 
 ### Guida all'interpretazione degli scores
 
@@ -664,7 +692,7 @@ Questo crea un modello di **contributor-owned discovery**: ogni utente usa i pro
 
 ### Cosa rende possibile l'autonomia totale (marzo 2026)
 
-1. **Scout con 8 strategie**: Non sceglie a caso — ha euristiche strutturate per identificare dove la conoscenza non collegata ha la probabilità più alta di nascondersi
+1. **Scout con 10 strategie**: Non sceglie a caso — ha euristiche strutturate (inclusi isomorfismo strutturale e serendipity) per identificare dove la conoscenza non collegata ha la probabilità più alta di nascondersi
 2. **Literature Scout parallelo**: Verifica in tempo reale che i target dello Scout non siano già esplorati, fornendo contesto letteratura per arricchire la generazione
 3. **Opus 4.6 time horizon 14h30m (METR)**: L'autonomia sostenuta a questo livello è una capability nuova — nessun modello pre-2026 poteva operare in modo coerente su queste durate
 4. **MCP servers**: Retrieval strutturato indipendente dal web search generico, riduce fragilità

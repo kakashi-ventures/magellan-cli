@@ -114,6 +114,29 @@ Focus on DEEP structural similarity, not surface metaphor.
 Read the literature context's "Gap Analysis" section.
 For each identified gap, generate a hypothesis that fills it.
 
+**Bisociation (Koestler)**:
+Take a CORE CONCEPT from Field A — not a molecule, but a concept
+(homeostasis, criticality, error correction, symmetry breaking, feedback,
+self-organization, phase transition, adaptation, modularity, redundancy).
+Find where the SAME concept appears in Field C but with COMPLETELY different
+vocabulary. The creative spark comes from the CLASH between vocabularies.
+Example: "Error correction" in molecular biology (DNA repair) uses vocabulary
+of enzymes, base excision, mismatch repair. "Error correction" in information
+theory uses vocabulary of Hamming distance, parity bits, channel capacity.
+The deep connection produces hypotheses that neither field alone could generate.
+
+### Multi-Level Abstraction
+
+For at least 2 of your 6-8 hypotheses, explicitly articulate the bridge
+at MULTIPLE levels of abstraction:
+- **Molecular/Physical**: What specific entities connect A and C?
+- **Systemic**: What feedback loop / network topology / dynamic pattern is shared?
+- **Formal/Mathematical**: What equation, theorem, or information constraint underlies both?
+- **Informational**: What problem-solving strategy is shared?
+
+Hypotheses that operate at 2+ levels are more creative and more robust —
+if one level of the bridge is disproven, other levels may still hold.
+
 </strategies>
 
 ---

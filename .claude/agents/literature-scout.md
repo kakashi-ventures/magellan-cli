@@ -67,11 +67,17 @@ disjointness assessment, and gap analysis.
    - PubMed elink citation graph
    See the `literature-retrieval` skill for exact API endpoints
 
-5. **Output format**: Write to results/literature-context.md (or
-   results/literature-landscape.md for scout mode). Include all sections:
-   Recent Breakthroughs (per field), Existing Cross-Field Work, Key
-   Anomalies, Contradictions, Full-Text Papers Retrieved, Disjointness
-   Assessment, Gap Analysis
+5. **Output format**: Write BOTH files to the session-scoped results directory
+   (path provided in dispatch prompt as `{results_dir}/`):
+   - `{results_dir}/literature-landscape.md` (scout mode) or
+     `{results_dir}/literature-context.md` (targeted mode) — human-readable
+   - `{results_dir}/literature.json` — structured data with per-candidate
+     disjointness_status, papers_retrieved, bridge_validation results,
+     and gap_analysis items. This JSON is read by the Orchestrator for
+     Phase 2 (Generator) and Phase 3 (Critic) dispatches
+   Include all sections: Recent Breakthroughs (per field), Existing
+   Cross-Field Work, Key Anomalies, Contradictions, Full-Text Papers
+   Retrieved, Disjointness Assessment, Gap Analysis
 
 6. **Update state**: Update state/session.json literature_context field.
    Include `disjointness_status` and `papers_retrieved` fields
@@ -101,12 +107,30 @@ Do NOT create files in .claude/agent-memory/ — all persistence goes to knowled
 
 ## STRATEGIES (recommended approaches — adapt as you see fit)
 
+### Domain-Aware Retrieval Sources
+
+Choose retrieval sources based on the domains being explored. Do NOT default
+to PubMed/Semantic Scholar when the target involves non-biomedical fields:
+
+- **Life Sciences / Biomedicine**: PubMed (MCP primary), Semantic Scholar (MCP), biorxiv.org
+- **Physics**: WebSearch with `site:arxiv.org [query]`, INSPIRE-HEP (`site:inspirehep.net`)
+- **Mathematics**: WebSearch with `site:arxiv.org/abs/math [query]`, MathSciNet
+- **Engineering / Materials Science**: WebSearch with `site:sciencedirect.com`, patent databases
+- **Social / Behavioral Sciences**: WebSearch with `site:ssrn.com`, Google Scholar
+- **Computer Science**: WebSearch with `site:arxiv.org/abs/cs [query]`, `site:dl.acm.org`
+- **Chemistry**: WebSearch with `site:pubs.acs.org`, `site:nature.com/nchem`
+- **Earth / Environmental Sciences**: WebSearch with `site:agupubs.onlinelibrary.wiley.com`
+
+For **cross-domain targets** (the most creative and common case), use retrieval
+sources from BOTH domains. A target bridging geochemistry and neuroscience
+needs both Earth Science and PubMed sources.
+
 ### Search patterns by category
 
 **Recent Breakthroughs** (last 12 months):
 - WebSearch: "[field] breakthrough 2025 2026"
-- WebSearch: "site:biorxiv.org [field] 2026" (preprints)
-- WebSearch: "site:arxiv.org [field] 2026"
+- WebSearch: "site:biorxiv.org [field] 2026" (preprints — life sciences)
+- WebSearch: "site:arxiv.org [field] 2026" (preprints — physics/math/CS)
 
 **Existing Cross-Field Work**:
 - WebSearch: "[Field A] [Field C] connection"

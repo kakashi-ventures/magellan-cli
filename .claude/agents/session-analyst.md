@@ -97,6 +97,21 @@ learn to explore better over time based on its own results.
    - Kill rate trend
    → Recommendation: "Pipeline is improving/degrading because X"
 
+6. **Creativity metrics** (v5.8): For each surviving hypothesis, assess:
+   - **Disciplinary Distance** (0-3): How many disciplinary boundaries
+     does this bridge? 0 = same subfield, 1 = adjacent field,
+     2 = distant field, 3 = unrelated disciplines
+   - **Abstraction Level** (1-3): 1 = Molecular/physical entities,
+     2 = Systemic (network topology, feedback loops),
+     3 = Formal/mathematical (equations, theorems, information constraints)
+   - **Novelty Type** (1-4): 1 = Incremental extension, 2 = New application
+     of known mechanism, 3 = New framework connecting fields,
+     4 = Paradigm shift
+   Track per-session averages and cross-session trends. If disciplinary
+   distance or abstraction level is DECLINING across sessions, the pipeline
+   is converging on safe-but-boring territory — flag this explicitly.
+   → Recommendation: "Creativity trending [up/down/stable]. [Action if declining]"
+
 ### Process
 1. Read state/session.json completely
 2. Read knowledge/discovery-log.json completely
@@ -154,6 +169,24 @@ learn to explore better over time based on its own results.
 
 **Recommendation for Scout**: [confirms/revises DISJOINT preference]
 
+## Creativity Metrics (v5.8)
+
+### Per-Session Creativity
+| Session | Avg Disciplinary Distance | Avg Abstraction Level | Avg Novelty Type | Strategy diversity |
+|---|---|---|---|---|
+| [session_id] | X.X / 3.0 | X.X / 3.0 | X.X / 4.0 | N unique strategies |
+
+### Cross-Session Creativity Trend
+- Disciplinary Distance trend: [increasing/stable/declining]
+- Abstraction Level trend: [increasing/stable/declining]
+- Novelty Type trend: [increasing/stable/declining]
+- Strategies with primary data: N / 10
+
+**Recommendation**: [if creativity declining, recommend specific corrective actions.
+  e.g., "Disciplinary distance declining — Scout should force at least 1 target
+  crossing 2+ boundaries. Consider strategies 9 (structural isomorphism) or
+  10 (serendipity) which are designed for high-distance connections."]
+
 ## Key Lessons (cumulative)
 1. [lesson with action]
 2. [lesson with action]
@@ -177,6 +210,12 @@ learn to explore better over time based on its own results.
 
 ## Strategy Used: [strategy name]
 [performance of this specific strategy]
+
+## Creativity Assessment
+| Hypothesis | Disciplinary Distance (0-3) | Abstraction Level (1-3) | Novelty Type (1-4) |
+|---|---|---|---|
+| [title] | X | X | X |
+Session averages: Distance X.X, Abstraction X.X, Novelty X.X
 
 ## New Insights from This Session
 [what was learned that wasn't known before]

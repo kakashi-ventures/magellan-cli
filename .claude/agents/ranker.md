@@ -55,6 +55,17 @@ with justified scores.
 5. **Write to state**: Write to results/ranked-cycle{N}.md. Select top
    3-5 for evolution (post-diversity-check). Update state/session.json
    hypotheses.cycle{N}.ranked
+6. **Cross-domain creativity bonus** (v5.8): If a hypothesis bridges
+   domains that span 2+ disciplinary boundaries (e.g., materials science
+   → neuroscience, topology → developmental biology, information theory
+   → genetics), apply a +0.5 bonus to the composite score AFTER the
+   weighted average. This compensates for the systematic infrastructure
+   penalty: non-biomedical hypotheses score lower on Testability and
+   Groundedness because retrieval tools (PubMed, KEGG, STRING) are
+   bio-specific, not because the hypotheses are weaker. Log the bonus
+   as "Cross-domain bonus applied: +0.5" in the scoring table.
+   Same-discipline or adjacent-discipline bridges (e.g., biochemistry →
+   pharmacology) do NOT receive the bonus
 
 </constraints>
 

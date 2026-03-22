@@ -5,6 +5,51 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.8 — Creativity-First Ideation (22 marzo 2026)
+
+**Motivazione**: L'analisi di 9 sessioni ha rivelato che il pipeline convergeva naturalmente verso strategie "safe" (network_gap_analysis al 39% QG pass rate, 3 sessioni primarie) mentre 5 delle 8 strategie più creative non avevano mai dati primari. Inoltre, le connessioni più potenti (isomorfismi strutturali, bisociazioni) non erano esplicitamente elicitate dal prompting. La fase di ideazione (Scout + Generator) necessitava di meccanismi per facilitare connessioni creative, non solo per filtrare quelle deboli.
+
+### Scout: 10 strategie (da 8)
+- **Strategia 9: Structural Isomorphism Discovery** — Cerca campi che condividono la stessa struttura formale (equazioni, topologia, vincoli information-theoretic) con substrati fisici completamente diversi. Il bridge è l'oggetto matematico stesso. Domain-agnostic.
+- **Strategia 10: Serendipity Through Random Encounter** — Esposizione a conoscenza inattesa: dominio mai esplorato → scoperta più sorprendente → "quale campo distante sarebbe più trasformato?". Mima la serendipità di sfogliare una biblioteca fisica.
+
+### Scout: Exploration slot obbligatorio
+- Almeno 1 dei 3 target DEVE usare una strategia con < 2 sessioni di dati primari. Previene la convergenza verso strategie ad alto QG pass rate a scapito della creatività.
+
+### Orchestratore: Rotating creativity constraint
+- Vincolo creativo diverso ad ogni sessione (mod 5): ponte cross-disciplina, ponte matematico/formale, gap temporale, tool transfer, unsolved problem. Forza esplorazione di territori che lo Scout altrimenti eviterebbe.
+
+### Orchestratore: Hard constraint disjointness
+- Se esistono target DISJOINT con score >= 5, l'orchestratore NON seleziona mai PARTIALLY_EXPLORED. Basato su 9 sessioni: DISJOINT 84% pass+cond rate vs PARTIALLY_EXPLORED 30%.
+
+### Generator: Bisociazione + Multi-Level Abstraction
+- **Bisociazione (Koestler)**: Tecnica di generazione basata su CONCETTI astratti (non molecole) con clash tra vocabolari di domini incompatibili.
+- **Multi-Level Abstraction**: Almeno 2 delle 6-8 ipotesi devono articolare il bridge a livelli multipli (molecolare + sistemico + formale/matematico + informazionale).
+
+### Sequential Narrowing (Phase 0 ristrutturata)
+- **Scout genera 5-6 candidati** (non più 3) — pool più ampio per permettere filtraggio
+- **Literature Scout verifica disjointness per TUTTI i candidati** — non più broad scan parallelo, ma verifica target-specific sequenziale dopo lo Scout
+- **Orchestrator narrow da 5-6 a 3** — filtra per disjointness (WELL_EXPLORED esclusi, DISJOINT preferiti), bridge validation, e strategy diversity
+- **Target Evaluator riceve i 3 migliori** — già pre-filtrati per disjointness
+- Questo elimina il problema S009: la disjointness è verificata PRIMA della selezione, non dopo
+
+### Ranker: Cross-Domain Creativity Bonus
+- +0.5 al composite score per ipotesi che attraversano 2+ confini disciplinari (es. materials science → neuroscience). Compensa la penalizzazione sistematica dell'infrastruttura bio-centrica (PubMed/KEGG/STRING) su ipotesi non-biomediche.
+
+### Session Analyst: Creativity Metrics
+- Tre nuove metriche per-ipotesi: **Disciplinary Distance** (0-3), **Abstraction Level** (1-3), **Novelty Type** (1-4).
+- Tracking cross-sessione: se la creatività è in calo, il Session Analyst lo segnala esplicitamente con azioni correttive.
+- Sezione "Creativity Metrics" aggiunta sia al meta-insights cumulativo che all'analisi per-sessione.
+
+### Literature Scout: Domain-Agnostic Retrieval
+- Sorgenti di retrieval domain-aware: arXiv per fisica/math, SSRN per social sciences, patent DB per engineering — non più solo PubMed/Semantic Scholar
+- Per target cross-domain, usa sorgenti da ENTRAMBI i domini
+
+### Documentazione
+- CLAUDE.md, README.md, methodology-v5.md, CHANGELOG.md aggiornati.
+
+---
+
 ## v5.7 — Unified Results Directory (22 marzo 2026)
 
 **Motivazione**: `state/phases/{session-id}/` duplicava la struttura directory di `results/{session-id}/` — stessi dati, stessa sessione, due posti diversi. Il directory `state/` conteneva sia l'indice di coordinamento (session.json) sia dati per-sessione (phases/), creando confusione su dove vivono i dati. Semplificazione: tutto il contenuto per-sessione (markdown + JSON) vive in `results/{session-id}/`.

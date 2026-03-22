@@ -164,71 +164,127 @@ Parse the prompt from /discover command:
 
 ---
 
-## PHASE 0: EXPLORATION (Scout + Literature Scout in parallel)
+## PHASE 0: EXPLORATION (Sequential Narrowing — v5.8)
+
+The ideation phase uses sequential narrowing instead of parallel execution:
+Scout generates a broad pool → Literature Scout verifies disjointness for all
+→ Orchestrator narrows to 3 → Target Evaluator evaluates top 3.
+This ensures disjointness (the #1 predictor of session quality) is verified
+BEFORE target selection, not after.
+
+### Phase 0a: SCOUT (broad candidate generation)
 
 Update progress: `current_phase = "scout"`.
 
-### For SCOUT MODE:
-Launch TWO subagents in parallel using Agent:
-
-**Subagent 1 — Scout:**
+**For SCOUT MODE:**
+**DISPATCH to `scout` agent via Agent tool:**
 > "<context>
 > Discovery log: knowledge/discovery-log.json (read if exists to avoid
 > re-exploring pairs and to reuse productive bridge concepts).
 > [IF contributor domain context was provided in dispatch: include it here as "Contributor domain context: [text]" — the Scout should use this to inform strategy selection and target areas, but NOT limit itself exclusively to the contributor's domain.]
 > </context>
 >
-> <task>
-> Identify the 3 most promising areas where undiscovered scientific
-> connections are likely hiding. Use all 8 strategies. Write results
-> to {results_dir}/scout-targets.md and update state/session.json scout_targets array.
-> </task>"
-
-**Subagent 2 — Literature Scout:**
-> "<context>
-> Mode: broad landscape scan across major scientific domains.
-> Focus: recent breakthroughs (last 12 months) with cross-domain
-> implications not yet explored. High-impact journals.
-> [IF seed papers (DOIs) were provided in dispatch: include them as "Seed papers (contributor-provided): [DOIs]" — retrieve these papers FIRST and use them as starting points for the landscape scan.]
-> </context>
+> <creativity_constraint>
+> This session's creativity constraint (rotating, based on session number):
+> [Compute SESSION_NUMBER from the sequential number in session_id, then apply:]
+> - If SESSION_NUMBER mod 5 == 0: "One of your 5-6 candidates must bridge physical sciences and life sciences"
+> - If SESSION_NUMBER mod 5 == 1: "One of your 5-6 candidates must have a mathematical structure or formal isomorphism as the bridge (not a molecule or pathway)"
+> - If SESSION_NUMBER mod 5 == 2: "One of your 5-6 candidates must connect a field established >50 years ago with one established <10 years ago"
+> - If SESSION_NUMBER mod 5 == 3: "One of your 5-6 candidates must involve a tool or technique transfer across discipline boundaries"
+> - If SESSION_NUMBER mod 5 == 4: "One of your 5-6 candidates must start from an explicitly unsolved problem and find the answer in a distant field"
+> </creativity_constraint>
 >
 > <task>
-> Search for recent breakthroughs and identify papers/findings with
-> cross-domain implications. Use WebFetch to retrieve full text of the
-> top 5-10 most relevant papers and save them to {results_dir}/papers/.
-> Run disjointness verification for promising field pairs.
-> Write to {results_dir}/literature-landscape.md
+> Identify 5-6 promising candidates where undiscovered scientific
+> connections are likely hiding. Use all 10 strategies. Generate a BROADER
+> pool than the final 3 — the Literature Scout will verify disjointness
+> for all candidates, and the Orchestrator will narrow to 3 before
+> Target Evaluation. Write results to {results_dir}/scout-targets.md
+> and update state/session.json scout_targets array.
 > </task>"
 
-Wait for BOTH to complete.
+Wait for Scout to complete.
 
 ### GUARD: Post-Scout Validation
-After both agents complete, read state/session.json:
+After Scout completes, read state/session.json:
 - IF scout_targets is empty (0 entries):
   → INCREMENT metadata.retries_needed
-  → RETRY: Re-run scout: "Broaden search. Lower novelty threshold. Use strategies 1, 7, 8. Find at least 2 candidates."
+  → RETRY: Re-run scout: "Broaden search. Lower novelty threshold. Use strategies 1, 7, 8, 9, 10. Find at least 3 candidates."
   → IF retry also 0: USE FALLBACK TARGETS from parametric knowledge:
     1. Circadian biology × tumor immune evasion
     2. Topological data analysis × protein misfolding dynamics
     3. Gut-brain axis metabolites × neurodegeneration biomarkers
   → Set metadata.fallback_used = true, health.fallback_used = true
   → Write fallback targets to state/session.json scout_targets and {results_dir}/scout-targets.md
-- IF literature_context is null:
-  → Proceed with parametric knowledge only
-  → Set metadata.literature_unavailable = true
-- ONLY proceed when selected_target is non-null
 
 Read scout_targets from agent output (or from `{results_dir}/scout.json` if agent wrote it).
-Write `{results_dir}/scout.json` with full scout_targets array + target_quality_scores.
-Update `state/session.json`: progress, health.scout_targets_found — NOT the scout_targets data itself.
+Write `{results_dir}/scout.json` with full scout_targets array.
+Update `state/session.json`: progress, health.scout_targets_found.
 
-### PHASE 0c: TARGET EVALUATION (Adversarial Target Evaluator)
+### Phase 0b: LITERATURE VERIFICATION (target-specific disjointness)
+
+Update progress: `current_phase = "literature_verification"`.
+
+**DISPATCH to `literature-scout` agent via Agent tool:**
+> "<context>
+> Mode: target-specific verification for Scout candidates.
+> Scout candidates: [paste all 5-6 scout_targets from {results_dir}/scout.json —
+>   include field_a, field_c, bridge_concepts for each]
+> [IF seed papers (DOIs) were provided in dispatch: include them as
+>   "Seed papers (contributor-provided): [DOIs]" — retrieve these papers FIRST.]
+> </context>
+>
+> <task>
+> For EACH of the Scout's 5-6 candidates:
+> 1. Run disjointness verification: search "[Field A] [Field C]" in
+>    Semantic Scholar (MCP) and PubMed (MCP). Classify each candidate as
+>    DISJOINT / PARTIALLY_EXPLORED / WELL_EXPLORED.
+> 2. For the top 3-4 candidates (by your assessment of bridge quality),
+>    retrieve full-text papers (3-5 per candidate) and save to {results_dir}/papers/.
+> 3. Validate bridge concepts: does the bridge mechanism actually exist
+>    in both fields? Flag any bridges that are factually incorrect.
+>
+> Use domain-appropriate retrieval sources (not just PubMed — use arXiv
+> for physics/math, SSRN for social sciences, etc.).
+>
+> Write to {results_dir}/literature-landscape.md with per-candidate
+> disjointness assessments. Update state/session.json with
+> literature_context and per-candidate disjointness_status.
+> </task>"
+
+Wait for Literature Scout to complete.
+
+### Phase 0c: NARROWING (Orchestrator selects top 3)
+
+Read disjointness results from {results_dir}/literature-landscape.md and
+state/session.json. Narrow 5-6 candidates to 3 using these criteria
+(in priority order):
+
+1. **Exclude WELL_EXPLORED** — remove any candidate classified as WELL_EXPLORED
+2. **Prefer DISJOINT over PARTIALLY_EXPLORED** — if 3+ DISJOINT candidates
+   exist with score >= 5, use only DISJOINT
+3. **Bridge validation** — exclude candidates where Literature Scout flagged
+   bridges as factually incorrect
+4. **Scout confidence** — among remaining, select top 3 by Scout confidence score
+5. **Strategy diversity** — ensure at least 2 different strategies and 1
+   exploration slot (strategy with < 2 primary sessions) among final 3
+
+Update `{results_dir}/scout.json` with the narrowed top-3 and their disjointness_status.
+Log the narrowing rationale in dispatch-log.json.
+- IF literature_context is null (Literature Scout failed):
+  → Proceed with parametric knowledge only
+  → Set metadata.literature_unavailable = true
+  → Skip narrowing — use Scout's top 3 by confidence
+
+### Phase 0d: TARGET EVALUATION (Adversarial Target Evaluator)
 
 Update progress: `current_phase = "target_evaluation"`.
 
 **DISPATCH to `target-evaluator` agent via Agent tool:**
 > "<context>
-> Scout targets: [paste scout_targets from state/session.json]
+> Scout targets (narrowed to 3): [paste top-3 from narrowed scout_targets,
+>   including their disjointness_status from Literature Scout]
+> Disjointness assessments: [from Literature Scout output per candidate]
 > Discovery log: knowledge/discovery-log.json (read for past session patterns)
 > Meta-insights: knowledge/meta-insights.md (read if exists)
 > </context>
@@ -236,6 +292,8 @@ Update progress: `current_phase = "target_evaluation"`.
 > <task>
 > Attack each of the 3 Scout targets on 4 axes: popularity bias,
 > vagueness, structural impossibility, local-optima.
+> The Literature Scout has already verified disjointness — use this data
+> to inform your popularity and local-optima checks (don't repeat the work).
 > Score each target 1-10. Write to {results_dir}/target-evaluation.md.
 > Update state/session.json with target_quality_scores array.
 > </task>"
@@ -249,7 +307,17 @@ After agent returns, read state/session.json:
   → IF retry also fails: proceed with best available target (never infinite loop)
 - IF best target is different from Scout's top pick:
   → Consider using the target-evaluator's recommended target instead
-- Select TOP target (by target_quality_score, breaking ties with Scout confidence).
+
+**DISJOINTNESS PRIORITY (hard constraint):**
+- Read disjointness_status for each target from {results_dir}/scout.json
+  (or from scout_targets in state if scout.json unavailable)
+- IF any target is DISJOINT AND has target_quality_score >= 5:
+  → ONLY consider DISJOINT targets for selection
+  → Select TOP DISJOINT target by target_quality_score (break ties with Scout confidence)
+  → Log in dispatch-log: "DISJOINTNESS_PRIORITY applied: excluded PARTIALLY_EXPLORED targets in favor of DISJOINT"
+- ELSE (no DISJOINT target scores >= 5, or all targets are the same disjointness):
+  → Select TOP target by target_quality_score, breaking ties with Scout confidence
+- Rationale: 9 sessions of data show DISJOINT targets produce 84% pass+cond rate vs 30% for PARTIALLY_EXPLORED. This is the strongest predictor of session quality.
 
 ### INTERACTIVE MODE PAUSE (if --interactive flag was set in dispatch)
 If the dispatch prompt includes "INTERACTIVE MODE", pause here and present the evaluated targets to the user:
@@ -688,7 +756,7 @@ Update `knowledge/discovery-log.json` for cumulative learning across sessions:
       "field_a": "[Field A]",
       "field_c": "[Field C]",
       "bridge_concepts": ["concept1", "concept2"],
-      "strategy": "[which of the 8 Scout strategies produced this target]",
+      "strategy": "[which of the 10 Scout strategies produced this target]",
       "disjointness": "[DISJOINT|PARTIALLY EXPLORED|WELL-EXPLORED]",
       "outcome": "[success|partial|degraded|failed]"
     }

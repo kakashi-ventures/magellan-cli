@@ -45,18 +45,18 @@ Twelve agents. Orchestrator dispatches to all — never executes phases inline.
 
 | Agent | Model | Role |
 |---|---|---|
-| **Scout** | Opus | Finds WHERE to look: 8 strategies, bridge concepts, strategy diversification, TARGET QUALITY CHECK reflection |
+| **Scout** | Opus | Finds WHERE to look: 10 strategies (incl. structural isomorphism + serendipity), bridge concepts, strategy diversification, exploration slot, rotating creativity constraint, TARGET QUALITY CHECK reflection |
 | **Target Evaluator** | Opus | Adversarial challenge of Scout targets on 4 axes (popularity bias, vagueness, structural impossibility, local-optima) |
 | **Literature Scout** | Sonnet | MCP-first retrieval (Semantic Scholar, PubMed), WebSearch fallback, full-text papers, disjointness verification |
 | **Computational Validator** | Sonnet | Programmatic bridge verification: KEGG, STRING, PubMed co-occurrence, back-of-envelope physics |
-| **Generator** | Opus | Hypotheses from parametric knowledge + literature + computational validation. SELF-CRITIQUE with claim-level verification |
+| **Generator** | Opus | Hypotheses from parametric knowledge + literature + computational validation. Bisociation + multi-level abstraction. SELF-CRITIQUE with claim-level verification |
 | **Critic** | Opus | 9 adversarial attack vectors including claim-level fact verification. META-CRITIQUE reflection. Writes critic_questions |
-| **Ranker** | Sonnet | 6-dimension weighted scoring, per-hypothesis table, diversity check, Elo tournament sanity check |
+| **Ranker** | Sonnet | 6-dimension weighted scoring, per-hypothesis table, diversity check, Elo tournament sanity check, cross-domain creativity bonus (+0.5 for 2+ discipline boundaries) |
 | **Evolver** | Sonnet | Genetic operations with diversity constraint. EVOLUTION QUALITY CHECK reflection. Conditionally skippable |
 | **Quality Gate** | Opus | 10-point rubric + web novelty + per-claim grounding verification. META-VALIDATION reflection |
-| **Session Analyst** | Sonnet | Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md |
+| **Session Analyst** | Sonnet | Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis, creativity metrics (disciplinary distance, abstraction level, novelty type) → knowledge/meta-insights.md |
 | **Cross-Model Validator** | Sonnet | Calls GPT-5.4 Pro + Gemini 3.1 Pro APIs for independent hypothesis validation. Generates consensus report |
-| **Orchestrator** | Opus | Pure dispatcher: guard logic, adaptive cycles, session health, meta-learning metrics. No WebSearch/WebFetch |
+| **Orchestrator** | Opus | Pure dispatcher: guard logic, adaptive cycles, session health, meta-learning metrics, disjointness hard constraint, rotating creativity constraint. No WebSearch/WebFetch |
 
 **Model selection principle**: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate). Sonnet for structured, search-intensive tasks (Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator).
 
@@ -114,6 +114,10 @@ confidence, groundedness assessment.
 - **Parametric generation + retrieval validation** — LLM generates cross-domain
   connections from parametric knowledge; external sources validate. Neither
   parametric-only nor retrieval-only.
+- **Creativity-first ideation** — The Scout's 10 strategies are elicitation
+  mechanisms, not search tools. The most creative connections come from
+  parametric reasoning (structural isomorphism, bisociation, serendipity),
+  not from WebSearch. WebSearch validates; parametric knowledge creates.
 - **Life sciences optimization** — Retrieval tools (PubMed, KEGG, STRING),
   scoring weights (60% on Testability + Groundedness + Mechanistic Specificity),
   and hypothesis format are structurally optimized for life sciences.
@@ -156,6 +160,14 @@ confidence, groundedness assessment.
   Scout and Generator read this in future sessions.
 - **Strategy diversification** — Scout must use at least 2 different strategies
   across 3 targets, with at least 1 not used in the last 2 sessions.
+  At least 1 target must use a strategy with < 2 sessions of primary data
+  (exploration slot) to prevent convergence on safe-but-boring strategies.
+- **Rotating creativity constraint** — Orchestrator assigns a different
+  creativity constraint per session (mod 5): cross-discipline bridge,
+  mathematical bridge, temporal gap, tool transfer, unsolved problem.
+- **Disjointness hard constraint** — If DISJOINT targets with score >= 5
+  exist, orchestrator NEVER selects PARTIALLY_EXPLORED. Based on 9 sessions:
+  DISJOINT 84% pass+cond rate vs PARTIALLY_EXPLORED 30%.
 - **Cross-model validation** (v5.6) — After Quality Gate, surviving hypotheses
   are automatically sent to GPT-5.4 Pro (empirical validation) and Gemini 3.1
   Pro (structural analysis) via their APIs. Consensus report synthesizes where

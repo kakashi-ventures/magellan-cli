@@ -32,15 +32,20 @@ claude --permission-mode auto
 ## What Happens When You Run /discover
 
 ```
-Phase 0:  Scout (8 strategies + bridge concepts + strategy diversification)
-          + Literature Scout (MCP + web search + full-text papers
-            + disjointness verification) — in parallel
-          → Target Evaluator — adversarial challenge on 4 axes
-Phase 1:  Orchestrator merges results, selects best target
+Phase 0a: Scout generates 5-6 candidates (10 strategies + bridge concepts
+            + strategy diversification + exploration slot
+            + rotating creativity constraint)
+Phase 0b: Literature Scout verifies disjointness for ALL candidates
+            (domain-aware retrieval + bridge validation)
+Phase 0c: Orchestrator narrows to 3 (DISJOINT priority + strategy diversity)
+Phase 0d: Target Evaluator — adversarial challenge on 4 axes
+Phase 1:  Orchestrator selects best target
+          (hard constraint: DISJOINT preferred over PARTIALLY_EXPLORED)
           → Computational Validator — KEGG, STRING, PubMed co-occurrence,
             back-of-envelope physics checks
 Phase 2:  Generator builds Structured Relationship Map, then creates
-          6-8 hypotheses (parametric + literature + computational validation)
+          6-8 hypotheses (parametric + literature + computational validation
+            + bisociation + multi-level abstraction)
           → SELF-CRITIQUE + claim-level verification before output
 Phase 3:  Critic attacks all hypotheses (9 vectors + web search)
           → META-CRITIQUE reflection + critic_questions for Generator
@@ -129,7 +134,7 @@ CLAUDE.md                                    ← Project instructions for Claude
   settings.json                              ← Permissions, hooks, Agent Teams
   agents/
     discovery-orchestrator.md                 ← Dispatches to agents, guard logic [Opus]
-    scout.md                                 ← Finds WHERE (8 strategies) [Opus]
+    scout.md                                 ← Finds WHERE (10 strategies) [Opus]
     target-evaluator.md                      ← Adversarial target challenge [Opus]
     literature-scout.md                      ← Retrieves literature context [Sonnet]
     computational-validator.md               ← Programmatic bridge checks [Sonnet]
@@ -202,7 +207,7 @@ knowledge/                                   ← Persistent data across sessions
 
 12 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks):
 
-- **Scout** [Opus] — 8 strategies to find WHERE undiscovered connections hide. TARGET QUALITY CHECK + strategy diversification reflection
+- **Scout** [Opus] — 10 strategies to find WHERE undiscovered connections hide (incl. structural isomorphism + serendipity). TARGET QUALITY CHECK + strategy diversification + exploration slot + rotating creativity constraint
 - **Target Evaluator** [Opus] — Adversarial challenge of Scout targets on 4 axes (popularity, vagueness, impossibility, local-optima)
 - **Literature Scout** [Sonnet] — MCP servers (mandatory first step) + WebSearch fallback + full-text paper retrieval + RETRIEVAL QUALITY CHECK reflection
 - **Computational Validator** [Sonnet+Bash] — Programmatic bridge verification: KEGG, STRING, PubMed co-occurrence, back-of-envelope physics
