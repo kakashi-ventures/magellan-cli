@@ -1,0 +1,27 @@
+{
+  "session_id": "2026-03-21-scout-006",
+  "mode": "scout",
+  "status": "success",
+  "field_a": "Ferroptosis lipid peroxidation (4-HNE, PUFA-PE oxidation, GPX4 regulation)",
+  "field_c": "Bacterial quorum sensing (AHL autoinducers, LasI/R and RhlI/R systems)",
+  "bridge_concepts": [
+    "PYO-mediated GSH depletion disabling GPX4 defense",
+    "4-HNE electrophilic covalent modification of QS receptors",
+    "Iron as shared regulatory variable (host sequestration vs bacterial siderophores)",
+    "Quantitative extracellular scavenging budget for inter-kingdom signaling",
+    "LoxA + PYO dual-pathway synergy for ferroptosis induction"
+  ],
+  "strategy": "network_gap_analysis",
+  "disjointness": 1.0,
+  "contributor_key": null,
+  "started_at": "2026-03-21T00:32:00Z",
+  "completed_at": "2026-03-21T01:18:00Z",
+  "pipeline_stats": {
+    "hypotheses_generated": 14,
+    "survived_critique": 9,
+    "passed_quality_gate": 6,
+    "kill_rate": 0.357,
+    "cycles_run": 2,
+    "evolver_skipped": false
+  }
+}

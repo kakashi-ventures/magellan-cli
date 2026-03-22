@@ -633,6 +633,43 @@ If cross_model_validation.status == "manual_export_only":
 **For Non-Expert User:**
 4. List specific types of domain experts who could evaluate each hypothesis
 
+### Write Ingest Manifest
+
+Write `{results_dir}/ingest.json` — a self-contained manifest for the website to consume.
+This file contains all metadata needed to ingest this session into the website DB
+without needing to read session.json or parse markdown files.
+
+```json
+{
+  "session_id": "${SESSION_ID}",
+  "mode": "${MODE}",
+  "status": "${STATUS}",
+  "field_a": "${FIELD_A}",
+  "field_c": "${FIELD_C}",
+  "bridge_concepts": [],
+  "strategy": "${STRATEGY}",
+  "disjointness": ${DISJOINTNESS_SCORE},
+  "contributor_key": "${CONTRIBUTOR_KEY_OR_NULL}",
+  "started_at": "${ISO_TIMESTAMP}",
+  "completed_at": "${ISO_TIMESTAMP}",
+  "pipeline_stats": {
+    "hypotheses_generated": N,
+    "survived_critique": N,
+    "passed_quality_gate": N,
+    "kill_rate": N.N,
+    "cycles_run": N,
+    "evolver_skipped": BOOL
+  }
+}
+```
+
+- `status`: one of `success`, `partial`, `degraded`, `failed`
+- Read the values from `state/session.json` (selected_target, metadata, health).
+- `bridge_concepts`: from `selected_target` in state or discovery-log.
+- Disjointness mapping: DISJOINT=1.0, PARTIALLY_EXPLORED=0.6, PARTIALLY_CONNECTED=0.3.
+- `contributor_key`: from `.magellan/config.json` if connected, otherwise `null`.
+- `started_at`/`completed_at`: from `metadata.start_time` and current time.
+
 Update state/session.json: phase="complete", status, status_reason.
 Final hypotheses are in {results_dir}/final.json (not in session.json).
 

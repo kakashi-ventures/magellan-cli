@@ -1,0 +1,25 @@
+{
+  "session_id": "2026-03-20-scout-005",
+  "mode": "scout",
+  "status": "success",
+  "field_a": "Ferroptosis (iron-dependent cell death via lipid peroxidation)",
+  "field_c": "Serpentinization geochemistry (abiotic Fe(II)/Fe(III) redox cycling)",
+  "bridge_concepts": [
+    "Fe(II)/Fe(III) Fenton cycling kinetics",
+    "phospholipid hydroperoxide (PLOOH) intermediate chemistry",
+    "ferrihydrite surface-catalyzed lipid peroxidation rate constants"
+  ],
+  "strategy": "scale-bridging",
+  "disjointness": 1.0,
+  "contributor_key": null,
+  "started_at": "2026-03-20T08:18:37Z",
+  "completed_at": "2026-03-20T14:46:39Z",
+  "pipeline_stats": {
+    "hypotheses_generated": 14,
+    "survived_critique": 8,
+    "passed_quality_gate": 4,
+    "kill_rate": 0.33,
+    "cycles_run": 2,
+    "evolver_skipped": false
+  }
+}

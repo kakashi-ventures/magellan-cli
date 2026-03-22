@@ -1,0 +1,27 @@
+{
+  "session_id": "2026-03-21-scout-008",
+  "mode": "scout",
+  "status": "success",
+  "field_a": "Cuproptosis (copper-dependent cell death via lipoylated protein aggregation)",
+  "field_c": "Hydrothermal vent Cu-S geochemistry (chalcopyrite, Pourbaix diagrams, Irving-Williams series)",
+  "bridge_concepts": [
+    "Fe-S cluster Cu displacement via Irving-Williams series and Ksp thermodynamics",
+    "FDX1 redox potential tuned to vent Cu2+/Cu+ Pourbaix boundary",
+    "H2S-CuS nanoparticle feed-forward loop",
+    "Dithiolane-chalcopyrite ligand homology",
+    "Evolutionary FDX1-LIAS co-selection at Cu-rich vents"
+  ],
+  "strategy": "network_gap_analysis",
+  "disjointness": 1.0,
+  "contributor_key": null,
+  "started_at": "2026-03-21T22:00:00Z",
+  "completed_at": "2026-03-22T14:30:00Z",
+  "pipeline_stats": {
+    "hypotheses_generated": 12,
+    "survived_critique": 11,
+    "passed_quality_gate": 5,
+    "kill_rate": 0.167,
+    "cycles_run": 2,
+    "evolver_skipped": false
+  }
+}

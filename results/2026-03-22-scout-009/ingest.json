@@ -1,0 +1,26 @@
+{
+  "session_id": "2026-03-22-scout-009",
+  "mode": "scout",
+  "status": "partial",
+  "field_a": "Plant melatonin stress biology",
+  "field_c": "Coral bleaching / Symbiodiniaceae thermal tolerance",
+  "bridge_concepts": [
+    "SNAT/ASMT melatonin biosynthesis (confirmed in dinoflagellates)",
+    "Melatonin→AFMK→AMK ROS scavenging cascade",
+    "NPQ-mediated PSII photoprotection by melatonin",
+    "Chloroplast-to-nucleus retrograde signaling via melatonin"
+  ],
+  "strategy": "Swanson_ABC_bridging",
+  "disjointness": 0.6,
+  "contributor_key": null,
+  "started_at": "2026-03-22T01:15:21Z",
+  "completed_at": "2026-03-22T04:12:00Z",
+  "pipeline_stats": {
+    "hypotheses_generated": 10,
+    "survived_critique": 10,
+    "passed_quality_gate": 3,
+    "kill_rate": 0.0,
+    "cycles_run": 1,
+    "evolver_skipped": true
+  }
+}

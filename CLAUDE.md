@@ -69,6 +69,9 @@ State is split into a **slim coordination index** and **per-session results dire
   (*.md) and structured phase data (*.json) side by side. Phase JSON files contain
   lightweight metadata (IDs, titles, scores, verdicts). Full hypothesis text lives
   in the markdown files.
+- `results/{session-id}/ingest.json` — Self-contained manifest for website ingestion.
+  Contains session metadata, pipeline stats, and contributor key. The website seed
+  script reads this instead of parsing markdown or session.json.
 
 **Principle**: session.json contains ONLY coordination state. All session data
 (both markdown and JSON) lives in `results/{session-id}/`.
