@@ -9,11 +9,11 @@
     "CISD2 [2Fe-2S] at MAMs as redox-gated Ca2+ regulator",
     "CIA/CIAO3 pathway as LIP/ROS-responsive gate for cytoplasmic Fe-S proteins",
     "Frataxin as substrate-sensitive bottleneck in FTMT-negative tissues",
-    "Conserved Fe-S → clock dependency in neurons"
+    "Conserved Fe-S \u2192 clock dependency in neurons"
   ],
   "strategy": "network_gap_analysis",
   "disjointness": 1.0,
-  "contributor_key": null,
+  "contributor_key": "mgln_7dc49810093a6bcb70ff8f751dc99332",
   "started_at": "2026-03-21T09:44:05Z",
   "completed_at": "2026-03-21T12:46:34Z",
   "pipeline_stats": {
@@ -23,5 +23,6 @@
     "kill_rate": 0.333,
     "cycles_run": 2,
     "evolver_skipped": true
-  }
+  },
+  "display_name": "Alberto Trivero"
 }

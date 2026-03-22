@@ -13,7 +13,7 @@
   ],
   "strategy": "network_gap_analysis",
   "disjointness": 1.0,
-  "contributor_key": null,
+  "contributor_key": "mgln_7dc49810093a6bcb70ff8f751dc99332",
   "started_at": "2026-03-21T00:32:00Z",
   "completed_at": "2026-03-21T01:18:00Z",
   "pipeline_stats": {
@@ -23,5 +23,6 @@
     "kill_rate": 0.357,
     "cycles_run": 2,
     "evolver_skipped": false
-  }
+  },
+  "display_name": "Alberto Trivero"
 }

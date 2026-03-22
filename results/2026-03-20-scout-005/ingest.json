@@ -11,7 +11,7 @@
   ],
   "strategy": "scale-bridging",
   "disjointness": 1.0,
-  "contributor_key": null,
+  "contributor_key": "mgln_7dc49810093a6bcb70ff8f751dc99332",
   "started_at": "2026-03-20T08:18:37Z",
   "completed_at": "2026-03-20T14:46:39Z",
   "pipeline_stats": {
@@ -21,5 +21,6 @@
     "kill_rate": 0.33,
     "cycles_run": 2,
     "evolver_skipped": false
-  }
+  },
+  "display_name": "Alberto Trivero"
 }

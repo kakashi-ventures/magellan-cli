@@ -4,10 +4,18 @@
   "status": "success",
   "field_a": "Volcanic glass dissolution kinetics",
   "field_c": "Pharmaceutical amorphous solid dispersion dissolution",
-  "bridge_concepts": ["TST rate law", "Damkohler criterion", "Grambow Rate Law 2", "passivation-erosion ODE", "dual saturation index", "Ostwald ripening", "activation volume"],
+  "bridge_concepts": [
+    "TST rate law",
+    "Damkohler criterion",
+    "Grambow Rate Law 2",
+    "passivation-erosion ODE",
+    "dual saturation index",
+    "Ostwald ripening",
+    "activation volume"
+  ],
   "strategy": "tool_repurposing",
   "disjointness": 1.0,
-  "contributor_key": null,
+  "contributor_key": "mgln_7dc49810093a6bcb70ff8f751dc99332",
   "started_at": "2026-03-22T14:45:27Z",
   "completed_at": "2026-03-22T16:32:31Z",
   "pipeline_stats": {
@@ -18,5 +26,6 @@
     "attrition_rate": 61.5,
     "cycles_run": 2,
     "evolver_skipped": false
-  }
+  },
+  "display_name": "Alberto Trivero"
 }
