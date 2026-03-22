@@ -91,11 +91,34 @@ See `prompts/orchestration-guide.md` for step-by-step instructions.
 | `/discover [A] × [C]` | Targeted discovery between two fields |
 | `/discover [topic]` | Open exploration from one domain |
 | `/discover solve: [problem]` | Problem-driven discovery |
+| `/discover --context "text"` | Provide domain expertise as context for Scout/Generator |
+| `/discover --papers DOI1,DOI2` | Provide seed papers for Literature Scout |
+| `/discover --interactive` | Pause after Scout for target approval before proceeding |
+| `/connect <key>` | Link CLI to your MAGELLAN web profile for attribution |
 | `/validate [hypothesis]` | Deep novelty + counter-evidence check |
 | `/evolve` | Another evolutionary cycle on current results |
 | `/export gpt` | Self-contained prompt for GPT-5.4 validation |
 | `/export gemini` | Self-contained prompt for Gemini Deep Think |
 | `/status` | Check pipeline progress mid-run |
+
+Flags can be combined: `/discover ferroptosis × serpentinization --context "I study lipid peroxidation in hepatocytes" --papers 10.1038/s41586-024-xxxxx --interactive`
+
+## Contribute Your Discoveries
+
+Connect to the [MAGELLAN website](https://magellan-discover.ai) so your discoveries
+are publicly attributed to you:
+
+1. Create an account at [magellan-discover.ai/sign-in](https://magellan-discover.ai/sign-in)
+2. Go to your profile and generate a **Contributor Key**
+3. In the CLI: `/connect mgln_your_key_here`
+4. All subsequent `/discover` sessions are attributed to your profile
+
+Your discoveries appear on the public leaderboard with your name, institution,
+and rank (Cabin Boy → Navigator → Cartographer → Captain → Admiral).
+
+Scientists with domain expertise can use `--context` and `--papers` to direct
+discovery toward their areas of interest, and review hypotheses on the website
+as expert reviewers.
 
 ## Project Structure
 
@@ -118,6 +141,7 @@ CLAUDE.md                                    ← Project instructions for Claude
     session-analyst.md                       ← Post-pipeline meta-learning [Sonnet]
   commands/
     discover.md                              ← /discover (main entry point)
+    connect.md                               ← /connect contributor key
     validate.md                              ← /validate deep check
     evolve.md                                ← /evolve refinement cycle
     export.md                                ← /export for cross-model validation

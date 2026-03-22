@@ -630,6 +630,10 @@ La validazione cross-model è ora **automatica** (v5.6): il Cross-Model Validato
 | `/discover [A] × [C]` | Targeted | Per esplorazioni mirate se si vuole testare un'area specifica |
 | `/discover [topic]` | Open | Esplorazione da un singolo dominio |
 | `/discover solve: [problem]` | Problem-driven | Cerca insight cross-domain per un problema specifico |
+| `/discover --context "..."` | Context-enriched | Inietta expertise di dominio nello Scout e Generator |
+| `/discover --papers DOI,...` | Paper-seeded | Fornisce paper di riferimento al Literature Scout |
+| `/discover --interactive` | Interactive | Pausa dopo lo Scout per approvazione target |
+| `/connect <key>` | Contributor | Collega la CLI al profilo web per attribuzione scoperte |
 | `/validate [hypothesis]` | Deep Validation | Verifica approfondita post-discovery |
 | `/evolve` | Evolution | Altro ciclo evolutivo sulle ipotesi correnti |
 | `/export [gpt\|gemini\|both]` | Export | Formatta per validazione cross-model |
@@ -641,6 +645,22 @@ La validazione cross-model è ora **automatica** (v5.6): il Cross-Model Validato
 Questo differenzia MAGELLAN da Google AI Co-Scientist (che opera con scientist-in-the-loop) e da FutureHouse Kosmos (che riceve obiettivi di ricerca umani). MAGELLAN è più ambizioso: lo Scout deve decidere autonomamente *cosa è interessante* — una capacità che Demis Hassabis (2026) ritiene sia ancora 5-10 anni lontana per l'AI.
 
 Le modalità targeted/open/problem esistono come alternative per testing e debugging, non come uso primario.
+
+### Modalità per scienziati di dominio
+
+I flag `--context`, `--papers`, e `--interactive` sono progettati per scienziati con competenze di dominio che vogliono **dirigere** la scoperta:
+
+- `--context "I study ferroptosis in hepatocytes"` — Lo Scout usa questa expertise per informare la selezione strategica dei target, senza limitarsi esclusivamente al dominio indicato
+- `--papers 10.1038/s41586-024-xxxxx` — Il Literature Scout recupera questi paper per primi e li usa come seed per l'esplorazione della letteratura
+- `--interactive` — Dopo che lo Scout produce i target e il Target Evaluator li valuta, il pipeline si ferma e presenta i risultati. Lo scienziato può approvare, selezionare target specifici, o rigettare e ridirezionare
+
+Questo modello preserva l'autonomia del sistema (lo Scout esplora liberamente) aggiungendo la possibilità per l'esperto di **guidare** senza **controllare**. Il valore della serendipity rimane: lo Scout potrebbe trovare connessioni che lo scienziato non avrebbe mai cercato, anche partendo dal suo dominio.
+
+### Contributor connection e attribuzione
+
+Il comando `/connect <mgln_key>` collega la CLI al profilo dell'utente sul [sito MAGELLAN](https://magellan-discover.ai). Ogni sessione `/discover` successiva incorpora la contributor key nei risultati. Quando i risultati vengono pubblicati sul sito, la sessione viene automaticamente attribuita al contributore.
+
+Questo crea un modello di **contributor-owned discovery**: ogni utente usa i propri token Claude per generare scoperte, e queste scoperte sono pubblicamente sue — con profilo, statistiche, e posizione nel leaderboard.
 
 ### Cosa rende possibile l'autonomia totale (marzo 2026)
 
