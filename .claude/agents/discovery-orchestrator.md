@@ -49,24 +49,28 @@ Do NOT create files in .claude/agent-memory/ — all persistence goes to knowled
 
 ## STATE MANAGEMENT (v5.6 — Slim Index + Phase Files)
 
-State is split into a **slim coordination index** and **per-phase data files**:
+State is split into a **slim coordination index** and **per-phase data files scoped by session**:
 
 ```
 state/
-  session.json          ← SLIM INDEX (~3KB): coordination, status, pointers
-  phases/               ← Per-phase structured data (written once, read by next phase)
-    scout.json          ← Scout targets + quality scores
-    literature.json     ← Literature context + paper metadata
-    computational.json  ← Computational readiness checks
-    cycle{N}-raw.json       ← Raw hypotheses (IDs, titles, scores, connections)
-    cycle{N}-critiqued.json ← Critique verdicts + critic_questions
-    cycle{N}-ranked.json    ← Rankings + composite scores
-    cycle{N}-evolved.json   ← Evolved hypotheses with lineage
-    quality-gate.json       ← Quality gate verdicts for all cycles
-    final.json              ← PASS/CONDITIONAL_PASS hypotheses only
-    meta-insights.json      ← Session analyst output
-    cross-model.json        ← Cross-model validation consensus
+  session.json                    ← SLIM INDEX (~3KB): coordination, status, pointers
+  phases/{SESSION_ID}/            ← Per-phase structured data, isolated per session
+    scout.json                    ← Scout targets + quality scores
+    literature.json               ← Literature context + paper metadata
+    computational.json            ← Computational readiness checks
+    cycle{N}-raw.json             ← Raw hypotheses (IDs, titles, scores, connections)
+    cycle{N}-critiqued.json       ← Critique verdicts + critic_questions
+    cycle{N}-ranked.json          ← Rankings + composite scores
+    cycle{N}-evolved.json         ← Evolved hypotheses with lineage
+    quality-gate.json             ← Quality gate verdicts for all cycles
+    final.json                    ← PASS/CONDITIONAL_PASS hypotheses only
+    meta-insights.json            ← Session analyst output
+    cross-model.json              ← Cross-model validation consensus
 ```
+
+**PHASES_DIR shorthand**: Throughout this document, all references to phase file paths
+use `state/phases/{SESSION_ID}/`. Read SESSION_ID from state/session.json. Example:
+`state/phases/2026-03-22-scout-009/scout.json`.
 
 **Principle**: Full hypothesis text lives ONLY in `results/{session-id}/*.md`.
 Phase files contain structured metadata (IDs, titles, scores, verdicts, pointers).
@@ -87,7 +91,7 @@ Map: HIGH=8-10, MEDIUM-HIGH=7, MEDIUM=5-6, LOW-MEDIUM=4, LOW=2-3, SPECULATIVE=1.
 
 ### State Write Protocol
 After EVERY phase:
-1. Write the phase-specific data to `state/phases/{phase}.json`
+1. Write the phase-specific data to `state/phases/{SESSION_ID}/{phase}.json`
 2. Update `state/session.json` with: phase, cycle, status, progress, health counters
 3. NEVER write hypothesis content, full mechanism text, or supporting evidence into session.json
 
@@ -97,7 +101,7 @@ Initialize state at session start. First check for a contributor key (from `/con
 CONTRIBUTOR_KEY=$(cat .magellan/config.json 2>/dev/null | grep -o '"contributor_key":"[^"]*"' | cut -d'"' -f4)
 # Generate session_id first, then create directories
 SESSION_ID="$(date +%Y-%m-%d)-${MODE}-$(printf '%03d' $NEXT_NUM)"
-mkdir -p "results/${SESSION_ID}/papers" "state/phases" knowledge
+mkdir -p "results/${SESSION_ID}/papers" "state/phases/${SESSION_ID}" knowledge
 cat > state/session.json << EOF
 {
   "session_id": "${SESSION_ID}",
@@ -209,8 +213,8 @@ After both agents complete, read state/session.json:
   → Set metadata.literature_unavailable = true
 - ONLY proceed when selected_target is non-null
 
-Read scout_targets from agent output (or from `state/phases/scout.json` if agent wrote it).
-Write `state/phases/scout.json` with full scout_targets array + target_quality_scores.
+Read scout_targets from agent output (or from `state/phases/{SESSION_ID}/scout.json` if agent wrote it).
+Write `state/phases/{SESSION_ID}/scout.json` with full scout_targets array + target_quality_scores.
 Update `state/session.json`: progress, health.scout_targets_found — NOT the scout_targets data itself.
 
 ### PHASE 0c: TARGET EVALUATION (Adversarial Target Evaluator)
@@ -310,18 +314,18 @@ This validates bridge concepts even when the user provides the target directly.
 
 Update progress: `current_phase = "generation"`.
 Read `state/session.json` for selected_target and disjointness_status.
-Read `state/phases/scout.json` for bridge concepts.
-Read `state/phases/literature.json` for literature_context.
-Read `state/phases/computational.json` for computational_readiness.
+Read `state/phases/{SESSION_ID}/scout.json` for bridge concepts.
+Read `state/phases/{SESSION_ID}/literature.json` for literature_context.
+Read `state/phases/{SESSION_ID}/computational.json` for computational_readiness.
 
 **DISPATCH to `generator` agent via Agent tool:**
 > "<context>
 > Fields: [Field A] × [Field C]
-> Bridge concepts: [from state/phases/scout.json]
-> Literature context: [from state/phases/literature.json]
+> Bridge concepts: [from state/phases/{SESSION_ID}/scout.json]
+> Literature context: [from state/phases/{SESSION_ID}/literature.json]
 > Disjointness status: [from session.json]
 > Full-text papers: {results_dir}/papers/
-> Computational validation: [from state/phases/computational.json — include IMPLAUSIBLE warnings]
+> Computational validation: [from state/phases/{SESSION_ID}/computational.json — include IMPLAUSIBLE warnings]
 > Meta-insights: [from knowledge/meta-insights.md if exists]
 > </context>
 >
@@ -330,11 +334,11 @@ Read `state/phases/computational.json` for computational_readiness.
 > All groundedness values MUST be integers 1-10 (not strings like "MEDIUM").
 > Respect computational validation warnings — avoid building on mechanisms flagged IMPLAUSIBLE.
 > Write to {results_dir}/raw-hypotheses-cycle{N}.md.
-> Write structured data to state/phases/cycle{N}-raw.json.
+> Write structured data to state/phases/{SESSION_ID}/cycle{N}-raw.json.
 > </task>"
 
 ### GUARD: Post-Generation Validation
-After agent returns, read `state/phases/cycle{N}-raw.json`:
+After agent returns, read `state/phases/{SESSION_ID}/cycle{N}-raw.json`:
 - IF the array is empty or length < 3:
   → INCREMENT metadata.retries_needed
   → RE-DISPATCH generator: "Use ALL techniques. Produce at least 4 hypotheses."
@@ -348,18 +352,18 @@ Update progress: `current_phase = "critique"`.
 
 **DISPATCH to `critic` agent via Agent tool:**
 > "<context>
-> Hypotheses: [from state/phases/cycle{N}-raw.json]
-> Literature context: [from state/phases/literature.json]
+> Hypotheses: [from state/phases/{SESSION_ID}/cycle{N}-raw.json]
+> Literature context: [from state/phases/{SESSION_ID}/literature.json]
 > </context>
 >
 > <task>
 > Attack each hypothesis with web search for novelty, counter-evidence,
 > and mechanism plausibility. Write to {results_dir}/critiqued-cycle{N}.md.
-> Write structured data to state/phases/cycle{N}-critiqued.json.
+> Write structured data to state/phases/{SESSION_ID}/cycle{N}-critiqued.json.
 > </task>"
 
 ### GUARD: Post-Critique Validation
-After agent returns, read `state/phases/cycle{N}-critiqued.json`:
+After agent returns, read `state/phases/{SESSION_ID}/cycle{N}-critiqued.json`:
 - Count survivors (hypotheses not killed)
 - Update health.survived_critique with count
 - IF ALL hypotheses KILLED (0 survivors):
@@ -385,7 +389,7 @@ Update progress: `current_phase = "ranking"`.
 
 **DISPATCH to `ranker` agent via Agent tool:**
 > "<context>
-> Critiqued hypotheses: [from state/phases/cycle{N}-critiqued.json]
+> Critiqued hypotheses: [from state/phases/{SESSION_ID}/cycle{N}-critiqued.json]
 > </context>
 >
 > <task>
@@ -393,14 +397,14 @@ Update progress: `current_phase = "ranking"`.
 > Use the per-hypothesis scoring table format.
 > Apply diversity check.
 > Write to {results_dir}/ranked-cycle{N}.md.
-> Write structured data to state/phases/cycle{N}-ranked.json.
+> Write structured data to state/phases/{SESSION_ID}/cycle{N}-ranked.json.
 > </task>"
 
 After agent returns, update progress with timestamp from `date -u` command.
 
 ### ADAPTIVE CYCLE DECISION (after cycle 1 ranking)
 
-Read `state/phases/cycle1-ranked.json`. Quick evaluation:
+Read `state/phases/{SESSION_ID}/cycle1-ranked.json`. Quick evaluation:
 - If ALL top-3 score >= 7.0 composite AND diversity check passed:
   → DISPATCH to quality-gate immediately (skip cycle 2). If >= 3 PASS → session SUCCESS.
   → Record: metadata.cycle_decision = "early_complete"
@@ -421,14 +425,14 @@ Update progress: `current_phase = "evolution"`.
 
 **DISPATCH to `evolver` agent via Agent tool:**
 > "<context>
-> Top ranked hypotheses: [from state/phases/cycle{N}-ranked.json]
+> Top ranked hypotheses: [from state/phases/{SESSION_ID}/cycle{N}-ranked.json]
 > </context>
 >
 > <task>
 > Recombine and refine. Track conceptual diversity.
 > If two evolved hypotheses are too similar, keep only the stronger.
 > Write to {results_dir}/evolved-cycle{N}.md.
-> Write structured data to state/phases/cycle{N}-evolved.json.
+> Write structured data to state/phases/{SESSION_ID}/cycle{N}-evolved.json.
 > </task>"
 
 After agent returns, update progress with timestamp from `date -u` command.
@@ -438,12 +442,12 @@ After agent returns, update progress with timestamp from `date -u` command.
 Update state: cycle=2, phase=2.
 
 ### Critic Questions Forwarding
-Read critic_questions from `state/phases/cycle1-critiqued.json` (if present).
+Read critic_questions from `state/phases/{SESSION_ID}/cycle1-critiqued.json` (if present).
 Include in Generator dispatch prompt:
 "The Critic had these questions about cycle 1: [questions].
 Address these ambiguities or avoid the same weaknesses."
 
-Dispatch generator with evolved hypotheses from `state/phases/cycle1-evolved.json` as context.
+Dispatch generator with evolved hypotheses from `state/phases/{SESSION_ID}/cycle1-evolved.json` as context.
 Instruct Generator to produce BOTH:
 - 4-6 hypotheses building on cycle 1 survivors
 - 2-3 completely FRESH hypotheses using different techniques
@@ -472,8 +476,8 @@ Update progress: `current_phase = "quality_gate"`.
 
 **DISPATCH to `quality-gate` agent via Agent tool:**
 > "<context>
-> Surviving hypotheses from both cycles: [from state/phases/cycle1-evolved.json
-> and state/phases/cycle2-evolved.json (or cycle2-ranked.json if evolver skipped)]
+> Surviving hypotheses from both cycles: [from state/phases/{SESSION_ID}/cycle1-evolved.json
+> and state/phases/{SESSION_ID}/cycle2-evolved.json (or cycle2-ranked.json if evolver skipped)]
 > Field A: [field_a], Field C: [field_c]
 > </context>
 >
@@ -484,11 +488,11 @@ Update progress: `current_phase = "quality_gate"`.
 > Citation hallucination or fabricated protein property = automatic FAIL.
 > PASS or FAIL each hypothesis with detailed reasons.
 > Write to {results_dir}/quality-gate.md.
-> Write structured data to state/phases/quality-gate.json.
-> Write PASS/CONDITIONAL_PASS hypotheses to state/phases/final.json.
+> Write structured data to state/phases/{SESSION_ID}/quality-gate.json.
+> Write PASS/CONDITIONAL_PASS hypotheses to state/phases/{SESSION_ID}/final.json.
 > </task>"
 
-After agent returns, read `state/phases/final.json`.
+After agent returns, read `state/phases/{SESSION_ID}/final.json`.
 Update progress with timestamp from `date -u` command.
 
 ## POST-QUALITY-GATE: SESSION ANALYST
@@ -496,7 +500,7 @@ Update progress with timestamp from `date -u` command.
 **DISPATCH to `session-analyst` agent via Agent tool:**
 > "<context>
 > Session index: state/session.json
-> Phase data directory: state/phases/ (read all phase files for this session)
+> Phase data directory: state/phases/{SESSION_ID}/ (read all phase files for this session)
 > Discovery log: knowledge/discovery-log.json (all past sessions)
 > Results directory: {results_dir}/
 > </context>
@@ -507,10 +511,10 @@ Update progress with timestamp from `date -u` command.
 > disjointness correlation. Write session-specific analysis to
 > {results_dir}/session-analysis.md. Write or update cumulative insights
 > to knowledge/meta-insights.md. Write structured data to
-> state/phases/meta-insights.json.
+> state/phases/{SESSION_ID}/meta-insights.json.
 > </task>"
 
-After agent returns, read `state/phases/meta-insights.json` for updated metrics.
+After agent returns, read `state/phases/{SESSION_ID}/meta-insights.json` for updated metrics.
 Include key meta-insights in session summary if available.
 
 ## POST-SESSION-ANALYST: CROSS-MODEL VALIDATION (v5.6)
@@ -522,7 +526,7 @@ Update progress: `current_phase = "cross_model_validation"`.
 
 **DISPATCH to `cross-model-validator` agent via Agent tool:**
 > "<context>
-> Final hypotheses: state/phases/final.json
+> Final hypotheses: state/phases/{SESSION_ID}/final.json
 > Results directory: [results_dir from session.json]
 > Prompt templates: prompts/gpt-validation.md, prompts/gemini-deep-think.md
 > </context>
@@ -538,10 +542,10 @@ Update progress: `current_phase = "cross_model_validation"`.
 > then parse responses and write cross-model consensus report.
 > If no API keys in EITHER shell env or .env.local: generate export files only.
 > Write all outputs to {results_dir}/.
-> Write structured data to state/phases/cross-model.json.
+> Write structured data to state/phases/{SESSION_ID}/cross-model.json.
 > </task>"
 
-After agent returns, read `state/phases/cross-model.json` for validation status.
+After agent returns, read `state/phases/{SESSION_ID}/cross-model.json` for validation status.
 - If `status = "completed"`: include consensus highlights in session summary
 - If `status = "manual_export_only"`: note that export files are ready for manual validation
 - If agent failed: log error, continue to session summary (non-blocking)
@@ -549,8 +553,8 @@ After agent returns, read `state/phases/cross-model.json` for validation status.
 This phase is NON-BLOCKING — failures do not affect session health status.
 
 ## Kill Rate Calculation (EXACT formula)
-Before writing session summary, read `state/phases/cycle1-critiqued.json` and
-`state/phases/cycle2-critiqued.json` (if exists). Calculate:
+Before writing session summary, read `state/phases/{SESSION_ID}/cycle1-critiqued.json` and
+`state/phases/{SESSION_ID}/cycle2-critiqued.json` (if exists). Calculate:
 - killed = count of "KILLED" verdicts across ALL critiqued phase files
 - total = total raw hypotheses across all cycles (from health.hypotheses_generated)
 - kill_rate = killed / total * 100
@@ -625,7 +629,7 @@ If cross_model_validation.status == "manual_export_only":
 4. List specific types of domain experts who could evaluate each hypothesis
 
 Update state/session.json: phase="complete", status, status_reason.
-Final hypotheses are in state/phases/final.json (not in session.json).
+Final hypotheses are in state/phases/{SESSION_ID}/final.json (not in session.json).
 
 ## KNOWLEDGE PERSISTENCE (after session summary)
 

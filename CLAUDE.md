@@ -64,8 +64,9 @@ Twelve agents. Orchestrator dispatches to all — never executes phases inline.
 State is split into a **slim coordination index** and **per-phase data files**:
 - `state/session.json` — Slim index (~3KB): phase, cycle, status, selected_target,
   health counters, progress. NEVER contains hypothesis content.
-- `state/phases/*.json` — Per-phase structured data: scout targets, hypotheses
-  (IDs, titles, scores, verdicts), quality gate results, cross-model consensus.
+- `state/phases/{session-id}/*.json` — Per-phase structured data, scoped by session:
+  scout targets, hypotheses (IDs, titles, scores, verdicts), quality gate results,
+  cross-model consensus.
 - `results/{session-id}/*.md` — Human-readable outputs with full hypothesis text.
 - `state/dispatch-log.json` — Tracks every agent dispatch with timestamps.
 
@@ -165,7 +166,7 @@ confidence, groundedness assessment.
   stdin for PostToolUse, `"verdict"` field for kill detection).
 - **MCP-first retrieval** — Semantic Scholar + PubMed MCP tools mandatory before WebSearch.
 - **Slim state + phase files** (v5.6) — session.json is a ~3KB coordination index.
-  Per-phase data in `state/phases/*.json`. Full text only in `results/*.md`.
+  Per-phase data in `state/phases/{session-id}/*.json`. Full text only in `results/*.md`.
   Prevents state bloat and reduces context consumption by agents.
 
 ## Documentation Rules

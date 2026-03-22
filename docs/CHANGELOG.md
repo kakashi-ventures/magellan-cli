@@ -5,21 +5,36 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.6.2 — Session-Scoped Phase Files (22 marzo 2026)
+
+**Motivazione**: `state/phases/` era una directory piatta dove file di sessioni diverse si mischiavano — S005 sovrascriveva S007, naming inconsistente (suffissato vs generico). Nessun isolamento per sessione.
+
+### Refactor: Per-Session Phase Directories
+- **`state/phases/{session-id}/`** — Ogni sessione ha la propria subdirectory
+- **File migrati** — 26 file da 4 sessioni riorganizzati nelle directory corrette
+- **Orchestratore aggiornato** — Tutti i path usano `state/phases/{SESSION_ID}/` (il SESSION_ID viene da session.json)
+- **Stop gate aggiornato** — `orchestrator-stop-gate.py` legge da `state/phases/{session_id}/`
+- **Cross-model validator aggiornato** — Path session-scoped per final.json e cross-model.json
+- **Export command aggiornato** — Path session-scoped per final.json
+- **CLAUDE.md aggiornato** — Documentazione allineata
+
+### Convenzione di naming
+`state/phases/{session-id}/{fase}.json` dove fase è: `scout`, `literature`, `computational`, `cycle{N}-raw`, `cycle{N}-critiqued`, `cycle{N}-ranked`, `cycle{N}-evolved`, `quality-gate`, `final`, `meta-insights`, `cross-model`
+
+---
+
 ## v5.6.1 — Slim State Architecture (19 marzo 2026)
 
 **Motivazione**: `state/session.json` cresceva proporzionalmente alla complessità delle sessioni (28KB+ con 71% occupato dai dati delle ipotesi). Ogni agente consumava contesto leggendo dati che non gli servivano.
 
 ### Refactor: Slim Index + Phase Files
 - **`state/session.json`** diventa un indice di coordinamento slim (~3KB): fase, ciclo, status, selected_target, health counters, progress. MAI contenuto delle ipotesi
-- **`state/phases/*.json`** — File per-fase con dati strutturati leggeri (IDs, titoli, scores, verdicts). Ogni fase scrive il proprio file, la fase successiva legge solo quello che le serve
+- **`state/phases/{session-id}/*.json`** — File per-fase con dati strutturati leggeri (IDs, titoli, scores, verdicts), isolati per sessione
 - **`results/{session-id}/*.md`** — Testo completo delle ipotesi (meccanismi, evidenze, etc.) vive SOLO qui
 - **Orchestratore aggiornato** — Legge phase files specifici per ogni dispatch, non l'intero stato
 - **Stop gate aggiornato** — `orchestrator-stop-gate.py` legge da phase files con fallback legacy
-- **Export command aggiornato** — Legge `state/phases/final.json` con fallback a session.json
-- **Cross-model validator aggiornato** — Legge `state/phases/final.json`
-
-### Convenzione di naming
-`state/phases/{fase}.json` dove fase è: `scout`, `literature`, `computational`, `cycle{N}-raw`, `cycle{N}-critiqued`, `cycle{N}-ranked`, `cycle{N}-evolved`, `quality-gate`, `final`, `meta-insights`, `cross-model`
+- **Export command aggiornato** — Legge `state/phases/{session-id}/final.json` con fallback a session.json
+- **Cross-model validator aggiornato** — Legge `state/phases/{session-id}/final.json`
 
 ---
 
