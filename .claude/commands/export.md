@@ -9,7 +9,7 @@ allowed-tools: Read, Write, Glob
 $ARGUMENTS
 
 Read `session_id` and `results_dir` from `state/session.json`.
-Read final hypothesis cards from `state/phases/{session_id}/final.json`.
+Read final hypothesis cards from `{results_dir}/final.json`.
 If that file is missing, try `state/session.json` `final` array as fallback.
 If `results_dir` is missing, use `results/` as fallback.
 

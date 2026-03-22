@@ -28,11 +28,11 @@ export file generation (fallback when API keys are not set).
 ### Step 1: Read State
 
 Read `state/session.json` for `results_dir`, `session_id`, `selected_target`.
-Read `state/phases/{SESSION_ID}/final.json` for hypothesis cards (verdict, score, confidence, novelty).
-(SESSION_ID comes from state/session.json.)
+Read `{results_dir}/final.json` for hypothesis cards (verdict, score, confidence, novelty).
+(results_dir comes from state/session.json, e.g., `results/2026-03-22-scout-009`.)
 
 Only process hypotheses with `verdict` = `PASS` or `CONDITIONAL_PASS`.
-If `state/phases/{SESSION_ID}/final.json` is empty or missing, write a note and exit.
+If `{results_dir}/final.json` is empty or missing, write a note and exit.
 
 ### Step 2: Generate Export Prompts
 
@@ -170,7 +170,7 @@ If only one model ran, note this and provide single-model analysis.
 
 ### Step 6: Update State
 
-Write `state/phases/{SESSION_ID}/cross-model.json` with:
+Write `{results_dir}/cross-model.json` with:
 
 ```json
 {

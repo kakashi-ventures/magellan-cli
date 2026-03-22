@@ -19,14 +19,15 @@ try:
         if phase in ("complete", "failed") or status in ("success", "partial", "degraded", "failed"):
             warnings = []
 
-            # Validate kill rate matches formula (v5.6: read from phase files)
+            # Validate kill rate matches formula (v5.7: read from results dir)
             metadata = d.get("metadata", {})
             session_id = d.get("session_id", "")
+            results_dir = d.get("results_dir", f"results/{session_id}")
             total_raw = 0
             total_killed = 0
             for cycle_num in [1, 2, 3]:
-                raw_path = f"state/phases/{session_id}/cycle{cycle_num}-raw.json"
-                crit_path = f"state/phases/{session_id}/cycle{cycle_num}-critiqued.json"
+                raw_path = f"{results_dir}/cycle{cycle_num}-raw.json"
+                crit_path = f"{results_dir}/cycle{cycle_num}-critiqued.json"
                 if os.path.exists(raw_path):
                     raw_data = json.load(open(raw_path))
                     total_raw += len(raw_data) if isinstance(raw_data, list) else 0

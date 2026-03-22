@@ -160,39 +160,38 @@ docs/
   methodology-v5.md                          ← Full methodology with evidence
   CHANGELOG.md                               ← Pipeline evolution history
 scripts/                                     ← Hook scripts (stop gates, failure tracking)
-state/                                       ← JSON state (machine-readable)
+state/                                       ← Coordination state (machine-readable)
   session.json                               ← Slim coordination index (~3KB)
   dispatch-log.json                          ← Agent dispatch log with timestamps
-  phases/                                    ← Per-phase structured data
-    scout.json                               ← Scout targets + quality scores
-    literature.json                          ← Literature context + paper metadata
-    computational.json                       ← Computational readiness checks
-    cycle{N}-raw.json                        ← Raw hypotheses (IDs, titles, scores)
-    cycle{N}-critiqued.json                  ← Critique verdicts + critic_questions
-    cycle{N}-ranked.json                     ← Rankings + composite scores
-    cycle{N}-evolved.json                    ← Evolved hypotheses with lineage
-    quality-gate.json                        ← Quality gate verdicts
-    final.json                               ← PASS/CONDITIONAL_PASS only
-    meta-insights.json                       ← Session analyst output
-    cross-model.json                         ← Cross-model validation consensus
-results/                                     ← Markdown output (human-readable)
-  {session-id}/                              ← Session-scoped results directory
+results/                                     ← All session outputs (markdown + JSON)
+  {session-id}/                              ← Session-scoped directory
     papers/                                  ← Full-text papers retrieved by Literature Scout
     scout-targets.md                         ← Scout output
+    scout.json                               ← Scout targets + quality scores (structured)
     target-evaluation.md                     ← Target Evaluator output
+    literature.json                          ← Literature context + paper metadata
     computational-validation.md              ← Computational Validator output
+    computational.json                       ← Computational readiness checks
     raw-hypotheses-cycle{N}.md               ← Generation output
+    cycle{N}-raw.json                        ← Raw hypotheses (IDs, titles, scores)
     critiqued-cycle{N}.md                    ← Critique output
+    cycle{N}-critiqued.json                  ← Critique verdicts + critic_questions
     ranked-cycle{N}.md                       ← Ranking output
+    cycle{N}-ranked.json                     ← Rankings + composite scores
     evolved-cycle{N}.md                      ← Evolution output
+    cycle{N}-evolved.json                    ← Evolved hypotheses with lineage
     quality-gate.md                          ← Quality Gate rubric
+    quality-gate.json                        ← Quality gate verdicts
+    final-hypotheses.md                      ← Final hypothesis cards
+    final.json                               ← PASS/CONDITIONAL_PASS only
     session-analysis.md                      ← Session Analyst output
+    meta-insights.json                       ← Session analyst structured output
     export-gpt.md                            ← GPT validation prompt
     export-gemini.md                         ← Gemini validation prompt
     validation-gpt.md                        ← GPT-5.4 Pro response (if API key set)
     validation-gemini.md                     ← Gemini 3.1 Pro response (if API key set)
     cross-model-consensus.md                 ← Consensus report (if any API key set)
-    final-hypotheses.md                      ← Final hypothesis cards
+    cross-model.json                         ← Cross-model validation consensus
     session-summary.md                       ← Session overview
 knowledge/                                   ← Persistent data across sessions
   discovery-log.json                         ← Explored pairs, productive bridges, kill reasons

@@ -175,7 +175,7 @@ L'Orchestratore ha 3 decision points per adattare il pipeline alla qualità dell
 
 ### Feedback bidirezionale indiretto
 
-Il Critic può scrivere domande specifiche in `state/phases/{session-id}/cycle{N}-critiqued.json` sotto `critic_questions` quando un meccanismo è troppo vago per essere attaccato propriamente. L'Orchestratore inoltra queste domande al Generator nel dispatch del ciclo 2. Il feedback indiretto (via state JSON) preserva il pattern centralizzato.
+Il Critic può scrivere domande specifiche in `results/{session-id}/cycle{N}-critiqued.json` sotto `critic_questions` quando un meccanismo è troppo vago per essere attaccato propriamente. L'Orchestratore inoltra queste domande al Generator nel dispatch del ciclo 2. Il feedback indiretto (via state JSON) preserva il pattern centralizzato.
 
 ---
 
@@ -394,9 +394,9 @@ Questo sfrutta il concetto KG senza infrastruttura KG esterna: l'LLM FA il knowl
 
 Il sistema usa un doppio binario:
 
-- **`results/{session-id}/*.md`** — Output human-readable (hypothesis cards, session summary), session-scoped
+- **`results/{session-id}/`** — Tutti gli output per sessione: markdown (*.md) e dati strutturati (*.json) nella stessa directory
 - **`state/session.json`** — Indice di coordinamento slim (~3KB): fase, ciclo, status, target, contatori
-- **`state/phases/{session-id}/*.json`** — Dati per-fase isolati per sessione: scout targets, ipotesi (ID, titoli, scores, verdicts), quality gate, cross-model
+- **`state/dispatch-log.json`** — Log dei dispatch con timestamp
 
 ```json
 {
@@ -440,7 +440,7 @@ Il sistema usa un doppio binario:
 }
 ```
 
-Lo stato è diviso in un **indice slim** (`state/session.json`, ~3KB) e **file per-fase** (`state/phases/{session-id}/*.json`), isolati per sessione. Il testo completo delle ipotesi vive solo in `results/*.md`. Gli agenti ricevono i dati necessari via dispatch prompt dall'Orchestratore — non leggono state files direttamente. Questo previene il bloat dello stato e riduce il consumo di contesto.
+Lo stato è diviso in un **indice slim** (`state/session.json`, ~3KB) e **file per-sessione** (`results/{session-id}/*.json` + `results/{session-id}/*.md`). Markdown e JSON vivono nella stessa directory per sessione. Gli agenti ricevono i dati necessari via dispatch prompt dall'Orchestratore — non leggono state files direttamente. Questo previene il bloat dello stato e riduce il consumo di contesto.
 
 Campi chiave:
 - **`status`** / **`status_reason`**: Classificazione esplicita dell'esito della sessione con motivazione. Elimina il caso di output silenziosamente vuoti

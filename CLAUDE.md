@@ -59,19 +59,19 @@ Twelve agents. Orchestrator dispatches to all — never executes phases inline.
 
 **Model selection principle**: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate). Sonnet for structured, search-intensive tasks (Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator).
 
-## State Management (v5.6 — Slim Index + Phase Files)
+## State Management (v5.7 — Unified Results Directory)
 
-State is split into a **slim coordination index** and **per-phase data files**:
+State is split into a **slim coordination index** and **per-session results directories**:
 - `state/session.json` — Slim index (~3KB): phase, cycle, status, selected_target,
   health counters, progress. NEVER contains hypothesis content.
-- `state/phases/{session-id}/*.json` — Per-phase structured data, scoped by session:
-  scout targets, hypotheses (IDs, titles, scores, verdicts), quality gate results,
-  cross-model consensus.
-- `results/{session-id}/*.md` — Human-readable outputs with full hypothesis text.
 - `state/dispatch-log.json` — Tracks every agent dispatch with timestamps.
+- `results/{session-id}/` — All session outputs live here: human-readable markdown
+  (*.md) and structured phase data (*.json) side by side. Phase JSON files contain
+  lightweight metadata (IDs, titles, scores, verdicts). Full hypothesis text lives
+  in the markdown files.
 
-**Principle**: Full hypothesis text lives ONLY in `results/`. Phase files contain
-lightweight metadata. session.json contains ONLY coordination state.
+**Principle**: session.json contains ONLY coordination state. All session data
+(both markdown and JSON) lives in `results/{session-id}/`.
 Agents receive data via dispatch prompts, never read state files directly.
 
 ## Commands
@@ -165,8 +165,8 @@ confidence, groundedness assessment.
 - **Hook schema** — All hooks use correct Claude Code schema (`"approve"/"block"`,
   stdin for PostToolUse, `"verdict"` field for kill detection).
 - **MCP-first retrieval** — Semantic Scholar + PubMed MCP tools mandatory before WebSearch.
-- **Slim state + phase files** (v5.6) — session.json is a ~3KB coordination index.
-  Per-phase data in `state/phases/{session-id}/*.json`. Full text only in `results/*.md`.
+- **Unified results directory** (v5.7) — session.json is a ~3KB coordination index.
+  Per-phase JSON data and markdown outputs colocate in `results/{session-id}/`.
   Prevents state bloat and reduces context consumption by agents.
 
 ## Documentation Rules
