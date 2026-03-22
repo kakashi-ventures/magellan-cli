@@ -1,47 +1,46 @@
 {
-  "session_id": "2026-03-21-scout-007",
+  "session_id": "2026-03-21-scout-008",
   "mode": "scout",
-  "phase": "complete",
+  "phase": 5,
   "cycle": 2,
-  "status": "complete",
-  "status_reason": "All phases completed successfully. 5/15 hypotheses passed Quality Gate (1 PASS, 4 CONDITIONAL_PASS). Cross-model validation completed: o3 (high reasoning) + Gemini 3.1 Pro (thinking HIGH).",
-  "results_dir": "results/2026-03-21-scout-007",
+  "status": "success",
+  "status_reason": "Session complete. 12 hypotheses generated (7 C1 + 5 C2). 1 PASS (H1.4 Fe-S Displacement 8.1/10) + 4 CONDITIONAL_PASS quality gate. Cross-model validation: GPT-5.4 Pro (1497s) + Gemini 3.1 Pro (39s) both ran on all 5 surviving hypotheses. H1.4 confirmed HIGH PRIORITY by both models. H1.2 PROMISING pending FDX1-KO/LplA bypass experiment. network_gap_analysis strategy successful.",
+  "results_dir": "results/2026-03-21-scout-008",
   "selected_target": {
-    "id": 3,
-    "field_a": "Fe-S cluster biogenesis",
-    "field_c": "Circadian clock regulation",
+    "field_a": "Cuproptosis (copper-induced cell death)",
+    "field_c": "Hydrothermal vent copper-sulfide geochemistry",
     "strategy": "network_gap_analysis",
-    "score": 9
+    "disjointness": "DISJOINT"
   },
   "disjointness_status": "DISJOINT",
   "metadata": {
-    "start_time": "2026-03-21T09:44:05Z",
+    "start_time": "2026-03-21T22:35:33Z",
+    "end_time": "2026-03-22T14:30:00Z",
     "model": "opus-4.6",
-    "total_hypotheses_generated": 15,
-    "kill_rate": 33,
+    "total_hypotheses_generated": 12,
+    "kill_rate": 0.17,
     "fallback_used": false,
     "literature_unavailable": false,
     "generation_degraded": false,
-    "web_search_failures": 32,
+    "web_search_failures": 9,
     "retries_needed": 0,
     "cycle_decision": "standard",
-    "evolver_skipped": true,
+    "evolver_skipped": false,
     "literature_reinforcement": false
   },
   "progress": {
     "phases_completed": [
       "scout",
       "target_evaluation",
-      "literature_search",
+      "literature_retrieval",
       "computational_validation",
       "generation_c1",
       "critique_c1",
       "ranking_c1",
-      "evolution_c1_skipped",
+      "evolution_c1",
       "generation_c2",
       "critique_c2",
       "ranking_c2",
-      "evolution_c2_skipped",
       "quality_gate",
       "cross_model_validation",
       "session_analysis"
@@ -50,28 +49,66 @@
   },
   "health": {
     "scout_targets_found": 3,
-    "hypotheses_generated": 15,
-    "survived_critique": 10,
+    "hypotheses_generated": 12,
+    "survived_critique": 6,
     "passed_quality_gate": 5,
     "fallback_used": false,
     "retries_needed": 0,
-    "web_search_failures": 0
+    "web_search_failures": 9
   },
   "cross_model_validation": {
     "status": "completed",
-    "timestamp": "2026-03-21T20:15:00Z",
-    "gpt_model": "o3",
+    "gpt_model": "gpt-5.4-pro",
     "gemini_model": "gemini-3.1-pro-preview",
-    "models_used": ["openai", "gemini"],
-    "note": "gpt-5.4-pro unavailable on key tier; o3 with reasoning_effort=high substituted",
+    "gpt_duration_s": 1497,
+    "gemini_duration_s": 39,
+    "hypotheses_validated": 5,
+    "top_recommendation": "H1.4 HIGH PRIORITY (GPT:6/10, Gemini:9/10) — purified protein anaerobic Cu(I) challenge panel",
+    "decisive_experiment": "H1.2 FDX1-KO + mito-LplA lipoylation bypass + elesclomol",
     "export_files": {
-      "gpt": "results/2026-03-21-scout-007/export-gpt.md",
-      "gemini": "results/2026-03-21-scout-007/export-gemini.md"
+      "gpt": "results/2026-03-21-scout-008/export-gpt.md",
+      "gemini": "results/2026-03-21-scout-008/export-gemini.md"
     },
-    "output_files": {
-      "gpt_validation": "results/2026-03-21-scout-007/validation-gpt.md",
-      "gemini_validation": "results/2026-03-21-scout-007/validation-gemini.md",
-      "consensus": "results/2026-03-21-scout-007/cross-model-consensus.md"
+    "validation_files": {
+      "gpt": "results/2026-03-21-scout-008/validation-gpt.md",
+      "gemini": "results/2026-03-21-scout-008/validation-gemini.md",
+      "consensus": "results/2026-03-21-scout-008/cross-model-consensus.md"
+    }
+  },
+  "hypotheses": {
+    "cycle2": {
+      "raw": [
+        {
+          "id": "H2.1",
+          "title": "Pourbaix-Quantified Fe-S Cluster Displacement \u2014 The Eh Window of Cuproptotic Lethality",
+          "confidence": 8,
+          "groundedness": 8
+        },
+        {
+          "id": "H2.2",
+          "title": "FDX1 as Calibrated Kinetic Gate With Elesclomol Speciation \u2014 Predict-Then-Measure Pourbaix Validation",
+          "confidence": 7,
+          "groundedness": 8
+        },
+        {
+          "id": "H2.3",
+          "title": "Metallothionein-CuS Thermodynamic Isomorphism \u2014 A Unified Sulfur-Coordination Framework for Cuproptosis Resistance",
+          "confidence": 6,
+          "groundedness": 7
+        },
+        {
+          "id": "H2.4",
+          "title": "Cuproptosis Fe-S Displacement as Evolutionary Selection Pressure \u2014 Genomic Signatures in Cu-Tolerant Organisms",
+          "confidence": 5,
+          "groundedness": 6
+        },
+        {
+          "id": "H2.5",
+          "title": "Methanobactin-Lipoyl Structural Convergence \u2014 Cyclic Dithiolate Cu+ Chelation as Universal Copper Management Motif",
+          "confidence": 5,
+          "groundedness": 6
+        }
+      ]
     }
   }
 }

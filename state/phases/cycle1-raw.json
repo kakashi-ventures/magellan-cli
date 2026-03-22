@@ -1,112 +1,84 @@
 {
   "cycle": 1,
+  "session_id": "2026-03-21-scout-008",
+  "hypotheses_generated": 7,
   "hypotheses": [
     {
-      "id": "H1",
-      "title": "NFS1 Cys328 Redox Switch as Circadian Fe-S Assembly Gatekeeper",
-      "technique": "facet_recombination",
-      "confidence": 7,
-      "novelty": "Novel",
-      "groundedness": 8,
-      "impact": "High",
-      "bridge": "NFS1 Cys328 redox sensitivity + NAD+/NADH 30% circadian amplitude → 3-fold NFS1 activity oscillation",
-      "key_claim": "NFS1 desulfurase activity oscillates ~3-fold over 24h via Cys328 redox modification, gating Fe-S assembly",
-      "key_risk": "Mitochondrial matrix Trx2/Grx2 may buffer Cys328 against cytoplasmic redox oscillation"
-    },
-    {
-      "id": "H2",
-      "title": "CISD2/NAF-1 as Circadian ER-Mito Calcium Timer via [2Fe-2S] Lability",
-      "technique": "null_hypothesis_inversion",
-      "confidence": 6,
-      "novelty": "Novel",
-      "groundedness": 6,
-      "impact": "High",
-      "bridge": "CISD2 3Cys:1His pH/redox-labile [2Fe-2S] cluster at MAMs + triple circadian input convergence",
-      "key_claim": "CISD2 cluster occupancy oscillates circadianly, modulating ER-mito Ca2+ transfer and creating an NADH feedback loop",
-      "key_risk": "CISD2 cluster more stable in vivo than estimated; aging phenotype may mask circadian effects"
-    },
-    {
-      "id": "H3",
-      "title": "Peroxiredoxin Cycle as Non-Transcriptional Fe-S Clock via H2O2-Mediated Cluster Destruction",
+      "id": "H1.1",
+      "title": "Dithiolane-Chalcopyrite Ligand Homology: Lipoic Acid as Molecular Fossil of Vent Cu-S Coordination",
       "technique": "scale_bridging",
       "confidence": 5,
       "novelty": "Novel",
-      "groundedness": 5,
-      "impact": "Transformative",
-      "bridge": "Prx 24h H2O2 waves + Fe-S cluster oxidative destruction + transcription-independent oscillation",
-      "key_claim": "Fe-S enzyme activity oscillates 24h even in BMAL1 KO or enucleated cells, mediated by Prx-generated H2O2",
-      "key_risk": "H2O2 concentration during Prx hyperoxidation may be below Fe-S destruction threshold in vivo"
+      "groundedness": 6,
+      "impact": "Medium",
+      "bridge": "Structural homology between biological dithiolane and vent thiol-Cu coordination chemistry",
+      "key_claim": "Lipoic acid dithiolane ring is electronically homologous to vent thiol-Cu complexes; KD ~10^-17 reflects evolutionary optimization"
     },
     {
-      "id": "H4",
-      "title": "IRP1 [4Fe-4S] Cluster Occupancy as Mechanistic Driver of Diurnal IRE-mRNA Control",
-      "technique": "evolutionary_refinement",
-      "confidence": 7,
-      "novelty": "Partially_explored",
-      "groundedness": 8,
-      "impact": "High",
-      "bridge": "IRP1 aconitase/IRE-BP switch + 3h cluster half-life + Nadimpalli 2024 gap (unmeasured occupancy)",
-      "key_claim": "IRP1 Fe-S cluster occupancy (not protein level) oscillates ~2-fold over 24h, driving diurnal ferritin/TfR1 regulation",
-      "key_risk": "IRP2 10-fold transcriptional oscillation may be the dominant driver over IRP1 cluster occupancy"
-    },
-    {
-      "id": "H5",
-      "title": "Chronopharmacology of NFS1 Inhibitors: Compound 53 and D-Cysteine as Time-of-Day-Dependent Modulators",
+      "id": "H1.2",
+      "title": "FDX1 Redox Potential Tuned to Alkaline Vent Cu2+/Cu+ Boundary",
       "technique": "tool_transfer",
       "confidence": 6,
       "novelty": "Novel",
       "groundedness": 7,
       "impact": "High",
-      "bridge": "Compound 53 (IC50=16.3µM) + D-cysteine (Kdapp=25.6µM) + predicted NFS1 circadian oscillation",
-      "key_claim": "Compound 53 cytotoxicity varies ≥2-fold between circadian peak and trough of NFS1 activity",
-      "key_risk": "Depends on H1 (NFS1 oscillation); Compound 53 off-target effects may swamp circadian signal"
+      "bridge": "Quantitative Eh-pH correspondence between vent geochemistry and mitochondrial copper redox",
+      "key_claim": "Ligand-extended Pourbaix diagram shows Cu2+/Cu+ boundary at -260 to -300 mV, coinciding with FDX1 midpoint"
     },
     {
-      "id": "H6",
-      "title": "GLRX5 as Circadian Fe-S Distribution Bottleneck via GSH/GSSG Oscillation",
-      "technique": "adversarial_prompting",
-      "confidence": 6,
-      "novelty": "Novel",
-      "groundedness": 7,
-      "impact": "High",
-      "bridge": "GLRX5 GSH-dependent [2Fe-2S] transfer + squared GSH effect + 4h phase delay prediction",
-      "key_claim": "GLRX5 creates a distribution bottleneck with ~4h phase delay: cytoplasmic Fe-S proteins lag behind mitochondrial",
-      "key_risk": "Alternative transfer pathways (HSC20, NFU1) may compensate; 55% tracking may be below detection"
-    },
-    {
-      "id": "H7",
-      "title": "BMAL1-AMPK-PGC-1a-NFS1 Transcriptional Cascade as Mammalian Analog of Drosophila NFS1-Clock Phenotype",
-      "technique": "evolutionary_conservation",
+      "id": "H1.3",
+      "title": "H2S Potentiates Cuproptosis Through CuS Nanoparticle Formation and pH-Dependent Re-release",
+      "technique": "facet_recombination",
       "confidence": 5,
-      "novelty": "Partially_explored",
-      "groundedness": 7,
-      "impact": "Medium",
-      "bridge": "AMPK (sole KEGG circadian-metabolism bridge node) → PGC-1α → NFS1 transcription",
-      "key_claim": "NFS1 is a specific rate-limiting PGC-1α target, creating a transcriptional arm complementary to Cys328 redox gating",
-      "key_risk": "Vocabulary re-description risk: may reduce to generic clock → AMPK → mitochondrial gene coupling"
+      "novelty": "Novel",
+      "groundedness": 6,
+      "impact": "High",
+      "bridge": "CuS precipitation/dissolution cycle shared between vent chimneys and mitochondria",
+      "key_claim": "CuS nanoparticles form in mitochondria with H2S; oxidative dissolution releases Cu2+ in feed-forward loop"
     },
     {
-      "id": "H8",
-      "title": "Frataxin Iron Donation as Circadian Fe-S Rheostat Gated by Hepcidin-Driven Labile Iron Oscillation",
-      "technique": "contradiction_mining",
+      "id": "H1.4",
+      "title": "Fe-S Cluster Cannibalization During Cuproptosis Recapitulates Geochemical Cu-Fe Replacement Series",
+      "technique": "scale_bridging",
       "confidence": 6,
       "novelty": "Novel",
       "groundedness": 7,
       "impact": "High",
-      "bridge": "Frataxin-ISCU2 iron donation + FDX2:FXN stoichiometry (Lill 2025 Nature) + hepcidin circadian LIP oscillation",
-      "key_claim": "FA heterozygous carriers (50% frataxin, 1:100) show reduced circadian amplitude of Fe-S enzyme activities",
-      "key_risk": "Ferritin buffering may dampen LIP oscillation; FA carrier phenotype may be too subtle to detect"
+      "bridge": "Cu-Fe sulfide replacement chemistry shared between vent mineralogy and Fe-S cluster biochemistry",
+      "key_claim": "Fe-S cluster loss is direct Cu+-for-Fe2+ displacement with 29 orders of magnitude Ksp driving force"
+    },
+    {
+      "id": "H1.5",
+      "title": "Mitochondrial CuL Is a Dithiolane-Containing Metabolite Predicted by Vent Thiol Speciation",
+      "technique": "adversarial_prompting",
+      "confidence": 4,
+      "novelty": "Novel",
+      "groundedness": 5,
+      "impact": "Medium",
+      "bridge": "Vent thiol speciation as predictive framework for CuL identity",
+      "key_claim": "CuL is a low-MW dithiolane/vicinal dithiol with Cu+ log K = 14-16"
+    },
+    {
+      "id": "H1.6",
+      "title": "CuS-H2O2 Fenton-Analog Cycle Generates Hydroxyl Radical Bursts During Cuproptosis",
+      "technique": "facet_recombination",
+      "confidence": 4,
+      "novelty": "Partially_explored",
+      "groundedness": 5,
+      "impact": "Medium",
+      "bridge": "CuS-catalyzed Fenton-analog radical generation",
+      "key_claim": "CuS + H2O2 -> catalytic HO radical cycle localized to mitochondrial CuS deposits"
+    },
+    {
+      "id": "H1.7",
+      "title": "Evolutionary Reconstruction: Alkaline Vent Cu Gradients Selected for FDX1-LIAS-Lipoylation Axis",
+      "technique": "null_hypothesis_inversion",
+      "confidence": 3,
+      "novelty": "Novel",
+      "groundedness": 4,
+      "impact": "Medium",
+      "bridge": "Evolutionary continuity: vent copper homeostasis as selection pressure",
+      "key_claim": "FDX1-LIAS axis evolved in alkaline vents for copper handling; cuproptosis is this system collapsing when overwhelmed"
     }
-  ],
-  "total_generated": 8,
-  "techniques_used": [
-    "facet_recombination",
-    "null_hypothesis_inversion",
-    "scale_bridging",
-    "evolutionary_refinement",
-    "tool_transfer",
-    "adversarial_prompting",
-    "evolutionary_conservation",
-    "contradiction_mining"
   ]
 }

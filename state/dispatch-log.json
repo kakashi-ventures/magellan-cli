@@ -909,6 +909,272 @@
       "timestamp": "2026-03-21T12:50:57Z",
       "prompt_preview": "Find the Literature Scout agent definition and any related prompting that tells it WHERE to write paper files. I need to find:\n\n1. The agent definitio",
       "result_preview": ""
+    },
+    {
+      "agent": "cross-model-validator",
+      "description": "Cross-model validation GPT+Gemini",
+      "timestamp": "2026-03-21T15:04:42Z",
+      "prompt_preview": "Run cross-model validation for MAGELLAN Session 007 hypotheses.\n\nThe API keys are in /home/ameft/kva/magellan/.env.local \u2014 source them with:\n```bash\ne",
+      "result_preview": ""
+    },
+    {
+      "agent": "general-purpose",
+      "description": "Regenerate consensus report with GPT-5.4 Pro",
+      "timestamp": "2026-03-21T15:54:55Z",
+      "prompt_preview": "Read the two cross-model validation files and generate a new consensus report for MAGELLAN Session 007.\n\nRead these files:\n1. /home/ameft/kva/magellan",
+      "result_preview": ""
+    },
+    {
+      "agent": "Explore",
+      "description": "Explore previous sessions and meta-insights",
+      "timestamp": "2026-03-21T22:39:07Z",
+      "prompt_preview": "Explore the MAGELLAN scientific discovery pipeline codebase. I need to understand:\n\n1. Read `knowledge/meta-insights.md` to understand what strategies",
+      "result_preview": ""
+    },
+    {
+      "agent": "Explore",
+      "description": "Read meta-insights and past sessions",
+      "timestamp": "2026-03-21T22:59:42Z",
+      "prompt_preview": "Read the following files and return their full contents:\n\n1. /home/ameft/kva/magellan/knowledge/meta-insights.md \u2014 Meta-learning insights from past se",
+      "result_preview": ""
+    },
+    {
+      "agent": "unknown",
+      "description": "Target Evaluator for Scout Target 1",
+      "timestamp": "2026-03-21T22:59:47Z",
+      "prompt_preview": "You are the MAGELLAN Target Evaluator agent for Session 008. Your job is to adversarially challenge the Scout's recommended target before the pipeline",
+      "result_preview": ""
+    },
+    {
+      "agent": "target-evaluator",
+      "description": "Adversarial target evaluation for session 008",
+      "timestamp": "2026-03-21T23:02:16Z",
+      "prompt_preview": "You are the Adversarial Target Evaluator for MAGELLAN Session 008 (2026-03-21-scout-008).\n\nThe Scout phase is complete. You must evaluate the 3 scout ",
+      "result_preview": ""
+    },
+    {
+      "agent": "literature-scout",
+      "description": "Research Target 2 popularity + feasibility",
+      "timestamp": "2026-03-21T23:06:10Z",
+      "prompt_preview": "You are doing adversarial research on a scientific target pairing for the MAGELLAN discovery pipeline. Research this target:\n\n**Coral Calcification Bi",
+      "result_preview": ""
+    },
+    {
+      "agent": "unknown",
+      "description": "Literature Scout: cuproptosis \u00d7 vent Cu geochemistry",
+      "timestamp": "2026-03-21T23:08:01Z",
+      "prompt_preview": "You are the MAGELLAN Literature Scout agent for Session 008. Your job is to retrieve scientific literature for the selected target using MCP tools fir",
+      "result_preview": ""
+    },
+    {
+      "agent": "literature-scout",
+      "description": "Research Target 1 popularity + feasibility",
+      "timestamp": "2026-03-21T23:08:37Z",
+      "prompt_preview": "You are doing adversarial research on a scientific target pairing for the MAGELLAN discovery pipeline. Research this target:\n\n**Cuproptosis (copper-in",
+      "result_preview": ""
+    },
+    {
+      "agent": "literature-scout",
+      "description": "Research Target 3 popularity + feasibility",
+      "timestamp": "2026-03-21T23:11:28Z",
+      "prompt_preview": "You are doing adversarial research on a scientific target pairing for the MAGELLAN discovery pipeline. Research this target:\n\n**Biofilm Matrix Polysac",
+      "result_preview": ""
+    },
+    {
+      "agent": "unknown",
+      "description": "Generator: cuproptosis \u00d7 vent Cu hypotheses",
+      "timestamp": "2026-03-21T23:13:56Z",
+      "prompt_preview": "You are the MAGELLAN Generator agent for Session 008, Cycle 1. Generate 7 cross-disciplinary hypotheses connecting cuproptosis with hydrothermal vent ",
+      "result_preview": ""
+    },
+    {
+      "agent": "Explore",
+      "description": "Explore session 008 results dir",
+      "timestamp": "2026-03-21T23:16:27Z",
+      "prompt_preview": "Explore the directory structure and contents of the MAGELLAN project, specifically:\n\n1. Look at `results/2026-03-21-scout-008/` \u2014 what files exist the",
+      "result_preview": ""
+    },
+    {
+      "agent": "literature-scout",
+      "description": "Literature retrieval for cuproptosis \u00d7 Cu-sulfide geochemistry",
+      "timestamp": "2026-03-21T23:19:16Z",
+      "prompt_preview": "You are the Literature Scout for MAGELLAN Session 008.\n\n## Session Context\n- Session ID: 2026-03-21-scout-008\n- Results dir: results/2026-03-21-scout-",
+      "result_preview": ""
+    },
+    {
+      "agent": "unknown",
+      "description": "Critic: adversarial attack on 7 hypotheses",
+      "timestamp": "2026-03-21T23:22:35Z",
+      "prompt_preview": "You are the MAGELLAN Critic agent for Session 008, Cycle 1. Adversarially attack 7 hypotheses connecting cuproptosis with hydrothermal vent copper-sul",
+      "result_preview": ""
+    },
+    {
+      "agent": "critic",
+      "description": "Critic agent for Session 008 hypotheses",
+      "timestamp": "2026-03-21T23:24:25Z",
+      "prompt_preview": "You are the MAGELLAN Critic agent for Session 008, Cycle 1. Your job is to aggressively attack 7 hypotheses on Cuproptosis \u00d7 Hydrothermal Vent Copper-",
+      "result_preview": ""
+    },
+    {
+      "agent": "unknown",
+      "description": "Ranker: score 6 surviving hypotheses",
+      "timestamp": "2026-03-21T23:25:17Z",
+      "prompt_preview": "You are the MAGELLAN Ranker agent for Session 008, Cycle 1. Score 6 surviving hypotheses on 6 dimensions, run diversity check, and produce final ranki",
+      "result_preview": ""
+    },
+    {
+      "agent": "critic",
+      "description": "Adversarial critique of 7 cuproptosis hypotheses",
+      "timestamp": "2026-03-21T23:27:43Z",
+      "prompt_preview": "You are the Critic for MAGELLAN Session 008, Cycle 1.\n\n## Session Context\n- Session ID: 2026-03-21-scout-008\n- Results dir: results/2026-03-21-scout-0",
+      "result_preview": ""
+    },
+    {
+      "agent": "unknown",
+      "description": "Quality Gate: 10-point rubric for top 3",
+      "timestamp": "2026-03-21T23:32:10Z",
+      "prompt_preview": "You are the MAGELLAN Quality Gate agent for Session 008, Cycle 1. Evaluate the top 3 hypotheses on a 10-point rubric with per-claim grounding verifica",
+      "result_preview": ""
+    },
+    {
+      "agent": "quality-gate",
+      "description": "Quality gate validation for top hypotheses",
+      "timestamp": "2026-03-21T23:34:17Z",
+      "prompt_preview": "You are the Quality Gate for MAGELLAN Session 008, Cycle 1.\n\n## Session Context\n- Session ID: 2026-03-21-scout-008\n- Results dir: results/2026-03-21-s",
+      "result_preview": ""
+    },
+    {
+      "agent": "unknown",
+      "description": "Evolver: refine top hypotheses for cycle 2",
+      "timestamp": "2026-03-21T23:35:48Z",
+      "prompt_preview": "You are the MAGELLAN Evolver agent for Session 008. Apply genetic operations to the top 6 surviving hypotheses to produce refined versions for Cycle 2",
+      "result_preview": ""
+    },
+    {
+      "agent": "ranker",
+      "description": "Ranker agent for Session 008 hypotheses",
+      "timestamp": "2026-03-21T23:36:50Z",
+      "prompt_preview": "You are the MAGELLAN Ranker agent for Session 008, Cycle 1. Score 6 surviving hypotheses on 6 dimensions.\n\n## SESSION CONTEXT\n- Session: 2026-03-21-sc",
+      "result_preview": ""
+    },
+    {
+      "agent": "unknown",
+      "description": "Cycle 2 Generator for Session 008",
+      "timestamp": "2026-03-21T23:42:40Z",
+      "prompt_preview": "You are the MAGELLAN Generator agent for Session 008, Cycle 2.\n\n## TARGET\n- **Field A**: Cuproptosis (copper-induced cell death via FDX1-mediated Cu\u00b2\u207a",
+      "result_preview": ""
+    },
+    {
+      "agent": "unknown",
+      "description": "Critic C2: attack evolved hypotheses",
+      "timestamp": "2026-03-21T23:42:49Z",
+      "prompt_preview": "You are the MAGELLAN Critic agent for Session 008, Cycle 2. Attack the 6 evolved hypotheses. Be genuinely adversarial but fair. These are REFINED from",
+      "result_preview": ""
+    },
+    {
+      "agent": "quality-gate",
+      "description": "Quality Gate for Session 008 final hypotheses",
+      "timestamp": "2026-03-21T23:43:26Z",
+      "prompt_preview": "You are the MAGELLAN Quality Gate agent for Session 008. Apply the 10-point rubric + web novelty check + per-claim grounding verification to 4 evolved",
+      "result_preview": ""
+    },
+    {
+      "agent": "generator",
+      "description": "Cycle 2 hypothesis generation with evolved inputs",
+      "timestamp": "2026-03-21T23:44:12Z",
+      "prompt_preview": "You are the Generator for MAGELLAN Session 008, Cycle 2.\n\n## Session Context\n- Session ID: 2026-03-21-scout-008\n- Results dir: results/2026-03-21-scou",
+      "result_preview": ""
+    },
+    {
+      "agent": "unknown",
+      "description": "Cross-model validation: GPT call + consensus",
+      "timestamp": "2026-03-21T23:45:35Z",
+      "prompt_preview": "You are the MAGELLAN Cross-Model Validator agent for Session 008.\n\n## STATUS\n- Gemini response already exists at: results/2026-03-21-scout-008/cross-m",
+      "result_preview": ""
+    },
+    {
+      "agent": "Explore",
+      "description": "Explore session 008 state and results",
+      "timestamp": "2026-03-21T23:51:51Z",
+      "prompt_preview": "Explore the MAGELLAN session 008 state and results. I need to understand:\n\n1. Current session state: Read state/session.json and state/phases/cycle2-r",
+      "result_preview": ""
+    },
+    {
+      "agent": "unknown",
+      "description": "Complete cross-model validation + session wrap",
+      "timestamp": "2026-03-21T23:54:30Z",
+      "prompt_preview": "You are completing the MAGELLAN Session 008 pipeline. The parent context is stuck in plan mode but you have bypass permissions.\n\n## CURRENT STATE\n- Se",
+      "result_preview": ""
+    },
+    {
+      "agent": "Explore",
+      "description": "Verify H2.1 and H2.2 claims",
+      "timestamp": "2026-03-21T23:57:14Z",
+      "prompt_preview": "I'm critiquing scientific hypotheses about cuproptosis and copper geochemistry. I need you to search for counter-evidence and verify claims for hypoth",
+      "result_preview": ""
+    },
+    {
+      "agent": "Explore",
+      "description": "Verify H2.3 MT-CuS claims",
+      "timestamp": "2026-03-21T23:58:03Z",
+      "prompt_preview": "I'm critiquing scientific hypotheses. Search for counter-evidence and verify claims for hypothesis H2.3 about metallothionein-CuS thermodynamic isomor",
+      "result_preview": ""
+    },
+    {
+      "agent": "Explore",
+      "description": "Verify H2.4 and H2.5 claims",
+      "timestamp": "2026-03-21T23:58:23Z",
+      "prompt_preview": "I'm critiquing scientific hypotheses. Search for counter-evidence and verify claims for hypotheses H2.4 (evolutionary Cu selection) and H2.5 (methanob",
+      "result_preview": ""
+    },
+    {
+      "agent": "general-purpose",
+      "description": "Counter-evidence: H2.1 + H2.2 Pourbaix/FDX1",
+      "timestamp": "2026-03-22T00:04:11Z",
+      "prompt_preview": "You are searching for scientific counter-evidence against two hypotheses about cuproptosis (copper-induced cell death):\n\n**H2.1**: Claims Cu+ displace",
+      "result_preview": ""
+    },
+    {
+      "agent": "general-purpose",
+      "description": "Counter-evidence: H2.3 metallothionein-CuS",
+      "timestamp": "2026-03-22T00:04:20Z",
+      "prompt_preview": "You are searching for scientific counter-evidence against a hypothesis about cuproptosis (copper-induced cell death):\n\n**H2.3**: Claims metallothionei",
+      "result_preview": ""
+    },
+    {
+      "agent": "general-purpose",
+      "description": "Counter-evidence: H2.4 + H2.5 evolution/methanobactin",
+      "timestamp": "2026-03-22T00:04:31Z",
+      "prompt_preview": "You are searching for scientific counter-evidence against two hypotheses about cuproptosis (copper-induced cell death):\n\n**H2.4**: Claims FDX1-LIAS co",
+      "result_preview": ""
+    },
+    {
+      "agent": "cross-model-validator",
+      "description": "Cross-model validation for Session 008",
+      "timestamp": "2026-03-22T00:04:35Z",
+      "prompt_preview": "You are the MAGELLAN Cross-Model Validator for Session 008. Validate the 2 surviving hypotheses by calling GPT-5.4 Pro and Gemini 3.1 Pro APIs.\n\n## SE",
+      "result_preview": ""
+    },
+    {
+      "agent": "cross-model-validator",
+      "description": "Cross-model validation: GPT + Gemini",
+      "timestamp": "2026-03-22T00:18:40Z",
+      "prompt_preview": "You are the MAGELLAN Cross-Model Validator for Session 008. Validate the top hypotheses by calling GPT-5.4 Pro and Gemini 3.1 Pro APIs.\n\n## SETUP\n1. S",
+      "result_preview": ""
+    },
+    {
+      "agent": "discovery-orchestrator",
+      "description": "Full autonomous discovery session",
+      "timestamp": "2026-03-22T00:19:18Z",
+      "prompt_preview": "Run a full SCOUT MODE discovery session.\n\nSession ID: 2026-03-21-scout-008\nState file: state/session.json (already initialized)\nResults directory: res",
+      "result_preview": ""
+    },
+    {
+      "agent": "Explore",
+      "description": "Search for domain suggestions in project",
+      "timestamp": "2026-03-22T00:43:07Z",
+      "prompt_preview": "Search the MAGELLAN project for any references to domain suggestions, initial domain ideas, or lists of scientific domains that were proposed for expl",
+      "result_preview": ""
     }
   ],
   "stage": "running"

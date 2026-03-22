@@ -1,97 +1,90 @@
 {
   "phase": "ranking",
   "cycle": 1,
-  "session_id": "2026-03-21-scout-007",
-  "timestamp": "2026-03-21T12:00:00Z",
-  "model": "opus-4.6",
+  "session_id": "2026-03-21-scout-008",
   "rankings": [
     {
-      "id": "H4",
-      "title": "IRP1 [4Fe-4S] Cluster Occupancy as Mechanistic Driver of Diurnal IRE-mRNA Control",
+      "id": "H1.4",
+      "title": "Fe-S Cluster Cannibalization During Cuproptosis Recapitulates Geochemical Cu-Fe Replacement Series",
       "rank": 1,
-      "composite": 7.40,
+      "composite": 7.90,
       "novelty": 6,
-      "specificity": 8,
+      "specificity": 9,
       "testability": 9,
-      "groundedness": 8,
-      "impact": 6,
-      "resilience": 6,
-      "key_strength": "Highest groundedness and testability; native gel assay immediately actionable",
-      "key_weakness": "Nadimpalli 2024 feeding attribution; IRP2 dominance (10-fold vs 2-fold)"
+      "groundedness": 7,
+      "cross_disciplinary_depth": 8,
+      "clinical_relevance": 8,
+      "critic_verdict": "PASS"
     },
     {
-      "id": "H8",
-      "title": "Frataxin Iron Donation as Circadian Fe-S Rheostat via Hepcidin LIP",
+      "id": "H1.2",
+      "title": "FDX1 Redox Potential Tuned to Alkaline Vent Cu2+/Cu+ Boundary",
       "rank": 2,
-      "composite": 6.80,
+      "composite": 7.15,
       "novelty": 7,
-      "specificity": 7,
+      "specificity": 8,
       "testability": 7,
       "groundedness": 7,
-      "impact": 7,
-      "resilience": 5,
-      "key_strength": "Balanced scores; all literature verified; Lill 2025 stoichiometry genuinely new",
-      "key_weakness": "Ferritin buffering dampens LIP oscillation; mitoferrin rate-limiting; FA carrier effect size"
+      "cross_disciplinary_depth": 8,
+      "clinical_relevance": 6,
+      "critic_verdict": "CONDITIONAL_PASS"
     },
     {
-      "id": "H2",
-      "title": "CISD2/NAF-1 as Circadian ER-Mito Calcium Timer via [2Fe-2S] Lability",
+      "id": "H1.3",
+      "title": "H2S Potentiates Cuproptosis Through CuS Formation and pH-Dependent Re-release",
       "rank": 3,
-      "composite": 6.70,
-      "novelty": 9,
-      "specificity": 6,
-      "testability": 7,
-      "groundedness": 6,
-      "impact": 7,
-      "resilience": 5,
-      "key_strength": "Zero-publication novelty confirmed; triple convergence (redox, pH, Ca2+); unique MAM position",
-      "key_weakness": "Cluster half-life estimated not measured; NADH feedback loop 3-4 untested steps; CISD2 KO aging confound"
-    },
-    {
-      "id": "H3",
-      "title": "Peroxiredoxin Cycle as Non-Transcriptional Fe-S Clock via H2O2",
-      "rank": 4,
-      "composite": 5.75,
-      "novelty": 8,
+      "composite": 5.80,
+      "novelty": 6,
       "specificity": 5,
       "testability": 6,
+      "groundedness": 6,
+      "cross_disciplinary_depth": 6,
+      "clinical_relevance": 6,
+      "critic_verdict": "CONDITIONAL_PASS"
+    },
+    {
+      "id": "H1.1",
+      "title": "Dithiolane-Chalcopyrite Ligand Homology",
+      "rank": 4,
+      "composite": 5.45,
+      "novelty": 6,
+      "specificity": 6,
+      "testability": 5,
+      "groundedness": 6,
+      "cross_disciplinary_depth": 7,
+      "clinical_relevance": 3,
+      "critic_verdict": "CONDITIONAL_PASS"
+    },
+    {
+      "id": "H1.6",
+      "title": "CuS-H2O2 Fenton-Analog Radical Cycle",
+      "rank": 5,
+      "composite": 5.05,
+      "novelty": 4,
+      "specificity": 6,
+      "testability": 5,
       "groundedness": 5,
-      "impact": 7,
-      "resilience": 3,
-      "key_strength": "Evolutionary logic compelling; BMAL1 KO test genuinely novel; transformative if resolved",
-      "key_weakness": "Matrix H2O2 ~0.15uM below Fe-S destruction threshold >1uM; Prx3 resistant to hyperoxidation"
+      "cross_disciplinary_depth": 5,
+      "clinical_relevance": 5,
+      "critic_verdict": "CONDITIONAL_PASS"
+    },
+    {
+      "id": "H1.7",
+      "title": "Evolutionary Reconstruction of FDX1-LIAS Axis",
+      "rank": 6,
+      "composite": 4.25,
+      "novelty": 5,
+      "specificity": 4,
+      "testability": 4,
+      "groundedness": 4,
+      "cross_disciplinary_depth": 8,
+      "clinical_relevance": 2,
+      "critic_verdict": "CONDITIONAL_PASS"
     }
   ],
+  "top3_average": 6.95,
+  "early_complete_eligible": false,
   "diversity_check": "PASSED",
-  "diversity_detail": {
-    "H4": "post-transcriptional RNA regulation (IRP1 apo/holo → IRE binding)",
-    "H8": "systemic iron homeostasis (hepcidin → LIP → frataxin)",
-    "H2": "ER-mitochondria calcium signaling (CISD2 [2Fe-2S] → MAM Ca2+)",
-    "H3": "ROS/redox cycling (Prx hyperoxidation → H2O2 → Fe-S)"
-  },
-  "elo_tournament": {
-    "k_factor": 32,
-    "starting_elo": 1500,
-    "matchups": [
-      {"pair": ["H4", "H2"], "winner": "H4", "reason": "Groundedness (8 vs 6) and testability (9 vs 7) decisive"},
-      {"pair": ["H4", "H8"], "winner": "H4", "reason": "Testability advantage (9 vs 7) and groundedness edge (8 vs 7)"},
-      {"pair": ["H4", "H3"], "winner": "H4", "reason": "H3 quantitative H2O2 gap near-fatal; groundedness 8 vs 5"},
-      {"pair": ["H2", "H8"], "winner": "H8", "reason": "Better groundedness, verified literature, no multi-step untested loop"},
-      {"pair": ["H2", "H3"], "winner": "H2", "reason": "Zero-publication novelty and triple convergence beat quantitative gap"},
-      {"pair": ["H8", "H3"], "winner": "H8", "reason": "Verified literature and distinct mechanism beat threshold problem"}
-    ],
-    "final_elo": {
-      "H4": 1548,
-      "H8": 1516,
-      "H2": 1484,
-      "H3": 1452
-    },
-    "elo_ranking": ["H4", "H8", "H2", "H3"],
-    "concordance_with_composite": true
-  },
-  "top3_average": 6.97,
-  "advancement": {
-    "advance_all": true,
-    "rationale": "All 4 hypotheses advance to Cycle 2. H3 at risk — needs quantitative rescue mechanism for H2O2 gap."
-  }
+  "elo_consistent": true,
+  "cycle_decision": "standard"
 }

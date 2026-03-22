@@ -2,61 +2,69 @@
   "scout_targets": [
     {
       "id": 1,
-      "field_a": "Cuproptosis — copper-dependent cell death via FDX1-mediated aggregation of lipoylated mitochondrial proteins (DLAT, DLST, GCSH, DBT)",
-      "field_c": "Chemolithotrophic copper-sulfide metabolism — bacteria (A. ferrooxidans, deep-sea vent sulfur-oxidizers) metabolizing copper sulfide minerals via copper-containing electron transport chains",
+      "field_a": "Cuproptosis — copper-induced cell death via FDX1-mediated Cu2+ binding to lipoylated TCA cycle proteins (DLAT, DLST, GCSH, DBT)",
+      "field_c": "Hydrothermal vent copper-sulfide geochemistry — Pourbaix/Eh-pH speciation of Cu+/Cu2+ in sulfide-rich fluids, chalcopyrite/covellite precipitation, copper bioavailability windows",
       "bridge_concepts": [
-        "FDX1/ferredoxin protein family (shared across domains)",
-        "Lipoic acid synthase (LIAS) and lipoylation pathway conservation",
-        "Copper chaperones (ScoI bacterial / ATOX1 human, PDB structures available)",
-        "Rusticyanin copper electron carrier (A. ferrooxidans, PDB: 1RCY)",
-        "CopA copper ATPase efflux pump"
-      ],
-      "strategy": "mechanism_transfer",
-      "disjointness": "DISJOINT",
-      "confidence": 7,
-      "target_quality_score": 7,
-      "rationale": "Chemolithotrophic bacteria thrive in mM copper that triggers cuproptosis in eukaryotes. They must protect lipoylated TCA enzymes from copper-induced aggregation. Identifying these protection mechanisms could reveal therapeutic targets for modulating cuproptosis in cancer. Both fields have named proteins with crystal structures and published kinetics."
-    },
-    {
-      "id": 2,
-      "field_a": "Biomolecular condensate physics — stress-responsive liquid-liquid phase separation in bacterial systems, stress granule-like bodies, RNA-protein condensates",
-      "field_c": "Antibiotic persistence — phenotypic tolerance via reversible dormancy, toxin-antitoxin module activation, metabolic shutdown with confirmed protein aggregation",
-      "bridge_concepts": [
-        "(p)ppGpp alarmone (RelA/SpoT synthase) triggering both stress condensates and persistence",
-        "TisB membrane toxin-induced protein aggregation (Leinberger et al. 2024)",
-        "DnaK/ClpB disaggregase system controlling aggregate dissolution kinetics",
-        "Lon protease degrading both misfolded proteins and TA antitoxins",
-        "Nε-lysine acetylation as condensate property regulator (Stojowska-Swędrzyńska et al. 2024)"
-      ],
-      "strategy": "implicit_disjoint",
-      "disjointness": "DISJOINT",
-      "confidence": 8,
-      "target_quality_score": 8,
-      "rationale": "Infection biology pair with shared metabolic intermediates (highest productivity category). Persister formation involves massive protein aggregation but field treats it as passive. Condensate field shows bacterial aggregation is functional and regulatable. Reframing: persister aggregation as regulated phase transition predicts new antibiotic strategies targeting condensate-specific properties of TA modules."
-    },
-    {
-      "id": 3,
-      "field_a": "Mitochondrial Fe-S cluster assembly — NFS1/ISCU2/FDX2/frataxin/GLRX5 machinery building [2Fe-2S] and [4Fe-4S] clusters for ~50 cellular Fe-S proteins",
-      "field_c": "Mammalian circadian clock — CLOCK/BMAL1-CRY/PER transcriptional feedback loop, FBXL3-mediated CRY degradation, peroxiredoxin redox oscillation",
-      "bridge_concepts": [
-        "CISD2/NAF-1 [2Fe-2S] longevity protein (PDB: 3FNV, ER-mito Ca²⁺ regulation)",
-        "GLRX5 glutaredoxin central hub for Fe-S transfer (redox-sensitive, Pandey et al. 2025)",
-        "Peroxiredoxin ~24h oxidation cycle (conserved across all domains of life)",
-        "NFS1 cysteine desulfurase (rate-limiting, selective inhibitor published Zhu et al. 2025)",
-        "CRY1/2 FAD cofactor as potential Fe-S/redox sensor"
+        "FDX1 ferredoxin — upstream regulator of lipoylation and Cu2+→Cu+ reduction",
+        "DLAT lipoylation pathway (LIAS, LIPT1, DLD) — Cu2+ binds lipoyl moiety causing oligomerization",
+        "Cu+/Cu2+ speciation via Pourbaix/Eh-pH diagrams — quantitative framework from geochemistry",
+        "Chalcopyrite (CuFeS2) and covellite (CuS) — defined Cu oxidation states in mineral phases",
+        "Copper chaperones (CCS, ATOX1, COX17) — characterized independently in both domains",
+        "Elesclomol copper ionophore — delivers Cu2+ to mitochondria, speciation determines efficacy"
       ],
       "strategy": "network_gap_analysis",
       "disjointness": "DISJOINT",
+      "confidence": 9,
+      "target_quality_score": 9,
+      "quality_scores": {"novelty": 9, "specificity": 9, "feasibility": 8},
+      "rationale": "Cuproptosis research treats copper as a single variable but geochemistry shows Cu speciation (Cu+/Cu2+, free vs complexed, sulfide-bound) determines reactivity. FDX1-dependent Cu2+ reduction is an Eh transition geochemists model routinely. Pourbaix diagrams applied to mitochondrial Eh (-250 to -300 mV) predict which Cu species trigger DLAT oligomerization. Mirrors successful ferroptosis × serpentinization pattern (S005: 43% QG pass). Indirect enzymatic cascade with named molecules (~100% survival bridge type)."
+    },
+    {
+      "id": 2,
+      "field_a": "Coral calcification biomineralization — CARP/galaxin organic matrix control, STPCA carbonic anhydrase, calicoblastic pH regulation of aragonite deposition",
+      "field_c": "Vascular calcification in atherosclerosis — smooth muscle osteogenic transdifferentiation, MGP/fetuin-A inhibitor failure, hydroxyapatite nucleation in arterial walls",
+      "bridge_concepts": [
+        "Carbonic anhydrase isoforms (STPCA in coral calicoblasts ↔ CA-II/CA-IX in vascular smooth muscle)",
+        "Organic matrix calcification control (CARPs/galaxins ↔ MGP/fetuin-A/osteopontin)",
+        "pH regulation at calcification front (coral proton pumps ↔ vascular lesion microenvironment)",
+        "BMP-2 osteogenic signaling (conserved across metazoa, drives vascular transdifferentiation)",
+        "ENPP1 pyrophosphate generation (calcification inhibitor, conserved)",
+        "SLC4/SLC26 bicarbonate transporters (essential for coral CaCO3, unexplored in vascular calcification)"
+      ],
+      "strategy": "implicit_disjoint",
+      "disjointness": "DISJOINT",
+      "confidence": 7,
+      "target_quality_score": 7,
+      "quality_scores": {"novelty": 8, "specificity": 7, "feasibility": 7},
+      "rationale": "Coral solved controlled biomineralization; arteries lose this control in disease. Despite different mineral phases (CaCO3 vs hydroxyapatite), both use carbonic anhydrase, acid-rich matrix proteins, and proton pumps. Coral's calcifying fluid pH measurement (8.5-9.0 maintained by proton pumping) offers quantitative model for vascular lesion pH — an unmeasured variable in atherosclerosis. CARPs structural analogues of osteopontin aspartate-rich domains suggest shared inhibitory mechanisms."
+    },
+    {
+      "id": 3,
+      "field_a": "Biofilm matrix polysaccharide mechanics — Psl/Pel/alginate matrices in P. aeruginosa, basic shear rheology and microindentation characterization",
+      "field_c": "Cartilage extracellular matrix biomechanics — 45 years of biphasic/triphasic theory, Donnan equilibrium, aggregate modulus, hydraulic permeability for charged polysaccharide networks",
+      "bridge_concepts": [
+        "Biphasic theory (Mow 1980) — solid matrix + interstitial fluid framework, never applied to biofilms",
+        "Donnan equilibrium / fixed charge density (sulfated GAGs in cartilage ↔ charged Psl/alginate in biofilm)",
+        "Aggregate modulus (Ha) — standard cartilage parameter, unmeasured in biofilm literature",
+        "Hydraulic permeability (k) — controls solute transport, measured in cartilage, unmeasured in biofilms",
+        "Osmotic swelling pressure — drives compressive resistance via charge, applicable to biofilm hydration",
+        "Enzymatic degradation parallels (MMPs/ADAMTS ↔ alginate lyase/dispersin B)"
+      ],
+      "strategy": "dimensional_mismatch",
+      "disjointness": "DISJOINT",
       "confidence": 8,
       "target_quality_score": 8,
-      "rationale": "Fe-S assembly is redox-sensitive, circadian clock generates 24h redox oscillations. If Fe-S assembly rates oscillate with the clock, all Fe-S-dependent processes show circadian variation (respiration, TCA, DNA repair, ribosome recycling). CISD2 is a [2Fe-2S] longevity gene at the intersection. Labile cluster half-lives (hours) compatible with 24h period. Quantitative Nernst framework: 30mV oscillation shifts cluster Kd 3-fold."
+      "quality_scores": {"novelty": 8, "specificity": 8, "feasibility": 8},
+      "rationale": "Biofilm mechanics is a rapidly growing field (2020-2025) that explicitly lacks predictive quantitative frameworks. Cartilage biomechanics provides 45 years of continuum mechanics for physically analogous systems (charged polysaccharide networks with interstitial fluid). Applying biphasic theory to biofilms predicts: fixed charge density determines antibiotic penetration depth via permeability-charge coupling. Published dimensional mismatch — aggregate modulus, hydraulic permeability, and osmotic swelling pressure are measured in cartilage but unmeasured in biofilms despite identical physics."
     }
   ],
-  "target_quality_scores": [7, 8, 8],
-  "strategies_used": ["mechanism_transfer", "implicit_disjoint", "network_gap_analysis"],
+  "recommended_target_index": 0,
+  "target_quality_scores": [9, 7, 8],
+  "strategies_used": ["network_gap_analysis", "implicit_disjoint", "dimensional_mismatch"],
   "strategy_diversification": {
-    "strategies_used": ["mechanism_transfer", "implicit_disjoint", "network_gap_analysis"],
-    "novel_strategy": "mechanism_transfer, implicit_disjoint",
-    "sessions_005_006_strategies": ["scale_bridging", "network_gap_analysis", "contradiction_mining", "evolutionary_conservation_gap"]
+    "strategies_used": ["network_gap_analysis", "implicit_disjoint", "dimensional_mismatch"],
+    "novel_strategy": "implicit_disjoint, dimensional_mismatch",
+    "sessions_006_007_primary": ["network_gap_analysis", "network_gap_analysis"],
+    "diversification_satisfied": true
   }
 }
