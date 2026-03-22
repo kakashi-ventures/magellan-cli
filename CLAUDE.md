@@ -31,11 +31,12 @@ claude --permission-mode auto
 After a session completes, publish to the MAGELLAN website (`../magellan-web/`):
 ```bash
 cd ../magellan-web
-npm run db:seed                            # Parse results, upsert to Postgres
-npx tsx scripts/generate-summaries.ts      # Generate plain-language summaries via Claude API
+npm run sync                               # Auto-discovers new sessions, ingests, generates summaries
 git add . && git commit && git push        # Auto-deploys to Vercel
 ```
-The seed script reads `results/{session-id}/` markdown files. New sessions must be added to the `SESSIONS` array in `scripts/seed.ts`.
+The sync script reads `results/{session-id}/ingest.json` manifests (written by the orchestrator),
+parses markdown, upserts to Postgres, and generates plain-language summaries for new hypotheses.
+Flags: `--force` (re-ingest all), `--no-summaries`, `--session <id>`.
 Website repo: https://github.com/kakashi-ventures/magellan-web
 
 ## Architecture
