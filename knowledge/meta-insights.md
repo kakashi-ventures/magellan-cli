@@ -1,223 +1,251 @@
 # MAGELLAN Meta-Insights (Cumulative)
-Updated: 2026-03-22 after Session 008
-Based on 8 sessions, ~119 hypotheses generated, ~43 passed Quality Gate
+Updated: 2026-03-22 after Session 009
+Based on 9 sessions, ~129 hypotheses generated, ~46 passed Quality Gate
 
 ---
 
 ## Strategy Performance (all sessions)
 
-| Strategy | Sessions | Targets produced | Hyps generated | Survived critique | Passed QG | QG pass rate | Avg composite |
+| Strategy | Sessions | Targets produced | Hyps generated | Survived critique | Passed QG | QG pass rate | Avg QG composite |
 |---|---|---|---|---|---|---|---|
 | network_gap_analysis | 006, 007, 008 | 3 | 41 | 25 | 16 | 39% | 6.92 |
 | scale_bridging | 005 | 1 | 14 | 8 | 4 | 29% | 6.75 |
 | recent_breakthrough_radiation | 004 | 1 | 15 | 5 | 2 | 13% | ~6.0 |
-| implicit_disjoint (sessions 001–002) | 001, 002 | 2 | ~20 | ~7 | ~7 | ~35% | ~7.0 |
-| contradiction_mining | 006 (as secondary) | — | — | — | — | — | — |
-| evolutionary_conservation_gap | 006 (as secondary) | — | — | — | — | — | — |
-| dimensional_mismatch | 006 (as secondary) | — | — | — | — | — | — |
+| implicit_disjoint (sessions 001-002) | 001, 002 | 2 | ~20 | ~7 | ~7 | ~35% | ~7.0 |
+| Swanson_ABC_bridging | 009 (primary) | 1 | 10 | 10 | 0 PASS, 3 COND | 0% PASS, 30% COND | 5.87 |
+| contradiction_mining | 006 (secondary), 009 (secondary) | — | — | — | — | — | — |
+| tool_repurposing | 009 (secondary, not selected) | — | — | — | — | — | — |
+| evolutionary_conservation_gap | 006 (secondary) | — | — | — | — | — | — |
+| dimensional_mismatch | 006 (secondary) | — | — | — | — | — | — |
 
-**Recommendation for Scout**: Prioritize `network_gap_analysis` — 39% QG pass rate across 3 sessions (16/41 generated), far exceeding all other strategies. It identifies fields with zero cross-citations but genuinely shared small-molecule chemistry (GSH/iron/lipid aldehydes in S006; iron/NAD+/NADH/ROS in S007; Cu/Fe-S/sulfide in S008). `scale_bridging` is second-best (29%) for geochemistry-biology pairs. `recent_breakthrough_radiation` has the lowest QG pass rate (13%) — use only when the technique is genuinely new (< 2 years) and the biological target is in active need of measurement tools. **CAUTION**: network_gap_analysis has been primary strategy for 3 consecutive sessions (S006-S008). Future sessions MUST force-select an alternative strategy to build empirical data.
+**IMPORTANT CAVEAT on Session 009 Swanson_ABC_bridging**: The session selected a PARTIALLY_EXPLORED target (Roopin 2013 directly bridges melatonin to Symbiodinium). S009's poor QG performance may reflect disjointness quality, not strategy quality. Swanson_ABC_bridging should be re-tested with a verified DISJOINT target before final ranking.
+
+**Recommendation for Scout**:
+1. `network_gap_analysis` remains the highest-performing measured strategy (39% QG pass rate, 3 sessions). Use as the reliable baseline when no strong alternative target exists.
+2. `Swanson_ABC_bridging` — first-time data is confounded by PARTIALLY_EXPLORED disjointness. DO NOT downrank based on Session 009 alone. Re-test with a DISJOINT target. When using Swanson_ABC_bridging, add mandatory B-term-in-Field-C PubMed check before assigning disjointness.
+3. `tool_repurposing` — no primary data yet. T3 from Session 009 (volcanic glass x pharmaceutical ASD dissolution, scout score 8.3, DISJOINT) is the highest-priority un-tested strategy/target pair in the pipeline. **Make this the primary target in the next session.**
+4. `contradiction_mining` — no primary data yet. T1 from Session 009 (Mn speciation paradox, scout score 7.7, DISJOINT) is the secondary priority.
+5. `recent_breakthrough_radiation` has the lowest QG pass rate (13%) — use only when the technique is genuinely new (< 2 years) and the biological target is in acute need of measurement tools.
 
 ---
 
 ## Disjointness vs Outcome (all sessions)
 
-| Disjointness | Sessions | Targets selected | Hyps survived | QG passed | Rate |
-|---|---|---|---|---|---|
-| DISJOINT | 001, 002, 004, 005, 006, 007, 008 | 8 | ~44 | ~37 | ~84% |
-| PARTIALLY_EXPLORED | 001, 002, 004, 005 | 0 selected | — | — | — |
-| PARTIALLY_CONNECTED | 005 | 0 selected | — | — | — |
+| Disjointness | Sessions | Targets selected | Hyps survived | QG passed (PASS only) | QG CONDITIONAL | QG pass + cond rate | PASS rate |
+|---|---|---|---|---|---|---|---|
+| DISJOINT | 001, 002, 004, 005, 006, 007, 008 | 8 | ~44 | ~37 PASS or COND | most are PASS | ~84% combined | ~33-43% PASS |
+| PARTIALLY_EXPLORED | 009 | 1 | 10 | 0 PASS | 3 COND | 30% COND only | 0% PASS |
 
-Note: PARTIALLY_EXPLORED targets have been identified but never selected across 8 sessions. All selected targets have been DISJOINT.
+**Session 009 first data point for PARTIALLY_EXPLORED**: The selected target (melatonin x coral bleaching) was reclassified from DISJOINT (Scout) to PARTIALLY_EXPLORED (Literature Scout) when Roopin 2013 was discovered. Result: 0 PASS verdicts, mean QG score 5.87 (lowest since S004), no full PASS in any hypothesis. The Ranker-to-QG delta was 1.85 points — the largest in pipeline history — reflecting inflated testability/novelty scores paired with low groundedness.
 
-**Recommendation for Scout**: DISJOINT preference is strongly confirmed across 8 consecutive successes. The pattern "DISJOINT by citation/pathway analysis but connected by shared small-molecule chemistry" is the most productive target profile. Reject targets classified PARTIALLY_EXPLORED unless no DISJOINT candidates of sufficient quality are found.
+**Recommendation for Scout**:
+- DISJOINT preference is strongly confirmed across 8 prior sessions AND the first PARTIALLY_EXPLORED session (S009) produced the weakest QG outcomes of any recent session.
+- **Never select a PARTIALLY_EXPLORED target when DISJOINT alternatives of comparable quality exist in the same session.** In S009, both T1 (7.7, DISJOINT) and T3 (8.3, DISJOINT) were available but T2 (8.0, PARTIALLY_EXPLORED after literature check) was selected. This was an error.
+- When Swanson_ABC_bridging is the strategy, add a mandatory step: query "B-term AND Field C" in PubMed/Semantic Scholar. If any papers appear, the target is PARTIALLY_EXPLORED regardless of Field A <-> Field C co-citation counts. Downrank accordingly.
 
 ---
 
 ## Bridge Type Performance (all sessions)
 
-| Bridge Type | Sessions | Used | Survived | QG Passed | Survival Rate | Notes |
-|---|---|---|---|---|---|---|
-| Published unmeasured variable (gap paper) | 007 | 1 | 1 | 1 | 100% (PASS 8/10) | Nadimpalli 2024 identified IRP1 cluster occupancy as unmeasured → H2.1. Highest-quality bridge type yet |
-| Indirect enzymatic cascade (multi-step biochemical) | 001, 006 | 8+ | 8+ | 6+ | ~100% | V-ATPase chain (S1), PYO→GSH→GPX4 chain (S6) |
-| Mathematical topology constraints | 002 | 3 | 3 | 3 | 100% | Poincare-Hopf gives necessary predictions |
-| Vibronic/phonon coupling (phonon-exciton) | 004 | 3 | 3 | 2 | 100% | Best performer in quantum biology domain |
-| Quantitative thermodynamic framework (Pourbaix) | 005 | 1 | 1 | 1 | 100% | Elegant but kinetics can override thermodynamics |
-| Tool transfer (PHREEQC geochemistry model) | 005 | 1 | 1 | 1 | 100% | High novelty but biological constraints must be checked |
-| Nanoparticle dissolution kinetics analogy | 005 | 1 | 1 | 1 | 100% | Clean mineral-to-cell comparison |
-| Radical regioselectivity contrast (enzymatic vs abiotic) | 005 | 1 | 1 | 1 | 100% | Textbook chemistry on both sides |
-| pH/ion microdomains as molecular effectors | 001 | 4 | 4 | 4 | 100% | Works because pH/ions couple broadly |
-| Quantitative scavenging budget (mass-balance feasibility) | 006 | 1 | 1 | 1 | 100% | Inter-compartment signal transit feasibility |
-| Electrophilic lipid modifier of receptor (covalent) | 006 | 1 | 1 | 1 | 100% (COND) | 4-HNE→LasR Michael addition; outcome uncertain |
-| Tissue expression pattern → vulnerability map | 006 | 1 | 1 | 1 | 100% (COND 7/10) | Incremental extension — passes QG but low impact |
-| ER-mito Ca2+ signaling at MAMs (CISD2) | 007 | 1 | 1 | 1 | 100% (COND 7/10) | Triple intersection: longevity × circadian × Fe-S. Zero publications |
-| Cytoplasmic maturation pathway gate (CIA/CIAO3) | 007 | 1 | 1 | 1 | 100% (COND 7/10) | Pathway-level: ~20 proteins coordinately affected |
-| Substrate supply bottleneck (frataxin/FTMT) | 007 | 1 | 1 | 1 | 100% (COND 6/10) | Tissue-specificity argument novel (FTMT absence) |
-| Conservation gap with time lag (reverse direction) | 007 | 1 | 1 | 1 | 100% (COND 6/10) | 14-year Drosophila→mammalian follow-up gap |
-| Enzyme saturation (Km-gated stoichiometry) | 007 | 1 | 1 | 0 | 0% | FDXR Km=0.7µM, >99% saturated. Substrate oscillation cannot gate rate |
-| Non-transcriptional redox timer (Prx→H2O2) | 007 | 1 | 0 | 0 | 0% | H2O2 gap 2-3 orders of magnitude below Fe-S activation threshold |
-| Species numbering error (cross-organism annotation) | 007 | 1 | 0 | 0 | 0% | H1: Cys328 E. coli IscS cited as human NFS1 regulatory residue |
-| Direct electric/electromagnetic field effects | 001, 004 | 8 | 0 | 0 | 0% | Always killed: energy scale mismatch |
-| Quantum entanglement/information storage | 004 | 3 | 0 | 0 | 0% | Decoherence in biology is fatal |
-| Fröhlich condensates | 004 | 2 | 0 | 0 | 0% | Thermodynamically impossible at 300K |
-| Abiotic PUFA synthesis (FTT route) | 005 | 2 | 0 | 0 | 0% | Fatal: Fischer-Tropsch doesn't make PUFAs |
-| Homogeneous Fenton at wrong pH | 005 | 2 | 0 | 0 | 0% | Fatal: pH 10 (serpentinization) ≠ pH 7.2 (cell) |
-| Vocabulary re-description | 002, 005 | 2 | 0 | 0 | 0% | No predictive power added |
-| Thermodynamic displacement (Irving-Williams/Ksp) | 008 | 1 | 1 | 1 | 100% (PASS 8.1/10) | Cu(I)→Fe-S displacement via 29-order Ksp driving force. CIA/LIAS differential rescue prediction. Cross-model HIGH PRIORITY |
-| Electrochemical potential matching (Pourbaix/Eh-pH) | 008 | 1 | 1 | 1 | 100% (COND 7.3/10) | FDX1 E0' at Cu²⁺/Cu⁺ boundary. Needs separation-of-function experiment (LplA bypass) |
-| Evolutionary co-selection (genomic signatures) | 008 | 1 | 1 | 1 | 100% (COND 5.2/10) | Weakly motivated causal geochemistry; needs phylogenetic triage first |
-| Ligand homology (molecular fossil) | 008 | 1 | 1 | 1 | 100% (COND 5.4/10) | Dithiolane ring-strain prediction testable by DFT + ITC |
-| Phase formation (nanoparticle at insufficient concentration) | 008 | 2 | 1 | 0 | 50% | H1.3 survived as CuS sink (oscillator rejected by Bendixson); H1.6 killed (CuS-Fenton not novel) |
-| Chemical identity prediction (spectroscopic counter-evidence) | 008 | 1 | 0 | 0 | 0% | H1.5 killed by NMR data from Cobine JBC 2006 — CuL has aromatic features incompatible with dithiolane |
-| Novel bacterial receptor for proposed ligand (no known family) | 006 | 1 | 0 | 0 | 0% | Kill: H2.4 — no precedent for bacterial phospholipid sensing |
+| Bridge Type | Sessions | Used | QG Passed | QG Score Range | Notes |
+|---|---|---|---|---|---|
+| Published unmeasured variable (gap paper) | 007 | 1 | 1 PASS | 8/10 | Highest quality — gap explicitly stated. Nadimpalli 2024 → IRP1 → H2.1. Pre-grounded. |
+| Thermodynamic displacement (Ksp/Irving-Williams) | 008 | 1 | 1 PASS | 8.1/10 | 29-order Ksp driving force. CIA/LIAS differential rescue. Cross-model HIGH PRIORITY. |
+| Mathematical topology constraints | 002 | 3 | 3 | ~8/10 | Poincare-Hopf gives necessary predictions. Cannot be dismissed. |
+| Vibronic/phonon coupling | 004 | 3 | 2 | ~7.5/10 | Established physics in new protein system. |
+| Quantitative thermodynamic framework (Pourbaix) | 005, 008 | 2 | 2 | 6-7.3/10 | Powerful but kinetics can override. |
+| Indirect enzymatic cascade (multi-step) | 001, 006 | 8+ | 6+ | 7-8.5/10 | ~100% survival. More named molecules = more falsifiable. |
+| Tool transfer (PHREEQC, Pourbaix) | 005 | 1 | 1 | 7/10 | High novelty, must check biological constraints. |
+| Quantitative scavenging budget | 006 | 1 | 1 | 7.5/10 | Inter-compartment signal feasibility. |
+| ER-mito Ca2+ signaling at MAMs (CISD2) | 007 | 1 | 1 COND | 7/10 | Triple intersection: longevity x circadian x Fe-S. |
+| Cytoplasmic maturation pathway gate | 007 | 1 | 1 COND | 7/10 | ~20 proteins coordinately affected. |
+| Substrate supply bottleneck (frataxin/FTMT) | 007 | 1 | 1 COND | 6/10 | Tissue-specificity argument novel. |
+| Electrochemical potential matching (Pourbaix/Eh-pH) | 008 | 1 | 1 COND | 7.3/10 | FDX1 E0' at Cu boundary. Needs bypass experiment. |
+| Ligand homology (molecular fossil) | 008 | 1 | 1 COND | 5.4/10 | Dithiolane ring-strain DFT testable. |
+| Phase formation (nanoparticle concentration) | 008 | 2 | partial | 5.2/10 | One survived as sink; one killed (CuS-Fenton not novel). |
+| Evolutionary co-selection (genomic signatures) | 008 | 1 | 1 COND | 5.2/10 | Weakly motivated causal geochemistry. |
+| **Published gap extension (NEW — S009)** | **009** | **3** | **0 PASS, 3 COND** | **5.3-6.5/10** | **Prior paper bridges B-term to Field C in normal conditions; hypothesis extends to new stress context.** |
+| Diel temporal dynamics | 009 | 1 | 1 COND | 5.8/10 | Nocturnal peak mechanism. SNAT/AANAT bioinformatic angle novel, ecological prediction not. |
+| Chemical cascade multiplication | 009 | 1 | 1 COND | 5.3/10 | AFMK/AMK cascade in dinoflagellates. Weak due to wrong ROS species (OH vs 1O2). |
+| pH/ion microdomains as molecular effectors | 001 | 4 | 4 | 7.5-8.5/10 | pH and Ca2+ couple broadly across biological scales. |
+| Tissue expression pattern → vulnerability map | 006 | 1 | 1 COND | 7/10 | Incremental extension — passes QG but low impact. |
+| Electrophilic lipid modifier of receptor (covalent) | 006 | 1 | 1 COND | 7/10 | 4-HNE→LasR Michael addition. |
+| Radical regioselectivity contrast | 005 | 1 | 1 | 7/10 | Textbook chemistry both sides. |
+| Conservation gap with time lag | 007 | 1 | 1 COND | 6/10 | 14-year Drosophila→mammalian follow-up gap. |
+| **Killed bridge types** | | | | | |
+| Enzyme saturation (Km-gated, Km << [S]) | 007 | 1 | 0 | 0 | FDXR Km=0.7µM vs NADPH ~50-100µM. Cannot gate. |
+| Non-transcriptional redox timer (Prx→H2O2) | 007 | 1 | 0 | 0 | H2O2 2-3 orders below activation threshold. |
+| Direct electric/electromagnetic field effects | 001, 004 | 8 | 0 | 0 | Energy scale mismatch always fatal. |
+| Quantum entanglement/information storage | 004 | 3 | 0 | 0 | Decoherence in biology is fatal. |
+| Fröhlich condensates | 004 | 2 | 0 | 0 | Thermodynamically impossible at 300K. |
+| Abiotic PUFA synthesis (FTT route) | 005 | 2 | 0 | 0 | Fischer-Tropsch doesn't make PUFAs. |
+| Homogeneous Fenton at wrong pH | 005 | 2 | 0 | 0 | Serpentinization pH 10 ≠ cell pH 7.2. |
+| Vocabulary re-description | 002, 005 | 2 | 0 | 0 | No predictive power added. |
+| Chemical identity prediction (spectroscopic counter-evidence) | 008 | 1 | 0 | 0 | CuL killed by Cobine JBC 2006 NMR. |
+| Novelty failure (adjacent domain) | 008 | 1 | 0 | 0 | CuS-Fenton extensively studied in env. chemistry. |
+| Oscillator/limit cycle (Bendixson violation) | 008 | 1 | 0 | 0 | Gemini formal proof rejected H1.3. |
+| Novel bacterial receptor (no known family) | 006 | 1 | 0 | 0 | No bacterial phospholipid sensing receptor. |
+| Species numbering error (cross-organism annotation) | 007 | 1 | 0 | 0 | E. coli IscS Cys328 ≠ human NFS1. |
 
 **Recommendation for Generator**:
-- **Use**: Published unmeasured variable bridges (highest quality). Indirect multi-step enzymatic cascades. Quantitative mass-balance frameworks (scavenging budgets, speciation, Pourbaix). Mathematical necessity arguments (topology). Vibronic coupling in structured protein environments.
-- **Avoid**: Direct field effects. Quantum entanglement in biology. Any bridge requiring a novel receptor with no known homolog. pH conditions incompatible with the target organism. Vocabulary re-description. Cross-species protein annotation errors.
-- **New rule (Session 006)**: Before proposing a bacterial sensing mechanism, verify that a receptor family for the proposed ligand class exists in the target organism's genome.
-- **New (Session 007)**: "Published unmeasured variable" bridges — when a recent paper explicitly identifies a gap (e.g., Nadimpalli 2024 noting IRP1 cluster occupancy unmeasured over 24h) — are the highest-quality bridge type. The resulting hypothesis is pre-grounded.
-- **New (Session 007)**: Triple-intersection bridges (3 normally separate fields converging on one molecule) produce highest novelty but carry higher parametric error risk. Verify all quantitative parameters independently.
-- **New (Session 008)**: Thermodynamic displacement bridges using Ksp/Irving-Williams series produce the highest QG scores (8.1/10) when grounded in well-characterized equilibrium constants. Geochemical quantitative frameworks (Pourbaix, speciation diagrams) are powerful when applied to biology for the first time.
-- **New (Session 008)**: Generator self-critique flagging "decorative" framing should be a hard gate — if the geochemical connection is ornamental rather than mechanistically necessary, do not include the hypothesis.
-- **Avoid (Session 007)**: Enzyme Km-gated mechanisms where Km << [S] — the enzyme is saturated and substrate oscillation cannot modulate its rate.
-- **Avoid (Session 007)**: Cross-species protein annotation — always verify residue numbering matches target organism, not homologs.
-- **Avoid (Session 008)**: Proposing chemical identity predictions (e.g., "CuL = lipoic acid") without first checking published spectroscopic data. H1.5 was killed by existing NMR evidence.
-- **Avoid (Session 008)**: Proposing novelty for well-studied environmental chemistry reactions (CuS-Fenton). QG novelty search caught what Critic missed.
+- **Use (highest QG scores)**: Published unmeasured variable (8/10 PASS). Thermodynamic displacement via Ksp (8.1/10 PASS). Indirect multi-step enzymatic cascades (~100% survival). Mathematical necessity arguments (topology). Quantitative scavenging budgets and mass-balance frameworks.
+- **Use with caution**: Published gap extension (NEW — 5.3-6.5 COND). Viable but requires verifying that the extension to new conditions is mechanistically justified, not just analogical. Best used when the gap paper makes the extension explicit.
+- **Avoid (unconditional kills)**: Direct field effects. Quantum entanglement. Novel receptor with no known family. pH conditions incompatible with target organism. Vocabulary re-description. Cross-species protein annotation errors. Benzene-criterion violations (Bendixson for limit cycles). Chemical identity predictions without checking spectroscopic data.
+- **New (Session 009)**: In photosynthetic organisms under thermal or light stress, ¹O₂ is the dominant ROS (not OH). Any cascade mechanism proposing ROS scavenging in chloroplasts must use ¹O₂-specific rate constants (k ≈ 10⁷ M⁻¹s⁻¹ vs 10¹⁰ for OH — a 500x difference). Using OH rate constants in a ¹O₂-dominated context is a direct QG failure mode.
 
 ---
 
 ## Kill Pattern Distribution (all sessions, cumulative)
 
-Estimated from all documented kills across sessions 001–008.
-
 | Kill Reason | Estimated count | Approx % | Sessions |
 |---|---|---|---|
-| Energy scale mismatch (thermal overwhelm, too weak) | 14 | 21% | 001, 004 dominant |
-| Substrate/condition mismatch | 8 | 12% | 005 dominant |
-| Quantitative impossibility (Km saturation, concentration gap) | 8 | 12% | 005, 007, 008 (H1.6 H2O2 concentration gap) |
-| Classical explanation sufficiency (simpler mechanism exists) | 6 | 9% | 001, 002, 004 |
-| Mechanism fabrication (no known receptor/enzyme/pathway) | 5 | 8% | 002, 006 |
-| Thermodynamic impossibility (wrong redox potential) | 4 | 6% | 007 (CISD2 midpoint), 005 |
-| Citation hallucination / unverifiable reference | 3 | 5% | 004 |
-| Mathematical invalidity | 3 | 5% | 002 |
-| Scope overreach / universal claim | 3 | 5% | 002 |
-| Novelty failure (well-studied in another domain) | 2 | 3% | NEW (008) - H1.6 CuS-Fenton extensively characterized in environmental chemistry |
+| Energy scale mismatch (thermal overwhelm, too weak) | 14 | 20% | 001, 004 dominant |
+| Substrate/condition mismatch | 8 | 11% | 005 dominant |
+| Quantitative impossibility (Km saturation, concentration gap, threshold mismatch) | 9 | 13% | 005, 007, 008 |
+| Classical explanation sufficiency | 6 | 9% | 001, 002, 004 |
+| Mechanism fabrication (no known receptor/enzyme/pathway) | 5 | 7% | 002, 006 |
+| Thermodynamic impossibility (wrong redox, wrong pH) | 4 | 6% | 007, 005 |
+| Citation hallucination / unverifiable reference | 3 | 4% | 004 |
+| Mathematical invalidity | 3 | 4% | 002 |
+| Scope overreach / universal claim | 3 | 4% | 002 |
+| Novelty failure (well-studied in adjacent domain) | 2 | 3% | 008 (CuS-Fenton in env. chemistry) |
 | Vocabulary re-description | 2 | 3% | 002, 005 |
-| Spectroscopic counter-evidence (published NMR/EXAFS/etc.) | 1 | 2% | NEW (008) - H1.5 CuL identity contradicted by Cobine JBC 2006 NMR |
-| Partial novelty reduction (prior work partially covers) | 1 | 2% | 006 (H2.3 COND) |
-| Species numbering error (cross-organism annotation) | 1 | 2% | 007 - H1 Cys328 E. coli ≠ human NFS1 |
-| Pathway direction error | 1 | 2% | 007 - H7 AMPK→CRY1 not BMAL1→AMPK |
-| Dependency cascade | 1 | 2% | 007 - H5 killed because dependent on H1 |
-| Oscillator model mathematically impossible | 1 | 2% | NEW (008) - H1.3 Bendixson criterion rejects limit cycle (Gemini proof) |
+| Spectroscopic counter-evidence | 1 | 1% | 008 (CuL identity, Cobine NMR) |
+| Partial novelty reduction (prior work partially covers) | 1 | 1% | 006 |
+| Species numbering error | 1 | 1% | 007 |
+| Pathway direction error | 1 | 1% | 007 |
+| Dependency cascade | 1 | 1% | 007 |
+| Oscillator model mathematically impossible | 1 | 1% | 008 (Bendixson criterion) |
+| **ROS species mismatch (photosynthetic context) — NEW S009** | **1** | **1%** | **009 (H2: OH kinetics used, 1O2 dominates)** |
+
+Note: Session 009 kill rate was 0% at critique but QG downgraded all 3 for groundedness failures — these are soft kills (QG CONDITIONAL_PASS) rather than explicit critique kills. The ROS species mismatch is counted here as the primary QG failure mode for H2.
 
 **Recommendation for Generator**:
-1. **Thermal energy pre-screen**: For any quantum or physical mechanism, compute kT (26 meV at 300K) vs proposed effect BEFORE writing the hypothesis.
-2. **Substrate compatibility check**: Verify conditions in Field A can exist in Field C (pH, temperature, available substrates). Serpentinization pH 10 does not transfer to pH 7.2 cells.
-3. **Receptor existence check (NEW from Session 006)**: Before proposing a novel sensing or receptor mechanism in bacteria (or any organism), verify a receptor family for the ligand class exists.
-4. **Back-of-envelope self-consistency**: All calculations in SELF-CRITIQUE must be internally consistent. ~40x numerical errors have been caught only at Quality Gate.
-5. **Classical alternative**: Before proposing any exotic mechanism, verify classical biochemistry cannot explain the observation.
-6. **Citation journal verification**: Verify journal name, not just author/year. Journal attribution errors recur but content has been accurate — this is a low-severity but recurring issue.
-7. **Scope limitation**: Restrict claims to specific systems where assumptions hold. Avoid "all tissues", "universal", "every bacterium" constructions.
-8. **Km pre-verification (NEW from Session 007)**: Before proposing any enzyme-gated mechanism, verify the Km relative to physiological substrate concentration. If Km << [S], the enzyme is saturated and substrate oscillation cannot gate its activity. H2.5 FDXR Km=0.7µM vs NADPH ~50-100µM → >99% saturated, <1% rate change.
-9. **Redox midpoint verification (NEW from Session 007)**: Before building a redox-cycling mechanism, verify the redox midpoint of the specific protein isoform (not a homolog). H2.3 used mitoNEET/CISD1 midpoint for CISD2 — different proteins with different potentials.
-10. **Correctable vs structural errors (NEW from Session 007)**: Distinguish between structural impossibility (mechanism cannot work under any parameters) and parametric errors (mechanism works with corrected values). Only structural impossibilities warrant FATAL kills.
-11. **Species annotation verification (NEW from Session 007)**: Always verify protein residue numbering matches target organism. Cross-species annotation errors (E. coli IscS Cys328 ≠ human NFS1) are a new failure mode.
+1. **Thermal energy pre-screen**: For quantum or physical mechanisms, compute kT (26 meV at 300K) vs proposed effect BEFORE writing. 20% of all kills trace to this.
+2. **Substrate compatibility check**: Verify conditions in Field A exist in Field C (pH, temperature, substrates).
+3. **Receptor existence check (NEW S6)**: Verify receptor family exists for proposed ligand class.
+4. **Quantitative scavenging budget (NEW S6)**: For inter-compartment signaling, compute mass-balance.
+5. **Back-of-envelope self-consistency**: All calculations must be internally consistent. 40x errors have slipped through.
+6. **Classical alternative check**: Before proposing exotic mechanisms, verify classical biochemistry cannot explain.
+7. **Citation journal verification**: Verify journal name, not just author/year.
+8. **Scope limitation**: Restrict claims to specific systems where assumptions hold.
+9. **Km pre-verification (NEW S7)**: If Km << [S], enzyme is saturated; substrate oscillation cannot gate rate.
+10. **Redox midpoint verification (NEW S7)**: Verify specific protein isoform redox potential, not homolog.
+11. **Species annotation verification (NEW S7)**: Verify residue numbering matches target organism.
+12. **Decorative framing gate (NEW S8)**: If cross-field connection is ornamental, cut the hypothesis.
+13. **Novelty pre-check in adjacent domains (NEW S8)**: Check environmental chemistry, materials science.
+14. **Spectroscopic data pre-check (NEW S8)**: Check published NMR/EXAFS before proposing molecular identity.
+15. **Oscillator/limit cycle pre-check (NEW S8)**: Verify Bendixson/Dulac criteria before dynamic models.
+16. **ROS species identity in photosynthetic organisms (NEW S9)**: In chloroplasts under thermal/light stress, ¹O₂ dominates (k ≈ 10⁷ M⁻¹s⁻¹). Using OH rate constants (k ≈ 10¹⁰) overstates scavenging by ~500x. Specify the ROS species and use its correct rate constant.
+17. **Propagate Critic corrections before QG (NEW S9)**: If Critic flags a numerical error in a specific hypothesis, the hypothesis must be explicitly revised before passing to QG. Do not leave Critic corrections as caveats in the critique document.
 
 ---
 
 ## Session Performance History
 
-| Session | Target | Hyps gen | Critique survival | QG passed | QG pass rate | Kill rate @ QG | Status |
-|---|---|---|---|---|---|---|---|
-| 001 | Bioelectric x Condensates | ~8 | ~4 | 4 | 50% | ~50% | SUCCESS |
-| 002 | Active matter x Stem cells | ~12 | ~3 | 3 | 25% | ~75% | SUCCESS |
-| 003 | (targeted, early session) | — | — | — | — | — | — |
-| 004 | THz spectroscopy x Quantum coherence | 15 | 5 | 2 | 13% | 67% | SUCCESS |
-| 005 | Ferroptosis x Serpentinization | 14 | 8 | 4 | 29% | 50% | SUCCESS |
-| 006 | Ferroptosis x Quorum sensing | 14 | 9 | 6 | 43% | 0% | SUCCESS |
-| 007 | Fe-S cluster biogenesis x Circadian clock | 15 | 10 | 5 | 33% | 17% | SUCCESS |
-| 008 | Cuproptosis x Vent Cu-S Geochemistry | 12 | 10 | 5 | 42% | 17% | SUCCESS |
+| Session | Target | Hyps gen | Kill rate | QG pass+cond | QG PASS | QG mean | Ranker-QG delta | Status |
+|---|---|---|---|---|---|---|---|---|
+| 001 | Bioelectric x Condensates | ~8 | ~50% | 4 | 4 | ~7.5 | ~0.3 | SUCCESS |
+| 002 | Active matter x Stem cells | ~12 | ~75% | 3 | 3 | ~7.0 | ~0.4 | SUCCESS |
+| 003 | (targeted, early session) | — | — | — | — | — | — | — |
+| 004 | THz spectroscopy x Quantum coherence | 15 | 67% | 2 | 2 | ~6.5 | ~0.5 | SUCCESS |
+| 005 | Ferroptosis x Serpentinization | 14 | 50% | 4 | 4 | ~7.0 | ~0.4 | SUCCESS |
+| 006 | Ferroptosis x Quorum sensing | 14 | ~36% | 6 | 6 | ~7.2 | ~0.3 | SUCCESS |
+| 007 | Fe-S biogenesis x Circadian clock | 15 | 17% | 5 | 1 + 4 COND | ~6.6 | ~0.6 | SUCCESS |
+| 008 | Cuproptosis x Vent Cu-S Geochemistry | 12 | 17% | 5 | 1 + 4 COND | ~6.8 | ~0.2 | SUCCESS |
+| 009 | Plant melatonin x Coral bleaching | 10 | **0%** | 3 COND | **0** | **5.87** | **1.85** | PARTIAL |
 
-**Trend**: QG pass rate shows sustained high performance — 13% (S4) → 29% (S5) → 43% (S6) → 33% (S7) → 42% (S8). Session 008 returns to the S006 high-water mark. Kill rate stable at 17% (same as S007). The pipeline is in a mature operating regime with 33-43% QG pass rate and 17% kill rate.
+**Trend analysis**:
+- Kill rate trend: 50-75% (S001-002) → 17% (S007-008) → **0% (S009)**. The 0% rate in S009 is an anomaly driven by domain characteristics (no KEGG/STRING Symbiodiniaceae data = no structural kill information available), not by improving hypothesis quality. The pipeline should target a kill rate of 15-25% as the healthy operating range.
+- QG mean trend: Sessions 006-008 sustained 6.6-7.2. Session 009 drops to 5.87 — lowest since S004. This is a domain-specific dip (PARTIALLY_EXPLORED target, low infrastructure coverage) rather than pipeline degradation.
+- Ranker-QG delta: S008 was the minimum (0.2 — the Ranker and QG were most aligned). S009 is the maximum (1.85 — largest misalignment). When computational validation yields INCONCLUSIVE organism data, the Ranker consistently over-scores testability relative to QG.
+- PASS verdicts: S007-S008 each had 1 full PASS. S009 had 0. DISJOINT + quantitative thermodynamic bridges have produced the only full PASS verdicts. PARTIALLY_EXPLORED + analogical bridges produce CONDITIONAL_PASS at best.
+
+**Pipeline health**: The pipeline is **not degrading** — the S009 performance drop is fully explained by (a) PARTIALLY_EXPLORED target selection and (b) domain infrastructure limitations. The S009 Scout actually generated three strong targets (T1: 7.7 DISJOINT, T2: 8.0 PARTIALLY_EXPLORED, T3: 8.3 DISJOINT) — the selection of T2 over T1/T3 is the root cause of weaker outcomes. The pipeline generated correct Scout targets but made the wrong selection choice. Correcting the selection rule (prioritize DISJOINT absolutely when alternatives exist) will restore S006-S008 performance levels.
 
 ---
 
-## Cross-Model Validation Patterns (Sessions 4–8)
+## Cross-Model Validation Patterns (Sessions 4–8, updated)
 
-### GPT vs Gemini Divergence
-- **Gemini** consistently scores mathematical/structural correctness highly (8–10/10)
-- **GPT** consistently scores biological plausibility and practical utility (2–6/10)
-- **Divergence is largest** when math is sound but biology is domain-irrelevant (S8 H1.7: GPT 2 vs Gemini 8)
-- **Divergence is smallest** when both chemistry AND biology are well-grounded (S5 H2.1, S7 H2.1, S8 H1.4)
-- **New (S8)**: Gemini can provide formal mathematical proofs that kill hypotheses (Bendixson criterion rejecting H1.3 oscillator). This is a unique strength — use Gemini for structural/mathematical falsification.
+(No new cross-model validation data for Session 009 — analysis pending.)
 
-**Recommendation for Quality Gate**: When cross-model scores diverge by > 4 points (Gemini vs GPT), prioritize the GPT score for biological plausibility; investigate the Gemini score for structural/mathematical validity. A hypothesis scoring high on Gemini but low on GPT likely has correct formal structure but is biologically peripheral.
+### GPT vs Gemini Divergence (prior sessions)
+- **Gemini** consistently scores mathematical/structural correctness highly (8-10/10)
+- **GPT** consistently scores biological plausibility and practical utility (2-6/10)
+- **Divergence is largest** when math is sound but biology is domain-irrelevant
+- **Divergence is smallest** when both chemistry AND biology are well-grounded
+- **New (S8)**: Gemini can provide formal mathematical proofs that kill hypotheses (Bendixson criterion). Unique strength — leverage for dynamic model hypotheses.
+
+**Recommendation for Quality Gate**: When cross-model scores diverge by > 4 points, prioritize GPT score for biological plausibility; investigate Gemini score for structural/mathematical validity.
 
 ---
 
 ## Productive Bridge Concept Patterns (cumulative)
 
-1. **Published unmeasured variable bridges** (Session 007): When recent literature explicitly identifies gaps ("X remains unmeasured", "the role of Y is unknown"), building hypotheses around these gaps produces pre-grounded, high-scoring results. Nadimpalli 2024 → IRP1 → H2.1 PASS demonstrates the pattern.
-2. **Indirect enzymatic cascades** (Sessions 001, 006): Multi-step pathways through well-characterized intermediaries survive at 100%. The more named molecules in the chain, the more falsifiable — and falsifiable hypotheses score higher.
-3. **pH/ion microdomains as molecular effectors** (Session 001): Works because pH and Ca2+ ions are promiscuous regulators across biological scales.
-4. **Mathematical topology constraints** (Session 002): Poincare-Hopf theorem gives mathematically necessary predictions that cannot be dismissed.
-5. **Vibronic coupling in structured protein scaffolds** (Session 004): Phonon-exciton coupling is established physics; the novelty comes from applying it to a new protein system.
-6. **Shared mineral chemistry** (Session 005): Iron minerals (ferrihydrite, magnetite) bridge geochemistry and cell biology through identical chemical species.
-7. **Tool transfer** (Session 005): Applying geochemistry computational tools (PHREEQC, Pourbaix) to biology. High novelty but requires checking biological constraints.
-8. **Quantitative scavenging budget** (Session 006): Computing whether a reactive intermediate can physically traverse an extracellular space to reach its target organism, given known scavenging rates and rate constants. Applicable to any inter-kingdom or inter-compartment signaling hypothesis.
-9. **Returning to identified-but-unexplored DISJOINT targets** (Session 006): Session 002 scout flagged ferroptosis x QS as high-quality but unexplored. Session 006 selected it and it delivered the best results to date. Scout should maintain a "deferred targets" queue.
-10. **Thermodynamic displacement via equilibrium constants** (Session 008): When two metals compete for the same coordination site (e.g., Cu vs Fe in Fe-S clusters), the ratio of formation/solubility constants provides a quantitative, irrefutable driving force. The 29-order Ksp difference (Cu₂S vs FeS) made H1.4 the highest-scoring hypothesis. This bridge type works because the thermodynamics are identical in mineral and protein phases — only the kinetic pathway differs.
-11. **Pourbaix/Eh-pH framework transfer** (Session 008): Geochemists have 50+ years of copper speciation data in Eh-pH space. Applying these frameworks to intracellular compartments (mitochondria at Eh ≈ −250 to −300 mV) is absolutely novel — zero publications found. High-value bridge for any metal-dependent biological process.
+1. **Published unmeasured variable bridges** (S007): When recent literature explicitly identifies gaps ("X remains unmeasured"), building hypotheses around these gaps produces pre-grounded, high-scoring results. Nadimpalli 2024 → IRP1 → H2.1 PASS is the exemplar.
+2. **Indirect enzymatic cascades** (S001, S006): Multi-step pathways through well-characterized intermediaries survive at ~100%. The more named molecules in the chain, the more falsifiable.
+3. **pH/ion microdomains** (S001): pH and Ca2+ are promiscuous regulators; they couple broadly across biological scales.
+4. **Mathematical topology constraints** (S002): Poincare-Hopf theorem gives mathematically necessary predictions.
+5. **Vibronic coupling in structured protein scaffolds** (S004): Established physics; novelty comes from new protein system.
+6. **Shared mineral chemistry** (S005): Iron/copper minerals bridge geochemistry and biology through identical chemical species.
+7. **Tool transfer** (S005): Applying geochemistry tools (PHREEQC, Pourbaix) to biology. High novelty, must check biological constraints.
+8. **Quantitative scavenging budget** (S006): Computing whether a reactive intermediate can physically traverse an extracellular space. Applicable to any inter-compartment signaling hypothesis.
+9. **Deferred DISJOINT targets** (S006): Scout queue of validated-but-unexplored targets pays dividends. Session 002 flagged ferroptosis x QS; Session 006 delivered the pipeline's best results to date.
+10. **Thermodynamic displacement via equilibrium constants** (S008): When two metals compete for the same coordination site, the ratio of formation/solubility constants provides a quantitative, irrefutable driving force (29-order Ksp difference → H1.4 PASS 8.1/10).
+11. **Pourbaix/Eh-pH framework transfer** (S008): Geochemists have 50+ years of copper speciation data. Applying to intracellular compartments is absolutely novel (zero publications found).
+12. **Published gap extension** (S009 — new, lower tier): A prior paper establishes B-term in Field C under NORMAL conditions; hypothesis extends to a NEW stress/context. Produces CONDITIONAL_PASS (5.3-6.5) but not full PASS. Use when stronger bridge types are unavailable but ensure the extension is mechanistically justified, not merely analogical.
 
 ---
 
-## Infection Biology as High-Productivity Domain (from Session 006)
+## Domain Productivity Assessment (updated)
 
-Session 006 produced the highest QG pass rate (43%) and the first 10/10 rubric scores across all sessions. Key enabling factors:
-- Both fields (ferroptosis, quorum sensing) have defined molecular players with published structures and kinetics
-- Shared chemical intermediaries (GSH, iron, lipid aldehydes) are the same molecules in both fields
-- Testability is high: P. aeruginosa QS assays, GPX4 knockdown cell lines, ferrostatin-1 rescue experiments are all standard
-- One prior landmark paper (Dar et al. 2018) provides an anchor — novel hypotheses can position explicitly relative to it
+### Confirmed High-Productivity Domains
 
-**Recommendation for Scout**: Infection biology targets (host cell death pathway x bacterial virulence mechanism) should be considered high-priority candidates when they share a defined metabolic intermediate.
+**Infection biology** (S006): 43% QG pass rate, first 10/10 scores. Both fields have defined molecular players with published kinetics. Shared metabolic intermediaries (GSH, iron, lipid aldehydes). Standard assay systems (P. aeruginosa QS, GPX4 KO cell lines).
 
-## Cuproptosis-Geochemistry as High-Productivity Domain (NEW from Session 008)
+**Metal-dependent cell death x Geochemistry** (S005, S008): 29-42% QG pass rate. Quantitative thermodynamic frameworks (Ksp, Pourbaix, speciation) provide irrefutable numerical predictions. Well-characterized molecular targets. Geochemistry precision (50+ years Cu-S data) transfers to biology.
 
-Session 008 explored cuproptosis × hydrothermal vent Cu-S geochemistry and achieved 42% QG pass rate with the session's highest individual score (8.1/10). Key enabling factors:
-- **Quantitative thermodynamic framework**: Ksp values, Irving-Williams series, Pourbaix diagrams provide numerical predictions that are irrefutable and testable
-- **Well-characterized molecular targets**: FDX1, LIAS, DLAT, ISCA1/ISCA2 — all with published structures, kinetics, and knockout phenotypes
-- **Geochemistry precision**: 50+ years of Cu-S speciation data (chalcopyrite, covellite, Cu⁺/Cu²⁺ equilibria) transferable to biology
-- **Cross-model validation**: Both GPT and Gemini confirmed the thermodynamic bridge is mathematically valid (formal isomorphism of Nernst/mass-action equations)
-- **Clean falsifiability**: CIA vs LIAS differential rescue, FDX1-KO + LplA bypass, ferrozine Fe²⁺ release — all standard biochemistry
+**Fe-S cluster biology** (S007): 33% QG pass rate. Rich molecular infrastructure (NFS1, ISCU2, FDX2, frataxin). Published quantitative gaps (Nadimpalli 2024). High testability. Active field validation.
 
-**Recommendation for Scout**: Metal-dependent cell death pathways paired with geochemical mineral chemistry are high-productivity targets when shared equilibrium constants provide quantitative bridges. The "biology meets geology" pattern (also S005 ferroptosis × serpentinization) consistently produces well-grounded hypotheses.
+### New Caution Domain (Session 009)
 
-## Fe-S Cluster Biology as High-Productivity Domain (NEW from Session 007)
+**Photosynthetic symbiont stress biology (Symbiodiniaceae)**: 0 PASS verdicts, mean QG 5.87. Key limitation: Symbiodiniaceae are ABSENT from KEGG, STRING, and most proteomics databases. Melatonin x coral bleaching is a genuine gap but the biochemical infrastructure for claim verification is insufficient. Hypotheses in this domain are testable (bioinformatics on PRJNA723630, culture experiments) but not groundable from existing databases. The pipeline's groundedness scoring (20% weight) penalizes this domain systematically.
 
-Session 007 explored Fe-S cluster biogenesis × circadian regulation and achieved 33% QG pass rate with unprecedented bridge type quality. Key enabling factors:
-- **Rich molecular infrastructure**: NFS1, ISCU2, FDX2, frataxin, GLRX5, CIA pathway — all well-characterized with published kinetics
-- **Published quantitative gaps**: Nadimpalli 2024 explicitly identifies IRP1 cluster occupancy as unmeasured over 24h cycles
-- **High testability**: Native gel assays, IRP2 KO mice, Co-IP protocols, iron chelation experiments all standard
-- **Active field validation**: JCI 2026 BMAL1→ATP7A→Cu→Fe-S establishes fundability while being mechanistically distinct
-- **Quantitative framework**: Diurnal iron oscillation (20-50%), redox oscillation (30% NAD+/NADH), cluster half-lives (~2-4h) all compatible with 24h period
+**Recommendation for Scout**: Photosynthetic symbiont biology pairs are viable targets but expect CONDITIONAL_PASS at best with current database infrastructure. If selecting such a target, ensure the hypothesis testing plan uses available datasets explicitly (PRJNA723630 for Symbiodiniaceae, direct culture experiments) rather than relying on database-verifiable claims.
 
-**Recommendation for Scout**: Fe-S cluster biology provides excellent molecular infrastructure for bridge concepts. When paired with regulatory fields (circadian, stress response, development), the temporal dimensions are almost completely unexplored.
+---
+
+## Unexplored High-Quality Targets (Scout deferred queue)
+
+| Target pair | Identified in | Strategy | Scout score | Disjointness | Priority | Notes |
+|---|---|---|---|---|---|---|
+| Volcanic glass dissolution kinetics x Pharmaceutical ASD dissolution | 009 | tool_repurposing | **8.3** | DISJOINT | **HIGHEST** | TST rate law / PHREEQC / passivation layer — zero pharma citations confirmed. Highest unselected Scout score in pipeline history. |
+| Mn neurotoxicity x Deinococcus Mn-antioxidant biology | 009 | contradiction_mining | 7.7 | DISJOINT | HIGH | Free Mn2+ (toxic) vs complexed Mn-OP (protective). DP1 synthetic decapeptide characterized (PNAS 2024). Genuine speciation paradox. |
+| Circadian x Neurodegeneration | 001 | contradiction_mining | — | DISJOINT | MEDIUM | Cross-session circadian oscillation → condensate aging |
+| Acoustic mechanotransduction x Tumor immune microenvironment | 001 | — | — | PARTIALLY_EXPLORED | MEDIUM-LOW | Piezo1 differential expression |
+| Cristae remodeling x Synaptic plasticity | 002 | — | — | PARTIALLY_EXPLORED | MEDIUM-LOW | MICU1 gating threshold |
+| Mitochondrial hormesis x Cellular aging hallmarks | 004 | contradiction_mining | — | PARTIALLY_EXPLORED | MEDIUM | ROS threshold switching |
+| Piezoelectric collagen x HSC fate decisions | 006 | contradiction_mining + dimensional_mismatch | 7/10 | DISJOINT | MEDIUM | CRITICAL energy-scale pre-check needed before selection |
+| BEV x Exosome immunomodulation | 006 | evolutionary_conservation_gap | 7/10 | DISJOINT | MEDIUM | Needs more specific bridge concepts |
+| Coral calcification x Vascular calcification | 008 | implicit_disjoint | — | DISJOINT | MEDIUM | Biomineralization bridge; not evaluated |
+
+**Recommendation for Scout**: **Prioritize T3 from Session 009 (volcanic glass x pharmaceutical ASD dissolution) as the primary target for the next session.** It has the highest Scout score of any unselected target in the pipeline history (8.3), is confirmed DISJOINT, uses an untested strategy (tool_repurposing), and has a clean quantitative bridge (TST rate law, saturation index, passivation layer kinetics). Mn speciation paradox (T1 from S009) is the secondary priority.
 
 ---
 
 ## Critical Screening Rules (for Generator — cumulative)
 
-1. **Thermal energy pre-screen**: For quantum/physical mechanisms, compute kT (26 meV @ 300K) comparison BEFORE proceeding. 30% of all kills trace to this failure.
+1. **Thermal energy pre-screen**: For quantum/physical mechanisms, compute kT (26 meV @ 300K) BEFORE proceeding. 20% of all kills trace to this failure.
 
-2. **Substrate/condition compatibility**: Verify conditions in Field A actually exist or can be replicated in Field C. Serpentinization pH ≠ cytoplasmic pH. Check BEFORE writing.
+2. **Substrate/condition compatibility**: Verify conditions in Field A actually exist in Field C. Serpentinization pH ≠ cytoplasmic pH. Check BEFORE writing.
 
-3. **Receptor existence check (NEW S6)**: Before proposing a sensing or receptor mechanism, verify a receptor family for the ligand class exists in the target organism. H2.4 was killed for proposing bacterial phospholipid sensing with no known receptor.
+3. **Receptor existence check (NEW S6)**: Before proposing a sensing/receptor mechanism, verify a receptor family for the ligand class exists in the target organism.
 
-4. **Quantitative scavenging budget (NEW S6)**: For inter-kingdom or inter-compartment signaling hypotheses involving reactive small molecules, compute the mass-balance: how much intermediate survives scavenging to reach the target compartment?
+4. **Quantitative scavenging budget (NEW S6)**: For inter-compartment signaling involving reactive small molecules, compute the mass-balance: how much intermediate survives scavenging?
 
 5. **Biological effect-size comparison**: Compare proposed mechanism's effect size to known dominant regulators. If GPX4/ACSL4 dominate by 100-fold, a 3-fold speciation effect is biologically minor.
 
-6. **Geochemical/field specificity**: When claiming a connection to a specific setting, ensure bridge concepts are diagnostic for that setting, not generic.
+6. **Geochemical/field specificity**: When claiming connection to a specific geochemical setting, ensure bridge concepts are diagnostic for that setting, not generic.
 
 7. **Citation verification**: Every [GROUNDED] claim must have a verifiable citation. Verify journal names, not just author/year.
 
@@ -227,7 +255,7 @@ Session 007 explored Fe-S cluster biogenesis × circadian regulation and achieve
 
 10. **Back-of-envelope self-consistency**: Self-critique calculations must match stated log K values and concentrations. Numerical inconsistencies (~40x errors) have slipped through before.
 
-11. **Incremental extension check (NEW S6)**: Hypotheses of the form "X expression level determines susceptibility to known mechanism Y" consistently score as incremental (7/10 at QG). Apply higher novelty threshold — does the hypothesis reveal a new mechanism, or just map a known one to a new tissue/context?
+11. **Incremental extension check (NEW S6)**: Hypotheses of the form "X expression level determines susceptibility to known mechanism Y" consistently score as incremental (7/10 at QG). Apply higher novelty threshold.
 
 12. **Published gap exploitation (NEW S7)**: Search for recent reviews that explicitly identify "unmeasured variables" or "open questions" — these produce the highest-quality bridge concepts.
 
@@ -235,60 +263,50 @@ Session 007 explored Fe-S cluster biogenesis × circadian regulation and achieve
 
 14. **Enzyme kinetics pre-check (NEW S7)**: Before proposing enzyme-gated mechanisms, verify Km vs [substrate]. If Km << [S], enzyme is saturated and substrate oscillation cannot gate rate.
 
-15. **Decorative framing gate (NEW S8)**: If Generator self-critique identifies that the cross-field connection is ornamental ("decorative") rather than mechanistically necessary, do NOT include the hypothesis. H1.5 self-critique flagged vent chemistry as decorative but was still generated — this is a quality failure.
+15. **Decorative framing gate (NEW S8)**: If Generator self-critique identifies the cross-field connection as ornamental rather than mechanistically necessary, do NOT include the hypothesis.
 
-16. **Novelty pre-check in adjacent domains (NEW S8)**: Before proposing a reaction mechanism as novel, check whether it is well-studied in an adjacent domain (e.g., CuS-Fenton in environmental remediation). QG novelty search caught H1.6 but the Generator should pre-screen.
+16. **Novelty pre-check in adjacent domains (NEW S8)**: Before proposing a reaction as novel, check whether it is well-studied in an adjacent domain (e.g., environmental chemistry, materials science).
 
-17. **Spectroscopic data pre-check (NEW S8)**: Before proposing a molecular identity or structural prediction, check for existing spectroscopic data (NMR, EXAFS, X-ray) that could immediately contradict it. H1.5 was killed by published NMR from Cobine 2006.
+17. **Spectroscopic data pre-check (NEW S8)**: Before proposing molecular identity or structural predictions, check for existing spectroscopic data (NMR, EXAFS, X-ray) that could immediately contradict it.
 
-18. **Oscillator/limit cycle pre-check (NEW S8)**: Before proposing any oscillatory or feed-forward loop mechanism, verify Bendixson/Dulac criteria. If Jacobian trace is negative, no limit cycle can exist. Gemini formally proved H1.3 cannot oscillate.
+18. **Oscillator/limit cycle pre-check (NEW S8)**: Before proposing oscillatory mechanisms, verify Bendixson/Dulac criteria. If Jacobian trace is negative, no limit cycle exists.
 
----
+19. **ROS species identity in photosynthetic organisms (NEW S9)**: In chloroplasts under thermal or high-light stress, ¹O₂ is the dominant ROS (k_scavenging ≈ 10⁷ M⁻¹s⁻¹). Using OH kinetics (k ≈ 10¹⁰) overstates scavenging capacity by ~500x. Always specify the ROS species and use species-correct rate constants. OH dominates in dark Fenton chemistry; ¹O₂ dominates in illuminated photosynthetic systems.
 
-## Unexplored High-Quality Targets (Scout queue)
-
-From prior session scouting — all classified DISJOINT and identified but not yet explored:
-
-| Target pair | Identified in | Strategy used | Scout confidence | Notes |
-|---|---|---|---|---|
-| Circadian x Neurodegeneration | 001 | contradiction_mining | — | Cross-session circadian oscillation → condensate aging |
-| Acoustic mechanotransduction x Tumor immune microenvironment | 001 | — | — | Piezo1 differential expression |
-| Cristae remodeling x Synaptic plasticity | 002 | — | — | MICU1 gating threshold |
-| Mitochondrial hormesis x Cellular aging hallmarks | 004 | contradiction_mining | — | ROS threshold switching |
-| Piezoelectric collagen x HSC fate decisions | 006 | contradiction_mining + dimensional_mismatch | 7/10 | CRITICAL CHECK: field magnitude vs Piezo1 threshold needed |
-| BEV x Exosome immunomodulation | 006 | evolutionary_conservation_gap | 7/10 | Needs more specific bridge concepts before selection |
-| Coral calcification x Vascular calcification | 008 | implicit_disjoint | — | Biomineralization bridge; not evaluated |
-
-**Recommendation for Scout**: Piezoelectric Collagen x HSC is the strongest unexplored candidate from session 006 scouting (7/10), but the energy scale mismatch risk is explicitly flagged. **CRITICAL**: network_gap_analysis has been primary for 3 consecutive sessions (S006-S008). Session 009 MUST select a non-network_gap_analysis strategy as primary (e.g., implicit_disjoint, scale_bridging, contradiction_mining) to build empirical performance data on alternative strategies.
+20. **Propagate Critic corrections before QG (NEW S9)**: If Critic flags a specific numerical error (concentration, rate constant, species identity) in a hypothesis, that correction MUST be incorporated into the revised hypothesis text. Do not leave corrections as caveats in the critique log. QG will find the uncorrected text and penalize it.
 
 ---
 
-## Recommendations Summary
+## Recommendations Summary (updated after Session 009)
 
 **For Scout**:
-1. `network_gap_analysis` remains highest-performing (39% QG pass rate, 3 sessions) BUT has been primary for 3 consecutive sessions. **Session 009 MUST use an alternative primary strategy.**
-2. Search for "gap papers" — recent reviews with explicit "unmeasured variables" or "open questions" lists (Nadimpalli 2024 pattern)
-3. Maintain a deferred DISJOINT targets queue — validated by session 006 success
-4. Metal-dependent cell death × geochemistry is a confirmed high-productivity domain (S005, S008)
-5. Fe-S cluster biology provides excellent molecular infrastructure when paired with regulatory fields
-6. Infection biology pairs with shared metabolic intermediaries remain high-productivity
-7. Apply energy-scale pre-check to piezoelectric/electromagnetic targets before selection
+1. `network_gap_analysis` remains highest-performing (39% QG pass rate, 3 sessions). Use as reliable baseline.
+2. `tool_repurposing` has zero primary data but T3 from S009 (volcanic glass x pharma ASD, 8.3 score, DISJOINT) is the pipeline's highest-priority un-tested strategy/target pair. **Make it Session 010's primary target.**
+3. `contradiction_mining` has zero primary data. T1 from S009 (Mn speciation paradox, 7.7, DISJOINT) is secondary priority.
+4. `Swanson_ABC_bridging` — first data confounded by PARTIALLY_EXPLORED. Re-test with verified DISJOINT target. Add B-term-in-Field-C literature check before disjointness assignment.
+5. **ABSOLUTE RULE**: When DISJOINT targets are available at comparable quality, NEVER select a PARTIALLY_EXPLORED target. S009 demonstrates that PARTIALLY_EXPLORED selection degrades QG outcomes even when Scout scores are high.
+6. Maintain DISJOINT deferred target queue. Two new entries from S009: T1 (7.7) and T3 (8.3, highest priority).
+7. Metal-dependent cell death x geochemistry and infection biology x shared metabolites remain confirmed high-productivity domains.
+8. Photosynthetic symbiont biology (Symbiodiniaceae) domains are viable but expect CONDITIONAL_PASS ceiling due to database infrastructure gaps.
 
 **For Generator**:
-1. Lead with quantitative thermodynamic bridges (Ksp ratios, Pourbaix boundaries, equilibrium constants) — highest QG scores
-2. Exploit published gap papers — when literature identifies specific unmeasured variables, build hypotheses around them
-3. Hard gate on "decorative" framing — if self-critique flags the cross-field connection as ornamental, cut the hypothesis
-4. Check spectroscopic data before proposing molecular identity predictions
-5. Check novelty in adjacent domains (environmental chemistry, materials science) before claiming biological novelty
-6. Verify species-specific protein data — don't use E. coli numbering for human proteins
-7. Enzyme kinetics pre-check — verify Km vs [substrate] before proposing rate-gating mechanisms
-8. Oscillator/limit cycle pre-check — verify Bendixson criteria before proposing dynamic models
-9. Distinguish structural vs parametric errors — only structural impossibilities merit abandonment
-10. Indirect enzymatic cascades with named molecules maintain ~100% survival rate
+1. Lead with quantitative thermodynamic bridges (Ksp ratios, Pourbaix, equilibrium constants) — highest QG scores (8.1/10 PASS).
+2. Exploit published gap papers — when literature identifies specific unmeasured variables, build hypotheses around them. The highest-quality bridge type.
+3. Hard gate on "decorative" framing — if self-critique flags cross-field connection as ornamental, cut the hypothesis.
+4. Check spectroscopic data before proposing molecular identity predictions.
+5. Check novelty in adjacent domains (environmental chemistry, materials science) before claiming biological novelty.
+6. Verify species-specific protein data — don't use E. coli numbering for human proteins.
+7. Enzyme kinetics pre-check — verify Km vs [substrate] before proposing rate-gating mechanisms.
+8. Oscillator/limit cycle pre-check — verify Bendixson criteria before proposing dynamic models.
+9. In photosynthetic organisms under thermal/light stress: identify dominant ROS species (¹O₂), use species-correct rate constants. OH kinetics in a ¹O₂-dominated system = QG failure.
+10. Propagate every Critic numerical correction into revised hypothesis text before QG. No exceptions.
+11. Indirect enzymatic cascades with named molecules maintain ~100% critique survival rate.
 
 **For Quality Gate**:
-1. 17% kill rate stable across Sessions 007-008. Pipeline is in mature operating regime.
-2. Continue quantitative rigor — back-of-envelope verification effectively discriminates
-3. Independent novelty search function validated: caught CuS-Fenton (H1.6) that Critic missed
-4. CONDITIONAL_PASS hypotheses should receive explicit "resolve before publication" annotations
-5. Cross-model Gemini formal proofs (Bendixson criterion) are a unique kill mechanism — leverage for dynamic models
+1. Pipeline returned to CONDITIONAL_PASS-only in S009. This is a domain/disjointness artifact, not a quality degradation.
+2. When computational validation shows INCONCLUSIVE for target organism KEGG/STRING, apply heightened per-claim scrutiny — groundedness claims cannot be database-verified.
+3. Ranker-QG delta > 1.0 should trigger additional cross-model validation scrutiny. S009 had the largest delta (1.85) and the weakest QG outcomes.
+4. CONDITIONAL_PASS hypotheses should receive explicit "resolve before publication" annotations for each specific weakness.
+
+**For Ranker**:
+1. When computational validation returns INCONCLUSIVE for the target organism in KEGG/STRING, reduce groundedness dimension score by 1.5 points across all hypotheses before computing weighted composite. This prevents testability/novelty inflation from masking infrastructure gaps — the root cause of the 1.85-point Ranker-QG delta in S009.

@@ -1,0 +1,66 @@
+{
+  "target_scores": [
+    {
+      "id": 1,
+      "title": "Manganese Speciation Paradox",
+      "popularity": 6,
+      "vagueness": 9,
+      "structural_impossibility": 8,
+      "local_optima": 6,
+      "composite": 7.25,
+      "recommendation": "PROCEED",
+      "concerns": ["metal-biology theme saturation (4th in 5 sessions)", "Daly PNAS 2024 narrows novelty window"]
+    },
+    {
+      "id": 2,
+      "title": "Melatonin x Coral Bleaching",
+      "popularity": 6,
+      "vagueness": 7,
+      "structural_impossibility": 8,
+      "local_optima": 9,
+      "composite": 7.5,
+      "recommendation": "PROCEED",
+      "concerns": ["cross-kingdom melatonin reviews come close", "core bridge is generic antioxidant", "quantitative framework weak"]
+    },
+    {
+      "id": 3,
+      "title": "Amorphous Phase Dissolution",
+      "popularity": 8,
+      "vagueness": 10,
+      "structural_impossibility": 7,
+      "local_optima": 7,
+      "composite": 8.0,
+      "recommendation": "PROCEED",
+      "concerns": ["organic-inorganic gap", "PHREEQC database extension needed", "geochemistry source recurs"]
+    }
+  ],
+  "best_target": 3,
+  "weakest_target": 1,
+  "pipeline_decision": "PROCEED",
+  "computational_validation": {
+    "target_id": 2,
+    "checks_run": 6,
+    "checks_passed": 3,
+    "major_flags": [
+      "Prior art: Roopin 2013 studied melatonin + Symbiodinium + NPQ",
+      "Direct ROS scavenging mass balance: 0.04% of OH — negligible at physiological concentrations"
+    ],
+    "minor_flags": [
+      "No known melatonin receptor in dinoflagellates",
+      "ASMT gene not confirmed in Symbiodiniaceae specifically"
+    ],
+    "passes": [
+      "SNAT gene confirmed in dinoflagellates",
+      "Exogenous antioxidant bleaching mitigation has precedent (zeaxanthin)",
+      "Indirect mechanisms (NPQ, enzyme induction) viable at signaling concentrations"
+    ],
+    "revised_disjointness": "PARTIALLY_EXPLORED",
+    "generator_constraints": [
+      "Must cite Roopin 2013 — melatonin-Symbiodinium NPQ is not novel",
+      "Must NOT use direct ROS scavenging as primary mechanism",
+      "Must focus on thermal stress + bleaching intervention angle",
+      "Must use indirect mechanisms (NPQ, enzyme induction, MAPK)"
+    ]
+  },
+  "timestamp": "2026-03-22T02:15:00Z"
+}

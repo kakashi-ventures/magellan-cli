@@ -1,0 +1,52 @@
+{
+  "session_id": "2026-03-22-scout-009",
+  "cycle": 1,
+  "critique_date": "2026-03-22",
+  "hypotheses_critiqued": 3,
+  "verdicts": {
+    "H1-009-C1": {
+      "verdict": "CONDITIONAL_PASS",
+      "score": 5,
+      "key_attack": "Concentration estimate error in generation: 215 uM figure inflated 7x from cold-shock Gonyaulax data; corrected range 1-30 uM. Cold-shock vs heat-shock context unverified for Symbiodiniaceae.",
+      "survives": true
+    },
+    "H2-009-C1": {
+      "verdict": "CONDITIONAL_PASS",
+      "score": 4,
+      "key_attack": "No molecular target for melatonin-PSII electron transport link. Roopin 2013 was ambient temperature (25C), not thermal stress. Cytotoxicity vs protection ambiguity unresolved -- Fv/Fm under melatonin at 32C not measured.",
+      "survives": true
+    },
+    "H3-009-C1": {
+      "verdict": "CONDITIONAL_PASS",
+      "score": 3,
+      "key_attack": "Internal contradiction: D-clade (tolerant) inhabits low-light environments where photocycle-driven nocturnal peaks are weakest. TPH thermal inhibition at 32-34C unsupported -- likely inverted (Q10 kinetics). Antolín 1997 shows UPREGULATION under stress, contradicting depletion model.",
+      "survives": true
+    }
+  },
+  "survived": ["H1-009-C1", "H2-009-C1", "H3-009-C1"],
+  "killed": [],
+  "failed": [],
+  "survival_rate": 1.0,
+  "kill_rate": 0.0,
+  "key_counter_evidence": {
+    "concentration_calculation_error": "Antolín 1997 reports 50 ng/mg protein under cold-shock. Corrected conversion using 150 mg protein/mL cell volume gives ~32 uM, not 215 uM. Generation calculation assumed 1 mg protein/mL (7x error).",
+    "cold_shock_vs_heat_shock": "Antolín 1997 model is temperature DROP (20C to 15C). Whether Symbiodiniaceae UPREGULATE melatonin under temperature RISE (heat stress) is entirely untested -- may behave oppositely.",
+    "D_clade_low_light_habitat": "Durusdinium trenchii (thermally tolerant clade D) disproportionately abundant in turbid, low-light environments (LaJeunesse et al. Symbiodiniaceae ecology). Photocycle-dependent nocturnal peaks require high light/dark contrast -- weakest in D-clade habitat.",
+    "TPH_thermal_kinetics": "Mammalian TPH2 optimal at 37C. Ectotherm TPH follows Q10 kinetics upward to denaturation. No evidence for TPH inhibition at 32-34C in coral-associated dinoflagellates.",
+    "depletion_vs_upregulation": "Antolín 1997 demonstrates INCREASED melatonin under stress in Gonyaulax, contradicting the progressive depletion model in H3.",
+    "roopin_ambient_temperature": "Roopin 2013 experiments at ~25C ambient, not thermal stress. Photosynthesis reduction may reflect circadian melatonin physiology (nocturnal suppression of daytime photosynthesis) rather than thermal stress protection."
+  },
+  "critic_questions": [
+    "H1 concentration correction: recalculate with 1-30 uM corrected range instead of 215 uM -- does the OH scavenging fraction still provide meaningful protection at 10 uM via cascade?",
+    "H2 molecular target: propose any candidate molecular target through which melatonin could reduce PSII electron throughput in Symbiodiniaceae -- redox kinase, sigma-like receptor, cytochrome b6f allosteric regulator?",
+    "H3 reframing: abandon D-clade prediction (internally contradicted by low-light habitat). Reframe as: high-light Symbiodiniaceae populations have higher nocturnal melatonin amplitude regardless of clade identity",
+    "Shared measurement priority: HPLC-MS melatonin in D1a vs B1 at 26C vs 32C (24h) is the single experiment that would most efficiently test all three hypotheses simultaneously",
+    "Host melatonin contribution: Roopin and Levy 2012 (PMID 22506978, 23300630) documented melatonin in basal metazoans including cnidarians -- does the coral HOST independently produce melatonin that protects symbionts?"
+  ],
+  "meta_critique": {
+    "common_weakness": "All three hypotheses depend on unmeasured Symbiodiniaceae melatonin concentrations under thermal stress -- single HPLC-MS measurement would partially resolve all three",
+    "strongest_hypothesis": "H1-009-C1 -- most actionable (PRJNA723630 exists), two strong anchor papers, quantitatively defensible for hydroxyl radical scavenging",
+    "reframe_opportunity": "H3 can be rescued by removing the D-clade-specific prediction and reframing as light-regime-dependent nocturnal amplitude",
+    "under_attacked": "H2 controlled shutdown is genuinely novel -- photoprotective mechanisms are often characterized behaviorally before molecular targets identified (PsbS precedent)"
+  }
+}

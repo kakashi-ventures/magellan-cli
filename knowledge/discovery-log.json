@@ -632,5 +632,63 @@
       "FCD measurement is the keystone missing experiment - all other parameter measurements follow from it",
       "Biofilm mechanics field explicitly lacks standardized predictive framework (identified as priority gap) - creates opportunity for cartilage-inspired approach"
     ]
+  },
+  {
+    "date": "2026-03-22",
+    "session_id": "2026-03-22-scout-009",
+    "mode": "scout",
+    "targets": [
+      {
+        "field_a": "Manganese neurotoxicology (manganism, dopaminergic oxidative damage)",
+        "field_c": "Deinococcus radiodurans Mn-antioxidant biology (Mn-OP complexes, radiation resistance)",
+        "bridge_concepts": [
+          "Mn2+-orthophosphate-peptide ternary complexes (Mn-OP, DP1 decapeptide)",
+          "Mn2+/Mn3+ catalytic SOD-mimetic cycling — speciation determines pro- vs anti-oxidant outcome",
+          "MnSOD-independent non-enzymatic antioxidant defense",
+          "Mitochondrial Complex I as convergence point"
+        ],
+        "strategy": "contradiction_mining",
+        "disjointness": "DISJOINT",
+        "outcome": "pending"
+      },
+      {
+        "field_a": "Plant melatonin stress biology (SNAT/ASMT, ROS scavenging, NPQ photoprotection)",
+        "field_c": "Coral bleaching / Symbiodiniaceae thermal tolerance (heat-induced ROS, PSII photoinhibition)",
+        "bridge_concepts": [
+          "SNAT/ASMT melatonin biosynthesis (confirmed in dinoflagellates)",
+          "Melatonin→AFMK→AMK ROS scavenging cascade",
+          "NPQ-mediated PSII photoprotection by melatonin",
+          "Chloroplast-to-nucleus retrograde signaling via melatonin"
+        ],
+        "strategy": "Swanson_ABC_bridging",
+        "disjointness": "DISJOINT",
+        "outcome": "pending"
+      },
+      {
+        "field_a": "Volcanic glass dissolution kinetics (TST rate law, saturation index, PHREEQC)",
+        "field_c": "Amorphous solid dispersion dissolution (pharmaceutical science, ~40% new drugs)",
+        "bridge_concepts": [
+          "TST dissolution rate law: Rate = k+·A·(1-exp(DGr/RT))",
+          "Saturation index SI = log(IAP/Ksp) as master dissolution variable",
+          "BET-normalized reactive surface area",
+          "Passivation layer kinetics (Gin et al. 2015)",
+          "Coupled dissolution-crystallization modeling"
+        ],
+        "strategy": "tool_repurposing",
+        "disjointness": "DISJOINT",
+        "outcome": "pending"
+      }
+    ],
+    "productive_bridges": [],
+    "killed_hypotheses": [],
+    "surviving_hypotheses": [],
+    "key_papers": [],
+    "lessons_learned": [
+      "All 3 strategies (contradiction_mining, Swanson_ABC_bridging, tool_repurposing) used as primary for first time — building empirical performance data",
+      "Swanson ABC bridging confirmed viable: melatonin B-term appears in plant stress literature AND dinoflagellate biochemistry with zero cross-citations to coral bleaching",
+      "Contradiction mining produced specific bridge (Mn speciation paradox) but convergence risk detected — Daly lab DP1 peptide (PNAS 2024) narrows the gap",
+      "Tool repurposing from geochemistry to pharmaceutical science is a completely new domain transfer (prior transfers were geochemistry → cell biology)",
+      "Web verification essential: discovered Avrami kinetics already used in pharma (crystallization) — refined bridge to emphasize TST/SI which are genuinely novel"
+    ]
   }
 ]

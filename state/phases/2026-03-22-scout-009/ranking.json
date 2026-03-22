@@ -1,0 +1,148 @@
+{
+  "session_id": "2026-03-22-scout-009",
+  "cycle": 1,
+  "ranked_at": "2026-03-22",
+  "hypotheses_ranked": 10,
+  "dimension_weights": {
+    "testability": 0.20,
+    "groundedness": 0.20,
+    "mechanistic_specificity": 0.20,
+    "novelty": 0.15,
+    "falsifiability": 0.15,
+    "impact": 0.10
+  },
+  "scores": {
+    "H1-009-C1": {
+      "title": "Thermal Stress Melatonin Surge in Symbiodiniaceae",
+      "testability": 9,
+      "groundedness": 7,
+      "mechanistic_specificity": 6,
+      "novelty": 9,
+      "falsifiability": 9,
+      "impact": 8,
+      "weighted_score": 7.90,
+      "rank": 1
+    },
+    "H6-009-C1": {
+      "title": "SNAT/AANAT Transcriptional Upregulation as Thermal Stress Biomarker",
+      "testability": 10,
+      "groundedness": 7,
+      "mechanistic_specificity": 6,
+      "novelty": 8,
+      "falsifiability": 9,
+      "impact": 7,
+      "weighted_score": 7.85,
+      "rank": 2
+    },
+    "H2-009-C1": {
+      "title": "Melatonin-Enhanced NPQ as Thermal PSII Shield",
+      "testability": 7,
+      "groundedness": 7,
+      "mechanistic_specificity": 7,
+      "novelty": 8,
+      "falsifiability": 8,
+      "impact": 8,
+      "weighted_score": 7.40,
+      "rank": 3
+    },
+    "H4-009-C1": {
+      "title": "Melatonin-Mediated Antioxidant Enzyme Induction in Symbiodiniaceae",
+      "testability": 7,
+      "groundedness": 7,
+      "mechanistic_specificity": 6,
+      "novelty": 8,
+      "falsifiability": 8,
+      "impact": 7,
+      "weighted_score": 7.10,
+      "rank": 4
+    },
+    "H5-009-C1": {
+      "title": "Durusdinium vs Cladocopium Melatonin Differential Underlies Thermal Tolerance",
+      "testability": 8,
+      "groundedness": 6,
+      "mechanistic_specificity": 5,
+      "novelty": 9,
+      "falsifiability": 8,
+      "impact": 7,
+      "weighted_score": 7.05,
+      "rank": 5
+    },
+    "H3-009-C1": {
+      "title": "AFMK Cascade Amplification Under Thermal ROS Surge",
+      "testability": 7,
+      "groundedness": 6,
+      "mechanistic_specificity": 8,
+      "novelty": 7,
+      "falsifiability": 7,
+      "impact": 5,
+      "weighted_score": 6.80,
+      "rank": 6
+    },
+    "H8-009-C1": {
+      "title": "Nocturnal Melatonin Peak as Thermal Damage Recovery Window",
+      "testability": 7,
+      "groundedness": 6,
+      "mechanistic_specificity": 6,
+      "novelty": 8,
+      "falsifiability": 7,
+      "impact": 7,
+      "weighted_score": 6.75,
+      "rank": 7
+    },
+    "H7-009-C1": {
+      "title": "Exogenous Melatonin Delays Bleaching in Intact Coral Holobionts",
+      "testability": 7,
+      "groundedness": 6,
+      "mechanistic_specificity": 5,
+      "novelty": 7,
+      "falsifiability": 8,
+      "impact": 8,
+      "weighted_score": 6.65,
+      "rank": 8
+    },
+    "H9-009-C1": {
+      "title": "Melatonin as Symbiosome-Crossing Retrograde Signal During Thermal Stress",
+      "testability": 5,
+      "groundedness": 5,
+      "mechanistic_specificity": 6,
+      "novelty": 9,
+      "falsifiability": 6,
+      "impact": 8,
+      "weighted_score": 6.25,
+      "rank": 9
+    },
+    "H10-009-C1": {
+      "title": "Coral Probiotic Strategy — Melatonin-Producing Bacteria for Bleaching Mitigation",
+      "testability": 4,
+      "groundedness": 5,
+      "mechanistic_specificity": 4,
+      "novelty": 8,
+      "falsifiability": 6,
+      "impact": 9,
+      "weighted_score": 5.60,
+      "rank": 10
+    }
+  },
+  "ranked_order": [
+    "H1-009-C1",
+    "H6-009-C1",
+    "H2-009-C1",
+    "H4-009-C1",
+    "H5-009-C1",
+    "H3-009-C1",
+    "H8-009-C1",
+    "H7-009-C1",
+    "H9-009-C1",
+    "H10-009-C1"
+  ],
+  "top_3": ["H1-009-C1", "H6-009-C1", "H2-009-C1"],
+  "top_score": 7.90,
+  "top_3_mean": 7.72,
+  "diversity_check": "PASS — three distinct paradigms (biochemical metabolomics, bioinformatics/transcriptomics, PSII photophysiology) across three experimental approaches",
+  "elo_sanity": "CONSISTENT — H1 > H6 > H2 in both Elo pairwise and composite scores",
+  "all_above_threshold": true,
+  "threshold": 4.0,
+  "early_complete_eligible": true,
+  "early_complete_note": "Top-3 mean 7.72 >= 7.0 early-complete threshold. Skip Evolver. Proceed directly to Quality Gate.",
+  "critique_note": "Adversarial critique covered H1-H3 in prior hypothesis framing. Critique findings (concentration caution, NPQ molecular target gap, nocturnal peak caveats) incorporated into dimension scores for applicable hypotheses."
+}

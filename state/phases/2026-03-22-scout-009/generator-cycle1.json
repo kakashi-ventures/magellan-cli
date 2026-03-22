@@ -1,0 +1,137 @@
+{
+  "cycle": 1,
+  "session_id": "2026-03-22-scout-009",
+  "generator_model": "claude-opus-4-6",
+  "date": "2026-03-22",
+  "target": {
+    "field_a": "Plant melatonin stress biology",
+    "field_c": "Coral bleaching / Symbiodiniaceae thermal tolerance",
+    "strategy": "Swanson_ABC_bridging"
+  },
+  "computational_readiness_input": "HIGH",
+  "anchor_paper": "Roopin, Yacobi & Levy 2013 PMID 23496383",
+  "hypotheses": [
+    {
+      "id": "H1-009-C1",
+      "title": "Thermal Stress Melatonin Surge in Symbiodiniaceae",
+      "mechanism_summary": "Conserved thermal melatonin surge (10-100x) in Symbiodiniaceae paralleling plant SNAT/ASMT upregulation under heat stress; foundational measurement never performed",
+      "bridge_type": "Published unmeasured variable",
+      "confidence": 6,
+      "groundedness_score": 7,
+      "self_critique_passed": true,
+      "self_critique_notes": "No scavenging claimed; plant surge is grounded; dinoflagellate prediction is speculative but directly testable by HPLC-MS/MS"
+    },
+    {
+      "id": "H2-009-C1",
+      "title": "Melatonin-Enhanced NPQ as Thermal PSII Shield",
+      "mechanism_summary": "Roopin 2013 NPQ enhancement reinterpreted as protective during thermal stress; melatonin-driven VDE/PsbS upregulation reduces PSII excitation pressure below D1 damage threshold",
+      "bridge_type": "Indirect enzymatic cascade",
+      "confidence": 7,
+      "groundedness_score": 7,
+      "self_critique_passed": true,
+      "self_critique_notes": "NPQ mechanism, not scavenging; reinterpretation of Roopin 2013 ambient data to thermal context is genuinely novel"
+    },
+    {
+      "id": "H3-009-C1",
+      "title": "AFMK Cascade Amplification Under Thermal ROS Surge",
+      "mechanism_summary": "Thermal ROS accelerates melatonin-AFMK-AMK cascade flux via IDO and non-enzymatic oxidation; 10x per-molecule amplification but still only 0.4% of OH flux",
+      "bridge_type": "Indirect enzymatic cascade",
+      "confidence": 5,
+      "groundedness_score": 6,
+      "self_critique_passed": true,
+      "self_critique_notes": "CAUTION: even 10x cascade yields 0.4% OH scavenging. Retained for diagnostic metabolite profiling value, not as primary protection mechanism"
+    },
+    {
+      "id": "H4-009-C1",
+      "title": "Melatonin-Mediated Antioxidant Enzyme Induction in Symbiodiniaceae",
+      "mechanism_summary": "Melatonin at nM concentrations upregulates SOD/CAT/APX transcription in plants; predict same signaling-based enzyme induction in dinoflagellates despite absent receptor",
+      "bridge_type": "Indirect enzymatic cascade",
+      "confidence": 6,
+      "groundedness_score": 7,
+      "self_critique_passed": true,
+      "self_critique_notes": "Enzyme induction is signaling, not scavenging; plant mechanism is well-grounded; absence of receptor in dinoflagellates explicitly acknowledged"
+    },
+    {
+      "id": "H5-009-C1",
+      "title": "Durusdinium vs Cladocopium Melatonin Differential Underlies Thermal Tolerance",
+      "mechanism_summary": "Thermally tolerant Durusdinium predicted to have higher baseline melatonin and greater thermal surge than sensitive Cladocopium; no comparative profiling exists post-taxonomic revision",
+      "bridge_type": "Published unmeasured variable",
+      "confidence": 5,
+      "groundedness_score": 6,
+      "self_critique_passed": true,
+      "self_critique_notes": "Comparative profiling gap is genuine; melatonin differential is one of many possible tolerance factors"
+    },
+    {
+      "id": "H6-009-C1",
+      "title": "SNAT/AANAT Transcriptional Upregulation as Thermal Stress Biomarker",
+      "mechanism_summary": "SNAT thermal induction (3-8 fold in plants) predicted in Symbiodiniaceae; testable by mining existing PRJNA723630 transcriptome data",
+      "bridge_type": "Published unmeasured variable",
+      "confidence": 6,
+      "groundedness_score": 7,
+      "self_critique_passed": true,
+      "self_critique_notes": "Existing transcriptome data provides immediate testability; dinoflagellate post-transcriptional regulation caveat noted"
+    },
+    {
+      "id": "H7-009-C1",
+      "title": "Exogenous Melatonin Delays Bleaching in Intact Coral Holobionts",
+      "mechanism_summary": "Bath application of 50 microM melatonin to coral fragments delays bleaching via NPQ enhancement and enzyme induction; translational from plant agronomy",
+      "bridge_type": "Tool/treatment transfer",
+      "confidence": 5,
+      "groundedness_score": 6,
+      "self_critique_passed": true,
+      "self_critique_notes": "Zeaxanthin precedent validates concept; supraphysiological concentration acknowledged but consistent with plant application doses"
+    },
+    {
+      "id": "H8-009-C1",
+      "title": "Nocturnal Melatonin Peak as Thermal Damage Recovery Window",
+      "mechanism_summary": "Roopin 2013 nocturnal melatonin peak creates temporal D1 repair window; nighttime melatonin enhances PSII recovery from daytime thermal photodamage",
+      "bridge_type": "Indirect enzymatic cascade",
+      "confidence": 5,
+      "groundedness_score": 6,
+      "self_critique_passed": true,
+      "self_critique_notes": "Nocturnal peak is grounded; D1 repair connection is novel and testable via lincomycin assay; confounds in constant light experiment noted"
+    },
+    {
+      "id": "H9-009-C1",
+      "title": "Melatonin as Symbiosome-Crossing Retrograde Signal During Thermal Stress",
+      "mechanism_summary": "Lipophilic melatonin diffuses across symbiosome membrane during thermal stress surge; modulates host NF-kB/caspase bleaching response without requiring receptor",
+      "bridge_type": "Indirect enzymatic cascade",
+      "confidence": 4,
+      "groundedness_score": 5,
+      "self_critique_passed": true,
+      "self_critique_notes": "Most speculative mechanistic hypothesis; symbiosome crossing is physically plausible (logP 1.6); host vs symbiont origin separation is technically challenging"
+    },
+    {
+      "id": "H10-009-C1",
+      "title": "Coral Probiotic Strategy — Melatonin-Producing Bacteria for Bleaching Mitigation",
+      "mechanism_summary": "Select/engineer coral-associated bacteria that overproduce melatonin as BMC probiotic; sustained melatonin supply enhances symbiont thermal tolerance",
+      "bridge_type": "Tool/treatment transfer",
+      "confidence": 4,
+      "groundedness_score": 5,
+      "self_critique_passed": true,
+      "self_critique_notes": "BMC concept and bacterial melatonin production both grounded; multi-barrier delivery and colonization stability are key unknowns; spawning disruption risk noted"
+    }
+  ],
+  "total_generated": 10,
+  "self_critique_kills": 0,
+  "self_critique_caveats": [
+    "H3: cascade amplification yields only 0.4% OH scavenging even with 10x amplification — retained for diagnostic value only"
+  ],
+  "constraints_applied": [
+    "Roopin 2013 (PMID 23496383) cited in 6/10 hypotheses, referenced in remaining 4",
+    "No direct ROS scavenging as primary mechanism — all hypotheses use indirect mechanisms",
+    "Indirect mechanisms used: NPQ enhancement, enzyme induction, AFMK cascade, D1 repair, retrograde signaling, BMC delivery",
+    "No melatonin receptor fabricated in dinoflagellates — absence explicitly acknowledged in H4, H9",
+    "Novel angle (thermal stress + bleaching) maintained across all 10 hypotheses"
+  ],
+  "bridge_types_used": [
+    "Published unmeasured variable (H1, H5, H6)",
+    "Indirect enzymatic cascade (H2, H3, H4, H8, H9)",
+    "Tool/treatment transfer (H7, H10)"
+  ],
+  "mean_confidence": 5.3,
+  "mean_groundedness": 6.2,
+  "strongest_hypotheses": ["H1-009-C1", "H2-009-C1", "H4-009-C1", "H6-009-C1"],
+  "most_speculative": ["H9-009-C1", "H10-009-C1"],
+  "timestamp": "2026-03-22T03:15:00Z"
+}

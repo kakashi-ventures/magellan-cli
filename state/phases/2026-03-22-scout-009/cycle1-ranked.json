@@ -1,0 +1,54 @@
+{
+  "phase": "ranking",
+  "cycle": 1,
+  "session_id": "2026-03-22-scout-009",
+  "rankings": [
+    {
+      "id": "H1-009-C1",
+      "title": "Clade-Differential AANAT/ASMT Expression → AFMK Cascade Bleaching Resistance",
+      "rank": 1,
+      "composite": 7.70,
+      "testability": 9,
+      "groundedness": 7,
+      "mechanistic_specificity": 7,
+      "novelty": 8,
+      "falsifiability": 8,
+      "impact": 7,
+      "critic_verdict": "CONDITIONAL_PASS",
+      "critic_score": 5
+    },
+    {
+      "id": "H2-009-C1",
+      "title": "Melatonin Controlled Shutdown — Metabolic Inverse of Plant NPQ",
+      "rank": 2,
+      "composite": 6.55,
+      "testability": 7,
+      "groundedness": 5,
+      "mechanistic_specificity": 4,
+      "novelty": 9,
+      "falsifiability": 8,
+      "impact": 8,
+      "critic_verdict": "CONDITIONAL_PASS",
+      "critic_score": 4
+    },
+    {
+      "id": "H3-009-C1",
+      "title": "Nocturnal Melatonin Oscillation Amplitude Predicts Bleaching Resilience",
+      "rank": 3,
+      "composite": 6.15,
+      "testability": 6,
+      "groundedness": 5,
+      "mechanistic_specificity": 5,
+      "novelty": 9,
+      "falsifiability": 6,
+      "impact": 7,
+      "critic_verdict": "CONDITIONAL_PASS",
+      "critic_score": 3
+    }
+  ],
+  "top3_average": 6.80,
+  "early_complete_eligible": false,
+  "diversity_check": "PASSED",
+  "elo_consistent": true,
+  "cycle_decision": "standard"
+}

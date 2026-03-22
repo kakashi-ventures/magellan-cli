@@ -1,0 +1,109 @@
+{
+  "phase": "computational_validation",
+  "session_id": "2026-03-22-scout-009",
+  "validation_date": "2026-03-22",
+  "target": {
+    "id": 2,
+    "field_a": "Plant melatonin stress biology",
+    "field_c": "Coral bleaching / Symbiodiniaceae thermal tolerance",
+    "strategy": "Swanson_ABC_bridging",
+    "bridge_concepts": [
+      "SNAT/ASMT melatonin biosynthesis (animal-type TPH-first in dinoflagellates, same product)",
+      "Melatonin-AFMK-AMK ROS scavenging cascade (10x multiplier per molecule)",
+      "NPQ-mediated PSII photoprotection by melatonin",
+      "Enzyme induction (SOD, CAT, APX, GR) at signaling concentrations",
+      "Chloroplast-to-nucleus retrograde signaling via melatonin"
+    ]
+  },
+  "checks": {
+    "kegg": {
+      "verdict": "PARTIALLY_CONNECTED",
+      "melatonin_pathway_map": "map00380",
+      "snat_ec": "2.3.1.87",
+      "asmt_ec": "2.1.1.4",
+      "dinoflagellate_in_kegg": false,
+      "afmk_amk_in_kegg": false,
+      "note": "Plant melatonin biosynthesis and enzyme entries VERIFIED. Dinoflagellate/Symbiodiniaceae absent from KEGG — infrastructure gap, not negative evidence."
+    },
+    "string": {
+      "verdict": "VERIFIED",
+      "aanat_asmt_score": 0.994,
+      "ido1_score": 0.931,
+      "key_interactions": {
+        "AANAT-ASMT": 0.994,
+        "AANAT-YWHAZ": 0.972,
+        "AANAT-DDC": 0.967,
+        "AANAT-MAOA": 0.943,
+        "AANAT-IDO2": 0.933,
+        "AANAT-IDO1": 0.931,
+        "AANAT-ARNTL": 0.671,
+        "AANAT-TPH1": 0.675
+      },
+      "note": "Core melatonin biosynthesis interaction 0.994 (very high confidence). IDO1 stress-pathway link supports thermal stress context. Dinoflagellate proteins absent from STRING (infrastructure gap)."
+    },
+    "pubmed_cooccurrence": {
+      "melatonin_AND_plant_stress": 1252,
+      "melatonin_AND_coral_bleaching": 0,
+      "melatonin_AND_symbiodiniaceae": 0,
+      "melatonin_AND_dinoflagellate": 29,
+      "disjunction_confirmed": true,
+      "key_paper": {
+        "pmid": 23496383,
+        "citation": "Roopin M, Yacobi YZ, Levy O (2013). Occurrence, diel patterns, and the influence of melatonin on the photosynthetic performance of cultured Symbiodinium. J Pineal Res.",
+        "significance": "Confirmed melatonin in Symbiodinium (nocturnal peaks). Exogenous melatonin ENHANCED PHOTOPROTECTIVE MECHANISMS (NPQ engagement) — decreased O2 evolution via NPQ upregulation. VALIDATES that melatonin-Symbiodinium photosynthetic axis exists. Study under NORMAL conditions only; thermal stress/bleaching context NOT addressed.",
+        "implication_for_hypothesis": "MECHANISTIC FOOTHOLD: melatonin→photoprotection in Symbiodinium is established. Novel angle = thermal stress + bleaching prevention. MUST CITE."
+      }
+    },
+    "quantitative_plausibility": {
+      "verdict": "PLAUSIBLE",
+      "ros_scavenging": {
+        "k_melatonin_OH": "1.1e10 M-1s-1",
+        "endogenous_melatonin_nM": 215,
+        "direct_scavenging_fraction": 0.24,
+        "cascade_multiplier": 10,
+        "cascade_adjusted_coverage": 2.4,
+        "enzyme_induction_nM_threshold": 10,
+        "verdict": "PLAUSIBLE — cascade and enzyme induction resolve concentration gap"
+      },
+      "uv_photolysis": {
+        "lab_uv_half_life_hours": 3.9,
+        "reef_surface_half_life_hours": 8,
+        "reef_5m_depth_half_life_hours": 16,
+        "reef_15m_depth_half_life_hours": 50,
+        "nocturnal_synthesis_protection": true,
+        "verdict": "PLAUSIBLE — depth attenuation (5-15m typical habitat) and nocturnal synthesis timing mitigate UV lability"
+      },
+      "stress_concentration": {
+        "antolin_1997_ng_mg_protein": 50,
+        "estimated_uM": 215,
+        "effective_direct_scavenging_uM_threshold": 100,
+        "verdict": "PLAUSIBLE under high-stress conditions (Antolin 1997 PMID 9462850)"
+      }
+    },
+    "geo_expression": {
+      "verdict": "INCONCLUSIVE",
+      "datasets_available": ["PRJNA723630 (Camp et al. 2022)", "SRP315798 (Kahlke & Camp 2021)"],
+      "tryptophan_pathway_reported": false,
+      "note": "Raw RNAseq data for Symbiodiniaceae under 26°C vs 32°C heat stress exists in SRA. TPH/AANAT homolog expression NOT yet analyzed. This is a directly testable prediction."
+    }
+  },
+  "summary": {
+    "checks_passed": 4,
+    "checks_total": 5,
+    "inconclusive": 1,
+    "failed": 0,
+    "overall_readiness": "HIGH"
+  },
+  "generator_constraints": [
+    "Melatonin pathway in dinoflagellates is ANIMAL-type (TPH-first: Trp→5-HTP→serotonin→NAS→melatonin), NOT plant-type (TDC-first). Bridge operates through PRODUCT convergence (same melatonin molecule), not pathway homology.",
+    "Direct ROS scavenging at resting endogenous concentrations (~215 nM) covers ~24% of OH flux. Generator MUST emphasize NPQ enhancement + enzyme induction (SOD/CAT/APX/GR) + cascade as PRIMARY mechanisms.",
+    "MUST CITE Roopin 2013 (PMID 23496383) — directly shows melatonin enhances photoprotective mechanisms in cultured Symbiodinium.",
+    "MUST CITE Antolin 1997 (PMID 9462850) — Gonyaulax rescued from lethal oxidative stress by elevated melatonin (~215 μM under stress).",
+    "Novel angle = THERMAL STRESS + BLEACHING INTERVENTION context, not melatonin-photosynthesis connection (Roopin 2013 already established that).",
+    "Disjointness: 0 papers on melatonin+coral bleaching; 0 on melatonin+Symbiodiniaceae. PARTIALLY_EXPLORED for melatonin+dinoflagellate (29 papers).",
+    "Propose mining PRJNA723630 (Camp et al. 2022 SRA) for TPH/AANAT homolog expression under heat stress as first experimental test.",
+    "No known melatonin receptor in dinoflagellates (MT1/MT2 are animal GPCRs). Signaling mechanism is unknown — this is an open question to address."
+  ],
+  "apis_used": ["KEGG REST API", "STRING API v11", "PubMed E-utilities (esearch)", "WebSearch"],
+  "computation_completed": "2026-03-22"
+}
