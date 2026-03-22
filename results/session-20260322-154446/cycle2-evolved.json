@@ -1,0 +1,121 @@
+{
+  "session_id": "session-20260322-154446",
+  "cycle": 2,
+  "evolution_results": {
+    "total_selected": 3,
+    "total_evolved": 3,
+    "evolution_success_rate": 1.0,
+    "diversity_maintained": true
+  },
+  "evolved_hypotheses": [
+    {
+      "id": "H2.4-E",
+      "parent_id": "H2.4",
+      "title": "Nucleation-Controlled Ostwald Ripening with Polymer Inhibition Predicts ASD Phase Evolution Trajectories",
+      "operations": ["specification", "mutation"],
+      "confidence_original": 6,
+      "confidence_evolved": 7,
+      "groundedness_original": 8,
+      "groundedness_evolved": 9,
+      "estimated_composite_score": 8.4,
+      "key_improvements": [
+        "Resolves nucleation dominance: specifies exactly when nucleation vs growth controls outcome",
+        "Polymer inhibition: quantifies selective inhibition of crystallization vs LLPS",
+        "Trajectory prediction: provides three distinct evolution regimes with crossover criteria",
+        "Mechanistic depth: names molecular interactions (H-bonding, steric hindrance)",
+        "Testable parameters: k_ads measurable via crystallization inhibition assays"
+      ],
+      "addresses_vulnerabilities": [
+        "Nucleation kinetics may dominate over growth kinetics",
+        "Polymer inhibition mechanisms may interfere"
+      ]
+    },
+    {
+      "id": "H2.1-E",
+      "parent_id": "H2.1",
+      "title": "Pressure-Fracture Competition Regime Map for ASD Manufacturing Optimization",
+      "operations": ["specification"],
+      "confidence_original": 6,
+      "confidence_evolved": 7,
+      "groundedness_original": 7,
+      "groundedness_evolved": 8,
+      "estimated_composite_score": 7.5,
+      "key_improvements": [
+        "Regime boundaries: quantitative criteria (Pc number) to predict which mechanism dominates",
+        "Material properties: connects to measurable ASD properties (modulus, fracture stress)",
+        "Manufacturing relevance: specific process recommendations for different drug loadings",
+        "Scalable framework: works across particle sizes and ASD compositions",
+        "Addresses counter-evidence: explains why compression sometimes increases dissolution"
+      ],
+      "addresses_vulnerabilities": [
+        "Particle fracture may overwhelm pressure effects",
+        "Counter-evidence from manufacturing literature"
+      ]
+    },
+    {
+      "id": "H2.3-E",
+      "parent_id": "H2.3",
+      "title": "Hybrid Buffer-Switch Model for pH-Adaptive ASD Dissolution Control",
+      "operations": ["specification", "combination"],
+      "confidence_original": 5,
+      "confidence_evolved": 6,
+      "groundedness_original": 6,
+      "groundedness_evolved": 7,
+      "estimated_composite_score": 6.8,
+      "key_improvements": [
+        "Embraces limitations: works with pH-dependent polymer behavior instead of against it",
+        "Dual-mode operation: combines buffering AND switching for broader applicability",
+        "Adaptive region: identifies novel autocatalytic dissolution regime",
+        "Clinical mapping: specific predictions for fed/fasted conditions",
+        "Hysteresis prediction: accounts for pH history effects"
+      ],
+      "addresses_vulnerabilities": [
+        "Inherent pH-dependent polymer behavior limits scope",
+        "Bulk pH effects may overwhelm microenvironment"
+      ]
+    }
+  ],
+  "diversity_analysis": {
+    "mechanistic_clusters_maintained": [
+      "Kinetic (H2.4-E): Nucleation-growth competition with polymer effects",
+      "Mechanical (H2.1-E): Stress-dependent dissolution with manufacturing optimization",
+      "Chemical (H2.3-E): pH-adaptive dissolution with dual-mode operation"
+    ],
+    "bridge_mechanisms_distinct": true,
+    "diversity_constraint_satisfied": true
+  },
+  "evolution_operations_summary": {
+    "specification": {
+      "count": 3,
+      "examples": [
+        "H2.4-E: Added nucleation rate equations and polymer inhibition constants",
+        "H2.1-E: Defined dimensionless competition number (Pc) for regime boundaries",
+        "H2.3-E: Specified pH regions and switch equations"
+      ]
+    },
+    "mutation": {
+      "count": 1,
+      "examples": [
+        "H2.4-E: Added erosion term for polymer layer dynamics"
+      ]
+    },
+    "combination": {
+      "count": 1,
+      "examples": [
+        "H2.3-E: Combined buffering and switching mechanisms"
+      ]
+    }
+  },
+  "quality_assessment": {
+    "all_improved": true,
+    "mechanistic_specificity_increased": true,
+    "testability_enhanced": true,
+    "vulnerabilities_addressed": true,
+    "evolution_quality_check_passed": true
+  },
+  "cross_pollination": {
+    "cycle1_insights_integrated": true,
+    "builds_on_evolved_framework": true,
+    "novel_mechanisms_added": true
+  }
+}

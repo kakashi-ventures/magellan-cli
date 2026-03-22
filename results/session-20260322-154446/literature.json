@@ -1,0 +1,34 @@
+{
+  "session_id": "session-20260322-154446",
+  "selected_target": {
+    "field_a": "Volcanic glass dissolution kinetics",
+    "field_c": "Pharmaceutical amorphous solid dispersion dissolution"
+  },
+  "disjointness": "DISJOINT",
+  "disjointness_evidence": "0 mechanistic cross-citations between geochemical glass dissolution (TST, PHREEQC) and pharmaceutical ASD dissolution (Noyes-Whitney, Higuchi). 21 PHREEQC+pharmaceutical results are all environmental contamination modeling, not dissolution prediction.",
+  "key_papers": {
+    "field_a": [
+      {"id": "Lasaga1981", "title": "TST framework for mineral dissolution", "relevance": "foundational TST rate law"},
+      {"id": "Oelkers2001", "title": "General kinetic description of multioxide silicate dissolution", "relevance": "composition-rate relationships"},
+      {"id": "GislasonOelkers2003", "title": "Basaltic glass dissolution kinetics", "relevance": "Ea, pH dependence, rate law parameters"},
+      {"id": "PMID28092154", "title": "Network topology correlates with glass dissolution rate", "relevance": "compositional prediction of dissolution rate"},
+      {"id": "Gin2015NatMater", "title": "Glass alteration mechanisms and rate-limiting steps", "relevance": "passivation layer mechanics"},
+      {"id": "Hellmann2012", "title": "Interfacial dissolution-reprecipitation mechanism", "relevance": "alternative to simple surface-reaction model"}
+    ],
+    "field_c": [
+      {"id": "PMID36549404", "title": "Supersaturation and phase behavior during ASD dissolution (2023)", "relevance": "current state of ASD dissolution understanding"},
+      {"id": "PMID36529939", "title": "Inhomogeneous phase reduces ASD bioavailability (2023)", "relevance": "demonstrates complexity beyond Noyes-Whitney"},
+      {"id": "PMID35872180", "title": "HPMCAS for ASD formulations review (2022)", "relevance": "most successful ASD polymer"},
+      {"id": "Indulkar2019", "title": "LLPS during ASD dissolution", "relevance": "phase behavior framework"},
+      {"id": "Ting2018", "title": "Spring-parachute model", "relevance": "current conceptual framework"},
+      {"id": "BairdTaylor2012", "title": "Evaluation of ASD dissolution", "relevance": "foundational review"}
+    ]
+  },
+  "bridge_strength": {
+    "mathematical_analogy": "STRONG — parabolic rate law (sqrt(t)) independently derived in both fields for identical physics",
+    "quantitative_framework": "STRONG — TST rate law provides composition-based prediction absent in pharma",
+    "tool_transfer": "STRONG — PHREEQC has 0 pharmaceutical citations but handles exactly the relevant chemistry",
+    "composition_prediction": "STRONG — geochemistry has composition-dissolution rate functions; pharma has none"
+  },
+  "critical_gap_identified": "No TST-equivalent predictive framework exists in pharmaceutical dissolution science. All current models are empirical (fit-to-data), not predictive from composition."
+}

@@ -1,0 +1,89 @@
+{
+  "session_id": "session-20260322-154446",
+  "cycle": 1,
+  "hypotheses": [
+    {
+      "id": "H1.1",
+      "title": "TST Affinity-Based Dissolution Model for Amorphous Solid Dispersions",
+      "technique": "tool_transfer",
+      "confidence": 7,
+      "groundedness": 7,
+      "novelty": "Novel",
+      "impact": "Transformative",
+      "bridge_type": "Quantitative framework transfer (TST rate law)",
+      "key_equation": "r = k+ * (1 - exp(-DeltaG/sigma*RT))"
+    },
+    {
+      "id": "H1.2",
+      "title": "Passivation Layer Kinetics Unify Glass Alteration Rinds and ASD Polymer-Rich Surface Layers",
+      "technique": "scale_bridging",
+      "confidence": 6,
+      "groundedness": 7,
+      "novelty": "Novel",
+      "impact": "High",
+      "bridge_type": "Physical process analogy (diffusion-limited passivation)",
+      "key_equation": "r_drug(t) = r_0 * K_p / (K_p + sqrt(D_eff * t))"
+    },
+    {
+      "id": "H1.3",
+      "title": "PHREEQC-Style Speciation Modeling Predicts ASD Dissolution Phase Behavior",
+      "technique": "tool_transfer",
+      "confidence": 5,
+      "groundedness": 6,
+      "novelty": "Novel",
+      "impact": "High",
+      "bridge_type": "Software tool transfer (PHREEQC → PharmPHREEQC)",
+      "key_equation": "SI = log(Q/K) for drug-excipient-water systems"
+    },
+    {
+      "id": "H1.4",
+      "title": "Composition-Dissolution Rate Functions Enable Predictive ASD Formulation Screening",
+      "technique": "tool_transfer",
+      "confidence": 6,
+      "groundedness": 6,
+      "novelty": "Novel",
+      "impact": "Transformative",
+      "bridge_type": "Empirical model transfer (composition-rate regression)",
+      "key_equation": "log(r) = b0 + b1*[loading] + b2*[MW] + b3*[chi] + b4*[Tg/T]"
+    },
+    {
+      "id": "H1.5",
+      "title": "V-Shaped pH Dependence of ASD Dissolution Mirrors Silicate Glass",
+      "technique": "scale_bridging",
+      "confidence": 5,
+      "groundedness": 6,
+      "novelty": "Partially explored",
+      "impact": "Medium",
+      "bridge_type": "Functional form analogy (V-shaped rate law)",
+      "key_equation": "r = k_acid * [H+]^n + k_base * [OH-]^m + k_neutral"
+    },
+    {
+      "id": "H1.6",
+      "title": "Saturation Index-Guided Crystallization Risk Assessment for Supersaturated Drug Solutions",
+      "technique": "tool_transfer",
+      "confidence": 7,
+      "groundedness": 7,
+      "novelty": "Partially explored",
+      "impact": "High",
+      "bridge_type": "Quantitative framework transfer (SI with activity corrections)",
+      "key_equation": "SI = log(a_drug / a_drug,eq) with polymer-corrected activity coefficients"
+    },
+    {
+      "id": "H1.7",
+      "title": "Geochemical Reactive Transport Modeling Predicts In Vivo ASD Dissolution Under GI Transit",
+      "technique": "tool_transfer",
+      "confidence": 5,
+      "groundedness": 5,
+      "novelty": "Novel",
+      "impact": "Transformative",
+      "bridge_type": "Computational framework transfer (reactive transport → GI dissolution)",
+      "key_equation": "dC/dt = D*d2C/dx2 - v*dC/dx + R_dissolution(C) - R_absorption(C)"
+    }
+  ],
+  "generation_stats": {
+    "total_generated": 7,
+    "techniques_used": ["tool_transfer", "scale_bridging"],
+    "avg_confidence": 5.86,
+    "avg_groundedness": 6.29
+  }
+}

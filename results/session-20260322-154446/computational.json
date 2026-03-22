@@ -1,0 +1,20 @@
+{
+  "session_id": "session-20260322-154446",
+  "target": "Volcanic glass dissolution kinetics x Pharmaceutical ASD dissolution",
+  "checks": [
+    {"name": "KEGG_pathway", "result": "NOT_APPLICABLE", "note": "Non-biological target"},
+    {"name": "TST_in_pharma", "result": "NOVEL", "note": "0 genuine applications of TST dissolution rate law to ASD"},
+    {"name": "PHREEQC_organic", "result": "PLAUSIBLE", "note": "20 pharma-environment papers but 0 dissolution prediction"},
+    {"name": "SI_framework", "result": "PARTIALLY_EXPLORED", "note": "Pharma uses simplified supersaturation; geochemical SI not applied"},
+    {"name": "Ea_measurement", "result": "PLAUSIBLE", "note": "Only 3 papers measure Ea for ASD dissolution"},
+    {"name": "passivation_layer", "result": "PLAUSIBLE", "note": "Same physics (parabolic rate law), different materials"},
+    {"name": "rate_magnitude", "result": "PLAUSIBLE", "note": "Pharma rates (10^-9 to 10^-7 mol/m2/s) overlap geochemical range"}
+  ],
+  "overall": "ALL_PLAUSIBLE",
+  "warnings": [
+    "Activity coefficient models differ (Debye-Huckel vs Flory-Huggins) — must address",
+    "LLPS during ASD dissolution has no geochemical analogue",
+    "Organic thermodynamic parameters need measurement, cannot use silicate values directly"
+  ],
+  "implausible_flags": []
+}

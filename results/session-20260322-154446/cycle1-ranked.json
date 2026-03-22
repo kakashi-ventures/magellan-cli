@@ -1,0 +1,106 @@
+{
+  "session_id": "session-20260322-154446",
+  "cycle": 1,
+  "ranked_hypotheses": [
+    {
+      "id": "H1.1",
+      "title": "TST Affinity-Based Dissolution Model for Amorphous Solid Dispersions",
+      "composite_score": 7.6,
+      "scores": {
+        "novelty": 9,
+        "mechanistic_specificity": 7,
+        "cross_field_distance": 7,
+        "testability": 8,
+        "impact": 7,
+        "groundedness": 7
+      },
+      "selected_for_evolution": true,
+      "evolution_priority": 1,
+      "critic_verdict": "SURVIVES",
+      "evolution_direction": "Resolve which ASD dissolution regime is surface-reaction-limited; specify rate-limiting molecular event (drug-surface vs. polymer-water interface)"
+    },
+    {
+      "id": "H1.2",
+      "title": "Passivation Layer Kinetics Unify Glass Alteration Rinds and ASD Polymer-Rich Surface Layers",
+      "composite_score": 5.8,
+      "scores": {
+        "novelty": 8,
+        "mechanistic_specificity": 4,
+        "cross_field_distance": 7,
+        "testability": 6,
+        "impact": 5,
+        "groundedness": 5
+      },
+      "selected_for_evolution": true,
+      "evolution_priority": 2,
+      "critic_verdict": "WOUNDED",
+      "evolution_direction": "Deepen mechanism beyond generic sqrt(t); identify specific diffusing species; add termination term for polymer layer transience vs. permanent glass rind"
+    },
+    {
+      "id": "H1.6",
+      "title": "Saturation Index-Guided Crystallization Risk Assessment for Supersaturated Drug Solutions",
+      "composite_score": 5.4,
+      "scores": {
+        "novelty": 3,
+        "mechanistic_specificity": 6,
+        "cross_field_distance": 7,
+        "testability": 8,
+        "impact": 3,
+        "groundedness": 5
+      },
+      "selected_for_evolution": true,
+      "evolution_priority": 3,
+      "critic_verdict": "WOUNDED",
+      "evolution_direction": "Differentiate from MFAD 2019; specify what geochemical SI adds — multi-ion activity products, pH-coupled equilibria, or kinetic SI trajectory not in scalar S"
+    },
+    {
+      "id": "H1.4",
+      "title": "Composition-Dissolution Rate Functions Enable Predictive ASD Formulation Screening",
+      "composite_score": 5.3,
+      "scores": {
+        "novelty": 6,
+        "mechanistic_specificity": 4,
+        "cross_field_distance": 7,
+        "testability": 6,
+        "impact": 4,
+        "groundedness": 5
+      },
+      "selected_for_evolution": false,
+      "evolution_priority": null,
+      "critic_verdict": "WOUNDED",
+      "evolution_direction": "Excluded: dimensionality problem (drug structural space >> silicate oxide space) has no evolutionary solution that doesn't already exist as standard QSPR"
+    }
+  ],
+  "diversity_check": {
+    "passed": true,
+    "similar_pairs": ["H1.1+H1.4 (both TST-based tool transfer)"],
+    "similar_count": 1,
+    "threshold": 3,
+    "adjustments": "No adjustments needed. Only 1/4 pairs share conceptual bridge. Three distinct clusters represented: kinetic/TST (H1.1, H1.4), structural/diffusion (H1.2), thermodynamic (H1.6). H1.4 excluded from evolution on merit, not diversity grounds."
+  },
+  "elo_sanity": {
+    "agrees_with_linear": true,
+    "elo_ranking": ["H1.1", "H1.2", "H1.6", "H1.4"],
+    "linear_ranking": ["H1.1", "H1.2", "H1.6", "H1.4"],
+    "win_rates": {
+      "H1.1": "3/3",
+      "H1.2": "2/3",
+      "H1.6": "1/3",
+      "H1.4": "0/3"
+    },
+    "notes": "Perfect agreement. Elo cleanly separated H1.6 from H1.4 (0.1 composite point gap) via testability and evolutionary potential vs. dimensionality barrier — validating the linear ranking in its most uncertain region."
+  },
+  "evolution_selection": ["H1.1", "H1.2", "H1.6"],
+  "score_metadata": {
+    "dimension_weights": {
+      "novelty": 0.20,
+      "mechanistic_specificity": 0.20,
+      "cross_field_distance": 0.10,
+      "testability": 0.20,
+      "impact": 0.10,
+      "groundedness": 0.20
+    },
+    "score_range": [5.3, 7.6],
+    "cross_field_note": "All hypotheses share identical cross_field_distance=7 — inherent to single-session geochemistry→pharma axis; dimension does not differentiate within this session"
+  }
+}

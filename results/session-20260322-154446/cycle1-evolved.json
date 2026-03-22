@@ -1,0 +1,101 @@
+{
+  "session_id": "session-20260322-154446",
+  "cycle": 1,
+  "evolved_hypotheses": [
+    {
+      "id": "H1.1-E",
+      "parent_id": "H1.1",
+      "parent_composite": 7.6,
+      "title": "TST Dissolution Kinetics in the Surface-Reaction-Limited Regime of Low Drug-Loading ASDs",
+      "operation": "specification",
+      "improvement_summary": "Resolves critic's primary objection by identifying the specific ASD dissolution regime where TST applies (Da << 1, low drug loading < 20 wt%), naming the rate-limiting molecular event (drug-polymer H-bond disruption at the interface, Ea = 65-85 kJ/mol), providing a Damköhler number criterion for regime identification, predicting the Temkin coefficient (σ = 0.30-0.40 for indomethacin-HPMCAS from H-bond stoichiometry), predicting a drug-loading crossover at ~25 wt%, and providing a hard 1-number falsification test (Ea < 35 kJ/mol at 10% loading kills hypothesis).",
+      "key_predictions": [
+        "10 wt% indomethacin-HPMCAS: Ea = 65-80 kJ/mol (surface-reaction-limited, TST applies)",
+        "40 wt% indomethacin-HPMCAS: Ea = 15-30 kJ/mol (diffusion-limited, TST inapplicable)",
+        "Crossover at ~25 wt% drug loading where Da ≈ 1",
+        "σ = 0.30-0.40 for indomethacin-HPMCAS (derived from ~3 H-bonds per drug molecule)",
+        "TST curve fit R² > 0.95 for 10% loading at varied C_drug/C_am ratios"
+      ],
+      "bridge": "TST activation energy (Ea) for drug-polymer H-bond disruption at ASD-water interface, operative under low-Damköhler (Da << 1) surface-reaction-limited conditions",
+      "estimated_scores": {
+        "novelty": 9,
+        "mech_specificity": 9,
+        "cross_field": 7,
+        "testability": 9,
+        "impact": 7,
+        "groundedness": 8,
+        "composite": 8.4
+      },
+      "estimated_composite_improvement": 0.8,
+      "diversity_check": "UNIQUE bridge: TST activation energy with H-bond disruption molecular event under Damköhler criterion. Distinct from H1.2-E (RL-2 ODE passivation-erosion) and H1.6-E (dual-SI phase competition)"
+    },
+    {
+      "id": "H1.2-E",
+      "parent_id": "H1.2",
+      "parent_composite": 5.8,
+      "title": "Grambow Rate Law 2 Predicts Competitive Passivation-Erosion Kinetics and Regime Switching in ASD Dissolution",
+      "operation": "mutation",
+      "improvement_summary": "Replaces Grambow 1985 Rate Law 1 (permanent passivation layer) with Grambow-Müller 2001 Rate Law 2 (competitive passivation-erosion ODE), which explicitly handles polymer layer erosion — the critic's primary objection. The RL-2 ODE (dh/dt = α·D_drug/h − β·k_erase) predicts three dissolution regimes (parabolic, zero-order, erosion-controlled) as a function of polymer molecular weight. Assigns molecular sources for D_drug (free-volume theory) and k_erase (reptation theory, MW^-3.5 scaling). Introduces QCM-D as independent verification of k_erase. PVP-VA negative control distinguishes passivation mechanism from generic Higuchi kinetics. Corrects Gin et al. journal (Nature Comm, not Nature Materials).",
+      "key_predictions": [
+        "HPMCAS-H (330 kDa): parabolic release (G << 1, √t kinetics, R² > 0.92)",
+        "HPMCAS-M (78 kDa): ~zero-order release after initial burst (G ~ 1, steady-state layer)",
+        "HPMCAS-L (11 kDa): faster-than-linear, erosion-controlled (G >> 1)",
+        "k_erase scales as MW^-3.5 across three HPMCAS grades (within factor of 3)",
+        "D_drug from RL-2 dissolution fit agrees with QCM-D k_erase within one order of magnitude",
+        "PVP-VA control: no MW-dependent regime switching (Higuchi control, not passivation)"
+      ],
+      "bridge": "Grambow-Müller 2001 Rate Law 2 competitive passivation-erosion ODE from nuclear waste borosilicate glass dissolution regulatory modeling, applied to ASD polymer-rich surface layer dynamics",
+      "estimated_scores": {
+        "novelty": 8,
+        "mech_specificity": 8,
+        "cross_field": 8,
+        "testability": 8,
+        "impact": 7,
+        "groundedness": 7,
+        "composite": 7.7
+      },
+      "estimated_composite_improvement": 1.9,
+      "diversity_check": "UNIQUE bridge: Grambow RL-2 competitive passivation-erosion ODE with reptation-theory k_erase. Distinct from H1.1-E (TST surface kinetics) and H1.6-E (thermodynamic dual-SI competition)"
+    },
+    {
+      "id": "H1.6-E",
+      "parent_id": "H1.6",
+      "parent_composite": 5.4,
+      "title": "Dual Saturation Index Competition Predicts LLPS vs. Crystallization Pathway Switching in Ionizable Drug ASD Dissolution",
+      "operation": "specification_crossover",
+      "improvement_summary": "Resolves critic's primary objection that SI = log(a/a_eq) is equivalent to MFAD 2019. Evolution identifies the genuine novelty: geochemical speciation codes compute saturation indices for ALL POSSIBLE PHASES SIMULTANEOUSLY, which MFAD 2019 cannot do (MFAD tracks only crystalline reference). The dual-SI framework (SI_LLPS and SI_cryst computed in parallel) applies Ostwald's Rule of Stages to predict WHICH precipitation pathway occurs first — LLPS (preserves supersaturation, beneficial) or crystallization (destroys supersaturation, harmful). Provides pH_crit formula for ionizable drugs, specific quantitative prediction for posaconazole at pH 1.2 and 6.8, PC-SAFT as the activity coefficient model, and a 12-condition (3 drugs × 4 pH) falsification matrix.",
+      "key_predictions": [
+        "For posaconazole at pH 6.8: DLS detects LLPS at 1.5 μg/mL, ≥15 min before PXRD detects crystallization",
+        "For posaconazole at pH 1.2: neither LLPS nor crystallization at therapeutic concentrations (SI_LLPS and SI_cryst both negative)",
+        "pH 'dangerous window' (pH 4-5 for posaconazole): LLPS and crystallization concurrent (<5 min lag)",
+        "Dual-SI correctly predicts LLPS-first vs. concurrent vs. cryst-first sequence in ≥9/12 conditions",
+        "Sequence prediction is pH-dependent for ionizable drugs (pH-independent for non-ionizable controls)"
+      ],
+      "bridge": "Multi-phase simultaneous saturation index tracking from geochemical speciation (SI_LLPS vs. SI_cryst computed in parallel via Ostwald's Rule of Stages), predicting LLPS/crystallization pathway sequence as a function of pH for ionizable drugs",
+      "estimated_scores": {
+        "novelty": 7,
+        "mech_specificity": 8,
+        "cross_field": 8,
+        "testability": 8,
+        "impact": 7,
+        "groundedness": 7,
+        "composite": 7.5
+      },
+      "estimated_composite_improvement": 2.1,
+      "diversity_check": "UNIQUE bridge: Dual-SI multi-phase competition (SI_LLPS vs. SI_cryst) from geochemical speciation applied to pH-dependent precipitation pathway selection. Distinct from H1.1-E (surface kinetics) and H1.2-E (layer dynamics ODE)"
+    }
+  ],
+  "excluded": [
+    {
+      "id": "H1.4",
+      "reason": "Reduces to QSPR with extra steps; dimensionality problem (drug structural diversity >> silicate oxide space) has no evolutionary solution. Elo tournament confirmed 0/3 wins. Not evolved."
+    }
+  ],
+  "diversity_verified": true,
+  "diversity_bridges": [
+    "H1.1-E: TST activation energy / Damköhler criterion / surface kinetics",
+    "H1.2-E: Grambow RL-2 ODE / competitive passivation-erosion / reptation theory",
+    "H1.6-E: Dual-SI multi-phase speciation / Ostwald Rule of Stages / pH-dependent pathway"
+  ],
+  "evolution_quality_check": "All three evolved hypotheses are substantively stronger than their parents. H1.1-E resolves the critic's regime question with a quantitative criterion (Damköhler number) and named molecular event (H-bond disruption, Ea prediction). H1.2-E replaces a permanent-passivation analogy with a competitive ODE that handles erosion, adds reptation-theory molecular sources, and provides a negative control to distinguish the mechanism from generic Higuchi kinetics. H1.6-E transforms a MFAD-equivalent repackaging into a genuinely new dual-pathway prediction tool using simultaneous SI competition — MFAD 2019 cannot predict LLPS vs. crystallization sequence. No two hypotheses share a bridge mechanism. No incoherent crossovers. Largest improvements in MechSpec (H1.2-E: 4→8) and Novelty/Impact (H1.6-E: 3→7 for both). H1.1-E remains the composite leader with estimated 8.4."
+}

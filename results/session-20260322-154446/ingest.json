@@ -1,0 +1,22 @@
+{
+  "session_id": "session-20260322-154446",
+  "mode": "scout",
+  "status": "success",
+  "field_a": "Volcanic glass dissolution kinetics",
+  "field_c": "Pharmaceutical amorphous solid dispersion dissolution",
+  "bridge_concepts": ["TST rate law", "Damkohler criterion", "Grambow Rate Law 2", "passivation-erosion ODE", "dual saturation index", "Ostwald ripening", "activation volume"],
+  "strategy": "tool_repurposing",
+  "disjointness": 1.0,
+  "contributor_key": null,
+  "started_at": "2026-03-22T14:45:27Z",
+  "completed_at": "2026-03-22T16:32:31Z",
+  "pipeline_stats": {
+    "hypotheses_generated": 13,
+    "survived_critique": 9,
+    "passed_quality_gate": 5,
+    "kill_rate": 30.8,
+    "attrition_rate": 61.5,
+    "cycles_run": 2,
+    "evolver_skipped": false
+  }
+}
