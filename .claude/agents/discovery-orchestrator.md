@@ -91,8 +91,10 @@ After EVERY phase:
 2. Update `state/session.json` with: phase, cycle, status, progress, health counters
 3. NEVER write hypothesis content, full mechanism text, or supporting evidence into session.json
 
-Initialize state at session start:
+Initialize state at session start. First check for a contributor key (from `/connect`):
 ```bash
+# Read contributor key if connected to MAGELLAN web profile
+CONTRIBUTOR_KEY=$(cat .magellan/config.json 2>/dev/null | grep -o '"contributor_key":"[^"]*"' | cut -d'"' -f4)
 # Generate session_id first, then create directories
 SESSION_ID="$(date +%Y-%m-%d)-${MODE}-$(printf '%03d' $NEXT_NUM)"
 mkdir -p "results/${SESSION_ID}/papers" "state/phases" knowledge
@@ -110,6 +112,7 @@ cat > state/session.json << EOF
   "metadata": {
     "start_time": "",
     "model": "opus-4.6",
+    "contributor_key": "${CONTRIBUTOR_KEY:-null}",
     "total_hypotheses_generated": 0,
     "kill_rate": 0,
     "fallback_used": false,
@@ -163,6 +166,7 @@ Launch TWO subagents in parallel using Agent:
 > "<context>
 > Discovery log: knowledge/discovery-log.json (read if exists to avoid
 > re-exploring pairs and to reuse productive bridge concepts).
+> [IF contributor domain context was provided in dispatch: include it here as "Contributor domain context: [text]" — the Scout should use this to inform strategy selection and target areas, but NOT limit itself exclusively to the contributor's domain.]
 > </context>
 >
 > <task>
@@ -176,6 +180,7 @@ Launch TWO subagents in parallel using Agent:
 > Mode: broad landscape scan across major scientific domains.
 > Focus: recent breakthroughs (last 12 months) with cross-domain
 > implications not yet explored. High-impact journals.
+> [IF seed papers (DOIs) were provided in dispatch: include them as "Seed papers (contributor-provided): [DOIs]" — retrieve these papers FIRST and use them as starting points for the landscape scan.]
 > </context>
 >
 > <task>
@@ -236,6 +241,14 @@ After agent returns, read state/session.json:
 - IF best target is different from Scout's top pick:
   → Consider using the target-evaluator's recommended target instead
 - Select TOP target (by target_quality_score, breaking ties with Scout confidence).
+
+### INTERACTIVE MODE PAUSE (if --interactive flag was set in dispatch)
+If the dispatch prompt includes "INTERACTIVE MODE", pause here and present the evaluated targets to the user:
+- Show all targets with their scores, bridge concepts, and evaluator comments
+- Ask user: "Approve all / Select specific targets / Reject and re-scout"
+- If user selects specific targets: proceed with their selection
+- If user rejects: re-dispatch Scout with user feedback as additional context
+- If user approves: proceed normally with the top target
 
 Read {results_dir}/literature-landscape.md → extract relevant context.
 Update state: selected_target, literature_context, phase=1.
@@ -565,12 +578,13 @@ Update health counters in state with final values.
 ## SESSION SUMMARY
 
 Write {results_dir}/session-summary.md and {results_dir}/final-hypotheses.md.
-Start session-summary with health status:
+Start session-summary with health status and contributor attribution (if connected):
 
 ```markdown
 # Session Summary
 ## Status: [SUCCESS|PARTIAL|DEGRADED|FAILED]
 ## Reason: [1 sentence explanation]
+## Contributor: [display_name from .magellan/config.json, or "Anonymous" if not connected]
 ```
 
 For **FAILED**:

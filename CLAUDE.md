@@ -78,11 +78,25 @@ Agents receive data via dispatch prompts, never read state files directly.
 - `/discover [A] × [C]` — Targeted discovery
 - `/discover [topic]` — Open exploration
 - `/discover solve: [problem]` — Problem-driven
+- `/discover --context "text"` — Provide domain expertise as context for Scout/Generator
+- `/discover --papers DOI1,DOI2` — Provide seed papers for Literature Scout
+- `/discover --interactive` — Pause after Scout for target approval before proceeding
+- `/connect <mgln_key>` — Link this CLI to your MAGELLAN web profile for discovery attribution
 - `/validate [hypothesis]` — Deep validation check
 - `/evolve` — Another evolutionary cycle
 - `/export gpt` — Self-contained prompt for GPT-5.4 validation
 - `/export gemini` — Self-contained prompt for Gemini Deep Think
 - `/status` — Check pipeline progress
+
+## Contributor Connection
+
+Link your CLI to your MAGELLAN web profile so discoveries are attributed to you:
+1. Create an account at https://magellan-discover.ai/sign-in
+2. Go to your profile and generate a contributor key
+3. Run `/connect mgln_your_key` in the CLI
+4. Key is saved in `.magellan/config.json` (gitignored)
+5. All subsequent `/discover` sessions embed the key in results
+6. When results are seeded to the website, sessions are auto-attributed to your profile
 
 ## Quality Rules
 Every hypothesis MUST have: specific mechanism, falsifiable prediction,

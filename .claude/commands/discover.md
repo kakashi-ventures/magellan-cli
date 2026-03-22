@@ -17,19 +17,27 @@ The discovery pipeline is fully autonomous and CANNOT run in plan mode.
 If plan mode is active, call ExitPlanMode IMMEDIATELY before proceeding.
 Do not write a plan file. Do not ask for confirmation.
 
-## Step 1: Determine Mode
+## Step 1: Parse Flags and Determine Mode
 
-Parse the input:
+Parse `$ARGUMENTS` for optional flags before determining mode:
+- `--context "..."` → Extract quoted text as contributor domain context
+- `--papers DOI1,DOI2,...` → Extract comma-separated DOIs/identifiers as seed papers
+- `--interactive` → Enable interactive target review (pause after Scout for user approval)
+
+Remove parsed flags from $ARGUMENTS, then determine mode from remaining text:
 - **Empty or generic** → **SCOUT MODE** (fully autonomous)
 - Contains "×" or " x " or " and " between two fields → **TARGETED MODE**
 - Starts with "solve" or "problem" → **PROBLEM MODE**
 - Single specific topic → **OPEN MODE**
 
 ## Step 2: Initialize
+
+Read contributor config if available, then create session state:
 ```bash
+CONTRIBUTOR_KEY=$(cat .magellan/config.json 2>/dev/null | grep -o '"contributor_key":"[^"]*"' | cut -d'"' -f4)
 mkdir -p state
-cat > state/session.json << 'EOF'
-{"phase":"init","cycle":0,"scout_targets":[],"hypotheses":{},"final":[],"metadata":{"total_hypotheses_generated":0}}
+cat > state/session.json << EOF
+{"phase":"init","cycle":0,"scout_targets":[],"hypotheses":{},"final":[],"metadata":{"total_hypotheses_generated":0,"contributor_key":"${CONTRIBUTOR_KEY:-null}"}}
 EOF
 ```
 
@@ -38,12 +46,17 @@ EOF
 Launch `discovery-orchestrator` agent via Agent IMMEDIATELY.
 Do NOT ask for confirmation. Do NOT present a plan first.
 
+Include these in the orchestrator dispatch if present:
+- If `--context` was provided: "Contributor domain context: [text]"
+- If `--papers` was provided: "Seed papers (contributor-provided): [DOIs]"
+- If `--interactive` was set: "INTERACTIVE MODE: Pause after Scout target selection for user approval before proceeding."
+
 **SCOUT MODE:**
 > Run a full SCOUT MODE discovery session.
 > Phase 0: Launch scout and literature-scout in parallel.
 > Scout identifies 3 promising targets; Literature Scout provides
 > landscape context. Select best target and run 2 complete cycles.
-> Do not stop for user input. Write all results to results/{session-id}/.
+> Do not stop for user input (unless --interactive). Write all results to results/{session-id}/.
 > Manage state in state/session.json.
 
 **TARGETED MODE:**
