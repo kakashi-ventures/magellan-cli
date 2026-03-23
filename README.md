@@ -248,4 +248,6 @@ the evolution history of the pipeline.
 
 ## License
 
-MIT
+MIT — Copyright (c) 2026 Alberto Trivero / Kakashi Venture Accelerator
+
+Built where science meets AI. [kakashi.ventures](https://kakashi.ventures)
