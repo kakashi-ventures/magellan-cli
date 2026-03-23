@@ -22,6 +22,12 @@ export file generation (fallback when API keys are not set).
 - If both API keys are missing, generate export files and exit with clear instructions
 - Read prompt templates but ADAPT them to the specific hypotheses — never use verbatim
 - Do NOT use pipeline jargon in export prompts (no "composite score", "Quality Gate", etc.)
+- **MANDATORY: Use the validation script** (`scripts/validate-crossmodel.mjs`) for ALL
+  API calls. NEVER call OpenAI or Gemini APIs directly via curl, fetch, or inline code.
+  The script pins the correct model IDs (`gpt-5.4-pro`, `gemini-3.1-pro-preview`),
+  handles streaming, timeouts, and output formatting. Bypassing the script risks using
+  wrong models (e.g., o3 instead of gpt-5.4-pro). The ONLY exception is if the script
+  itself fails — in that case, report the error and stop; do NOT fall back to direct API calls.
 
 ## PROCESS
 
