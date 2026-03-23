@@ -1,0 +1,27 @@
+{
+  "session_id": "session-20260323-025742",
+  "mode": "scout",
+  "status": "success",
+  "field_a": "Cartilage ECM biomechanics (Mow 1980 biphasic theory, FCD, aggregate modulus, triphasic theory)",
+  "field_c": "Bacterial biofilm matrix mechanics (Psl/Pel/alginate networks, antibiotic penetration, viscoelasticity)",
+  "bridge_concepts": [
+    "Biphasic theory (Mow 1980) governing PDEs",
+    "Fixed Charge Density (FCD) from triphasic theory",
+    "Aggregate modulus H_a from confined compression",
+    "Donnan osmotic pressure and ion partitioning",
+    "Streaming potential measurement"
+  ],
+  "strategy": "structural_isomorphism",
+  "disjointness": 1.0,
+  "contributor_key": "mgln_7dc49810093a6bcb70ff8f751dc99332",
+  "started_at": "2026-03-23T01:58:03Z",
+  "completed_at": "2026-03-23T02:19:38Z",
+  "pipeline_stats": {
+    "hypotheses_generated": 8,
+    "survived_critique": 6,
+    "passed_quality_gate": 4,
+    "kill_rate": 50.0,
+    "cycles_run": 1,
+    "evolver_skipped": true
+  }
+}

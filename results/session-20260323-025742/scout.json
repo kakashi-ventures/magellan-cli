@@ -1,0 +1,118 @@
+{
+  "scout_targets": [
+    {
+      "id": "T1",
+      "title": "Manganese Speciation Paradox — Neurotoxicity vs. Radioprotection",
+      "field_a": "Manganese neurotoxicology (manganism, globus pallidus Mn accumulation, Complex I inhibition)",
+      "field_c": "Deinococcus radiodurans Mn-antioxidant biology (Mn-OP complexes, DP1 decapeptide, radiation resistance)",
+      "bridge_concepts": [
+        "Mn2+-orthophosphate-peptide (Mn-OP) ternary complexes as SOD mimetics",
+        "DP1 decapeptide (Daly lab PNAS 2024) for protective Mn complex formation",
+        "Mn speciation determines pro-oxidant vs antioxidant outcome",
+        "Mitochondrial Complex I as convergence point",
+        "MnSOD-independent non-enzymatic antioxidant defense"
+      ],
+      "strategy": "contradiction_mining",
+      "scout_confidence": 8.5,
+      "disjointness_status": "DISJOINT",
+      "web_verified": false,
+      "notes": "Highest-priority deferred target from S009. Exploration slot for contradiction_mining (0 primary sessions). NARROWED: TOP 3."
+    },
+    {
+      "id": "T2",
+      "title": "Percolation Theory × Tumor Immune Infiltration Topology",
+      "field_a": "Percolation theory in neural connectomics (critical thresholds, phase transitions, small-world topology)",
+      "field_c": "Tumor immune infiltration topology (immune-excluded vs immune-inflamed phenotypes, T-cell spatial organization, tertiary lymphoid structures)",
+      "bridge_concepts": [
+        "Critical percolation threshold p_c as minimum immune cell density for network spanning",
+        "Bond percolation: chemokine gradients as bonds, immune cells as nodes",
+        "Percolation cluster size distribution predicts power-law scaling of immune infiltrate clusters",
+        "Finite-size scaling: tumor size determines sharpness of excluded-to-inflamed transition",
+        "Correlation length divergence at p_c predicts immune clustering spatial scale"
+      ],
+      "strategy": "structural_isomorphism",
+      "scout_confidence": 7.5,
+      "disjointness_status": "DISJOINT",
+      "web_verified": false,
+      "notes": "Satisfies creativity constraint (mathematical structure as bridge). Exploration slot for structural_isomorphism. NARROWED: TOP 3."
+    },
+    {
+      "id": "T3",
+      "title": "Cartilage Biphasic Theory × Biofilm Matrix Mechanics",
+      "field_a": "Cartilage ECM biomechanics (Mow 1980 biphasic theory, FCD, aggregate modulus, triphasic theory)",
+      "field_c": "Bacterial biofilm matrix mechanics (Psl/Pel/alginate networks, antibiotic penetration, viscoelasticity)",
+      "bridge_concepts": [
+        "Biphasic theory (Mow 1980) governing PDEs identical for cartilage and biofilm",
+        "Fixed Charge Density (FCD) — measured in cartilage, NEVER measured in biofilm",
+        "Aggregate modulus H_a — standard cartilage parameter, unmeasured in biofilm",
+        "Triphasic theory (Lai 1991) for Pel(+)/Psl(0)/alginate(-) charge heterogeneity",
+        "Donnan osmotic pressure — quantified in cartilage, qualitative only in biofilm",
+        "Hydraulic permeability k — determines antibiotic penetration under loading"
+      ],
+      "strategy": "structural_isomorphism",
+      "scout_confidence": 8.5,
+      "disjointness_status": "DISJOINT",
+      "web_verified": false,
+      "notes": "S008 adversarial evaluation confirmed mathematical isomorphism and DISJOINT status. Carpio 2019 independently derived Mow-equivalent PDEs. NARROWED: TOP 3."
+    },
+    {
+      "id": "T4",
+      "title": "Photovoltaic Degradation Kinetics × Optogenetics Chronic Illumination Toxicity",
+      "field_a": "Perovskite photovoltaic degradation kinetics (light-induced phase segregation, defect formation, light-soaking recovery)",
+      "field_c": "Optogenetics chronic illumination toxicity (channelrhodopsin desensitization, phototoxicity, thermal damage)",
+      "bridge_concepts": [
+        "Stretched exponential degradation kinetics for both PV efficiency and opsin desensitization",
+        "Light-soaking recovery protocols for optimal illumination duty cycles",
+        "Defect formation energy barriers (Arrhenius activation) for permanent vs reversible damage",
+        "Ion migration under illumination parallels in both systems",
+        "Urbach energy tail analysis for quantifying conformational damage"
+      ],
+      "strategy": "tool_repurposing",
+      "scout_confidence": 7.0,
+      "disjointness_status": "LIKELY_DISJOINT",
+      "web_verified": false,
+      "notes": "Novel tool transfer. Risk: analogy may be phenomenological rather than mechanistic. NOT NARROWED."
+    },
+    {
+      "id": "T5",
+      "title": "Classical Pharmacokinetics × Quorum Sensing Autoinducer Dynamics",
+      "field_a": "Classical pharmacokinetics/pharmacometrics (ADME, compartmental models, population PK, therapeutic windows)",
+      "field_c": "Bacterial quorum sensing autoinducer dynamics (AHL kinetics, signal-to-noise, autoinducer thresholds, lactonase quenching)",
+      "bridge_concepts": [
+        "Compartmental PK models for autoinducer distribution in biofilm architecture",
+        "Population PK (popPK) for inter-strain autoinducer production variability",
+        "fT>threshold (time above QS threshold) from PK fT>MIC optimization",
+        "Michaelis-Menten saturation for lactonase-mediated AHL degradation",
+        "AUC/threshold ratio as QS efficacy metric"
+      ],
+      "strategy": "converging_vocabularies",
+      "scout_confidence": 7.5,
+      "disjointness_status": "PARTIALLY_EXPLORED",
+      "web_verified": false,
+      "notes": "Clean conceptual isomorphism with ready-to-transfer mathematical tools. EXCLUDED: PARTIALLY_EXPLORED."
+    },
+    {
+      "id": "T6",
+      "title": "Hydrothermal Vent Chimney Growth × Bone Mineralization Dynamics",
+      "field_a": "Submarine hydrothermal vent chimney mineralogy (black smoker formation, precipitation kinetics, self-organizing structures)",
+      "field_c": "Bone mineralization and remodeling dynamics (osteoblast-mediated hydroxyapatite deposition, Wolff's law, biomineralization)",
+      "bridge_concepts": [
+        "Dissolution-reprecipitation remodeling (abiotic chimneys vs osteoclast-osteoblast)",
+        "Classical nucleation theory at templated interfaces",
+        "Supersaturation-controlled polymorph selection",
+        "Self-organizing channel architecture under flow/mechanical loading",
+        "Gradient-driven precipitation kinetics (Tivey 1995 model)"
+      ],
+      "strategy": "scale_bridging",
+      "scout_confidence": 7.0,
+      "disjointness_status": "DISJOINT",
+      "web_verified": false,
+      "notes": "Deep structural parallel. Risk: mineral phase differences may limit quantitative transfer. NOT NARROWED (weaker bridge)."
+    }
+  ],
+  "strategies_used": ["contradiction_mining", "structural_isomorphism", "tool_repurposing", "converging_vocabularies", "scale_bridging"],
+  "creativity_constraint_satisfied_by": ["T2", "T3"],
+  "exploration_slots": ["T1 (contradiction_mining)", "T2 (structural_isomorphism)", "T3 (structural_isomorphism)", "T5 (converging_vocabularies)"],
+  "narrowed_top_3": ["T1", "T2", "T3"],
+  "narrowing_rationale": "All 3 are DISJOINT with VALID bridges. T5 excluded (PARTIALLY_EXPLORED). T4 and T6 excluded (lower confidence, weaker bridge validation). T1=8.5 contradiction_mining, T3=8.5 structural_isomorphism (S008 verified), T2=7.5 structural_isomorphism (creativity constraint). 3 different strategies represented across top 3 (contradiction_mining, structural_isomorphism x2)."
+}

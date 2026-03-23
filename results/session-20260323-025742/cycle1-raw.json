@@ -1,0 +1,90 @@
+{
+  "cycle": 1,
+  "target": "Cartilage Biphasic Theory x Biofilm Matrix Mechanics",
+  "field_a": "Cartilage ECM biomechanics",
+  "field_c": "Bacterial biofilm matrix mechanics",
+  "hypotheses": [
+    {
+      "id": "H1.1",
+      "title": "FCD of P. aeruginosa Alginate Biofilm Predicts Donnan-Mediated Cationic Antibiotic Partitioning",
+      "confidence": 7,
+      "novelty": "Novel",
+      "groundedness": 7,
+      "impact": "High",
+      "bridge_type": "triphasic_donnan_partitioning",
+      "technique": "facet_recombination"
+    },
+    {
+      "id": "H1.2",
+      "title": "Biofilm Aggregate Modulus (H_a) from Confined Compression Predicts Debridement Better Than G'/G''",
+      "confidence": 6,
+      "novelty": "Novel",
+      "groundedness": 7,
+      "impact": "High",
+      "bridge_type": "biphasic_confined_compression",
+      "technique": "tool_transfer"
+    },
+    {
+      "id": "H1.3",
+      "title": "Triphasic Theory Predicts Opposite Donnan Swelling for Pel vs Alginate Biofilms",
+      "confidence": 7,
+      "novelty": "Novel",
+      "groundedness": 8,
+      "impact": "Transformative",
+      "bridge_type": "triphasic_charge_heterogeneity",
+      "technique": "null_hypothesis_inversion"
+    },
+    {
+      "id": "H1.4",
+      "title": "Biphasic Creep Time Constant Predicts Convective Antibiotic Penetration Timescale Under Shear",
+      "confidence": 6,
+      "novelty": "Novel",
+      "groundedness": 6,
+      "impact": "High",
+      "bridge_type": "poroelastic_transport",
+      "technique": "scale_bridging"
+    },
+    {
+      "id": "H1.5",
+      "title": "Cartilage-Derived Fiber Matrix Model Predicts Biofilm Permeability from EPS Ultrastructure",
+      "confidence": 5,
+      "novelty": "Partially novel",
+      "groundedness": 6,
+      "impact": "Medium-High",
+      "bridge_type": "fiber_matrix_permeability",
+      "technique": "facet_recombination"
+    },
+    {
+      "id": "H1.6",
+      "title": "Streaming Potential Reveals Spatial FCD Heterogeneity Correlated with Antibiotic Killing Patterns",
+      "confidence": 6,
+      "novelty": "Novel",
+      "groundedness": 6,
+      "impact": "High",
+      "bridge_type": "electrokinetic_measurement_transfer",
+      "technique": "tool_transfer"
+    },
+    {
+      "id": "H1.7",
+      "title": "Biofilm Under Cyclic Compression Exhibits Poroelastic Pumping Enhancing Nutrient Transport",
+      "confidence": 5,
+      "novelty": "Novel",
+      "groundedness": 5,
+      "impact": "High",
+      "bridge_type": "poroelastic_pumping",
+      "technique": "adversarial_prompting"
+    },
+    {
+      "id": "H1.8",
+      "title": "Net FCD Transitions from Positive to Negative During Maturation with Ionic Sensitivity Reversal",
+      "confidence": 6,
+      "novelty": "Novel",
+      "groundedness": 6,
+      "impact": "Transformative",
+      "bridge_type": "temporal_charge_evolution",
+      "technique": "evolutionary_refinement"
+    }
+  ],
+  "total_generated": 8,
+  "techniques_used": ["facet_recombination", "tool_transfer", "null_hypothesis_inversion", "scale_bridging", "adversarial_prompting", "evolutionary_refinement"]
+}

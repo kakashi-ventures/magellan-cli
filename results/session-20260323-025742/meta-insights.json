@@ -1,0 +1,38 @@
+{
+  "session_id": "session-20260323-025742",
+  "strategy_performance": {
+    "structural_isomorphism": {
+      "sessions_as_primary": 1,
+      "targets_produced": 2,
+      "hypotheses_generated": 8,
+      "hypotheses_survived_critique": 6,
+      "quality_gate_passed": 2,
+      "quality_gate_conditional": 2,
+      "survival_rate": 0.75,
+      "qg_pass_rate": 0.25,
+      "qg_pass_plus_cond_rate": 0.50,
+      "avg_qg_composite": 7.28
+    }
+  },
+  "bridge_type_performance": {
+    "biphasic_confined_compression": {"used": 1, "survived": 1, "qg_passed": 1, "qg_score": 8.4},
+    "triphasic_donnan_partitioning": {"used": 1, "survived": 1, "qg_passed": 1, "qg_score": 7.5},
+    "temporal_charge_evolution": {"used": 1, "survived": 1, "qg_conditional": 1, "qg_score": 6.7},
+    "electrokinetic_measurement_transfer": {"used": 1, "survived": 1, "qg_conditional": 1, "qg_score": 6.5},
+    "triphasic_charge_heterogeneity": {"used": 1, "survived": 1, "qg_failed": 1, "qg_score": 5.6},
+    "poroelastic_transport": {"used": 1, "survived": 1, "qg_failed": 1, "qg_score": 5.5},
+    "fiber_matrix_permeability": {"used": 1, "survived": 0, "killed": true},
+    "poroelastic_pumping": {"used": 1, "survived": 0, "killed": true}
+  },
+  "new_insights": [
+    "structural_isomorphism validated as high-performance strategy (25% PASS, 50% PASS+COND)",
+    "Deep mathematical isomorphism (same PDEs) > phenomenological analogy for hypothesis grounding",
+    "Measurement transfer hypotheses outperform model transfer hypotheses",
+    "Loading mode mismatch is a new kill pattern for framework transfer",
+    "Early_complete works well for well-grounded mathematical targets"
+  ],
+  "kill_patterns_new": [
+    {"pattern": "loading_mode_mismatch", "count": 1, "description": "Applying compression framework to shear-dominated system"},
+    {"pattern": "sign_error_in_mechanism", "count": 1, "description": "Donnan swelling sign error (both signs swell at low ionic strength)"}
+  ]
+}

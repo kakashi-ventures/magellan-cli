@@ -1,6 +1,6 @@
 # MAGELLAN Meta-Insights (Cumulative)
-Updated: 2026-03-22 after Session 010 (session-20260322-154446)
-Based on 10 sessions, ~142 hypotheses generated, ~47 passed Quality Gate
+Updated: 2026-03-23 after Session 011 (session-20260323-025742)
+Based on 11 sessions, ~150 hypotheses generated, ~51 passed Quality Gate
 
 ---
 
@@ -14,18 +14,23 @@ Based on 10 sessions, ~142 hypotheses generated, ~47 passed Quality Gate
 | implicit_disjoint (sessions 001-002) | 001, 002 | 2 | ~20 | ~7 | ~7 | ~35% | ~7.0 |
 | recent_breakthrough_radiation | 004 | 1 | 15 | 5 | 2 | 13% | ~6.0 |
 | Swanson_ABC_bridging | 009 (primary) | 1 | 10 | 10 | 0 PASS, 3 COND | 0% PASS, 30% COND | 5.87 |
+| **structural_isomorphism** | **011 (primary)** | **2** | **8** | **6** | **2 PASS, 2 COND** | **25% PASS, 50% PASS+COND** | **7.28** |
 | contradiction_mining | 006 (secondary), 009 (secondary) | — | — | — | — | — | — |
 | evolutionary_conservation_gap | 006 (secondary) | — | — | — | — | — | — |
 | dimensional_mismatch | 006 (secondary) | — | — | — | — | — | — |
 
 **Session 010 tool_repurposing Performance**: First primary test shows **PROMISING** results. Scout score 8.5 (highest unselected from S009), 69% critique survival, 33% QG pass rate. Comparable to established strategies but requires enhanced biological constraint verification.
 
+**Session 011 structural_isomorphism Performance**: First primary test shows **STRONG** results. 50% PASS+COND rate is among the best session outcomes. Deep mathematical isomorphism (same PDEs independently derived) provides exceptionally strong theoretical grounding. Measurement transfer hypotheses (H_a, FCD) outperformed model transfer hypotheses (fiber matrix, poroelastic).
+
 **Recommendation for Scout**:
 1. `network_gap_analysis` remains the highest-performing measured strategy (39% QG pass rate, 3 sessions). Use as reliable baseline.
-2. `tool_repurposing` has PROVEN viability with first primary data (33% pass rate, good critique survival). Add to regular rotation but emphasize constraint verification.
-3. `contradiction_mining` — still no primary data. T1 from Session 009 (Mn speciation paradox, 7.7, DISJOINT) remains highest priority for next test.
-4. `Swanson_ABC_bridging` — first data confounded by PARTIALLY_EXPLORED. Re-test with verified DISJOINT target. Add B-term-in-Field-C literature check before disjointness assignment.
-5. `recent_breakthrough_radiation` has lowest QG pass rate (13%) — use only when technique is genuinely new and biological target needs measurement tools.
+2. **`structural_isomorphism` VALIDATED as high-performance strategy** (25% PASS, 50% PASS+COND). Prioritize targets where isomorphism is DEEP (same PDEs independently derived) over phenomenological analogies. Add to regular rotation.
+3. `tool_repurposing` has PROVEN viability with first primary data (33% pass rate, good critique survival). Add to regular rotation but emphasize constraint verification.
+4. `contradiction_mining` — **still no primary data. T1 from Session 009 (Mn speciation paradox, 7.7, DISJOINT) remains HIGHEST priority for next test.**
+5. `Swanson_ABC_bridging` — first data confounded by PARTIALLY_EXPLORED. Re-test with verified DISJOINT target. Add B-term-in-Field-C literature check before disjointness assignment.
+6. `recent_breakthrough_radiation` has lowest QG pass rate (13%) — use only when technique is genuinely new and biological target needs measurement tools.
+7. **New heuristic (S011): "Measurement transfer > model transfer"** — hypotheses introducing new measurements into Field C outperform those transferring predictive models. Measurements are independently verifiable; models require parameter data first.
 
 ---
 
@@ -128,6 +133,7 @@ Based on 10 sessions, ~142 hypotheses generated, ~47 passed Quality Gate
 | 008 | Cuproptosis x Vent Cu-S Geochemistry | 12 | 17% | 5 | 1 + 4 COND | ~6.8 | ~0.2 | SUCCESS |
 | 009 | Plant melatonin x Coral bleaching | 10 | 0% | 3 COND | 0 | 5.87 | 1.85 | PARTIAL |
 | **010** | **Volcanic glass x ASD dissolution** | **13** | **42.9%** | **1 PASS** | **1** | **6.23** | **~0.5** | **SUCCESS** |
+| **011** | **Cartilage biphasic x Biofilm mechanics** | **8** | **50%** | **2 PASS, 2 COND** | **2** | **7.28** | **~0.8** | **SUCCESS** |
 
 **Session 010 Analysis**:
 - **Kill rate recovery**: 42.9% (healthy range) vs S009's anomalous 0%

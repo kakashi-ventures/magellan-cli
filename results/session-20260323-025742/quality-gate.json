@@ -1,0 +1,58 @@
+{
+  "hypotheses": [
+    {
+      "id": "H1.2",
+      "title": "Aggregate Modulus H_a from Confined Compression Predicts Debridement Better Than G'/G''",
+      "qg_score": 8.4,
+      "verdict": "PASS",
+      "groundedness": 8,
+      "key_reason": "Foundational measurement hypothesis with strong theoretical backing, genuine novelty, specific falsifiable predictions"
+    },
+    {
+      "id": "H1.1",
+      "title": "FCD of Alginate Biofilm Predicts Donnan-Mediated Cationic Antibiotic Partitioning",
+      "qg_score": 7.5,
+      "verdict": "PASS",
+      "groundedness": 7,
+      "key_reason": "Novel FCD measurement + quantitative Donnan framework. Limited at physiological ionic strength but valuable for airway contexts."
+    },
+    {
+      "id": "H1.8",
+      "title": "Net FCD Transitions During Maturation with Ionic Sensitivity Reversal",
+      "qg_score": 6.7,
+      "verdict": "CONDITIONAL_PASS",
+      "groundedness": 6,
+      "key_reason": "Thermodynamically sound FCD transition prediction. Therapeutic window claim speculative. Conditional on demonstrating transition in vitro."
+    },
+    {
+      "id": "H1.6",
+      "title": "Streaming Potential Reveals Spatial FCD Heterogeneity",
+      "qg_score": 6.5,
+      "verdict": "CONDITIONAL_PASS",
+      "groundedness": 6,
+      "key_reason": "Novel technique transfer. Conditional on demonstrating detectable signal in simplest case (alginate-only biofilm)."
+    },
+    {
+      "id": "H1.3",
+      "title": "Pel vs Alginate Differential Swelling via Ca2+",
+      "qg_score": 5.6,
+      "verdict": "FAIL",
+      "groundedness": 5,
+      "key_reason": "Sign error in Donnan mechanism. Novelty insufficient — Ca2+-alginate binding already well-studied."
+    },
+    {
+      "id": "H1.4",
+      "title": "Creep Time Constant Predicts Convective Penetration Timescale",
+      "qg_score": 5.5,
+      "verdict": "FAIL",
+      "groundedness": 5,
+      "key_reason": "Not independently testable. 4-order parameter uncertainty. Loading mode mismatch."
+    }
+  ],
+  "pass_count": 2,
+  "conditional_pass_count": 2,
+  "fail_count": 2,
+  "total_evaluated": 6,
+  "pass_rate": 0.33,
+  "pass_plus_conditional_rate": 0.67
+}

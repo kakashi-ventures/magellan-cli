@@ -1,48 +1,12 @@
 [
   {
-    "session_id": "session-20260322-154446",
+    "session_id": "session-20260323-025742",
     "dispatches": [
       {
-        "agent": "critic",
-        "phase": "critique_c1",
-        "cycle": 1,
-        "dispatched_at": "2026-03-22T15:11:14Z",
-        "status": "running"
-      },
-      {
-        "agent": "ranker",
-        "phase": "ranking_c1",
-        "cycle": 1,
-        "dispatched_at": "2026-03-22T15:29:16Z",
-        "status": "running"
-      },
-      {
-        "agent": "evolver",
-        "phase": "evolution_c1",
-        "cycle": 1,
-        "dispatched_at": "2026-03-22T15:35:54Z",
-        "status": "running"
-      },
-      {
-        "agent": "generator",
-        "phase": "generation_c2",
-        "cycle": 2,
-        "dispatched_at": "2026-03-22T15:43:41Z",
-        "status": "running"
-      },
-      {
-        "agent": "ranker",
-        "phase": "ranking_c2",
-        "cycle": 2,
-        "dispatched_at": "2026-03-22T15:55:51Z",
-        "status": "running"
-      },
-      {
-        "agent": "quality-gate",
-        "phase": "quality_gate",
-        "cycle": "final",
-        "dispatched_at": "2026-03-22T16:03:42Z",
-        "status": "running"
+        "agent": "orchestrator",
+        "phase": "init",
+        "timestamp": "2026-03-23T01:58:03Z",
+        "action": "Session 011 initialized. Mode: SCOUT. Creativity constraint: mod 5 == 1 => One candidate must have mathematical structure or formal isomorphism as bridge"
       }
     ]
   }
