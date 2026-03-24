@@ -19,7 +19,7 @@ cat > state/session.json << EOF
 {
   "session_id": "${SESSION_ID}",
   "mode": "",
-  "phase": 0,
+  "phase": "init",
   "cycle": 1,
   "status": "running",
   "status_reason": "",

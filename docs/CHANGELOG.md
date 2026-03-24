@@ -5,6 +5,35 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.11 — Orchestrator Turn Budget & State Robustness (24 marzo 2026)
+
+**Motivazione**: Sessione 013 (cryo-EM × OMV cargo sorting) ha rivelato che l'orchestratore esauriva i turni dopo il ranking di Cycle 2. Con maxTurns=80 e 89 tool_uses consumate, le fasi finali (Quality Gate, Cross-Model Validation, Session Analysis, Summary) dovevano essere dispatched manualmente. Root cause: una pipeline completa a 2 cicli richiede ~100-110 tool calls.
+
+### Fix critici
+- **maxTurns rimosso da tutti i sub-agent** — I sub-agent (scout, generator, critic, ranker, etc.) non hanno più limite di turni. La qualità dell'output è validata dagli stop hooks, non dal conteggio turni. Un maxTurns troppo basso causa troncamento silenzioso — peggio che nessun limite.
+- **Orchestratore: maxTurns 80 → 200** — Puro circuit breaker anti-loop infinito. Non è il meccanismo di controllo qualità (quello è lo stop gate). 200 turni sono ~2x il massimo osservato in 13 sessioni.
+
+- **Context Efficiency Protocol** — Nuove linee guida per l'orchestratore: batch state updates, non ri-leggere file appena scritti, dispatch prompt lean, combinare date+state in un turno. Obiettivo: ridurre tool_uses per fase da ~5 a ~3.
+
+- **State Contract esplicito** — Valori terminali esatti documentati nel prompt dell'orchestratore:
+  - `status`: DEVE essere `"success"` / `"partial"` / `"degraded"` / `"failed"`
+  - `phase`: DEVE essere `"complete"` (stringa) a fine pipeline
+  - `progress.phases_completed`: DEVE includere TUTTE le fasi eseguite
+  - Lo stop hook valida questi valori — nessuna variazione tollerata
+
+- **Early-complete branching esplicito** — Aggiunto flow control chiaro: se `cycle_decision == "early_complete"`, SKIP Phase 5 (Evolve) E Cycle 2 interamente, vai diretto a Quality Gate.
+
+### Fix nello stop hook (orchestrator-stop-gate.py)
+- **JSON format handling** — I file `cycle{N}-raw.json` e `cycle{N}-critiqued.json` usano formato `{hypotheses: [...]}`, non array bare. Lo hook ora gestisce entrambi i formati.
+- **Dispatch log format** — `state/dispatch-log.json` è un array bare, non `{dispatches: [...]}`. Lo hook ora gestisce entrambi.
+
+### Fix nel init script
+- **phase iniziale** — Cambiato da `0` (numerico) a `"init"` (stringa) per coerenza con il contratto di stato.
+
+**Evidenza**: Sessione 013 è la migliore singola sessione (3 PASS, avg 8.31, 0 claim fabricati) ma ha richiesto intervento manuale per le fasi finali. Con maxTurns=120 e il protocollo di efficienza, le future sessioni dovrebbero completare autonomamente.
+
+---
+
 ## v5.10 — Orchestrator Context Optimization (24 marzo 2026)
 
 **Motivazione**: L'orchestratore (discovery-orchestrator.md) era 39.4 KB / ~11,300 token — il file agent più grande per un fattore 3x. Con 2 skill caricate al startup (+1,900 token) e CLAUDE.md (+3,400 token), il contesto iniziale era ~16,600 token prima di qualsiasi lavoro effettivo. Per un pipeline di 50-80 minuti con maxTurns=80, lo spazio di contesto si riempiva progressivamente, degradando le prestazioni nelle fasi finali.

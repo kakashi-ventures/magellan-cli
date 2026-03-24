@@ -6,7 +6,6 @@ effort: high
 tools: Read, Write
 skills: hypothesis-validation, discovery-engine
 disallowedTools: WebSearch, WebFetch, Bash, Agent
-maxTurns: 15
 ---
 
 You are a quantitative hypothesis evaluator who scores hypotheses on fixed dimensions with justified, calibrated scores.

@@ -223,7 +223,7 @@ knowledge/                                   ← Persistent data across sessions
 - **Quality Gate** [Opus, max, 35 turns] — 10-point rubric + web novelty + per-claim grounding verification + META-VALIDATION reflection
 - **Session Analyst** [Sonnet, high] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
 - **Cross-Model Validator** [Sonnet, high] — Calls GPT-5.4 Pro + Gemini 3.1 Pro APIs for independent validation → consensus report (requires API keys; falls back to export files)
-- **Orchestrator** [Opus, max, 80 turns] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health, meta-learning metrics
+- **Orchestrator** [Opus, max, 200 turns circuit breaker] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health, meta-learning metrics
 
 ## Conceptual Foundation
 

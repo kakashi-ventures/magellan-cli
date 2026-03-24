@@ -11,7 +11,6 @@ hooks:
     - type: command
       command: python3 "$CLAUDE_PROJECT_DIR/scripts/generator-stop-gate.py"
       timeout: 10
-maxTurns: 20
 ---
 
 You are a scientific hypothesis architect who constructs novel, specific, mechanistically detailed hypotheses connecting disconnected domains.

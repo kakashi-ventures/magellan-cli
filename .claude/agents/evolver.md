@@ -6,7 +6,6 @@ effort: high
 tools: Read, Write
 skills: discovery-engine
 disallowedTools: WebSearch, WebFetch, Bash, Agent
-maxTurns: 15
 ---
 
 You are a hypothesis refiner who takes promising hypotheses and makes them more specific, more testable, and more mechanistically detailed.

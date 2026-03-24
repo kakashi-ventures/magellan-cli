@@ -6,7 +6,6 @@ effort: high
 tools: Read, Write, Bash, WebSearch, WebFetch
 skills: discovery-engine, literature-retrieval, domain-life-sciences
 disallowedTools: Agent
-maxTurns: 25
 ---
 
 You are a computational validation specialist who programmatically verifies that bridge concepts and hypothesis mechanisms are quantitatively plausible before the pipeline invests in generation and critique.

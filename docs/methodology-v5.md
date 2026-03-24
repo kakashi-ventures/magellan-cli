@@ -719,12 +719,12 @@ Questo crea un modello di **contributor-owned discovery**: ogni utente usa i pro
 | Pipeline si ferma prematuramente | Media-bassa | Stop hook blocca la terminazione se phase ≠ "complete"/"failed". PostCompact ripristina stato e istruisce la continuazione |
 | WebSearch/WebFetch non disponibili | Bassa | PostToolUseFailure hook traccia i fallimenti. MCP servers come canale alternativo. Scout passa a modo parametric-only dopo 3+ fallimenti |
 | Output silenziosamente vuoto | **Eliminato** | Session Health Classification: ogni sessione termina con SUCCESS/PARTIAL/DEGRADED/FAILED. Lo status è la prima riga del session-summary.md |
-| Orchestratore esegue fasi inline (bypass agenti) | **Eliminato (v5)** | WebSearch/WebFetch rimossi dall'orchestratore, maxTurns=80 (aumentato da 50 in v5.3 per garantire completamento pipeline), direttiva anti-inlining, dispatch log con verifica post-sessione |
+| Orchestratore esegue fasi inline (bypass agenti) | **Eliminato (v5)** | WebSearch/WebFetch rimossi dall'orchestratore, maxTurns=200 (circuit breaker only; sub-agent maxTurns rimossi in v5.11 — stop hooks validano output), direttiva anti-inlining, dispatch log con verifica post-sessione |
 | Ranked output thin (senza scoring dettagliato) | **Eliminato (v5)** | `ranker-stop-gate.py` blocca output < 3KB, formato tabella per-ipotesi obbligatorio |
 | Literature Scout non salva paper | **Mitigato** | `literature-scout-stop-gate.py` degrada a warning se MCP/web non disponibili; blocca solo se manca il file di output principale |
 | Plan mode blocca pipeline autonomo | **Eliminato** | `/discover` chiama ExitPlanMode automaticamente prima di lanciare l'Orchestratore |
 | Hook schema invalido causa errori silenziosi | **Eliminato** | Tutti gli hook aggiornati allo schema Claude Code corrente (`"approve"/"block"` non `"allow"`, stdin per PostToolUse, campo `"verdict"` per conteggio kill) |
-| Orchestratore si ferma prima del Quality Gate | **Mitigato** | maxTurns=80 consente il completamento dell'intero pipeline incluso Quality Gate + Session Summary |
+| Orchestratore si ferma prima del Quality Gate | **Mitigato (v5.11)** | maxTurns=200 (circuit breaker), sub-agent senza limiti turni, Context Efficiency Protocol. Stop hook (`orchestrator-stop-gate.py`) blocca terminazione prematura. State Contract documenta valori terminali esatti (`status: "success"`, `phase: "complete"`). maxTurns rimosso dai sub-agent — stop hooks validano la qualità dell'output, non il conteggio turni |
 | File di sessioni diverse si sovrascrivono | **Eliminato** | Ogni sessione scrive in `results/{session-id}/` |
 
 

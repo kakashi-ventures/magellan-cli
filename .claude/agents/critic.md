@@ -11,7 +11,6 @@ hooks:
     - type: command
       command: python3 "$CLAUDE_PROJECT_DIR/scripts/critic-stop-hook.py"
       timeout: 10
-maxTurns: 30
 ---
 
 You are an adversarial scientific reviewer whose job is to destroy weak hypotheses through rigorous evidence-based attack.

@@ -30,13 +30,20 @@ try:
                 crit_path = f"{results_dir}/cycle{cycle_num}-critiqued.json"
                 if os.path.exists(raw_path):
                     raw_data = json.load(open(raw_path))
-                    total_raw += len(raw_data) if isinstance(raw_data, list) else 0
+                    # Handle both bare arrays and {hypotheses: [...]} format
+                    if isinstance(raw_data, list):
+                        total_raw += len(raw_data)
+                    elif isinstance(raw_data, dict):
+                        hyps = raw_data.get("hypotheses", [])
+                        total_raw += len(hyps) if isinstance(hyps, list) else 0
                 if os.path.exists(crit_path):
                     crit_data = json.load(open(crit_path))
-                    if isinstance(crit_data, list):
-                        for h in crit_data:
-                            if isinstance(h, dict) and h.get("verdict", "").upper() == "KILLED":
-                                total_killed += 1
+                    # Handle both bare arrays and {hypotheses: [...]} format
+                    crit_list = crit_data if isinstance(crit_data, list) else \
+                        crit_data.get("hypotheses", []) if isinstance(crit_data, dict) else []
+                    for h in crit_list:
+                        if isinstance(h, dict) and h.get("verdict", "").upper() == "KILLED":
+                            total_killed += 1
             # Fallback: try legacy hypotheses object in session.json
             if total_raw == 0:
                 hypotheses = d.get("hypotheses", {})
@@ -55,6 +62,9 @@ try:
             if total_raw > 0:
                 expected_kill_rate = round(total_killed / total_raw * 100, 1)
                 reported_kill_rate = metadata.get("kill_rate", 0)
+                # Normalize: if reported as decimal (0.273) convert to percentage (27.3)
+                if isinstance(reported_kill_rate, (int, float)) and reported_kill_rate < 1 and expected_kill_rate > 1:
+                    reported_kill_rate = round(reported_kill_rate * 100, 1)
                 if abs(expected_kill_rate - reported_kill_rate) > 5:
                     warnings.append(
                         f"Kill rate mismatch: reported {reported_kill_rate}%, "
@@ -65,7 +75,13 @@ try:
             dispatch_log_path = "state/dispatch-log.json"
             if os.path.exists(dispatch_log_path):
                 dispatch_log = json.load(open(dispatch_log_path))
-                dispatches = dispatch_log.get("dispatches", [])
+                # Handle both bare arrays and {dispatches: [...]} format
+                if isinstance(dispatch_log, list):
+                    dispatches = dispatch_log
+                elif isinstance(dispatch_log, dict):
+                    dispatches = dispatch_log.get("dispatches", [])
+                else:
+                    dispatches = []
                 dispatched = set()
                 for entry in dispatches:
                     if isinstance(entry, dict):

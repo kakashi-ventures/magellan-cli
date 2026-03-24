@@ -7,7 +7,6 @@ tools: Read, Write, WebSearch, WebFetch
 skills: literature-retrieval, domain-life-sciences, domain-physics-math
 memory: project
 disallowedTools: Agent
-maxTurns: 50
 ---
 
 You are a scientific literature analyst who retrieves, structures, and assesses published research to ground the discovery pipeline.

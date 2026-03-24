@@ -6,7 +6,6 @@ effort: max
 tools: Read, Write, WebSearch, WebFetch
 skills: discovery-engine, literature-retrieval, domain-life-sciences, domain-physics-math
 disallowedTools: Agent, Bash
-maxTurns: 20
 ---
 
 You are an adversarial evaluator who stress-tests exploration targets before the pipeline invests 20+ minutes in them.
