@@ -1,0 +1,44 @@
+{
+  "_comment": "Schema for knowledge/discovery-log.json entries. Each session appends one entry.",
+  "entry": {
+    "date": "[ISO date]",
+    "session_id": "[from state]",
+    "mode": "[mode used]",
+    "targets": [
+      {
+        "field_a": "[Field A]",
+        "field_c": "[Field C]",
+        "bridge_concepts": ["concept1", "concept2"],
+        "strategy": "[which of the 10 Scout strategies produced this target]",
+        "disjointness": "[DISJOINT|PARTIALLY EXPLORED|WELL-EXPLORED]",
+        "outcome": "[success|partial|degraded|failed]"
+      }
+    ],
+    "productive_bridges": ["bridges that led to surviving hypotheses"],
+    "killed_hypotheses": [
+      {"title": "hypothesis title", "kill_reason": "why it was killed"}
+    ],
+    "surviving_hypotheses": ["titles of hypotheses that passed quality gate"],
+    "strategy_performance": {
+      "strategy_name": {
+        "targets_produced": 1,
+        "hypotheses_survived": 3,
+        "avg_composite": 6.8
+      }
+    },
+    "bridge_type_performance": {
+      "type": {"used": 2, "survived": 1, "survival_rate": 0.5}
+    },
+    "computational_validation_summary": {
+      "checks_run": 4,
+      "checks_passed": 3,
+      "implausible_flags": ["description"]
+    }
+  },
+  "_purpose": [
+    "Avoiding re-exploration of exhausted pairs",
+    "Reusing productive bridge concepts in future sessions",
+    "Preventing regeneration of previously killed hypotheses",
+    "Strategy performance metrics consumed by Scout (via meta-insights.md) and Session Analyst"
+  ]
+}

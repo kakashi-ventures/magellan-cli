@@ -78,6 +78,15 @@ State is split into a **slim coordination index** and **per-session results dire
 (both markdown and JSON) lives in `results/{session-id}/`.
 Agents receive data via dispatch prompts, never read state files directly.
 
+### Orchestrator Support Files
+The orchestrator delegates operational code and reference schemas to external files
+(read on-demand to minimize startup context):
+- `scripts/init-session.sh` — Session initialization (creates state/session.json + results dir)
+- `scripts/upload-session.mjs` — Website upload (reads ingest.json, POSTs to API)
+- `prompts/session-summary-format.md` — Session summary formatting per status type
+- `prompts/ingest-schema.json` — Schema for the ingest manifest
+- `prompts/knowledge-schema.json` — Schema for discovery-log entries
+
 ## Commands
 - `/discover` — Full autonomous (Scout finds targets)
 - `/discover [A] × [C]` — Targeted discovery

@@ -161,10 +161,15 @@ prompts/
   gpt-validation.md                          ← GPT-5.4 validation prompt
   gemini-deep-think.md                       ← Gemini mathematical structure prompt
   orchestration-guide.md                     ← Cross-model validation step-by-step
+  session-summary-format.md                  ← Session summary formatting per status type
+  ingest-schema.json                         ← Schema for website ingest manifest
+  knowledge-schema.json                      ← Schema for discovery-log entries
 docs/
   methodology-v5.md                          ← Full methodology with evidence
   CHANGELOG.md                               ← Pipeline evolution history
-scripts/                                     ← Hook scripts (stop gates, failure tracking)
+scripts/                                     ← Hook scripts + orchestrator support scripts
+  init-session.sh                            ← Session initialization (state + results dir)
+  upload-session.mjs                         ← Website upload (ingest → API)
 state/                                       ← Coordination state (machine-readable)
   session.json                               ← Slim coordination index (~3KB)
   dispatch-log.json                          ← Agent dispatch log with timestamps

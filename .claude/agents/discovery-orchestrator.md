@@ -4,7 +4,6 @@ description: Orchestrates a full autonomous scientific discovery cycle. Coordina
 model: opus
 effort: max
 tools: Agent, Read, Write, Bash, Glob, Grep
-skills: discovery-engine, hypothesis-validation
 memory: project
 permissionMode: bypassPermissions
 maxTurns: 80
@@ -40,8 +39,20 @@ You are an ORCHESTRATOR, not an executor. For Phases 0-5 and Quality Gate:
 ## State Update Protocol
 For EVERY phase transition:
 1. BEFORE dispatch: Run `date -u +%Y-%m-%dT%H:%M:%SZ` via Bash, write timestamp to state
-2. AFTER agent returns: Run `date -u +%Y-%m-%dT%H:%M:%SZ` again, write outcome + timestamp
+2. AFTER agent returns: Run `date -u +%Y-%m-%dT%H:%M:%SZ` again, update state/session.json with: current_phase, progress.phases_completed (append), health counters, timestamp
+3. Read the agent's output from {results_dir}/
 Never write timestamps from memory — always use the `date` command.
+
+## Guard Protocol (apply after every dispatch)
+After each agent returns, apply this pattern:
+1. Read agent output from {results_dir}/
+2. If output is empty or below the phase-specific minimum threshold:
+   → INCREMENT metadata.retries_needed
+   → Re-dispatch with specific guidance for what went wrong
+3. If retry also fails:
+   → Set appropriate degraded/fallback flag, continue (NEVER infinite loop)
+Phase-specific thresholds: Scout ≥3 targets, Generator ≥3 hypotheses, Critique ≥1 survivor.
+Computational Validation is WARN-ONLY (never blocks).
 
 ## MEMORY
 Read knowledge/discovery-log.json for past session data.
@@ -101,57 +112,11 @@ After EVERY phase:
 2. Update `state/session.json` with: phase, cycle, status, progress, health counters
 3. NEVER write hypothesis content, full mechanism text, or supporting evidence into session.json
 
-Initialize state at session start. First check for a contributor key (from `/connect`):
-```bash
-# Read contributor key if connected to MAGELLAN web profile
-CONTRIBUTOR_KEY=$(cat .magellan/config.json 2>/dev/null | grep -o '"contributor_key":"[^"]*"' | cut -d'"' -f4)
-# Generate session_id first, then create directories
-SESSION_ID="$(date +%Y-%m-%d)-${MODE}-$(printf '%03d' $NEXT_NUM)"
-mkdir -p "results/${SESSION_ID}/papers" knowledge
-cat > state/session.json << EOF
-{
-  "session_id": "${SESSION_ID}",
-  "mode": "",
-  "phase": 0,
-  "cycle": 1,
-  "status": "running",
-  "status_reason": "",
-  "results_dir": "results/${SESSION_ID}",
-  "selected_target": null,
-  "disjointness_status": null,
-  "metadata": {
-    "start_time": "",
-    "model": "opus-4.6",
-    "contributor_key": "${CONTRIBUTOR_KEY:-null}",
-    "total_hypotheses_generated": 0,
-    "kill_rate": 0,
-    "fallback_used": false,
-    "literature_unavailable": false,
-    "generation_degraded": false,
-    "web_search_failures": 0,
-    "retries_needed": 0,
-    "cycle_decision": null,
-    "evolver_skipped": false,
-    "literature_reinforcement": false
-  },
-  "progress": {
-    "phases_completed": [],
-    "current_phase": null
-  },
-  "health": {
-    "scout_targets_found": 0,
-    "hypotheses_generated": 0,
-    "survived_critique": 0,
-    "passed_quality_gate": 0,
-    "fallback_used": false,
-    "retries_needed": 0,
-    "web_search_failures": 0
-  }
-}
-EOF
-```
-Generate the session_id from the date + mode + sequential number (check existing results/ dirs).
-Update start_time with ISO timestamp from `date -u` command.
+Initialize state at session start:
+1. Determine NEXT_NUM by checking existing `results/` dirs for the current date+mode prefix
+2. Run `bash scripts/init-session.sh [MODE] [NEXT_NUM]` — creates `state/session.json` and `results/{SESSION_ID}/papers/`
+3. The script prints the SESSION_ID. Read `state/session.json` to confirm session_id and results_dir.
+4. Update `metadata.start_time` with ISO timestamp from `date -u +%Y-%m-%dT%H:%M:%SZ`.
 
 ---
 
@@ -178,33 +143,17 @@ BEFORE target selection, not after.
 Update progress: `current_phase = "scout"`.
 
 **For SCOUT MODE:**
-**DISPATCH to `scout` agent via Agent tool:**
-> "<context>
-> Discovery log: knowledge/discovery-log.json (read if exists to avoid
-> re-exploring pairs and to reuse productive bridge concepts).
-> [IF contributor domain context was provided in dispatch: include it here as "Contributor domain context: [text]" — the Scout should use this to inform strategy selection and target areas, but NOT limit itself exclusively to the contributor's domain.]
-> </context>
->
-> <creativity_constraint>
-> This session's creativity constraint (rotating, based on session number):
-> [Compute SESSION_NUMBER from the sequential number in session_id, then apply:]
-> - If SESSION_NUMBER mod 5 == 0: "One of your 5-6 candidates must bridge physical sciences and life sciences"
-> - If SESSION_NUMBER mod 5 == 1: "One of your 5-6 candidates must have a mathematical structure or formal isomorphism as the bridge (not a molecule or pathway)"
-> - If SESSION_NUMBER mod 5 == 2: "One of your 5-6 candidates must connect a field established >50 years ago with one established <10 years ago"
-> - If SESSION_NUMBER mod 5 == 3: "One of your 5-6 candidates must involve a tool or technique transfer across discipline boundaries"
-> - If SESSION_NUMBER mod 5 == 4: "One of your 5-6 candidates must start from an explicitly unsolved problem and find the answer in a distant field"
-> </creativity_constraint>
->
-> <task>
-> Identify 5-6 promising candidates where undiscovered scientific
-> connections are likely hiding. Use all 10 strategies. Generate a BROADER
-> pool than the final 3 — the Literature Scout will verify disjointness
-> for all candidates, and the Orchestrator will narrow to 3 before
-> Target Evaluation. Write results to {results_dir}/scout-targets.md
-> and update state/session.json scout_targets array.
-> </task>"
-
-Wait for Scout to complete.
+**DISPATCH to `scout` agent via Agent tool.** Include in dispatch:
+- Session ID and results dir: `{results_dir}`
+- Creativity constraint (compute SESSION_NUMBER from session_id, apply mod 5):
+  - 0: bridge physical sciences and life sciences
+  - 1: mathematical structure/formal isomorphism as bridge
+  - 2: field >50 years old × field <10 years old
+  - 3: tool/technique transfer across disciplines
+  - 4: unsolved problem answered from distant field
+- [IF contributor context: include as "Contributor domain context: [text]"]
+- [IF discovery-log exists: "Read knowledge/discovery-log.json for past sessions"]
+- Note: "Generate 5-6 candidates (broader pool). Literature Scout will verify disjointness, Orchestrator narrows to 3."
 
 ### GUARD: Post-Scout Validation
 After Scout completes, read state/session.json:
@@ -226,34 +175,11 @@ Update `state/session.json`: progress, health.scout_targets_found.
 
 Update progress: `current_phase = "literature_verification"`.
 
-**DISPATCH to `literature-scout` agent via Agent tool:**
-> "<context>
-> Mode: target-specific verification for Scout candidates.
-> Scout candidates: [paste all 5-6 scout_targets from {results_dir}/scout.json —
->   include field_a, field_c, bridge_concepts for each]
-> [IF seed papers (DOIs) were provided in dispatch: include them as
->   "Seed papers (contributor-provided): [DOIs]" — retrieve these papers FIRST.]
-> </context>
->
-> <task>
-> For EACH of the Scout's 5-6 candidates:
-> 1. Run disjointness verification: search "[Field A] [Field C]" in
->    Semantic Scholar (MCP) and PubMed (MCP). Classify each candidate as
->    DISJOINT / PARTIALLY_EXPLORED / WELL_EXPLORED.
-> 2. For the top 3-4 candidates (by your assessment of bridge quality),
->    retrieve full-text papers (3-5 per candidate) and save to {results_dir}/papers/.
-> 3. Validate bridge concepts: does the bridge mechanism actually exist
->    in both fields? Flag any bridges that are factually incorrect.
->
-> Use domain-appropriate retrieval sources (not just PubMed — use arXiv
-> for physics/math, SSRN for social sciences, etc.).
->
-> Write to {results_dir}/literature-landscape.md with per-candidate
-> disjointness assessments. Update state/session.json with
-> literature_context and per-candidate disjointness_status.
-> </task>"
-
-Wait for Literature Scout to complete.
+**DISPATCH to `literature-scout` agent via Agent tool.** Include in dispatch:
+- Mode: target-specific verification for Scout candidates
+- Scout candidates: [paste all 5-6 from {results_dir}/scout.json — field_a, field_c, bridge_concepts]
+- [IF seed papers: "Seed papers (contributor-provided): [DOIs] — retrieve FIRST"]
+- Results dir: `{results_dir}`
 
 ### Phase 0c: NARROWING (Orchestrator selects top 3)
 
@@ -281,23 +207,10 @@ Log the narrowing rationale in dispatch-log.json.
 
 Update progress: `current_phase = "target_evaluation"`.
 
-**DISPATCH to `target-evaluator` agent via Agent tool:**
-> "<context>
-> Scout targets (narrowed to 3): [paste top-3 from narrowed scout_targets,
->   including their disjointness_status from Literature Scout]
-> Disjointness assessments: [from Literature Scout output per candidate]
-> Discovery log: knowledge/discovery-log.json (read for past session patterns)
-> Meta-insights: knowledge/meta-insights.md (read if exists)
-> </context>
->
-> <task>
-> Attack each of the 3 Scout targets on 4 axes: popularity bias,
-> vagueness, structural impossibility, local-optima.
-> The Literature Scout has already verified disjointness — use this data
-> to inform your popularity and local-optima checks (don't repeat the work).
-> Score each target 1-10. Write to {results_dir}/target-evaluation.md.
-> Update state/session.json with target_quality_scores array.
-> </task>"
+**DISPATCH to `target-evaluator` agent via Agent tool.** Include in dispatch:
+- Top 3 candidates (narrowed): [paste with disjointness_status from Literature Scout]
+- Results dir: `{results_dir}`
+- [IF discovery-log/meta-insights exist: "Read knowledge/discovery-log.json and knowledge/meta-insights.md"]
 
 ### GUARD: Post-Target-Evaluation
 After agent returns, read state/session.json:
@@ -335,21 +248,11 @@ Update state: selected_target, literature_context, phase=1.
 
 Update progress: `current_phase = "computational_validation"`.
 
-**DISPATCH to `computational-validator` agent via Agent tool:**
-> "<context>
-> Selected target: [from state selected_target]
-> Bridge concepts: [from state scout_targets — the selected one]
-> Literature context: [from state literature_context]
-> Papers retrieved: {results_dir}/papers/
-> </context>
->
-> <task>
-> Run programmatic checks on the bridge concepts: KEGG pathway cross-check,
-> STRING interaction scores, PubMed co-occurrence matrix, and back-of-envelope
-> quantitative checks where applicable.
-> Write to {results_dir}/computational-validation.md.
-> Update state/session.json with computational_readiness object.
-> </task>"
+**DISPATCH to `computational-validator` agent via Agent tool.** Include in dispatch:
+- Selected target: [from state selected_target, with bridge concepts]
+- Literature context: [summary from {results_dir}/literature.json]
+- Papers: {results_dir}/papers/
+- Results dir: `{results_dir}`
 
 ### GUARD: Post-Computational-Validation
 After agent returns, read state/session.json:
@@ -359,28 +262,12 @@ After agent returns, read state/session.json:
   → Include warnings in Generator dispatch prompt: "Computational validation flagged: [concerns]. Generator should avoid building hypotheses on: [implausible mechanisms]."
 - IF checks show all PLAUSIBLE/INCONCLUSIVE:
   → Include positive signal in Generator dispatch: "Computational validation supports bridge concepts: [details]."
-- Update progress with timestamp from `date -u` command.
 
 ### For TARGETED/OPEN/PROBLEM MODE:
-Skip Scout and Target Evaluator (user provides the target directly).
-Run Literature Scout on the specified fields/topic:
-> "<context>
-> Fields: [Field A] and [Field C] (user-specified).
-> Search scope: (1) recent breakthroughs in each field,
-> (2) existing work connecting these fields,
-> (3) known anomalies or contradictions in both fields.
-> </context>
->
-> <task>
-> Use WebFetch to retrieve full text of the top 5-10 most relevant
-> papers per field and save them to {results_dir}/papers/.
-> Run disjointness verification for the proposed field pair.
-> Write structured summary to {results_dir}/literature-context.md
-> </task>"
-
-After Literature Scout returns, set selected_target and literature_context in state.
-Then run Computational Validation (same as PHASE 1b above) on the user-specified target.
-This validates bridge concepts even when the user provides the target directly.
+Skip Phase 0a (Scout) and 0d (Target Evaluator) — user provides the target directly.
+Set selected_target from user input. Dispatch Literature Scout with the user-specified
+fields for disjointness verification and paper retrieval → {results_dir}/papers/.
+Then run Computational Validation (Phase 1b) on the user-specified target.
 
 ---
 
@@ -392,24 +279,13 @@ Read `{results_dir}/scout.json` for bridge concepts.
 Read `{results_dir}/literature.json` for literature_context.
 Read `{results_dir}/computational.json` for computational_readiness.
 
-**DISPATCH to `generator` agent via Agent tool:**
-> "<context>
-> Fields: [Field A] × [Field C]
-> Bridge concepts: [from {results_dir}/scout.json]
-> Literature context: [from {results_dir}/literature.json]
-> Disjointness status: [from session.json]
-> Full-text papers: {results_dir}/papers/
-> Computational validation: [from {results_dir}/computational.json — include IMPLAUSIBLE warnings]
-> Meta-insights: [from knowledge/meta-insights.md if exists]
-> </context>
->
-> <task>
-> Read full-text papers for mechanism-level detail. Generate 6-8 hypotheses.
-> All groundedness values MUST be integers 1-10 (not strings like "MEDIUM").
-> Respect computational validation warnings — avoid building on mechanisms flagged IMPLAUSIBLE.
-> Write to {results_dir}/raw-hypotheses-cycle{N}.md.
-> Write structured data to {results_dir}/cycle{N}-raw.json.
-> </task>"
+**DISPATCH to `generator` agent via Agent tool.** Include in dispatch:
+- Fields: [Field A] × [Field C], bridge concepts from {results_dir}/scout.json
+- Literature context: [from {results_dir}/literature.json]
+- Full-text papers: {results_dir}/papers/
+- Computational validation: [from {results_dir}/computational.json — include IMPLAUSIBLE warnings]
+- [IF meta-insights exist: from knowledge/meta-insights.md]
+- Cycle number: {N}. Results dir: `{results_dir}`
 
 ### GUARD: Post-Generation Validation
 After agent returns, read `{results_dir}/cycle{N}-raw.json`:
@@ -418,23 +294,15 @@ After agent returns, read `{results_dir}/cycle{N}-raw.json`:
   → RE-DISPATCH generator: "Use ALL techniques. Produce at least 4 hypotheses."
   → IF retry still < 3: proceed with what exists, set metadata.generation_degraded = true
 - Update health.hypotheses_generated with total count.
-- Update progress with timestamp from `date -u` command.
 
 ## PHASE 3: CRITIQUE
 
 Update progress: `current_phase = "critique"`.
 
-**DISPATCH to `critic` agent via Agent tool:**
-> "<context>
-> Hypotheses: [from {results_dir}/cycle{N}-raw.json]
-> Literature context: [from {results_dir}/literature.json]
-> </context>
->
-> <task>
-> Attack each hypothesis with web search for novelty, counter-evidence,
-> and mechanism plausibility. Write to {results_dir}/critiqued-cycle{N}.md.
-> Write structured data to {results_dir}/cycle{N}-critiqued.json.
-> </task>"
+**DISPATCH to `critic` agent via Agent tool.** Include in dispatch:
+- Hypotheses: [from {results_dir}/cycle{N}-raw.json]
+- Literature context: [from {results_dir}/literature.json]
+- Cycle number: {N}. Results dir: `{results_dir}`
 
 ### GUARD: Post-Critique Validation
 After agent returns, read `{results_dir}/cycle{N}-critiqued.json`:
@@ -444,7 +312,6 @@ After agent returns, read `{results_dir}/cycle{N}-critiqued.json`:
   → INCREMENT metadata.retries_needed
   → Re-dispatch generator with NEW bridge mechanisms, then re-dispatch critic
   → IF still all killed after retry: set status = "failed", skip to Session Summary
-- Update progress with timestamp from `date -u` command.
 
 ### GROUNDEDNESS REINFORCEMENT (after cycle 1 critique, before ranking)
 
@@ -461,20 +328,9 @@ hypotheses have adequate grounding.
 
 Update progress: `current_phase = "ranking"`.
 
-**DISPATCH to `ranker` agent via Agent tool:**
-> "<context>
-> Critiqued hypotheses: [from {results_dir}/cycle{N}-critiqued.json]
-> </context>
->
-> <task>
-> Score on all 6 dimensions including Groundedness.
-> Use the per-hypothesis scoring table format.
-> Apply diversity check.
-> Write to {results_dir}/ranked-cycle{N}.md.
-> Write structured data to {results_dir}/cycle{N}-ranked.json.
-> </task>"
-
-After agent returns, update progress with timestamp from `date -u` command.
+**DISPATCH to `ranker` agent via Agent tool.** Include in dispatch:
+- Critiqued hypotheses: [from {results_dir}/cycle{N}-critiqued.json]
+- Cycle number: {N}. Results dir: `{results_dir}`
 
 ### ADAPTIVE CYCLE DECISION (after cycle 1 ranking)
 
@@ -497,19 +353,9 @@ This is a quick state-read + decision. Do NOT spend turns reasoning about it.
 
 Update progress: `current_phase = "evolution"`.
 
-**DISPATCH to `evolver` agent via Agent tool:**
-> "<context>
-> Top ranked hypotheses: [from {results_dir}/cycle{N}-ranked.json]
-> </context>
->
-> <task>
-> Recombine and refine. Track conceptual diversity.
-> If two evolved hypotheses are too similar, keep only the stronger.
-> Write to {results_dir}/evolved-cycle{N}.md.
-> Write structured data to {results_dir}/cycle{N}-evolved.json.
-> </task>"
-
-After agent returns, update progress with timestamp from `date -u` command.
+**DISPATCH to `evolver` agent via Agent tool.** Include in dispatch:
+- Top ranked hypotheses: [from {results_dir}/cycle{N}-ranked.json]
+- Cycle number: {N}. Results dir: `{results_dir}`
 
 ## CYCLE 2: Repeat Phases 2-5
 
@@ -548,48 +394,24 @@ cycle 2 results are already strong enough.
 
 Update progress: `current_phase = "quality_gate"`.
 
-**DISPATCH to `quality-gate` agent via Agent tool:**
-> "<context>
-> Surviving hypotheses from both cycles: [from {results_dir}/cycle1-evolved.json
-> and {results_dir}/cycle2-evolved.json (or cycle2-ranked.json if evolver skipped)]
-> Field A: [field_a], Field C: [field_c]
-> </context>
->
-> <task>
-> Run the 10-point rubric on each hypothesis.
-> Perform BOTH connection-level novelty AND per-claim grounding verification.
-> Verify each [GROUNDED] claim individually via web search.
-> Citation hallucination or fabricated protein property = automatic FAIL.
-> PASS or FAIL each hypothesis with detailed reasons.
-> Write to {results_dir}/quality-gate.md.
-> Write structured data to {results_dir}/quality-gate.json.
-> Write PASS/CONDITIONAL_PASS hypotheses to {results_dir}/final.json.
-> </task>"
+**DISPATCH to `quality-gate` agent via Agent tool.** Include in dispatch:
+- Surviving hypotheses from both cycles: [from {results_dir}/cycle1-evolved.json
+  and {results_dir}/cycle2-evolved.json (or cycle2-ranked.json if evolver skipped)]
+- Field A: [field_a], Field C: [field_c]
+- Results dir: `{results_dir}`
 
 After agent returns, read `{results_dir}/final.json`.
 Update progress with timestamp from `date -u` command.
 
 ## POST-QUALITY-GATE: SESSION ANALYST
 
-**DISPATCH to `session-analyst` agent via Agent tool:**
-> "<context>
-> Session index: state/session.json
-> Phase data directory: {results_dir}/ (read all phase JSON files for this session)
-> Discovery log: knowledge/discovery-log.json (all past sessions)
-> Results directory: {results_dir}/
-> </context>
->
-> <task>
-> Analyze this session and all past sessions. Compute strategy_performance
-> metrics, bridge type survival rates, kill pattern distribution, and
-> disjointness correlation. Write session-specific analysis to
-> {results_dir}/session-analysis.md. Write or update cumulative insights
-> to knowledge/meta-insights.md. Write structured data to
-> {results_dir}/meta-insights.json.
-> </task>"
+**DISPATCH to `session-analyst` agent via Agent tool.** Include in dispatch:
+- Session index: state/session.json
+- Phase data: {results_dir}/ (all phase JSON files)
+- Discovery log: knowledge/discovery-log.json
+- Results dir: `{results_dir}`
 
 After agent returns, read `{results_dir}/meta-insights.json` for updated metrics.
-Include key meta-insights in session summary if available.
 
 ## POST-SESSION-ANALYST: CROSS-MODEL VALIDATION (v5.6)
 
@@ -598,26 +420,10 @@ Skip entirely for DEGRADED or FAILED sessions.
 
 Update progress: `current_phase = "cross_model_validation"`.
 
-**DISPATCH to `cross-model-validator` agent via Agent tool:**
-> "<context>
-> Final hypotheses: {results_dir}/final.json
-> Results directory: [results_dir from session.json]
-> Prompt templates: prompts/gpt-validation.md, prompts/gemini-deep-think.md
-> </context>
->
-> <task>
-> Generate export prompts for all PASS/CONDITIONAL_PASS hypotheses.
-> Check if OPENAI_API_KEY and/or GEMINI_API_KEY are available.
-> IMPORTANT: Keys may be in .env.local, NOT in shell environment.
-> Run: source <(grep -v '^#' .env.local 2>/dev/null | sed 's/^/export /')
-> Then check $OPENAI_API_KEY and $GEMINI_API_KEY.
-> If any API keys are set: install deps (npm install), run
-> scripts/validate-crossmodel.mjs to call GPT-5.4 Pro and/or Gemini 3.1 Pro,
-> then parse responses and write cross-model consensus report.
-> If no API keys in EITHER shell env or .env.local: generate export files only.
-> Write all outputs to {results_dir}/.
-> Write structured data to {results_dir}/cross-model.json.
-> </task>"
+**DISPATCH to `cross-model-validator` agent via Agent tool.** Include in dispatch:
+- Final hypotheses: {results_dir}/final.json
+- Prompt templates: prompts/gpt-validation.md, prompts/gemini-deep-think.md
+- Results dir: `{results_dir}`
 
 After agent returns, read `{results_dir}/cross-model.json` for validation status.
 - If `status = "completed"`: include consensus highlights in session summary
@@ -655,264 +461,31 @@ Update health counters in state with final values.
 
 ## SESSION SUMMARY
 
+Read `prompts/session-summary-format.md` for detailed formatting instructions per status type.
 Write {results_dir}/session-summary.md and {results_dir}/final-hypotheses.md.
-Start session-summary with health status and contributor attribution (if connected):
-
-```markdown
-# Session Summary
-## Status: [SUCCESS|PARTIAL|DEGRADED|FAILED]
-## Reason: [1 sentence explanation]
-## Contributor: [display_name from .magellan/config.json, or "Anonymous" if not connected]
-```
-
-For **FAILED**:
-- Do NOT present hypothesis cards
-- Write cause of failure with specific phase and reason
-- Write: "Run `/discover` again to retry, or `/discover [topic]` with a specific target."
-- Include kill reasons if available
-
-For **DEGRADED**:
-- Present cards with warning: "**Warning: Did not pass Quality Gate — for reference only.**"
-- Explain what failed in Quality Gate
-- Suggest running `/validate [hypothesis]` for deeper analysis
-
-For **PARTIAL** and **SUCCESS**, include:
-- Mode used, target selected, why
-- Pipeline stats: generated → survived → ranked → evolved → approved
-- Each final hypothesis card
-- Cross-model recommendations
-- Remaining targets for future sessions
-- Suggested follow-ups
-
-**Cross-Model Validation Results:**
-If cross_model_validation.status == "completed":
-- Include the consensus summary from {results_dir}/cross-model-consensus.md
-- Highlight HIGH PRIORITY candidates (where both models agree)
-- Flag divergences that need investigation
-- "Cross-model validation was performed automatically by GPT-5.4 Pro and Gemini 3.1 Pro."
-
-If cross_model_validation.status == "manual_export_only":
-- "Export files were generated for manual validation (no API keys configured)."
-- Include instructions:
-  1. "Open `{results_dir}/export-gpt.md` and paste into ChatGPT with GPT-5.4 Pro"
-  2. "Open `{results_dir}/export-gemini.md` and paste into Gemini AI Studio with 3.1 Pro"
-  3. "Hypotheses where 2+ models agree on high novelty + confidence are your best candidates"
-- "To enable automatic validation in future sessions, set OPENAI_API_KEY and/or GEMINI_API_KEY."
-
-**For Non-Expert User:**
-4. List specific types of domain experts who could evaluate each hypothesis
 
 ### Write Ingest Manifest
 
-Write `{results_dir}/ingest.json` — a self-contained manifest for the website to consume.
-This file contains all metadata needed to ingest this session into the website DB
-without needing to read session.json or parse markdown files.
-
-```json
-{
-  "session_id": "${SESSION_ID}",
-  "mode": "${MODE}",
-  "status": "${STATUS}",
-  "field_a": "${FIELD_A}",
-  "field_c": "${FIELD_C}",
-  "bridge_concepts": [],
-  "strategy": "${STRATEGY}",
-  "disjointness": ${DISJOINTNESS_SCORE},
-  "contributor_key": "${CONTRIBUTOR_KEY_OR_NULL}",
-  "started_at": "${ISO_TIMESTAMP}",
-  "completed_at": "${ISO_TIMESTAMP}",
-  "pipeline_stats": {
-    "hypotheses_generated": N,
-    "survived_critique": N,
-    "passed_quality_gate": N,
-    "kill_rate": N.N,
-    "cycles_run": N,
-    "evolver_skipped": BOOL
-  }
-}
-```
-
-- `status`: one of `success`, `partial`, `degraded`, `failed`
-- Read the values from `state/session.json` (selected_target, metadata, health).
-- `bridge_concepts`: from `selected_target` in state or discovery-log.
-- Disjointness mapping: DISJOINT=1.0, PARTIALLY_EXPLORED=0.6, PARTIALLY_CONNECTED=0.3.
-- `contributor_key`: from `.magellan/config.json` if connected, otherwise `null`.
-- `started_at`/`completed_at`: from `metadata.start_time` and current time.
+Write `{results_dir}/ingest.json` — read schema from `prompts/ingest-schema.json`.
+Populate values from `state/session.json` (selected_target, metadata, health).
 
 Update state/session.json: phase="complete", status, status_reason.
 Final hypotheses are in {results_dir}/final.json (not in session.json).
 
 ## UPLOAD TO WEBSITE (after ingest manifest)
 
-If a contributor key is configured, automatically upload results to magellan-discover.ai.
+Run `node scripts/upload-session.mjs {results_dir}` to upload results to magellan-discover.ai.
+The script checks for a contributor key, constructs the payload from ingest.json/final.json/quality-gate.json,
+POSTs to the API, and updates ingest.json with upload status. If no key is configured, it prints a tip and exits.
 
-### 1. Check Contributor Key
-
-```bash
-CONTRIBUTOR_KEY=$(cat .magellan/config.json 2>/dev/null | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{console.log(JSON.parse(d).contributor_key||'')}catch{console.log('')}})")
-```
-
-If empty or absent, print:
-> "Tip: Run `/connect <key>` to publish your discoveries to magellan-discover.ai"
-
-Then skip to KNOWLEDGE PERSISTENCE.
-
-### 2. Construct and POST Upload Payload
-
-Use a Node.js inline script to read the session files and POST to the website API:
-
-```bash
-node -e "
-const fs = require('fs');
-const path = require('path');
-const dir = '${results_dir}';
-
-// Read structured data
-const ingest = JSON.parse(fs.readFileSync(path.join(dir, 'ingest.json'), 'utf-8'));
-let finalData = [];
-try { finalData = JSON.parse(fs.readFileSync(path.join(dir, 'final.json'), 'utf-8')).hypotheses || JSON.parse(fs.readFileSync(path.join(dir, 'final.json'), 'utf-8')); } catch {}
-
-// Build hypotheses from final.json
-const hypotheses = (Array.isArray(finalData) ? finalData : []).map(h => ({
-  id: h.id || h.title?.slice(0,20) || 'unknown',
-  title: h.title || '',
-  mechanism: h.mechanism || '',
-  supportingEvidence: h.supporting_evidence || h.supportingEvidence || '',
-  counterEvidence: h.counter_evidence || h.counterEvidence || '',
-  testProtocol: h.test_protocol || h.testProtocol || '',
-  bridgeSummary: h.bridge_summary || h.bridgeSummary || '',
-  compositeScore: h.composite_score || h.compositeScore || 5,
-  confidence: h.confidence || 5,
-  groundedness: h.groundedness || 5,
-  qualityGate: h.verdict || h.quality_gate || h.qualityGate || 'CONDITIONAL_PASS',
-  noveltyStatus: h.novelty_status || h.noveltyStatus || 'Unknown',
-  cycle: h.cycle || 1,
-  parentIds: h.parent_ids || h.parentIds || []
-}));
-
-// Read killed hypotheses
-let killed = [];
-try {
-  const qg = JSON.parse(fs.readFileSync(path.join(dir, 'quality-gate.json'), 'utf-8'));
-  const fails = (qg.hypotheses || qg).filter(h => (h.verdict || h.quality_gate) === 'FAIL');
-  killed = fails.map(h => ({
-    id: h.id || 'unknown', title: h.title || '', mechanism: h.mechanism || '',
-    killReason: h.kill_reason || h.killReason || h.reason || 'Failed quality gate',
-    cycle: h.cycle || 1, confidence: h.confidence || 0, groundedness: h.groundedness || 0,
-    noveltyStatus: h.novelty_status || 'Unknown'
-  }));
-} catch {}
-
-// Read cross-model validation
-let crossModel = {};
-try { crossModel.gpt = fs.readFileSync(path.join(dir, 'validation-gpt.md'), 'utf-8').slice(0,5000); } catch {}
-try { crossModel.gemini = fs.readFileSync(path.join(dir, 'validation-gemini.md'), 'utf-8').slice(0,5000); } catch {}
-
-const payload = {
-  session: {
-    id: ingest.session_id,
-    mode: ingest.mode,
-    status: ingest.status,
-    fieldA: ingest.field_a,
-    fieldC: ingest.field_c,
-    bridgeConcepts: ingest.bridge_concepts || [],
-    strategy: ingest.strategy,
-    disjointness: ingest.disjointness,
-    pipelineStats: ingest.pipeline_stats,
-    startedAt: ingest.started_at,
-    completedAt: ingest.completed_at
-  },
-  hypotheses,
-  killedHypotheses: killed,
-  crossModelValidation: Object.keys(crossModel).length > 0 ? crossModel : undefined
-};
-
-fetch('https://www.magellan-discover.ai/api/sessions/upload', {
-  method: 'POST',
-  headers: { 'Authorization': 'Bearer ' + ingest.contributor_key, 'Content-Type': 'application/json' },
-  body: JSON.stringify(payload)
-})
-.then(r => r.json().then(d => ({status: r.status, data: d})))
-.then(({status, data}) => {
-  if (status === 201) {
-    console.log('Published to magellan-discover.ai: ' + data.message);
-    // Update ingest.json with upload status
-    ingest.uploaded = true;
-    ingest.uploadedAt = new Date().toISOString();
-    fs.writeFileSync(path.join(dir, 'ingest.json'), JSON.stringify(ingest, null, 2));
-  } else {
-    console.log('Upload warning (' + status + '): ' + (data.error || 'Unknown error'));
-    ingest.uploaded = false;
-    fs.writeFileSync(path.join(dir, 'ingest.json'), JSON.stringify(ingest, null, 2));
-  }
-})
-.catch(e => console.log('Upload skipped (offline or server error): ' + e.message));
-"
-```
-
-### 3. Handle Result
-
-- On success (201): Report "Published to magellan-discover.ai" with hypothesis count
-- On failure: Print warning but do NOT fail the session — results are saved locally regardless
-- The upload is best-effort. If it fails, the admin can always run `npm run sync` manually
-
-**IMPORTANT**: Do NOT retry on failure. Do NOT let upload errors interrupt Knowledge Persistence.
+- This is best-effort and NON-BLOCKING. Do NOT retry on failure.
+- Do NOT let upload errors interrupt Knowledge Persistence.
 
 ## KNOWLEDGE PERSISTENCE (after session summary)
 
 Update `knowledge/discovery-log.json` for cumulative learning across sessions:
-```python
-# Read existing log or create new
-# Append this session's data:
-{
-  "date": "[ISO date]",
-  "session_id": "[from state]",
-  "mode": "[mode used]",
-  "targets": [
-    {
-      "field_a": "[Field A]",
-      "field_c": "[Field C]",
-      "bridge_concepts": ["concept1", "concept2"],
-      "strategy": "[which of the 10 Scout strategies produced this target]",
-      "disjointness": "[DISJOINT|PARTIALLY EXPLORED|WELL-EXPLORED]",
-      "outcome": "[success|partial|degraded|failed]"
-    }
-  ],
-  "productive_bridges": ["bridges that led to surviving hypotheses"],
-  "killed_hypotheses": [
-    {"title": "hypothesis title", "kill_reason": "why it was killed"}
-  ],
-  "surviving_hypotheses": ["titles of hypotheses that passed quality gate"]
-}
-```
-
-This enables:
-- Avoiding re-exploration of exhausted pairs
-- Reusing productive bridge concepts in future sessions
-- Preventing regeneration of previously killed hypotheses
-
-### Meta-Learning Metrics (v5.5)
-Also append strategy_performance metrics to the discovery-log entry:
-```json
-{
-  "strategy_performance": {
-    "strategy_name": {
-      "targets_produced": 1,
-      "hypotheses_survived": 3,
-      "avg_composite": 6.8
-    }
-  },
-  "bridge_type_performance": {
-    "type": {"used": 2, "survived": 1, "survival_rate": 0.5}
-  },
-  "computational_validation_summary": {
-    "checks_run": 4,
-    "checks_passed": 3,
-    "implausible_flags": ["description"]
-  }
-}
-```
-These metrics are consumed by the Scout (via meta-insights.md) and the
-Session Analyst for cumulative analysis.
+Read `prompts/knowledge-schema.json` for the entry format, then append this session's data
+to `knowledge/discovery-log.json`. Include strategy_performance, bridge_type_performance,
+and computational_validation_summary from session analyst output ({results_dir}/meta-insights.json).
 
 Present session summary to user.

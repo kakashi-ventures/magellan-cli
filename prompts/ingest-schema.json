@@ -1,0 +1,28 @@
+{
+  "_comment": "Schema for {results_dir}/ingest.json — self-contained manifest for website ingestion.",
+  "session_id": "${SESSION_ID}",
+  "mode": "${MODE}",
+  "status": "success|partial|degraded|failed",
+  "field_a": "${FIELD_A}",
+  "field_c": "${FIELD_C}",
+  "bridge_concepts": [],
+  "strategy": "${STRATEGY}",
+  "disjointness": "${DISJOINTNESS_SCORE — use mapping: DISJOINT=1.0, PARTIALLY_EXPLORED=0.6, PARTIALLY_CONNECTED=0.3}",
+  "contributor_key": "${from .magellan/config.json if connected, otherwise null}",
+  "started_at": "${ISO_TIMESTAMP — from metadata.start_time}",
+  "completed_at": "${ISO_TIMESTAMP — current time}",
+  "pipeline_stats": {
+    "hypotheses_generated": "N",
+    "survived_critique": "N",
+    "passed_quality_gate": "N",
+    "kill_rate": "N.N",
+    "cycles_run": "N",
+    "evolver_skipped": "BOOL"
+  },
+  "_sources": {
+    "status": "from state/session.json",
+    "field_a_field_c_bridge_concepts_strategy": "from selected_target in state/session.json",
+    "pipeline_stats": "from health counters in state/session.json",
+    "contributor_key": "from .magellan/config.json"
+  }
+}

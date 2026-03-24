@@ -5,6 +5,36 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.10 — Orchestrator Context Optimization (24 marzo 2026)
+
+**Motivazione**: L'orchestratore (discovery-orchestrator.md) era 39.4 KB / ~11,300 token — il file agent più grande per un fattore 3x. Con 2 skill caricate al startup (+1,900 token) e CLAUDE.md (+3,400 token), il contesto iniziale era ~16,600 token prima di qualsiasi lavoro effettivo. Per un pipeline di 50-80 minuti con maxTurns=80, lo spazio di contesto si riempiva progressivamente, degradando le prestazioni nelle fasi finali.
+
+Seguendo le best practice di Claude Code di marzo 2026 ("Context window is the most important resource to manage", "dispatch prompts should be focused — sub-agents have their own detailed instructions"):
+
+### Estrazioni a file esterni (read on-demand)
+- `scripts/init-session.sh` — Script bash di inizializzazione sessione (da 48 righe inline)
+- `scripts/upload-session.mjs` — Script Node.js di upload al website (da 87 righe inline)
+- `prompts/session-summary-format.md` — Istruzioni formattazione session summary (da 49 righe)
+- `prompts/ingest-schema.json` — Schema del manifest ingest (da 38 righe)
+- `prompts/knowledge-schema.json` — Schema del discovery-log entry (da 55 righe)
+
+### Rimozione skill non utilizzate dal frontmatter
+- `discovery-engine` e `hypothesis-validation` rimosse dal frontmatter dell'orchestratore
+- L'orchestratore non genera mai ipotesi, non valida claim — queste skill sono usate solo dai sub-agent che le caricano autonomamente
+
+### Consolidamento e deduplica
+- Guard Protocol generico aggiunto (pattern comune per tutti i post-dispatch guard)
+- State Update Protocol unificato (7 ripetizioni di timestamp update rimosse)
+- Dispatch prompt accorciati a soli dati di contesto (i sub-agent hanno istruzioni proprie)
+- Sezione Targeted/Open/Problem mode condensata da 20 a 4 righe
+
+### Risultato
+- Orchestratore: 39,450 → 23,959 byte (-39%), 918 → 491 righe (-46%)
+- Contesto startup stimato: ~16,600 → ~11,200 token (-32%)
+- Nessun cambio funzionale al pipeline
+
+---
+
 ## v5.9 — Pinned Agent Effort Levels (24 marzo 2026)
 
 **Motivazione**: I livelli di effort degli agenti ereditavano il setting di sessione dell'utente. Un utente con effort `low` o `medium` nella propria CLI rischiava di degradare la qualità delle ipotesi generate dal pipeline. La priorità è la qualità, non il costo o i tempi.
