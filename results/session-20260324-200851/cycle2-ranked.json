@@ -1,0 +1,99 @@
+{
+  "session_id": "session-20260324-200851",
+  "cycle": 2,
+  "phase": "ranking",
+  "scoring_weights": {
+    "testability": 0.20,
+    "groundedness": 0.20,
+    "mechanistic_specificity": 0.20,
+    "novelty": 0.15,
+    "cross_domain_creativity": 0.15,
+    "impact": 0.10
+  },
+  "rankings": [
+    {
+      "rank": 1,
+      "id": "C2-H2",
+      "title": "Power Analysis for Subtomogram Averaging of OMV Budding Intermediates Sets Feasibility Boundary",
+      "scores": {
+        "testability": 9,
+        "groundedness": 9,
+        "mechanistic_specificity": 7,
+        "novelty": 7,
+        "cross_domain_creativity": 8,
+        "impact": 8
+      },
+      "composite": 8.05,
+      "cross_domain_bonus": 0.5,
+      "composite_with_bonus": 8.55,
+      "rationale": "Highest groundedness and testability in the session. Establishes the feasibility framework for the most impactful hypothesis (E1/budding site architecture). The pilot dataset design is immediately actionable."
+    },
+    {
+      "rank": 2,
+      "id": "C2-H1",
+      "title": "GMM Analysis of Cryo-EM OMV Populations Distinguishes Biogenesis Pathways",
+      "scores": {
+        "testability": 8,
+        "groundedness": 7,
+        "mechanistic_specificity": 7,
+        "novelty": 9,
+        "cross_domain_creativity": 8,
+        "impact": 8
+      },
+      "composite": 7.85,
+      "cross_domain_bonus": 0.5,
+      "composite_with_bonus": 8.35,
+      "rationale": "Strong statistical framework applied to a genuine measurement gap. BIC model selection properly handles the discrete vs continuous question. delta-ompA validation is a good genetic control."
+    },
+    {
+      "rank": 3,
+      "id": "C2-H3",
+      "title": "Periplasmic Chaperone DegP Co-localization via Cryo-ET Difference Mapping",
+      "scores": {
+        "testability": 7,
+        "groundedness": 7,
+        "mechanistic_specificity": 8,
+        "novelty": 9,
+        "cross_domain_creativity": 7,
+        "impact": 8
+      },
+      "composite": 7.70,
+      "cross_domain_bonus": 0.5,
+      "composite_with_bonus": 8.20,
+      "rationale": "Most mechanistically specific hypothesis — proposes a concrete cargo sorting agent (DegP chaperone). Difference mapping approach is creative. Wounded by pleiotropic concern but addressable with protease-dead mutant."
+    },
+    {
+      "rank": 4,
+      "id": "C2-H4",
+      "title": "ML-Guided Template Matching Identifies OMV Cargo Proteins In Situ",
+      "scores": {
+        "testability": 6,
+        "groundedness": 7,
+        "mechanistic_specificity": 6,
+        "novelty": 10,
+        "cross_domain_creativity": 9,
+        "impact": 9
+      },
+      "composite": 7.65,
+      "cross_domain_bonus": 0.5,
+      "composite_with_bonus": 8.15,
+      "rationale": "Highest novelty and impact potential but wounded by resolution concerns. If feasible, would transform OMV biology — label-free cargo identification. The false positive rate concern is addressable with knockout validation."
+    }
+  ],
+  "diversity_check": {
+    "passed": true,
+    "approaches": [
+      "Statistical population analysis (C2-H1)",
+      "Feasibility/power analysis (C2-H2)",
+      "Genetic perturbation + difference mapping (C2-H3)",
+      "ML-guided structural identification (C2-H4)"
+    ],
+    "note": "Improved technique diversity over cycle 1 — C2-H3 and C2-H4 introduce genetic and ML-based approaches alongside traditional cryo-EM analysis."
+  },
+  "elo_sanity_check": {
+    "C2-H2_vs_C2-H1": "C2-H2 wins (higher groundedness)",
+    "C2-H1_vs_C2-H3": "C2-H1 wins (stronger statistical foundation)",
+    "C2-H3_vs_C2-H4": "C2-H3 wins (more feasible despite lower novelty)",
+    "consistent_with_linear_ranking": true
+  }
+}

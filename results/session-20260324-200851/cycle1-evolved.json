@@ -1,0 +1,64 @@
+{
+  "session_id": "session-20260324-200851",
+  "cycle": 1,
+  "phase": "evolution",
+  "evolved_hypotheses": [
+    {
+      "id": "E1",
+      "parent": "H2",
+      "title": "Subtomogram Averaging of Stress-Induced OMV Budding Sites Reveals a Conserved Tol-Pal-Associated Scission Architecture",
+      "operation": "specialization + mechanism_addition",
+      "changes": "Added Tol-Pal complex as the likely protein scaffold at scission sites (established role in OM stability, Cascales et al. 2007). Specified gentamicin stress for OMV induction. Added explicit null result criterion. Added orthogonal validation via Tol knockout comparison.",
+      "mechanism_summary": "In situ cryo-ET of sub-MIC gentamicin-stressed P. aeruginosa followed by subtomogram averaging of >=100 OMV budding intermediates. Predict Tol-Pal complex accumulation at scission neck forming a ring with 15-25 nm diameter. Validate: delta-tolA mutant budding sites should lack the ring structure while maintaining OMV production (shifted to explosive mechanism).",
+      "confidence": 6,
+      "groundedness": 8,
+      "novelty": 10,
+      "key_prediction": "Subtomogram average of budding necks shows ring-like density (2-5 nm resolution) that is ABSENT in delta-tolA mutant budding sites.",
+      "lineage": "H2 -> E1 (specialized with Tol-Pal mechanism, added genetic validation)"
+    },
+    {
+      "id": "E2",
+      "parent": "H6",
+      "title": "Cryo-ET Quantification of OMP Surface Density Gradient from Non-Budding to Budding Membrane Reveals Curvature-Driven Cargo Selection",
+      "operation": "refinement + quantification",
+      "changes": "Replaced discrete 'budding vs non-budding' comparison with a continuous gradient analysis. Added curvature measurement per membrane patch. Replaced barrel diameter measurement (infeasible at 3 nm resolution) with integrated surface density measurement (feasible). Added quantitative curvature-density relationship prediction.",
+      "mechanism_summary": "Segment cryo-ET membranes into 50x50 nm patches. Measure local curvature (inverse radius from membrane surface normal) and protein surface density (integrated electron density above lipid bilayer baseline) for each patch. The hypothesis predicts a positive correlation (r > 0.5) between local membrane curvature and OMP surface density, indicating that protein crowding drives curvature (or vice versa). In delta-ompA mutant (higher OMV production), this correlation should shift to higher baseline curvature.",
+      "confidence": 7,
+      "groundedness": 7,
+      "novelty": 8,
+      "key_prediction": "r > 0.5 correlation between local curvature and OMP surface density across >=200 membrane patches from >=10 tomograms.",
+      "lineage": "H6 -> E2 (refined from binary to continuous measurement, added curvature correlation)"
+    },
+    {
+      "id": "E3",
+      "parent": "H1",
+      "title": "RELION 3D Classification of OMV Populations Identifies Biogenesis Pathway Signatures via Size-Density Coordinates",
+      "operation": "refinement + statistical_framework",
+      "changes": "Added explicit statistical framework: Bayesian Information Criterion (BIC) to determine optimal class number (avoids arbitrary cluster assignment). Added orthogonal validation: proteomics of density-fractionated OMVs. Added specific biogenesis pathway predictions per class (OmpA-dependent vs lysis-derived vs stress-induced).",
+      "mechanism_summary": "Collect >50,000 cryo-EM images of SEC-purified P. aeruginosa OMVs. Run RELION 3D classification with K=2,3,4,5,6 classes. Use BIC or minimum description length (MDL) to determine the statistically optimal K. Validate by comparing class-specific diameter distributions with orthogonal measurements (nanoFACS, DLS). Assign biogenesis pathways: Class A (small, smooth surface) = OmpA-thinned budding; Class B (large, rough surface) = lysis-derived; Class C (intermediate, protein-rich) = stress-induced active budding.",
+      "confidence": 7,
+      "groundedness": 7,
+      "novelty": 9,
+      "key_prediction": "BIC-optimal K >= 3 AND class-specific diameter distributions that recapitulate nanoFACS size fractionation with concordance index > 0.7.",
+      "lineage": "H1 -> E3 (added statistical framework, orthogonal validation, pathway assignment)"
+    },
+    {
+      "id": "E4",
+      "parent": "H5 x H6",
+      "title": "Correlative Cryo-CLEM Links LPS Lectin-Labeled OMV Subpopulations to Cryo-ET Budding Site Membrane Composition",
+      "operation": "crossover (H5 x H6)",
+      "changes": "Combined LPS analysis from H5 with budding site analysis from H6. Added correlative cryo-CLEM (light + electron) approach using fluorescent lectins specific for O-antigen to label OMV subpopulations, then locate them in cryo-ET tomograms. This solves the LPS corona measurement problem (H5's weakness) by using molecular labels instead of density measurements.",
+      "mechanism_summary": "Label P. aeruginosa OMVs with fluorescent lectin specific for O-antigen (ConA-Alexa488 or WGA-Alexa594). Image by cryo-fluorescence to identify lectin-high and lectin-low OMV subpopulations. Vitrify and correlate with cryo-ET to resolve budding site architecture for each subpopulation. Predict: lectin-low (short O-antigen) OMVs bud from high-curvature membrane regions with enriched OMP density; lectin-high (long O-antigen) OMVs bud from flat membrane with lower OMP density.",
+      "confidence": 5,
+      "groundedness": 6,
+      "novelty": 8,
+      "key_prediction": "Lectin-low OMVs originate from membrane regions with >=1.5x higher local curvature than lectin-high OMVs (measured by correlative cryo-CLEM/cryo-ET).",
+      "lineage": "H5 + H6 -> E4 (crossover: LPS labeling + budding site analysis via cryo-CLEM)"
+    }
+  ],
+  "evolution_quality_check": {
+    "diversity": "4 distinct approaches: subtomogram averaging (E1), continuous density gradient (E2), population classification (E3), correlative light-electron (E4). PASS.",
+    "lineage_diversity": "Parents: H2 (E1), H6 (E2), H1 (E3), H5xH6 (E4). No convergence. PASS.",
+    "improvement": "All evolved hypotheses add quantitative predictions, orthogonal validation, and address critic concerns."
+  }
+}

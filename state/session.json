@@ -1,26 +1,28 @@
 {
-  "session_id": "2026-03-24-scout-012",
+  "session_id": "session-20260324-200851",
   "mode": "scout",
   "phase": "complete",
   "cycle": 2,
   "status": "success",
-  "status_reason": "5 CONDITIONAL_PASS hypotheses survived Quality Gate. C2-H1 downgraded from PASS to CONDITIONAL_PASS after external critique found prior Michalke (2006-2016) speciation-neurotoxicity work. Deinococcus cross-kingdom bridge remains novel.",
-  "results_dir": "results/2026-03-24-scout-012",
+  "status_reason": "4/4 passed QG (3 PASS, 1 CONDITIONAL). Cross-model validation completed.",
+  "completed_at": "2026-03-24T21:45:00Z",
+  "results_dir": "results/session-20260324-200851",
   "selected_target": {
     "id": "T1",
-    "field_a": "Manganese speciation toxicology (Mn2+ neurotoxicity, SLC30A10 mutations, globus pallidus accumulation)",
-    "field_c": "Deinococcus radiodurans Mn-antioxidant defense (Mn-OP complexes, DP1 decapeptide, radioresistance)",
-    "strategy": "contradiction_mining",
+    "field_a": "Cryo-EM single-particle analysis and heterogeneity methods (3DVA, cryoDRGN, subtomogram averaging)",
+    "field_c": "Bacterial outer membrane vesicle (OMV) cargo sorting mechanism",
+    "strategy": "tool_repurposing",
+    "scout_confidence": 8.5,
     "target_quality_score": 8.0
   },
   "disjointness_status": "DISJOINT",
   "metadata": {
-    "start_time": "2026-03-24T00:52:36Z",
+    "start_time": "2026-03-24T19:09:31Z",
     "model": "opus-4.6",
-    "contributor_key": "mgln_7dc49810093a6bcb70ff8f751dc99332",
-    "total_hypotheses_generated": 14,
-    "kill_rate": 21.4,
-    "attrition_rate": 64.3,
+    "contributor_key": "null",
+    "total_hypotheses_generated": 11,
+    "kill_rate": 0.273,
+    "attrition_rate": 0,
     "fallback_used": false,
     "literature_unavailable": false,
     "generation_degraded": false,
@@ -31,16 +33,45 @@
     "literature_reinforcement": false
   },
   "progress": {
-    "phases_completed": ["scout", "literature_verification", "narrowing", "target_evaluation", "computational_validation", "cycle1_generation", "cycle1_critique", "cycle1_ranking", "cycle1_evolution", "cycle2_generation", "cycle2_critique", "cycle2_ranking", "quality_gate", "session_analyst", "cross_model_validation"],
+    "phases_completed": ["scout", "literature_verification", "narrowing", "target_evaluation", "computational_validation", "cycle1_generation", "cycle1_critique", "cycle1_ranking", "cycle1_evolution", "cycle2_generation", "cycle2_critique", "cycle2_ranking", "quality_gate", "cross_model_validation", "session_analysis"],
     "current_phase": "complete"
   },
   "health": {
     "scout_targets_found": 6,
-    "hypotheses_generated": 14,
-    "survived_critique": 11,
-    "passed_quality_gate": 5,
+    "hypotheses_generated": 11,
+    "survived_critique": 4,
+    "passed_quality_gate": 4,
     "fallback_used": false,
     "retries_needed": 0,
     "web_search_failures": 0
-  }
+  },
+  "quality_gate_verdicts": {
+    "C2-H1": "PASS",
+    "C2-H2": "CONDITIONAL PASS",
+    "C2-H3": "PASS",
+    "C2-H4": "PASS"
+  },
+  "strategy_performance": {
+    "tool_repurposing": {
+      "targets_produced": 2,
+      "hypotheses_generated": 11,
+      "hypotheses_survived": 4,
+      "avg_composite": 8.31,
+      "qg_pass": 3,
+      "qg_conditional": 1,
+      "qg_fail": 0
+    }
+  },
+  "session_meta_insights": [
+    "tool_repurposing achieves dramatically higher quality when source (Field A) and target (Field C) share specimen class (life sciences): S013 avg composite 8.31 vs S010 6.23 for cross-class transfer",
+    "New kill pattern: compartment topology mismatch — verify directionality of molecular machines and membrane topology before proposing inter-compartment cargo transfer (T6SS fires inward, OMVs bud outward)",
+    "New kill pattern: equipment mismatch with specimen type — microfluidic mixing device validated for purified proteins is incompatible with whole bacterial cells; verify specimen-technique compatibility explicitly",
+    "New kill pattern: tool quantitative range violation — cryoDRGN validated minimum ~100 kDa; OmpA at 35 kDa is 3x below this limit; retrieve tool's validated operating range before proposing application",
+    "Species-specific protein confirmation required: DegP (E. coli) and MucD (P. aeruginosa) are genus-level non-interchangeable; named proteins must be confirmed for specific model organism using UniProt species filter",
+    "Cross-model validation caught 4-orders-of-magnitude arithmetic error in C2-H2 N_min formula that Quality Gate missed; QG should attempt order-of-magnitude spot-checks on numerical claims",
+    "Gemini's cross-hypothesis synthesis (H1-H4 mutual information duality) generated novel experimental predictions not in original hypotheses; ask Gemini for cross-hypothesis logical dependencies systematically",
+    "Measurement gap template is highest-performing Generator approach: 'Field C identifies X as top measurement priority; no paper applies tool Y from Field A to X; this is the bridge'",
+    "Session 013 is best single-session outcome (3 PASS, avg 8.31, 0 fabricated claims) confirming DISJOINT + same-class tool transfer = optimal combination",
+    "FLIM-FRET biosensors x Bacterial persisters is the highest-priority deferred target (S013 T3, network_gap_analysis, scout score 8.0, DISJOINT, PubMed gap verified)"
+  ]
 }

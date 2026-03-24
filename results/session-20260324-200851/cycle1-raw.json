@@ -1,0 +1,73 @@
+{
+  "session_id": "session-20260324-200851",
+  "cycle": 1,
+  "phase": "generation",
+  "hypotheses": [
+    {
+      "id": "H1",
+      "title": "Cryo-EM 3D Classification of P. aeruginosa OMV Populations Reveals Discrete Cargo-Defined Subclasses",
+      "mechanism_summary": "RELION 3D classification of >50,000 OMV particles resolves >=3 discrete structural classes defined by surface protein density, diameter, and curvature — corresponding to distinct biogenesis pathways (OmpA-depleted budding, explosive lysis, active polar budding).",
+      "bridge_type": "measurement_transfer",
+      "confidence": 6,
+      "groundedness": 7,
+      "novelty": 9,
+      "key_prediction": ">=3 structurally distinct OMV classes with <20% overlap in class probability, each with different mean diameter (p<0.01) and surface protein density.",
+      "grounded_claims": ["RELION 3D classification — Scheres 2012", "OMV size 20-250 nm — Schwechheimer & Kuehn 2015", "OmpA-depleted OMVs — Song et al. 2008"]
+    },
+    {
+      "id": "H2",
+      "title": "Subtomogram Averaging of OMV Budding Sites Reveals Conserved Protein Architecture at Membrane Scission",
+      "mechanism_summary": "In situ cryo-ET + subtomogram averaging of >=100 budding intermediates reveals a ring-like protein collar at the OMV budding neck with 5-10 nm periodicity and 15-25 nm constriction diameter — analogous to dynamin in eukaryotic endocytosis.",
+      "bridge_type": "measurement_transfer",
+      "confidence": 5,
+      "groundedness": 8,
+      "novelty": 10,
+      "key_prediction": "Conserved proteinaceous collar at budding neck with >=2 nm resolution, measurable by subtomogram averaging of >=100 budding events.",
+      "grounded_claims": ["Subtomogram averaging of bacterial machines — Yonekura 2003, Basler 2012", "Gentamicin increases OMV production — established", "OMV budding intermediates observable by cryo-ET"]
+    },
+    {
+      "id": "H3",
+      "title": "CryoDRGN Reveals Conformational Gating in OmpA That Controls OMV-Luminal Cargo Access",
+      "mechanism_summary": "CryoDRGN maps OmpA conformational landscape in nanodiscs, revealing closed (peptidoglycan-bound) and open (detached, pore-forming) states. The open state creates a transient channel for periplasmic cargo access to OMV lumen during budding.",
+      "bridge_type": "model_transfer",
+      "confidence": 4,
+      "groundedness": 5,
+      "novelty": 9,
+      "key_prediction": ">=2 OmpA conformational states separated by >=5 A RMSD, with minor open state at 10-30% frequency showing >=2 nm channel.",
+      "grounded_claims": ["cryoDRGN — Zhong et al. 2021 Nature Methods", "OmpA periplasmic domain flexibility — crystal structures", "OmpA depletion increases OMV production"]
+    },
+    {
+      "id": "H4",
+      "title": "3DVA of OMV-Associated T6SS Components Reveals Membrane-Piercing Cargo Injection Mechanism",
+      "mechanism_summary": "3DVA of T6SS baseplate contraction in situ reveals membrane displacement >=3 nm creating transient pore for effector injection into nascent OMV lumen — explaining presence of T6SS effectors in OMVs.",
+      "bridge_type": "model_transfer",
+      "confidence": 4,
+      "groundedness": 6,
+      "novelty": 9,
+      "key_prediction": "3DVA first principal component shows >=10 A amplitude membrane deformation at T6SS contraction site, with transient pore >=5 nm.",
+      "grounded_claims": ["T6SS structure — Ge et al. 2015 Nature", "T6SS effectors in OMVs — documented", "3DVA methodology — Punjani & Fleet 2021"]
+    },
+    {
+      "id": "H5",
+      "title": "Cryo-EM Classification of OMV Lipid Asymmetry Identifies LPS O-antigen Length as Primary Sorting Signal",
+      "mechanism_summary": "2D classification resolves LPS corona thickness on individual OMVs. Short O-antigen LPS creates lower steric barrier to curvature, producing small OMVs. Cargo sorting is passive consequence of LPS-defined membrane domains.",
+      "bridge_type": "measurement_transfer",
+      "confidence": 5,
+      "groundedness": 7,
+      "novelty": 6,
+      "key_prediction": "Inverse correlation (r < -0.5) between LPS corona thickness and OMV curvature across >10,000 particles.",
+      "grounded_claims": ["LPS structural variability — established", "LPS effects on OMV production — Haurat et al. 2015", "Cryo-EM radial density analysis feasible"]
+    },
+    {
+      "id": "H6",
+      "title": "Cryo-ET Reveals OMP Barrel Clustering at Polar Budding Sites as Cargo Selection Mechanism",
+      "mechanism_summary": "Subtomogram averaging of membrane patches at budding vs non-budding polar regions shows >=1.5x higher OMP barrel density at budding sites with 8-12 nm inter-barrel spacing, selectively enriching larger cargo barrels while excluding structural OMPs.",
+      "bridge_type": "measurement_transfer",
+      "confidence": 6,
+      "groundedness": 7,
+      "novelty": 8,
+      "key_prediction": "Budding sites show >=1.5x higher barrel density (p<0.01) and barrel diameter bias toward >=3 nm (cargo OMPs) vs <3 nm (structural OMPs) at non-budding sites.",
+      "grounded_claims": ["Polar OMV budding — documented", "OMP enrichment at poles — IcsA, PagC examples", "Subtomogram averaging of membrane proteins — Zimmerli 2021 Science"]
+    }
+  ]
+}

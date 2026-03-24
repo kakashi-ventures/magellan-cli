@@ -1,0 +1,26 @@
+{
+  "session_id": "session-20260324-200851",
+  "mode": "scout",
+  "status": "success",
+  "field_a": "Cryo-EM single-particle analysis and heterogeneity methods (3DVA, cryoDRGN, subtomogram averaging)",
+  "field_c": "Bacterial outer membrane vesicle (OMV) cargo sorting mechanism",
+  "bridge_concepts": [
+    "GMM/BIC model selection applied to whole-vesicle populations",
+    "Subtomogram averaging power analysis for budding intermediates",
+    "Cryo-ET difference mapping for periplasmic chaperone localization",
+    "ML template matching (DeePiCt/TomoTwin) for in situ cargo identification"
+  ],
+  "strategy": "tool_repurposing",
+  "disjointness": 1.0,
+  "contributor_key": null,
+  "started_at": "2026-03-24T19:09:31Z",
+  "completed_at": "2026-03-24T21:45:00Z",
+  "pipeline_stats": {
+    "hypotheses_generated": 11,
+    "survived_critique": 4,
+    "passed_quality_gate": 4,
+    "kill_rate": 0.273,
+    "cycles_run": 2,
+    "evolver_skipped": true
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "session_id": "session-20260324-200851",
+  "phase": "scout",
+  "creativity_constraint": "tool/technique transfer across disciplines (mod 5 = 3)",
+  "narrowing": {
+    "method": "DISJOINTNESS_PRIORITY",
+    "excluded": ["T4 (WELL_EXPLORED)", "T2 (PARTIALLY_EXPLORED, pressure range infeasible)", "T5 (PARTIALLY_EXPLORED, AFM nanoindentation active area)"],
+    "top_3": ["T1", "T3", "T6"],
+    "rationale": "3 DISJOINT candidates all scored >= 5. Per disjointness hard constraint, excluded PARTIALLY_EXPLORED and WELL_EXPLORED targets. Top 3 by scout confidence: T1 (8.5), T3 (8.0), T6 (7.0). Strategy diversity: 3 different strategies including 1 exploration slot (T6 evolutionary_conservation_gap)."
+  },
+  "candidates": [
+    {
+      "id": "T1",
+      "field_a": "Cryo-EM single-particle analysis and heterogeneity methods (3DVA, cryoDRGN, subtomogram averaging)",
+      "field_c": "Bacterial outer membrane vesicle (OMV) cargo sorting mechanism",
+      "bridge_concepts": [
+        "Cryo-EM 3D classification of OMV populations by size/density/cargo",
+        "CryoDRGN continuous heterogeneity analysis of OMP conformational states during budding",
+        "Subtomogram averaging of OMV budding intermediates at bacterial poles",
+        "In situ cryo-ET of OMV biogenesis sites (VipA/VipB, OmpA depletion zones)",
+        "3DVA of OMP barrel flexibility linked to cargo capture"
+      ],
+      "strategy": "tool_repurposing",
+      "scout_confidence": 8.5,
+      "estimated_disjointness": "DISJOINT",
+      "rationale": "Cryo-EM heterogeneity tools transformed eukaryotic vesicle biology but never applied to bacterial OMV cargo sorting — the #1 unsolved question in OMV biology."
+    },
+    {
+      "id": "T2",
+      "field_a": "Patch-clamp electrophysiology (pressure-clamp, automated planar arrays, single-channel recording)",
+      "field_c": "Plant turgor pressure sensing and osmoregulation (guard cells, OSCA1, MSL channels)",
+      "bridge_concepts": [
+        "Patch-clamp of plant protoplasts with pressure clamp at turgor-relevant pressures (0.1-1 MPa)",
+        "Automated planar patch clamp adapted for plant protoplasts",
+        "Pressure-clamp ramp protocols for candidate turgor sensors (OSCA1, MSL8/10)",
+        "Inside-out patches for direct membrane tension activation tests",
+        "Single-channel conductance fingerprinting of turgor-activated channels"
+      ],
+      "strategy": "tool_repurposing",
+      "scout_confidence": 7.5,
+      "estimated_disjointness": "DISJOINT",
+      "rationale": "Plant mechanosensor genes identified but biophysical characterization at turgor pressures absent. Animal electrophysiology tools could transform the field."
+    },
+    {
+      "id": "T3",
+      "field_a": "FLIM-FRET genetically encoded biosensors (SoNar, QUEEN, pHluorin variants)",
+      "field_c": "Bacterial persister cell metabolism (antibiotic tolerance, metabolic dormancy debate)",
+      "bridge_concepts": [
+        "FLIM-FRET ATP biosensor (QUEEN) for single-cell ATP quantification in persisters",
+        "NAD+/NADH FLIM biosensor (SoNar) to test metabolic dormancy model",
+        "FLIM pH biosensor for persister proton motive force measurement",
+        "Time-resolved FLIM to distinguish persisters from dead cells",
+        "Microfluidic FLIM for longitudinal single-cell persistence tracking"
+      ],
+      "strategy": "network_gap_analysis",
+      "scout_confidence": 8.0,
+      "estimated_disjointness": "DISJOINT",
+      "rationale": "Persister metabolism debate unresolvable without single-cell metabolite data. FLIM-FRET biosensors provide this capability but PubMed FLIM+persister = 0 results."
+    },
+    {
+      "id": "T4",
+      "field_a": "Optogenetic actuators (LAPD, BphS/BphG, LOV-domain phosphodiesterases)",
+      "field_c": "Biofilm dispersal signaling via c-di-GMP regulation",
+      "bridge_concepts": [
+        "LAPD expression in P. aeruginosa for spatially targeted c-di-GMP degradation",
+        "BphS/BphG dual system for reversible biofilm-planktonic switching",
+        "Optogenetic c-di-GMP pulse protocols for minimum dispersal signal determination",
+        "Two-photon optogenetic activation for depth-resolved biofilm dispersal",
+        "Combinatorial optogenetic dispersal + antibiotic timing"
+      ],
+      "strategy": "Swanson_ABC_bridging",
+      "scout_confidence": 7.0,
+      "estimated_disjointness": "PARTIALLY_EXPLORED",
+      "rationale": "LAPD/BphS exist as c-di-GMP tools in synthetic biology but therapeutic biofilm dispersal application unexplored. Risk of prior work."
+    },
+    {
+      "id": "T5",
+      "field_a": "AFM single-molecule force spectroscopy (SMFS, high-speed AFM, multiparametric AFM)",
+      "field_c": "Intrinsically disordered protein (IDP) phase separation and condensate mechanics",
+      "bridge_concepts": [
+        "AFM-SMFS pulling of IDP chains from condensate droplets to measure extraction force",
+        "Force-distance curves for condensate cohesive energy per residue",
+        "Temperature-dependent SMFS for enthalpic vs entropic partitioning",
+        "Nanoindentation correlating single-chain forces to bulk condensate properties",
+        "Multiparametric AFM mapping of condensate surface during aging"
+      ],
+      "strategy": "scale_bridging",
+      "scout_confidence": 7.5,
+      "estimated_disjointness": "PARTIALLY_EXPLORED",
+      "rationale": "Condensate field relies on bulk measurements. Single-molecule force measurements from within condensates never performed. But AFM nanoindentation of condensates exists."
+    },
+    {
+      "id": "T6",
+      "field_a": "Electrochemical impedance spectroscopy (EIS, equivalent circuit modeling, frequency analysis)",
+      "field_c": "Gut microbiome metabolic state monitoring (real-time functional readouts, SCFA, redox state)",
+      "bridge_concepts": [
+        "EIS frequency sweep fingerprinting of microbiome metabolic state",
+        "Impedance-based dysbiosis discrimination using equivalent circuit models",
+        "Miniaturized EIS for ingestible capsule gut monitoring",
+        "EIS tracking of antibiotic-induced microbiome disruption",
+        "EIS spectral features correlated to specific metabolic functions"
+      ],
+      "strategy": "evolutionary_conservation_gap",
+      "scout_confidence": 7.0,
+      "estimated_disjointness": "DISJOINT",
+      "rationale": "EIS is cheap, real-time, measures electrochemical properties of microbial communities. Gut microbiome needs functional readouts beyond composition. Minimal cross-citation."
+    }
+  ]
+}
