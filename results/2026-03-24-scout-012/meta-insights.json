@@ -1,0 +1,43 @@
+{
+  "session_id": "2026-03-24-scout-012",
+  "strategy_performance": {
+    "contradiction_mining": {
+      "targets_produced": 1,
+      "targets_selected": 1,
+      "hypotheses_generated": 14,
+      "survived_critique": 13,
+      "quality_gate_passed": 1,
+      "quality_gate_conditional": 4,
+      "quality_gate_pass_plus_cond_rate": 0.357,
+      "avg_qg_score": 7.1,
+      "effectiveness": "VALIDATED"
+    }
+  },
+  "bridge_type_performance": {
+    "unifying_framework": {"used": 1, "survived": 1, "qg_passed": 1, "survival_rate": 1.0},
+    "measurement_transfer": {"used": 1, "survived": 1, "qg_passed": 1, "survival_rate": 1.0},
+    "enzymatic_replacement": {"used": 1, "survived": 1, "qg_passed": 1, "survival_rate": 1.0},
+    "compartment_speciation": {"used": 1, "survived": 1, "qg_passed": 1, "survival_rate": 1.0},
+    "Irving_Williams_framework": {"used": 1, "survived": 1, "qg_passed": 1, "survival_rate": 1.0},
+    "direct_mechanism_transfer_weak_Ka": {"used": 1, "survived": 1, "qg_passed": 0, "survival_rate": 0.0},
+    "combination_therapy_weak_Ka": {"used": 1, "survived": 1, "qg_passed": 0, "survival_rate": 0.0},
+    "speciation_protein_interaction": {"used": 1, "survived": 0, "qg_passed": 0, "survival_rate": 0.0},
+    "sequence_homology_weak": {"used": 1, "survived": 0, "qg_passed": 0, "survival_rate": 0.0},
+    "speciation_ferroptosis_weak": {"used": 1, "survived": 0, "qg_passed": 0, "survival_rate": 0.0},
+    "endogenous_analogue_impossible": {"used": 1, "survived": 0, "qg_passed": 0, "survival_rate": 0.0}
+  },
+  "key_insights": [
+    "contradiction_mining VALIDATED as primary strategy (35.7% QG pass+cond rate, comparable to network_gap_analysis)",
+    "Binding affinity (Ka) is the #1 kill factor for molecular bridge hypotheses — front-load Ka retrieval",
+    "Framework and measurement hypotheses outperform molecule-specific hypotheses when Ka is weak",
+    "Measurement transfer > model transfer heuristic confirmed again (S011 + S012)",
+    "The Mn speciation paradox (toxic vs protective depending on chemical form) is a genuine discovery target"
+  ],
+  "kill_patterns": {
+    "weak_binding_affinity": {"count": 3, "fraction": 0.27},
+    "alternative_mechanism_dominance": {"count": 1, "fraction": 0.09},
+    "Fenton_too_weak_vs_Fe": {"count": 1, "fraction": 0.09},
+    "high_false_positive_rate": {"count": 1, "fraction": 0.09},
+    "quantitative_impossibility": {"count": 1, "fraction": 0.09}
+  }
+}

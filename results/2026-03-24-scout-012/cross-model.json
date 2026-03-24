@@ -1,0 +1,61 @@
+{
+  "cross_model_validation": {
+    "status": "completed",
+    "gpt_model": "gpt-5.4-pro",
+    "gemini_model": "gemini-3.1-pro-preview",
+    "models_used": ["openai", "gemini"],
+    "consensus": {
+      "C2-H1": {
+        "gpt_confidence": 5,
+        "gemini_confidence": 8,
+        "gpt_novelty": "PARTIALLY_EXPLORED",
+        "gemini_depth": "Structural correspondence",
+        "agreement": "medium",
+        "combined_recommendation": "HIGH PRIORITY — buffer-saturation threshold framing is novel and mathematically formalizable; reframe as labile Mn pool"
+      },
+      "C2-H5": {
+        "gpt_confidence": 4,
+        "gemini_confidence": 9,
+        "gpt_novelty": "PARTIALLY_EXPLORED",
+        "gemini_depth": "Formal isomorphism",
+        "agreement": "low",
+        "combined_recommendation": "PROMISING — analytically sound, biologically uncertain; analytic validation in spiked blood required before clinical work"
+      },
+      "E1": {
+        "gpt_confidence": 5,
+        "gemini_confidence": 7,
+        "gpt_novelty": "PARTIALLY_EXPLORED",
+        "gemini_depth": "Structural correspondence",
+        "agreement": "high",
+        "combined_recommendation": "PROMISING — optimize for intermediate Mn affinity bounded by Zn selectivity (saddle-point constraint); verify bipartite Kd matrix first"
+      },
+      "C2-H2": {
+        "gpt_confidence": 5,
+        "gemini_confidence": 8,
+        "gpt_novelty": "NOVEL",
+        "gemini_depth": "Structural correspondence",
+        "agreement": "high",
+        "combined_recommendation": "HIGH PRIORITY — only NOVEL verdict from both models; FCCP depolarization experiment is the key falsifiable test"
+      },
+      "E4": {
+        "gpt_confidence": 3,
+        "gemini_confidence": 9,
+        "gpt_novelty": "CONTESTED",
+        "gemini_depth": "Formal isomorphism (used to falsify/correct)",
+        "agreement": "high",
+        "combined_recommendation": "NEEDS CORRECTION — hypothesis direction inverted: Cu has sharp threshold (high Ka), Mn has gradual accumulation (low Ka); corrected form worth pursuing at 5/10"
+      }
+    },
+    "novel_predictions_from_validation": [
+      "Gemini: Dose-response inflection point = total complexing capacity [L_total]; can be measured by titration calorimetry",
+      "Gemini: FCCP-induced mitochondrial depolarization should cause Mn2+-free spike without any new total Mn entering the cell",
+      "Gemini: Mn-OP mimetics need intermediate Ka to avoid Zn-stripping toxicity — optimization target is a saddle point, not a maximum",
+      "GPT: E4 inverted prediction also confirmed empirically — Cu chelation (Wilson disease) is more effective than Mn chelation, consistent with Cu having a sharper threshold"
+    ],
+    "files": {
+      "gpt_validation": "results/2026-03-24-scout-012/validation-gpt.md",
+      "gemini_validation": "results/2026-03-24-scout-012/validation-gemini.md",
+      "consensus": "results/2026-03-24-scout-012/cross-model-consensus.md"
+    }
+  }
+}

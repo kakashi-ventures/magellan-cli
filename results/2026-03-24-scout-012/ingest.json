@@ -1,0 +1,29 @@
+{
+  "session_id": "2026-03-24-scout-012",
+  "mode": "scout",
+  "status": "success",
+  "field_a": "Manganese speciation toxicology",
+  "field_c": "Deinococcus radiodurans Mn-antioxidant defense",
+  "bridge_concepts": [
+    "Mn-orthophosphate-peptide (Mn-OP) complexes",
+    "Irving-Williams series speciation sensitivity",
+    "DP1 decapeptide Mn-antioxidant activity",
+    "Free Mn2+ vs complexed Mn toxicity switching",
+    "SLC30A10/SLC39A14 Mn transport genetics"
+  ],
+  "strategy": "contradiction_mining",
+  "disjointness": 1,
+  "contributor_key": "mgln_7dc49810093a6bcb70ff8f751dc99332",
+  "started_at": "2026-03-24T00:52:36Z",
+  "completed_at": "2026-03-24T01:40:31Z",
+  "pipeline_stats": {
+    "hypotheses_generated": 14,
+    "survived_critique": 13,
+    "passed_quality_gate": 5,
+    "kill_rate": 7.1,
+    "cycles_run": 2,
+    "evolver_skipped": true
+  },
+  "uploaded": true,
+  "uploadedAt": "2026-03-24T08:20:27.185Z"
+}

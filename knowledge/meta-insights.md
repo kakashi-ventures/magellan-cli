@@ -1,6 +1,6 @@
 # MAGELLAN Meta-Insights (Cumulative)
-Updated: 2026-03-23 after Session 011 (session-20260323-025742)
-Based on 11 sessions, ~150 hypotheses generated, ~51 passed Quality Gate
+Updated: 2026-03-24 after Session 012 (2026-03-24-scout-012)
+Based on 12 sessions, ~178 hypotheses generated, ~61 passed Quality Gate (PASS+COND)
 
 ---
 
@@ -15,7 +15,7 @@ Based on 11 sessions, ~150 hypotheses generated, ~51 passed Quality Gate
 | recent_breakthrough_radiation | 004 | 1 | 15 | 5 | 2 | 13% | ~6.0 |
 | Swanson_ABC_bridging | 009 (primary) | 1 | 10 | 10 | 0 PASS, 3 COND | 0% PASS, 30% COND | 5.87 |
 | **structural_isomorphism** | **011 (primary)** | **2** | **8** | **6** | **2 PASS, 2 COND** | **25% PASS, 50% PASS+COND** | **7.28** |
-| contradiction_mining | 006 (secondary), 009 (secondary) | — | — | — | — | — | — |
+| **contradiction_mining** | **012 (primary)**, 006 (secondary), 009 (secondary) | **1** | **14** | **11** | **0 PASS, 5 COND** | **0% PASS, 35.7% COND** | **6.7** |
 | evolutionary_conservation_gap | 006 (secondary) | — | — | — | — | — | — |
 | dimensional_mismatch | 006 (secondary) | — | — | — | — | — | — |
 
@@ -27,7 +27,7 @@ Based on 11 sessions, ~150 hypotheses generated, ~51 passed Quality Gate
 1. `network_gap_analysis` remains the highest-performing measured strategy (39% QG pass rate, 3 sessions). Use as reliable baseline.
 2. **`structural_isomorphism` VALIDATED as high-performance strategy** (25% PASS, 50% PASS+COND). Prioritize targets where isomorphism is DEEP (same PDEs independently derived) over phenomenological analogies. Add to regular rotation.
 3. `tool_repurposing` has PROVEN viability with first primary data (33% pass rate, good critique survival). Add to regular rotation but emphasize constraint verification.
-4. `contradiction_mining` — **still no primary data. T1 from Session 009 (Mn speciation paradox, 7.7, DISJOINT) remains HIGHEST priority for next test.**
+4. **`contradiction_mining` VALIDATED** (S012): 0% PASS but 35.7% PASS+COND rate. Produces HIGH-QUALITY targets (score 8.0). Framework and measurement hypotheses outperform molecule-specific hypotheses when binding is weak. Add to regular rotation.
 5. `Swanson_ABC_bridging` — first data confounded by PARTIALLY_EXPLORED. Re-test with verified DISJOINT target. Add B-term-in-Field-C literature check before disjointness assignment.
 6. `recent_breakthrough_radiation` has lowest QG pass rate (13%) — use only when technique is genuinely new and biological target needs measurement tools.
 7. **New heuristic (S011): "Measurement transfer > model transfer"** — hypotheses introducing new measurements into Field C outperform those transferring predictive models. Measurements are independently verifiable; models require parameter data first.
@@ -101,6 +101,7 @@ Based on 11 sessions, ~150 hypotheses generated, ~51 passed Quality Gate
 | Scope overreach / universal claim | 3 | 4% | 002 |
 | Novelty failure (well-studied in adjacent domain) | 2 | 3% | 008 |
 | **Autocatalytic sign error (NEW — S010)** | **1** | **1%** | **010 (acidic polymer lowers pH, not raises)** |
+| **Binding affinity too weak (Ka) (NEW — S012)** | **3** | **4%** | **012 (Ka ~670 M-1 for Mn-OP ternary complex killed molecule-specific hypotheses)** |
 | Vocabulary re-description | 2 | 3% | 002, 005 |
 | ROS species mismatch (photosynthetic context) | 1 | 1% | 009 |
 
@@ -134,6 +135,7 @@ Based on 11 sessions, ~150 hypotheses generated, ~51 passed Quality Gate
 | 009 | Plant melatonin x Coral bleaching | 10 | 0% | 3 COND | 0 | 5.87 | 1.85 | PARTIAL |
 | **010** | **Volcanic glass x ASD dissolution** | **13** | **42.9%** | **1 PASS** | **1** | **6.23** | **~0.5** | **SUCCESS** |
 | **011** | **Cartilage biphasic x Biofilm mechanics** | **8** | **50%** | **2 PASS, 2 COND** | **2** | **7.28** | **~0.8** | **SUCCESS** |
+| **012** | **Mn speciation x Deinococcus Mn-OP** | **14** | **21.4%** | **0 PASS, 5 COND** | **0** | **7.1** | **~0.5** | **SUCCESS** |
 
 **Session 010 Analysis**:
 - **Kill rate recovery**: 42.9% (healthy range) vs S009's anomalous 0%
@@ -162,6 +164,11 @@ Based on 11 sessions, ~150 hypotheses generated, ~51 passed Quality Gate
 2. Fabricated claims in target domain
 3. Mathematical vs empirical validity gaps
 
+**Session 012 New Insights**:
+- **Gemini catches mathematical inversions**: Irving-Williams dose-response prediction was verbally inverted (Cu should have sharpest threshold, not Mn). Quality Gate missed this; Gemini's formal analysis caught it.
+- **GPT classifies as PARTIALLY_EXPLORED**: Found Michalke group (2006-2016) prior work on Mn speciation in neurotoxicology. Deinococcus cross-kingdom bridge remains novel but the speciation concept has prior art.
+- **Cross-model validation downgraded C2-H1 from PASS to CONDITIONAL_PASS** — demonstrates value of external validation in catching novelty issues.
+
 **Recommendation for Quality Gate**: Integrate cross-model consensus findings before final verdict. Structural correctness + empirical grounding both required for PASS.
 
 ---
@@ -179,6 +186,16 @@ Based on 11 sessions, ~150 hypotheses generated, ~51 passed Quality Gate
 - Tool transfer requires independent verification of ALL claimed interactions in target domain
 - Cross-model validation essential for catching sign errors and fabricated claims in tool transfer applications
 
+**New Bridge Types (Session 012)**:
+- **Unifying framework** (1 PASS → downgraded COND): Integrating multiple mechanisms under speciation concept. Prior work (Michalke 2006-2016) found by external models reduced novelty.
+- **Measurement transfer** (1 COND): EPR free Mn2+ diagnostic biomarker. Validates S011 heuristic "measurement transfer > model transfer."
+- **Dual-function therapeutic** (1 COND): Mn-OP mimetics addressing both ROS and mismetalation. Novel dual mechanism not addressed by existing Mn-porphyrin SOD mimetics.
+- **Compartment speciation** (1 COND): Mitochondrial Pi concentration creates Mn-Pi preferential formation. Gemini derived novel FCCP prediction.
+- **Irving-Williams theoretical** (1 COND): General framework for metal-specific toxicity. Gemini caught inverted dose-response prediction.
+- **Ka-limited molecule transfer** (3 FAIL): Direct DP1/His-Glu application fails at brain Mn concentrations due to Ka ~670 M-1.
+
+**Key S012 pattern**: When binding affinity is weak, framework and measurement hypotheses survive while molecule-specific hypotheses fail. Front-load Ka checks before generating molecule-specific hypotheses.
+
 ---
 
 ## Domain Productivity Assessment (updated)
@@ -190,6 +207,8 @@ Based on 11 sessions, ~150 hypotheses generated, ~51 passed Quality Gate
 
 **Infection biology x Shared metabolites** (S006): 43% QG pass rate. Molecular infrastructure enables groundedness verification.
 
+**Extremophile biology ↔ Mammalian neurotoxicology** (S012): New productive pairing. 35.7% PASS+COND rate with contradiction_mining. Deinococcus Mn-OP as cross-kingdom bridge. Framework and measurement hypotheses outperform molecule-specific hypotheses when binding affinity is weak. High disciplinary distance provides strong cross-domain creativity bonus.
+
 ### Caution Domain (confirmed)
 **Photosynthetic symbiont stress biology** (S009): 0 PASS verdicts due to database infrastructure limitations. Viable for testing but expect CONDITIONAL_PASS ceiling.
 
@@ -199,11 +218,14 @@ Based on 11 sessions, ~150 hypotheses generated, ~51 passed Quality Gate
 
 | Target pair | Identified in | Strategy | Scout score | Disjointness | Priority | Notes |
 |---|---|---|---|---|---|---|
-| Mn neurotoxicity x Deinococcus Mn-antioxidant biology | 009 | contradiction_mining | 7.7 | DISJOINT | **HIGHEST** | Free Mn2+ (toxic) vs complexed Mn-OP (protective). DP1 synthetic decapeptide characterized. Genuine speciation paradox. |
+| ~~Mn neurotoxicity x Deinococcus Mn-antioxidant biology~~ | ~~009~~ | ~~contradiction_mining~~ | ~~7.7~~ | ~~DISJOINT~~ | ~~COMPLETED S012~~ | ~~5 CONDITIONAL_PASS. contradiction_mining validated.~~ |
+| CNT x Ferroptosis LIP dynamics | 012 | scale_bridging | — | DISJOINT | **HIGH** | Classical nucleation theory for ferritin-encaged ferrihydrite → ferroptosis LIP overflow. Zero cross-field papers. |
+| Granular jamming x Chromatin compaction | 012 | structural_isomorphism | — | DISJOINT | **HIGH** | Liu-Nagel phase diagram, Edwards entropy. Zero cross-field papers. |
+| Turing patterns x Tumor mutational burden heterogeneity | 012 | dimensional_mismatch | — | PARTIALLY_EXPLORED | MEDIUM | Core Turing-in-cancer exists (2025); specific TMB spatial application novel. |
 | Circadian x Neurodegeneration | 001 | contradiction_mining | — | DISJOINT | MEDIUM | Cross-session circadian oscillation → condensate aging |
 | Piezoelectric collagen x HSC fate decisions | 006 | contradiction_mining + dimensional_mismatch | 7/10 | DISJOINT | MEDIUM | CRITICAL energy-scale pre-check needed |
 
-**Recommendation for Scout**: **Prioritize Mn speciation paradox (T1 from Session 009) as next primary target.** Now the highest-scoring unselected DISJOINT target with contradiction_mining strategy (no primary data). Tool_repurposing validated in S010; time to test contradiction_mining.
+**Recommendation for Scout**: **Prioritize CNT x Ferroptosis LIP (T3 from S012) or Granular jamming x Chromatin (T6 from S012) as next primary targets.** Both DISJOINT with zero cross-field papers. CNT target tests scale_bridging (proven in S005); jamming target tests structural_isomorphism (proven in S011).
 
 ---
 
@@ -227,16 +249,22 @@ Based on 11 sessions, ~150 hypotheses generated, ~51 passed Quality Gate
     - Verify polymer/biological matrix effects don't invalidate borrowed mechanisms
     - Present geochemical analogy as discovery heuristic, not mechanistic foundation
 
+23. **Front-load binding affinity checks (NEW — S012)**: When bridge involves molecular complexation (chelation, protein binding, complex formation), retrieve Ka/Kd data BEFORE generating molecule-specific hypotheses. Ka too weak killed 3/14 hypotheses in S012. If Ka is weak (< 10^3 M-1), pivot to framework and measurement hypotheses instead.
+
+24. **Weak-binding pivot heuristic (NEW — S012)**: When quantitative binding data shows the bridge molecule has weak affinity for its target, the CONCEPT may still be valid even if the MOLECULE is not. Generate framework hypotheses (unifying explanations) and measurement transfer hypotheses (diagnostic tools) rather than therapeutic or direct mechanism transfer hypotheses.
+
 ---
 
 ## Recommendations Summary (updated after Session 010)
 
 **For Scout**:
 1. `network_gap_analysis` remains highest-performing (39% QG pass rate). Use as reliable baseline.
-2. `tool_repurposing` VALIDATED as viable strategy (33% pass rate, good critique survival). Add to regular rotation.
-3. `contradiction_mining` highest priority for next session — Mn speciation paradox (7.7, DISJOINT) from S009.
-4. ABSOLUTE RULE: Prioritize DISJOINT targets. S010 DISJOINT success vs S009 PARTIALLY_EXPLORED failure reinforces this.
-5. Continue building DISJOINT deferred queue. Geochemistry ↔ pharmaceutical domains now confirmed productive.
+2. `tool_repurposing` VALIDATED (S010, 33% pass rate). Regular rotation.
+3. `structural_isomorphism` VALIDATED (S011, 50% PASS+COND rate). Regular rotation. Prioritize deep mathematical isomorphism.
+4. **`contradiction_mining` VALIDATED (S012, 35.7% PASS+COND rate)**. Regular rotation. Produces high-quality targets (score 8.0). Genuine paradoxes (same element, opposite effects) generate rich hypothesis spaces.
+5. ABSOLUTE RULE: Prioritize DISJOINT targets. S010-S012 all confirm DISJOINT performance advantage.
+6. **Next priority targets**: CNT x Ferroptosis LIP (DISJOINT, scale_bridging) and Granular jamming x Chromatin (DISJOINT, structural_isomorphism) from S012 deferred queue.
+7. Continue building DISJOINT deferred queue.
 
 **For Generator**:
 1. Lead with quantitative thermodynamic bridges (highest QG scores).
@@ -244,6 +272,8 @@ Based on 11 sessions, ~150 hypotheses generated, ~51 passed Quality Gate
 3. Cross-model validation critical for tool transfer — catches sign errors and fabricated claims.
 4. Enhanced verification for geochemistry → biology: polymer effects, feedback signs, interaction verification.
 5. Continue indirect enzymatic cascade emphasis (~100% survival rate).
+6. **Front-load binding affinity (Ka/Kd) checks (NEW — S012)**: When bridge concept involves molecular complexation, retrieve quantitative binding data EARLY. Ka too weak is the most common molecule-specific kill factor.
+7. **When binding is weak, pivot to frameworks and measurements (NEW — S012)**: If Ka/Kd data shows weak binding, shift from molecule-specific hypotheses to conceptual frameworks and measurement transfer applications.
 
 **For Quality Gate**:
 1. Enhanced scrutiny for tool transfer hypotheses — verify domain-specific constraints.

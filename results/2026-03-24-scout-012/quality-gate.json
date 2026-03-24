@@ -1,0 +1,19 @@
+{
+  "hypotheses": [
+    {"id": "C2-H1", "title": "Mn Speciation as Unifying Framework for Neurotoxicity", "verdict": "CONDITIONAL_PASS", "score": 7, "groundedness": 7, "confidence": 5, "novelty_status": "PARTIALLY_EXPLORED", "novelty_note": "Michalke group published Mn speciation-neurotoxicity framework since 2006 (PMIDs 16765446, 21940818, 24200516, 27006066). Deinococcus cross-kingdom bridge IS novel but core speciation concept is established. Reclassified from PASS to CONDITIONAL_PASS."},
+    {"id": "C2-H5", "title": "EPR Free Mn2+ Fraction as Diagnostic Biomarker", "verdict": "CONDITIONAL_PASS", "score": 7, "groundedness": 6, "confidence": 5, "novelty_status": "NOVEL", "novelty_note": "EPR for clinical Mn speciation is novel. Sensitivity concern: blood Mn ~70-275 nM vs EPR detection ~1 uM. MRI T1 and MnRBCs are competing approaches."},
+    {"id": "E1", "title": "Mn-OP Mimetics as Dual-Function Neuroprotectants", "verdict": "CONDITIONAL_PASS", "score": 7, "groundedness": 7, "confidence": 6, "novelty_status": "NOVEL"},
+    {"id": "C2-H2", "title": "Compartment-Specific Mn-OP Formation in Mitochondria", "verdict": "CONDITIONAL_PASS", "score": 6, "groundedness": 5, "confidence": 4, "novelty_status": "NOVEL", "novelty_note": "Quantitatively weakened: mitochondrial Pi is 1-5 mM (not 10 mM), Ca2+/Mg2+ competition, MnSOD already explains protection. Downgraded from 7 to 6."},
+    {"id": "E4", "title": "Irving-Williams Framework for Metal-Specific Neurotoxicity", "verdict": "CONDITIONAL_PASS", "score": 6.5, "groundedness": 6, "confidence": 5, "novelty_status": "NOVEL", "novelty_note": "Gemini CORRECTED: verbal formulation inverted. Cu has sharpest threshold (high Ka); Mn has gradual response (low Ka)."},
+    {"id": "E3", "title": "His-Glu Small-Molecule for Welding Fume Disease", "verdict": "FAIL", "score": 5.5, "groundedness": 6, "confidence": 5, "novelty_status": "NOVEL", "kill_reason": "Ka ~ 670 M-1 insufficient at brain Mn concentrations"},
+    {"id": "C2-H3", "title": "DP1 Motif in Human Proteins", "verdict": "FAIL", "score": 4, "groundedness": 4, "confidence": 2, "novelty_status": "NOVEL", "kill_reason": "DEH motif ubiquitous; binds Cu better than Mn; base rate neglect"},
+    {"id": "C2-H4", "title": "Mn-OP Potentiates MnTE-2-PyP", "verdict": "FAIL", "score": 2, "groundedness": 3, "confidence": 1, "novelty_status": "N/A", "kill_reason": "DIRECTLY CONTRADICTED: Gad 2013 (PMID 23704100) shows no measurable free Mn released from MnTE-2-PyP. Solves non-existent problem."},
+    {"id": "C2-H6", "title": "Mn Speciation x Ferroptosis", "verdict": "FAIL", "score": 2, "groundedness": 4, "confidence": 1, "novelty_status": "ALREADY_KNOWN", "kill_reason": "Double kill: (1) Mn-ferroptosis published in 5+ papers 2022-2024; (2) Mn2+ Fenton ineffective - actual mechanism is iron overload"},
+    {"id": "H4", "title": "Mn Speciation x alpha-Synuclein Aggregation", "verdict": "FAIL", "score": 4.5, "groundedness": 4, "confidence": 5, "novelty_status": "PARTIALLY_EXPLORED", "kill_reason": "NAC domain dominance; clinical mismatch manganism vs PD"}
+  ],
+  "pass_count": 0,
+  "conditional_pass_count": 5,
+  "fail_count": 5,
+  "killed_in_critique": 3,
+  "post_critique_revision_note": "External critic found prior work on Mn speciation neurotoxicology (Michalke 2006-2016). C2-H1 downgraded from PASS to CONDITIONAL_PASS. C2-H4 and C2-H6 kills strengthened with specific PMIDs. C2-H2 downgraded from 7 to 6."
+}

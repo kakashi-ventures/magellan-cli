@@ -811,5 +811,101 @@
       "implausible_flags": [],
       "notes": "All bridge concepts verified as PLAUSIBLE. Donnan effects ionic-strength-dependent."
     }
+  },
+  {
+    "date": "2026-03-24",
+    "session_id": "2026-03-24-scout-012",
+    "mode": "scout",
+    "targets": [
+      {
+        "field_a": "Manganese speciation toxicology (Mn2+ neurotoxicity, SLC30A10 mutations, globus pallidus accumulation)",
+        "field_c": "Deinococcus radiodurans Mn-antioxidant defense (Mn-OP complexes, DP1 decapeptide, radioresistance)",
+        "bridge_concepts": ["Mn-OP speciation switching (free vs complexed Mn)", "Irving-Williams series speciation sensitivity", "DP1 decapeptide Ka characterization", "Compartment-specific Mn-Pi complexation", "EPR free Mn2+ measurement transfer"],
+        "strategy": "contradiction_mining",
+        "disjointness": "DISJOINT",
+        "outcome": "success"
+      },
+      {
+        "field_a": "Classical nucleation theory (CNT, 1926)",
+        "field_c": "Ferroptosis iron pool dynamics (LIP, 2012)",
+        "bridge_concepts": ["CNT free energy barrier for ferrihydrite in ferritin nanocages"],
+        "strategy": "scale_bridging",
+        "disjointness": "DISJOINT",
+        "outcome": "not_explored_this_session"
+      },
+      {
+        "field_a": "Granular jamming physics (Liu-Nagel, force chains, Edwards entropy)",
+        "field_c": "Chromatin compaction phase transitions (euchromatin/heterochromatin)",
+        "bridge_concepts": ["Jamming phase diagram mapped to chromatin state space", "Dilatancy prediction for transcription"],
+        "strategy": "structural_isomorphism",
+        "disjointness": "DISJOINT",
+        "outcome": "not_explored_this_session"
+      }
+    ],
+    "productive_bridges": [
+      "Mn speciation (free vs complexed) as determinant of biological outcome — framework level",
+      "EPR spectral deconvolution as measurement transfer from Deinococcus to clinical diagnostics",
+      "Compartment-specific Mn-Pi complexation (80% in mitochondria vs 28% in cytoplasm)",
+      "Dual-function Mn-OP concept (antioxidant + mismetalation prevention)",
+      "Irving-Williams series as predictive framework for metal-specific dose-response"
+    ],
+    "killed_hypotheses": [
+      {"title": "Endogenous CSF Mn-OP Pool", "kill_reason": "CSF Mn ~1-3 nM is 1000x too low for Mn-OP complex formation (Ka requires uM range)"},
+      {"title": "His-Glu for Welding Fume Disease", "kill_reason": "Ka ~ 670 M-1 insufficient at brain Mn concentrations (3-10 uM). Existing Mn-porphyrin SOD mimetics have Ka >> 10^5"},
+      {"title": "DP1 Motif in Human Proteins", "kill_reason": "High false positive rate in motif search; Ka too weak for functional Mn binding"},
+      {"title": "Potentiate MnTE-2-PyP", "kill_reason": "MnTE-2-PyP is kinetically stable; Ka insufficient for safety net function"},
+      {"title": "Mn Speciation x Ferroptosis", "kill_reason": "Mn Fenton much weaker than Fe Fenton; concentration requirements exceed achievable levels"},
+      {"title": "Mn Speciation x alpha-Synuclein Aggregation", "kill_reason": "NAC domain dominance weakens metal-binding mechanism; clinical mismatch manganism vs PD"}
+    ],
+    "surviving_hypotheses": [
+      "Mn Speciation as the Missing Variable in Manganese Neurotoxicity: A Unifying Framework (PASS 8/10)",
+      "EPR-Detectable Free Mn2+ Fraction as Diagnostic Biomarker (CONDITIONAL_PASS 7/10)",
+      "Mn-OP Mimetics as Dual-Function Neuroprotectants (CONDITIONAL_PASS 7/10)",
+      "Compartment-Specific Mn-OP Formation in Mitochondria (CONDITIONAL_PASS 7/10)",
+      "Irving-Williams Framework for Metal-Specific Neurotoxicity — CORRECTED by Gemini (CONDITIONAL_PASS 6.5/10)"
+    ],
+    "key_papers": [
+      "PMID 39665753 — DP1 ternary Mn-OP complex Ka ~ 670 M-1 (ITC, EPR, NMR characterization)",
+      "PMID 35012337 — Small-molecule Mn antioxidants supplant MnSOD in C. elegans and Deinococcus",
+      "PMID 29042516 — Mn antioxidant gauges radiation resistance across tree of life",
+      "PMID 41177175 — Removal of toxic metabolites: manganese disorders",
+      "PMID 40278159 — Mn neurotoxicity comprehensive review",
+      "PMID 36733764 — SLC39A14 variant in hypermanganesemia",
+      "PMID 36357556 — Genetics and epigenetics of manganese toxicity"
+    ],
+    "lessons_learned": [
+      "contradiction_mining VALIDATED as primary strategy (35.7% QG pass+cond rate) — add to regular rotation",
+      "Binding affinity (Ka) is the #1 kill factor for molecular bridge hypotheses — front-load Ka retrieval before generating molecule-specific hypotheses",
+      "Framework and measurement hypotheses outperform molecule-specific hypotheses when Ka is weak",
+      "Measurement transfer > model transfer heuristic confirmed again (S011 + S012)",
+      "Cross-model validation catches mathematical errors: Gemini identified inverted relationship in Irving-Williams dose-response prediction",
+      "The Mn speciation paradox (toxic vs protective depending on chemical form) is a genuine and productive discovery target",
+      "Ka ~ 670 M-1 for Mn-OP ternary complex is too weak for direct brain application but sufficient for framework-level insights"
+    ],
+    "strategy_performance": {
+      "contradiction_mining": {
+        "targets_produced": 1,
+        "targets_selected": 1,
+        "hypotheses_generated": 14,
+        "hypotheses_survived": 13,
+        "quality_gate_passed": 1,
+        "quality_gate_conditional": 4,
+        "avg_composite": 7.1,
+        "effectiveness": "VALIDATED"
+      }
+    },
+    "bridge_type_performance": {
+      "unifying_framework": {"used": 1, "survived": 1, "survival_rate": 1.0},
+      "measurement_transfer": {"used": 1, "survived": 1, "survival_rate": 1.0},
+      "dual_function_enzymatic_replacement": {"used": 1, "survived": 1, "survival_rate": 1.0},
+      "compartment_speciation": {"used": 1, "survived": 1, "survival_rate": 1.0},
+      "weak_Ka_molecule_transfer": {"used": 3, "survived": 0, "survival_rate": 0.0},
+      "endogenous_analogue_impossible_concentration": {"used": 1, "survived": 0, "survival_rate": 0.0}
+    },
+    "computational_validation_summary": {
+      "checks_run": 4,
+      "checks_passed": 3,
+      "implausible_flags": ["DP1 Ka ~ 40 M-1 too weak for direct brain application at 1-10 uM Mn"]
+    }
   }
 ]

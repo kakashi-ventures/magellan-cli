@@ -1,0 +1,13 @@
+{
+  "cycle": 2,
+  "rankings": [
+    {"rank": 1, "id": "C2-H1", "title": "Mn Speciation as Unifying Framework for Neurotoxicity", "composite": 8.20, "novelty": 9, "testability": 8, "mechanistic_specificity": 8, "groundedness": 7, "impact": 9, "cross_domain": 9},
+    {"rank": 2, "id": "C2-H5", "title": "EPR Free Mn2+ Fraction as Diagnostic Biomarker", "composite": 7.80, "novelty": 9, "testability": 7, "mechanistic_specificity": 8, "groundedness": 6, "impact": 8, "cross_domain": 9},
+    {"rank": 3, "id": "C2-H2", "title": "Compartment-Specific Mn-OP Formation in Mitochondria", "composite": 7.30, "novelty": 8, "testability": 7, "mechanistic_specificity": 7, "groundedness": 7, "impact": 7, "cross_domain": 8},
+    {"rank": 4, "id": "C2-H6", "title": "Mn Speciation-Dependent Ferroptosis Sensitivity", "composite": 6.40, "novelty": 7, "testability": 7, "mechanistic_specificity": 6, "groundedness": 5, "impact": 7, "cross_domain": 7},
+    {"rank": 5, "id": "C2-H3", "title": "DP1 Motif in Human Neuroprotective Proteins", "composite": 5.60, "novelty": 7, "testability": 6, "mechanistic_specificity": 5, "groundedness": 4, "impact": 7, "cross_domain": 6},
+    {"rank": 6, "id": "C2-H4", "title": "Mn-OP Potentiates MnTE-2-PyP", "composite": 5.40, "novelty": 6, "testability": 6, "mechanistic_specificity": 5, "groundedness": 5, "impact": 5, "cross_domain": 5}
+  ],
+  "diversity_check": "PASSED",
+  "elo_consistent": true
+}

@@ -1,0 +1,102 @@
+{
+  "narrowing_rationale": "Excluded T2 (PARTIALLY_EXPLORED, 11 cross-field papers — polymer brush analogy for glycocalyx is established). Excluded T4 (DISJOINT but bridge factually questionable — quantum topological protection has no classical biofilm analogue). Excluded T5 (PARTIALLY_EXPLORED, 4 papers on Turing instability in cancer). Retained T1, T3, T6 — all DISJOINT with validated bridges and diverse strategies (contradiction_mining, scale_bridging, structural_isomorphism).",
+  "narrowed_top3": ["T1", "T3", "T6"],
+  "scout_targets": [
+    {
+      "id": "T1",
+      "field_a": "Manganese speciation toxicology (Mn2+ neurotoxicity, SLC30A10 mutations, globus pallidus accumulation)",
+      "field_c": "Deinococcus radiodurans Mn-antioxidant defense (Mn-OP complexes, DP1 decapeptide, radioresistance)",
+      "bridge_concepts": [
+        "Free Mn2+ neurotoxicity vs Mn-orthophosphate/peptide complexes (Mn-OP) protective ROS scavenging",
+        "DP1 synthetic decapeptide converting toxic Mn2+ to protective Mn-antioxidant complex (>100-fold IC50 shift)",
+        "Irving-Williams series position enabling speciation-dependent toxicity/protection switching",
+        "MnSOD enzymatic vs Mn-OP non-enzymatic catalytic ROS scavenging — orthogonal mechanisms",
+        "SLC30A10 efflux transporter mutations — speciation at transporter interface unknown"
+      ],
+      "strategy": "contradiction_mining",
+      "confidence": 8,
+      "why_disjoint": "Radiation biology/extremophile community and manganese neurotoxicology have zero cross-citations. DP1/Mn-OP work focused on radiation protection, never applied to neurodegeneration.",
+      "creativity_constraint_candidate": false
+    },
+    {
+      "id": "T2",
+      "field_a": "Polymer brush physics (Alexander-de Gennes scaling, brush compression, osmotic pressure)",
+      "field_c": "Glycocalyx-mediated endothelial mechanotransduction (syndecan-1, glypican-1, shear stress sensing)",
+      "bridge_concepts": [
+        "Alexander-de Gennes polymer brush scaling laws applied to glycocalyx compression",
+        "Osmotic pressure in brush compression maps to glycocalyx shear stress sensing",
+        "HSPG chains as biological polymer brushes with measurable persistence length and grafting density",
+        "Brush collapse transition mirrors glycocalyx shedding in sepsis/diabetes",
+        "Stefan-Reynolds squeeze-film lubrication in polymer brushes maps to glycocalyx hydrodynamic boundary layer"
+      ],
+      "strategy": "structural_isomorphism",
+      "confidence": 7.5,
+      "why_disjoint": "Polymer physicists study brush theory for synthetic surfaces. Vascular biologists study glycocalyx through biochemical frameworks. Scaling law formalism not applied to predict glycocalyx mechanotransduction quantitatively.",
+      "creativity_constraint_candidate": false
+    },
+    {
+      "id": "T3",
+      "field_a": "Classical nucleation theory (CNT, Volmer-Weber 1926, Becker-Doring 1935, free energy barriers)",
+      "field_c": "Ferroptosis iron pool dynamics (labile iron pool, ferritin iron loading, iron-dependent cell death 2012)",
+      "bridge_concepts": [
+        "CNT free energy barrier DeltaG* predicting ferrihydrite nucleation within ferritin nanocages during LIP overflow",
+        "Supersaturation ratio S = [Fe2+]/[Fe2+]_eq as quantitative predictor of nucleation rate",
+        "Ostwald ripening kinetics (LSW theory) predicting ferrihydrite core growth rate vs ferroptosis induction timescale",
+        "Ferritin cage geometry (8nm inner diameter) imposing maximum core size constraint absent in bulk CNT",
+        "Critical nucleus size r* predicting minimum iron atoms (~20 Fe) for stable ferrihydrite core"
+      ],
+      "strategy": "scale_bridging",
+      "confidence": 7,
+      "why_disjoint": "CNT is materials science/physical chemistry (1926). Ferroptosis is cell biology (2012). Ferritin biochemists measure total iron loading but have not applied CNT formalism to nucleation kinetics within protein cages.",
+      "creativity_constraint_candidate": true
+    },
+    {
+      "id": "T4",
+      "field_a": "Topological insulator surface states (bulk-boundary correspondence, Chern numbers, protected edge states)",
+      "field_c": "Bacterial biofilm electrical signaling (K+ channel waves, long-range communication, B. subtilis oscillations)",
+      "bridge_concepts": [
+        "Topological protection of conducting edge states as framework for boundary-preferential biofilm signaling",
+        "Bulk-boundary correspondence: biofilm interior dormant (insulating) while boundary cells signal (conducting)",
+        "Winding number classification of biofilm signaling network topology",
+        "Robustness to disorder prediction: signals robust to ~30% random cell removal",
+        "Berry phase analogue in biofilm oscillatory signaling under nutrient gradient cycling"
+      ],
+      "strategy": "tool_repurposing",
+      "confidence": 6.5,
+      "why_disjoint": "Condensed matter physics and biofilm microbiology have zero shared literature. Biofilm signaling studied through ion channel biology and reaction-diffusion, never topological band theory.",
+      "creativity_constraint_candidate": false
+    },
+    {
+      "id": "T5",
+      "field_a": "Reaction-diffusion morphogenesis (Turing instability, pattern formation, activator-inhibitor dynamics)",
+      "field_c": "Tumor mutational burden spatial heterogeneity (immune hot/cold zones, spatial transcriptomics, immunotherapy response)",
+      "bridge_concepts": [
+        "Turing instability conditions applied to spatial patterning of tumor subclones via immune-growth factor diffusivity ratio",
+        "Predicted characteristic wavelength lambda measurable from spatial transcriptomics autocorrelation",
+        "2D vs 3D Turing pattern transitions predicting tumor morphology changes",
+        "Immune hot/cold zones as activator-high/inhibitor-high Turing pattern domains",
+        "Meinhardt activator-substrate depletion model for tumor necrotic core patterning"
+      ],
+      "strategy": "dimensional_mismatch",
+      "confidence": 7,
+      "why_disjoint": "Turing pattern community focuses on developmental biology. Tumor heterogeneity community uses evolutionary/ecological frameworks. No paper applies Turing instability to predict tumor mutational burden spatial wavelengths.",
+      "creativity_constraint_candidate": false
+    },
+    {
+      "id": "T6",
+      "field_a": "Granular jamming physics (jamming transition, force chains, Edwards entropy, dilatancy, Gardner transition)",
+      "field_c": "Chromatin compaction phase transitions (euchromatin/heterochromatin, Hi-C domains, nucleosome packing)",
+      "bridge_concepts": [
+        "Jamming phase diagram (T, 1/phi, sigma) maps to chromatin state space (histone modifications, nucleosome density, transcriptional forces)",
+        "Edwards entropy for mechanically stable configurations analogous to chromatin accessible configurations",
+        "Force chain networks in jammed packings as model for TAD stress transmission",
+        "Dilatancy prediction: transcription at compacted loci requires transient local chromatin expansion",
+        "Gardner transition predicts heterochromatin near jamming shows anomalous non-Gaussian fluctuation dynamics"
+      ],
+      "strategy": "structural_isomorphism",
+      "confidence": 7.5,
+      "why_disjoint": "Granular physics and chromatin biology are separate communities. Polymer physics (unjammed) dominates chromatin modeling. Jamming perspective — where packing fraction controls a phase transition — is unexplored for chromatin.",
+      "creativity_constraint_candidate": false
+    }
+  ]
+}

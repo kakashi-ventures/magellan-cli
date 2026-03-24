@@ -1,90 +1,46 @@
 {
-  "session_id": "session-20260323-025742",
+  "session_id": "2026-03-24-scout-012",
   "mode": "scout",
   "phase": "complete",
-  "cycle": 1,
-  "status": "complete",
-  "status_reason": "2 PASS + 2 CONDITIONAL_PASS from structural_isomorphism first primary test. Early complete (top-3 >= 7.0). Cross-model validation complete (GPT-5.4 Pro + Gemini 3.1 Pro).",
-  "results_dir": "results/session-20260323-025742",
+  "cycle": 2,
+  "status": "success",
+  "status_reason": "5 CONDITIONAL_PASS hypotheses survived Quality Gate. C2-H1 downgraded from PASS to CONDITIONAL_PASS after external critique found prior Michalke (2006-2016) speciation-neurotoxicity work. Deinococcus cross-kingdom bridge remains novel.",
+  "results_dir": "results/2026-03-24-scout-012",
   "selected_target": {
-    "id": "T3",
-    "title": "Cartilage Biphasic Theory x Biofilm Matrix Mechanics",
-    "field_a": "Cartilage ECM biomechanics (Mow 1980 biphasic theory, FCD, aggregate modulus, triphasic theory)",
-    "field_c": "Bacterial biofilm matrix mechanics (Psl/Pel/alginate networks, antibiotic penetration, viscoelasticity)",
-    "strategy": "structural_isomorphism",
-    "target_quality_score": 8.5,
-    "scout_confidence": 8.5
+    "id": "T1",
+    "field_a": "Manganese speciation toxicology (Mn2+ neurotoxicity, SLC30A10 mutations, globus pallidus accumulation)",
+    "field_c": "Deinococcus radiodurans Mn-antioxidant defense (Mn-OP complexes, DP1 decapeptide, radioresistance)",
+    "strategy": "contradiction_mining",
+    "target_quality_score": 8.0
   },
   "disjointness_status": "DISJOINT",
-  "target_quality_scores": [
-    {"id": "T1", "score": 7.5},
-    {"id": "T2", "score": 6.5},
-    {"id": "T3", "score": 8.5}
-  ],
   "metadata": {
-    "start_time": "2026-03-23T01:58:03Z",
+    "start_time": "2026-03-24T00:52:36Z",
     "model": "opus-4.6",
     "contributor_key": "mgln_7dc49810093a6bcb70ff8f751dc99332",
-    "total_hypotheses_generated": 8,
-    "kill_rate": 50,
-    "attrition_rate": 50,
+    "total_hypotheses_generated": 14,
+    "kill_rate": 21.4,
+    "attrition_rate": 64.3,
     "fallback_used": false,
     "literature_unavailable": false,
     "generation_degraded": false,
     "web_search_failures": 0,
     "retries_needed": 0,
-    "cycle_decision": "early_complete",
+    "cycle_decision": "standard",
     "evolver_skipped": true,
     "literature_reinforcement": false
   },
   "progress": {
-    "phases_completed": ["scout", "literature_verification", "narrowing", "target_evaluation", "computational_validation", "generation_c1", "critique_c1", "ranking_c1", "quality_gate", "session_analysis", "cross_model_validation"],
+    "phases_completed": ["scout", "literature_verification", "narrowing", "target_evaluation", "computational_validation", "cycle1_generation", "cycle1_critique", "cycle1_ranking", "cycle1_evolution", "cycle2_generation", "cycle2_critique", "cycle2_ranking", "quality_gate", "session_analyst", "cross_model_validation"],
     "current_phase": "complete"
   },
   "health": {
     "scout_targets_found": 6,
-    "hypotheses_generated": 8,
-    "survived_critique": 6,
-    "passed_quality_gate": 4,
+    "hypotheses_generated": 14,
+    "survived_critique": 11,
+    "passed_quality_gate": 5,
     "fallback_used": false,
     "retries_needed": 0,
     "web_search_failures": 0
-  },
-  "cross_model_validation": {
-    "status": "completed",
-    "gpt_model": "gpt-5.4-pro",
-    "gemini_model": "gemini-3.1-pro",
-    "models_used": ["openai", "gemini"],
-    "consensus": {
-      "H1.2": {
-        "gpt_confidence": 4,
-        "gemini_confidence": 9,
-        "agreement": "low",
-        "combined_recommendation": "HIGH PRIORITY — measurement novel, but prediction H_A << G' needs revision"
-      },
-      "H1.1": {
-        "gpt_confidence": 4,
-        "gemini_confidence": 8,
-        "agreement": "low",
-        "combined_recommendation": "HIGH PRIORITY — reframe as Donnan + binding model"
-      },
-      "H1.8": {
-        "gpt_confidence": 3,
-        "gemini_confidence": 7,
-        "agreement": "low",
-        "combined_recommendation": "NEEDS INVESTIGATION — DNAse pilot first"
-      },
-      "H1.6": {
-        "gpt_confidence": 4,
-        "gemini_confidence": 8,
-        "agreement": "low",
-        "combined_recommendation": "PROMISING — purified-polymer signal pre-validation required"
-      }
-    },
-    "files": {
-      "gpt_validation": "results/session-20260323-025742/response-gpt.md",
-      "gemini_validation": "results/session-20260323-025742/response-gemini.md",
-      "consensus": "results/session-20260323-025742/cross-model-report.md"
-    }
   }
 }
