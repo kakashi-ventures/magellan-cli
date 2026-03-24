@@ -55,7 +55,7 @@ Twelve agents. Orchestrator dispatches to all — never executes phases inline.
 | **Evolver** | Sonnet | high | Genetic operations with diversity constraint. EVOLUTION QUALITY CHECK reflection. Conditionally skippable |
 | **Quality Gate** | Opus | max | 10-point rubric + web novelty + per-claim grounding verification. META-VALIDATION reflection |
 | **Session Analyst** | Sonnet | high | Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis, creativity metrics (disciplinary distance, abstraction level, novelty type) → knowledge/meta-insights.md |
-| **Cross-Model Validator** | Sonnet | high | Calls GPT-5.4 Pro + Gemini 3.1 Pro APIs for independent hypothesis validation. Generates consensus report |
+| **Cross-Model Validator** | Sonnet | high | Calls GPT-5.4 Pro (web search + code interpreter) + Gemini 3.1 Pro (code execution + Google Search grounding) APIs for independent hypothesis validation. Generates consensus report |
 | **Orchestrator** | Opus | max | Pure dispatcher: guard logic, adaptive cycles, session health, meta-learning metrics, disjointness hard constraint, rotating creativity constraint. No WebSearch/WebFetch |
 
 **Model selection principle**: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate). Sonnet for structured, search-intensive tasks (Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator). Effort levels are pinned per agent (Opus: max, Sonnet: high) to guarantee quality regardless of the user's session-level effort setting.
@@ -177,10 +177,13 @@ confidence, groundedness assessment.
 - **Disjointness hard constraint** — If DISJOINT targets with score >= 5
   exist, orchestrator NEVER selects PARTIALLY_EXPLORED. Based on 9 sessions:
   DISJOINT 84% pass+cond rate vs PARTIALLY_EXPLORED 30%.
-- **Cross-model validation** (v5.6) — After Quality Gate, surviving hypotheses
-  are automatically sent to GPT-5.4 Pro (empirical validation) and Gemini 3.1
-  Pro (structural analysis) via their APIs. Consensus report synthesizes where
-  models agree/diverge. Requires `OPENAI_API_KEY` and/or `GEMINI_API_KEY`
+- **Cross-model validation** (v5.6, tools v5.12) — After Quality Gate, surviving
+  hypotheses are automatically sent to GPT-5.4 Pro (empirical validation with
+  web search + code interpreter) and Gemini 3.1 Pro (structural analysis with
+  code execution + Google Search grounding) via their APIs. GPT verifies novelty
+  against current literature and checks arithmetic computationally. Gemini verifies
+  formal mappings computationally. Consensus report synthesizes where models
+  agree/diverge. Requires `OPENAI_API_KEY` and/or `GEMINI_API_KEY`
   (stored in `.env.local` — agents must source this file before checking);
   falls back to export file generation if keys are absent. Non-blocking.
 

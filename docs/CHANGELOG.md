@@ -5,6 +5,42 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.12 — Cross-Model Validation Tool Upgrade (24 marzo 2026)
+
+**Motivazione**: Il Cross-Model Validator chiamava GPT-5.4 Pro e Gemini 3.1 Pro senza alcun tool API abilitato. GPT non poteva cercare letteratura recente (il reasoning summary diceva esplicitamente "my knowledge cuts off at June 2024") e non poteva verificare aritmetica computazionalmente. Gemini non poteva eseguire codice per verificare i mapping matematici che descriveva.
+
+Evidenza dalla sessione 2026-03-24: GPT ha trovato un errore aritmetico di quattro ordini di grandezza ((50/3)^3 × (0.1)^-2 ≈ 4.6×10^5, non 200-500 come dichiarato) usando calcolo mentale. Con code interpreter, questa verifica sarebbe immediata e meno soggetta a errore per calcoli più sottili.
+
+### Tool aggiunti
+
+**GPT-5.4 Pro** (OpenAI Responses API):
+- `web_search_preview` (search_context_size: `"high"`) — Ricerca letteratura in tempo reale. Novelty verdicts ora basati su letteratura corrente, non solo conoscenza parametrica pre-giugno 2024
+- `code_interpreter` (container: `auto`) — Verifica aritmetica, power analysis, calcoli di ordine di grandezza. $0.03/container
+
+**Gemini 3.1 Pro** (Google GenAI SDK):
+- `codeExecution` — Verifica computazionale dei mapping formali (algebra simbolica, analisi dimensionale, predizioni numeriche)
+- `googleSearch` — Grounding claims in letteratura via Google Search
+
+### Modifiche allo script (`scripts/validate-crossmodel.mjs`)
+- Tool params aggiunti a entrambe le chiamate API
+- Gestione nuovi event types nello streaming (web_search_call.*, code_interpreter_call.*, executableCode, codeExecutionResult)
+- Estrazione grounding metadata (Gemini) e annotazioni arricchite (GPT)
+- Output file include sezioni Code Execution Outputs / Computational Verification / Grounding Sources
+- Return JSON include tool usage stats (web_searches, code_executions, grounding_sources)
+
+### Aggiornamenti prompt
+- `prompts/gpt-validation.md` — Istruzioni esplicite per usare web search e code execution
+- `prompts/gemini-deep-think.md` — Istruzioni per verifica computazionale dei mapping e sezione COMPUTATIONAL CHECK nell'output format
+
+### Costo stimato incrementale
+- Web search (GPT): ~$0.01-0.05 per sessione (search_context_size: high)
+- Code interpreter (GPT): $0.03 per container per sessione
+- Code execution (Gemini): incluso nel costo API Gemini
+- Google Search grounding (Gemini): billed per query, tipicamente < $0.01 per sessione
+- Totale: ~$0.05-0.10 per sessione, trascurabile per un pipeline che gira ~1x/giorno
+
+---
+
 ## v5.11 — Orchestrator Turn Budget & State Robustness (24 marzo 2026)
 
 **Motivazione**: Sessione 013 (cryo-EM × OMV cargo sorting) ha rivelato che l'orchestratore esauriva i turni dopo il ranking di Cycle 2. Con maxTurns=80 e 89 tool_uses consumate, le fasi finali (Quality Gate, Cross-Model Validation, Session Analysis, Summary) dovevano essere dispatched manualmente. Root cause: una pipeline completa a 2 cicli richiede ~100-110 tool calls.

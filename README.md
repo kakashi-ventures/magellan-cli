@@ -59,8 +59,9 @@ Phase 5:  Evolver recombines top candidates (conditionally skippable)
 Phase 6:  Quality Gate — 10-point rubric + web grounding + per-claim verification
           → META-VALIDATION reflection before output
           → Session Analyst — meta-learning metrics → knowledge/meta-insights.md
-Phase 7:  Cross-Model Validation — GPT-5.4 Pro + Gemini 3.1 Pro (automatic if
-          API keys set, export files only otherwise) → consensus report
+Phase 7:  Cross-Model Validation — GPT-5.4 Pro (web search + code interpreter) +
+          Gemini 3.1 Pro (code execution + Google Search grounding) → consensus report
+          (automatic if API keys set, export files only otherwise)
 Phase 8:  Session summary → results/{session-id}/
 Phase 9:  Knowledge persistence → knowledge/discovery-log.json + strategy metrics
 ```
@@ -69,8 +70,9 @@ Typical runtime: 20-55 minutes. Check progress with `/status`.
 
 ## After Discovery: Cross-Model Validation
 
-**Automatic (v5.6)**: If `OPENAI_API_KEY` and/or `GEMINI_API_KEY` are set,
-the pipeline automatically calls GPT-5.4 Pro and Gemini 3.1 Pro for
+**Automatic (v5.6+)**: If `OPENAI_API_KEY` and/or `GEMINI_API_KEY` are set,
+the pipeline automatically calls GPT-5.4 Pro (with web search + code interpreter)
+and Gemini 3.1 Pro (with code execution + Google Search grounding) for
 independent validation and generates a consensus report.
 
 ```bash
@@ -222,7 +224,7 @@ knowledge/                                   ← Persistent data across sessions
 - **Evolver** [Sonnet, high] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
 - **Quality Gate** [Opus, max, 35 turns] — 10-point rubric + web novelty + per-claim grounding verification + META-VALIDATION reflection
 - **Session Analyst** [Sonnet, high] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
-- **Cross-Model Validator** [Sonnet, high] — Calls GPT-5.4 Pro + Gemini 3.1 Pro APIs for independent validation → consensus report (requires API keys; falls back to export files)
+- **Cross-Model Validator** [Sonnet, high] — Calls GPT-5.4 Pro (web search + code interpreter) + Gemini 3.1 Pro (code execution + Google Search grounding) APIs for independent validation → consensus report (requires API keys; falls back to export files)
 - **Orchestrator** [Opus, max, 200 turns circuit breaker] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health, meta-learning metrics
 
 ## Conceptual Foundation
