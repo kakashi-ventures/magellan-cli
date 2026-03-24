@@ -827,7 +827,7 @@ const payload = {
   crossModelValidation: Object.keys(crossModel).length > 0 ? crossModel : undefined
 };
 
-fetch('https://magellan-discover.ai/api/sessions/upload', {
+fetch('https://www.magellan-discover.ai/api/sessions/upload', {
   method: 'POST',
   headers: { 'Authorization': 'Bearer ' + ingest.contributor_key, 'Content-Type': 'application/json' },
   body: JSON.stringify(payload)
