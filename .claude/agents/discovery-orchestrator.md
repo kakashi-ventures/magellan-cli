@@ -742,6 +742,122 @@ without needing to read session.json or parse markdown files.
 Update state/session.json: phase="complete", status, status_reason.
 Final hypotheses are in {results_dir}/final.json (not in session.json).
 
+## UPLOAD TO WEBSITE (after ingest manifest)
+
+If a contributor key is configured, automatically upload results to magellan-discover.ai.
+
+### 1. Check Contributor Key
+
+```bash
+CONTRIBUTOR_KEY=$(cat .magellan/config.json 2>/dev/null | node -e "let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{try{console.log(JSON.parse(d).contributor_key||'')}catch{console.log('')}})")
+```
+
+If empty or absent, print:
+> "Tip: Run `/connect <key>` to publish your discoveries to magellan-discover.ai"
+
+Then skip to KNOWLEDGE PERSISTENCE.
+
+### 2. Construct and POST Upload Payload
+
+Use a Node.js inline script to read the session files and POST to the website API:
+
+```bash
+node -e "
+const fs = require('fs');
+const path = require('path');
+const dir = '${results_dir}';
+
+// Read structured data
+const ingest = JSON.parse(fs.readFileSync(path.join(dir, 'ingest.json'), 'utf-8'));
+let finalData = [];
+try { finalData = JSON.parse(fs.readFileSync(path.join(dir, 'final.json'), 'utf-8')).hypotheses || JSON.parse(fs.readFileSync(path.join(dir, 'final.json'), 'utf-8')); } catch {}
+
+// Build hypotheses from final.json
+const hypotheses = (Array.isArray(finalData) ? finalData : []).map(h => ({
+  id: h.id || h.title?.slice(0,20) || 'unknown',
+  title: h.title || '',
+  mechanism: h.mechanism || '',
+  supportingEvidence: h.supporting_evidence || h.supportingEvidence || '',
+  counterEvidence: h.counter_evidence || h.counterEvidence || '',
+  testProtocol: h.test_protocol || h.testProtocol || '',
+  bridgeSummary: h.bridge_summary || h.bridgeSummary || '',
+  compositeScore: h.composite_score || h.compositeScore || 5,
+  confidence: h.confidence || 5,
+  groundedness: h.groundedness || 5,
+  qualityGate: h.verdict || h.quality_gate || h.qualityGate || 'CONDITIONAL_PASS',
+  noveltyStatus: h.novelty_status || h.noveltyStatus || 'Unknown',
+  cycle: h.cycle || 1,
+  parentIds: h.parent_ids || h.parentIds || []
+}));
+
+// Read killed hypotheses
+let killed = [];
+try {
+  const qg = JSON.parse(fs.readFileSync(path.join(dir, 'quality-gate.json'), 'utf-8'));
+  const fails = (qg.hypotheses || qg).filter(h => (h.verdict || h.quality_gate) === 'FAIL');
+  killed = fails.map(h => ({
+    id: h.id || 'unknown', title: h.title || '', mechanism: h.mechanism || '',
+    killReason: h.kill_reason || h.killReason || h.reason || 'Failed quality gate',
+    cycle: h.cycle || 1, confidence: h.confidence || 0, groundedness: h.groundedness || 0,
+    noveltyStatus: h.novelty_status || 'Unknown'
+  }));
+} catch {}
+
+// Read cross-model validation
+let crossModel = {};
+try { crossModel.gpt = fs.readFileSync(path.join(dir, 'validation-gpt.md'), 'utf-8').slice(0,5000); } catch {}
+try { crossModel.gemini = fs.readFileSync(path.join(dir, 'validation-gemini.md'), 'utf-8').slice(0,5000); } catch {}
+
+const payload = {
+  session: {
+    id: ingest.session_id,
+    mode: ingest.mode,
+    status: ingest.status,
+    fieldA: ingest.field_a,
+    fieldC: ingest.field_c,
+    bridgeConcepts: ingest.bridge_concepts || [],
+    strategy: ingest.strategy,
+    disjointness: ingest.disjointness,
+    pipelineStats: ingest.pipeline_stats,
+    startedAt: ingest.started_at,
+    completedAt: ingest.completed_at
+  },
+  hypotheses,
+  killedHypotheses: killed,
+  crossModelValidation: Object.keys(crossModel).length > 0 ? crossModel : undefined
+};
+
+fetch('https://magellan-discover.ai/api/sessions/upload', {
+  method: 'POST',
+  headers: { 'Authorization': 'Bearer ' + ingest.contributor_key, 'Content-Type': 'application/json' },
+  body: JSON.stringify(payload)
+})
+.then(r => r.json().then(d => ({status: r.status, data: d})))
+.then(({status, data}) => {
+  if (status === 201) {
+    console.log('Published to magellan-discover.ai: ' + data.message);
+    // Update ingest.json with upload status
+    ingest.uploaded = true;
+    ingest.uploadedAt = new Date().toISOString();
+    fs.writeFileSync(path.join(dir, 'ingest.json'), JSON.stringify(ingest, null, 2));
+  } else {
+    console.log('Upload warning (' + status + '): ' + (data.error || 'Unknown error'));
+    ingest.uploaded = false;
+    fs.writeFileSync(path.join(dir, 'ingest.json'), JSON.stringify(ingest, null, 2));
+  }
+})
+.catch(e => console.log('Upload skipped (offline or server error): ' + e.message));
+"
+```
+
+### 3. Handle Result
+
+- On success (201): Report "Published to magellan-discover.ai" with hypothesis count
+- On failure: Print warning but do NOT fail the session — results are saved locally regardless
+- The upload is best-effort. If it fails, the admin can always run `npm run sync` manually
+
+**IMPORTANT**: Do NOT retry on failure. Do NOT let upload errors interrupt Knowledge Persistence.
+
 ## KNOWLEDGE PERSISTENCE (after session summary)
 
 Update `knowledge/discovery-log.json` for cumulative learning across sessions:
