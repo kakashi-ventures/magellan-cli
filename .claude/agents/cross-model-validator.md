@@ -1,6 +1,6 @@
 ---
 name: cross-model-validator
-description: Validates hypotheses by calling OpenAI (GPT-5.4 Pro) and Google Gemini (3.1 Pro) APIs directly. Generates export prompts, runs API calls, and produces cross-model consensus report.
+description: Validates hypotheses by calling OpenAI (GPT-5.4 Pro, web search + code interpreter) and Google Gemini (3.1 Pro, code execution + Google Search grounding) APIs. Generates export prompts, runs API calls, and produces cross-model consensus report.
 model: sonnet
 effort: high
 tools: Read, Write, Bash, Glob
@@ -138,10 +138,12 @@ Write `{results_dir}/cross-model-consensus.md`:
 # Cross-Model Validation Consensus — Session {session_id}
 
 ## Methodology
-- **GPT-5.4 Pro** (reasoning: high): Empirical validation — novelty, citations,
+- **GPT-5.4 Pro** (reasoning: high, web search, code interpreter): Empirical validation —
+  web-grounded novelty verification, arithmetic verification via code, citations,
   mechanism plausibility, counter-evidence, experimental design
-- **Gemini 3.1 Pro** (thinking: HIGH): Structural analysis — mathematical
-  mappings, formal isomorphisms, quantitative predictions
+- **Gemini 3.1 Pro** (thinking: HIGH, code execution, Google Search grounding): Structural
+  analysis — computational verification of mathematical mappings, formal isomorphisms,
+  quantitative predictions, grounded literature references
 
 ## Per-Hypothesis Consensus
 
@@ -186,6 +188,8 @@ Write `{results_dir}/cross-model.json` with:
     "gpt_model": "gpt-5.4-pro",
     "gemini_model": "gemini-3.1-pro-preview",
     "models_used": ["openai", "gemini"],
+    "gpt_tools": ["web_search_preview", "code_interpreter"],
+    "gemini_tools": ["codeExecution", "googleSearch"],
     "consensus": {
       "{hypothesis_id}": {
         "gpt_confidence": null,

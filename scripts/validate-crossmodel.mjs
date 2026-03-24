@@ -3,6 +3,10 @@
 // Calls OpenAI (GPT-5.4 Pro) and Google Gemini (3.1 Pro) APIs in parallel
 // for independent validation of MAGELLAN hypotheses.
 //
+// Tools enabled:
+//   GPT-5.4 Pro: web_search_preview (high), code_interpreter
+//   Gemini 3.1 Pro: codeExecution, googleSearch
+//
 // Usage:
 //   node --env-file=.env.local scripts/validate-crossmodel.mjs \
 //     --gpt-prompt <file> --gpt-out <file> \
@@ -52,6 +56,10 @@ async function callOpenAI(promptFile, outputFile) {
       },
     ],
     reasoning: { effort: 'high', summary: 'auto' },
+    tools: [
+      { type: 'web_search_preview', search_context_size: 'high' },
+      { type: 'code_interpreter', container: { type: 'auto' } },
+    ],
     stream: true,
   });
 
@@ -60,6 +68,9 @@ async function callOpenAI(promptFile, outputFile) {
   let annotations = [];
   let reasoningStarted = false;
   let outputStarted = false;
+  let searchCount = 0;
+  let codeRuns = 0;
+  let codeOutputs = [];
 
   for await (const event of stream) {
     // Track reasoning phase
@@ -96,12 +107,43 @@ async function callOpenAI(promptFile, outputFile) {
       text += event.delta;
     }
 
-    // Completed
+    // Web search progress
+    if (event.type === 'response.web_search_call.in_progress') {
+      searchCount++;
+      process.stderr.write(`[OpenAI] Web search #${searchCount}...\n`);
+    }
+    if (event.type === 'response.web_search_call.searching') {
+      process.stderr.write('s');
+    }
+    if (event.type === 'response.web_search_call.completed') {
+      process.stderr.write(`\n[OpenAI] Search #${searchCount} completed\n`);
+    }
+
+    // Code interpreter progress
+    if (event.type === 'response.code_interpreter_call.in_progress') {
+      codeRuns++;
+      process.stderr.write(`[OpenAI] Code execution #${codeRuns}...\n`);
+    }
+    if (event.type === 'response.code_interpreter_call.interpreting') {
+      process.stderr.write('x');
+    }
+    if (event.type === 'response.code_interpreter_call.completed') {
+      process.stderr.write(`\n[OpenAI] Code execution #${codeRuns} completed\n`);
+    }
+
+    // Completed — extract annotations and code outputs
     if (event.type === 'response.completed') {
-      // Extract annotations from the completed response
       const response = event.response;
-      const messageItem = response?.output?.find(o => o.type === 'message');
-      annotations = messageItem?.content?.[0]?.annotations || [];
+      for (const item of response?.output || []) {
+        if (item.type === 'message') {
+          annotations = item.content?.[0]?.annotations || [];
+        }
+        if (item.type === 'code_interpreter_call') {
+          for (const out of item.outputs || []) {
+            if (out.type === 'logs') codeOutputs.push(out.logs);
+          }
+        }
+      }
     }
   }
 
@@ -121,6 +163,13 @@ async function callOpenAI(promptFile, outputFile) {
     }
   }
 
+  if (codeOutputs.length > 0) {
+    output += '\n\n---\n\n## Code Execution Outputs\n\n';
+    for (let i = 0; i < codeOutputs.length; i++) {
+      output += `### Execution ${i + 1}\n\`\`\`\n${codeOutputs[i]}\n\`\`\`\n\n`;
+    }
+  }
+
   writeFileSync(outputFile, output);
   return {
     status: 'completed',
@@ -128,6 +177,8 @@ async function callOpenAI(promptFile, outputFile) {
     duration_s: duration,
     citations: annotations.length,
     has_reasoning: !!reasoningSummary,
+    web_searches: searchCount,
+    code_executions: codeRuns,
   };
 }
 
@@ -148,6 +199,10 @@ async function callGemini(promptFile, outputFile) {
     model: 'gemini-3.1-pro-preview',
     contents: prompt,
     config: {
+      tools: [
+        { codeExecution: {} },
+        { googleSearch: {} },
+      ],
       thinkingConfig: {
         thinkingLevel: 'HIGH',
         includeThoughts: true,
@@ -159,31 +214,55 @@ async function callGemini(promptFile, outputFile) {
   let answer = '';
   let thinkingStarted = false;
   let answerStarted = false;
+  let codeBlocks = [];
+  let codeResults = [];
+  let groundingSources = [];
 
   for await (const chunk of stream) {
     const parts = chunk.candidates?.[0]?.content?.parts || [];
     for (const part of parts) {
-      if (!part.text) continue;
-
-      if (part.thought) {
-        if (!thinkingStarted) {
-          thinkingStarted = true;
-          const elapsed = Math.round((Date.now() - start) / 1000);
-          process.stderr.write(`[Gemini] Thinking started (${elapsed}s)...\n`);
+      // Thinking and answer text
+      if (part.text) {
+        if (part.thought) {
+          if (!thinkingStarted) {
+            thinkingStarted = true;
+            const elapsed = Math.round((Date.now() - start) / 1000);
+            process.stderr.write(`[Gemini] Thinking started (${elapsed}s)...\n`);
+          }
+          thoughts += part.text;
+          if (thoughts.length % 200 < part.text.length) {
+            process.stderr.write('.');
+          }
+        } else {
+          if (!answerStarted) {
+            answerStarted = true;
+            const elapsed = Math.round((Date.now() - start) / 1000);
+            process.stderr.write(`\n[Gemini] Thinking done, answer streaming (${elapsed}s)...\n`);
+          }
+          answer += part.text;
         }
-        thoughts += part.text;
-        // Print a dot every ~200 chars to show progress
-        if (thoughts.length % 200 < part.text.length) {
-          process.stderr.write('.');
-        }
-      } else {
-        if (!answerStarted) {
-          answerStarted = true;
-          const elapsed = Math.round((Date.now() - start) / 1000);
-          process.stderr.write(`\n[Gemini] Thinking done, answer streaming (${elapsed}s)...\n`);
-        }
-        answer += part.text;
       }
+
+      // Code execution parts
+      if (part.executableCode) {
+        process.stderr.write(`[Gemini] Executing code...\n`);
+        codeBlocks.push(part.executableCode.code);
+      }
+      if (part.codeExecutionResult) {
+        codeResults.push({
+          outcome: part.codeExecutionResult.outcome,
+          output: part.codeExecutionResult.output,
+        });
+        process.stderr.write(`[Gemini] Code result: ${part.codeExecutionResult.outcome}\n`);
+      }
+    }
+
+    // Grounding metadata (at chunk level, not part level)
+    const candidate = chunk.candidates?.[0];
+    if (candidate?.groundingMetadata) {
+      groundingSources = (candidate.groundingMetadata.groundingChunks || [])
+        .filter(c => c.web)
+        .map(c => ({ title: c.web.title, uri: c.web.uri }));
     }
   }
 
@@ -197,12 +276,31 @@ async function callGemini(promptFile, outputFile) {
   }
   output += answer;
 
+  if (codeBlocks.length > 0) {
+    output += '\n\n---\n\n## Computational Verification\n\n';
+    for (let i = 0; i < codeBlocks.length; i++) {
+      output += `### Code Block ${i + 1}\n\`\`\`python\n${codeBlocks[i]}\n\`\`\`\n`;
+      if (codeResults[i]) {
+        output += `**Result** (${codeResults[i].outcome}):\n\`\`\`\n${codeResults[i].output || '(no output)'}\n\`\`\`\n\n`;
+      }
+    }
+  }
+
+  if (groundingSources.length > 0) {
+    output += '\n\n---\n\n## Grounding Sources\n\n';
+    for (const s of groundingSources) {
+      output += `- [${s.title || 'Source'}](${s.uri})\n`;
+    }
+  }
+
   writeFileSync(outputFile, output);
   return {
     status: 'completed',
     model: 'gemini-3.1-pro-preview',
     duration_s: duration,
     has_thoughts: !!thoughts,
+    code_executions: codeResults.length,
+    grounding_sources: groundingSources.length,
   };
 }
 
