@@ -5,6 +5,18 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.9 — Pinned Agent Effort Levels (24 marzo 2026)
+
+**Motivazione**: I livelli di effort degli agenti ereditavano il setting di sessione dell'utente. Un utente con effort `low` o `medium` nella propria CLI rischiava di degradare la qualità delle ipotesi generate dal pipeline. La priorità è la qualità, non il costo o i tempi.
+
+### Effort esplicito per tutti i 12 agenti
+- **Opus agents** (Scout, Target Evaluator, Generator, Critic, Quality Gate, Orchestrator) → `effort: max`
+- **Sonnet agents** (Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator) → `effort: high`
+
+Il campo `effort` nel frontmatter YAML degli agenti sovrascrive il livello di sessione, garantendo qualità costante indipendentemente dalla configurazione dell'utente.
+
+---
+
 ## v5.8 — Creativity-First Ideation (22 marzo 2026)
 
 **Motivazione**: L'analisi di 9 sessioni ha rivelato che il pipeline convergeva naturalmente verso strategie "safe" (network_gap_analysis al 39% QG pass rate, 3 sessioni primarie) mentre 5 delle 8 strategie più creative non avevano mai dati primari. Inoltre, le connessioni più potenti (isomorfismi strutturali, bisociazioni) non erano esplicitamente elicitate dal prompting. La fase di ideazione (Scout + Generator) necessitava di meccanismi per facilitare connessioni creative, non solo per filtrare quelle deboli.

@@ -2,6 +2,7 @@
 name: evolver
 description: Recombines and refines top hypotheses through crossover, mutation, specification, and generalization. Enforces diversity constraint to prevent convergence.
 model: sonnet
+effort: high
 tools: Read, Write
 skills: discovery-engine
 disallowedTools: WebSearch, WebFetch, Bash, Agent

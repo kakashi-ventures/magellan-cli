@@ -121,22 +121,22 @@ LAYER TRASVERSALE — GUARD & HOOKS
 
 ### I 12 agenti
 
-| Agente | Modello | Ruolo |
-|---|---|---|
-| **Scout** | Opus | Identifica DOVE cercare: 10 strategie (incl. isomorfismo strutturale + serendipity), bridge concepts obbligatori, strategy diversification, exploration slot, rotating creativity constraint, TARGET QUALITY CHECK reflection |
-| **Target Evaluator** | Opus | Sfida avversariale dei target Scout su 4 assi: popularity bias, vagueness, structural impossibility, local-optima |
-| **Literature Scout** | Sonnet | Retrieval strutturato: MCP servers (Semantic Scholar, PubMed) obbligatorio + WebSearch fallback + full-text + disgiunzione + RETRIEVAL QUALITY CHECK reflection |
-| **Computational Validator** | Sonnet | Verifica programmatica dei bridge concepts: KEGG pathway cross-check, STRING interaction scores, PubMed co-occurrence, back-of-envelope physics |
-| **Generator** | Opus | Structured Relationship Map + 6-8 ipotesi (parametric + lit. context + validazione computazionale) + SELF-CRITIQUE con verifica claim-level |
-| **Critic** | Opus | 9 attack vectors (incl. claim-level fact verification) + META-CRITIQUE reflection + critic_questions feedback |
-| **Ranker** | Sonnet | Scoring su 6 dimensioni con pesi fissi canonici + tabella obbligatoria + diversity check + Elo tournament sanity check |
-| **Evolver** | Sonnet | Operazioni evolutive con diversity constraint + EVOLUTION QUALITY CHECK reflection. Condizionalmente skippabile |
-| **Quality Gate** | Opus | Rubrica a 10 punti (incl. per-claim grounding verification) + web grounding + META-VALIDATION reflection |
-| **Session Analyst** | Sonnet | Meta-learning post-pipeline: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md |
-| **Cross-Model Validator** | Sonnet | Chiama GPT-5.4 Pro (reasoning high) + Gemini 3.1 Pro (thinking HIGH) via API per validazione indipendente → consensus report. Fallback a file di export se API keys assenti |
-| **Orchestrator** | Opus | Dispatch obbligatorio, cicli adattivi, guard logic, session health, knowledge log, meta-learning metrics |
+| Agente | Modello | Effort | Ruolo |
+|---|---|---|---|
+| **Scout** | Opus | max | Identifica DOVE cercare: 10 strategie (incl. isomorfismo strutturale + serendipity), bridge concepts obbligatori, strategy diversification, exploration slot, rotating creativity constraint, TARGET QUALITY CHECK reflection |
+| **Target Evaluator** | Opus | max | Sfida avversariale dei target Scout su 4 assi: popularity bias, vagueness, structural impossibility, local-optima |
+| **Literature Scout** | Sonnet | high | Retrieval strutturato: MCP servers (Semantic Scholar, PubMed) obbligatorio + WebSearch fallback + full-text + disgiunzione + RETRIEVAL QUALITY CHECK reflection |
+| **Computational Validator** | Sonnet | high | Verifica programmatica dei bridge concepts: KEGG pathway cross-check, STRING interaction scores, PubMed co-occurrence, back-of-envelope physics |
+| **Generator** | Opus | max | Structured Relationship Map + 6-8 ipotesi (parametric + lit. context + validazione computazionale) + SELF-CRITIQUE con verifica claim-level |
+| **Critic** | Opus | max | 9 attack vectors (incl. claim-level fact verification) + META-CRITIQUE reflection + critic_questions feedback |
+| **Ranker** | Sonnet | high | Scoring su 6 dimensioni con pesi fissi canonici + tabella obbligatoria + diversity check + Elo tournament sanity check |
+| **Evolver** | Sonnet | high | Operazioni evolutive con diversity constraint + EVOLUTION QUALITY CHECK reflection. Condizionalmente skippabile |
+| **Quality Gate** | Opus | max | Rubrica a 10 punti (incl. per-claim grounding verification) + web grounding + META-VALIDATION reflection |
+| **Session Analyst** | Sonnet | high | Meta-learning post-pipeline: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md |
+| **Cross-Model Validator** | Sonnet | high | Chiama GPT-5.4 Pro (reasoning high) + Gemini 3.1 Pro (thinking HIGH) via API per validazione indipendente → consensus report. Fallback a file di export se API keys assenti |
+| **Orchestrator** | Opus | max | Dispatch obbligatorio, cicli adattivi, guard logic, session health, knowledge log, meta-learning metrics |
 
-La scelta del modello segue un principio: **Opus per il ragionamento profondo e creativo, Sonnet per i task strutturati e search-intensive**. Scout, Target Evaluator, Generator, Critic e Quality Gate richiedono ragionamento cross-disciplinare e valutazione profonda. Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst e Cross-Model Validator eseguono task più strutturati dove la capacità di giudizio è importante ma non richiede la profondità di Opus.
+La scelta del modello segue un principio: **Opus per il ragionamento profondo e creativo, Sonnet per i task strutturati e search-intensive**. I livelli di effort sono fissati per agente (Opus: max, Sonnet: high) per garantire la qualità indipendentemente dall'effort di sessione dell'utente. Scout, Target Evaluator, Generator, Critic e Quality Gate richiedono ragionamento cross-disciplinare e valutazione profonda. Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst e Cross-Model Validator eseguono task più strutturati dove la capacità di giudizio è importante ma non richiede la profondità di Opus.
 
 ### Dispatch obbligatorio
 

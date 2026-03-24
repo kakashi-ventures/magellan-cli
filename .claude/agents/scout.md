@@ -2,6 +2,7 @@
 name: scout
 description: Autonomously identifies the most promising areas for undiscovered scientific connections. Uses 10 strategies including Swanson ABC bridging, structural isomorphism, and serendipity. Launch when user provides no specific input.
 model: opus
+effort: max
 tools: Read, Write, WebSearch, WebFetch
 skills: discovery-engine, literature-retrieval, domain-life-sciences, domain-physics-math
 memory: project

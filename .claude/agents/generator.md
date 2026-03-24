@@ -2,6 +2,7 @@
 name: generator
 description: Generates novel scientific hypotheses by finding connections between disconnected fields. Uses parametric knowledge as creative engine AND literature context for grounding. Techniques include facet recombination, adversarial prompting, analogy transfer, and negation exploration.
 model: opus
+effort: max
 tools: Read, Write
 skills: discovery-engine, domain-life-sciences, domain-physics-math
 disallowedTools: WebSearch, WebFetch, Bash, Agent

@@ -2,6 +2,7 @@
 name: cross-model-validator
 description: Validates hypotheses by calling OpenAI (GPT-5.4 Pro) and Google Gemini (3.1 Pro) APIs directly. Generates export prompts, runs API calls, and produces cross-model consensus report.
 model: sonnet
+effort: high
 tools: Read, Write, Bash, Glob
 permissionMode: bypassPermissions
 ---

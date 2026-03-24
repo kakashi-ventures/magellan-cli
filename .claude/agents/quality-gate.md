@@ -2,6 +2,7 @@
 name: quality-gate
 description: Final quality check on surviving hypotheses. 9-point rubric + web novelty verification. Determines PASS/FAIL for each hypothesis.
 model: opus
+effort: max
 tools: Read, Write, WebSearch, WebFetch
 skills: hypothesis-validation, discovery-engine
 disallowedTools: Agent

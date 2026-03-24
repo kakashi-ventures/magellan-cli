@@ -43,22 +43,22 @@ Website repo: https://github.com/kakashi-ventures/magellan-web
 
 Twelve agents. Orchestrator dispatches to all — never executes phases inline.
 
-| Agent | Model | Role |
-|---|---|---|
-| **Scout** | Opus | Finds WHERE to look: 10 strategies (incl. structural isomorphism + serendipity), bridge concepts, strategy diversification, exploration slot, rotating creativity constraint, TARGET QUALITY CHECK reflection |
-| **Target Evaluator** | Opus | Adversarial challenge of Scout targets on 4 axes (popularity bias, vagueness, structural impossibility, local-optima) |
-| **Literature Scout** | Sonnet | MCP-first retrieval (Semantic Scholar, PubMed), WebSearch fallback, full-text papers, disjointness verification |
-| **Computational Validator** | Sonnet | Programmatic bridge verification: KEGG, STRING, PubMed co-occurrence, back-of-envelope physics |
-| **Generator** | Opus | Hypotheses from parametric knowledge + literature + computational validation. Bisociation + multi-level abstraction. SELF-CRITIQUE with claim-level verification |
-| **Critic** | Opus | 9 adversarial attack vectors including claim-level fact verification. META-CRITIQUE reflection. Writes critic_questions |
-| **Ranker** | Sonnet | 6-dimension weighted scoring, per-hypothesis table, diversity check, Elo tournament sanity check, cross-domain creativity bonus (+0.5 for 2+ discipline boundaries) |
-| **Evolver** | Sonnet | Genetic operations with diversity constraint. EVOLUTION QUALITY CHECK reflection. Conditionally skippable |
-| **Quality Gate** | Opus | 10-point rubric + web novelty + per-claim grounding verification. META-VALIDATION reflection |
-| **Session Analyst** | Sonnet | Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis, creativity metrics (disciplinary distance, abstraction level, novelty type) → knowledge/meta-insights.md |
-| **Cross-Model Validator** | Sonnet | Calls GPT-5.4 Pro + Gemini 3.1 Pro APIs for independent hypothesis validation. Generates consensus report |
-| **Orchestrator** | Opus | Pure dispatcher: guard logic, adaptive cycles, session health, meta-learning metrics, disjointness hard constraint, rotating creativity constraint. No WebSearch/WebFetch |
+| Agent | Model | Effort | Role |
+|---|---|---|---|
+| **Scout** | Opus | max | Finds WHERE to look: 10 strategies (incl. structural isomorphism + serendipity), bridge concepts, strategy diversification, exploration slot, rotating creativity constraint, TARGET QUALITY CHECK reflection |
+| **Target Evaluator** | Opus | max | Adversarial challenge of Scout targets on 4 axes (popularity bias, vagueness, structural impossibility, local-optima) |
+| **Literature Scout** | Sonnet | high | MCP-first retrieval (Semantic Scholar, PubMed), WebSearch fallback, full-text papers, disjointness verification |
+| **Computational Validator** | Sonnet | high | Programmatic bridge verification: KEGG, STRING, PubMed co-occurrence, back-of-envelope physics |
+| **Generator** | Opus | max | Hypotheses from parametric knowledge + literature + computational validation. Bisociation + multi-level abstraction. SELF-CRITIQUE with claim-level verification |
+| **Critic** | Opus | max | 9 adversarial attack vectors including claim-level fact verification. META-CRITIQUE reflection. Writes critic_questions |
+| **Ranker** | Sonnet | high | 6-dimension weighted scoring, per-hypothesis table, diversity check, Elo tournament sanity check, cross-domain creativity bonus (+0.5 for 2+ discipline boundaries) |
+| **Evolver** | Sonnet | high | Genetic operations with diversity constraint. EVOLUTION QUALITY CHECK reflection. Conditionally skippable |
+| **Quality Gate** | Opus | max | 10-point rubric + web novelty + per-claim grounding verification. META-VALIDATION reflection |
+| **Session Analyst** | Sonnet | high | Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis, creativity metrics (disciplinary distance, abstraction level, novelty type) → knowledge/meta-insights.md |
+| **Cross-Model Validator** | Sonnet | high | Calls GPT-5.4 Pro + Gemini 3.1 Pro APIs for independent hypothesis validation. Generates consensus report |
+| **Orchestrator** | Opus | max | Pure dispatcher: guard logic, adaptive cycles, session health, meta-learning metrics, disjointness hard constraint, rotating creativity constraint. No WebSearch/WebFetch |
 
-**Model selection principle**: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate). Sonnet for structured, search-intensive tasks (Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator).
+**Model selection principle**: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate). Sonnet for structured, search-intensive tasks (Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator). Effort levels are pinned per agent (Opus: max, Sonnet: high) to guarantee quality regardless of the user's session-level effort setting.
 
 ## State Management (v5.7 — Unified Results Directory)
 

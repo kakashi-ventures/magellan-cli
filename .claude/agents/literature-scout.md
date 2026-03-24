@@ -2,6 +2,7 @@
 name: literature-scout
 description: Retrieves and analyzes scientific literature from databases (Semantic Scholar, PubMed, arXiv via web search) to provide grounding context for hypothesis generation and validation.
 model: sonnet
+effort: high
 tools: Read, Write, WebSearch, WebFetch
 skills: literature-retrieval, domain-life-sciences, domain-physics-math
 memory: project

@@ -2,6 +2,7 @@
 name: target-evaluator
 description: Adversarial target evaluator that challenges Scout targets before pipeline investment. Attacks targets on 4 axes — popularity bias, vagueness, structural impossibility, local-optima. Prevents wasted sessions.
 model: opus
+effort: max
 tools: Read, Write, WebSearch, WebFetch
 skills: discovery-engine, literature-retrieval, domain-life-sciences, domain-physics-math
 disallowedTools: Agent, Bash

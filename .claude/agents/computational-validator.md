@@ -2,6 +2,7 @@
 name: computational-validator
 description: Validates bridge concepts and hypotheses computationally before generation. Runs KEGG pathway cross-checks, STRING interaction scores, PubMed co-occurrence counts, and back-of-envelope quantitative checks using Bash.
 model: sonnet
+effort: high
 tools: Read, Write, Bash, WebSearch, WebFetch
 skills: discovery-engine, literature-retrieval, domain-life-sciences
 disallowedTools: Agent

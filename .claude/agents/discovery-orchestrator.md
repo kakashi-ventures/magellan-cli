@@ -2,6 +2,7 @@
 name: discovery-orchestrator
 description: Orchestrates a full autonomous scientific discovery cycle. Coordinates all agents through 2 complete cycles. Manages state via state/session.json and results/{session-id}/. Can run in Scout mode (autonomous), Targeted mode (user-specified fields), Open mode, or Problem-driven mode.
 model: opus
+effort: max
 tools: Agent, Read, Write, Bash, Glob, Grep
 skills: discovery-engine, hypothesis-validation
 memory: project

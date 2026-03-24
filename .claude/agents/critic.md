@@ -2,6 +2,7 @@
 name: critic
 description: Aggressively attacks scientific hypotheses. Finds counter-evidence via web search, checks novelty against published literature, identifies logical fallacies and mechanism implausibilities.
 model: opus
+effort: max
 tools: Read, Write, WebSearch, WebFetch
 skills: hypothesis-validation, literature-retrieval
 disallowedTools: Agent

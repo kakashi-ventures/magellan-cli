@@ -133,17 +133,17 @@ CLAUDE.md                                    ← Project instructions for Claude
 .claude/
   settings.json                              ← Permissions, hooks, Agent Teams
   agents/
-    discovery-orchestrator.md                 ← Dispatches to agents, guard logic [Opus]
-    scout.md                                 ← Finds WHERE (10 strategies) [Opus]
-    target-evaluator.md                      ← Adversarial target challenge [Opus]
-    literature-scout.md                      ← Retrieves literature context [Sonnet]
-    computational-validator.md               ← Programmatic bridge checks [Sonnet]
-    generator.md                             ← Creates hypotheses [Opus]
-    critic.md                                ← Attacks hypotheses (9 attack vectors) [Opus]
-    ranker.md                                ← 6-dimension scoring + Elo sanity check [Sonnet]
-    evolver.md                               ← Recombines with diversity constraint [Sonnet]
-    quality-gate.md                          ← 10-point rubric + web grounding [Opus]
-    session-analyst.md                       ← Post-pipeline meta-learning [Sonnet]
+    discovery-orchestrator.md                 ← Dispatches to agents, guard logic [Opus, max]
+    scout.md                                 ← Finds WHERE (10 strategies) [Opus, max]
+    target-evaluator.md                      ← Adversarial target challenge [Opus, max]
+    literature-scout.md                      ← Retrieves literature context [Sonnet, high]
+    computational-validator.md               ← Programmatic bridge checks [Sonnet, high]
+    generator.md                             ← Creates hypotheses [Opus, max]
+    critic.md                                ← Attacks hypotheses (9 attack vectors) [Opus, max]
+    ranker.md                                ← 6-dimension scoring + Elo sanity check [Sonnet, high]
+    evolver.md                               ← Recombines with diversity constraint [Sonnet, high]
+    quality-gate.md                          ← 10-point rubric + web grounding [Opus, max]
+    session-analyst.md                       ← Post-pipeline meta-learning [Sonnet, high]
   commands/
     discover.md                              ← /discover (main entry point)
     connect.md                               ← /connect contributor key
@@ -205,20 +205,20 @@ knowledge/                                   ← Persistent data across sessions
 
 ## Architecture
 
-12 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks):
+12 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks). Effort levels are pinned per agent (Opus: max, Sonnet: high) to guarantee quality regardless of the user's session-level effort setting:
 
-- **Scout** [Opus] — 10 strategies to find WHERE undiscovered connections hide (incl. structural isomorphism + serendipity). TARGET QUALITY CHECK + strategy diversification + exploration slot + rotating creativity constraint
-- **Target Evaluator** [Opus] — Adversarial challenge of Scout targets on 4 axes (popularity, vagueness, impossibility, local-optima)
-- **Literature Scout** [Sonnet] — MCP servers (mandatory first step) + WebSearch fallback + full-text paper retrieval + RETRIEVAL QUALITY CHECK reflection
-- **Computational Validator** [Sonnet+Bash] — Programmatic bridge verification: KEGG, STRING, PubMed co-occurrence, back-of-envelope physics
-- **Generator** [Opus] — Parametric creativity + literature + computational validation → 6-8 hypotheses per cycle. SELF-CRITIQUE + claim-level verification reflection
-- **Critic** [Opus] — 9 adversarial attack vectors (incl. claim-level fact verification) + META-CRITIQUE reflection + critic_questions feedback
-- **Ranker** [Sonnet] — 6-dimension scoring (mandatory per-hypothesis table) + diversity check + Elo tournament sanity check
-- **Evolver** [Sonnet] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
-- **Quality Gate** [Opus, 35 turns] — 10-point rubric + web novelty + per-claim grounding verification + META-VALIDATION reflection
-- **Session Analyst** [Sonnet] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
-- **Cross-Model Validator** [Sonnet] — Calls GPT-5.4 Pro + Gemini 3.1 Pro APIs for independent validation → consensus report (requires API keys; falls back to export files)
-- **Orchestrator** [Opus, 80 turns] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health, meta-learning metrics
+- **Scout** [Opus, max] — 10 strategies to find WHERE undiscovered connections hide (incl. structural isomorphism + serendipity). TARGET QUALITY CHECK + strategy diversification + exploration slot + rotating creativity constraint
+- **Target Evaluator** [Opus, max] — Adversarial challenge of Scout targets on 4 axes (popularity, vagueness, impossibility, local-optima)
+- **Literature Scout** [Sonnet, high] — MCP servers (mandatory first step) + WebSearch fallback + full-text paper retrieval + RETRIEVAL QUALITY CHECK reflection
+- **Computational Validator** [Sonnet+Bash, high] — Programmatic bridge verification: KEGG, STRING, PubMed co-occurrence, back-of-envelope physics
+- **Generator** [Opus, max] — Parametric creativity + literature + computational validation → 6-8 hypotheses per cycle. SELF-CRITIQUE + claim-level verification reflection
+- **Critic** [Opus, max] — 9 adversarial attack vectors (incl. claim-level fact verification) + META-CRITIQUE reflection + critic_questions feedback
+- **Ranker** [Sonnet, high] — 6-dimension scoring (mandatory per-hypothesis table) + diversity check + Elo tournament sanity check
+- **Evolver** [Sonnet, high] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
+- **Quality Gate** [Opus, max, 35 turns] — 10-point rubric + web novelty + per-claim grounding verification + META-VALIDATION reflection
+- **Session Analyst** [Sonnet, high] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
+- **Cross-Model Validator** [Sonnet, high] — Calls GPT-5.4 Pro + Gemini 3.1 Pro APIs for independent validation → consensus report (requires API keys; falls back to export files)
+- **Orchestrator** [Opus, max, 80 turns] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health, meta-learning metrics
 
 ## Conceptual Foundation
 
