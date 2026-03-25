@@ -502,14 +502,22 @@ cross_model_validation, etc.). Missing phases cause stop hook warnings.
 
 Final hypotheses are in {results_dir}/final.json (not in session.json).
 
-## UPLOAD TO WEBSITE (after ingest manifest)
+## UPLOAD TO WEBSITE (MANDATORY — after ingest manifest)
 
-Run `node scripts/upload-session.mjs {results_dir}` to upload results to magellan-discover.ai.
-The script checks for a contributor key, constructs the payload from ingest.json/final.json/quality-gate.json,
-POSTs to the API, and updates ingest.json with upload status. If no key is configured, it prints a tip and exits.
+**You MUST run this command** after writing ingest.json. Do NOT skip it:
 
-- This is best-effort and NON-BLOCKING. Do NOT retry on failure.
+```bash
+cd /home/ameft/kva/magellan && node scripts/upload-session.mjs {results_dir}
+```
+
+The script checks for a contributor key in `.magellan/config.json`, constructs
+the payload from ingest.json/final.json/quality-gate.json, POSTs to the website
+API, and updates `ingest.json` with `"uploaded": true`. If no key is configured,
+it prints a tip and exits cleanly.
+
+- Best-effort and NON-BLOCKING: do NOT retry on failure.
 - Do NOT let upload errors interrupt Knowledge Persistence.
+- Log the upload result to dispatch-log.json (action: "upload attempted", result: stdout).
 
 ## KNOWLEDGE PERSISTENCE (after session summary)
 
