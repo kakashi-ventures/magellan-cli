@@ -5,6 +5,69 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.13 — Empirical Validation Layer + Holdout Framework (25 marzo 2026)
+
+**Motivazione**: MAGELLAN genera ipotesi scientificamente plausibili (13 sessioni, ~189 ipotesi), ma la validazione si limita a reasoning-based checks (Critic, Quality Gate, Cross-Model). Manca evidenza empirica da dati reali e non c'è un framework formale per dimostrare che il sistema funziona.
+
+Due obiettivi distinti: (1) arricchire la pipeline produzione con evidenza computazionale da database bioinformatici e segnali di convergenza indipendente, (2) creare un framework separato per validazione formale via holdout test (rediscovery di scoperte note post-cutoff).
+
+### Overlap Analysis (design decision critica)
+Quality Gate e Critic già cercano sul web senza filtro temporale. La "retrodiction pura" (cercare paper post-cutoff che confermano ipotesi) soffre del "paradosso della retrodiction": se un paper conferma il meccanismo, il QG lo troverebbe e killerebbe l'ipotesi come "not novel". Soluzione: separare validazione formale (Track 2, holdout) dalla pipeline produzione (Track 1, convergence + dataset evidence).
+
+### Track 1: Production Pipeline — 2 nuovi agenti post-Quality-Gate
+
+**Convergence Scanner** (Sonnet/high):
+- Cerca segnali di convergenza su fonti MAI consultate dalla pipeline: ClinicalTrials.gov, NIH Reporter, brevetti
+- Trova conferme parziali di sub-meccanismi usando query DIVERSE dal Quality Gate
+- CONSTRAINT: legge `quality-gate.md` per evitare contare paper già trovati come "nuova evidenza"
+- Output: `convergence.json` + `convergence-report.md`
+
+**Dataset Evidence Miner** (Sonnet/high):
+- Query su 5+ API bioinformatiche mai usate dalla pipeline: Human Protein Atlas (espressione tissutale), GWAS Catalog (associazioni genetiche), ChEMBL (compound-target), UniProt (funzione proteine), PDB/AlphaFold (struttura)
+- DISTINCTION dal Computational Validator: CV opera su bridge concepts PRE-generazione; DEM opera su claim specifici POST-generazione
+- Script `scripts/query-biodata.py` (stdlib Python, 7 API handlers, timeout + retry)
+- CONSTRAINT: legge `computational-validation.md` per non ri-queryare STRING/KEGG sugli stessi bridge concepts
+- Output: `dataset-evidence.json` + `dataset-evidence-report.md`
+
+**Empirical Evidence Score (EES)**: Score parallelo al composite (non lo sostituisce). `dataset_weight=0.55, convergence_weight=0.45`. Riportato in ingest.json e session summary.
+
+### Track 2: Holdout Validation Framework
+
+**Principio**: Prendi una scoperta post-Maggio 2025. Dai a MAGELLAN `[Field A] × [Field C]`. Pipeline gira normalmente (nessun handicap). Poi confronti con contamination check post-hoc.
+
+**Holdout Evaluator** (Opus/max):
+- Contamination check: cerca DOI/PMID/titolo del paper holdout in TUTTI i file della sessione
+- Se NON trovato e l'ipotesi matcha → GENUINE_REDISCOVERY (prova fortissima)
+- Se trovato → CONTAMINATED (non conclusivo)
+- Verdicts: GENUINE_REDISCOVERY, PARTIAL_REDISCOVERY, ADJACENT_DISCOVERY, CONTAMINATED, MISSED
+
+**Comando `/validate-holdout`**: esegue il test. `--curate` per aggiungere holdout, `--report` per aggregati.
+
+**Database iniziale**: 3 scoperte curate (vaccinologia×immuno-oncologia, gut microbiome×neuroscienza, mechanobiologia×epigenomica).
+
+### Files aggiunti
+- `.claude/agents/convergence-scanner.md`
+- `.claude/agents/dataset-evidence-miner.md`
+- `.claude/agents/holdout-evaluator.md`
+- `.claude/commands/validate-holdout.md`
+- `scripts/query-biodata.py` (7 API handlers)
+- `scripts/convergence-scanner-stop-gate.py`
+- `scripts/dataset-evidence-miner-stop-gate.py`
+- `scripts/holdout-evaluator-stop-gate.py`
+- `validation/holdout-discoveries.json`
+
+### Files modificati
+- `.claude/agents/discovery-orchestrator.md` — 2 dispatch blocks post-QG
+- `.claude/settings.json` — 3 SubagentStop hooks
+- `prompts/ingest-schema.json` — campo `empirical_validation`
+- `scripts/upload-session.mjs` — lettura convergence.json + dataset-evidence.json
+- `CLAUDE.md` — architettura (12→15 agenti), design principles, comando
+- `README.md` — architettura (15 agenti), pipeline flow, commands table
+- `docs/methodology-v5.md` — sezione "Validazione empirica", tabella agenti (15), overlap analysis
+- `docs/CHANGELOG.md` — questa entry
+
+---
+
 ## v5.12 — Cross-Model Validation Tool Upgrade (24 marzo 2026)
 
 **Motivazione**: Il Cross-Model Validator chiamava GPT-5.4 Pro e Gemini 3.1 Pro senza alcun tool API abilitato. GPT non poteva cercare letteratura recente (il reasoning summary diceva esplicitamente "my knowledge cuts off at June 2024") e non poteva verificare aritmetica computazionalmente. Gemini non poteva eseguire codice per verificare i mapping matematici che descriveva.

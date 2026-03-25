@@ -131,6 +131,32 @@ let crossModel = {};
 try { crossModel.gpt = fs.readFileSync(path.join(dir, 'validation-gpt.md'), 'utf-8').slice(0, 5000); } catch {}
 try { crossModel.gemini = fs.readFileSync(path.join(dir, 'validation-gemini.md'), 'utf-8').slice(0, 5000); } catch {}
 
+// Read empirical validation (v5.13) — optional, backward-compatible
+let empiricalValidation;
+try {
+  const convergence = JSON.parse(fs.readFileSync(path.join(dir, 'convergence.json'), 'utf-8'));
+  const cAgg = convergence?.convergence?.aggregate || {};
+  const datasetEvidence = JSON.parse(fs.readFileSync(path.join(dir, 'dataset-evidence.json'), 'utf-8'));
+  const dAgg = datasetEvidence?.dataset_evidence?.aggregate || {};
+  const confirmed = dAgg.confirmed || 0;
+  const totalClaims = dAgg.total_claims || 0;
+  const datasetScore = totalClaims > 0
+    ? Math.max(0, Math.min(10, ((confirmed * 10 + (dAgg.supported || 0) * 6 - (dAgg.contradicted || 0) * 5) / totalClaims)))
+    : 0;
+  const strongConv = cAgg.strong_count || 0;
+  const moderateConv = cAgg.moderate_count || 0;
+  const convScore = strongConv > 0 ? 9 : moderateConv > 0 ? 6 : (cAgg.weak_count || 0) > 0 ? 3 : 0;
+  empiricalValidation = {
+    convergenceStrongCount: strongConv,
+    convergenceModerateCount: moderateConv,
+    datasetConfirmedCount: confirmed,
+    datasetTotalClaims: totalClaims,
+    empiricalEvidenceScore: Math.round((datasetScore * 0.55 + convScore * 0.45) * 10) / 10
+  };
+} catch {
+  // Empirical validation files don't exist — backward-compatible, skip silently
+}
+
 const payload = {
   session: {
     id: ingest.session_id,
@@ -147,7 +173,8 @@ const payload = {
   },
   hypotheses,
   killedHypotheses: killed,
-  crossModelValidation: Object.keys(crossModel).length > 0 ? crossModel : undefined
+  crossModelValidation: Object.keys(crossModel).length > 0 ? crossModel : undefined,
+  empiricalValidation: empiricalValidation || undefined
 };
 
 try {

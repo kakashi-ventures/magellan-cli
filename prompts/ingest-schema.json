@@ -19,6 +19,14 @@
     "cycles_run": "N",
     "evolver_skipped": "BOOL"
   },
+  "empirical_validation": {
+    "_comment": "Optional — populated if convergence scanner and/or dataset evidence miner ran (v5.13)",
+    "convergence_strong_count": "N (from convergence.json aggregate)",
+    "convergence_moderate_count": "N",
+    "dataset_confirmed_count": "N (from dataset-evidence.json aggregate)",
+    "dataset_total_claims": "N",
+    "empirical_evidence_score": "N.N (weighted: dataset 0.55, convergence 0.45)"
+  },
   "_sources": {
     "status": "from state/session.json",
     "field_a_field_c_bridge_concepts_strategy": "from selected_target in state/session.json",

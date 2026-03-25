@@ -126,6 +126,36 @@
         ]
       },
       {
+        "matcher": "convergence-scanner",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/convergence-scanner-stop-gate.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "dataset-evidence-miner",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/dataset-evidence-miner-stop-gate.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "holdout-evaluator",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/holdout-evaluator-stop-gate.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
         "matcher": "",
         "hooks": [
           {

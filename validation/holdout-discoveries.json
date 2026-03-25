@@ -1,0 +1,59 @@
+[
+  {
+    "id": "holdout-001",
+    "field_a": "Vaccinology (mRNA vaccine technology)",
+    "field_c": "Immuno-oncology (immune checkpoint blockade)",
+    "known_mechanism": "SARS-CoV-2 mRNA vaccines induce a surge of type I interferon that enables innate immune cells to prime CD8+ T cells against tumour-associated antigens, sensitizing immunologically cold tumours to immune checkpoint inhibitors. Receipt of mRNA COVID vaccines within 100 days of ICI initiation was associated with significantly improved overall survival in non-small cell lung cancer (37.3 vs 20.6 months median OS) and melanoma across multiple large retrospective cohorts. The effect was strongest in tumours with very low PD-L1 expression, where three-year OS improved nearly five-fold.",
+    "key_paper": {
+      "doi": "10.1038/s41586-025-09655-y",
+      "pmid": "41125896",
+      "title": "SARS-CoV-2 mRNA vaccines sensitize tumours to immune checkpoint blockade",
+      "first_author": "Bitterman",
+      "published": "2025-10-22",
+      "journal": "Nature"
+    },
+    "discovery_type": "mechanism",
+    "confidence_in_discovery": "strong_evidence",
+    "notes": "Excellent holdout target. Field A (mRNA vaccinology for infectious disease) and Field C (cancer immunotherapy) were not previously linked — COVID vaccines were designed for viral protection, not anti-tumour immunity. The bridge mechanism (type I interferon -> innate cell priming -> CD8+ T cell cross-reactivity against tumour antigens -> PD-L1 upregulation on tumours) is specific and mechanistic. Both fields have deep pre-2025 literature that Claude's parametric knowledge covers well (mRNA vaccine mechanisms, immune checkpoint biology, tumour immunology). The connection is non-obvious: a non-tumour-targeting vaccine enhancing cancer immunotherapy via innate immune modulation. Published in Nature with both preclinical models and large retrospective human cohorts (>1000 patients). Strong evidence, though retrospective (not yet confirmed in a prospective randomized trial).",
+    "added_by": "web_search_curation",
+    "added_date": "2026-03-25"
+  },
+  {
+    "id": "holdout-002",
+    "field_a": "Gut microbiology (microbiome composition)",
+    "field_c": "Evolutionary neuroscience (primate brain evolution)",
+    "known_mechanism": "Gut microbiota from large-brained primate species (human and squirrel monkey) transplanted into germ-free mice upregulated brain genes associated with energy production and synaptic plasticity, whereas microbiota from smaller-brained macaques did not. Critically, despite greater phylogenetic distance between humans and squirrel monkeys (vs humans and macaques), the two large-brained species' microbiota converged on upregulating oxidative phosphorylation genes, and these expression changes correlated with increased gut microbial metabolic pathways for glucose metabolism and gluconeogenesis. Human microbiota also downregulated evolutionarily conserved genes implicated in neurodevelopmental disorders (autism, ADHD, schizophrenia). This is the first experimental evidence that species-specific gut microbiota composition can influence brain gene expression patterns in ways that parallel actual inter-species brain differences.",
+    "key_paper": {
+      "doi": "10.1073/pnas.2426232122",
+      "pmid": "41490486",
+      "title": "Primate gut microbiota induce evolutionarily salient changes in mouse neurodevelopment",
+      "first_author": "Buffington",
+      "published": "2026-01-13",
+      "journal": "Proceedings of the National Academy of Sciences"
+    },
+    "discovery_type": "mechanism",
+    "confidence_in_discovery": "preliminary",
+    "notes": "Good holdout target with an unusual cross-disciplinary bridge. Field A (gut microbiology) and Field C (evolutionary neuroscience / primate encephalization) were not previously connected at the experimental level — the idea that gut microbes could have contributed to brain size evolution is novel. The bridge mechanism (microbiome composition -> metabolic pathway shifts -> cerebral energy supply via oxidative phosphorylation -> support for large brain metabolic demands) is specific and testable. Claude's parametric knowledge covers both fields well (gut-brain axis literature, primate brain evolution, metabolic adaptations for encephalization). The study cleverly separates phylogeny from brain size by including squirrel monkeys. Marked as preliminary because it uses a small number of primate species, is based on germ-free mouse models (not direct primate experiments), and the authors themselves note findings must be interpreted as preliminary. Published in PNAS, a high-quality venue.",
+    "added_by": "web_search_curation",
+    "added_date": "2026-03-25"
+  },
+  {
+    "id": "holdout-003",
+    "field_a": "Mechanobiology (extracellular matrix mechanics)",
+    "field_c": "Epigenomics (genomic enhancer regulation)",
+    "known_mechanism": "A new class of genomic regulatory elements called 'mechanoenhancers' was discovered that are preferentially activated by the mechanical stiffness of the extracellular matrix. Using genome-wide epigenome profiling, epigenome editing, and single-cell CRISPR screening, the study identified enhancers that respond to soft vs stiff matrix contexts and regulate transcription controlling apoptosis, adhesion, proliferation, and migration. Stiffness-activated mechanoenhancers were specifically upregulated in pathogenic 'Has1' fibroblasts that drive collagen deposition in idiopathic pulmonary fibrosis (IPF), suggesting a feed-forward mechanism where diseased tissue stiffness activates enhancers that further potentiate fibrotic signaling. Epigenetic editing of mechanoenhancers reprogrammed cellular responses to matrix stiffness in both healthy and fibrotic lung fibroblasts without impairing normal gene function.",
+    "key_paper": {
+      "doi": "10.1126/science.adl1988",
+      "pmid": "40997217",
+      "title": "Mechanosensitive genomic enhancers potentiate the cellular response to matrix stiffness",
+      "first_author": "Agarwal",
+      "published": "2025-12-11",
+      "journal": "Science"
+    },
+    "discovery_type": "mechanism",
+    "confidence_in_discovery": "confirmed",
+    "notes": "Strong holdout target. Field A (mechanobiology / biophysics of tissue stiffness) and Field C (epigenomics / enhancer-mediated gene regulation) were studied separately before — it was known that mechanical forces affect cells and that enhancers regulate gene expression, but the existence of a dedicated class of 'mechanoenhancers' that convert mechanical cues into stable epigenetic states was not established. The bridge mechanism (matrix stiffness -> mechanoenhancer activation -> epigenetic memory -> transcriptional reprogramming -> disease phenotype) is highly specific and the discovery has direct therapeutic implications (epigenetic editing of mechanoenhancers to treat fibrosis). Claude's parametric knowledge covers both fields well (YAP/TAZ mechanotransduction, enhancer biology, chromatin accessibility, CRISPR epigenome editing). Published in Science with comprehensive methodology (epigenome profiling + editing + CRISPR screening). Marked as confirmed because findings are supported by multiple orthogonal experimental approaches and validated in both healthy and diseased human tissue.",
+    "added_by": "web_search_curation",
+    "added_date": "2026-03-25"
+  }
+]

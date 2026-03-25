@@ -44,7 +44,7 @@ Il modello ABC resta la struttura portante dell'output: ogni ipotesi MAGELLAN ha
 
 ---
 
-## Architettura: 12 agenti, 3 fasi (v5.8)
+## Architettura: 15 agenti, 3 fasi (v5.13)
 
 ```
 FASE 1 — ESPLORAZIONE (Sequential Narrowing — v5.8)
@@ -119,7 +119,7 @@ LAYER TRASVERSALE — GUARD & HOOKS
 └─────────────────────────────────────────────────┘
 ```
 
-### I 12 agenti
+### I 15 agenti
 
 | Agente | Modello | Effort | Ruolo |
 |---|---|---|---|
@@ -134,9 +134,12 @@ LAYER TRASVERSALE — GUARD & HOOKS
 | **Quality Gate** | Opus | max | Rubrica a 10 punti (incl. per-claim grounding verification) + web grounding + META-VALIDATION reflection |
 | **Session Analyst** | Sonnet | high | Meta-learning post-pipeline: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md |
 | **Cross-Model Validator** | Sonnet | high | Chiama GPT-5.4 Pro (reasoning high, web search, code interpreter) + Gemini 3.1 Pro (thinking HIGH, code execution, Google Search grounding) via API per validazione indipendente → consensus report. Fallback a file di export se API keys assenti |
+| **Convergence Scanner** | Sonnet | high | Post-QG: cerca segnali di convergenza su ClinicalTrials.gov, NIH Reporter, brevetti + conferme parziali di sub-meccanismi da fonti non consultate dalla pipeline |
+| **Dataset Evidence Miner** | Sonnet | high | Post-QG: verifica claim molecolari specifici su HPA, GWAS Catalog, ChEMBL, UniProt, PDB via `scripts/query-biodata.py`. Complementare al CV pre-generazione |
+| **Holdout Evaluator** | Opus | max | Framework di validazione: confronta output MAGELLAN con scoperte note post-cutoff. Contamination check + similarity scoring meccanistico |
 | **Orchestrator** | Opus | max | Dispatch obbligatorio, cicli adattivi, guard logic, session health, knowledge log, meta-learning metrics |
 
-La scelta del modello segue un principio: **Opus per il ragionamento profondo e creativo, Sonnet per i task strutturati e search-intensive**. I livelli di effort sono fissati per agente (Opus: max, Sonnet: high) per garantire la qualità indipendentemente dall'effort di sessione dell'utente. Scout, Target Evaluator, Generator, Critic e Quality Gate richiedono ragionamento cross-disciplinare e valutazione profonda. Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst e Cross-Model Validator eseguono task più strutturati dove la capacità di giudizio è importante ma non richiede la profondità di Opus.
+La scelta del modello segue un principio: **Opus per il ragionamento profondo e creativo, Sonnet per i task strutturati e search-intensive**. I livelli di effort sono fissati per agente (Opus: max, Sonnet: high) per garantire la qualità indipendentemente dall'effort di sessione dell'utente. Scout, Target Evaluator, Generator, Critic, Quality Gate e Holdout Evaluator richiedono ragionamento cross-disciplinare e valutazione profonda. Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator, Convergence Scanner e Dataset Evidence Miner eseguono task più strutturati dove la capacità di giudizio è importante ma non richiede la profondità di Opus.
 
 ### Dispatch obbligatorio
 
@@ -741,6 +744,55 @@ Dato che l'utente non ha competenza di dominio, il workflow di valutazione è:
 5. **Iterazione**: Feedback degli esperti informa le sessioni successive
 
 L'obiettivo non è che ogni ipotesi sia corretta — è che il sistema produca un tasso non-zero di ipotesi genuinely novel e scientificamente valide, misurato tramite expert review.
+
+---
+
+## Validazione empirica (v5.13)
+
+### Il conflitto validazione vs. efficacia
+
+C'è una tensione fondamentale: validare formalmente che MAGELLAN funziona richiederebbe "accecare" il sistema (no web search, solo conoscenza parametrica), ma per massima efficacia serve dargli tutti gli strumenti. La soluzione: separare completamente i due obiettivi.
+
+### Track 1: Arricchimento della pipeline produzione
+
+Due nuovi agenti post-Quality-Gate, NON-BLOCKING, che consultano fonti mai usate dalla pipeline:
+
+**Convergence Scanner**: Cerca segnali di convergenza indipendente su ClinicalTrials.gov (trial attivi), NIH Reporter (grant finanziati), e brevetti. Trova anche conferme parziali di sub-meccanismi usando query diverse dal Quality Gate. CONSTRAINT: deve leggere `quality-gate.md` per non contare paper già trovati come "nuova evidenza".
+
+**Dataset Evidence Miner**: Verifica claim molecolari specifici via `scripts/query-biodata.py` su 5+ API bioinformatiche: Human Protein Atlas (espressione tissutale), GWAS Catalog (associazioni genetiche), ChEMBL (compound-target), UniProt (funzione proteine), PDB/AlphaFold (struttura). DISTINCTION dal Computational Validator: CV opera su bridge concepts pre-generazione, DEM su claim post-generazione.
+
+**Empirical Evidence Score (EES)**: Score parallelo al composite. `EES = dataset_score × 0.55 + convergence_score × 0.45`. Non sostituisce il composite — misura un asse diverso (evidenza empirica vs. qualità del ragionamento).
+
+### Track 2: Holdout Validation Framework
+
+**Il paradosso della retrodiction**: Quality Gate e Critic cercano sul web senza filtro temporale. Se un paper post-cutoff conferma il meccanismo, il QG lo troverebbe e killerebbe l'ipotesi come "not novel" — l'opposto del desiderato. La retrodiction pura dentro la pipeline è problematica.
+
+**Soluzione: Holdout Validation con contamination check post-hoc**:
+1. Curiamo scoperte cross-disciplinari pubblicate dopo Maggio 2025 (cutoff Claude)
+2. Diamo a MAGELLAN solo `[Field A] × [Field C]` in targeted mode
+3. La pipeline gira normalmente (nessun handicap)
+4. Dopo, il Holdout Evaluator verifica:
+   - **Contamination**: il paper con la "risposta" è stato trovato da qualche agente? (grep DOI/PMID/titolo)
+   - **Mechanism similarity**: quanto sono simili le ipotesi MAGELLAN al meccanismo noto?
+5. Verdicts: GENUINE_REDISCOVERY (non contaminato + match forte), PARTIAL_REDISCOVERY, ADJACENT_DISCOVERY, CONTAMINATED, MISSED
+
+Questo è più rigoroso dell'accecare perché: preserva il comportamento esatto della pipeline (stai testando il VERO sistema), misura oggettivamente la contaminazione, e un GENUINE_REDISCOVERY è inattaccabile come prova.
+
+### Overlap analysis (design decision)
+
+| Fonte | Usata dalla pipeline? | Usata dal Convergence Scanner? | Usata dal DEM? |
+|-------|----------------------|-------------------------------|----------------|
+| Web (Google) | Sì (Critic, QG, Scout, Lit) | Solo per patent/grant search | No |
+| PubMed MCP | Sì (Literature Scout) | Sì (partial confirmations) | No |
+| STRING/KEGG | Sì (Comp. Validator, pre-gen) | No | Solo claim NUOVI |
+| ClinicalTrials.gov | **No** | **Sì** | No |
+| NIH Reporter | **No** | **Sì** | No |
+| Patents (Google) | **No** | **Sì** | No |
+| HPA | **No** | No | **Sì** |
+| GWAS Catalog | **No** | No | **Sì** |
+| ChEMBL | **No** | No | **Sì** |
+| UniProt | **No** | No | **Sì** |
+| PDB/AlphaFold | **No** | No | **Sì** |
 
 ---
 

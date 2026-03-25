@@ -41,7 +41,7 @@ Website repo: https://github.com/kakashi-ventures/magellan-web
 
 ## Architecture
 
-Twelve agents. Orchestrator dispatches to all — never executes phases inline.
+Fifteen agents. Orchestrator dispatches to all — never executes phases inline.
 
 | Agent | Model | Effort | Role |
 |---|---|---|---|
@@ -56,9 +56,12 @@ Twelve agents. Orchestrator dispatches to all — never executes phases inline.
 | **Quality Gate** | Opus | max | 10-point rubric + web novelty + per-claim grounding verification. META-VALIDATION reflection |
 | **Session Analyst** | Sonnet | high | Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis, creativity metrics (disciplinary distance, abstraction level, novelty type) → knowledge/meta-insights.md |
 | **Cross-Model Validator** | Sonnet | high | Calls GPT-5.4 Pro (web search + code interpreter) + Gemini 3.1 Pro (code execution + Google Search grounding) APIs for independent hypothesis validation. Generates consensus report |
+| **Convergence Scanner** | Sonnet | high | Post-QG: searches ClinicalTrials.gov, NIH Reporter, patents for independent convergence signals. Finds partial mechanism confirmations from sources not consulted by pipeline |
+| **Dataset Evidence Miner** | Sonnet | high | Post-QG: queries bioinformatics databases (HPA, GWAS Catalog, ChEMBL, UniProt, PDB) to verify specific molecular claims in passing hypotheses |
+| **Holdout Evaluator** | Opus | max | Validation framework: compares MAGELLAN output against known post-cutoff discoveries. Contamination check + mechanism similarity scoring |
 | **Orchestrator** | Opus | max | Pure dispatcher: guard logic, adaptive cycles, session health, meta-learning metrics, disjointness hard constraint, rotating creativity constraint. No WebSearch/WebFetch |
 
-**Model selection principle**: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate). Sonnet for structured, search-intensive tasks (Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator). Effort levels are pinned per agent (Opus: max, Sonnet: high) to guarantee quality regardless of the user's session-level effort setting.
+**Model selection principle**: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate, Holdout Evaluator). Sonnet for structured, search-intensive tasks (Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator, Convergence Scanner, Dataset Evidence Miner). Effort levels are pinned per agent (Opus: max, Sonnet: high) to guarantee quality regardless of the user's session-level effort setting.
 
 ## State Management (v5.7 — Unified Results Directory)
 
@@ -101,6 +104,7 @@ The orchestrator delegates operational code and reference schemas to external fi
 - `/export gpt` — Self-contained prompt for GPT-5.4 validation
 - `/export gemini` — Self-contained prompt for Gemini Deep Think
 - `/status` — Check pipeline progress
+- `/validate-holdout` — Run holdout validation test (rediscovery check against known post-cutoff discoveries)
 
 ## Contributor Connection
 
@@ -186,6 +190,22 @@ confidence, groundedness assessment.
   agree/diverge. Requires `OPENAI_API_KEY` and/or `GEMINI_API_KEY`
   (stored in `.env.local` — agents must source this file before checking);
   falls back to export file generation if keys are absent. Non-blocking.
+- **Empirical validation layer** (v5.13) — Two post-QG agents provide evidence
+  from sources the pipeline never consults: Convergence Scanner searches
+  ClinicalTrials.gov, NIH Reporter, and patents for independent convergence
+  signals. Dataset Evidence Miner queries HPA, GWAS Catalog, ChEMBL, UniProt,
+  PDB via `scripts/query-biodata.py` to verify specific molecular claims.
+  Both are non-blocking. Produces Empirical Evidence Score (EES) alongside
+  composite score (not replacing it). Distinction from Computational Validator:
+  CV operates on bridge concepts pre-generation; DEM operates on specific
+  hypothesis claims post-generation.
+- **Holdout validation framework** (v5.13) — Separate from production pipeline.
+  Tests MAGELLAN against known post-cutoff discoveries via `/validate-holdout`.
+  Pipeline runs normally on `[Field A] × [Field C]`, then Holdout Evaluator
+  checks: (1) contamination — did the pipeline find the answer paper?
+  (2) mechanism similarity — how close did MAGELLAN get? Verdicts:
+  GENUINE_REDISCOVERY, PARTIAL_REDISCOVERY, ADJACENT_DISCOVERY, CONTAMINATED,
+  MISSED. Curated holdouts in `validation/holdout-discoveries.json`.
 
 ### Operational
 - **Session-scoped results** — Each session writes to `results/{session-id}/`.

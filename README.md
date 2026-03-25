@@ -62,6 +62,8 @@ Phase 6:  Quality Gate — 10-point rubric + web grounding + per-claim verificat
 Phase 7:  Cross-Model Validation — GPT-5.4 Pro (web search + code interpreter) +
           Gemini 3.1 Pro (code execution + Google Search grounding) → consensus report
           (automatic if API keys set, export files only otherwise)
+Phase 7b: Convergence Scanner — ClinicalTrials.gov, NIH Reporter, patents (non-blocking)
+          Dataset Evidence Miner — HPA, GWAS, ChEMBL, UniProt, PDB queries (non-blocking)
 Phase 8:  Session summary → results/{session-id}/
 Phase 9:  Knowledge persistence → knowledge/discovery-log.json + strategy metrics
 ```
@@ -107,6 +109,7 @@ See `prompts/orchestration-guide.md` for step-by-step instructions.
 | `/export gpt` | Self-contained prompt for GPT-5.4 validation |
 | `/export gemini` | Self-contained prompt for Gemini Deep Think |
 | `/status` | Check pipeline progress mid-run |
+| `/validate-holdout` | Run holdout validation test (rediscovery check) |
 
 Flags can be combined: `/discover ferroptosis × serpentinization --context "I study lipid peroxidation in hepatocytes" --papers 10.1038/s41586-024-xxxxx --interactive`
 
@@ -212,7 +215,7 @@ knowledge/                                   ← Persistent data across sessions
 
 ## Architecture
 
-12 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks). Effort levels are pinned per agent (Opus: max, Sonnet: high) to guarantee quality regardless of the user's session-level effort setting:
+15 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks). Effort levels are pinned per agent (Opus: max, Sonnet: high) to guarantee quality regardless of the user's session-level effort setting:
 
 - **Scout** [Opus, max] — 10 strategies to find WHERE undiscovered connections hide (incl. structural isomorphism + serendipity). TARGET QUALITY CHECK + strategy diversification + exploration slot + rotating creativity constraint
 - **Target Evaluator** [Opus, max] — Adversarial challenge of Scout targets on 4 axes (popularity, vagueness, impossibility, local-optima)
@@ -225,6 +228,9 @@ knowledge/                                   ← Persistent data across sessions
 - **Quality Gate** [Opus, max, 35 turns] — 10-point rubric + web novelty + per-claim grounding verification + META-VALIDATION reflection
 - **Session Analyst** [Sonnet, high] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
 - **Cross-Model Validator** [Sonnet, high] — Calls GPT-5.4 Pro (web search + code interpreter) + Gemini 3.1 Pro (code execution + Google Search grounding) APIs for independent validation → consensus report (requires API keys; falls back to export files)
+- **Convergence Scanner** [Sonnet, high] — Post-QG: searches ClinicalTrials.gov, NIH Reporter, patents for independent convergence signals + partial mechanism confirmations from non-pipeline sources
+- **Dataset Evidence Miner** [Sonnet, high] — Post-QG: queries HPA, GWAS Catalog, ChEMBL, UniProt, PDB via `scripts/query-biodata.py` to verify specific molecular claims in passing hypotheses
+- **Holdout Evaluator** [Opus, max] — Validation framework: compares MAGELLAN output against known post-cutoff discoveries with contamination check + mechanism similarity scoring
 - **Orchestrator** [Opus, max, 200 turns circuit breaker] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health, meta-learning metrics
 
 ## Conceptual Foundation

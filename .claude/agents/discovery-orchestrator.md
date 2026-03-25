@@ -98,6 +98,8 @@ results/{SESSION_ID}/             ← All session outputs: markdown + JSON phase
     final.json                    ← PASS/CONDITIONAL_PASS hypotheses only
     meta-insights.json            ← Session analyst output
     cross-model.json              ← Cross-model validation consensus
+    convergence.json              ← Convergence scanner output (v5.13)
+    dataset-evidence.json         ← Dataset evidence miner output (v5.13)
     *.md                          ← Human-readable outputs (hypotheses, reports, etc.)
 ```
 
@@ -450,6 +452,58 @@ After agent returns, read `{results_dir}/cross-model.json` for validation status
 
 This phase is NON-BLOCKING — failures do not affect session health status.
 
+## POST-CROSS-MODEL: CONVERGENCE SCANNING (v5.13)
+
+Only run if session status is SUCCESS or PARTIAL.
+Skip entirely for DEGRADED or FAILED sessions.
+
+Update progress: `current_phase = "convergence_scanning"`.
+
+**DISPATCH to `convergence-scanner` agent via Agent tool.** Include in dispatch:
+- Final hypotheses: {results_dir}/final.json
+- Full hypothesis text: {results_dir}/final-hypotheses.md
+- Quality Gate output: {results_dir}/quality-gate.md (so agent knows what papers were already found)
+- Results dir: `{results_dir}`
+
+After agent returns, read `{results_dir}/convergence.json` for convergence signals.
+- If convergence data found: include highlights in session summary (trial count, patent count, partial confirmations)
+- If agent failed: log error, continue (non-blocking)
+
+This phase is NON-BLOCKING — failures do not affect session health status.
+
+## POST-CROSS-MODEL: DATASET EVIDENCE MINING (v5.13)
+
+Only run if session status is SUCCESS or PARTIAL.
+Skip entirely for DEGRADED or FAILED sessions.
+
+Update progress: `current_phase = "dataset_evidence_mining"`.
+
+**DISPATCH to `dataset-evidence-miner` agent via Agent tool.** Include in dispatch:
+- Final hypotheses: {results_dir}/final.json
+- Full hypothesis text: {results_dir}/final-hypotheses.md
+- Computational validation output: {results_dir}/computational-validation.md (to avoid re-querying same STRING/KEGG checks)
+- Results dir: `{results_dir}`
+
+After agent returns, read `{results_dir}/dataset-evidence.json` for claim verification results.
+- If evidence data found: include highlights in session summary (confirmed/total claims, evidence score)
+- If agent failed: log error, continue (non-blocking)
+
+This phase is NON-BLOCKING — failures do not affect session health status.
+
+### Compute Empirical Evidence Score (EES)
+
+After BOTH empirical agents complete (or fail), compute the combined EES:
+1. Read `{results_dir}/convergence.json` → extract aggregate convergence score:
+   - STRONG present → 9, MODERATE present → 6, WEAK only → 3, none → 0
+2. Read `{results_dir}/dataset-evidence.json` → extract aggregate dataset score:
+   - `(confirmed × 10 + supported × 6 - contradicted × 5) / total_claims`, clamped [0, 10]
+3. `EES = dataset_score × 0.55 + convergence_score × 0.45`
+4. Include EES in `{results_dir}/ingest.json` under `empirical_validation.empirical_evidence_score`
+5. Include EES and highlights in session summary
+
+If either file is missing (agent failed), compute EES from whichever is available.
+If both are missing, skip EES entirely.
+
 ## Kill Rate Calculation (EXACT formula)
 Before writing session summary, read `{results_dir}/cycle1-critiqued.json` and
 `{results_dir}/cycle2-critiqued.json` (if exists). Calculate:
@@ -498,7 +552,8 @@ Update state/session.json with EXACT terminal values (stop hook validates these)
 ```
 Also update progress.current_phase = "complete" and ensure progress.phases_completed
 includes ALL phases that ran (cycle2_generation, cycle2_critique, cycle2_ranking,
-cross_model_validation, etc.). Missing phases cause stop hook warnings.
+cross_model_validation, convergence_scanning, dataset_evidence_mining, etc.).
+Missing phases cause stop hook warnings.
 
 Final hypotheses are in {results_dir}/final.json (not in session.json).
 
