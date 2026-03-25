@@ -108,18 +108,23 @@ cd /home/ameft/kva/magellan && npm install --silent 2>&1 | tail -1
 Then run the validation script with `--env-file` to load API keys from `.env.local`.
 
 **CRITICAL — Bash timeout**: GPT-5.4 Pro with reasoning high + web search + code
-interpreter routinely takes 5–10 minutes on complex scientific prompts. The default
-Bash tool timeout is 120 seconds, which WILL kill the process prematurely.
-You MUST set `timeout: 600000` (10 minutes) on the Bash tool call:
+interpreter can take **30+ minutes** on complex scientific prompts with all tools
+active. The default Bash tool timeout is 120 seconds, which WILL kill the process.
+You MUST use `run_in_background: true` on the Bash tool call so it runs without
+any timeout cap, then poll for the output file to appear:
 
 ```bash
-# MUST use timeout: 600000 on this Bash call
+# MUST use run_in_background: true — NO timeout cap
 cd /home/ameft/kva/magellan && node --env-file=.env.local scripts/validate-crossmodel.mjs \
   --gpt-prompt "{results_dir}/export-gpt.md" \
   --gpt-out "{results_dir}/validation-gpt.md" \
   --gemini-prompt "{results_dir}/export-gemini.md" \
   --gemini-out "{results_dir}/validation-gemini.md"
 ```
+
+After launching in background, you will be notified when the command completes.
+Do NOT poll or sleep — just continue with other work (e.g., consensus report
+preparation, state updates) and handle the result when the notification arrives.
 
 The script runs both API calls in parallel and outputs a JSON status report.
 If only one API key is available, only that model runs.

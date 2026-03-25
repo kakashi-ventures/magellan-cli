@@ -39,7 +39,7 @@ const geminiOutFile    = getArg('--gemini-out');
 // ---------------------------------------------------------------------------
 async function callOpenAI(promptFile, outputFile) {
   const { default: OpenAI } = await import('openai');
-  const client = new OpenAI({ timeout: 15 * 60 * 1000 }); // 15 min timeout for complex reasoning
+  const client = new OpenAI({ timeout: 45 * 60 * 1000 }); // 45 min timeout — GPT-5.4 Pro with all tools can take 30+ min
 
   const prompt = readFileSync(promptFile, 'utf8');
   const start = Date.now();
