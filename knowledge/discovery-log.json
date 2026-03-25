@@ -907,5 +907,128 @@
       "checks_passed": 3,
       "implausible_flags": ["DP1 Ka ~ 40 M-1 too weak for direct brain application at 1-10 uM Mn"]
     }
+  },
+  {
+    "date": "2026-03-25",
+    "session_id": "session-20260325-000727",
+    "mode": "scout",
+    "targets": [
+      {
+        "field_a": "Statistical physics — percolation theory on random lattices",
+        "field_c": "Tumor immunology — immune cell exclusion by ECM in solid tumors",
+        "bridge_concepts": ["bond percolation threshold p_c as collagen volume fraction", "correlation length exponent nu for T cell clusters", "anomalous diffusion on percolation clusters", "LOX crosslinking as bond probability"],
+        "strategy": "anomaly_hunting",
+        "disjointness": "PARTIALLY_EXPLORED",
+        "disjointness_verified": true,
+        "prior_art": "Ashworth 2015 (PMID 25881025) applies percolation to generic cell invasion in collagen scaffolds — NOT T cells or tumor immunology",
+        "outcome": "pending"
+      },
+      {
+        "field_a": "Acoustic engineering — matched-filter detection and filter-bank theory",
+        "field_c": "Plant bioacoustics — mechanism for detecting airborne ultrasonic stress emissions",
+        "bridge_concepts": ["MSL10 channel as mechano-electrical transducer", "trichome resonant frequency as pre-filter", "MSL variants as parallel filter bank", "frequency-selective calcium signaling"],
+        "strategy": "serendipity",
+        "disjointness": "DISJOINT",
+        "disjointness_verified": true,
+        "confidence": 0.97,
+        "outcome": "pending"
+      },
+      {
+        "field_a": "Granular physics — jamming transition, Liu-Nagel phase diagram",
+        "field_c": "Chromatin biology — eu/heterochromatin compaction transitions",
+        "bridge_concepts": ["Liu-Nagel axes mapping to histone mods/thermal/lamina stress", "Edwards entropy for chromatin configurations", "jamming criticality at eu/hetero boundary", "force chain networks through heterochromatin"],
+        "strategy": "structural_isomorphism",
+        "disjointness": "DISJOINT",
+        "disjointness_verified": true,
+        "confidence": 0.93,
+        "note": "Cell-level jamming in tissues is well-explored. Intra-nuclear chromatin jamming is absent from all literature. Active hydrodynamics and LLPS are used instead.",
+        "outcome": "pending"
+      },
+      {
+        "field_a": "Stochastic thermodynamics — thermodynamic uncertainty relation",
+        "field_c": "Bacterial cell biology — cell size homeostasis via adder model",
+        "bridge_concepts": ["TUR bound: CV^2 x sigma_dot x tau >= 2kT", "growth rate as dissipation proxy", "nutrient-dependent precision as thermodynamic necessity", "DnaA-ATP as molecular current counter"],
+        "strategy": "converging_vocabularies",
+        "disjointness": "DISJOINT",
+        "disjointness_verified": true,
+        "confidence": 0.96,
+        "note": "CLEANEST DISJOINT. TUR applied to oscillators/motors/signaling — never to cell size adder model. 2025 stochastic thermo paper on cell size uses different formalism (no TUR inequality).",
+        "outcome": "success"
+      },
+      {
+        "field_a": "Optical metabolic imaging — FLIM of NADH/FAD autofluorescence",
+        "field_c": "Antimicrobial resistance — bacterial persister cell metabolic transitions",
+        "bridge_concepts": ["NADH fluorescence lifetime as metabolic readout", "phasor-FLIM cluster analysis", "mother-machine + FLIM for real-time tracking", "cancer DTP FLIM methods unapplied to bacteria"],
+        "strategy": "network_gap_analysis",
+        "disjointness": "PARTIALLY_EXPLORED",
+        "disjointness_verified": true,
+        "prior_art": "Bhattacharjee 2017 (FLIM phasor fingerprinting of bacteria); ACS InfecDis 2024 (FLIM-AST for antibiotic susceptibility). Gap: longitudinal real-time persister transition tracking with mother-machine not done.",
+        "outcome": "pending"
+      },
+      {
+        "field_a": "Physical chemistry — classical nucleation theory, nanoparticle dissolution",
+        "field_c": "Ferroptosis biology — ferritin-bound to labile iron pool transition",
+        "bridge_concepts": ["Gibbs-Thomson for ferrihydrite core", "critical dissolution radius r_c", "Ostwald ripening between ferritin molecules", "NCOA4 ferritinophagy pH shift on r_c"],
+        "strategy": "scale_bridging",
+        "disjointness": "DISJOINT",
+        "disjointness_verified": true,
+        "confidence": 0.95,
+        "key_anomaly": "Ponnusamy 2025: LIP does NOT expand during ferroptosis induction — CNT Ostwald ripening between ferritin cores could explain this paradox",
+        "supporting_papers": "JACS 2025 (x2) on ferritin nucleation and Ostwald ripening — exist completely separate from ferroptosis literature",
+        "outcome": "pending"
+      }
+    ],
+    "productive_bridges": [
+      "DnaA-ATP counting at oriC as TUR-bounded molecular current (1.4x from floor = near-optimal)",
+      "FtsZ GTPase vs DnaA ATPase dissipation ratio (1840x) identifies precision bottleneck at initiation",
+      "ppGpp-mediated supercoiling as N_eff modulator in TUR framework",
+      "RIDA kinetic timing window: U-shaped CV vs Hda titration",
+      "TUR vs Berg-Purcell dual-bound comparison for same biological sensor",
+      "Multi-current TUR noise portfolio (informational vs structural hierarchy)"
+    ],
+    "killed_hypotheses": [
+      {"title": "ppGpp Coordinates Near-Optimal Trajectory Under Stress", "kill_reason": "Mechanism wrong: ppGpp acts via supercoiling not DnaA levels (Fernandez-Coll 2020)"},
+      {"title": "First-Passage TUR Cost Hierarchy: Adder Cheapest", "kill_reason": "Citation hallucination: Campos 2014 proves Caulobacter is ADDER, not sizer"},
+      {"title": "Cross-Species Adder Precision via Universal TUR Law", "kill_reason": "Multiple errors: box count wrong (11 not 20), V. cholerae Chr2 uses RctB not DnaA"},
+      {"title": "Incomplete RIDA Reset Creates Memory", "kill_reason": "Logic kill: model predicts rho=0.005 (undetectable) but claims to explain substantial WT memory"},
+      {"title": "CL/PG Gradient Creates CV Asymmetry + Pole-Biased Origin Firing", "kill_reason": "Mechanism kill: DnaA diffusion D~3 um2/s homogenizes gradient in <1s, Peclet 0.002"}
+    ],
+    "surviving_hypotheses": [
+      "FtsZ GTPase ~2000x Over-Dissipating vs DnaA (PASS, 7.90)",
+      "Variance-Component Decomposition: DnaA Counting Dominant at Fast Growth (COND_PASS, 8.30)",
+      "ppGpp -> Supercoiling -> N_eff Reduction as Stress-Responsive TUR Tuning (COND_PASS, 7.00)",
+      "RIDA Kinetic Timing Window: U-Shaped CV vs Hda (COND_PASS, 6.10)",
+      "TUR Dominates Berg-Purcell for DnaA-oriC (COND_PASS, 6.60)",
+      "Multi-Current TUR Noise Portfolio (COND_PASS, 6.60)",
+      "Min Pareto-Frontier TUR with Pattern Instability Bifurcation (COND_PASS, 5.20)"
+    ],
+    "key_papers": [
+      "Ashworth 2015 (PMID 25881025) — percolation theory applied to collagen + cell invasion (not T cells, not tumor)",
+      "Marsland 2019 (PMC6544898) — TUR in biochemical oscillators (not cell size)",
+      "Bhattacharjee 2017 (PMC5473825) — FLIM phasor metabolic fingerprinting of bacteria (not persister-specific)",
+      "Bonisoli 2024 (PMC10863351) — plant ultrasound detection methodology",
+      "Merdan & Akan 2025 (arXiv 2512.01096) — first plant acoustic communication model (biological models, no filter-bank)",
+      "Bajpai 2021 (eLife 63976) — chromatin phase separation; polymer model; no jamming",
+      "Rautu 2025 (arXiv 2503.20964) — active hydrodynamic theory of chromatin; no jamming",
+      "Nicolas-Boluda 2021 (PMC8203293) — LOX inhibition improves T cell infiltration; no percolation",
+      "Ponnusamy 2025 (PMC12236665) — LIP does NOT expand during ferroptosis; opens CNT gap",
+      "Verma 2025 (bioRxiv) — TUR constrains signaling in yeast; confirms NOT applied to cell size"
+    ],
+    "lessons_learned": [
+      "Scout estimated T1 as DISJOINT but literature verification found PARTIALLY_EXPLORED (Ashworth 2015 precedent exists). Scout should note that percolation was used in ANY collagen context.",
+      "T4 (TUR × adder model) is the cleanest disjoint of all 6 — convergent vocabularies strategy correctly identified the gap",
+      "T5 correctly flagged PARTIALLY_EXPLORED by Scout — confirmed by Bhattacharjee 2017 and ACS 2024 papers",
+      "The newest literature (2025) is crucial: Ponnusamy 2025 opens a perfect anomaly for T6 CNT hypothesis; JACS 2025 provides physical chemistry foundation",
+      "Jamming applied to CELLS in tissues is WELL-EXPLORED; applying it to chromatin WITHIN the nucleus is DISJOINT — scout should make this distinction explicit",
+      "MCP tools (Semantic Scholar + PubMed) were rate-limited/degraded in this session. WebSearch + WebFetch used as fallback — adequate but slower."
+    ],
+    "strategy_performance": {
+      "anomaly_hunting": {"targets_produced": 1, "first_primary_session": true},
+      "serendipity": {"targets_produced": 1, "first_primary_session": true},
+      "converging_vocabularies": {"targets_produced": 1, "first_primary_session": true, "selected": true, "hypotheses_generated": 15, "survived_critique": 10, "quality_gate_passed": 1, "quality_gate_conditional": 6, "avg_composite": 6.9, "effectiveness": "SUCCESS"},
+      "structural_isomorphism": {"targets_produced": 1, "second_primary_session": true},
+      "network_gap_analysis": {"targets_produced": 1, "fourth_primary_session": true},
+      "scale_bridging": {"targets_produced": 1, "second_primary_session": true}
+    }
   }
 ]

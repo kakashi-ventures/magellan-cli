@@ -1,0 +1,218 @@
+{
+  "session_id": "session-20260325-000727",
+  "cycle": 2,
+  "ranker_version": "5.2",
+  "ranked_at": "2026-03-25",
+  "fields": "Stochastic thermodynamics (TUR) × Bacterial cell biology (adder model)",
+  "hypotheses_scored": 5,
+  "killed_before_ranking": ["C2-H3", "C2-H4"],
+  "kill_reasons": {
+    "C2-H3": "Logic kill: model predicts ρ≈0.005 at WT (undetectable) but claims to explain Susman 2025 substantial WT memory; internally inconsistent",
+    "C2-H4": "Mechanism kill: DnaA diffusion (D≈3 μm²/s) homogenizes spatial gradient in ~1s vs minutes-long counting; Péclet number ~0.002"
+  },
+  "cross_domain_bonus_applied_to": ["C2-H5", "C2-H2", "C2-H1", "C2-H6", "C2-H7"],
+  "cross_domain_bonus_rationale": "All five survivors bridge stochastic thermodynamics/statistical physics → bacterial cell biology, spanning 2+ disciplinary boundaries (physics journals vs microbiology journals, distinct training tracks, separate experimental communities)",
+  "hypotheses": [
+    {
+      "id": "C2-H5",
+      "title": "FtsZ GTPase ~2000× Over-Dissipating vs DnaA — Precision Bottleneck at Initiation Not Division",
+      "critic_verdict": "SURVIVES",
+      "critic_confidence": 6,
+      "scores": {
+        "novelty": 7,
+        "mechanistic_specificity": 8,
+        "cross_field_distance": 7,
+        "testability": 8,
+        "impact": 5,
+        "groundedness": 8
+      },
+      "score_justifications": {
+        "novelty": "Critic web searches confirm zero prior papers comparing TUR efficiency across FtsZ and DnaA in the same cell cycle. The informational-vs-structural TUR hierarchy framing is genuinely new. Moderate deduction because the qualitative conclusion (initiation, not division, is the precision bottleneck) aligns with field intuition — the quantitative 2000× ratio is novel, the direction is not entirely surprising.",
+        "mechanistic_specificity": "Names specific molecules (FtsZ GTPase kcat 5-8/min, Romberg & Mitchison 2004; in vivo 2.8-4.2/min Bisson-Filho 2017), specific alleles (FtsZ84/G105S, dnaA46), specific entropy calculations (Σ_FtsZ ≈ 405,000 kBT, Σ_DnaA = 220 kBT, ratio 1,840×), and a paired discriminating prediction (FtsZ84 → CV unchanged; dnaA46 → CV +15-30%). Small deduction for parametric Z-ring occupancy (200-500 range).",
+        "cross_field_distance": "Bridges stochastic thermodynamics (TUR, physics journals) → bacterial cell biology (microbiology journals). Genuine disciplinary distance with separate training communities and conferences. Same class as other hypotheses in this session.",
+        "testability": "FtsZ84 at semi-permissive temperature and dnaA46 at semi-permissive temperature are standard laboratory alleles; mother-machine imaging is established. The PAIRED comparison is elegantly discriminating — asymmetric response is the key signal. Minor deduction for potential pleiotropic effects of FtsZ84 on cell wall integrity. Genthon 2026 extrinsic noise dominance is a concern but the RELATIVE comparison (DnaA bottleneck among intrinsic sources) is still measurable.",
+        "impact": "Would definitively locate the precision bottleneck in the bacterial adder and provide a principled thermodynamic framework for informational vs structural efficiency. Moderate deduction: Critic correctly flagged triviality risk — the field already suspects initiation is more variable than division. This is quantitative confirmation of an expected result more than a paradigm shift.",
+        "groundedness": "FtsZ GTPase kcat (Romberg & Mitchison 2004, Bisson-Filho 2017), FtsZ84 characterization (Bi & Lutkenhaus 1990), ΔG_GTP ≈ 15 kBT (standard biochemistry), N_eff = 11 and ΔG_ATP ≈ 20 kBT all independently confirmed ✅. Only Z-ring occupancy (200-500) is parametric — but even the low bound gives a 400× ratio, making the qualitative conclusion robust. Critic assessed 75-80% grounded. Highest groundedness in the survivor set."
+      },
+      "composite_calculation": "0.20×7 + 0.20×8 + 0.10×7 + 0.20×8 + 0.10×5 + 0.20×8 = 1.40+1.60+0.70+1.60+0.50+1.60 = 7.40",
+      "composite_before_bonus": 7.40,
+      "cross_domain_bonus": 0.5,
+      "composite": 7.90,
+      "rank": 1,
+      "diversity_adjusted": false,
+      "selected_for_evolution": true,
+      "evolution_guidance": "Address triviality risk by sharpening the informational-vs-structural hierarchy as a general organizing principle beyond E. coli. Address Genthon 2026 by proposing a measurement strategy that controls for extrinsic noise (e.g., within-cell comparison between DnaA and FtsZ contributions using orthogonal noise decomposition methods)."
+    },
+    {
+      "id": "C2-H2",
+      "title": "ppGpp-Mediated Supercoiling Relaxation Reduces N_eff at oriC — Stress-Responsive TUR Tuning",
+      "critic_verdict": "WOUNDED",
+      "critic_confidence": 4,
+      "scores": {
+        "novelty": 8,
+        "mechanistic_specificity": 6,
+        "cross_field_distance": 7,
+        "testability": 6,
+        "impact": 6,
+        "groundedness": 6
+      },
+      "score_justifications": {
+        "novelty": "Critic confirmed zero prior papers connecting ppGpp-mediated supercoiling changes to a thermodynamic precision framework. Fernández-Coll & Cashel 2020 showed the mechanism but never quantified precision consequences. Novel connection confirmed by web searches on 'ppGpp supercoiling DnaA N_eff TUR precision'.",
+        "mechanistic_specificity": "Names specific sites (3 R-boxes, 4 I-sites, 4 τ/C-sites with distinct supercoiling sensitivities per McGarry 2004, Leonard & Grimwade 2015), gives specific N_eff predictions (11 → 5-7 during stringent response), predicts specific CV shifts (9.5% → 12-14%). Two distinct experimental designs. Deduction: quantitative N_eff reduction (50-75%) is purely parametric; cooperative DnaA filament assembly model challenges the independent-site framework.",
+        "cross_field_distance": "Bridges stochastic thermodynamics (TUR) → bacterial stress biology (ppGpp stringent response) → DNA supercoiling biophysics → molecular cell biology. The stress-response pathway adds a dimension beyond the basic physics-microbiology pair.",
+        "testability": "DnaA overexpression + SHX test is a clean discriminating experiment. Novobiocin decoupling test is elegant in design. Deduction: DARS2 confound from novobiocin (confirmed: novobiocin inhibits DARS2 function in vivo) weakens the clean label. Cooperative DnaA filament assembly means the SHX experiment may not cleanly attribute effects to N_eff. Both tests have identified confounds requiring additional controls.",
+        "impact": "Would establish that the stringent response actively tunes cell-cycle precision — trading size homeostasis accuracy for survival is a compelling narrative. Would connect stress physiology to the TUR framework broadly. Moderate-to-high impact within size homeostasis and bacterial stress response communities.",
+        "groundedness": "Five key citations all confirmed ✅: Fernández-Coll & Cashel 2020, McGarry et al. 2004, Leonard & Grimwade 2015, Ross et al. 2016, Cashel et al. 1996. The mechanistic chain is well-grounded. Deduction: the 50-75% I/τ-site occupancy reduction is purely parametric; cooperative filament assembly (Grimwade et al. 2007, Rozgaja et al. 2011) partially undermines the independent-site premise. Critic assessed 65-70% grounded."
+      },
+      "composite_calculation": "0.20×8 + 0.20×6 + 0.10×7 + 0.20×6 + 0.10×6 + 0.20×6 = 1.60+1.20+0.70+1.20+0.60+1.20 = 6.50",
+      "composite_before_bonus": 6.50,
+      "cross_domain_bonus": 0.5,
+      "composite": 7.00,
+      "rank": 2,
+      "diversity_adjusted": false,
+      "selected_for_evolution": true,
+      "evolution_guidance": "Address cooperative DnaA filament assembly challenge: model how supercoiling affects overall assembly rate rather than individual site occupancy — if cooperative, sigma shift may still modulate the assembly threshold. Propose an alternative to novobiocin that avoids DARS2 confound (e.g., inducible topA overexpression, which relaxes supercoiling without the gyrase-DARS2 complication)."
+    },
+    {
+      "id": "C2-H1",
+      "title": "Multi-Current TUR Decomposition — Noise Portfolio with DnaA as Sole Near-Optimal Subsystem",
+      "critic_verdict": "WOUNDED",
+      "critic_confidence": 4,
+      "scores": {
+        "novelty": 8,
+        "mechanistic_specificity": 6,
+        "cross_field_distance": 7,
+        "testability": 5,
+        "impact": 6,
+        "groundedness": 5
+      },
+      "score_justifications": {
+        "novelty": "Critic confirms zero direct papers applying multi-current TUR to independently bounded cellular subsystems. The noise portfolio concept (DnaA ~1.1× floor, MinCDE ~25×, FtsZ ~50×) and the informational-vs-structural hierarchy prediction are genuinely novel. Dechant & Sasa 2018 provides the framework but the biological application is new.",
+        "mechanistic_specificity": "Specific entropy calculations for each subsystem: DnaA (Σ=220 kBT, ratio 1.1×), MinCDE (Σ=800,000 kBT, ratio ~25×), FtsZ (Σ=360,000 kBT, ratio ~50×). Specific crossover prediction at ~0.8 dbl/hr. Specific test: DnaA overexpression at 2 vs 0.3 dbl/hr. Major deduction: noise partition fractions (DnaA >50% at fast growth) are PURELY PARAMETRIC; independence assumption is structurally unjustified given DnaA-FtsZ coupling (STRING 0.920).",
+        "cross_field_distance": "Bridges multi-current TUR (statistical physics) → three distinct bacterial cell cycle subsystems (microbiology). Slightly broader scope than single-system hypotheses but same disciplinary pair.",
+        "testability": "DnaA overexpression at 2 vs 0.3 dbl/hr crossover is in principle testable. However, Genthon 2026 (extrinsic noise dominance) is severe counter-evidence: if extrinsic noise dominates CV², the intrinsic subsystem noise partition may be unmeasurably small. The independence assumption must hold for the decomposition to be experimentally interpretable.",
+        "impact": "The noise portfolio / informational-vs-structural TUR hierarchy concept has implications beyond bacterial cell biology — could organize thinking about energy expenditure asymmetry in any cellular process. Moderate deduction because Genthon 2026 threatens the practical relevance of the intrinsic decomposition.",
+        "groundedness": "Dechant & Sasa 2018 (CONFIRMED), MinD copy numbers Shih et al. 2002 (CONFIRMED), FtsZ GTPase rates Romberg & Mitchison 2004 and Bisson-Filho 2017 (CONFIRMED), ΔG values (CONFIRMED). Major deduction: noise partition fractions (DnaA >50% at fast growth) are purely derived with no empirical anchor. FtsZ ring occupancy (200-500) is parametric. Independence assumption is unsupported. Critic assessed 55-60% grounded."
+      },
+      "composite_calculation": "0.20×8 + 0.20×6 + 0.10×7 + 0.20×5 + 0.10×6 + 0.20×5 = 1.60+1.20+0.70+1.00+0.60+1.00 = 6.10",
+      "composite_before_bonus": 6.10,
+      "cross_domain_bonus": 0.5,
+      "composite": 6.60,
+      "rank": 4,
+      "diversity_adjusted": true,
+      "diversity_note": "Convergent with C2-H5 (shares multi-current TUR applied to bacterial cell cycle machinery bridge) and with C2-H7 (H7 is H1's antibiotic experimental extension). Retained in evolution selection because broader scope (full noise portfolio with growth-rate crossover, MinCDE component) is not fully subsumed by C2-H5. C2-H6 promoted above C2-H1 in diversity-adjusted ranking.",
+      "selected_for_evolution": true,
+      "evolution_guidance": "Address independence assumption: propose a test where DnaA-FtsZ coupling is disrupted (e.g., in a strain expressing SulA at basal level to partially delay division without growth effects) and ask whether the additive variance decomposition holds. Address Genthon 2026 by proposing a mixing experiment (natural genetic variation in DnaA expression noise) that separates intrinsic counting noise from extrinsic growth-rate noise. Sharpen the crossover prediction with tighter bounds on noise partition fractions using existing single-cell proteomics data."
+    },
+    {
+      "id": "C2-H6",
+      "title": "TUR Dominates Berg-Purcell for DnaA-oriC — Thermodynamic Not Diffusive Bottleneck",
+      "critic_verdict": "WOUNDED",
+      "critic_confidence": 4,
+      "scores": {
+        "novelty": 9,
+        "mechanistic_specificity": 5,
+        "cross_field_distance": 8,
+        "testability": 4,
+        "impact": 7,
+        "groundedness": 5
+      },
+      "score_justifications": {
+        "novelty": "Critic confirmed via web search: zero papers comparing TUR and BPL for the same biological system. Critic called this 'a genuinely original comparison of two fundamental limits applied to the same molecular system.' Applying both TUR and Berg-Purcell as competing constraints to a single molecular sensor is unprecedented. Near-maximal novelty.",
+        "mechanistic_specificity": "Both theoretical frameworks precisely formulated with specific parameters: D_DnaA ≈ 2-5 μm²/s, c_num ≈ 150-250/μm³, a ≈ 10-15 nm, T ≈ 300-600 s → BPL floor 0.9-3.3%, vs TUR floor 9.5%. Three predictions proposed. Critical deduction: primary experimental test (DnaA_L366K) is FATALLY FLAWED — DnaA(L366K) cannot initiate replication from oriC (confirmed Saxena et al. 2013). Multiple key parameters (D_DnaA effective, free DnaA-ATP count, oriC receptor radius) are parametric.",
+        "cross_field_distance": "Bridges THREE disciplines: stochastic thermodynamics (TUR), physical transport theory (Berg-Purcell/Bialek-Setayeshgar limit, biophysics), and bacterial molecular biology. The dual-framework comparison brings in the physics of molecular sensing (a distinct community from stochastic thermodynamics). Highest cross-field distance score in the survivor set.",
+        "testability": "Primary experimental test (DnaA_L366K) is impossible as designed — mutant cannot initiate replication. Secondary tests (I-site deletions; temperature scaling) are valid but weaker. Effective D_DnaA in live cells has never been measured directly — could vary 10-50× due to membrane binding/datA sequestration, potentially making the BPL floor comparable to TUR floor and the comparison inconclusive.",
+        "impact": "Establishing the NATURE of the precision bottleneck (thermodynamic vs transport) is qualitatively more informative than measuring its magnitude. This distinction could reshape how biophysicists design synthetic precision systems and understand the evolution of molecular sensor architectures. Higher impact than other hypotheses due to broader applicability of the conceptual framing.",
+        "groundedness": "TUR (Barato & Seifert 2015 CONFIRMED), BPL (Berg & Purcell 1977; Bialek & Setayeshgar 2005 CONFIRMED), GFP diffusion benchmark (Elowitz et al. 1999 CONFIRMED), DnaA(L366K) (Saxena et al. 2013 CONFIRMED — exposes experimental design flaw). Major deduction: D_DnaA effective in live cells is entirely unmeasured; free DnaA-ATP count and oriC effective receptor radius are parametric. Independence of TUR and BPL limits is assumed. Critic assessed 55-60% grounded."
+      },
+      "composite_calculation": "0.20×9 + 0.20×5 + 0.10×8 + 0.20×4 + 0.10×7 + 0.20×5 = 1.80+1.00+0.80+0.80+0.70+1.00 = 6.10",
+      "composite_before_bonus": 6.10,
+      "cross_domain_bonus": 0.5,
+      "composite": 6.60,
+      "rank": 3,
+      "diversity_adjusted": true,
+      "diversity_note": "PROMOTED by diversity check. C2-H6 asks a conceptually distinct question (which physical limit dominates: thermodynamic or transport?) versus the H5/H1/H7 similar group (which machine is the TUR bottleneck?). Promoted to rank 3 over C2-H1 (rank 4) to ensure evolution selection includes the TUR-vs-BPL conceptual axis.",
+      "selected_for_evolution": true,
+      "evolution_guidance": "MUST redesign primary experimental test: propose feasible alternative to probe DnaA effective mobility without disrupting initiation function. Candidates: (1) ΔclsABC/ΔpgsA strains where DnaA spends less time membrane-bound, measuring CV_added directly; (2) in vivo single-molecule tracking of DnaA-Halo to measure D_DnaA_effective directly in live cells; (3) mathematical analysis of temperature scaling using existing CV data across temperatures. Must also address the independence assumption for combining TUR and BPL — these are sequential steps for the same molecules, not independent bounds."
+    },
+    {
+      "id": "C2-H7",
+      "title": "Antibiotic-Specific Noise Fingerprinting at Matched Growth Rate",
+      "critic_verdict": "WOUNDED",
+      "critic_confidence": 3,
+      "scores": {
+        "novelty": 7,
+        "mechanistic_specificity": 5,
+        "cross_field_distance": 7,
+        "testability": 4,
+        "impact": 5,
+        "groundedness": 5
+      },
+      "score_justifications": {
+        "novelty": "Critic confirmed zero prior papers using antibiotics as targeted noise-source perturbations for TUR framework testing. Noise fingerprinting via sub-MIC antibiotics at matched growth rate is a creative and novel experimental design. Partial deduction because C2-H7 builds on C2-H1's noise portfolio framework — extends rather than creates a bridge.",
+        "mechanistic_specificity": "Names specific drugs, specific targets, specific differential CV predictions (cipro ~14-16% vs cam ~12% at μ=1.0 dbl/hr). Dose-response asymmetry prediction is specific. Critical deduction: the mechanistic attribution (cipro → N_eff reduction via supercoiling) is undermined by the SOS response — >40 SOS genes confound clean attribution. Specific CV values at matched growth rates are purely parametric.",
+        "cross_field_distance": "Bridges stochastic thermodynamics (TUR multi-current) → antibiotic pharmacology → bacterial cell biology. The antibiotics angle brings in pharmaceutical/clinical microbiology as an additional field.",
+        "testability": "Mother machine + sub-MIC antibiotic treatment is technically feasible. However, SOS confound with ciprofloxacin is far more severe than acknowledged: sub-MIC cipro induces ~25-fold increase in sulA expression plus 40+ SOS-regulated genes (confirmed). ΔsulA control is insufficient — ΔrecA or lexA(Ind-) needed. Even then, RecA-ssDNA filament formation may interfere with DnaA-oriC binding. Chloramphenicol may also affect supercoiling via transcription-translation coupling.",
+        "impact": "If attribution were achievable, would establish a novel diagnostic paradigm for noise-source identification. Applied relevance for understanding antibiotic stress responses in terms of precision loss. However, severe confounds undermine the ability to achieve clean attribution — results would likely be inconclusive without a fundamentally different design.",
+        "groundedness": "Ciprofloxacin gyrase inhibition (Drlica & Zhao 1997, CONFIRMED), SOS induction by sub-MIC cipro (CONFIRMED — ~25-fold sulA, confirming confound severity), Lopatkin et al. 2019 (CONFIRMED), chloramphenicol mechanism (CONFIRMED), SulA-FtsZ inhibition Michel 2005 (CONFIRMED), cephalexin filamentation Botta & Buffa 1981 (CONFIRMED). All pharmacological mechanisms grounded. Major deduction: differential CV at matched growth rate from noise-source targeting is purely parametric; the SOS confound is confirmed as severe enough to make the attribution mechanism ungrounded in practice. Critic assessed 50-55% grounded."
+      },
+      "composite_calculation": "0.20×7 + 0.20×5 + 0.10×7 + 0.20×4 + 0.10×5 + 0.20×5 = 1.40+1.00+0.70+0.80+0.50+1.00 = 5.40",
+      "composite_before_bonus": 5.40,
+      "cross_domain_bonus": 0.5,
+      "composite": 5.90,
+      "rank": 5,
+      "diversity_adjusted": true,
+      "diversity_note": "EXCLUDED from evolution. Lowest-scoring survivor. Convergent with both C2-H5 (same noise sources) and C2-H1 (antibiotic extension of the noise portfolio framework). SOS confound (>40 genes, confirmed 25-fold sulA induction) is not addressable with ΔsulA control. If multi-current TUR framework is confirmed via C2-H1 or C2-H5 evolution, a redesigned version using genetic perturbations (inducible gyrase mutants, tunable DnaA) rather than pleiotropic antibiotics should be proposed in cycle 3.",
+      "selected_for_evolution": false,
+      "revival_condition": "Redesign primary perturbation: replace ciprofloxacin with an inducible, SOS-null gyrase hypomorph (e.g., CRISPRi-gyrA at calibrated knockdown levels) that reduces supercoiling without SOS induction. Replace ΔsulA with lexA(Ind-) background. If these controls are incorporated, the noise fingerprinting concept is worth revisiting."
+    }
+  ],
+  "diversity_check": {
+    "triggered": true,
+    "similar_group": ["C2-H5", "C2-H1", "C2-H7"],
+    "similarity_basis": "All three use multi-current TUR applied to bacterial cell cycle molecular machinery as the bridge mechanism. C2-H5 is the focused FtsZ-DnaA comparison; C2-H1 is the full multi-subsystem noise portfolio analysis that explicitly contains C2-H5's analysis as a component; C2-H7 is C2-H1's antibiotic experimental extension using the same noise portfolio framework to design perturbations.",
+    "action": "Keep C2-H5 (highest-scoring in similar group, 7.90). Promote C2-H6 (next-highest DISSIMILAR, 6.60 — asks the conceptually distinct TUR-vs-BPL question). Retain C2-H1 (6.60, broader scope with MinCDE component and growth-rate crossover not subsumed by C2-H5). Exclude C2-H7 from evolution (lowest-scoring, most confounded, most redundant with C2-H1).",
+    "linear_rank_change": "C2-H6 promoted from tied rank 3-4 to rank 3 (post-diversity); C2-H1 moved from tied rank 3-4 to rank 4 (post-diversity)"
+  },
+  "elo_tournament": {
+    "n_hypotheses": 5,
+    "n_comparisons": 10,
+    "results": {
+      "H5_vs_H2": "H5 — robust calculation across all parameter uncertainties (ratio 410×-10,000×, qualitative conclusion unchanged); H2's cooperative assembly challenge is unresolved and DARS2 confound weakens its cleanest experiment",
+      "H5_vs_H1": "H5 — clean paired falsification test; H1's central noise partition claim is purely derived, independence assumption questionable, Genthon 2026 threatens measurability",
+      "H5_vs_H6": "H5 — H6's primary experiment (DnaA_L366K) cannot work: mutant cannot initiate replication. H5 has two available and well-characterized alleles (FtsZ84, dnaA46). Immediately testable.",
+      "H5_vs_H7": "H5 — H7's ciprofloxacin arm is catastrophically confounded by SOS regulon (>40 genes); H5 has no comparable confound for its paired allele comparison",
+      "H2_vs_H1": "H2 — ppGpp-supercoiling-N_eff chain has three independently verified steps; H1's crossover prediction may be undetectable if Genthon 2026 extrinsic dominance holds. H2's stress perturbation creates a larger signal than H1's growth-rate crossover.",
+      "H2_vs_H6": "H2 — H6's BPL calculation requires D_DnaA effective which has never been measured in live cells and could vary 10-50×. H2's key parameters better constrained.",
+      "H2_vs_H7": "H2 — H2 uses the ppGpp-supercoiling mechanism cleanly; H7 introduces 40+ SOS gene confounds. H2 is the cleaner version of the same underlying biological question.",
+      "H1_vs_H6": "H1 — despite H6's higher novelty (9 vs 8), H6's primary experiment is untestable as designed. H1's growth-rate crossover prediction is testable (even if signals may be small). Domain researchers prefer a noisy test to no test.",
+      "H1_vs_H7": "H1 — H1 is the theoretical framework; H7 is a confounded attempt to test it. H7 adds severe SOS confounds without adding clarity. H1's DnaA overexpression at different growth rates is cleaner than H7's antibiotic proxy.",
+      "H6_vs_H7": "H6 — H6 asks a conceptually cleaner question (nature of precision bottleneck) and has valid secondary tests (I-site deletions, temperature scaling). H7's primary test is irreparably confounded. H6 wins despite its broken primary prediction because secondary tests are salvageable."
+    },
+    "win_rates": {
+      "C2-H5": "4/4 = 1.00",
+      "C2-H2": "3/4 = 0.75",
+      "C2-H1": "2/4 = 0.50",
+      "C2-H6": "1/4 = 0.25",
+      "C2-H7": "0/4 = 0.00"
+    },
+    "elo_rank_order": ["C2-H5", "C2-H2", "C2-H1", "C2-H6", "C2-H7"],
+    "linear_rank_order_pre_diversity": ["C2-H5", "C2-H2", "C2-H1", "C2-H6", "C2-H7"],
+    "verdict": "Elo confirms linear ranking — top 3 positions identical in both (H5 > H2 > H1). The H1/H6 tie in composite (both 6.60) is broken by Elo in H1's favor.",
+    "divergence_note": "H1 and H6 are tied at 6.60 in the linear composite but Elo puts H1 clearly above H6. The pairwise comparison captures an implicit dimension the 6-score average misses: experimental irreparability. H6's DnaA(L366K) primary experiment cannot be run as designed — domain researchers choosing which hypothesis to test first would not invest in an experiment they know cannot work. H6's high Novelty (9) and Cross-field Distance (8) elevate its composite, but these dimensions do not capture that the primary test is broken. Diagnostic signal for Evolver: H6 must redesign its experimental handle before its composite score reflects its true research value."
+  },
+  "evolution_selection": {
+    "selected": ["C2-H5", "C2-H2", "C2-H6", "C2-H1"],
+    "not_selected": ["C2-H7"],
+    "n_selected": 4,
+    "selection_rationale": {
+      "C2-H5": "Primary evolution target. Sole SURVIVES verdict. Composite 7.90. Robust calculation robust to all parameter uncertainties. Clean paired falsification test (FtsZ84 vs dnaA46). Sharpen informational-vs-structural hierarchy as generalizable concept; address Genthon 2026.",
+      "C2-H2": "Stress-precision connection with well-grounded 5-step mechanistic chain. Novel bridge (stress biology → TUR tuning). Evolution: address cooperative filament assembly challenge; replace novobiocin with gyrase perturbation that avoids DARS2 confound.",
+      "C2-H6": "DIVERSITY-PROMOTED. Highest novelty in survivor set (9). Conceptually distinct question (nature vs magnitude of precision bottleneck). Broken primary experiment must be redesigned. Evolution: propose in vivo D_DnaA measurement; design feasible mobility perturbation that preserves initiation function; address TUR/BPL independence assumption.",
+      "C2-H1": "Retained despite convergence with C2-H5 because the broader noise-portfolio framing (MinCDE component, growth-rate crossover at 0.8 dbl/hr) is not fully subsumed by C2-H5. Evolution: address independence assumption; address Genthon 2026 with intrinsic/extrinsic separation design; tighten noise partition fraction derivation."
+    },
+    "not_selected_rationale": {
+      "C2-H7": "Lowest composite (5.90). Convergent with both C2-H5 and C2-H1. SOS confound from ciprofloxacin (>40 genes, ~25-fold sulA confirmed) not addressable with ΔsulA control alone. The noise fingerprinting concept is worth revisiting in cycle 3 with genetic (not pharmacological) perturbations and a lexA(Ind-) background, IF the multi-current TUR framework is confirmed by C2-H5/C2-H1 evolution results."
+    }
+  }
+}

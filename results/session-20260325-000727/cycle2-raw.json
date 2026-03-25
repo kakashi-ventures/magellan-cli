@@ -1,0 +1,225 @@
+{
+  "session_id": "session-20260325-000727",
+  "cycle": 2,
+  "phase": "generation",
+  "target": "T4",
+  "fields": {
+    "field_a": "Stochastic thermodynamics — TUR, entropy production bounds",
+    "field_c": "Bacterial cell biology — cell size homeostasis via adder model"
+  },
+  "builds_on_cycle1": ["E-H1", "E-H4", "E-H2", "E-H7"],
+  "critic_questions_addressed": {
+    "Q1_N_eff_11": "Used N_eff=11 consistently throughout all hypotheses",
+    "Q2_noise_decomposition": "C2-H1 provides full multi-current TUR decomposition with per-subsystem efficiency ratios",
+    "Q3_ppGpp_supercoiling": "C2-H2 reformulates killed H5 using correct ppGpp→supercoiling→N_eff mechanism",
+    "Q4_Caulobacter_adder": "Noted S. pombe as sizer organism; no cross-species comparison attempted to avoid errors"
+  },
+  "cycle1_kill_patterns_avoided": [
+    "H5 ppGpp mechanism (now uses supercoiling, not DnaA levels)",
+    "H6 citation hallucination (no cross-species sizer claims)",
+    "H8 multi-species errors (no V. cholerae/RctB claims, N_eff=11 consistent)"
+  ],
+  "hypotheses": [
+    {
+      "id": "C2-H1",
+      "title": "Multi-Current TUR Decomposition Reveals a Noise Portfolio Where DnaA Counting Is the Sole Near-Optimal Subsystem While MinCDE and FtsZ Are Massively Over-Dissipating",
+      "connection": "Stochastic thermodynamics (multi-current TUR) → Independent TUR bounds for each noise-generating subsystem → Bacterial adder precision as composite of independently bounded noise sources",
+      "bridge_mechanism": "Multi-current coupled TUR decomposition (noise portfolio with per-subsystem efficiency ratios)",
+      "parent": "E-H1 + E-H7",
+      "relationship": "extends",
+      "confidence": 6,
+      "groundedness": "MEDIUM",
+      "key_prediction": "DnaA counting at 1.1x TUR floor (informational); MinCDE at 25x (structural); FtsZ at 50x (mechanical). Precision crossover at 0.8 dbl/hr. DnaA overexpression reduces CV at fast growth but not slow growth.",
+      "generation_technique": "multi_level_abstraction + facet_recombination",
+      "grounded_claims": [
+        "TUR (Barato & Seifert 2015, PRL 114:158101)",
+        "N_eff = 11 DnaA sites at oriC (Fuller et al. 1984; corrected by Critic)",
+        "MinD ~1500-2500/cell (Shih et al. 2002, PNAS 99:6867)",
+        "MinCDE sigma_z/L ~3-5% (Raskin & de Boer 1999, PNAS; Shih et al. 2003)",
+        "FtsZ GTPase kcat ~5-8 GTP/FtsZ/min (Romberg & Mitchison 2004, Biochemistry 43:282)",
+        "DeltaG_ATP ~20 kBT, DeltaG_GTP ~15 kBT"
+      ],
+      "parametric_claims": [
+        "Multi-current TUR decomposition attribution (Dechant & Sasa 2018)",
+        "Quantitative noise partition: DnaA >50% of CV^2 at fast growth",
+        "FtsZ ring occupancy 200-500 molecules",
+        "Informational vs structural TUR efficiency hierarchy"
+      ]
+    },
+    {
+      "id": "C2-H2",
+      "title": "ppGpp-Mediated Supercoiling Relaxation Reduces Effective N_eff at oriC, Providing Stress-Responsive TUR Tuning That Trades Precision for Survival",
+      "connection": "Stochastic thermodynamics (TUR with variable N_eff) → ppGpp → supercoiling → I/tau-site accessibility → Stress-dependent precision degradation",
+      "bridge_mechanism": "DNA topology (supercoiling) as modulator of effective N_eff in counting TUR",
+      "parent": "H5 (killed, reformulated)",
+      "relationship": "reformulates",
+      "confidence": 5,
+      "groundedness": "MEDIUM",
+      "key_prediction": "Stringent response reduces N_eff from 11 to 5-7 via supercoiling relaxation. CV_added increases to 14-17%. DnaA overexpression does NOT prevent increase. Novobiocin at sub-MIC increases CV at unchanged growth rate.",
+      "generation_technique": "counterfactual_probing + gap_targeted_generation",
+      "grounded_claims": [
+        "ppGpp inhibits initiation via supercoiling (Fernandez-Coll & Cashel 2020, mBio)",
+        "I-sites and tau-sites require negative supercoiling for DnaA binding (McGarry et al. 2004, Mol Cell 16:173)",
+        "R-boxes (R1, R2, R4) are supercoiling-insensitive (Leonard & Grimwade 2015, Front Microbiol 6:659)",
+        "ppGpp accumulates to ~1 mM (Cashel et al. 1996)",
+        "ppGpp inhibits RNAP (Ross et al. 2016, Science 352:878)"
+      ],
+      "parametric_claims": [
+        "50-75% reduction in I/tau/C-site occupancy under stringent response",
+        "N_eff_stress = 5-7 (derived, not measured)",
+        "CV_added increase to 14-17% (derived from N_eff reduction)",
+        "Novobiocin decoupling prediction"
+      ]
+    },
+    {
+      "id": "C2-H3",
+      "title": "Incomplete RIDA Counter-Reset Creates TUR-Predictable Inter-Generational Memory That Continuously Shifts Homeostasis from Adder Toward Timer",
+      "connection": "Stochastic thermodynamics (counter reset fidelity) → Residual DnaA-ATP memory fraction f = exp(-tau_gen/tau_RIDA) → Inter-generational autocorrelation and adder-to-timer drift",
+      "bridge_mechanism": "Incomplete RIDA counter-reset creating inter-generational autocorrelation (memory via f parameter)",
+      "parent": "E-H2",
+      "relationship": "extends",
+      "confidence": 6,
+      "groundedness": "MEDIUM",
+      "key_prediction": "Mother-daughter added-size autocorrelation rho = alpha*exp(-tau_gen/tau_RIDA). At 0.1x Hda: rho ~0.47. Si parameter alpha_Si drops from 1.0 to 0.5-0.6. Connects to 2025 PNAS nonlinear memory finding.",
+      "generation_technique": "analogy_transfer + negation_exploration",
+      "grounded_claims": [
+        "RIDA mechanism (Kato & Katayama 2001, EMBO J 20:4253)",
+        "Beta-clamp involvement (DnaA-DnaN STRING 0.999)",
+        "Nonlinear memory in cell division (Susman et al. 2025, PNAS)",
+        "Si homeostasis parameter (Si et al. 2019, Curr Biol 29:1760)"
+      ],
+      "parametric_claims": [
+        "tau_1/2_RIDA ~4 min at WT (estimated, not directly measured)",
+        "f = exp(-tau_gen/tau_RIDA) formula (derived model)",
+        "rho = alpha * f with alpha ~0.7-0.8 (coupling coefficient)",
+        "Continuous adder-to-timer transition via Hda titration"
+      ]
+    },
+    {
+      "id": "C2-H4",
+      "title": "Per-Origin Noise Spectroscopy — CL/PG Membrane Gradient Creates Measurably Distinct CV at Pole-Proximal vs Midcell Origins",
+      "connection": "Stochastic thermodynamics (spatially heterogeneous TUR) → CL/PG-mediated DnaA-ATP recharging asymmetry → Origin-specific counting noise measurable by multicolor locus tracking",
+      "bridge_mechanism": "Lipid-domain-mediated spatial entropy gradient creating per-origin CV heterogeneity",
+      "parent": "E-H4",
+      "relationship": "extends",
+      "confidence": 5,
+      "groundedness": "MEDIUM",
+      "key_prediction": "CV_pole ~8-10% (near TUR floor), CV_midcell ~11-14% (above floor). CL deletion equalizes both to ~10-12%. DeltaG_regen_pole > DeltaG_regen_mid by ~5 kBT.",
+      "generation_technique": "scale_bridging + multi_level_abstraction",
+      "grounded_claims": [
+        "CL pole enrichment (Mileykovskaya & Dowhan 2009, Biochim Biophys Acta 1788:2084)",
+        "DnaA-CL nucleotide exchange (Sekimizu & Kornberg 1988, JBC 263:7136)",
+        "SeqA hemimethylation tracking (Waldminghaus & Skarstad 2009)",
+        "CL ~5% of total phospholipid (Cronan 2003, Annu Rev Microbiol)"
+      ],
+      "parametric_claims": [
+        "DeltaG_regen enhancement ~5 kBT from CL-mediated recharging",
+        "Per-origin CV difference (8-10% vs 11-14%)",
+        "DnaA diffusion fast enough to potentially eliminate spatial gradient (D ~3 um2/s)"
+      ]
+    },
+    {
+      "id": "C2-H5",
+      "title": "FtsZ GTPase Treadmilling Creates a ~2000x Over-Dissipating Molecular Current vs DnaA Counting, Revealing That the Adder's Precision Bottleneck Is at Initiation, Not Division",
+      "connection": "Stochastic thermodynamics (comparative TUR efficiency) → FtsZ GTP hydrolysis as second independent molecular current → Division machinery operates in structural-excess regime where TUR is irrelevant to precision",
+      "bridge_mechanism": "GTPase vs ATPase molecular current comparison (structural vs informational dissipation)",
+      "parent": null,
+      "relationship": "fresh",
+      "confidence": 7,
+      "groundedness": "HIGH",
+      "key_prediction": "Sigma_FtsZ/Sigma_DnaA ~1840x. FtsZ84 mutant should NOT increase CV_added. dnaA46 mutant SHOULD increase CV_added by 15-30%. FtsZ would need ~1800x GTPase reduction to become bottleneck.",
+      "generation_technique": "bisociation + mathematical_necessity",
+      "grounded_claims": [
+        "FtsZ GTPase kcat ~5-8 GTP/FtsZ/min (Romberg & Mitchison 2004, Biochemistry 43:282)",
+        "FtsZ treadmilling (Bisson-Filho et al. 2017, Science 355:739)",
+        "DeltaG_GTP ~15 kBT (standard biochemistry)",
+        "N_eff = 11 DnaA-oriC events",
+        "DeltaG_ATP ~20 kBT",
+        "FtsZ84 temperature-sensitive mutant exists (Bi & Lutkenhaus 1990)"
+      ],
+      "parametric_claims": [
+        "Z-ring occupancy 200-500 molecules (range of estimates)",
+        "FtsZ constriction timing CV ~10-15%",
+        "Informational vs structural classification of TUR efficiency"
+      ]
+    },
+    {
+      "id": "C2-H6",
+      "title": "The DnaA-oriC Precision Bottleneck Is Thermodynamic (TUR), Not Diffusive (Berg-Purcell): Increasing DnaA Mobility Cannot Improve Adder Precision",
+      "connection": "Stochastic thermodynamics (TUR) vs physical transport theory (Berg-Purcell limit) → Applied to same molecular sensor (DnaA at oriC) → TUR counting limit (9.5%) dominates BPL sensing limit (~1.5-3.3%) by ~3-6x",
+      "bridge_mechanism": "Berg-Purcell vs TUR inequality comparison for the same molecular sensor",
+      "parent": null,
+      "relationship": "fresh",
+      "confidence": 6,
+      "groundedness": "MEDIUM-HIGH",
+      "key_prediction": "TUR floor (9.5%) exceeds BPL floor (1.5-3.3%) by 3-6x across all parameter regimes. DnaA membrane mutant (increased cytoplasmic D) should NOT reduce CV_added. I-site deletion (reduced N_eff) SHOULD increase CV_added.",
+      "generation_technique": "bisociation + multi_level_abstraction",
+      "grounded_claims": [
+        "TUR (Barato & Seifert 2015, PRL 114:158101)",
+        "Berg-Purcell limit (Berg & Purcell 1977, Biophys J 20:193; Bialek & Setayeshgar 2005, PNAS 102:10040)",
+        "GFP diffusion ~3 um2/s in E. coli (Elowitz et al. 1999, J Bacteriol)",
+        "DnaA has amphipathic helix for membrane insertion (known from literature)"
+      ],
+      "parametric_claims": [
+        "Effective D_DnaA ~2-5 um2/s (benchmark, not measured for DnaA)",
+        "Free DnaA-ATP ~300-500 molecules/cell (estimated)",
+        "Effective oriC receptor radius ~10-15 nm (estimated)",
+        "DnaA_L366K as specific membrane insertion mutant (concept grounded, exact residue uncertain)"
+      ]
+    },
+    {
+      "id": "C2-H7",
+      "title": "Antibiotic-Specific Noise Fingerprinting — Different Antibiotics at Same Growth Rate Produce Distinct CV_added Signatures Because They Target Different TUR Noise Sources",
+      "connection": "Stochastic thermodynamics (multi-current TUR) → Antibiotics as targeted perturbations of specific molecular currents → Growth-rate-independent CV_added deviations fingerprint which noise source each antibiotic affects",
+      "bridge_mechanism": "Antibiotic-specific noise-source targeting (growth-rate-independent CV signatures)",
+      "parent": null,
+      "relationship": "fresh",
+      "confidence": 5,
+      "groundedness": "MEDIUM",
+      "key_prediction": "At matched mu=1.0 dbl/hr: cipro CV ~14-16% > cam CV ~12% = glucose-minimal CV ~12%. Slope of CV vs dose positive for cipro, zero for cam. deltaSulA control eliminates SOS confound.",
+      "generation_technique": "facet_recombination + counterfactual_probing",
+      "grounded_claims": [
+        "Ciprofloxacin inhibits gyrase/reduces supercoiling (Drlica & Zhao 1997, Microbiol Mol Biol Rev 61:377)",
+        "Sub-MIC growth rate effects (Lopatkin et al. 2019, Nat Microbiol)",
+        "Chloramphenicol inhibits 50S ribosomal subunit (standard pharmacology)",
+        "Cephalexin produces filamentous cells (Botta & Buffa 1981)",
+        "SulA inhibits FtsZ during SOS response (Michel 2005, PLoS Biol)"
+      ],
+      "parametric_claims": [
+        "Specific CV values at matched growth rates (14-16% vs 12%)",
+        "Clean noise-source attribution (SOS confound acknowledged)",
+        "Dose-response slope as fingerprint metric"
+      ]
+    }
+  ],
+  "generation_techniques": [
+    "multi_level_abstraction",
+    "facet_recombination",
+    "counterfactual_probing",
+    "gap_targeted_generation",
+    "analogy_transfer",
+    "negation_exploration",
+    "scale_bridging",
+    "bisociation",
+    "mathematical_necessity"
+  ],
+  "bridge_mechanisms_distinct": 7,
+  "self_critique": {
+    "claims_downgraded": 2,
+    "quantitative_errors_caught": 0,
+    "directionality_errors": 0,
+    "compartmental_errors": 0,
+    "protein_property_uncertainties": 1,
+    "notes": "DnaA_L366K residue number uncertain (concept grounded, specific residue PARAMETRIC). Dechant & Sasa 2018 exact citation uncertain (multi-current TUR concept grounded). All quantitative calculations verified by back-of-envelope."
+  },
+  "summary": {
+    "total_hypotheses": 7,
+    "building_on_survivors": 4,
+    "fresh": 3,
+    "confidence_range": "5-7",
+    "groundedness_range": "MEDIUM to HIGH",
+    "highest_confidence": "C2-H5 (7/10) — FtsZ vs DnaA TUR comparison",
+    "most_novel": "C2-H6 — TUR vs Berg-Purcell dual-bound analysis",
+    "most_testable": "C2-H7 — antibiotic noise fingerprinting panel"
+  }
+}

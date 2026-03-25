@@ -1,0 +1,217 @@
+{
+  "session_id": "session-20260325-000727",
+  "date": "2026-03-25",
+  "mcp_status": {
+    "semantic_scholar": "RATE_LIMITED — all parallel calls failed, no results retrieved",
+    "pubmed": "DEGRADED — returned empty or irrelevant results for all targeted queries",
+    "fallback": "WebSearch + WebFetch used for all retrieval"
+  },
+  "candidates": [
+    {
+      "id": "T1",
+      "label": "Percolation theory × T cell infiltration",
+      "field_a": "Statistical physics — percolation theory on random lattices",
+      "field_c": "Tumor immunology — T cell exclusion by ECM",
+      "disjointness_status": "PARTIALLY_EXPLORED",
+      "disjointness_confidence": 0.85,
+      "evidence_for_partial_exploration": [
+        {
+          "paper": "Ashworth et al. 2015, Adv Healthcare Mat (PMID 25881025)",
+          "finding": "Percolation theory applied to collagen scaffold interconnectivity and generic cell invasion. Site/pore percolation. Tissue engineering context, NOT tumor immunology.",
+          "gap": "Not T cells; not bond percolation on crosslinking network; not LOX as bond probability; not immune exclusion"
+        },
+        {
+          "paper": "Nicolas-Boluda et al. 2021, eLife (PMC8203293)",
+          "finding": "LOX inhibition disrupts collagen crosslinking, reduces tumor stiffness, improves T cell infiltration and anti-PD-1 efficacy",
+          "gap": "No percolation or network-theoretic framework; no threshold analysis"
+        },
+        {
+          "paper": "Science Immunology 2025",
+          "finding": "Macrophages control fibrillar collagen topography (Tcf4-Col3 axis), dictating T cell localization",
+          "gap": "Topography analysis, not percolation theory"
+        }
+      ],
+      "novel_bridge": "Bond percolation threshold p_c = critical LOX crosslink density for immune exclusion. LOX activity = bond probability p. Correlation length exponent ν predicts spatial pattern of T cell exclusion near threshold. Anomalous diffusion of T cells on percolation clusters near p_c.",
+      "papers_retrieved": ["ashworth2015-percolation-collagen-cell-invasion.md", "nicolas-boluda2021-LOX-collagen-T-cell-migration.md"],
+      "generator_note": "Must acknowledge Ashworth 2015 and explain distinction: bond vs site percolation, T cells vs generic cells, tumor ECM vs engineered scaffold, LOX mechanism as bond probability"
+    },
+    {
+      "id": "T2",
+      "label": "Acoustic filter-bank theory × Plant sound detection",
+      "field_a": "Acoustic engineering — matched-filter detection and parallel filter-bank architectures",
+      "field_c": "Plant bioacoustics — detecting airborne ultrasonic stress emissions via MSL channels",
+      "disjointness_status": "DISJOINT",
+      "disjointness_confidence": 0.97,
+      "evidence_for_disjointness": [
+        "No paper applies matched-filter theory to any plant acoustic detection mechanism",
+        "No paper analyzes MSL channel diversity as a parallel filter-bank architecture",
+        "Merdan & Akan 2025 (arXiv 2512.01096): first plant acoustic communication model — uses biological kinetic models, NOT filter-bank/matched-filter theory",
+        "MSL10 frequency response characterized at 1-30 Hz (PNAS 2021) but not in filter-bank framing",
+        "Plant ultrasound field is young (2019-2025); no acoustic engineering cross-pollination found"
+      ],
+      "supporting_biology": [
+        "Plant UEs: 20-150 kHz, peaks at 40-80 kHz (Bonisoli 2024)",
+        "MSL10 participates in perception of mechanical oscillations caused by wind (PNAS 2021)",
+        "MSL10 kinetics: frequency-dependent channel opening at 1 Hz, 3 Hz, 30 Hz",
+        "Multiple MSL paralogues (MSL2, 3, 9, 10) with different kinetic properties",
+        "Sound activates MCA2 → Ca²⁺ influx → CPK29 → auxin transport"
+      ],
+      "novel_bridge": "MSL2/3/9/10 channels as parallel filter-bank with different center frequencies and bandwidths. Trichome resonant frequency = bandpass filter center. Matched-filter SNR analysis for detecting intraspecific ultrasonic stress emissions. Ca²⁺ frequency-selective signaling as spectral output.",
+      "papers_retrieved": ["bonisoli2024-plant-ultrasound-detection.md", "merdan2025-acoustic-communication-model-plants.md"],
+      "generator_note": "Strong DISJOINT. Build on MSL10 kinetics (PNAS 2021) and multiple MSL paralogues as the physical basis for filter-bank. Calculate matched-filter SNR for detecting UEs from conspecifics."
+    },
+    {
+      "id": "T3",
+      "label": "Jamming phase diagram × Chromatin compaction",
+      "field_a": "Granular physics — jamming transition, Liu-Nagel phase diagram, Edwards entropy",
+      "field_c": "Chromatin biology — eu/heterochromatin transitions",
+      "disjointness_status": "DISJOINT",
+      "disjointness_confidence": 0.93,
+      "evidence_for_disjointness": [
+        "Jamming applied to CELLS in tissues is well-explored; explicit statement found: 'Cell jamming theories consistently emphasize cell shapes rather than nucleus shapes'",
+        "Chromatin physics uses phase separation (LLPS) and active hydrodynamics — NOT granular jamming",
+        "Bajpai 2021 (eLife): chromatin phase separation — polymer model, no jamming",
+        "Rautu 2025 (arXiv 2503.20964): most advanced chromatin physics theory — active hydrodynamics, no jamming",
+        "Nature Comms 2025: chromatin condensate dynamics — no jamming",
+        "Extensive search for 'jamming chromatin Liu-Nagel nucleosome contact network' returned zero relevant hits"
+      ],
+      "supporting_physics": [
+        "HP1 bridging interactions increase with heterochromatin formation → analogous to increasing contact number z",
+        "Heterochromatin formation is relatively abrupt (threshold-like) — consistent with jamming transition",
+        "Force-chain-like mechanical stress transmission through heterochromatic regions observed but unmodeled",
+        "Nuclear tension changes during cell cycle — maps to 'applied stress' axis in Liu-Nagel diagram"
+      ],
+      "novel_bridge": "Liu-Nagel axes mapped to chromatin: density (nucleosome packing fraction φ), temperature (transcriptional activity / histone acetylation), stress (nuclear tension). z_c = critical HP1 bridging coordination number for heterochromatin jamming. Force chains transmit mechanical signals through compacted heterochromatin domains. Edwards entropy (compactivity) as measure of accessible chromatin configurations.",
+      "papers_retrieved": ["bajpai2021-chromatin-phase-separation-elife.md", "rautu2025-chromatin-active-hydrodynamics.md"],
+      "generator_note": "Clear DISJOINT. Map Liu-Nagel axes explicitly onto chromatin parameters. Distinguish from LLPS: jamming is contact-driven, LLPS is interaction-driven — they apply at different scales and to different chromatin organizational transitions."
+    },
+    {
+      "id": "T4",
+      "label": "Thermodynamic uncertainty relation × Bacterial cell size homeostasis",
+      "field_a": "Stochastic thermodynamics — TUR, entropy production bounds",
+      "field_c": "Bacterial cell biology — cell size homeostasis via adder model",
+      "disjointness_status": "DISJOINT",
+      "disjointness_confidence": 0.96,
+      "evidence_for_disjointness": [
+        "TUR applied to: biochemical clocks (Marsland 2019), molecular motors, signaling (Verma 2025), active matter — NOT cell size homeostasis",
+        "Stochastic thermodynamics of cell size models (2025 paper) exists but uses general entropy production formalism, not TUR inequality (CV² × σ̇ × τ ≥ 2kT)",
+        "Adder model papers do not cite TUR or stochastic thermodynamics literature",
+        "DnaA-ATP as a TUR 'current' is not proposed in any paper",
+        "Growth rate as entropy production proxy for cell size precision: not found in literature"
+      ],
+      "closest_existing_work": {
+        "paper": "Unnamed 2025 paper on stochastic thermodynamics of cell size models",
+        "finding": "Applies entropy production analysis to sizer/timer/adder models; finds precision-metabolism trade-off; entropy production of resetting vs. branching",
+        "gap": "Uses general entropy production formalism; does NOT apply TUR inequality; does NOT identify DnaA-ATP as the molecular counter; does NOT connect to nutrient-dependent growth rate as dissipation proxy"
+      },
+      "novel_bridge": "TUR bound: CV²_added × σ̇ × τ_generation ≥ 2kT. Growth rate μ as entropy production rate proxy (σ̇ ∝ μ). DnaA-ATP hydrolysis as the irreversible current whose CV sets the size precision. Nutrient-rich conditions: higher μ → higher dissipation → tighter CV bound predicts higher size precision. Prediction: CV_added vs. growth rate should follow TUR-bounded curve, testable with mother-machine + metabolic reporters.",
+      "papers_retrieved": ["marsland2019-TUR-biochemical-oscillations.md", "marsland-tur-cell-signaling-2025.md"],
+      "generator_note": "CLEANEST DISJOINT. Highest priority for hypothesis generation. Both fields are mature and quantitative. The bridge is mechanistically tight (DnaA-ATP as molecular current) and falsifiable (nutrient-dependent CV vs. σ̇ relationship). No near-miss papers found. Generator should specify the TUR bound explicitly and map each component to bacterial biology."
+    },
+    {
+      "id": "T5",
+      "label": "FLIM metabolic imaging × Bacterial persisters",
+      "field_a": "Optical metabolic imaging — FLIM NADH/FAD phasor analysis",
+      "field_c": "Antimicrobial resistance — persister cell metabolic transitions",
+      "disjointness_status": "PARTIALLY_EXPLORED",
+      "disjointness_confidence": 0.80,
+      "evidence_for_partial_exploration": [
+        {
+          "paper": "Bhattacharjee et al. 2017, Sci Reports (PMC5473825)",
+          "finding": "FLIM phasor metabolic fingerprinting of 5 bacterial species; NADH autofluorescence; single-cell resolution",
+          "gap": "Not specifically persisters; batch cultures, not mother-machine; endpoint snapshots, not longitudinal tracking"
+        },
+        {
+          "paper": "ACS Infectious Diseases 2024 (PMID 39572010)",
+          "finding": "Rapid antibiotic susceptibility testing by FLIM metabolic tracking; differentiates susceptible/resistant in 10 min",
+          "gap": "Addresses antibiotic phenotype broadly, not persister transition specifically; no mother-machine; endpoint, not longitudinal"
+        },
+        {
+          "paper": "ACS Infectious Diseases 2024 (PMID ~)",
+          "finding": "FLIM detects long-lifetime signal associated with reduced pyocyanin in P. aeruginosa biofilms",
+          "gap": "Biofilm context, not individual persister cells; no persister transition tracking"
+        }
+      ],
+      "novel_bridge": "Phasor-FLIM + mother-machine microfluidics for real-time longitudinal tracking of single-cell persister transition. Pre-persister NADH lifetime signature (predictive marker hours before commitment). Phasor trajectory showing the commitment point. Distinction from existing work: real-time tracking of the stochastic TRANSITION event, not endpoint characterization.",
+      "papers_retrieved": ["bhattacharjee2017-FLIM-bacterial-metabolism.md"],
+      "generator_note": "PARTIALLY_EXPLORED — Scout's flag confirmed. Must explicitly acknowledge prior art (Bhattacharjee 2017, ACS 2024). Hypothesis strength lies in: (1) longitudinal real-time tracking vs. endpoint, (2) mother-machine enabling observation of rare stochastic events, (3) pre-persister predictive signature. Scorer will penalize if prior art not acknowledged."
+    },
+    {
+      "id": "T6",
+      "label": "Classical nucleation theory × Ferroptosis iron release",
+      "field_a": "Physical chemistry — CNT, Gibbs-Thomson, Ostwald ripening",
+      "field_c": "Ferroptosis biology — ferritin to labile iron pool transition",
+      "disjointness_status": "DISJOINT",
+      "disjointness_confidence": 0.95,
+      "evidence_for_disjointness": [
+        "2025 JACS papers on ferritin nucleation exist completely separate from ferroptosis literature",
+        "Ferroptosis reviews (Signal Transduction 2024, Frontiers 2025) describe iron sources without nucleation physics",
+        "Ponnusamy 2025: LIP does NOT expand during ferroptosis induction — mechanism unexplained, opens CNT gap",
+        "No paper applies CNT, Gibbs-Thomson, or Ostwald ripening to ferritin iron release in ferroptosis context",
+        "Ferritin L subunit as 'nucleation center' noted in biochemistry literature but not developed into CNT framework"
+      ],
+      "key_anomaly": "Ponnusamy 2025 shows LIP does NOT measurably increase during pharmacological ferroptosis induction — challenging the dominant model. CNT provides a potential explanation: ferritin dissolution is a kinetically regulated process (dissolution rate depends on pH, supersaturation, core size distribution), not a simple release. Ostwald ripening between ferritin cores of different sizes could create a buffer against LIP expansion.",
+      "supporting_chemistry": [
+        "JACS 2025 (mini-ferritin): nucleation at acidic 3-fold pores; Ostwald ripening of nascent mineral from nucleation site to core",
+        "JACS 2025 (mitochondrial ferritin): cryo-EM of mineral core assembly at nucleation site",
+        "Lysosomal pH shift (7.4 → 4.5) during ferritinophagy changes iron solubility dramatically — dissolution kinetics should follow rate law"
+      ],
+      "novel_bridge": "Ferrihydrite dissolution from ferritin under lysosomal acidification modeled as reverse nucleation. Gibbs-Thomson effect: smaller ferritin cores dissolve faster than larger ones (size-dependent solubility). Ostwald ripening between multiple ferritin cores: iron released from small cores re-precipitates on large cores → explains why LIP doesn't accumulate as expected. Critical pH for dissolution threshold = nucleation/dissolution rate crossover.",
+      "papers_retrieved": ["ponnusamy2025-LIP-dynamics-ferroptosis.md"],
+      "generator_note": "Strong DISJOINT. The Ponnusamy 2025 anomaly (LIP doesn't expand) is an open question that CNT directly addresses. The JACS 2025 ferritin nucleation papers establish the physical chemistry foundation. High impact if correct: mechanistic explanation of a paradox in ferroptosis biology using physical chemistry."
+    }
+  ],
+  "disjointness_ranking": [
+    {"rank": 1, "id": "T4", "status": "DISJOINT", "confidence": 0.96, "rationale": "Cleanest gap, both fields maximally quantitative, mechanistically specific, no near-miss papers"},
+    {"rank": 2, "id": "T6", "status": "DISJOINT", "confidence": 0.95, "rationale": "Complete separation; Ponnusamy 2025 anomaly creates perfect entry point; JACS 2025 papers give physical chemistry foundation"},
+    {"rank": 3, "id": "T2", "status": "DISJOINT", "confidence": 0.97, "rationale": "Highest confidence but plant bioacoustics is a younger field; MSL10 kinetics give empirical support"},
+    {"rank": 4, "id": "T3", "status": "DISJOINT", "confidence": 0.93, "rationale": "Strong gap but active matter/phase separation literature is adjacent and growing; distinction from LLPS must be made"},
+    {"rank": 5, "id": "T1", "status": "PARTIALLY_EXPLORED", "confidence": 0.85, "rationale": "Ashworth 2015 precedent; must distinguish bond vs site percolation and T cell specificity"},
+    {"rank": 6, "id": "T5", "status": "PARTIALLY_EXPLORED", "confidence": 0.80, "rationale": "Multiple FLIM+bacteria papers exist; hypothesis is narrow (longitudinal phasor-FLIM+mother-machine)"}
+  ],
+  "papers_retrieved": [
+    {"filename": "marsland2019-TUR-biochemical-oscillations.md", "doi": "10.1098/rsif.2019.0098", "candidate": "T4", "role": "Shows TUR applied to oscillators, NOT cell size"},
+    {"filename": "bhattacharjee2017-FLIM-bacterial-metabolism.md", "doi": "10.1038/s41598-017-04032-w", "candidate": "T5", "role": "Foundational FLIM phasor metabolic fingerprinting; no persister tracking"},
+    {"filename": "bonisoli2024-plant-ultrasound-detection.md", "doi": "10.1080/15592324.2024.2310974", "candidate": "T2", "role": "Plant UE detection; external microphone; no internal filter-bank"},
+    {"filename": "ponnusamy2025-LIP-dynamics-ferroptosis.md", "doi": "10.1101/2025.07.01.662602", "candidate": "T6", "role": "LIP does NOT expand during ferroptosis — anomaly CNT could explain"},
+    {"filename": "bajpai2021-chromatin-phase-separation-elife.md", "doi": "10.7554/eLife.63976", "candidate": "T3", "role": "Chromatin phase separation; polymer model; no jamming"},
+    {"filename": "rautu2025-chromatin-active-hydrodynamics.md", "arxiv": "2503.20964", "candidate": "T3", "role": "Most recent chromatin physics theory; active matter; no jamming"},
+    {"filename": "nicolas-boluda2021-LOX-collagen-T-cell-migration.md", "doi": "10.7554/eLife.58688", "candidate": "T1", "role": "LOX inhibition improves T cell migration; no percolation framework"},
+    {"filename": "ashworth2015-percolation-collagen-cell-invasion.md", "pmid": "25881025", "candidate": "T1", "role": "Only paper applying percolation to collagen; generic cells, not T cells"},
+    {"filename": "merdan2025-acoustic-communication-model-plants.md", "arxiv": "2512.01096", "candidate": "T2", "role": "First plant acoustic model; biological models only, no filter-bank"},
+    {"filename": "marsland-tur-cell-signaling-2025.md", "doi": "10.1101/2025.01.04.631284", "candidate": "T4", "role": "TUR applied to yeast signaling; confirms NOT applied to cell size"}
+  ],
+  "gap_analysis": {
+    "T1": {
+      "explored": ["Collagen density → T cell exclusion", "LOX crosslinking → stiffness → immune exclusion", "Percolation → generic cell invasion in engineered scaffolds"],
+      "not_explored": ["Bond percolation on collagen crosslinking network", "LOX as bond probability p", "p_c as critical crosslink density for T cell infiltration", "Correlation length exponent predicting exclusion geometry", "Finite-size scaling for tumor size effects"]
+    },
+    "T2": {
+      "explored": ["Plant UE existence and frequency bands", "MSL channel existence and basic kinetics", "Ca²⁺ signaling downstream of sound", "Biological kinetic modeling of plant acoustic responses"],
+      "not_explored": ["Matched-filter detection theory applied to plant channels", "Filter-bank architecture of MSL paralogue family", "SNR analysis of intraspecific UE detection", "Trichome resonant frequency as transducer", "Frequency-selective Ca²⁺ signaling as spectral output"]
+    },
+    "T3": {
+      "explored": ["Cell-level jamming in tissues", "Chromatin LLPS and condensates", "Active hydrodynamic theory of chromatin", "Euchromatin liquid vs. heterochromatin gel properties"],
+      "not_explored": ["Liu-Nagel jamming diagram applied to chromatin/nucleosome arrays", "HP1 bridging as contact number z → z_c", "Force chains in heterochromatin", "Edwards entropy and compactivity of chromatin states", "Nuclear tension as applied stress axis"]
+    },
+    "T4": {
+      "explored": ["TUR in biochemical oscillators", "TUR in molecular motors", "TUR in signaling systems", "Stochastic thermodynamics of cell size models", "Adder model precision-metabolism trade-off (different formalism)"],
+      "not_explored": ["TUR inequality applied to adder model specifically", "Growth rate as entropy proxy for size homeostasis", "DnaA-ATP as the molecular TUR current", "Nutrient-dependent precision as TUR-bounded curve", "Falsifiable prediction: CV_added × μ = constant at TUR bound"]
+    },
+    "T5": {
+      "explored": ["FLIM phasor metabolic fingerprinting of bacteria", "FLIM for antibiotic susceptibility testing", "Persister cell single-cell tracking with fluorescent reporters", "Persister metabolic state (low ATP, low growth)"],
+      "not_explored": ["Phasor-FLIM + mother-machine for longitudinal persister tracking", "Pre-persister NADH lifetime predictive signature", "Real-time tracking of persister TRANSITION event (not endpoint)", "Phasor trajectory showing commitment point"]
+    },
+    "T6": {
+      "explored": ["CNT applied to ferritin iron mineralization (JACS 2025)", "Ostwald ripening within ferritin (JACS 2025)", "Ferroptosis iron sources: NCOA4, multisourced model", "LIP dynamics during ferroptosis (Ponnusamy 2025 — LIP doesn't expand)"],
+      "not_explored": ["CNT applied to ferritin iron RELEASE (dissolution) during ferroptosis", "Gibbs-Thomson effect on ferrihydrite core size and solubility", "Ostwald ripening between ferritin cores as LIP buffer", "Critical pH as dissolution/nucleation rate crossover", "Dissolution rate law for ferrihydrite under lysosomal pH"]
+    }
+  },
+  "orchestrator_recommendations": {
+    "primary_target": "T4",
+    "rationale": "Highest confidence DISJOINT, cleanest mechanistic gap, both fields maximally quantitative, most falsifiable prediction",
+    "secondary_targets": ["T6", "T3"],
+    "deprioritize": ["T5"],
+    "note": "T1 and T5 are PARTIALLY_EXPLORED — Generator should treat them with appropriate hedging and explicit prior art acknowledgment. T2, T3, T4, T6 are cleanly DISJOINT — Generator has full latitude for bold hypothesis construction."
+  }
+}

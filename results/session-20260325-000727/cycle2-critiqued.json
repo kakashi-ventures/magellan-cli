@@ -1,0 +1,181 @@
+{
+  "session_id": "session-20260325-000727",
+  "cycle": 2,
+  "phase": "critique",
+  "target": "T4",
+  "fields": {
+    "field_a": "Stochastic thermodynamics — TUR, entropy production bounds",
+    "field_c": "Bacterial cell biology — cell size homeostasis via adder model"
+  },
+  "critiqued_at": "2026-03-25",
+  "output_file": "results/session-20260325-000727/cycle2-critique.md",
+  "hypotheses": [
+    {
+      "id": "C2-H1",
+      "title": "Multi-Current TUR Decomposition — Noise Portfolio with DnaA as Sole Near-Optimal Subsystem",
+      "verdict": "WOUNDED",
+      "original_confidence": 6,
+      "revised_confidence": 4,
+      "key_attacks": [
+        "Counter-evidence: Genthon 2026 (arxiv:2601.05193) shows extrinsic noise dominates cell size variability — intrinsic noise decomposition may be practically irrelevant",
+        "Mechanism: Independent-subsystem assumption questionable (DnaA-FtsZ STRING 0.920 coupling)",
+        "Groundedness: Dechant & Sasa 2018 confirmed but multi-current biological decomposition is PARAMETRIC extension",
+        "In vivo FtsZ GTPase rate (2.8-4.2/min) lower than cited in vitro rate (5-8/min)"
+      ],
+      "novelty": true,
+      "citations_verified": true,
+      "citation_hallucinations": 0,
+      "groundedness_pct": 58,
+      "survival_note": "Framework conceptually valid and novel but extrinsic noise dominance severely limits practical relevance"
+    },
+    {
+      "id": "C2-H2",
+      "title": "ppGpp → Supercoiling → N_eff Reduction as Stress-Responsive TUR Tuning",
+      "verdict": "WOUNDED",
+      "original_confidence": 5,
+      "revised_confidence": 4,
+      "key_attacks": [
+        "Mechanism: Cooperative DnaA filament assembly means I/tau-sites filled by recruitment from R-boxes, not independently — N_eff may be less supercoiling-sensitive than independent-site model predicts",
+        "Counter-evidence: Novobiocin also inhibits DARS2 function in vivo, confounding the 'clean' supercoiling test",
+        "Quantitative: 50-75% reduction in I/tau/C-site occupancy is purely parametric with no experimental anchor"
+      ],
+      "novelty": true,
+      "citations_verified": true,
+      "citation_hallucinations": 0,
+      "groundedness_pct": 67,
+      "survival_note": "ppGpp → supercoiling → initiation inhibition chain verified; TUR-N_eff connection novel but cooperative binding model challenges quantitative predictions"
+    },
+    {
+      "id": "C2-H3",
+      "title": "Incomplete RIDA Reset Creates Inter-Generational Memory Shifting Adder Toward Timer",
+      "verdict": "KILLED",
+      "original_confidence": 6,
+      "revised_confidence": 1,
+      "key_attacks": [
+        "LOGIC KILL: Model predicts negligible WT memory (f=0.007, rho=0.005) but claims to explain Susman 2025 PNAS 'substantial nonlinear memory' in WT E. coli — quantitative inconsistency",
+        "Counter-evidence: Lobner-Olesen 2024 PNAS shows Delta4 strain without RIDA/Hda/datA/DARS1/DARS2 grows normally at slow growth — RIDA is DISPENSABLE",
+        "Mechanism: Multiple redundant reset mechanisms (intrinsic ATPase, datA-DDAH) ignored by single-pathway model",
+        "Triviality: incomplete reset creating memory is obvious to stochastic process theorists"
+      ],
+      "novelty": true,
+      "citations_verified": true,
+      "citation_hallucinations": 0,
+      "groundedness_pct": 47,
+      "survival_note": "KILLED — internal logical inconsistency between negligible WT prediction and claimed explanation of Susman 2025 data"
+    },
+    {
+      "id": "C2-H4",
+      "title": "Per-Origin Noise Spectroscopy — CL/PG Gradient Creates CV Asymmetry",
+      "verdict": "KILLED",
+      "original_confidence": 5,
+      "revised_confidence": 1,
+      "key_attacks": [
+        "MECHANISM KILL: DnaA diffusion (~1-5 um2/s) homogenizes any spatial gradient within ~1 second, while counting takes minutes. Peclet number ~0.002 means gradient physically CANNOT persist",
+        "CL only ~5% of total phospholipid — even with 2-3x polar enrichment, effect on DnaA-ATP regeneration is modest",
+        "Hypothesis itself identifies this as fatal flaw but dismisses it as a 'possibility' when it is a near-certainty"
+      ],
+      "novelty": true,
+      "citations_verified": true,
+      "citation_hallucinations": 0,
+      "groundedness_pct": 50,
+      "survival_note": "KILLED — spatial DnaA-ATP gradient cannot exist given measured protein diffusion rates and E. coli cell dimensions"
+    },
+    {
+      "id": "C2-H5",
+      "title": "FtsZ GTPase ~2000x Over-Dissipating vs DnaA — Precision Bottleneck at Initiation Not Division",
+      "verdict": "SURVIVES",
+      "original_confidence": 7,
+      "revised_confidence": 6,
+      "key_attacks": [
+        "Triviality risk: qualitative conclusion (initiation is bottleneck) may be expected by field experts",
+        "Extrinsic noise (Genthon 2026) may render entire intrinsic comparison practically irrelevant",
+        "FtsZ84 pleiotropic effects at semi-permissive temperature could confound clean comparison"
+      ],
+      "novelty": true,
+      "citations_verified": true,
+      "citation_hallucinations": 0,
+      "groundedness_pct": 78,
+      "survival_note": "Robust calculation (410-1840x ratio across all parameter ranges), well-grounded parameters, clean falsification test. Triviality is main risk.",
+      "strongest_kill_argument": "Triviality + extrinsic noise dominance: a 2000x calculation to prove something expected, in an intrinsic noise regime that may not matter"
+    },
+    {
+      "id": "C2-H6",
+      "title": "TUR Dominates Berg-Purcell for DnaA-oriC — Bottleneck Is Thermodynamic Not Diffusive",
+      "verdict": "WOUNDED",
+      "original_confidence": 6,
+      "revised_confidence": 4,
+      "key_attacks": [
+        "Claim verification: DnaA(L366K) CANNOT initiate replication — primary experimental test is impossible as designed",
+        "Counter-evidence: Effective DnaA D could be 0.1-0.5 um2/s (membrane binding, datA sequestration) → BPL floor approaches TUR floor",
+        "Mechanism: Independence assumption for combining TUR and BPL needs theoretical justification",
+        "Saxena et al. 2013 confirmed but reveals mutant is replication-incompetent"
+      ],
+      "novelty": true,
+      "citations_verified": true,
+      "citation_hallucinations": 0,
+      "groundedness_pct": 58,
+      "survival_note": "Theoretical comparison valid and novel but primary experiment flawed and effective D_DnaA unknown"
+    },
+    {
+      "id": "C2-H7",
+      "title": "Antibiotic-Specific Noise Fingerprinting at Matched Growth Rate",
+      "verdict": "WOUNDED",
+      "original_confidence": 5,
+      "revised_confidence": 3,
+      "key_attacks": [
+        "Counter-evidence: Sub-MIC ciprofloxacin induces ~25-fold SulA increase via SOS — CV increase may be entirely SOS-mediated",
+        "Mechanism: SOS regulon has >40 genes; deltaSulA control insufficient to isolate supercoiling effect",
+        "Counter-evidence: Chloramphenicol may affect supercoiling via transcription-translation coupling, undermining 'no effect' control",
+        "Dose-response slope could mimic N_eff prediction via dose-dependent SOS intensity"
+      ],
+      "novelty": true,
+      "citations_verified": true,
+      "citation_hallucinations": 0,
+      "groundedness_pct": 52,
+      "survival_note": "Creative concept but antibiotic pleiotropy makes clean attribution nearly impossible; genetic perturbations would be better"
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "survived": 1,
+    "wounded": 4,
+    "killed": 2,
+    "kill_rate": 0.286,
+    "avg_confidence_change": -2.0,
+    "citation_hallucinations_total": 0,
+    "key_counter_evidence": [
+      "Genthon 2026 (arxiv:2601.05193): extrinsic noise dominates cell size variability in bacteria",
+      "Lobner-Olesen 2024 PNAS: RIDA/Hda dispensable for E. coli cell-cycle control",
+      "Cooperative DnaA filament assembly (Grimwade et al. 2007; Rozgaja et al. 2011): low-affinity sites require recruitment from high-affinity anchors",
+      "DnaA(L366K) replication-incompetent (Saxena et al. 2013): primary test for C2-H6 flawed",
+      "Sub-MIC ciprofloxacin induces ~25-fold SOS response: confounds C2-H7"
+    ]
+  },
+  "critic_questions": [
+    {
+      "id": "Q1",
+      "hypothesis_ids": ["C2-H1", "C2-H5"],
+      "question": "How does extrinsic noise dominance (Genthon 2026) affect the multi-current TUR decomposition? Can intrinsic noise fraction be isolated experimentally?"
+    },
+    {
+      "id": "Q2",
+      "hypothesis_ids": ["C2-H2"],
+      "question": "How does cooperative DnaA filament assembly (low-affinity sites filled by recruitment from R-box anchors) change the N_eff vs supercoiling prediction?"
+    },
+    {
+      "id": "Q3",
+      "hypothesis_ids": ["C2-H7"],
+      "question": "Can noise fingerprinting use genetic perturbations (inducible gyrase mutants, DnaA overexpression) instead of pleiotropic antibiotics?"
+    }
+  ],
+  "meta_critique": {
+    "kill_rate": 0.286,
+    "kill_rate_assessment": "Slightly below 30% minimum but defensible — cycle 2 hypotheses are refined and addressed prior kill patterns",
+    "web_searches_per_hypothesis": "All 7 hypotheses searched for novelty, counter-evidence, and claim-level verification",
+    "claim_verification_complete": true,
+    "citation_hallucinations_found": 0,
+    "protein_property_errors": 1,
+    "protein_property_error_detail": "DnaA(L366K) described as increasing cytoplasmic D but actually prevents productive pre-RC assembly — experimental design flaw in C2-H6",
+    "strongest_kill_argument_for_survivor": "C2-H5: Triviality (initiation bottleneck may be obvious) + extrinsic noise renders intrinsic comparison irrelevant"
+  }
+}

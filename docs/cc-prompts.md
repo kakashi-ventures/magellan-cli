@@ -3,3 +3,5 @@ Questa è stata la seconda esecuzione effettiva di MAGELLAN, dopo vari miglioram
 Quali sono i campi del sapere scientifico probabilmente più adatti all'approccio metodologico adottato da MAGELLAN? Il workflow attuale tende a dare una proprità a questi campi o tratta tutte le materie scientifiche allo stesso modo?
 
 Non ci sono campi scienfici in cui MAGELLAN potrebbe essere davvero completamente autonono nel processo di scoperta scientifica, dall'ideazione fino alla validazione formale finale? 
+
+Nel workflow Claude Code di magellan c'è un file particolarmente grande e complesso che è .claude/agents/discovery-orchestrator.md Non vorrei che la sua dimensione e complessità lo rendessero meno efficace. Considerando le ultime best practice a marzo 2026 di Claude Code che puoi leggere qui https://code.claude.com/docs/en/best-practices considerando la documentazione ufficiale dei sub agents che puoi leggere qui https://code.claude.com/docs/en/sub-agents e considerando le best practice che puoi trovare online e che sono ancora sensate e valide a marzo 2026, suggeriscimi come migliorare questo file o altre parti del workflow a cui esso è collegato

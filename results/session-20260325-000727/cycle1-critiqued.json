@@ -1,0 +1,188 @@
+{
+  "session_id": "session-20260325-000727",
+  "cycle": 1,
+  "phase": "critique",
+  "completed_at": "2026-03-25T02:30:00Z",
+  "output_file": "results/session-20260325-000727/cycle1-critique.md",
+  "total_hypotheses": 8,
+  "kill_rate": 0.375,
+  "verdicts": {
+    "survived": 1,
+    "wounded": 4,
+    "killed": 3
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "title": "DnaA-ATP Counting at oriC Is a Thermodynamically Near-Optimal Molecular Current for the Bacterial Adder",
+      "verdict": "SURVIVES",
+      "original_confidence": 6,
+      "revised_confidence": 5,
+      "kill_vectors_triggered": [],
+      "key_finding": "Genuinely novel connection (TUR x adder). DnaA box count error (20→11) actually strengthens near-optimality claim (CV floor 9.5% vs observed 10-13%). Main vulnerability: noise decomposition — if Min system or growth fluctuations dominate, DnaA near-optimality is unobservable.",
+      "factual_errors": [
+        "DnaA boxes ~20 → actual count is 11 within oriC"
+      ],
+      "corrections_needed": [
+        "Recalculate with N=11: TUR floor shifts to CV ≥ 9.5%",
+        "Address noise decomposition: what fraction of total CV comes from DnaA counting?"
+      ]
+    },
+    {
+      "id": "H2",
+      "title": "RIDA-Mediated ATP Hydrolysis Functions as Irreversible Counter-Reset Whose Dissipation Cost Sets the Adder's Landauer Erasure Price",
+      "verdict": "WOUNDED",
+      "original_confidence": 5,
+      "revised_confidence": 3,
+      "kill_vectors_triggered": ["mechanism", "logic"],
+      "key_finding": "Landauer framing is quantitatively uninformative — RIDA dissipates ~20 kBT per event vs Landauer bound of 0.7 kBT (30x above minimum). Predictions test RIDA function, not Landauer framework specifically.",
+      "factual_errors": [],
+      "corrections_needed": [
+        "Explain why Landauer framing adds insight at 30x above the erasure bound",
+        "Find predictions that discriminate Landauer interpretation from simpler RIDA explanations"
+      ]
+    },
+    {
+      "id": "H3",
+      "title": "Non-Monotonic DnaA Copy Number Generates Counterintuitive Precision Maximum at Intermediate Growth Rates",
+      "verdict": "WOUNDED",
+      "original_confidence": 4,
+      "revised_confidence": 2,
+      "kill_vectors_triggered": ["mechanism", "groundedness", "hallucination_check"],
+      "key_finding": "Core claim (non-monotonic DnaA copy number per origin) could not be verified from Schmidt 2016 or other sources. Specific 0.7 dbl/hr prediction appears speculative. May confuse total DnaA with per-origin DnaA.",
+      "factual_errors": [
+        "DnaA non-monotonic copy number (Schmidt 2016) — UNVERIFIED"
+      ],
+      "corrections_needed": [
+        "Provide direct evidence for non-monotonic DnaA per origin vs growth rate",
+        "Distinguish total DnaA from per-origin DnaA",
+        "Ground the 0.7 dbl/hr prediction in data"
+      ]
+    },
+    {
+      "id": "H4",
+      "title": "Multi-Fork Replication Creates Parallel Counting Currents Whose Correlation Structure Reveals DnaA Pool Sharing",
+      "verdict": "WOUNDED",
+      "original_confidence": 5,
+      "revised_confidence": 4,
+      "kill_vectors_triggered": ["novelty"],
+      "key_finding": "Partially anticipated by 2023 PRX Life paper on synchronous replication initiation with shared DnaA pools. TUR formalization is new but biology is known. DnaA membrane interactions complicate 'shared cytoplasmic pool' model.",
+      "factual_errors": [
+        "DnaA described as 'cytoplasmic' — actually has significant membrane affinity"
+      ],
+      "corrections_needed": [
+        "Acknowledge 2023 PRX Life prior art on synchronous initiation noise",
+        "Address DnaA membrane interactions in pool-sharing model",
+        "Clarify what TUR quantification adds beyond existing stochastic models"
+      ]
+    },
+    {
+      "id": "H5",
+      "title": "ppGpp Alarmone Coordinates Thermodynamically Near-Optimal Trajectory Through Precision-Dissipation Plane Under Stress",
+      "verdict": "KILLED",
+      "original_confidence": 4,
+      "revised_confidence": 1,
+      "kill_vectors_triggered": ["mechanism", "counter_evidence", "claim_verification"],
+      "key_finding": "FATAL mechanism error. ppGpp primarily inhibits replication via DNA supercoiling changes (Kraemer 2019, Fernández-Coll 2020), NOT via DnaA level reduction. The hypothesis's mechanism chain (ppGpp → reduced DnaA → TUR trajectory shift) is contradicted by published evidence. ppGpp bypasses the DnaA counting current entirely.",
+      "factual_errors": [
+        "ppGpp reduces DnaA as primary mechanism — WRONG; primary mechanism is supercoiling"
+      ],
+      "corrections_needed": []
+    },
+    {
+      "id": "H6",
+      "title": "First-Passage TUR Establishes Thermodynamic Cost Hierarchy: Adder Is Cheapest, Timer Is Most Expensive",
+      "verdict": "KILLED",
+      "original_confidence": 4,
+      "revised_confidence": 1,
+      "kill_vectors_triggered": ["claim_verification", "mechanism"],
+      "key_finding": "CITATION HALLUCINATION. Campos 2014 proved Caulobacter uses an ADDER, not a sizer. The paper title ('A Constant Size Extension Drives Bacterial Cell Size Homeostasis') explicitly describes the adder mechanism. Without a real sizer example, the cost hierarchy (timer >> sizer > adder) loses its empirical anchor.",
+      "factual_errors": [
+        "Caulobacter sizer (Campos 2014) — CITATION HALLUCINATION: paper proves ADDER"
+      ],
+      "corrections_needed": []
+    },
+    {
+      "id": "H7",
+      "title": "MinCDE Oscillation Dissipation Sets TUR Floor for Division Site Positioning That Operates at Lower Efficiency Than DnaA Counting",
+      "verdict": "WOUNDED",
+      "original_confidence": 4,
+      "revised_confidence": 3,
+      "kill_vectors_triggered": ["novelty", "mechanism"],
+      "key_finding": "Partially anticipated by Fei & Bhatt 2015 (PLOS Comp Bio) which analyzed MinCDE dissipation strategy, finding non-monotonic dissipation-precision relationship. Marsland 2019 applied TUR to oscillations. The DnaA comparison inherits the box count error from H1. The specific DnaA-vs-MinCDE comparison is new but components are known.",
+      "factual_errors": [
+        "DnaA at 1.4x TUR floor — inherited error from H1; should be ~1.05-1.37x with N=11"
+      ],
+      "corrections_needed": [
+        "Acknowledge Fei & Bhatt 2015 prior art on MinCDE dissipation",
+        "Address non-monotonic dissipation-precision relationship in MinCDE",
+        "Recalculate DnaA comparison with corrected box count (N=11)"
+      ]
+    },
+    {
+      "id": "H8",
+      "title": "Cross-Species Adder Precision Scales with oriC DnaA-Box Count via Universal TUR Law",
+      "verdict": "KILLED",
+      "original_confidence": 3,
+      "revised_confidence": 1,
+      "kill_vectors_triggered": ["claim_verification", "mechanism", "logic"],
+      "key_finding": "Multiple factual errors: (1) E. coli DnaA box count wrong (11, not ~20), (2) V. cholerae Chr2 uses RctB initiator NOT DnaA — invalidating two-chromosome test, (3) species differ in regulatory circuits far beyond box count (RIDA, DARS, datA, YabA). Universal scaling law built on incorrect numbers and naive assumptions.",
+      "factual_errors": [
+        "E. coli ~20 DnaA boxes — actual: 11",
+        "V. cholerae two chromosomes as DnaA test — Chr2 uses RctB, not DnaA",
+        "Ignores species-specific regulatory differences"
+      ],
+      "corrections_needed": []
+    }
+  ],
+  "critic_questions": [
+    {
+      "hypothesis_id": "H1",
+      "question": "E. coli oriC has 11 DnaA binding sites (not ~20). With N=11, TUR floor shifts to CV ≥ 9.5%. Can you recalculate and clarify whether N_eff should include additional DnaA molecules beyond the 11 box-bound ones?"
+    },
+    {
+      "hypothesis_id": "H1",
+      "question": "What fraction of total added-size variance comes from DnaA counting noise vs. Min system noise vs. growth fluctuations? Without noise decomposition, near-TUR-optimality may be unobservable."
+    },
+    {
+      "hypothesis_id": "H5",
+      "question": "Fernández-Coll & Cashel (mBio 2020) showed ppGpp inhibits initiation via DNA supercoiling, not DnaA level reduction. Can this hypothesis be reformulated for ppGpp's actual mechanism?"
+    },
+    {
+      "hypothesis_id": "H6",
+      "question": "Campos 2014 proved Caulobacter uses an ADDER, not a sizer. What organism implements a sizer? Can the cost hierarchy survive without a sizer example?"
+    },
+    {
+      "hypothesis_id": "H8",
+      "question": "V. cholerae Chr2 uses RctB (not DnaA). Can you identify species that vary only in DnaA box count for a valid cross-species scaling test?"
+    }
+  ],
+  "meta_critique": {
+    "kill_rate": 0.375,
+    "kill_rate_assessment": "Within healthy 30-50% range",
+    "primary_kill_vectors": ["claim_verification (2 kills)", "mechanism (1 kill)"],
+    "recurring_errors": [
+      "DnaA box count inflated to ~20 across multiple hypotheses (actual: 11)",
+      "ppGpp mechanism oversimplified (supercoiling primary, not DnaA reduction)",
+      "Caulobacter misclassified as sizer (actually adder)"
+    ],
+    "error_propagation": "DnaA box count error likely originates from computational validation phase (N_eff=20 recommendation). Propagates to H1, H7, H8.",
+    "web_searches_per_hypothesis": {
+      "H1": 6,
+      "H2": 3,
+      "H3": 4,
+      "H4": 3,
+      "H5": 3,
+      "H6": 3,
+      "H7": 3,
+      "H8": 4
+    },
+    "total_web_searches": 29,
+    "claim_verification_results": {
+      "verified": 12,
+      "partially_correct": 3,
+      "wrong": 4,
+      "unverified": 2
+    }
+  }
+}

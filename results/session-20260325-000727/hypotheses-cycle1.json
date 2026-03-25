@@ -1,0 +1,194 @@
+{
+  "session_id": "session-20260325-000727",
+  "cycle": 1,
+  "phase": "generation",
+  "target": "T4",
+  "fields": {
+    "field_a": "Stochastic thermodynamics — TUR, entropy production bounds",
+    "field_c": "Bacterial cell biology — cell size homeostasis via adder model"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "title": "DnaA-ATP Counting at oriC Is a Thermodynamically Near-Optimal Molecular Current for the Bacterial Adder",
+      "connection": "Stochastic thermodynamics (TUR) → DnaA-ATP binding at oriC as molecular counting current → Bacterial adder model size precision",
+      "bridge_mechanism": "TUR on DnaA-ATP counting",
+      "confidence": 6,
+      "groundedness": "MEDIUM",
+      "key_prediction": "CV_added >= 7.07%; E. coli at 1.4x TUR floor; no strain achieves CV < 7%",
+      "generation_technique": "mathematical_necessity + multi_level_abstraction",
+      "grounded_claims": [
+        "TUR: CV^2 >= 2/Sigma (Barato & Seifert 2015, PRL 114:158101)",
+        "DnaA oriC binding sites ~20 (Grimwade & Leonard 2021, Front Microbiol)",
+        "CV_added ~10% (Taheri-Araghi et al. 2015, Curr Biol 25:385)",
+        "Oscillators 10^4-10^6x from TUR (Marsland et al. 2019, J R Soc Interface)",
+        "DnaA-Hda STRING 0.962",
+        "DeltaG_ATP ~20 kT"
+      ],
+      "parametric_claims": [
+        "Near-optimality 1.4x ratio (derived calculation)",
+        "Markov process assumption for DnaA counting"
+      ]
+    },
+    {
+      "id": "H2",
+      "title": "RIDA-Mediated ATP Hydrolysis Functions as Irreversible Counter-Reset Whose Dissipation Cost Sets the Adder's Landauer Erasure Price",
+      "connection": "Information-theoretic erasure cost → Hda/RIDA as irreversible counter-reset → Adder counting fidelity across generations",
+      "bridge_mechanism": "Information-theoretic erasure via RIDA",
+      "confidence": 5,
+      "groundedness": "MEDIUM",
+      "key_prediction": "Hda loss -> CV up; Hda excess -> CV unchanged below 7%; adder-to-timer regression shift",
+      "generation_technique": "bisociation",
+      "grounded_claims": [
+        "RIDA mechanism (Kato & Katayama 2001, EMBO J; STRING DnaA-Hda 0.962)",
+        "Landauer principle (Landauer 1961, IBM J Res Dev)",
+        "Beta-clamp involvement (DnaA-DnaN STRING 0.999)"
+      ],
+      "parametric_claims": [
+        "Counter-reset analogy to information erasure",
+        "Asymmetric Hda prediction",
+        "f-dependent CV formula",
+        "Adder-to-timer regression shift prediction"
+      ]
+    },
+    {
+      "id": "H3",
+      "title": "Non-Monotonic DnaA Copy Number Generates Counterintuitive Precision Maximum at Intermediate Growth Rates",
+      "connection": "DnaA proteomics scaling → Growth-rate-dependent TUR floor landscape → Precision maximum near 0.7 dbl/hr",
+      "bridge_mechanism": "Growth-rate-dependent TUR floor landscape",
+      "confidence": 4,
+      "groundedness": "LOW-MEDIUM",
+      "key_prediction": "Counting noise peak at 0.7 dbl/hr; decomposable from extrinsic noise",
+      "generation_technique": "counterfactual_probing + gap_targeted",
+      "grounded_claims": [
+        "DnaA non-monotonic copy number (Schmidt et al. 2016, Nat Biotechnol 34:104)",
+        "CV_added increases monotonically at slow growth (mother-machine data)"
+      ],
+      "parametric_claims": [
+        "N_eff proportional to total DnaA",
+        "TUR floor range 7.1-8.5%",
+        "Counting noise decomposition experiment"
+      ]
+    },
+    {
+      "id": "H4",
+      "title": "Multi-Fork Replication Creates Parallel Counting Currents Whose Correlation Structure Reveals DnaA Pool Sharing",
+      "connection": "Multi-current TUR → Overlapping replication rounds as parallel DnaA-ATP counters → Correlated noise structure",
+      "bridge_mechanism": "Parallel Markov process correlation",
+      "confidence": 5,
+      "groundedness": "MEDIUM",
+      "key_prediction": "DnaA overexpression reduces CV at fast growth (n>1) but not slow growth (n=1)",
+      "generation_technique": "scale_bridging",
+      "grounded_claims": [
+        "Multi-fork replication (Cooper & Helmstetter 1968, J Mol Biol)",
+        "Synchronous initiation (Skarstad reviews)",
+        "DnaA freely diffusing cytoplasmic (basic biochemistry)",
+        "Parallel averaging and correlated counter formulas (standard statistics)"
+      ],
+      "parametric_claims": [
+        "Shared pool -> high correlation",
+        "DnaA overexpression differential prediction"
+      ]
+    },
+    {
+      "id": "H5",
+      "title": "ppGpp Alarmone Coordinates Thermodynamically Near-Optimal Trajectory Through Precision-Dissipation Plane Under Stress",
+      "connection": "TUR bound curve → ppGpp modulates both dissipation and counting current → Stringent response as coordinated trajectory",
+      "bridge_mechanism": "Coordinated TUR axis traversal",
+      "confidence": 4,
+      "groundedness": "LOW-MEDIUM",
+      "key_prediction": "ppGpp titration traces CV^2 x Sigma ~ 2 (near TUR bound)",
+      "generation_technique": "facet_recombination",
+      "grounded_claims": [
+        "ppGpp synthesis by RelA/SpoT (standard microbiology)",
+        "ppGpp reduces DnaA levels (Skarstad & Katayama reviews)",
+        "ppGpp0 strains with inducible RelA (published constructs)"
+      ],
+      "parametric_claims": [
+        "TUR trajectory prediction",
+        "Near-optimality maintenance under stress",
+        "DnaA-ATP/ADP measurement at multiple ppGpp levels"
+      ]
+    },
+    {
+      "id": "H6",
+      "title": "First-Passage TUR Establishes Thermodynamic Cost Hierarchy: Adder Is Cheapest, Timer Is Most Expensive",
+      "connection": "First-passage TUR → Different homeostasis models define different currents → Distinct dissipation costs per unit precision",
+      "bridge_mechanism": "First-passage TUR classification of homeostasis",
+      "confidence": 4,
+      "groundedness": "LOW-MEDIUM",
+      "key_prediction": "Timer >> sizer > adder in cost; Caulobacter > E. coli in size-sensing dissipation",
+      "generation_technique": "analogy_transfer",
+      "grounded_claims": [
+        "Oscillator TUR performance (Marsland et al. 2019)",
+        "Caulobacter sizer-like behavior (Campos et al. 2014, Cell)",
+        "Adder behavior in multiple species (Amir 2014)"
+      ],
+      "parametric_claims": [
+        "First-passage TUR form (Gingrich & Horowitz 2017 cited but uncertain)",
+        "Cost hierarchy derivation",
+        "Thermodynamic selection for adder prevalence"
+      ]
+    },
+    {
+      "id": "H7",
+      "title": "MinCDE Oscillation Dissipation Sets TUR Floor for Division Site Positioning That Operates at Lower Efficiency Than DnaA Counting",
+      "connection": "Periodic TUR → MinD ATPase oscillation → Spatial positioning precision of FtsZ ring",
+      "bridge_mechanism": "Periodic TUR for oscillatory spatial precision",
+      "confidence": 4,
+      "groundedness": "MEDIUM",
+      "key_prediction": "Min at 15-25x TUR floor; DnaA at 1.4x; Min is precision bottleneck",
+      "generation_technique": "bisociation + multi_level_abstraction",
+      "grounded_claims": [
+        "MinCDE oscillation (Raskin & de Boer 1999, PNAS)",
+        "MinD is ATPase (standard biochemistry)",
+        "Oscillation period ~40-120s (imaging studies)"
+      ],
+      "parametric_claims": [
+        "MinD copy number ~2000",
+        "Z-ring positioning sigma ~3-5% of cell length",
+        "Periodic TUR application",
+        "15-25x ratio from TUR floor"
+      ]
+    },
+    {
+      "id": "H8",
+      "title": "Cross-Species Adder Precision Scales with oriC DnaA-Box Count via Universal TUR Law",
+      "connection": "Species-specific N_eff → Variable TUR floors → Universal scaling law: CV^2_min x N_boxes = constant",
+      "bridge_mechanism": "Universal TUR scaling across species",
+      "confidence": 3,
+      "groundedness": "LOW",
+      "key_prediction": "CV^2_min x N_boxes ~ 0.1 across bacterial species; B. subtilis CV_min > E. coli CV_min",
+      "generation_technique": "measurement_transfer",
+      "grounded_claims": [
+        "E. coli oriC ~20 DnaA boxes",
+        "V. cholerae two chromosomes",
+        "Adder shown in multiple species"
+      ],
+      "parametric_claims": [
+        "B. subtilis DnaA-box count (~7-12)",
+        "Universal scaling law",
+        "Synthetic oriC engineering feasibility"
+      ]
+    }
+  ],
+  "statistics": {
+    "total_hypotheses": 8,
+    "confidence_range": [3, 6],
+    "mean_confidence": 4.25,
+    "groundedness_distribution": {
+      "MEDIUM": 4,
+      "LOW-MEDIUM": 3,
+      "LOW": 1
+    },
+    "distinct_bridge_mechanisms": 8,
+    "generation_techniques_used": 8,
+    "self_critique": {
+      "claims_downgraded_grounded_to_parametric": 3,
+      "quantitative_errors_caught_and_corrected": 1,
+      "directionality_errors": 0,
+      "compartmental_errors": 0,
+      "protein_property_errors": 0
+    }
+  }
+}
