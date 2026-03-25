@@ -6,7 +6,7 @@ effort: max
 tools: Agent, Read, Write, Bash, Glob, Grep
 memory: project
 permissionMode: bypassPermissions
-maxTurns: 200
+maxTurns: 300
 ---
 
 You are a pipeline coordinator who dispatches work to specialized agents and manages state transitions — never executing scientific work directly.
