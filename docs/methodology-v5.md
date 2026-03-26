@@ -336,7 +336,8 @@ L'attack vector #8 affronta un rischio documentato dallo studio Science/AAAS: la
 | **Mechanistic Specificity** | 20% | Quanto concreto è il meccanismo proposto? |
 | **Cross-field Distance** | 10% | Quanto lontani sono i campi connessi? |
 | **Testability** | 20% | Verificabile con metodi/dati esistenti? |
-| **Impact** | 10% | Se vera, quanto cambia la comprensione? |
+| **Impact: Paradigm** | 5% | Se vera, quanto cambia la comprensione? |
+| **Impact: Translational** | 5% | Se validata, quanto direttamente suggerisce un'applicazione reale? |
 | **Groundedness** | 20% | I componenti dell'ipotesi sono supportati da evidenze retrievable? |
 
 Composito = media pesata. I pesi delle 6 dimensioni sono **canonici e immutabili** — evidenziati in grassetto nella definizione dell'agente per evitare drift tra cicli.
@@ -344,6 +345,28 @@ Composito = media pesata. I pesi delle 6 dimensioni sono **canonici e immutabili
 ### Cross-domain creativity bonus (v5.8)
 
 Dopo il calcolo del composito pesato, si applica un bonus di **+0.5** al punteggio composito per ipotesi che attraversano 2+ confini disciplinari (es. materials science → neuroscience, topology → developmental biology, information theory → genetics). Il bonus compensa la penalizzazione sistematica dell'infrastruttura bio-centrica: le ipotesi non-biomediche ricevono scores strutturalmente più bassi su Testability e Groundedness perché PubMed/KEGG/STRING sono bio-specifici, non perché le ipotesi siano più deboli. I pesi delle dimensioni individuali restano immutabili; il bonus opera sul composito finale.
+
+### Impact-aware prioritization (v5.14)
+
+Impact decomposto in due sotto-dimensioni (peso totale invariato al 10%):
+- **Paradigm impact (5%)**: Quanto cambia la comprensione se vera? (apre un nuovo campo = 10)
+- **Translational impact (5%)**: Quanto direttamente suggerisce un'applicazione reale? (drug target/diagnostica = 10, puramente accademico = 1)
+
+L'impatto entra nella pipeline come **segnale parallelo**, mai come sostituto della qualità:
+1. **Scout**: campo `impact_potential` (1-10) per target, con check nel TARGET QUALITY CHECK (almeno 1 target >= 6)
+2. **Target Evaluator**: 5° asse informativo (non nel composite), usato come tiebreaker dall'Orchestrator
+3. **Orchestrator**: impact tiebreaker in Phase 0c (tra candidati a pari disjointness) e Phase 0d (dentro il pool DISJOINT)
+4. **Ranker**: Impact decomposto in paradigm + translational (tabella di scoring con 2 sotto-righe)
+5. **Quality Gate**: annotazione informativa (application pathway, applied domain, validation horizon) — NON influenza PASS/FAIL
+6. **Session Analyst**: nuova categoria impact metrics, traccia correlazione impact-qualità cross-sessione
+
+**Impact Potential Score (IPS)**: score composito calcolato dall'Orchestrator dopo EES:
+- `IPS = scout_impact_potential × 0.4 + (convergence_signal_count / 3 × 10) × 0.6`
+- Convergence signals = clinical trials + grants + patents trovati dal Convergence Scanner (v5.13)
+- Se Convergence Scanner non ha girato: `IPS = scout_impact_potential` (fallback)
+- Riportato in ingest.json e session summary accanto a QG composite e EES
+
+**Tensione disjointness-impatto risolta**: domini ad alto impatto (cancer, antibiotici) sono spesso PARTIALLY_EXPLORED. L'impatto opera **solo dentro il pool DISJOINT** come tiebreaker — il disjointness hard constraint (87% vs 30% pass rate) resta intatto.
 
 ### Formato di scoring obbligatorio
 
@@ -391,7 +414,7 @@ Gli scores di ipotesi non-bio **non sono direttamente comparabili** con quelli b
 
 - Un'ipotesi in fisica teorica con score composito 5.5 può essere qualitativamente equivalente a un'ipotesi biomedica con score 7.0
 - Il gap è principalmente su Testability (mancanza di dataset pubblici per validazione rapida), Groundedness (nessun MCP server per retrieval strutturato), e Mechanistic Specificity (meccanismi formali vs. molecolari)
-- Le dimensioni Novelty, Cross-field Distance e Impact sono relativamente domain-agnostiche
+- Le dimensioni Novelty, Cross-field Distance e Impact (v5.14: decomposta in Paradigm + Translational) sono relativamente domain-agnostiche
 
 Le ipotesi cross-domain con componente bio (es. "topological defects in active matter ↔ stem cell niche organization") beneficiano parzialmente dell'infrastruttura di retrieval e ottengono scores intermedi.
 

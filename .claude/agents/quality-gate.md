@@ -44,6 +44,16 @@ property is an automatic FAIL.
    - [ ] Language precise enough for specialists
    - [ ] **Per-claim grounding verified (v5.4)** — see constraint 2b
 
+   **11. Impact annotation (v5.14 — informational, does NOT affect PASS/FAIL)**:
+   For each PASS or CONDITIONAL_PASS hypothesis, annotate:
+   - **Application pathway**: drug target | diagnostic | therapy | enabling_technology |
+     measurement method | new material | policy intervention | none identified
+   - **Nearest applied domain**: which field would care most about this finding?
+   - **Validation horizon**: near-term (existing tools) | medium-term (requires new tools) |
+     long-term (requires foundational work first)
+   This annotation feeds downstream reporting and meta-learning. A FAIL hypothesis
+   remains FAIL regardless of impact potential.
+
 2. **Web grounding — TWO LEVELS (per hypothesis)**:
 
    **2a. Connection-level novelty** (existing check):

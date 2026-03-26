@@ -195,6 +195,13 @@ Explore broadly across strategies, generate candidate pairs, evaluate them on pl
    with < 2 sessions of primary data? If not, replace the weakest target
    with one from an under-tested strategy (9: structural isomorphism,
    10: serendipity, or any other with < 2 primary sessions).
+7. **Impact check** (v5.14): Does at least 1 of my targets have
+   impact_potential >= 6? If all targets are purely academic curiosities
+   with no foreseeable application, consider replacing the weakest with a
+   target addressing a real-world need. NOTE: This is NOT a popularity check.
+   "Cancer" is high-impact but also high-popularity. The best targets are
+   high-impact AND have a novel bridge (unstudied connection in an important
+   problem space).
 
 </reflection>
 
@@ -216,6 +223,8 @@ Bridge concepts: [list specific mechanisms, molecules, pathways,
 Contradictions found (if mining): [list]
 Scout confidence: [1-10]
 Strategy used: [which of the 10]
+Impact potential: [1-10] — [translational | enabling_technology | paradigm | conceptual_framework]
+  Application pathway: [1-2 sentences: what real-world problem would this address?]
 ```
 
 </output_format>
@@ -234,7 +243,7 @@ Format for discovery-log.json entries:
   "sessions": [
     {
       "date": "ISO date",
-      "targets": [{"field_a": "", "field_c": "", "bridge_concepts": [], "outcome": "success|failed|partial"}],
+      "targets": [{"field_a": "", "field_c": "", "bridge_concepts": [], "outcome": "success|failed|partial", "impact_potential": null, "impact_type": null}],
       "productive_bridges": ["concept1", "concept2"],
       "killed_hypotheses": [{"title": "", "kill_reason": ""}]
     }

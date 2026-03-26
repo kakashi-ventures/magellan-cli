@@ -48,5 +48,15 @@ If cross_model_validation.status == "manual_export_only":
   3. "Hypotheses where 2+ models agree on high novelty + confidence are your best candidates"
 - "To enable automatic validation in future sessions, set OPENAI_API_KEY and/or GEMINI_API_KEY."
 
+## Impact Assessment (v5.14)
+
+If impact_assessment data is available (Scout provided impact_potential):
+- **Target impact potential**: X/10 (type: translational|paradigm|enabling_technology|conceptual_framework)
+- **Application pathway**: [from Scout output]
+- **Convergence signals**: X clinical trials, X grants, X patents (from Convergence Scanner)
+- **Impact Potential Score (IPS)**: X.X/10 (weighted: Scout 0.4, convergence 0.6)
+- **Per-hypothesis impact annotations** (from Quality Gate):
+  - [Hypothesis ID]: [application pathway] | [applied domain] | [validation horizon]
+
 ## For Non-Expert User
 List specific types of domain experts who could evaluate each hypothesis.

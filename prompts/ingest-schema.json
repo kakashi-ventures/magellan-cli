@@ -27,6 +27,14 @@
     "dataset_total_claims": "N",
     "empirical_evidence_score": "N.N (weighted: dataset 0.55, convergence 0.45)"
   },
+  "impact_assessment": {
+    "_comment": "Optional — populated if impact tracking is enabled (v5.14)",
+    "scout_impact_potential": "N (1-10, from Scout)",
+    "impact_type": "paradigm|translational|enabling_technology|conceptual_framework",
+    "application_pathway": "string (from Scout output)",
+    "convergence_translational_signals": "N (count of clinical trials + grants + patents with hits)",
+    "impact_potential_score": "N.N (IPS: scout 0.4 + convergence 0.6)"
+  },
   "_sources": {
     "status": "from state/session.json",
     "field_a_field_c_bridge_concepts_strategy": "from selected_target in state/session.json",

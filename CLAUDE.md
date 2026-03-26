@@ -135,6 +135,15 @@ confidence, groundedness assessment.
   scoring weights (60% on Testability + Groundedness + Mechanistic Specificity),
   and hypothesis format are structurally optimized for life sciences.
   Other domains are supported but scores reflect infrastructure asymmetry.
+- **Impact-aware prioritization** (v5.14) — Impact enters as a parallel signal,
+  never replacing quality scoring. Scout adds impact_potential per target;
+  Target Evaluator scores it as a 5th informational axis (not in composite);
+  Orchestrator uses it as tiebreaker within the DISJOINT pool; Ranker decomposes
+  Impact (10%) into paradigm (5%) + translational (5%); Quality Gate annotates
+  application pathways (informational, not pass/fail); Session Analyst tracks
+  impact-quality correlation for meta-learning. Impact Potential Score (IPS)
+  computed from Scout estimate (40%) + Convergence Scanner translational signals
+  (60%), reported alongside QG composite and EES.
 
 ### Architecture
 - **Mandatory agent dispatch** — Orchestrator has no WebSearch/WebFetch,

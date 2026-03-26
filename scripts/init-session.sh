@@ -25,6 +25,7 @@ cat > state/session.json << EOF
   "status_reason": "",
   "results_dir": "results/${SESSION_ID}",
   "selected_target": null,
+  "_selected_target_schema": "When populated by Orchestrator: {field_a, field_c, bridge_concepts, strategy, disjointness_status, impact_potential, impact_type}",
   "disjointness_status": null,
   "metadata": {
     "start_time": "",
@@ -52,7 +53,8 @@ cat > state/session.json << EOF
     "passed_quality_gate": 0,
     "fallback_used": false,
     "retries_needed": 0,
-    "web_search_failures": 0
+    "web_search_failures": 0,
+    "impact_potential_score": null
   }
 }
 EOF

@@ -5,6 +5,56 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.14 — Impact-Aware Prioritization (26 marzo 2026)
+
+**Motivazione**: MAGELLAN ottimizza per novità e rigore, ma l'impatto reale (traslazionale, sociale, economico) pesa solo 10% nel Ranker e è completamente assente dalla selezione target, dal Quality Gate, e dal meta-learning. Con risorse limitate, la pipeline dovrebbe preferire direzioni che producono scoperte ad alto impatto, non solo nuove.
+
+**Principio di design**: L'impatto entra come segnale parallelo, mai come sostituto della qualità. Il disjointness hard constraint (87% vs 30% pass rate) resta intatto — l'impatto opera solo come tiebreaker dentro il pool DISJOINT.
+
+### Modifiche per fase
+
+**Scout** (`scout.md`):
+- Nuovo campo `impact_potential` (1-10) + `impact_type` nell'output format
+- Nuovo check #7 nel TARGET QUALITY CHECK: almeno 1 target con impact_potential >= 6
+- Campi impact aggiunti al formato discovery-log.json
+
+**Target Evaluator** (`target-evaluator.md`):
+- 5° asse informativo: impact potential (non incluso nel composite)
+- Output aggiornato con `Impact Potential: Y/10 (informational, not in composite)`
+- `impact_potential_scores` array scritto in state
+
+**Orchestrator** (`discovery-orchestrator.md`):
+- Impact tiebreaker in Phase 0c (tra candidati con disjointness e confidence simili)
+- Impact tiebreaker in Phase 0d (dentro il pool DISJOINT, prima di Scout confidence)
+- IPS computation dopo EES: `IPS = scout_ip × 0.4 + (signal_count/3 × 10) × 0.6`
+- IPS incluso in ingest.json e session summary
+
+**Ranker** (`ranker.md`):
+- Impact (10%) decomposto in Paradigm impact (5%) + Translational impact (5%)
+- Tabella di scoring aggiornata con due sotto-righe
+
+**Quality Gate** (`quality-gate.md`):
+- Item 11 informativo (non pass/fail): application pathway, applied domain, validation horizon
+- Annotazione solo per PASS/CONDITIONAL_PASS
+
+**Session Analyst** (`session-analyst.md`):
+- Nuova categoria 7: impact metrics (tipo, dominio, correlazione impact-quality)
+- Nuova tabella Impact Metrics in meta-insights.md
+- Raccomandazione automatica se impatto e qualità sono anti-correlati
+
+**Schemas e scripts**:
+- `ingest-schema.json`: nuova sezione `impact_assessment`
+- `knowledge-schema.json`: campo `impact_assessment` per entry
+- `init-session.sh`: campo `health.impact_potential_score` nel template session.json
+- `session-summary-format.md`: sezione Impact Assessment
+
+### Evidenza a supporto
+- 16 sessioni mostrano che Impact al 10% (paradigm-only) non differenzia ipotesi traslazionali da puramente teoriche
+- Convergence Scanner (v5.13) già cerca clinical trials, grants, brevetti — segnali traslazionali non sfruttati per prioritizzazione
+- Disjointness data: DISJOINT 87% pass rate — il constraint non viene toccato, l'impatto opera solo come tiebreaker
+
+---
+
 ## v5.13 — Empirical Validation Layer + Holdout Framework (25 marzo 2026)
 
 **Motivazione**: MAGELLAN genera ipotesi scientificamente plausibili (13 sessioni, ~189 ipotesi), ma la validazione si limita a reasoning-based checks (Critic, Quality Gate, Cross-Model). Manca evidenza empirica da dati reali e non c'è un framework formale per dimostrare che il sistema funziona.

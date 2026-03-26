@@ -212,7 +212,11 @@ state/session.json. Narrow 5-6 candidates to 3 using these criteria
 3. **Bridge validation** — exclude candidates where Literature Scout flagged
    bridges as factually incorrect
 4. **Scout confidence** — among remaining, select top 3 by Scout confidence score
-5. **Strategy diversity** — ensure at least 2 different strategies and 1
+5. **Impact tiebreaker** (v5.14) — among candidates with equal disjointness and
+   similar Scout confidence (within 1 point), prefer the candidate with higher
+   impact_potential from Scout's output. Log: "IMPACT_TIEBREAKER applied:
+   selected [target] over [target] due to impact_potential [X] vs [Y]"
+6. **Strategy diversity** — ensure at least 2 different strategies and 1
    exploration slot (strategy with < 2 primary sessions) among final 3
 
 Update `{results_dir}/scout.json` with the narrowed top-3 and their disjointness_status.
@@ -246,7 +250,8 @@ After agent returns, read state/session.json:
   (or from scout_targets in state if scout.json unavailable)
 - IF any target is DISJOINT AND has target_quality_score >= 5:
   → ONLY consider DISJOINT targets for selection
-  → Select TOP DISJOINT target by target_quality_score (break ties with Scout confidence)
+  → Select TOP DISJOINT target by target_quality_score (break ties with impact_potential
+    from Target Evaluator's informational axis, then Scout confidence)
   → Log in dispatch-log: "DISJOINTNESS_PRIORITY applied: excluded PARTIALLY_EXPLORED targets in favor of DISJOINT"
 - ELSE (no DISJOINT target scores >= 5, or all targets are the same disjointness):
   → Select TOP target by target_quality_score, breaking ties with Scout confidence
@@ -503,6 +508,23 @@ After BOTH empirical agents complete (or fail), compute the combined EES:
 
 If either file is missing (agent failed), compute EES from whichever is available.
 If both are missing, skip EES entirely.
+
+### Compute Impact Potential Score (IPS) (v5.14)
+
+After EES computation, compute IPS to quantify real-world relevance:
+1. Read `impact_potential` from `selected_target` in state (Scout's score, 1-10)
+2. Read convergence data from `{results_dir}/convergence.json`:
+   - `clinical_trials_found > 0` → trial_signal = 1
+   - `grants_found > 0` → grant_signal = 1
+   - `patents_found > 0` → patent_signal = 1
+   - `signal_count = trial_signal + grant_signal + patent_signal`
+3. If convergence data available:
+   `IPS = (scout_impact_potential × 0.4) + ((signal_count / 3) × 10 × 0.6)`
+4. If convergence data missing (agent failed or skipped):
+   `IPS = scout_impact_potential` (unweighted fallback)
+5. Include IPS in `{results_dir}/ingest.json` under `impact_assessment`
+6. Include IPS in session summary alongside QG composite and EES
+7. Update `state/session.json` → `health.impact_potential_score = IPS`
 
 ## Kill Rate Calculation (EXACT formula)
 Before writing session summary, read `{results_dir}/cycle1-critiqued.json` and

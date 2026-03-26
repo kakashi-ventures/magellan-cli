@@ -112,6 +112,19 @@ learn to explore better over time based on its own results.
    is converging on safe-but-boring territory — flag this explicitly.
    → Recommendation: "Creativity trending [up/down/stable]. [Action if declining]"
 
+7. **Impact metrics** (v5.14): For each surviving hypothesis, record:
+   - **Impact type**: paradigm | translational | enabling_technology | conceptual_framework
+   - **Application domain**: drug target, diagnostic, therapy, measurement, material, none
+   Track per-session and cross-session:
+   - Distribution of impact types (are we generating only paradigm-shift hypotheses?)
+   - Which strategies produce higher-impact hypotheses
+   - Correlation between Scout impact_potential and actual convergence signals
+     (from Convergence Scanner, if available)
+   - Correlation between impact and QG quality (are they orthogonal or anti-correlated?)
+   → Recommendation: "Impact-quality correlation: [positive/negative/neutral].
+     [If negative: Scout may be trading novelty for impact — tighten novelty constraints.
+      If neutral: safe to increase impact weight in future versions.]"
+
 ### Process
 1. Read state/session.json completely
 2. Read knowledge/discovery-log.json completely
@@ -186,6 +199,24 @@ learn to explore better over time based on its own results.
   e.g., "Disciplinary distance declining — Scout should force at least 1 target
   crossing 2+ boundaries. Consider strategies 9 (structural isomorphism) or
   10 (serendipity) which are designed for high-distance connections."]
+
+## Impact Metrics (v5.14)
+
+### Per-Session Impact
+| Session | Impact Type | Application Domain | Scout IP | Convergence Signals | IPS |
+|---|---|---|---|---|---|
+| [session_id] | [type] | [domain] | X/10 | N signals | X.X |
+
+### Impact vs Quality Correlation
+| Impact Range | Sessions | Avg QG Composite | Avg EES | Notes |
+|---|---|---|---|---|
+| High (IP >= 7) | N | X.X | X.X | [pattern] |
+| Medium (IP 4-6) | N | X.X | X.X | [pattern] |
+| Low (IP <= 3) | N | X.X | X.X | [pattern] |
+
+**Recommendation**: [Does higher impact correlate with lower QG quality?
+If yes: Scout is trading novelty for impact — tighten novelty constraints.
+If no: impact and quality are orthogonal — safe to increase impact weight.]
 
 ## Key Lessons (cumulative)
 1. [lesson with action]

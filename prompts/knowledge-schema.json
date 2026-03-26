@@ -33,6 +33,13 @@
       "checks_run": 4,
       "checks_passed": 3,
       "implausible_flags": ["description"]
+    },
+    "impact_assessment": {
+      "_comment": "v5.14 — impact tracking for meta-learning",
+      "impact_potential": "N (1-10, from Scout)",
+      "impact_type": "paradigm|translational|enabling_technology|conceptual_framework",
+      "impact_potential_score": "N.N (IPS)",
+      "convergence_signals": "N (count of translational signals)"
     }
   },
   "_purpose": [

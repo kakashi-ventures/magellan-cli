@@ -10,6 +10,9 @@ Come back to find testable hypothesis cards, then validate cross-model.
 Optimized for cross-disciplinary life sciences discovery (retrieval tools,
 scoring weights, hypothesis format); other domains are supported but
 scores reflect infrastructure asymmetry, not hypothesis quality.
+Impact-aware prioritization (v5.14) steers the pipeline toward high-impact
+directions via tiebreakers, decomposed scoring, and meta-learning — without
+sacrificing novelty or rigor.
 
 ## Quick Start
 
@@ -223,9 +226,9 @@ knowledge/                                   ← Persistent data across sessions
 - **Computational Validator** [Sonnet+Bash, high] — Programmatic bridge verification: KEGG, STRING, PubMed co-occurrence, back-of-envelope physics
 - **Generator** [Opus, max] — Parametric creativity + literature + computational validation → 6-8 hypotheses per cycle. SELF-CRITIQUE + claim-level verification reflection
 - **Critic** [Opus, max] — 9 adversarial attack vectors (incl. claim-level fact verification) + META-CRITIQUE reflection + critic_questions feedback
-- **Ranker** [Sonnet, high] — 6-dimension scoring (mandatory per-hypothesis table) + diversity check + Elo tournament sanity check
+- **Ranker** [Sonnet, high] — 6-dimension scoring (Impact decomposed into Paradigm 5% + Translational 5%) + diversity check + Elo tournament sanity check
 - **Evolver** [Sonnet, high] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
-- **Quality Gate** [Opus, max, 35 turns] — 10-point rubric + web novelty + per-claim grounding verification + META-VALIDATION reflection
+- **Quality Gate** [Opus, max, 35 turns] — 10-point rubric + web novelty + per-claim grounding verification + impact annotation (informational) + META-VALIDATION reflection
 - **Session Analyst** [Sonnet, high] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
 - **Cross-Model Validator** [Sonnet, high] — Calls GPT-5.4 Pro (web search + code interpreter) + Gemini 3.1 Pro (code execution + Google Search grounding) APIs for independent validation → consensus report (requires API keys; falls back to export files)
 - **Convergence Scanner** [Sonnet, high] — Post-QG: searches ClinicalTrials.gov, NIH Reporter, patents for independent convergence signals + partial mechanism confirmations from non-pipeline sources

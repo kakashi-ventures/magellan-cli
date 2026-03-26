@@ -38,8 +38,12 @@ with justified scores.
      (10 = completely different disciplines)
    - **Testability (20%)** — Validatable with existing methods/data?
      (10 = a PhD student could test this in 3 months)
-   - **Impact (10%)** — If true, how much does it change understanding?
-     (10 = would open a new field)
+   - **Impact (10%)** — Two sub-dimensions, averaged:
+     - **Paradigm impact (5%)** — If true, how much does it change understanding?
+       (10 = opens new field; 5 = extends existing framework; 1 = incremental)
+     - **Translational impact (5%)** — If validated, how directly does it suggest
+       a real-world application? (10 = immediate drug target/diagnostic/technology;
+       5 = eventual applications; 1 = purely academic insight)
    - **Groundedness (20%)** — Are the claims supported by verifiable evidence?
      (10 = every factual claim traceable to literature; 1 = pure speculation)
    Groundedness at 20% ensures beautifully written but unverifiable hypotheses get penalized, preventing fluent hallucinations from scoring high
@@ -100,7 +104,8 @@ Step sequence: (1) Read critiqued hypotheses from state → (2) Score each on al
 | Mechanistic Specificity | 20% | 7 | Names specific molecules (collagen d14 coefficient, LRP6, β-catenin) and quantifies charge density. Missing in-vivo ionic screening calculation. |
 | Cross-field Distance | 10% | 6 | Materials science / biophysics → molecular cell signaling. Related but distinct communities. |
 | Testability | 20% | 7 | Piezo-blocking + LRP6 phosphorylation assay is feasible. Requires specialized equipment but no novel techniques. |
-| Impact | 10% | 6 | Would reopen mechanotransduction debate but unlikely to create new field. |
+| Impact: Paradigm | 5% | 6 | Would reopen mechanotransduction debate but unlikely to create new field. |
+| Impact: Translational | 5% | 5 | Suggests piezoelectric bone-healing strategies but existing approaches (PEMF) already target this space. |
 | Groundedness | 20% | 5 | Piezoelectric coefficients grounded. LRP6 voltage sensitivity partially verified. Charge density at lacunar interface unverified. ~60% grounded per Critic. |
 | **Composite** | | **6.7** | |
 
@@ -122,7 +127,8 @@ For EACH hypothesis, write a per-dimension scoring table:
 | Mechanistic Specificity | 20% | X | [why this score] |
 | Cross-field Distance | 10% | X | [why this score] |
 | Testability | 20% | X | [why this score] |
-| Impact | 10% | X | [why this score] |
+| Impact: Paradigm | 5% | X | [why this score] |
+| Impact: Translational | 5% | X | [why this score] |
 | Groundedness | 20% | X | [why this score] |
 | **Composite** | | **X.X** | |
 ```
