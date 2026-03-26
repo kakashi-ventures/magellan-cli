@@ -65,13 +65,60 @@ Show the user what MAGELLAN will explore, WITHOUT revealing the answer:
 
 Do NOT show `known_mechanism` or `key_paper` at this point.
 
-### 2A.3: Run Discovery Pipeline
+### 2A.3: Run Discovery Pipeline in BLIND MODE
 
-Run `/discover {field_a} x {field_c}` in targeted mode.
+**DO NOT use `/discover`.** Dispatch the `discovery-orchestrator` agent
+directly with BLIND MODE instructions. This prevents the pipeline from
+finding the holdout paper via web search — the key requirement for a
+valid holdout test.
 
-This launches the full MAGELLAN pipeline: Literature Scout, Generator,
-Critic, Ranker, Evolver, Quality Gate, Cross-Model Validator. The pipeline
-runs exactly as it would for any targeted discovery — no special treatment.
+Initialize session state first:
+```bash
+mkdir -p state
+cat > state/session.json << 'EOF'
+{"phase":"init","cycle":0,"scout_targets":[],"hypotheses":{},"final":[],"metadata":{"total_hypotheses_generated":0}}
+EOF
+```
+
+Then dispatch the orchestrator with this prompt:
+
+> Run a full TARGETED discovery session in **BLIND MODE** (holdout validation).
+> Field A: {field_a}
+> Field C: {field_c}
+> Skip Scout. Launch Literature Scout, then run 2 complete generation cycles.
+> Do not stop for user input.
+>
+> **BLIND MODE RESTRICTIONS** (pass these to EVERY sub-agent dispatch):
+>
+> **Literature Scout**: Do NOT use WebSearch or WebFetch. Use ONLY PubMed
+> MCP and Semantic Scholar MCP tools. RESTRICT all searches to papers
+> published BEFORE June 2025 (use year filters: `year: "2020-2025"` for
+> Semantic Scholar, date range `"2020":"2025/05"` for PubMed). This provides
+> background context about each field without revealing post-cutoff discoveries.
+>
+> **Critic**: Do NOT use WebSearch or WebFetch. Perform ALL critique
+> (novelty, counter-evidence, claim verification) using ONLY parametric
+> knowledge. Skip web-based novelty search and counter-evidence search.
+>
+> **Quality Gate**: Do NOT use WebSearch or WebFetch. Validate claims
+> using ONLY parametric knowledge. Skip web-based novelty verification
+> and per-claim web grounding. Apply the 10-point rubric using only what
+> the model already knows.
+>
+> **Generator**: Normal operation (WebSearch already forbidden).
+> **Ranker**: Normal operation (no WebSearch needed).
+> **Evolver**: Normal operation (no WebSearch needed).
+> **Computational Validator**: Normal operation (uses APIs, not web search
+> for the specific paper — KEGG, STRING, PubMed co-occurrence are fine).
+>
+> **SKIP these post-QG agents entirely**:
+> - Cross-Model Validator (GPT/Gemini have current web search)
+> - Convergence Scanner (uses WebSearch)
+>
+> **DO run**: Dataset Evidence Miner (uses bioinformatics APIs, not web search)
+>
+> This is a holdout validation test. The integrity of the test depends on
+> the pipeline NOT finding the answer via web search.
 
 Wait for the pipeline to complete. Read `state/session.json` to get the
 `results_dir` and confirm the session finished.
@@ -215,7 +262,10 @@ Present the report summary to the user.
 
 ## CRITICAL RULES
 - NEVER reveal the known mechanism to MAGELLAN during the discovery run
-- The pipeline must run exactly as it would for any targeted discovery
+- The pipeline MUST run in BLIND MODE — no WebSearch for Literature Scout,
+  Critic, or Quality Gate. This is the only way to ensure a valid test.
+  If any agent uses WebSearch, the test is contaminated.
 - Contamination honesty is paramount — do not downplay contamination
 - If the pipeline fails or produces no surviving hypotheses, still run
   the evaluator (it will record MISSED with appropriate context)
+- Skip Cross-Model Validator and Convergence Scanner (both use web search)
