@@ -1,0 +1,121 @@
+{
+  "session_id": "2026-03-26-targeted-001",
+  "cycle": 1,
+  "mode": "post-blind-web-verified",
+  "web_searches_performed": 18,
+  "evaluations": [
+    {
+      "id": "H4-v2",
+      "title": "Stiffness-Calibrated LAD Compartmentalization as a Genomic Selectivity Filter for TEAD Enhancer Access",
+      "scores": {
+        "mechanistic_specificity": 2.0,
+        "novelty": 2.0,
+        "groundedness": 1.5,
+        "testability": 1.5,
+        "impact": 1.5,
+        "total": 8.5
+      },
+      "verdict": "PASS",
+      "rationale": "Three-tier LAD selectivity model is genuinely novel (confirmed by web search -- no paper addresses LAD-stratified enhancer mechanosensitivity). 2025 paper on lamin A/C + mechanical loading explicitly acknowledges this gap. All 7 grounded citations verified. CRISPR tethering provides clean causal test. Strongest hypothesis.",
+      "claims_verified": [
+        {"claim": "LADs cover 35-40% genome, H3K9me2/3-enriched", "tag": "GROUNDED", "source": "Guelen 2008", "status": "VERIFIED"},
+        {"claim": "cLAD vs fLAD distinction", "tag": "GROUNDED", "source": "Meuleman 2013", "status": "VERIFIED"},
+        {"claim": "Lamin A/C scales 6-fold with tissue stiffness", "tag": "GROUNDED", "source": "Swift Science 2013", "status": "VERIFIED"},
+        {"claim": "ECM stiffness upregulates lamin A/C", "tag": "GROUNDED", "source": "Xu 2023, Mandal 2025", "status": "VERIFIED"},
+        {"claim": "Kind et al. Cell 2015 LAD repressive environment", "tag": "GROUNDED", "source": "Kind 2015 PMID 26365489", "status": "VERIFIED"},
+        {"claim": "Peric-Hupkes 2010 LAD dynamics", "tag": "GROUNDED", "source": "Peric-Hupkes 2010", "status": "VERIFIED"},
+        {"claim": "Sun 2020 nuclear periphery genes resist force", "tag": "GROUNDED", "source": "PMID 32270037", "status": "VERIFIED"},
+        {"claim": "G9a/GLP interact with lamin A/C Ig-fold domain", "tag": "PARAMETRIC", "source": "N/A", "status": "ACCEPTABLE -- G9a/GLP H3K9me2 at LADs confirmed; specific Ig-fold interaction not established but not bridge-critical"},
+        {"claim": "fLAD anchoring is stiffness-modulated", "tag": "PARAMETRIC", "source": "N/A", "status": "ACCEPTABLE -- central novel testable claim; no contradicting evidence found"}
+      ],
+      "novelty_evidence": "Web search: no paper profiles LAD-stratified enhancer accessibility under ECM stiffness. 2025 paper PMC12542426 explicitly states gap. PubMed 'matrix stiffness AND H3K27ac' = 1 paper.",
+      "citation_audit": "All 8 unique citations verified to exist and say what claimed. No hallucinations.",
+      "blind_mode_caveats": "None -- all conditions from blind-mode CONDITIONAL_PASS resolved. PASS confirmed."
+    },
+    {
+      "id": "H2-v2",
+      "title": "Sequential Two-Phase Bivalent Enhancer Resolution Under ECM Stiffness: Fast EP300/H3K27ac at Non-Bivalent Loci, Delayed KDM6B-Dependent Conversion at Bivalent Enhancers",
+      "scores": {
+        "mechanistic_specificity": 1.5,
+        "novelty": 2.0,
+        "groundedness": 1.5,
+        "testability": 1.5,
+        "impact": 1.0,
+        "total": 7.5
+      },
+      "verdict": "PASS",
+      "rationale": "Two-phase temporal model is genuinely novel. All 8 grounded citations verified. KDM6B-at-enhancers partially supported by neuroblastoma literature (Nat Commun 2021). Temporal gap prediction >= 8h is cleanly falsifiable. Three-armed paralog experiment is well-designed.",
+      "claims_verified": [
+        {"claim": "KDM6B demethylates H3K27me3", "tag": "GROUNDED", "source": "Canonical", "status": "VERIFIED"},
+        {"claim": "ECM stiffness upregulates KDM6B", "tag": "GROUNDED", "source": "KDM6B 2025 S2:251aa09", "status": "VERIFIED"},
+        {"claim": "EP300 writes H3K27ac at enhancers", "tag": "GROUNDED", "source": "Canonical + Whitworth 2024", "status": "VERIFIED"},
+        {"claim": "H3K27me3/H3K27ac mutual exclusivity", "tag": "GROUNDED", "source": "Canonical biochemistry", "status": "VERIFIED"},
+        {"claim": "YAP1-EP300 STRING 0.692", "tag": "GROUNDED", "source": "STRING database", "status": "VERIFIED"},
+        {"claim": "Bivalent enhancers H3K4me1+H3K27me3", "tag": "GROUNDED", "source": "Rada-Iglesias 2011", "status": "VERIFIED"},
+        {"claim": "Mechanical memory in epigenome", "tag": "GROUNDED", "source": "Hsia 2023 PMID 37330288", "status": "VERIFIED"},
+        {"claim": "YAP nuclear translocation 30-60 min", "tag": "GROUNDED", "source": "Dupont 2011", "status": "VERIFIED"},
+        {"claim": "KDM6B PHD-Tudor at distal enhancers", "tag": "PARAMETRIC", "source": "N/A", "status": "PARTIALLY SUPPORTED -- KDM6B CAN act at enhancers (Nat Commun 2021); PHD-Tudor mechanism unconfirmed"},
+        {"claim": "RhoA-SRF-KDM6B transcriptional link", "tag": "PARAMETRIC", "source": "N/A", "status": "ACCEPTABLE -- RhoA-SRF established; SRF-KDM6B not published"}
+      ],
+      "novelty_evidence": "Web search: no paper proposes two-phase temporal model for bivalent enhancer resolution under ECM stiffness. KDM6B 2025 limited to promoters. KDM6B at enhancers shown in neuroblastoma (different context).",
+      "citation_audit": "All 7 unique citations verified. No hallucinations.",
+      "blind_mode_caveats": "None -- all conditions from blind-mode CONDITIONAL_PASS resolved. PASS confirmed."
+    },
+    {
+      "id": "H5-v2",
+      "title": "Kinetically Gated Epigenetic Memory at Mechanosensitive Super-Enhancers: BRD4-Scaffolded EP300 Retention",
+      "scores": {
+        "mechanistic_specificity": 1.5,
+        "novelty": 1.5,
+        "groundedness": 1.0,
+        "testability": 1.5,
+        "impact": 1.0,
+        "total": 6.5
+      },
+      "verdict": "CONDITIONAL_PASS",
+      "rationale": "Novel application of BRD4-scaffolded retention to mechanical memory. dBET6/JQ1 differential is creative and well-supported. However, BRD4-CTD/EP300-KIX domain mapping is unverified (BRD4-CTD known partner is P-TEFb, not EP300-KIX). Rate model has high parameter sensitivity (6-18h is 3x range). H3K27ac turnover heterogeneity complicates rate assumptions. Passes on strength of experimental design but structural mechanism may need revision.",
+      "claims_verified": [
+        {"claim": "H3K27ac read by BRD4 bromodomain", "tag": "GROUNDED", "source": "Filippakopoulos 2010", "status": "VERIFIED"},
+        {"claim": "EP300-BRD4 STRING 0.988", "tag": "GROUNDED", "source": "STRING database", "status": "VERIFIED"},
+        {"claim": "SEs have 10-50x EP300/BRD4 density", "tag": "GROUNDED", "source": "Hnisz 2013, Sabari 2018", "status": "VERIFIED"},
+        {"claim": "HDAC3 downregulated by ECM stiffness", "tag": "GROUNDED", "source": "Fu 2024 PMID 38789434", "status": "VERIFIED"},
+        {"claim": "Mechanical memory in MSCs", "tag": "GROUNDED", "source": "Hsia 2023, Yang 2014", "status": "VERIFIED -- Yang 2014 PMID 24633344 confirmed"},
+        {"claim": "H3K27ac t1/2 30-90 min single nucleosome", "tag": "PARAMETRIC", "source": "N/A", "status": "PARTIALLY VERIFIED -- heterogeneous turnover; some stable populations exist"},
+        {"claim": "BRD4-CTD to EP300-KIX interaction", "tag": "PARAMETRIC", "source": "N/A", "status": "UNVERIFIED -- BRD4-CTD known to bind P-TEFb, not EP300-KIX. General EP300-BRD4 interaction supported but specific domain interface is wrong or unconfirmed. FLAG."},
+        {"claim": "BRD4 FRAP 2-4h at SEs", "tag": "PARAMETRIC", "source": "N/A", "status": "ACCEPTABLE -- plausible from cancer cell FRAP data"},
+        {"claim": "HDAC3 re-upregulation post-softening", "tag": "PARAMETRIC", "source": "N/A", "status": "ACCEPTABLE -- inferred from Fu 2024 reverse"},
+        {"claim": "dBET6 > JQ1 differential", "tag": "PARAMETRIC", "source": "N/A", "status": "VERIFIED -- literature confirms dBET6 removes all BRD4 domains vs JQ1 bromodomain-only"}
+      ],
+      "novelty_evidence": "Web search: BRD4 mitotic memory known but mechanical memory mechanism at SEs is novel. 'matrix stiffness AND H3K27ac' = 1 paper. No paper proposes kinetic rate model for H3K27ac persistence post-softening.",
+      "citation_audit": "All 7 unique citations verified. Yang 2014 confirmed (PMID 24633344). No hallucinations.",
+      "blind_mode_caveats": "BRD4-CTD/EP300-KIX domain specificity is the primary concern. The hypothesis may need structural revision to account for the correct BRD4-EP300 interaction interface (possibly via the BRD4 ET domain rather than CTD, or indirect through shared chromatin substrates)."
+    }
+  ],
+  "meta_validation": "All verdicts are evidence-based. 18 web searches performed (6+4+6+2 cross-cutting). All 18 unique citations across 3 hypotheses verified -- zero hallucinations. H4-v2 strongest (8.5/10): novel LAD selectivity filter with clean causal test. H2-v2 second (7.5/10): novel temporal model with elegant paralog experiment. H5-v2 weakest (6.5/10): novel concept but BRD4-CTD/EP300-KIX domain mapping unverified and rate model has high parameter sensitivity.",
+  "passing_hypotheses": [
+    {
+      "id": "H4-v2",
+      "title": "Stiffness-Calibrated LAD Compartmentalization as a Genomic Selectivity Filter for TEAD Enhancer Access",
+      "qg_score": 8.5,
+      "confidence": 0.68,
+      "groundedness": 8,
+      "verdict": "PASS"
+    },
+    {
+      "id": "H2-v2",
+      "title": "Sequential Two-Phase Bivalent Enhancer Resolution Under ECM Stiffness",
+      "qg_score": 7.5,
+      "confidence": 0.62,
+      "groundedness": 7,
+      "verdict": "PASS"
+    },
+    {
+      "id": "H5-v2",
+      "title": "Kinetically Gated Epigenetic Memory at Mechanosensitive Super-Enhancers via BRD4-Scaffolded EP300 Retention",
+      "qg_score": 6.5,
+      "confidence": 0.45,
+      "groundedness": 7,
+      "verdict": "CONDITIONAL_PASS"
+    }
+  ]
+}

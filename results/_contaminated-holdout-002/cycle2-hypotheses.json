@@ -1,0 +1,94 @@
+{
+  "session_id": "2026-03-25-targeted-002",
+  "generated_at": "2026-03-25",
+  "cycle": 2,
+  "agent": "generator-v5.2",
+  "informed_by": {
+    "critic_questions": ["CQ1", "CQ2", "CQ3", "CQ4", "CQ5"],
+    "evolved_hypotheses": ["H1e", "H5e"],
+    "qg_new_evidence": ["iScience 2024 PMID 38784009", "nuclear CaMKII PMID 23804765", "CaMKII 3-min activation"],
+    "recommended_focus": ["H1", "H4", "H2"]
+  },
+  "hypotheses_count": 3,
+  "hypotheses": [
+    {
+      "id": "C2-H1",
+      "title": "Two-Phase Mechanoenhancer Activation Constitutes a Temporal Coincidence Gate",
+      "confidence": 0.61,
+      "disciplinary_distance": 3,
+      "disciplines": ["mechanobiology", "calcium signaling", "enhancer epigenomics"],
+      "focus_area": "H2 (Piezo1 kinetics) — emergent temporal dependency",
+      "core_claim": "Phase 1 (Piezo1→CaMKII→HDAC4/5→EP300→H3K27ac, <15 min) is a PREREQUISITE for Phase 2 (YAP→BRD4 condensate nucleation, 30-120 min) because BRD4 bromodomain requires H3K27ac marks for condensate anchoring. Piezo1 loss abolishes BOTH phases, not just Phase 1.",
+      "mechanistic_chain": "ECM stiffness → PARALLEL: FAST LANE: Piezo1→Ca²⁺→CaMKII→HDAC4/5 export→EP300 freed→H3K27ac at mechanoenhancers (<15 min); SLOW LANE: stiffness→YAP nuclear (30-60 min)→YAP-BRD4 condensate→BUT: BRD4 BD1/BD2 requires H3K27ac marks for chromatin anchoring → marks from FAST LANE are nucleation sites for SLOW LANE",
+      "grounded_claims": [
+        {"claim": "BRD4 bromodomain binds acetylated histones (H3K27ac, H3K14ac)", "source": "BRD4 BD1/BD2 structure + multiple reviews", "status": "GROUNDED"},
+        {"claim": "Piezo1→CaMKII activation within 3 min", "source": "NEC paper 2025 (NEC Nat Commun Biol)", "status": "GROUNDED"},
+        {"claim": "YAP-BRD4 condensates at acetylated chromatin", "source": "Zanconato 2018; iScience 2024 PMID 38784009", "status": "GROUNDED"},
+        {"claim": "H3K27ac marks from Phase 1 are necessary for BRD4 condensate nucleation in mechanoenhancer context", "source": "[INFERRED] — mechanism is logical but not directly tested", "status": "INFERRED"}
+      ],
+      "primary_prediction": "Piezo1 KO reduces H3K27ac at mechanoenhancers at BOTH 15 min AND 120 min; Piezo1 KO reduces BRD4 CUT&RUN at mechanoenhancers at 120 min; YAP overexpression on soft ECM CANNOT drive BRD4 condensates without prior H3K27ac",
+      "discriminant": "dCas9-p300 targeted to CYR61 mechanoenhancer in Piezo1 KO → rescue of BRD4 condensate nucleation proves H3K27ac marks are prerequisite",
+      "test_protocol": {
+        "cell_system": "Piezo1 KO (CRISPR) + control human lung fibroblasts",
+        "substrate": "50 kPa hydrogels",
+        "assay": "CUT&RUN for H3K27ac, BRD4 at 0, 15, 30, 60, 120 min; STORM for BRD4 condensates",
+        "rescue": "dCas9-p300 targeted to CYR61 mechanoenhancer in Piezo1 KO"
+      },
+      "novelty_vs_cycle1": "H2 treats Phase 1 and Phase 2 as independent parallel pathways. C2-H1 proposes an obligatory dependency: Phase 1 H3K27ac marks are required for Phase 2 BRD4 condensate nucleation. This is a new causal claim."
+    },
+    {
+      "id": "C2-H2",
+      "title": "Lamin A/C Concentration Sets the Cell-Intrinsic Stiffness-Sensing Threshold for Mechanoenhancer Activation",
+      "confidence": 0.58,
+      "disciplinary_distance": 2,
+      "disciplines": ["mechanobiology", "enhancer epigenomics"],
+      "focus_area": "H1 area (cell-context variation) — explains cell-to-cell heterogeneity",
+      "core_claim": "On a uniform-stiffness substrate, cells with low lamin A/C (deformable nuclei) activate mechanoenhancer H3K27ac at lower ECM stiffness than cells with high lamin A/C (stiff nuclei). Lamin A/C acts as a cell-intrinsic rheostat calibrating the stiffness-sensing threshold.",
+      "mechanistic_chain": "ECM stiffness → cytoskeletal tension → LINC complex (SUN1/SUN2) → nuclear deformation → two competing effects: low lamin A/C (deformable) → enhanced nuclear YAP enrichment → lower stiffness threshold for mechanoenhancer H3K27ac; high lamin A/C (stiff nucleus) → buffered deformation → higher threshold",
+      "grounded_claims": [
+        {"claim": "Lamin A/C knockout → increased nuclear deformability → enhanced mechanosensing", "source": "Multiple 2023-2025 papers; Swift et al. 2013 Science", "status": "GROUNDED"},
+        {"claim": "Lamin A/C expression scales with ECM stiffness", "source": "Multiple 2011-2025 papers (lamin A proportional to stiffness)", "status": "GROUNDED"},
+        {"claim": "Cell-to-cell variability in nuclear YAP concentration on uniform substrates is observable", "source": "Observable in published single-cell IF images", "status": "GROUNDED"},
+        {"claim": "Lamin A/C variability → H3K27ac variability at mechanoenhancers in quantitatively predictable way", "source": "[INFERRED] — requires scCUT&RUN correlation measurement", "status": "INFERRED"}
+      ],
+      "primary_prediction": "scCUT&RUN for H3K27ac at CYR61 on 10 kPa shows bimodal distribution (ON/OFF cells); ON cells have lower lamin A/C by IF; lamin A overexpression shifts EC50 RIGHT (higher stiffness required); lamin A knockdown shifts EC50 LEFT",
+      "test_protocol": {
+        "cell_system": "Human lung fibroblasts + lamin A siRNA knockdown + lamin A OE lines",
+        "substrate": "5-point stiffness gradient (1, 5, 10, 20, 50 kPa)",
+        "assay": "scCUT&RUN for H3K27ac + quantitative IF for lamin A/C; threshold stiffness (EC50) vs lamin A/C level",
+        "positive_control": "Progerin-expressing cells (aberrant lamin A, premature aging)"
+      },
+      "novelty_vs_cycle1": "H1-H5 all treat the cell population as uniform. C2-H2 proposes cell-to-cell variability in lamin A/C is a systematic determinant of mechanoenhancer responsiveness — explaining why not all cells on stiff ECM activate mechanoenhancers equally."
+    },
+    {
+      "id": "C2-H3",
+      "title": "Nuclear Actin Polymerization State Regulates MRTF-A Residence Time at CaRG-Box Mechanoenhancers",
+      "confidence": 0.60,
+      "disciplinary_distance": 2,
+      "disciplines": ["mechanobiology", "enhancer epigenomics"],
+      "focus_area": "H4 area (MRTF-A mechanism) — explains molecular basis of MRTF-A CaRG occupancy",
+      "core_claim": "MRTF-A residence time at CaRG-box mechanoenhancers is regulated not only by cytoplasmic G-actin/MRTF-A nuclear entry, but by nuclear F-actin structures that tether MRTF-A via its RPEL domain to chromatin. Stiff ECM drives formin-mediated nuclear F-actin assembly → increased MRTF-A dwell time → EP300 recruitment above threshold → H3K27ac at CaRG-box mechanoenhancers.",
+      "mechanistic_chain": "Stiff ECM → cytoskeletal tension → G-actin depletion → MRTF-A nuclear entry (classical) AND → mDia1/FHOD3 formin activity in nucleus → nuclear F-actin cables → MRTF-A RPEL domain contacts nuclear F-actin → MRTF-A dwell time at CaRG-box chromatin increases → EP300 dwell time increases → H3K27ac above threshold",
+      "grounded_claims": [
+        {"claim": "Nuclear actin polymerization under mechanical stimulation and SRF activation", "source": "Baarlink et al. 2013 Science + multiple reviews", "status": "GROUNDED"},
+        {"claim": "mDia1 formin promotes nuclear actin polymerization", "source": "Baarlink et al. 2013 Science", "status": "GROUNDED"},
+        {"claim": "MRTF-A RPEL domain binds G-actin (classical mechanism)", "source": "Miralles et al. 2003 Cell", "status": "GROUNDED"},
+        {"claim": "Nuclear F-actin tethers MRTF-A at CaRG-box mechanoenhancers via RPEL domain", "source": "[INFERRED] — RPEL/F-actin interaction in nuclear mechanoenhancer context not published", "status": "INFERRED"}
+      ],
+      "primary_prediction": "SMIFH2 (formin inhibitor) on stiff ECM reduces MRTF-A CUT&RUN at CaRG-box mechanoenhancers despite equal nuclear MRTF-A concentration; MRTF-A-HaloTag SPT shows longer dwell time on stiff vs soft ECM at CaRG-box loci; Latrunculin A on stiff ECM (drives nuclear entry but prevents nuclear F-actin) reduces dwell time without changing nuclear MRTF-A level",
+      "test_protocol": {
+        "cell_system": "MRTF-A-HaloTag endogenous knock-in human lung fibroblasts",
+        "substrate": "1 kPa vs 50 kPa hydrogels",
+        "assay": "Live SPT of MRTF-A-HaloTag (dwell time) + CUT&RUN for MRTF-A (steady-state) + LifeAct-GFP (nuclear F-actin)",
+        "perturbations": ["SMIFH2 (formin inhibitor)", "jasplakinolide (F-actin stabilizer on soft ECM)", "Latrunculin A on stiff ECM"],
+        "focus_loci": "CaRG-box mechanoenhancers vs TEAD-motif mechanoenhancers (internal control)"
+      },
+      "novelty_vs_cycle1": "H4 predicts MRTF-A OCCUPIES CaRG-box mechanoenhancers. C2-H3 explains WHY (nuclear F-actin tether via RPEL) and makes a dwell-time prediction not captured in H4. Nuclear F-actin as a stiffness-dependent MRTF-A chromatin tether is a new mechanistic concept."
+    }
+  ],
+  "self_critique": {
+    "cross_hypothesis_compatibility": "C2-H1 × C2-H2 × C2-H3 are non-overlapping mechanistic classes: temporal dependency (C2-H1), cell-intrinsic threshold (C2-H2), MRTF-A dwell time (C2-H3). All three can be simultaneously true.",
+    "novelty_vs_cycle1": "All three are genuine cycle 2 advances — not refinements of H1-H5 but second-order consequences of cycle 1 mechanistic chains.",
+    "groundedness_concern": "C2-H2 has the highest inference ratio (lamin A/C → H3K27ac at mechanoenhancers). C2-H3's RPEL/F-actin interaction in nuclear context is inferred. C2-H1 is the most strongly grounded (BRD4 bromodomain mechanism is textbook)."
+  }
+}

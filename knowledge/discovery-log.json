@@ -7,21 +7,34 @@
       {
         "field_a": "Bioelectric morphogenetic signaling",
         "field_c": "Biomolecular condensate phase transitions",
-        "bridge_concepts": ["Donnan equilibrium", "membrane potential gradients", "ion partitioning", "V-ATPase pH microdomains", "calcium-kinase cascades", "gap junction networks"],
+        "bridge_concepts": [
+          "Donnan equilibrium",
+          "membrane potential gradients",
+          "ion partitioning",
+          "V-ATPase pH microdomains",
+          "calcium-kinase cascades",
+          "gap junction networks"
+        ],
         "disjointness": "DISJOINT",
         "outcome": "success"
       },
       {
         "field_a": "Circadian phase-separation dynamics",
         "field_c": "Neurodegenerative protein aggregation",
-        "bridge_concepts": ["clock-regulated condensate cycles", "condensate material aging"],
+        "bridge_concepts": [
+          "clock-regulated condensate cycles",
+          "condensate material aging"
+        ],
         "disjointness": "PARTIALLY_EXPLORED",
         "outcome": "not_explored_this_session"
       },
       {
         "field_a": "Acoustic mechanotransduction",
         "field_c": "Tumor immune microenvironment reprogramming",
-        "bridge_concepts": ["Piezo1 differential expression", "Ca2+ frequency-dependent signaling"],
+        "bridge_concepts": [
+          "Piezo1 differential expression",
+          "Ca2+ frequency-dependent signaling"
+        ],
         "disjointness": "PARTIALLY_EXPLORED",
         "outcome": "not_explored_this_session"
       }
@@ -76,21 +89,36 @@
       {
         "field_a": "Active matter physics -- topological defects in biological nematic systems",
         "field_c": "Stem cell niche biology -- spatial organization and mechanical regulation",
-        "bridge_concepts": ["+1/2 comet defects as compression zones", "YAP/TAZ mechanotransduction at defect stress sites", "Poincare-Hopf defect positioning on curved surfaces", "defect splitting instability as crypt fission trigger", "ECM stiffness-mediated defect pinning"],
+        "bridge_concepts": [
+          "+1/2 comet defects as compression zones",
+          "YAP/TAZ mechanotransduction at defect stress sites",
+          "Poincare-Hopf defect positioning on curved surfaces",
+          "defect splitting instability as crypt fission trigger",
+          "ECM stiffness-mediated defect pinning"
+        ],
         "disjointness": "DISJOINT",
         "outcome": "success"
       },
       {
         "field_a": "Ferroptosis biology -- iron-dependent regulated cell death via lipid peroxidation",
         "field_c": "Bacterial quorum sensing biochemistry -- acyl-homoserine lactone signaling",
-        "bridge_concepts": ["4-HNE structural similarity to short-chain AHLs", "LasR/RhlR receptor promiscuity", "GPX4 as gatekeeper for host-microbiome lipid signaling", "iron availability as shared variable"],
+        "bridge_concepts": [
+          "4-HNE structural similarity to short-chain AHLs",
+          "LasR/RhlR receptor promiscuity",
+          "GPX4 as gatekeeper for host-microbiome lipid signaling",
+          "iron availability as shared variable"
+        ],
         "disjointness": "DISJOINT",
         "outcome": "not_explored_this_session"
       },
       {
         "field_a": "Mitochondrial cristae remodeling -- OPA1/MICOS/MICU1 cristae geometry control",
         "field_c": "Synaptic plasticity mechanisms -- LTP/LTD, dendritic spine plasticity",
-        "bridge_concepts": ["MICU1 gating threshold as synapse-specific switch", "cristae density as physical record of activity", "MICOS-dependent cristae junction remodeling as metaplasticity substrate"],
+        "bridge_concepts": [
+          "MICU1 gating threshold as synapse-specific switch",
+          "cristae density as physical record of activity",
+          "MICOS-dependent cristae junction remodeling as metaplasticity substrate"
+        ],
         "disjointness": "PARTIALLY_EXPLORED",
         "outcome": "not_explored_this_session"
       }
@@ -201,8 +229,8 @@
         "kill_reason": "Fundamental energy scale mismatch: 0.28 THz = 1.16 meV << 26 meV thermal energy at 300K. Thermal fluctuations overwhelm quantum oscillations by 22x."
       },
       {
-        "title": "Enzyme Active Site Quantum Oscillations Create Catalytic Fröhlich Condensates",
-        "kill_reason": "Coherent Fröhlich condensates thermodynamically impossible at biological temperatures (requires 100M K)"
+        "title": "Enzyme Active Site Quantum Oscillations Create Catalytic Fr\u00f6hlich Condensates",
+        "kill_reason": "Coherent Fr\u00f6hlich condensates thermodynamically impossible at biological temperatures (requires 100M K)"
       },
       {
         "title": "Microtubule Tryptophan Networks Generate Terahertz Quantum Information Highways",
@@ -258,7 +286,7 @@
       "Vibronic coupling mechanisms show exceptional survival rate (100%) across photosynthetic systems vs direct quantum oscillations (0% survival)",
       "Citation verification is critical - unverifiable references cause automatic quality gate failure regardless of mechanism quality",
       "Thermal-assisted quantum mechanisms (sub-picosecond or constructive thermal noise) survive evolution while thermal-resistant mechanisms fail",
-      "Recent breakthrough radiation strategy achieved 33% survival rate (15 generated → 5 survived → 2 passed quality gate)",
+      "Recent breakthrough radiation strategy achieved 33% survival rate (15 generated \u2192 5 survived \u2192 2 passed quality gate)",
       "Inter-complex coupling extensions of proven single-complex mechanisms provide viable evolutionary pathways",
       "DISJOINT field strategy continues high effectiveness - zero existing cross-citations between THz spectroscopy and biological quantum coherence",
       "Evolution process shows 100% success rate in improving hypothesis quality through quantitative specification and experimental protocol addition"
@@ -276,17 +304,41 @@
       }
     },
     "bridge_type_performance": {
-      "vibronic_coupling": {"used": 3, "survived": 3, "survival_rate": 1.0},
-      "direct_thz_oscillations": {"used": 6, "survived": 0, "survival_rate": 0.0},
-      "quantum_entanglement": {"used": 2, "survived": 0, "survival_rate": 0.0},
-      "magnetocrystalline_physics": {"used": 1, "survived": 1, "survival_rate": 1.0},
-      "thermal_quantum_mechanisms": {"used": 2, "survived": 2, "survival_rate": 1.0}
+      "vibronic_coupling": {
+        "used": 3,
+        "survived": 3,
+        "survival_rate": 1.0
+      },
+      "direct_thz_oscillations": {
+        "used": 6,
+        "survived": 0,
+        "survival_rate": 0.0
+      },
+      "quantum_entanglement": {
+        "used": 2,
+        "survived": 0,
+        "survival_rate": 0.0
+      },
+      "magnetocrystalline_physics": {
+        "used": 1,
+        "survived": 1,
+        "survival_rate": 1.0
+      },
+      "thermal_quantum_mechanisms": {
+        "used": 2,
+        "survived": 2,
+        "survival_rate": 1.0
+      }
     },
     "computational_validation_summary": {
       "checks_run": 8,
       "energy_scale_checks": 8,
       "checks_passed": 2,
-      "implausible_flags": ["thermal_overwhelm", "impossible_temperatures", "decoherence_timescales"]
+      "implausible_flags": [
+        "thermal_overwhelm",
+        "impossible_temperatures",
+        "decoherence_timescales"
+      ]
     }
   },
   {
@@ -309,7 +361,10 @@
       {
         "field_a": "Mitochondrial cristae remodeling",
         "field_c": "Lyotropic liquid crystal phase transitions",
-        "bridge_concepts": ["cardiolipin packing parameter", "Gaussian curvature elasticity"],
+        "bridge_concepts": [
+          "cardiolipin packing parameter",
+          "Gaussian curvature elasticity"
+        ],
         "strategy": "mechanism_transfer",
         "disjointness": "PARTIALLY_CONNECTED",
         "outcome": "not_explored_this_session"
@@ -317,7 +372,9 @@
       {
         "field_a": "Acoustic mechanotransduction",
         "field_c": "Topological phononics",
-        "bridge_concepts": ["phononic bandgap engineering for mechanotransduction"],
+        "bridge_concepts": [
+          "phononic bandgap engineering for mechanotransduction"
+        ],
         "strategy": "tool_transfer_opportunities",
         "disjointness": "WEAKLY_CONNECTED",
         "outcome": "not_explored_this_session"
@@ -330,10 +387,22 @@
       "Pourbaix stability field diagram as experiment design framework for lipid peroxidation"
     ],
     "killed_hypotheses": [
-      {"title": "Serpentinization-Derived Abiotic Lipid Peroxidation as Primordial Ferroptosis", "kill_reason": "FTT synthesis at serpentinization conditions does NOT produce PUFAs. Substrate assumption fatal."},
-      {"title": "Abiotic vs Enzymatic Lipid Peroxidation Identity Prediction (r>0.9)", "kill_reason": "r>0.9 identity prediction guaranteed false; abiotic Fenton is non-selective while 15-LOX is >95% C15-selective."},
-      {"title": "Serpentinization pH Enables Selenocysteine Advantage for GPX4", "kill_reason": "pKa advantage disappears at serpentinization pH 10 (Sec/Cys ratio goes from 8.9x to 1.0x)."},
-      {"title": "Iron Compartment Topology During Ferroptosis Mirrors Serpentinization Partitioning", "kill_reason": "Vocabulary re-description. Kd formalism inappropriate for active transport-dominated system. No predictive power added."}
+      {
+        "title": "Serpentinization-Derived Abiotic Lipid Peroxidation as Primordial Ferroptosis",
+        "kill_reason": "FTT synthesis at serpentinization conditions does NOT produce PUFAs. Substrate assumption fatal."
+      },
+      {
+        "title": "Abiotic vs Enzymatic Lipid Peroxidation Identity Prediction (r>0.9)",
+        "kill_reason": "r>0.9 identity prediction guaranteed false; abiotic Fenton is non-selective while 15-LOX is >95% C15-selective."
+      },
+      {
+        "title": "Serpentinization pH Enables Selenocysteine Advantage for GPX4",
+        "kill_reason": "pKa advantage disappears at serpentinization pH 10 (Sec/Cys ratio goes from 8.9x to 1.0x)."
+      },
+      {
+        "title": "Iron Compartment Topology During Ferroptosis Mirrors Serpentinization Partitioning",
+        "kill_reason": "Vocabulary re-description. Kd formalism inappropriate for active transport-dominated system. No predictive power added."
+      }
     ],
     "surviving_hypotheses": [
       "Abiotic vs Enzymatic PLOOH Regioselectivity as Chemical Fossil of Antioxidant Evolution",
@@ -373,18 +442,48 @@
       }
     },
     "bridge_type_performance": {
-      "radical_regioselectivity": {"used": 1, "survived": 1, "survival_rate": 1.0},
-      "nanoparticle_dissolution_kinetics": {"used": 1, "survived": 1, "survival_rate": 1.0},
-      "speciation_thermodynamics": {"used": 1, "survived": 1, "survival_rate": 1.0},
-      "pourbaix_thermodynamics": {"used": 1, "survived": 1, "survival_rate": 1.0},
-      "abiotic_PUFA_synthesis": {"used": 2, "survived": 0, "survival_rate": 0.0},
-      "homogeneous_Fenton_wrong_pH": {"used": 2, "survived": 0, "survival_rate": 0.0},
-      "vocabulary_re_description": {"used": 1, "survived": 0, "survival_rate": 0.0}
+      "radical_regioselectivity": {
+        "used": 1,
+        "survived": 1,
+        "survival_rate": 1.0
+      },
+      "nanoparticle_dissolution_kinetics": {
+        "used": 1,
+        "survived": 1,
+        "survival_rate": 1.0
+      },
+      "speciation_thermodynamics": {
+        "used": 1,
+        "survived": 1,
+        "survival_rate": 1.0
+      },
+      "pourbaix_thermodynamics": {
+        "used": 1,
+        "survived": 1,
+        "survival_rate": 1.0
+      },
+      "abiotic_PUFA_synthesis": {
+        "used": 2,
+        "survived": 0,
+        "survival_rate": 0.0
+      },
+      "homogeneous_Fenton_wrong_pH": {
+        "used": 2,
+        "survived": 0,
+        "survival_rate": 0.0
+      },
+      "vocabulary_re_description": {
+        "used": 1,
+        "survived": 0,
+        "survival_rate": 0.0
+      }
     },
     "computational_validation_summary": {
       "checks_run": 5,
       "checks_passed": 4,
-      "implausible_flags": ["GPX4/GSH enzymatic axis NOT transferable to abiotic system"]
+      "implausible_flags": [
+        "GPX4/GSH enzymatic axis NOT transferable to abiotic system"
+      ]
     }
   },
   {
@@ -409,7 +508,9 @@
       {
         "field_a": "Piezoelectric properties of collagen",
         "field_c": "Hematopoietic stem cell fate decisions in bone marrow niches",
-        "bridge_concepts": ["collagen piezoelectric field at HSC niche"],
+        "bridge_concepts": [
+          "collagen piezoelectric field at HSC niche"
+        ],
         "strategy": "contradiction_mining",
         "disjointness": "DISJOINT",
         "outcome": "killed_by_target_evaluator_debye_screening"
@@ -417,43 +518,61 @@
       {
         "field_a": "Bacterial outer membrane vesicle (OMV) biogenesis",
         "field_c": "Mammalian extracellular vesicle (exosome) biogenesis and immunomodulation",
-        "bridge_concepts": ["conserved membrane budding physics", "sRNA cargo sorting parallels"],
+        "bridge_concepts": [
+          "conserved membrane budding physics",
+          "sRNA cargo sorting parallels"
+        ],
         "strategy": "evolutionary_conservation_gap",
         "disjointness": "DISJOINT",
         "outcome": "not_explored_this_session"
       }
     ],
     "productive_bridges": [
-      "PYO → GSH depletion → GPX4 inactivation → ferroptosis (indirect enzymatic cascade)",
+      "PYO \u2192 GSH depletion \u2192 GPX4 inactivation \u2192 ferroptosis (indirect enzymatic cascade)",
       "LoxA + PYO dual-pathway synergy (coherent feed-forward loop motif)",
       "Quantitative scavenging budget for 4-HNE inter-kingdom transit",
       "ACSL4 expression as tissue-specific ferroptosis vulnerability predictor"
     ],
     "killed_hypotheses": [
-      {"title": "Bacterial N-Acyl Amides Protect Host Epithelium from Ferroptosis", "kill_reason": "Concentration 1000x too low for radical scavenging. Simpler GSH-based alternatives."},
-      {"title": "Ferroptotic Membrane Fragments as QS Signal Carriers", "kill_reason": "No range extension over aqueous diffusion. Efferocytosis clears debris."},
-      {"title": "Host ALOX15 Stereospecific Oxylipins Selectively Inhibit RhlR", "kill_reason": "Zero evidence oxylipins bind QS receptors. Structural comparison too generic."},
-      {"title": "Ferroptosis-Derived Isoprostanes as False Quorum Signals", "kill_reason": "Structural comparison invalid (cyclopentane vs quinoline). PqsR highly specific."},
-      {"title": "Ferroptotic oxPS as Bacterial Sensor Signal", "kill_reason": "No precedent for bacterial phospholipid sensing. Simpler host damage signals."}
+      {
+        "title": "Bacterial N-Acyl Amides Protect Host Epithelium from Ferroptosis",
+        "kill_reason": "Concentration 1000x too low for radical scavenging. Simpler GSH-based alternatives."
+      },
+      {
+        "title": "Ferroptotic Membrane Fragments as QS Signal Carriers",
+        "kill_reason": "No range extension over aqueous diffusion. Efferocytosis clears debris."
+      },
+      {
+        "title": "Host ALOX15 Stereospecific Oxylipins Selectively Inhibit RhlR",
+        "kill_reason": "Zero evidence oxylipins bind QS receptors. Structural comparison too generic."
+      },
+      {
+        "title": "Ferroptosis-Derived Isoprostanes as False Quorum Signals",
+        "kill_reason": "Structural comparison invalid (cyclopentane vs quinoline). PqsR highly specific."
+      },
+      {
+        "title": "Ferroptotic oxPS as Bacterial Sensor Signal",
+        "kill_reason": "No precedent for bacterial phospholipid sensing. Simpler host damage signals."
+      }
     ],
     "surviving_hypotheses": [
       "Pyocyanin-GPX4-Ferroptosis Bidirectional Axis with Quantitative Kinetic Framework",
       "GPX4 as Inter-Kingdom Signal Gatekeeper with Extracellular Scavenging Budget",
-      "Dual-Pathway Ferroptosis Induction by P. aeruginosa — PYO and LoxA Synergy",
+      "Dual-Pathway Ferroptosis Induction by P. aeruginosa \u2014 PYO and LoxA Synergy",
       "4-HNE as Irreversible QS Modulator via Covalent Modification of Holo-LasR",
       "Bacterial Lactonase Enzymes Degrade 4-HNE Lactol",
       "ACSL4 Expression as Tissue-Specific Vulnerability Map for Ferroptosis-QS Cross-Talk"
     ],
     "key_papers": [
-      "Dar et al. 2018 Science — PA LoxA induces host ferroptosis (CRITICAL PRIOR WORK)",
-      "McCready et al. 2018 Cell Chem Biol — Non-native LasR agonists, L3 loop-out conformation",
-      "Wilson et al. 1988 J Clin Invest — PYO concentrations in CF sputum",
-      "Muller 2002 Free Radic Biol Med — PYO depletes GSH via redox cycling",
-      "Ursini & Maiorino 2020 Free Radic Biol Med — GPX4 requires 2 GSH per cycle",
-      "Kagan et al. 2017 Nat Chem Biol — ACSL4/LPCAT3 pathway in ferroptosis",
-      "Petersen & Doorn 2004 Free Radic Biol Med — 4-HNE Michael addition rate constants",
-      "Dong et al. 2001 — AiiA lactonase quorum quenching",
-      "Molecules 2014 PMID 24448067 — Oxidized fatty acids as inter-kingdom signals"
+      "Dar et al. 2018 Science \u2014 PA LoxA induces host ferroptosis (CRITICAL PRIOR WORK)",
+      "McCready et al. 2018 Cell Chem Biol \u2014 Non-native LasR agonists, L3 loop-out conformation",
+      "Wilson et al. 1988 J Clin Invest \u2014 PYO concentrations in CF sputum",
+      "Muller 2002 Free Radic Biol Med \u2014 PYO depletes GSH via redox cycling",
+      "Ursini & Maiorino 2020 Free Radic Biol Med \u2014 GPX4 requires 2 GSH per cycle",
+      "Kagan et al. 2017 Nat Chem Biol \u2014 ACSL4/LPCAT3 pathway in ferroptosis",
+      "Petersen & Doorn 2004 Free Radic Biol Med \u2014 4-HNE Michael addition rate constants",
+      "Dong et al. 2001 \u2014 AiiA lactonase quorum quenching",
+      "Molecules 2014 PMID 24448067 \u2014 Oxidized fatty acids as inter-kingdom signals"
     ],
     "lessons_learned": [
       "Network gap analysis with DISJOINT confirmation yields highest novelty and survival rate",
@@ -473,17 +592,44 @@
       }
     },
     "bridge_type_performance": {
-      "pyo_gpx4_depletion": {"used": 3, "survived": 3, "survival_rate": 1.0},
-      "iron_competition": {"used": 2, "survived": 1, "survival_rate": 0.5},
-      "electrophilic_modification": {"used": 2, "survived": 1, "survival_rate": 0.5},
-      "lactonase_promiscuity": {"used": 1, "survived": 1, "survival_rate": 1.0},
-      "structural_mimicry_unverified": {"used": 3, "survived": 0, "survival_rate": 0.0},
-      "novel_receptor_no_precedent": {"used": 1, "survived": 0, "survival_rate": 0.0}
+      "pyo_gpx4_depletion": {
+        "used": 3,
+        "survived": 3,
+        "survival_rate": 1.0
+      },
+      "iron_competition": {
+        "used": 2,
+        "survived": 1,
+        "survival_rate": 0.5
+      },
+      "electrophilic_modification": {
+        "used": 2,
+        "survived": 1,
+        "survival_rate": 0.5
+      },
+      "lactonase_promiscuity": {
+        "used": 1,
+        "survived": 1,
+        "survival_rate": 1.0
+      },
+      "structural_mimicry_unverified": {
+        "used": 3,
+        "survived": 0,
+        "survival_rate": 0.0
+      },
+      "novel_receptor_no_precedent": {
+        "used": 1,
+        "survived": 0,
+        "survival_rate": 0.0
+      }
     },
     "computational_validation_summary": {
       "checks_run": 7,
       "checks_passed": 5,
-      "implausible_flags": ["4-HNE lacks lactone ring for direct mimicry", "4-HNE half-life short (~2-5 min)"]
+      "implausible_flags": [
+        "4-HNE lacks lactone ring for direct mimicry",
+        "4-HNE half-life short (~2-5 min)"
+      ]
     }
   },
   {
@@ -502,10 +648,10 @@
     ],
     "productive_bridges": [
       "IRP1 [4Fe-4S] cluster occupancy as feeding-entrained iron-redox sensor (published gap: Nadimpalli 2024)",
-      "CISD2 [2Fe-2S] at MAMs as redox-gated Ca2+ regulator (triple intersection: longevity × circadian × Fe-S)",
+      "CISD2 [2Fe-2S] at MAMs as redox-gated Ca2+ regulator (triple intersection: longevity \u00d7 circadian \u00d7 Fe-S)",
       "CIA/CIAO3 pathway as LIP/ROS-responsive gate for ~20 cytoplasmic Fe-S proteins",
       "Frataxin as substrate-sensitive bottleneck in FTMT-negative tissues",
-      "Conserved Fe-S → clock dependency in neurons (14-year Drosophila → mammalian gap)"
+      "Conserved Fe-S \u2192 clock dependency in neurons (14-year Drosophila \u2192 mammalian gap)"
     ],
     "killed_hypotheses": [
       {
@@ -513,31 +659,31 @@
         "kill_reason": "Critic FATAL: CISD2 redox midpoint +24mV actual (Biomedicines 2021), not -10mV claimed from mitoNEET data. NAD+/NADH cycling thermodynamically impossible at correct potential. QG later gave CONDITIONAL_PASS with corrected parameters."
       },
       {
-        "title": "NADPH→FDXR→FDX2 Electron Supply Chain as Circadian Fe-S Assembly Gatekeeper",
-        "kill_reason": "QG FAIL: FDXR Km = 0.7µM (Barros & Carlson 1992), not ~5µM as estimated. At physiological NADPH (50-100µM), FDXR >99% saturated. 30% NADPH oscillation produces <1% rate change."
+        "title": "NADPH\u2192FDXR\u2192FDX2 Electron Supply Chain as Circadian Fe-S Assembly Gatekeeper",
+        "kill_reason": "QG FAIL: FDXR Km = 0.7\u00b5M (Barros & Carlson 1992), not ~5\u00b5M as estimated. At physiological NADPH (50-100\u00b5M), FDXR >99% saturated. 30% NADPH oscillation produces <1% rate change."
       },
       {
         "title": "Cytoplasmic Prx1/2 H2O2 Oscillation as Non-Transcriptional Timer for Fe-S Proteins",
-        "kill_reason": "Critic WEAKENED: 2-3 orders of magnitude H2O2 gap — predicted 10-100 nM pulse vs IRP1 threshold ~1-10 µM (Pantopoulos 1998). Prx2 hyperoxidation in nucleated cells may not produce cytoplasmic H2O2 pulses like in RBCs."
+        "kill_reason": "Critic WEAKENED: 2-3 orders of magnitude H2O2 gap \u2014 predicted 10-100 nM pulse vs IRP1 threshold ~1-10 \u00b5M (Pantopoulos 1998). Prx2 hyperoxidation in nucleated cells may not produce cytoplasmic H2O2 pulses like in RBCs."
       }
     ],
     "surviving_hypotheses": [
       "IRP1 [4Fe-4S] Cluster Occupancy as Feeding-Entrained Iron-Redox Chronostat (PASS 8/10)",
-      "CISD2 [2Fe-2S] as Redox-Gated ER-Mitochondrial Calcium Timer — forward direction only (CONDITIONAL_PASS 7/10)",
+      "CISD2 [2Fe-2S] as Redox-Gated ER-Mitochondrial Calcium Timer \u2014 forward direction only (CONDITIONAL_PASS 7/10)",
       "CIA Pathway as LIP/ROS-Responsive Circadian Gate for Cytoplasmic Fe-S Proteome (CONDITIONAL_PASS 7/10)",
       "Frataxin-Gated Fe-S Assembly via Mitochondrial LIP in FTMT-Negative Tissues (CONDITIONAL_PASS 6/10)",
-      "Conserved Fe-S Requirement in Clock Neurons — Drosophila to Mammalian SCN (CONDITIONAL_PASS 6/10)"
+      "Conserved Fe-S Requirement in Clock Neurons \u2014 Drosophila to Mammalian SCN (CONDITIONAL_PASS 6/10)"
     ],
     "key_papers": [
-      "Nadimpalli et al. 2024 Genome Biol — IRP2 oscillates 10-fold daily; IRP1 Fe-S occupancy UNMEASURED across 24h (PMID 38773499)",
-      "Lill et al. 2025 Nature — FDX2:FXN 1:1 stoichiometry; cross-regulation (DOI 10.1038/s41586-025-09822-1)",
-      "Maio & Rouault 2022 JBC — CIAO3 regulation by iron/ROS in cytoplasmic Fe-S maturation",
-      "Mandilaras & Missirlis 2012 Metallomics — 5 Fe-S genes in Drosophila clock neurons (PMID 22885802)",
-      "Edgar et al. 2012 Nature — Prx2 hyperoxidation cycles",
-      "Peek et al. 2013 Science — NAD+/NADH 30% circadian amplitude",
-      "JCI 2026 — BMAL1→ATP7A→Cu→Fe-S pathway (PMID 41480765)",
-      "Karmi et al. 2018 JBIC — NEET protein cluster lability (PMID 29435647)",
-      "Biomedicines 2021 — CISD2/NAF-1 redox midpoint +24mV (PMC8067432)"
+      "Nadimpalli et al. 2024 Genome Biol \u2014 IRP2 oscillates 10-fold daily; IRP1 Fe-S occupancy UNMEASURED across 24h (PMID 38773499)",
+      "Lill et al. 2025 Nature \u2014 FDX2:FXN 1:1 stoichiometry; cross-regulation (DOI 10.1038/s41586-025-09822-1)",
+      "Maio & Rouault 2022 JBC \u2014 CIAO3 regulation by iron/ROS in cytoplasmic Fe-S maturation",
+      "Mandilaras & Missirlis 2012 Metallomics \u2014 5 Fe-S genes in Drosophila clock neurons (PMID 22885802)",
+      "Edgar et al. 2012 Nature \u2014 Prx2 hyperoxidation cycles",
+      "Peek et al. 2013 Science \u2014 NAD+/NADH 30% circadian amplitude",
+      "JCI 2026 \u2014 BMAL1\u2192ATP7A\u2192Cu\u2192Fe-S pathway (PMID 41480765)",
+      "Karmi et al. 2018 JBIC \u2014 NEET protein cluster lability (PMID 29435647)",
+      "Biomedicines 2021 \u2014 CISD2/NAF-1 redox midpoint +24mV (PMC8067432)"
     ],
     "disjointness_verification": {
       "status": "CONFIRMED_DISJOINT",
@@ -545,17 +691,17 @@
       "kegg_api": "ZERO shared pathways between sulfur relay (hsa04122) and circadian clock pathways",
       "pubmed_search": "NFS1 circadian=0; ISCU2 circadian=0; GLRX5 circadian=0; FDX2 circadian=0",
       "mammalian_rnai_screen": "Fe-S biogenesis genes NOT in human genome-wide circadian RNAi screen (2009)",
-      "existing_cross_field": "3 papers — all Drosophila, all lacking mechanism, none with mammalian follow-up"
+      "existing_cross_field": "3 papers \u2014 all Drosophila, all lacking mechanism, none with mammalian follow-up"
     },
     "lessons_learned": [
-      "Published gap papers are gold: Nadimpalli 2024 explicitly identifies IRP1 cluster occupancy as unmeasured → H2.1 scored highest (PASS 8/10). Scout should search for review papers listing 'unmeasured variables'",
-      "Km pre-verification is essential: FDXR Km=0.7µM killed H2.5. For any enzyme-gated mechanism, verify Km vs physiological [S]. If Km << [S], enzyme is saturated",
+      "Published gap papers are gold: Nadimpalli 2024 explicitly identifies IRP1 cluster occupancy as unmeasured \u2192 H2.1 scored highest (PASS 8/10). Scout should search for review papers listing 'unmeasured variables'",
+      "Km pre-verification is essential: FDXR Km=0.7\u00b5M killed H2.5. For any enzyme-gated mechanism, verify Km vs physiological [S]. If Km << [S], enzyme is saturated",
       "Critic/QG calibration: Critic FATAL on H2.3 (wrong midpoint) vs QG CONDITIONAL_PASS (correctable error). Correctable parametric errors should not be FATAL kills",
-      "Redox midpoint must be verified for the specific protein isoform, not homologs: mitoNEET ≠ CISD2",
+      "Redox midpoint must be verified for the specific protein isoform, not homologs: mitoNEET \u2260 CISD2",
       "Fe-S biology is an excellent domain: rich molecular infrastructure, published quantitative gaps, JCI 2026 precedent establishes field is active",
-      "Triple-intersection bridges (longevity × circadian × Fe-S via CISD2) produce highest novelty but higher parametric error risk",
-      "Conservation gap with time lag (14-year Drosophila → mammalian follow-up gap) is a productive bridge type",
-      "6 distinct bridge types across 6 hypotheses with zero convergence — unprecedented diversity. Diversity constraint working well",
+      "Triple-intersection bridges (longevity \u00d7 circadian \u00d7 Fe-S via CISD2) produce highest novelty but higher parametric error risk",
+      "Conservation gap with time lag (14-year Drosophila \u2192 mammalian follow-up gap) is a productive bridge type",
+      "6 distinct bridge types across 6 hypotheses with zero convergence \u2014 unprecedented diversity. Diversity constraint working well",
       "network_gap_analysis confirmed as dominant strategy: 38% QG pass rate across S006+S007 (11/29)"
     ],
     "strategy_performance": {
@@ -572,12 +718,42 @@
       }
     },
     "bridge_type_performance": {
-      "published_gap_variable": {"used": 1, "survived": 1, "qg_passed": 1, "verdict": "PASS"},
-      "er_mito_ca2_signaling": {"used": 1, "survived": 1, "qg_passed": 1, "verdict": "COND_PASS"},
-      "cytoplasmic_maturation_gate": {"used": 1, "survived": 1, "qg_passed": 1, "verdict": "COND_PASS"},
-      "substrate_supply_bottleneck": {"used": 1, "survived": 1, "qg_passed": 1, "verdict": "COND_PASS"},
-      "conservation_gap_reverse": {"used": 1, "survived": 1, "qg_passed": 1, "verdict": "COND_PASS"},
-      "enzyme_km_saturation": {"used": 1, "survived": 0, "qg_passed": 0, "verdict": "FAIL"}
+      "published_gap_variable": {
+        "used": 1,
+        "survived": 1,
+        "qg_passed": 1,
+        "verdict": "PASS"
+      },
+      "er_mito_ca2_signaling": {
+        "used": 1,
+        "survived": 1,
+        "qg_passed": 1,
+        "verdict": "COND_PASS"
+      },
+      "cytoplasmic_maturation_gate": {
+        "used": 1,
+        "survived": 1,
+        "qg_passed": 1,
+        "verdict": "COND_PASS"
+      },
+      "substrate_supply_bottleneck": {
+        "used": 1,
+        "survived": 1,
+        "qg_passed": 1,
+        "verdict": "COND_PASS"
+      },
+      "conservation_gap_reverse": {
+        "used": 1,
+        "survived": 1,
+        "qg_passed": 1,
+        "verdict": "COND_PASS"
+      },
+      "enzyme_km_saturation": {
+        "used": 1,
+        "survived": 0,
+        "qg_passed": 0,
+        "verdict": "FAIL"
+      }
     }
   },
   {
@@ -643,7 +819,7 @@
         "field_c": "Deinococcus radiodurans Mn-antioxidant biology (Mn-OP complexes, radiation resistance)",
         "bridge_concepts": [
           "Mn2+-orthophosphate-peptide ternary complexes (Mn-OP, DP1 decapeptide)",
-          "Mn2+/Mn3+ catalytic SOD-mimetic cycling — speciation determines pro- vs anti-oxidant outcome",
+          "Mn2+/Mn3+ catalytic SOD-mimetic cycling \u2014 speciation determines pro- vs anti-oxidant outcome",
           "MnSOD-independent non-enzymatic antioxidant defense",
           "Mitochondrial Complex I as convergence point"
         ],
@@ -656,7 +832,7 @@
         "field_c": "Coral bleaching / Symbiodiniaceae thermal tolerance (heat-induced ROS, PSII photoinhibition)",
         "bridge_concepts": [
           "SNAT/ASMT melatonin biosynthesis (confirmed in dinoflagellates)",
-          "Melatonin→AFMK→AMK ROS scavenging cascade",
+          "Melatonin\u2192AFMK\u2192AMK ROS scavenging cascade",
           "NPQ-mediated PSII photoprotection by melatonin",
           "Chloroplast-to-nucleus retrograde signaling via melatonin"
         ],
@@ -668,7 +844,7 @@
         "field_a": "Volcanic glass dissolution kinetics (TST rate law, saturation index, PHREEQC)",
         "field_c": "Amorphous solid dispersion dissolution (pharmaceutical science, ~40% new drugs)",
         "bridge_concepts": [
-          "TST dissolution rate law: Rate = k+·A·(1-exp(DGr/RT))",
+          "TST dissolution rate law: Rate = k+\u00b7A\u00b7(1-exp(DGr/RT))",
           "Saturation index SI = log(IAP/Ksp) as master dissolution variable",
           "BET-normalized reactive surface area",
           "Passivation layer kinetics (Gin et al. 2015)",
@@ -684,11 +860,11 @@
     "surviving_hypotheses": [],
     "key_papers": [],
     "lessons_learned": [
-      "All 3 strategies (contradiction_mining, Swanson_ABC_bridging, tool_repurposing) used as primary for first time — building empirical performance data",
+      "All 3 strategies (contradiction_mining, Swanson_ABC_bridging, tool_repurposing) used as primary for first time \u2014 building empirical performance data",
       "Swanson ABC bridging confirmed viable: melatonin B-term appears in plant stress literature AND dinoflagellate biochemistry with zero cross-citations to coral bleaching",
-      "Contradiction mining produced specific bridge (Mn speciation paradox) but convergence risk detected — Daly lab DP1 peptide (PNAS 2024) narrows the gap",
-      "Tool repurposing from geochemistry to pharmaceutical science is a completely new domain transfer (prior transfers were geochemistry → cell biology)",
-      "Web verification essential: discovered Avrami kinetics already used in pharma (crystallization) — refined bridge to emphasize TST/SI which are genuinely novel"
+      "Contradiction mining produced specific bridge (Mn speciation paradox) but convergence risk detected \u2014 Daly lab DP1 peptide (PNAS 2024) narrows the gap",
+      "Tool repurposing from geochemistry to pharmaceutical science is a completely new domain transfer (prior transfers were geochemistry \u2192 cell biology)",
+      "Web verification essential: discovered Avrami kinetics already used in pharma (crystallization) \u2014 refined bridge to emphasize TST/SI which are genuinely novel"
     ]
   },
   {
@@ -701,12 +877,12 @@
         "field_a": "Cartilage ECM biomechanics (Mow 1980 biphasic theory, FCD, aggregate modulus, triphasic theory)",
         "field_c": "Bacterial biofilm matrix mechanics (Psl/Pel/alginate networks, antibiotic penetration, viscoelasticity)",
         "bridge_concepts": [
-          "Biphasic theory (Mow 1980) — same PDEs independently derived by Carpio 2019 for biofilm",
-          "Fixed Charge Density (FCD) from triphasic theory (Lai 1991) — never measured in biofilm",
-          "Aggregate modulus H_a from confined compression — never measured in biofilm",
+          "Biphasic theory (Mow 1980) \u2014 same PDEs independently derived by Carpio 2019 for biofilm",
+          "Fixed Charge Density (FCD) from triphasic theory (Lai 1991) \u2014 never measured in biofilm",
+          "Aggregate modulus H_a from confined compression \u2014 never measured in biofilm",
           "Donnan osmotic pressure and ion partitioning for antibiotic penetration",
           "Streaming potential spatial FCD mapping",
-          "Temporal FCD tracking during Pel→alginate maturation transition"
+          "Temporal FCD tracking during Pel\u2192alginate maturation transition"
         ],
         "strategy": "structural_isomorphism",
         "disjointness": "DISJOINT",
@@ -715,7 +891,11 @@
       {
         "field_a": "Manganese neurotoxicology (manganism, Complex I inhibition)",
         "field_c": "Deinococcus radiodurans Mn-antioxidant biology (Mn-OP complexes, DP1 decapeptide)",
-        "bridge_concepts": ["Mn speciation paradox", "DP1 decapeptide", "SOD-mimetic Mn cycling"],
+        "bridge_concepts": [
+          "Mn speciation paradox",
+          "DP1 decapeptide",
+          "SOD-mimetic Mn cycling"
+        ],
         "strategy": "contradiction_mining",
         "disjointness": "DISJOINT",
         "outcome": "not_explored_this_session"
@@ -723,17 +903,20 @@
       {
         "field_a": "Percolation theory in neural connectomics",
         "field_c": "Tumor immune infiltration topology",
-        "bridge_concepts": ["Critical percolation threshold p_c", "Bond percolation for chemokine gradients"],
+        "bridge_concepts": [
+          "Critical percolation threshold p_c",
+          "Bond percolation for chemokine gradients"
+        ],
         "strategy": "structural_isomorphism",
         "disjointness": "DISJOINT",
         "outcome": "not_explored_this_session"
       }
     ],
     "productive_bridges": [
-      "Biphasic confined compression (H_a) — foundational measurement transfer, QG 8.4 PASS",
-      "Triphasic FCD Donnan partitioning — novel measurement + quantitative framework, QG 7.5 PASS",
-      "Temporal FCD tracking during maturation — thermodynamically necessary transition, QG 6.7 COND",
-      "Streaming potential spatial FCD mapping — novel technique transfer, QG 6.5 COND"
+      "Biphasic confined compression (H_a) \u2014 foundational measurement transfer, QG 8.4 PASS",
+      "Triphasic FCD Donnan partitioning \u2014 novel measurement + quantitative framework, QG 7.5 PASS",
+      "Temporal FCD tracking during maturation \u2014 thermodynamically necessary transition, QG 6.7 COND",
+      "Streaming potential spatial FCD mapping \u2014 novel technique transfer, QG 6.5 COND"
     ],
     "killed_hypotheses": [
       {
@@ -750,7 +933,7 @@
       },
       {
         "title": "Biphasic Creep Time Constant Predicts Convective Antibiotic Penetration Timescale",
-        "kill_reason": "Not independently testable — requires H_a and k measurements first. Parameter uncertainty spans 4+ orders of magnitude. Shear vs compression loading mode mismatch."
+        "kill_reason": "Not independently testable \u2014 requires H_a and k measurements first. Parameter uncertainty spans 4+ orders of magnitude. Shear vs compression loading mode mismatch."
       }
     ],
     "surviving_hypotheses": [
@@ -760,24 +943,24 @@
       "Streaming Potential Reveals Spatial FCD Heterogeneity (CONDITIONAL_PASS 6.5/10)"
     ],
     "key_papers": [
-      "Mow et al. 1980 J Biomech Eng — biphasic theory for cartilage",
-      "Lai et al. 1991 J Biomech Eng — triphasic theory with Donnan equilibrium",
-      "Carpio 2019 — independently derived Mow-equivalent PDEs for biofilm (without citing Mow)",
-      "Kundukad et al. 2025 NPJ Biofilms — invokes Donnan qualitatively for alginate biofilm",
-      "Jennings et al. 2015 PNAS — Pel is cationic polysaccharide",
-      "Colvin et al. 2012 — mixed Pel/alginate/Psl spatial heterogeneity in biofilm",
-      "Grodzinsky et al. 1981 — streaming potential for cartilage FCD measurement",
-      "Peterson et al. 2015 — biofilm G' range 1-1000 Pa",
-      "Soltz & Ateshian 1998 — fluid pressurization dominates undrained cartilage response"
+      "Mow et al. 1980 J Biomech Eng \u2014 biphasic theory for cartilage",
+      "Lai et al. 1991 J Biomech Eng \u2014 triphasic theory with Donnan equilibrium",
+      "Carpio 2019 \u2014 independently derived Mow-equivalent PDEs for biofilm (without citing Mow)",
+      "Kundukad et al. 2025 NPJ Biofilms \u2014 invokes Donnan qualitatively for alginate biofilm",
+      "Jennings et al. 2015 PNAS \u2014 Pel is cationic polysaccharide",
+      "Colvin et al. 2012 \u2014 mixed Pel/alginate/Psl spatial heterogeneity in biofilm",
+      "Grodzinsky et al. 1981 \u2014 streaming potential for cartilage FCD measurement",
+      "Peterson et al. 2015 \u2014 biofilm G' range 1-1000 Pa",
+      "Soltz & Ateshian 1998 \u2014 fluid pressurization dominates undrained cartilage response"
     ],
     "lessons_learned": [
       "structural_isomorphism validated as high-performance strategy: 25% PASS, 50% PASS+COND in first primary test",
       "Deep mathematical isomorphism (same PDEs independently derived) produces naturally well-grounded hypotheses",
-      "Measurement transfer hypotheses outperform model transfer hypotheses — H_a/FCD/streaming potential all passed while fiber matrix/poroelastic models failed",
+      "Measurement transfer hypotheses outperform model transfer hypotheses \u2014 H_a/FCD/streaming potential all passed while fiber matrix/poroelastic models failed",
       "Loading mode mismatch is a new kill pattern: compression framework applied to shear-dominated system",
-      "Sign error in Donnan swelling (both positive and negative FCD swell at low ionic strength) — generator must verify sign of physical effects",
+      "Sign error in Donnan swelling (both positive and negative FCD swell at low ionic strength) \u2014 generator must verify sign of physical effects",
       "Early_complete worked well: top-3 >= 7.0 in cycle 1, no degradation from skipping cycle 2",
-      "FCD is the keystone missing measurement for biofilm — opens entire parameter space (H_a, k, Donnan, streaming potential)",
+      "FCD is the keystone missing measurement for biofilm \u2014 opens entire parameter space (H_a, k, Donnan, streaming potential)",
       "Back-of-envelope validation essential: Donnan effect at 150 mM NaCl is K~1.02 (negligible), must specify ionic strength range for predictions"
     ],
     "strategy_performance": {
@@ -790,20 +973,66 @@
         "quality_gate_conditional": 2,
         "survival_rate": 0.75,
         "quality_gate_rate": 0.25,
-        "quality_gate_pass_plus_cond_rate": 0.50,
+        "quality_gate_pass_plus_cond_rate": 0.5,
         "avg_qg_composite": 7.28,
         "effectiveness": "SUCCESS"
       }
     },
     "bridge_type_performance": {
-      "biphasic_confined_compression": {"used": 1, "survived": 1, "qg_passed": 1, "verdict": "PASS", "qg_score": 8.4},
-      "triphasic_donnan_partitioning": {"used": 1, "survived": 1, "qg_passed": 1, "verdict": "PASS", "qg_score": 7.5},
-      "temporal_charge_evolution": {"used": 1, "survived": 1, "qg_conditional": 1, "verdict": "COND_PASS", "qg_score": 6.7},
-      "electrokinetic_measurement_transfer": {"used": 1, "survived": 1, "qg_conditional": 1, "verdict": "COND_PASS", "qg_score": 6.5},
-      "triphasic_charge_heterogeneity": {"used": 1, "survived": 1, "qg_failed": 1, "verdict": "FAIL", "qg_score": 5.6},
-      "poroelastic_transport_derived": {"used": 1, "survived": 1, "qg_failed": 1, "verdict": "FAIL", "qg_score": 5.5},
-      "fiber_matrix_permeability": {"used": 1, "survived": 0, "killed": true, "kill_reason": "low novelty + structural mismatch"},
-      "poroelastic_pumping": {"used": 1, "survived": 0, "killed": true, "kill_reason": "loading mode mismatch"}
+      "biphasic_confined_compression": {
+        "used": 1,
+        "survived": 1,
+        "qg_passed": 1,
+        "verdict": "PASS",
+        "qg_score": 8.4
+      },
+      "triphasic_donnan_partitioning": {
+        "used": 1,
+        "survived": 1,
+        "qg_passed": 1,
+        "verdict": "PASS",
+        "qg_score": 7.5
+      },
+      "temporal_charge_evolution": {
+        "used": 1,
+        "survived": 1,
+        "qg_conditional": 1,
+        "verdict": "COND_PASS",
+        "qg_score": 6.7
+      },
+      "electrokinetic_measurement_transfer": {
+        "used": 1,
+        "survived": 1,
+        "qg_conditional": 1,
+        "verdict": "COND_PASS",
+        "qg_score": 6.5
+      },
+      "triphasic_charge_heterogeneity": {
+        "used": 1,
+        "survived": 1,
+        "qg_failed": 1,
+        "verdict": "FAIL",
+        "qg_score": 5.6
+      },
+      "poroelastic_transport_derived": {
+        "used": 1,
+        "survived": 1,
+        "qg_failed": 1,
+        "verdict": "FAIL",
+        "qg_score": 5.5
+      },
+      "fiber_matrix_permeability": {
+        "used": 1,
+        "survived": 0,
+        "killed": true,
+        "kill_reason": "low novelty + structural mismatch"
+      },
+      "poroelastic_pumping": {
+        "used": 1,
+        "survived": 0,
+        "killed": true,
+        "kill_reason": "loading mode mismatch"
+      }
     },
     "computational_validation_summary": {
       "checks_run": 6,
@@ -820,7 +1049,13 @@
       {
         "field_a": "Manganese speciation toxicology (Mn2+ neurotoxicity, SLC30A10 mutations, globus pallidus accumulation)",
         "field_c": "Deinococcus radiodurans Mn-antioxidant defense (Mn-OP complexes, DP1 decapeptide, radioresistance)",
-        "bridge_concepts": ["Mn-OP speciation switching (free vs complexed Mn)", "Irving-Williams series speciation sensitivity", "DP1 decapeptide Ka characterization", "Compartment-specific Mn-Pi complexation", "EPR free Mn2+ measurement transfer"],
+        "bridge_concepts": [
+          "Mn-OP speciation switching (free vs complexed Mn)",
+          "Irving-Williams series speciation sensitivity",
+          "DP1 decapeptide Ka characterization",
+          "Compartment-specific Mn-Pi complexation",
+          "EPR free Mn2+ measurement transfer"
+        ],
         "strategy": "contradiction_mining",
         "disjointness": "DISJOINT",
         "outcome": "success"
@@ -828,7 +1063,9 @@
       {
         "field_a": "Classical nucleation theory (CNT, 1926)",
         "field_c": "Ferroptosis iron pool dynamics (LIP, 2012)",
-        "bridge_concepts": ["CNT free energy barrier for ferrihydrite in ferritin nanocages"],
+        "bridge_concepts": [
+          "CNT free energy barrier for ferrihydrite in ferritin nanocages"
+        ],
         "strategy": "scale_bridging",
         "disjointness": "DISJOINT",
         "outcome": "not_explored_this_session"
@@ -836,46 +1073,67 @@
       {
         "field_a": "Granular jamming physics (Liu-Nagel, force chains, Edwards entropy)",
         "field_c": "Chromatin compaction phase transitions (euchromatin/heterochromatin)",
-        "bridge_concepts": ["Jamming phase diagram mapped to chromatin state space", "Dilatancy prediction for transcription"],
+        "bridge_concepts": [
+          "Jamming phase diagram mapped to chromatin state space",
+          "Dilatancy prediction for transcription"
+        ],
         "strategy": "structural_isomorphism",
         "disjointness": "DISJOINT",
         "outcome": "not_explored_this_session"
       }
     ],
     "productive_bridges": [
-      "Mn speciation (free vs complexed) as determinant of biological outcome — framework level",
+      "Mn speciation (free vs complexed) as determinant of biological outcome \u2014 framework level",
       "EPR spectral deconvolution as measurement transfer from Deinococcus to clinical diagnostics",
       "Compartment-specific Mn-Pi complexation (80% in mitochondria vs 28% in cytoplasm)",
       "Dual-function Mn-OP concept (antioxidant + mismetalation prevention)",
       "Irving-Williams series as predictive framework for metal-specific dose-response"
     ],
     "killed_hypotheses": [
-      {"title": "Endogenous CSF Mn-OP Pool", "kill_reason": "CSF Mn ~1-3 nM is 1000x too low for Mn-OP complex formation (Ka requires uM range)"},
-      {"title": "His-Glu for Welding Fume Disease", "kill_reason": "Ka ~ 670 M-1 insufficient at brain Mn concentrations (3-10 uM). Existing Mn-porphyrin SOD mimetics have Ka >> 10^5"},
-      {"title": "DP1 Motif in Human Proteins", "kill_reason": "High false positive rate in motif search; Ka too weak for functional Mn binding"},
-      {"title": "Potentiate MnTE-2-PyP", "kill_reason": "MnTE-2-PyP is kinetically stable; Ka insufficient for safety net function"},
-      {"title": "Mn Speciation x Ferroptosis", "kill_reason": "Mn Fenton much weaker than Fe Fenton; concentration requirements exceed achievable levels"},
-      {"title": "Mn Speciation x alpha-Synuclein Aggregation", "kill_reason": "NAC domain dominance weakens metal-binding mechanism; clinical mismatch manganism vs PD"}
+      {
+        "title": "Endogenous CSF Mn-OP Pool",
+        "kill_reason": "CSF Mn ~1-3 nM is 1000x too low for Mn-OP complex formation (Ka requires uM range)"
+      },
+      {
+        "title": "His-Glu for Welding Fume Disease",
+        "kill_reason": "Ka ~ 670 M-1 insufficient at brain Mn concentrations (3-10 uM). Existing Mn-porphyrin SOD mimetics have Ka >> 10^5"
+      },
+      {
+        "title": "DP1 Motif in Human Proteins",
+        "kill_reason": "High false positive rate in motif search; Ka too weak for functional Mn binding"
+      },
+      {
+        "title": "Potentiate MnTE-2-PyP",
+        "kill_reason": "MnTE-2-PyP is kinetically stable; Ka insufficient for safety net function"
+      },
+      {
+        "title": "Mn Speciation x Ferroptosis",
+        "kill_reason": "Mn Fenton much weaker than Fe Fenton; concentration requirements exceed achievable levels"
+      },
+      {
+        "title": "Mn Speciation x alpha-Synuclein Aggregation",
+        "kill_reason": "NAC domain dominance weakens metal-binding mechanism; clinical mismatch manganism vs PD"
+      }
     ],
     "surviving_hypotheses": [
       "Mn Speciation as the Missing Variable in Manganese Neurotoxicity: A Unifying Framework (PASS 8/10)",
       "EPR-Detectable Free Mn2+ Fraction as Diagnostic Biomarker (CONDITIONAL_PASS 7/10)",
       "Mn-OP Mimetics as Dual-Function Neuroprotectants (CONDITIONAL_PASS 7/10)",
       "Compartment-Specific Mn-OP Formation in Mitochondria (CONDITIONAL_PASS 7/10)",
-      "Irving-Williams Framework for Metal-Specific Neurotoxicity — CORRECTED by Gemini (CONDITIONAL_PASS 6.5/10)"
+      "Irving-Williams Framework for Metal-Specific Neurotoxicity \u2014 CORRECTED by Gemini (CONDITIONAL_PASS 6.5/10)"
     ],
     "key_papers": [
-      "PMID 39665753 — DP1 ternary Mn-OP complex Ka ~ 670 M-1 (ITC, EPR, NMR characterization)",
-      "PMID 35012337 — Small-molecule Mn antioxidants supplant MnSOD in C. elegans and Deinococcus",
-      "PMID 29042516 — Mn antioxidant gauges radiation resistance across tree of life",
-      "PMID 41177175 — Removal of toxic metabolites: manganese disorders",
-      "PMID 40278159 — Mn neurotoxicity comprehensive review",
-      "PMID 36733764 — SLC39A14 variant in hypermanganesemia",
-      "PMID 36357556 — Genetics and epigenetics of manganese toxicity"
+      "PMID 39665753 \u2014 DP1 ternary Mn-OP complex Ka ~ 670 M-1 (ITC, EPR, NMR characterization)",
+      "PMID 35012337 \u2014 Small-molecule Mn antioxidants supplant MnSOD in C. elegans and Deinococcus",
+      "PMID 29042516 \u2014 Mn antioxidant gauges radiation resistance across tree of life",
+      "PMID 41177175 \u2014 Removal of toxic metabolites: manganese disorders",
+      "PMID 40278159 \u2014 Mn neurotoxicity comprehensive review",
+      "PMID 36733764 \u2014 SLC39A14 variant in hypermanganesemia",
+      "PMID 36357556 \u2014 Genetics and epigenetics of manganese toxicity"
     ],
     "lessons_learned": [
-      "contradiction_mining VALIDATED as primary strategy (35.7% QG pass+cond rate) — add to regular rotation",
-      "Binding affinity (Ka) is the #1 kill factor for molecular bridge hypotheses — front-load Ka retrieval before generating molecule-specific hypotheses",
+      "contradiction_mining VALIDATED as primary strategy (35.7% QG pass+cond rate) \u2014 add to regular rotation",
+      "Binding affinity (Ka) is the #1 kill factor for molecular bridge hypotheses \u2014 front-load Ka retrieval before generating molecule-specific hypotheses",
       "Framework and measurement hypotheses outperform molecule-specific hypotheses when Ka is weak",
       "Measurement transfer > model transfer heuristic confirmed again (S011 + S012)",
       "Cross-model validation catches mathematical errors: Gemini identified inverted relationship in Irving-Williams dose-response prediction",
@@ -895,17 +1153,43 @@
       }
     },
     "bridge_type_performance": {
-      "unifying_framework": {"used": 1, "survived": 1, "survival_rate": 1.0},
-      "measurement_transfer": {"used": 1, "survived": 1, "survival_rate": 1.0},
-      "dual_function_enzymatic_replacement": {"used": 1, "survived": 1, "survival_rate": 1.0},
-      "compartment_speciation": {"used": 1, "survived": 1, "survival_rate": 1.0},
-      "weak_Ka_molecule_transfer": {"used": 3, "survived": 0, "survival_rate": 0.0},
-      "endogenous_analogue_impossible_concentration": {"used": 1, "survived": 0, "survival_rate": 0.0}
+      "unifying_framework": {
+        "used": 1,
+        "survived": 1,
+        "survival_rate": 1.0
+      },
+      "measurement_transfer": {
+        "used": 1,
+        "survived": 1,
+        "survival_rate": 1.0
+      },
+      "dual_function_enzymatic_replacement": {
+        "used": 1,
+        "survived": 1,
+        "survival_rate": 1.0
+      },
+      "compartment_speciation": {
+        "used": 1,
+        "survived": 1,
+        "survival_rate": 1.0
+      },
+      "weak_Ka_molecule_transfer": {
+        "used": 3,
+        "survived": 0,
+        "survival_rate": 0.0
+      },
+      "endogenous_analogue_impossible_concentration": {
+        "used": 1,
+        "survived": 0,
+        "survival_rate": 0.0
+      }
     },
     "computational_validation_summary": {
       "checks_run": 4,
       "checks_passed": 3,
-      "implausible_flags": ["DP1 Ka ~ 40 M-1 too weak for direct brain application at 1-10 uM Mn"]
+      "implausible_flags": [
+        "DP1 Ka ~ 40 M-1 too weak for direct brain application at 1-10 uM Mn"
+      ]
     }
   },
   {
@@ -914,19 +1198,29 @@
     "mode": "scout",
     "targets": [
       {
-        "field_a": "Statistical physics — percolation theory on random lattices",
-        "field_c": "Tumor immunology — immune cell exclusion by ECM in solid tumors",
-        "bridge_concepts": ["bond percolation threshold p_c as collagen volume fraction", "correlation length exponent nu for T cell clusters", "anomalous diffusion on percolation clusters", "LOX crosslinking as bond probability"],
+        "field_a": "Statistical physics \u2014 percolation theory on random lattices",
+        "field_c": "Tumor immunology \u2014 immune cell exclusion by ECM in solid tumors",
+        "bridge_concepts": [
+          "bond percolation threshold p_c as collagen volume fraction",
+          "correlation length exponent nu for T cell clusters",
+          "anomalous diffusion on percolation clusters",
+          "LOX crosslinking as bond probability"
+        ],
         "strategy": "anomaly_hunting",
         "disjointness": "PARTIALLY_EXPLORED",
         "disjointness_verified": true,
-        "prior_art": "Ashworth 2015 (PMID 25881025) applies percolation to generic cell invasion in collagen scaffolds — NOT T cells or tumor immunology",
+        "prior_art": "Ashworth 2015 (PMID 25881025) applies percolation to generic cell invasion in collagen scaffolds \u2014 NOT T cells or tumor immunology",
         "outcome": "pending"
       },
       {
-        "field_a": "Acoustic engineering — matched-filter detection and filter-bank theory",
-        "field_c": "Plant bioacoustics — mechanism for detecting airborne ultrasonic stress emissions",
-        "bridge_concepts": ["MSL10 channel as mechano-electrical transducer", "trichome resonant frequency as pre-filter", "MSL variants as parallel filter bank", "frequency-selective calcium signaling"],
+        "field_a": "Acoustic engineering \u2014 matched-filter detection and filter-bank theory",
+        "field_c": "Plant bioacoustics \u2014 mechanism for detecting airborne ultrasonic stress emissions",
+        "bridge_concepts": [
+          "MSL10 channel as mechano-electrical transducer",
+          "trichome resonant frequency as pre-filter",
+          "MSL variants as parallel filter bank",
+          "frequency-selective calcium signaling"
+        ],
         "strategy": "serendipity",
         "disjointness": "DISJOINT",
         "disjointness_verified": true,
@@ -934,9 +1228,14 @@
         "outcome": "pending"
       },
       {
-        "field_a": "Granular physics — jamming transition, Liu-Nagel phase diagram",
-        "field_c": "Chromatin biology — eu/heterochromatin compaction transitions",
-        "bridge_concepts": ["Liu-Nagel axes mapping to histone mods/thermal/lamina stress", "Edwards entropy for chromatin configurations", "jamming criticality at eu/hetero boundary", "force chain networks through heterochromatin"],
+        "field_a": "Granular physics \u2014 jamming transition, Liu-Nagel phase diagram",
+        "field_c": "Chromatin biology \u2014 eu/heterochromatin compaction transitions",
+        "bridge_concepts": [
+          "Liu-Nagel axes mapping to histone mods/thermal/lamina stress",
+          "Edwards entropy for chromatin configurations",
+          "jamming criticality at eu/hetero boundary",
+          "force chain networks through heterochromatin"
+        ],
         "strategy": "structural_isomorphism",
         "disjointness": "DISJOINT",
         "disjointness_verified": true,
@@ -945,20 +1244,30 @@
         "outcome": "pending"
       },
       {
-        "field_a": "Stochastic thermodynamics — thermodynamic uncertainty relation",
-        "field_c": "Bacterial cell biology — cell size homeostasis via adder model",
-        "bridge_concepts": ["TUR bound: CV^2 x sigma_dot x tau >= 2kT", "growth rate as dissipation proxy", "nutrient-dependent precision as thermodynamic necessity", "DnaA-ATP as molecular current counter"],
+        "field_a": "Stochastic thermodynamics \u2014 thermodynamic uncertainty relation",
+        "field_c": "Bacterial cell biology \u2014 cell size homeostasis via adder model",
+        "bridge_concepts": [
+          "TUR bound: CV^2 x sigma_dot x tau >= 2kT",
+          "growth rate as dissipation proxy",
+          "nutrient-dependent precision as thermodynamic necessity",
+          "DnaA-ATP as molecular current counter"
+        ],
         "strategy": "converging_vocabularies",
         "disjointness": "DISJOINT",
         "disjointness_verified": true,
         "confidence": 0.96,
-        "note": "CLEANEST DISJOINT. TUR applied to oscillators/motors/signaling — never to cell size adder model. 2025 stochastic thermo paper on cell size uses different formalism (no TUR inequality).",
+        "note": "CLEANEST DISJOINT. TUR applied to oscillators/motors/signaling \u2014 never to cell size adder model. 2025 stochastic thermo paper on cell size uses different formalism (no TUR inequality).",
         "outcome": "success"
       },
       {
-        "field_a": "Optical metabolic imaging — FLIM of NADH/FAD autofluorescence",
-        "field_c": "Antimicrobial resistance — bacterial persister cell metabolic transitions",
-        "bridge_concepts": ["NADH fluorescence lifetime as metabolic readout", "phasor-FLIM cluster analysis", "mother-machine + FLIM for real-time tracking", "cancer DTP FLIM methods unapplied to bacteria"],
+        "field_a": "Optical metabolic imaging \u2014 FLIM of NADH/FAD autofluorescence",
+        "field_c": "Antimicrobial resistance \u2014 bacterial persister cell metabolic transitions",
+        "bridge_concepts": [
+          "NADH fluorescence lifetime as metabolic readout",
+          "phasor-FLIM cluster analysis",
+          "mother-machine + FLIM for real-time tracking",
+          "cancer DTP FLIM methods unapplied to bacteria"
+        ],
         "strategy": "network_gap_analysis",
         "disjointness": "PARTIALLY_EXPLORED",
         "disjointness_verified": true,
@@ -966,15 +1275,20 @@
         "outcome": "pending"
       },
       {
-        "field_a": "Physical chemistry — classical nucleation theory, nanoparticle dissolution",
-        "field_c": "Ferroptosis biology — ferritin-bound to labile iron pool transition",
-        "bridge_concepts": ["Gibbs-Thomson for ferrihydrite core", "critical dissolution radius r_c", "Ostwald ripening between ferritin molecules", "NCOA4 ferritinophagy pH shift on r_c"],
+        "field_a": "Physical chemistry \u2014 classical nucleation theory, nanoparticle dissolution",
+        "field_c": "Ferroptosis biology \u2014 ferritin-bound to labile iron pool transition",
+        "bridge_concepts": [
+          "Gibbs-Thomson for ferrihydrite core",
+          "critical dissolution radius r_c",
+          "Ostwald ripening between ferritin molecules",
+          "NCOA4 ferritinophagy pH shift on r_c"
+        ],
         "strategy": "scale_bridging",
         "disjointness": "DISJOINT",
         "disjointness_verified": true,
         "confidence": 0.95,
-        "key_anomaly": "Ponnusamy 2025: LIP does NOT expand during ferroptosis induction — CNT Ostwald ripening between ferritin cores could explain this paradox",
-        "supporting_papers": "JACS 2025 (x2) on ferritin nucleation and Ostwald ripening — exist completely separate from ferroptosis literature",
+        "key_anomaly": "Ponnusamy 2025: LIP does NOT expand during ferroptosis induction \u2014 CNT Ostwald ripening between ferritin cores could explain this paradox",
+        "supporting_papers": "JACS 2025 (x2) on ferritin nucleation and Ostwald ripening \u2014 exist completely separate from ferroptosis literature",
         "outcome": "pending"
       }
     ],
@@ -987,11 +1301,26 @@
       "Multi-current TUR noise portfolio (informational vs structural hierarchy)"
     ],
     "killed_hypotheses": [
-      {"title": "ppGpp Coordinates Near-Optimal Trajectory Under Stress", "kill_reason": "Mechanism wrong: ppGpp acts via supercoiling not DnaA levels (Fernandez-Coll 2020)"},
-      {"title": "First-Passage TUR Cost Hierarchy: Adder Cheapest", "kill_reason": "Citation hallucination: Campos 2014 proves Caulobacter is ADDER, not sizer"},
-      {"title": "Cross-Species Adder Precision via Universal TUR Law", "kill_reason": "Multiple errors: box count wrong (11 not 20), V. cholerae Chr2 uses RctB not DnaA"},
-      {"title": "Incomplete RIDA Reset Creates Memory", "kill_reason": "Logic kill: model predicts rho=0.005 (undetectable) but claims to explain substantial WT memory"},
-      {"title": "CL/PG Gradient Creates CV Asymmetry + Pole-Biased Origin Firing", "kill_reason": "Mechanism kill: DnaA diffusion D~3 um2/s homogenizes gradient in <1s, Peclet 0.002"}
+      {
+        "title": "ppGpp Coordinates Near-Optimal Trajectory Under Stress",
+        "kill_reason": "Mechanism wrong: ppGpp acts via supercoiling not DnaA levels (Fernandez-Coll 2020)"
+      },
+      {
+        "title": "First-Passage TUR Cost Hierarchy: Adder Cheapest",
+        "kill_reason": "Citation hallucination: Campos 2014 proves Caulobacter is ADDER, not sizer"
+      },
+      {
+        "title": "Cross-Species Adder Precision via Universal TUR Law",
+        "kill_reason": "Multiple errors: box count wrong (11 not 20), V. cholerae Chr2 uses RctB not DnaA"
+      },
+      {
+        "title": "Incomplete RIDA Reset Creates Memory",
+        "kill_reason": "Logic kill: model predicts rho=0.005 (undetectable) but claims to explain substantial WT memory"
+      },
+      {
+        "title": "CL/PG Gradient Creates CV Asymmetry + Pole-Biased Origin Firing",
+        "kill_reason": "Mechanism kill: DnaA diffusion D~3 um2/s homogenizes gradient in <1s, Peclet 0.002"
+      }
     ],
     "surviving_hypotheses": [
       "FtsZ GTPase ~2000x Over-Dissipating vs DnaA (PASS, 7.90)",
@@ -1003,32 +1332,366 @@
       "Min Pareto-Frontier TUR with Pattern Instability Bifurcation (COND_PASS, 5.20)"
     ],
     "key_papers": [
-      "Ashworth 2015 (PMID 25881025) — percolation theory applied to collagen + cell invasion (not T cells, not tumor)",
-      "Marsland 2019 (PMC6544898) — TUR in biochemical oscillators (not cell size)",
-      "Bhattacharjee 2017 (PMC5473825) — FLIM phasor metabolic fingerprinting of bacteria (not persister-specific)",
-      "Bonisoli 2024 (PMC10863351) — plant ultrasound detection methodology",
-      "Merdan & Akan 2025 (arXiv 2512.01096) — first plant acoustic communication model (biological models, no filter-bank)",
-      "Bajpai 2021 (eLife 63976) — chromatin phase separation; polymer model; no jamming",
-      "Rautu 2025 (arXiv 2503.20964) — active hydrodynamic theory of chromatin; no jamming",
-      "Nicolas-Boluda 2021 (PMC8203293) — LOX inhibition improves T cell infiltration; no percolation",
-      "Ponnusamy 2025 (PMC12236665) — LIP does NOT expand during ferroptosis; opens CNT gap",
-      "Verma 2025 (bioRxiv) — TUR constrains signaling in yeast; confirms NOT applied to cell size"
+      "Ashworth 2015 (PMID 25881025) \u2014 percolation theory applied to collagen + cell invasion (not T cells, not tumor)",
+      "Marsland 2019 (PMC6544898) \u2014 TUR in biochemical oscillators (not cell size)",
+      "Bhattacharjee 2017 (PMC5473825) \u2014 FLIM phasor metabolic fingerprinting of bacteria (not persister-specific)",
+      "Bonisoli 2024 (PMC10863351) \u2014 plant ultrasound detection methodology",
+      "Merdan & Akan 2025 (arXiv 2512.01096) \u2014 first plant acoustic communication model (biological models, no filter-bank)",
+      "Bajpai 2021 (eLife 63976) \u2014 chromatin phase separation; polymer model; no jamming",
+      "Rautu 2025 (arXiv 2503.20964) \u2014 active hydrodynamic theory of chromatin; no jamming",
+      "Nicolas-Boluda 2021 (PMC8203293) \u2014 LOX inhibition improves T cell infiltration; no percolation",
+      "Ponnusamy 2025 (PMC12236665) \u2014 LIP does NOT expand during ferroptosis; opens CNT gap",
+      "Verma 2025 (bioRxiv) \u2014 TUR constrains signaling in yeast; confirms NOT applied to cell size"
     ],
     "lessons_learned": [
       "Scout estimated T1 as DISJOINT but literature verification found PARTIALLY_EXPLORED (Ashworth 2015 precedent exists). Scout should note that percolation was used in ANY collagen context.",
-      "T4 (TUR × adder model) is the cleanest disjoint of all 6 — convergent vocabularies strategy correctly identified the gap",
-      "T5 correctly flagged PARTIALLY_EXPLORED by Scout — confirmed by Bhattacharjee 2017 and ACS 2024 papers",
+      "T4 (TUR \u00d7 adder model) is the cleanest disjoint of all 6 \u2014 convergent vocabularies strategy correctly identified the gap",
+      "T5 correctly flagged PARTIALLY_EXPLORED by Scout \u2014 confirmed by Bhattacharjee 2017 and ACS 2024 papers",
       "The newest literature (2025) is crucial: Ponnusamy 2025 opens a perfect anomaly for T6 CNT hypothesis; JACS 2025 provides physical chemistry foundation",
-      "Jamming applied to CELLS in tissues is WELL-EXPLORED; applying it to chromatin WITHIN the nucleus is DISJOINT — scout should make this distinction explicit",
-      "MCP tools (Semantic Scholar + PubMed) were rate-limited/degraded in this session. WebSearch + WebFetch used as fallback — adequate but slower."
+      "Jamming applied to CELLS in tissues is WELL-EXPLORED; applying it to chromatin WITHIN the nucleus is DISJOINT \u2014 scout should make this distinction explicit",
+      "MCP tools (Semantic Scholar + PubMed) were rate-limited/degraded in this session. WebSearch + WebFetch used as fallback \u2014 adequate but slower."
     ],
     "strategy_performance": {
-      "anomaly_hunting": {"targets_produced": 1, "first_primary_session": true},
-      "serendipity": {"targets_produced": 1, "first_primary_session": true},
-      "converging_vocabularies": {"targets_produced": 1, "first_primary_session": true, "selected": true, "hypotheses_generated": 15, "survived_critique": 10, "quality_gate_passed": 1, "quality_gate_conditional": 6, "avg_composite": 6.9, "effectiveness": "SUCCESS"},
-      "structural_isomorphism": {"targets_produced": 1, "second_primary_session": true},
-      "network_gap_analysis": {"targets_produced": 1, "fourth_primary_session": true},
-      "scale_bridging": {"targets_produced": 1, "second_primary_session": true}
+      "anomaly_hunting": {
+        "targets_produced": 1,
+        "first_primary_session": true
+      },
+      "serendipity": {
+        "targets_produced": 1,
+        "first_primary_session": true
+      },
+      "converging_vocabularies": {
+        "targets_produced": 1,
+        "first_primary_session": true,
+        "selected": true,
+        "hypotheses_generated": 15,
+        "survived_critique": 10,
+        "quality_gate_passed": 1,
+        "quality_gate_conditional": 6,
+        "avg_composite": 6.9,
+        "effectiveness": "SUCCESS"
+      },
+      "structural_isomorphism": {
+        "targets_produced": 1,
+        "second_primary_session": true
+      },
+      "network_gap_analysis": {
+        "targets_produced": 1,
+        "fourth_primary_session": true
+      },
+      "scale_bridging": {
+        "targets_produced": 1,
+        "second_primary_session": true
+      }
     }
+  },
+  {
+    "date": "2026-03-25",
+    "session_id": "2026-03-25-targeted-002",
+    "session_number": 15,
+    "mode": "targeted",
+    "phase": "complete",
+    "cycle_decision": "EARLY_COMPLETE_TOP3_GTE_7",
+    "target": {
+      "field_a": "Mechanobiology (ECM mechanics, integrin/focal adhesion, YAP/TAZ, MRTF, Piezo channels)",
+      "field_c": "Epigenomics (genomic enhancer regulation, H3K27ac/H3K4me1, BRD4/Mediator, phase-separated condensates)",
+      "bridge_concepts": [
+        "YAP/TAZ-BRD4 condensates at mechanoenhancers",
+        "looping-independent E-P contacts via phase separation",
+        "H3K27ac/H3K4me1 mechanoenhancer histone code",
+        "Piezo1-p300-H3K27ac rapid enhancer priming",
+        "MRTF-SRF CaRG mechanoenhancer binding",
+        "KDM6B H3K27me3 erasure as mechanoenhancer derepression"
+      ],
+      "disjointness": "PARTIALLY_EXPLORED",
+      "disjointness_context": "NEWLY_OPENED \u2014 Cosgrove 2025 Science landmark paper < 3 months old at session time",
+      "outcome": "success"
+    },
+    "hub_protein": "EP300",
+    "hub_string_scores": {
+      "EP300-BRD4": 0.988,
+      "EP300-CAMK2A": 0.908,
+      "EP300-MRTFA": 0.71
+    },
+    "key_anomaly": "86.2% of mechanoenhancer-gene connections lack annotated chromatin loops (Cosgrove 2025) \u2014 dominant mechanism is looping-independent",
+    "killed_hypotheses": [
+      {
+        "title": "H2: Piezo1->CaMKII->EP300 Rapid Pre-Priming",
+        "kill_reason": "CaMKII does NOT activate EP300. CaMKIV is the documented kinase. Fabricated protein property."
+      },
+      {
+        "title": "C2-H3: Nuclear Actin MRTF-A Residence Time",
+        "kill_reason": "RPEL domain binds G-actin exclusively, not F-actin. Fabricated protein property."
+      }
+    ],
+    "kill_rate": 0.0,
+    "surviving_hypotheses": [
+      "H3: YAP-BRD4 Condensate Supralinear Encoding (PASS, 7.85, 0.63)",
+      "C2-H1: Two-Phase Temporal Coincidence Gate (PASS, 7.85, 0.62)",
+      "H4: MRTF-A CaRG-Box Mechanoenhancer Occupancy (CONDITIONAL, 7.55, 0.62)",
+      "H1e: KDM6B Bivalent Ratchet in IPF (CONDITIONAL, 7.25, 0.56)",
+      "H5e: Condensate Volume Threshold for Multi-Enhancer Hubs (CONDITIONAL, 7.10, 0.53)",
+      "C2-H2: Lamin A/C Cell-Intrinsic Threshold (CONDITIONAL, 5.95, 0.42)"
+    ],
+    "quality_gate_pass_rate": 0.6,
+    "mean_qg_score": 7.63,
+    "new_evidence_found": [
+      "iScience 2024 PMID 38784009 \u2014 endogenous YAP condensates with TEAD1+BRD4 in response to actin tension (found during QG, missed by Literature Scout)",
+      "CaMKII activates within 3 min of Piezo1 Ca2+ influx (NEC 2025 Nat Commun Biol)",
+      "PMID 23804765 \u2014 nuclear CaMKII \u2192 H3S10ph in cardiac context (nuclear CaMKII precedent for H2)"
+    ],
+    "key_papers": [
+      "Cosgrove et al. 2025, Science \u2014 mechanoenhancers genome-wide ATAC-seq+CRISPRi. KEY LANDMARK PAPER.",
+      "iScience 2024 PMID 38784009 \u2014 endogenous YAP condensates + TEAD1+BRD4 with actin tension",
+      "Tayler et al. 2026 \u2014 ECM stiffness/stress relaxation \u2192 KDM4B/KDM6B activity",
+      "Zanconato et al. 2018, Nat Cancer \u2014 YAP/TAZ-BRD4 condensates at super-enhancers",
+      "Shin et al. 2018, Cell \u2014 nuclear condensates mechanically sense and restructure chromatin"
+    ],
+    "new_heuristics": [
+      {
+        "id": "H_S015_01",
+        "title": "NEWLY_OPENED_PARTIALLY_EXPLORED is viable",
+        "rule": "When a recent (< 6 months) landmark paper defines a new subfield, treat PARTIALLY_EXPLORED as 'newly opened gaps' rather than 'prior saturation'. 3/5 QG pass rate in this session (highest for PARTIALLY_EXPLORED category)."
+      },
+      {
+        "id": "H_S015_02",
+        "title": "Hub protein discovery first, upstream diversity second",
+        "rule": "Use STRING to identify a single hub protein with high scores to BOTH Field A and Field C proteins. Then generate hypotheses exploring different upstream pathways to the hub. This maximizes hypothesis density while preventing redundancy. EP300 example: 5 complementary non-redundant hypotheses."
+      },
+      {
+        "id": "H_S015_03",
+        "title": "QG verification is a supplementary literature search phase",
+        "rule": "Quality Gate web searches with hypothesis-specific terms (protein + context + year) surface papers missed by Literature Scout field-level searches. Budget time for discovery during QG. iScience 2024 PMID 38784009 found during QG; improved H3 confidence 0.58\u21920.63."
+      },
+      {
+        "id": "H_S015_04",
+        "title": "Cell-type mutation rescues context-mismatch hypotheses in evolution",
+        "rule": "When critique identifies cell-type mismatch, do not kill \u2014 identify the cell type where the premise IS valid and reframe. H1\u2192H1e: KDM6B bivalency evidence from MSCs \u2192 reframed to IPF fibroblasts where bivalency is plausible and therapeutically relevant."
+      }
+    ],
+    "lessons_learned": [
+      "CaMKII does NOT activate EP300 -- CaMKIV does. The CaMKII->HDAC4/5 export->EP300 derepression route is the correct mechanism (Backs 2006)",
+      "RPEL domain binds G-actin exclusively (monomer sequestration) not F-actin. Nuclear F-actin tethering via RPEL is structurally impossible",
+      "EP300 (p300 HAT) is the central hub protein for ALL mechanoenhancer pathways -- STRING scores 0.692-0.988 with YAP, BRD4, MRTF, CaMKII, KDM6B",
+      "86.2% of mechanoenhancer-gene connections lack annotated chromatin loops (Cosgrove 2025) -- phase separation is leading candidate mechanism",
+      "PARTIALLY_EXPLORED fields with landmark papers <6 months old are productive targets -- effectively newly opened",
+      "Zanconato 2018 is Nature Medicine NOT Nature Cancer. Cite Cai 2019 for LLPS evidence",
+      "PMID 23804765 (nuclear CaMKII->H3S10ph) was RETRACTED March 2023 -- do not cite"
+    ],
+    "bridge_type_performance": {
+      "multi_pathway_hat_hub_convergence": {
+        "used": 3,
+        "survived": 3,
+        "qg_passed": 3,
+        "survival_rate": 1.0
+      },
+      "condensate_phase_threshold_mechano": {
+        "used": 2,
+        "survived": 2,
+        "qg_passed": 1,
+        "survival_rate": 1.0
+      },
+      "kdm_epigenetic_relay_cell_specific": {
+        "used": 1,
+        "survived": 1,
+        "evolved": true,
+        "survival_rate": 1.0
+      }
+    },
+    "computational_validation_summary": {
+      "checks_run": 6,
+      "checks_passed": 6,
+      "all_bridges_validated": true,
+      "hub_protein": "EP300",
+      "strongest_interaction": "EP300-BRD4: STRING 0.988",
+      "novel_interaction_validated": "EP300-CAMK2A: 0.908 (validates Piezo1\u2192CaMKII\u2192EP300\u2192H3K27ac)"
+    },
+    "strategy_performance": {
+      "targeted": {
+        "sessions_run": 1,
+        "hypotheses_generated": 5,
+        "quality_gate_passed": 3,
+        "quality_gate_pass_rate": 0.6,
+        "avg_composite": 7.63,
+        "cycle_decision": "EARLY_COMPLETE_TOP3_GTE_7",
+        "note": "First targeted mode session. High performance from landmark paper proximity."
+      }
+    }
+  },
+  {
+    "date": "2026-03-26",
+    "session_id": "2026-03-26-targeted-001",
+    "mode": "targeted",
+    "blind_mode": true,
+    "blind_mode_note": "Holdout validation test -- no WebSearch/WebFetch for Lit Scout, Critic, or QG. Cross-Model Validator skipped.",
+    "phase_completed": "complete",
+    "session_position": 16,
+    "targets": [
+      {
+        "field_a": "Mechanobiology (extracellular matrix mechanics)",
+        "field_c": "Epigenomics (genomic enhancer regulation)",
+        "bridge_concepts": [
+          "mechanotransduction signaling",
+          "chromatin remodeling",
+          "nuclear mechanics",
+          "YAP/TAZ pathway",
+          "integrin signaling"
+        ],
+        "disjointness": "PARTIALLY_EXPLORED",
+        "outcome": "success",
+        "notes": "Field is 'mechanoepigenetics' \u2014 active but enhancer-specific angle (H3K27ac under ECM stiffness gradients) was genuinely underexplored. Cosgrove Science 2025 and Pigeot bioRxiv 2025 are convergent post-cutoff papers; neither addresses LAD stratification, two-phase bivalent resolution, or SE memory mechanisms."
+      }
+    ],
+    "pipeline_metrics": {
+      "hypotheses_generated_total": 14,
+      "hypotheses_generated_cycle1": 7,
+      "hypotheses_generated_cycle2": 7,
+      "killed_by_critic": 4,
+      "kill_rate": 0.286,
+      "survived_critique": 10,
+      "advanced_to_evolution": 3,
+      "evolved_hypotheses": 3,
+      "entered_quality_gate": 5,
+      "qg_pass": 0,
+      "qg_conditional_pass": 5,
+      "qg_fail": 0,
+      "overall_qg_pass_cond_rate": 1.0,
+      "attrition_rate": 0.643,
+      "citation_hallucinations": 0,
+      "total_citations_verified": 16,
+      "cycles_run": 2,
+      "evolver_skipped_cycle2": true
+    },
+    "surviving_hypotheses": [
+      {
+        "id": "C2-H6",
+        "title": "HDAC3-NCoR Eraser Depletion by ECM Stiffness Creates Enhancer Stabilization",
+        "verdict": "CONDITIONAL_PASS",
+        "composite": 7.4,
+        "confidence": 4,
+        "groundedness": 6,
+        "mechanism": "ECM stiffness suppresses HDAC3, stabilizing H3K27ac by eraser depletion rather than writer activation"
+      },
+      {
+        "id": "E1-H4",
+        "title": "TET2-Mediated CpG Demethylation DNA Methylation Mechanical Memory",
+        "verdict": "CONDITIONAL_PASS",
+        "composite": 7.2,
+        "confidence": 4,
+        "groundedness": 6,
+        "mechanism": "H3K27ac 6-12h window enables TET2 recruitment and CpG demethylation as persistent memory"
+      },
+      {
+        "id": "E1-H3",
+        "title": "Sequential Two-Phase Bivalent Enhancer Activation (UTX/MLL3-COMPASS)",
+        "verdict": "CONDITIONAL_PASS",
+        "composite": 7.1,
+        "confidence": 5,
+        "groundedness": 6,
+        "mechanism": "Phase 1 YAP-EP300 (0-4h) feeds forward to Phase 2 UTX-COMPASS bivalent resolution (12-24h)"
+      },
+      {
+        "id": "C2-H7",
+        "title": "H3K9me3 Demethylation Competence Windows for Enhancer Activation",
+        "verdict": "CONDITIONAL_PASS",
+        "composite": 6.4,
+        "confidence": 3,
+        "groundedness": 5,
+        "mechanism": "Force-induced H3K9me3 removal at nuclear interior enhancers creates windows for H3K27ac"
+      },
+      {
+        "id": "E1-H5",
+        "title": "Dual YAP-TEAD + MRTF-SRF Programs in CTCF-Permitted Loop Domains",
+        "verdict": "CONDITIONAL_PASS",
+        "composite": 6.3,
+        "confidence": 3,
+        "groundedness": 5,
+        "mechanism": "Two independent H3K27ac programs within CTCF-anchored domains, non-overlapping targets"
+      }
+    ],
+    "killed_hypotheses": [
+      {
+        "id": "C1-H2",
+        "title": "LINC LAD Detachment",
+        "reason": "Force 100-1000x insufficient; biochemical tethering"
+      },
+      {
+        "id": "C1-H7",
+        "title": "Force Pioneer Factor",
+        "reason": "Force 13,000x insufficient; below thermal noise"
+      },
+      {
+        "id": "C2-H4",
+        "title": "PIEZO1-NFAT Enhancer Program",
+        "reason": "PIEZO1 inactivates on static substrates"
+      },
+      {
+        "id": "C2-H5",
+        "title": "Viscoelasticity Temporal Filter",
+        "reason": "No quantitative framework; timescale mismatch 4-5 orders of magnitude"
+      }
+    ],
+    "kill_pattern": "Both kills share same root cause: Generator assumed linear force propagation from ECM matrix to molecular-scale targets. In reality, mechanical forces divide across thousands of molecular contacts; per-molecule force is vanishingly small. Correct mechano-epigenomic bridge requires SIGNAL AMPLIFICATION step (YAP nuclear translocation, MRTF-SRF, Ca2+/CaM) before reaching chromatin. Do NOT generate hypotheses where ECM stiffness forces act DIRECTLY on chromatin, nucleosomes, or LAD tethers.",
+    "key_papers": [
+      "Swift et al. Science 2013 (PMID 23990565) \u2014 Lamin A/C scales 6-fold with tissue stiffness (bridge-critical for H4-v2)",
+      "Guelen et al. Nature 2008 (PMID 18463634) \u2014 LAD genome coverage and structure (bridge-critical for H4-v2)",
+      "Kind et al. Cell 2015 (PMID 26365489) \u2014 Single-cell DamID: LAD repressive environment",
+      "Meuleman et al. Genome Research 2013 \u2014 cLAD/fLAD distinction (70.76% vs 29.24%)",
+      "KDM6B 2025 (S2ID 251aa09) \u2014 ECM stiffness upregulates KDM6B at EMT gene promoters (bridge-critical for H2-v2)",
+      "Fu et al. Bone Research 2024 (PMID 38789434) \u2014 ECM stiffening downregulates HDAC3 (bridge-critical for H5-v2)",
+      "Yang et al. Nat Materials 2014 (PMID 24633344) \u2014 Mechanical memory in MSCs via YAP/TAZ",
+      "Sun et al. 2020 (PMID 32270037) \u2014 Nuclear periphery genes resist force-induced H3K9me3 demethylation",
+      "Cosgrove et al. Science 2025 (PMID 40997217) \u2014 Post-cutoff: mechanoenhancers via ATAC-seq (partial convergence, does not pre-empt)",
+      "Pigeot et al. bioRxiv 2025 \u2014 Post-cutoff: ECM stiffness + lamin + PRC2 at bivalent genes (partial convergence)"
+    ],
+    "lessons_learned": [
+      "PARTIALLY_EXPLORED field with an UNDEREXPLORED specific angle can still produce novel hypotheses: 'mechanoepigenetics' is an active field, but ECM stiffness + H3K27ac at enhancers had only 1 paper (vs shear stress which was well-studied)",
+      "Force-per-molecule calculations are essential guards: both kills shared identical root cause (linear force propagation assumption). Generator should always ask: what is the per-molecule force?",
+      "Signal amplification steps (YAP translocation, MRTF-SRF, Ca2+/CaM) are required bridges in mechanobiology \u2192 chromatin hypotheses. Direct force-on-chromatin hypotheses are uniformly fatal",
+      "BLIND MODE quality gate works: all 3 initial CONDITIONAL_PASS verdicts from blind QG were confirmed as PASS/CONDITIONAL_PASS by web verification. Blind QG was accurate even without web access",
+      "Temporal dynamics (two-phase model with quantitative gap prediction) can distinguish closely related mechanisms and provide a cleanly falsifiable prediction",
+      "LAD stratification (cLAD vs fLAD distinction) is a powerful mechanistic lever: fLADs are stiffness-modulated, cLADs are stiffness-resistant, and this distinction was absent from all existing literature",
+      "CRISPR gain-of-function tethering (dCas9-LaminB1 at active enhancer) provides direct causal test of spatial mechanism \u2014 stronger than loss-of-function (siLMNA confounds nuclear shape + YAP dynamics)",
+      "Kinetic rate model + discriminating drug pairs (dBET6 vs JQ1) can dissect mechanism at domain specificity level; this experimental design strategy should be reused in future memory/retention hypotheses"
+    ],
+    "literature_highlights": {
+      "most_relevant_papers": [
+        "Tsaryk 2022 (PMID 35314737): Shear stress \u2192 H3K27ac enhancer landscape switching (ETV\u2192KLF). ATAC-seq + ChIP-seq in endothelial cells.",
+        "Sun 2020 (PMID 32270037): Integrin force \u2192 H3K9me3 demethylation \u2192 Pol II \u2192 transcription. Frequency-dependent.",
+        "Fu 2024 (PMID 38789434): ECM stiffening \u2192 HDAC3 downregulation \u2192 chondrocyte gene program.",
+        "KDM6B 2025: ECM stiffness \u2192 KDM6B \u2192 H3K27me3 demethylation at EMT gene loci."
+      ],
+      "critical_gap": "No paper has profiled genome-wide ENHANCER landscape (H3K27ac ChIP-seq + ATAC-seq) under ECM STIFFNESS gradients. All enhancer profiling used shear stress. No Hi-C under ECM stiffness. No super-enhancer analysis."
+    },
+    "computational_validation_summary": {
+      "overall": "HIGH",
+      "checks_passed": 4,
+      "checks_partial": 1,
+      "checks_failed": 0,
+      "hub_protein": "EP300",
+      "strongest_validated_interaction": "EP300-BRD4 STRING 0.988",
+      "key_constraint": "PIEZO1-DOT1L has NO direct interaction; route through Ca2+/CaM cascade only. LMNA-HDAC2 STRING 0.690 (use HDAC2 not HDAC3 for lamin-deacetylase claims)."
+    },
+    "strategy_performance": {
+      "targeted_blind_mode": {
+        "sessions_run": 1,
+        "hypotheses_generated": 7,
+        "quality_gate_passed": 2,
+        "quality_gate_conditional": 1,
+        "quality_gate_total_passing": 3,
+        "kill_rate": 0.286,
+        "qg_pass_rate": 0.429,
+        "qg_pass_cond_rate": 1.0,
+        "peak_score": 8.5,
+        "mean_qg_score": 7.5
+      }
+    },
+    "productive_bridges": [
+      "HDAC3 eraser depletion as paradigm inversion (writer-independent enhancer stabilization)",
+      "TET2-mediated CpG demethylation as temporal handoff from H3K27ac window to DNA methylation memory",
+      "UTX/MLL3-COMPASS as Phase 2 bivalent enhancer resolver after Phase 1 YAP-EP300",
+      "H3K9me3 demethylation as competence window gating H3K27ac activation",
+      "Dual YAP-TEAD + MRTF-SRF enhancer programs in CTCF-permitted domains"
+    ]
   }
 ]

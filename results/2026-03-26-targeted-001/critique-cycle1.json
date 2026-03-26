@@ -1,0 +1,192 @@
+{
+  "session_id": "2026-03-26-targeted-001",
+  "cycle": 1,
+  "blind_mode": true,
+  "verdicts": [
+    {
+      "id": "H1",
+      "title": "YAP/TEAD-Dependent Super-Enhancer Assembly via EP300/BRD4 Co-Recruitment",
+      "verdict": "CONDITIONAL_PASS",
+      "primary_weakness": "Cell-type confound: TEAD vs KLF motif differences in stiffness vs shear stress experiments may reflect cell-type TF repertoire differences (HUVEC vs MCF10A), not mechanical-input-type differences. Cell density/spreading confound on PAA hydrogels not addressed.",
+      "conditions": [
+        "Design experiment using same cell type under both stiffness and shear stress to isolate mechanical input variable",
+        "Control for cell density and spreading effects (micropatterning or sparse plating)",
+        "Verify that proposed cell line (MCF10A) has accessible chromatin at predicted SE loci"
+      ],
+      "adjusted_confidence": 0.62,
+      "original_confidence": 0.72,
+      "groundedness_verified": true,
+      "groundedness_score": 8,
+      "kill_vectors": [],
+      "weak_vectors": ["V4", "V7", "V9"],
+      "factual_errors": [
+        "Sabari et al 2018 published in Science, not Cell as implied in hypothesis text",
+        "SOX9 is a YAP target in some but not all cell contexts"
+      ]
+    },
+    {
+      "id": "H2",
+      "title": "LMNA-CTCF TAD Boundary Repositioning by Nuclear Mechanical Tension",
+      "verdict": "FAIL",
+      "primary_weakness": "Quantitative force distribution: 120-920 pN total nuclear force distributed across 50,000-80,000 CTCF sites gives <0.02 pN per site, far below the ~10-20 pN needed for mechanical CTCF-DNA disruption. 50-200 kb boundary shifts are unprecedented (typical inter-cell-type shifts are 0-20 kb). Internal logical contradiction between predicted boundary weakening and observed peripheral gene resistance.",
+      "conditions": [],
+      "adjusted_confidence": 0.15,
+      "original_confidence": 0.45,
+      "groundedness_verified": true,
+      "groundedness_score": 4,
+      "kill_vectors": ["V1", "V2", "V5", "V9"],
+      "weak_vectors": ["V3", "V4", "V6", "V8"],
+      "factual_errors": [
+        "LMNA-CTCF STRING 0.654 reflects functional association not mechanical coupling",
+        "LAD-CTCF overlap is overstated: most CTCF sites are not in LADs",
+        "50-200 kb TAD boundary shifts are quantitatively unprecedented"
+      ]
+    },
+    {
+      "id": "H3",
+      "title": "KDM6B-EP300 Bivalent Enhancer Handoff at Stiffness-Gated Cell Fate Transitions",
+      "verdict": "CONDITIONAL_PASS",
+      "primary_weakness": "KDM6B 2025 paper demonstrated activity at PROMOTERS (Snail/Twist), not ENHANCERS. Bivalent enhancers and bivalent promoters are genomically distinct. The extrapolation from promoter to enhancer activity is the key ungrounded step. Simpler 'parallel independent activation' model is equally consistent with data.",
+      "conditions": [
+        "Acknowledge promoter vs enhancer distinction and propose KDM6B ChIP-seq to determine genomic binding sites",
+        "Design experiments to distinguish coordinated handoff at same loci from parallel independent activation at different loci",
+        "Verify that bivalent enhancers exist at mechanosensitive gene loci in the proposed cell type"
+      ],
+      "adjusted_confidence": 0.48,
+      "original_confidence": 0.58,
+      "groundedness_verified": true,
+      "groundedness_score": 6,
+      "kill_vectors": [],
+      "weak_vectors": ["V2", "V3", "V4", "V7"],
+      "factual_errors": [
+        "KDM6B evidence is from promoters not enhancers",
+        "GSK-J4 inhibits both KDM6B and KDM6A (not specific)"
+      ]
+    },
+    {
+      "id": "H4",
+      "title": "PIEZO1-CaMKII-DOT1L H3K79me2 Gene Body Elongation Licensing",
+      "verdict": "FAIL",
+      "primary_weakness": "Central mechanism (CaMKII phosphorylates DOT1L) is fabricated - no evidence for this kinase-substrate relationship. PIEZO1 inactivates within 15-30 ms on static substrates, contradicting claim of sustained Ca2+ oscillations from constant stiffness. The 2025 paper likely shows transcriptional regulation of DOT1L, not post-translational stabilization as hypothesized.",
+      "conditions": [],
+      "adjusted_confidence": 0.18,
+      "original_confidence": 0.38,
+      "groundedness_verified": true,
+      "groundedness_score": 3,
+      "kill_vectors": ["V1", "V2", "V5"],
+      "weak_vectors": ["V3", "V4", "V6", "V7", "V9"],
+      "factual_errors": [
+        "CaMKII-DOT1L phosphorylation is invented without evidence",
+        "PIEZO1 rapid inactivation contradicts sustained oscillation claim on static substrates",
+        "Mechanism direction may be wrong: 2025 paper suggests DOT1L transcriptional regulation not post-translational stabilization",
+        "H3K79me2 described as 'required' for transcription but DOT1L KO cells transcribe most genes normally"
+      ]
+    },
+    {
+      "id": "H5",
+      "title": "Physical Chromatin Stretching Creates Distance-Dependent Enhancer-Promoter Contact Reversal",
+      "verdict": "FAIL",
+      "primary_weakness": "Fundamental polymer physics error: stretching a polymer fiber DECREASES contact probability at ALL length scales, not just short ones. The predicted distance-dependent reversal violates the physics model invoked to support it. Persistence length is misused (it is an intrinsic fiber property, not force-dependent). The hypothesis confuses nuclear geometry (2D flattening) with along-fiber polymer mechanics.",
+      "conditions": [],
+      "adjusted_confidence": 0.05,
+      "original_confidence": 0.32,
+      "groundedness_verified": true,
+      "groundedness_score": 3,
+      "kill_vectors": ["V1", "V2", "V5", "V9"],
+      "weak_vectors": ["V4", "V7", "V8"],
+      "factual_errors": [
+        "Polymer physics prediction is wrong: stretching reduces contact probability at all distances",
+        "Persistence length is intrinsic property, not force-dependent as claimed",
+        "Statement 'stretched fiber spans larger genomic distance for same 3D path' reverses the actual relationship",
+        "Ignores that loop extrusion (active process) dominates over passive polymer contacts within TADs"
+      ]
+    },
+    {
+      "id": "H6",
+      "title": "BRD4-EP300 Positive Feedback Loop Creates Persistent H3K27ac Mechanical Memory",
+      "verdict": "CONDITIONAL_PASS",
+      "primary_weakness": "H3K27ac half-life is 30-90 minutes. For 72+ hour persistence, BRD4-EP300 re-acetylation rate must continuously exceed HDAC erasure rate, even as HDAC3 re-expression increases upon softening. BRD4 recruiting EP300 (vs reverse direction) is not established. DNA methylation or histone methylation are more plausible mechanical memory substrates.",
+      "conditions": [
+        "Provide quantitative modeling showing BRD4-EP300 feedback rate exceeds HDAC erasure rate under softening conditions",
+        "Clarify evidence for BRD4 --> EP300 recruitment direction (vs EP300 --> BRD4 only)",
+        "Consider DNA methylation as alternative or complementary memory substrate",
+        "Address bistability threshold: why sharp super-enhancer vs typical-enhancer distinction rather than continuum"
+      ],
+      "adjusted_confidence": 0.28,
+      "original_confidence": 0.48,
+      "groundedness_verified": true,
+      "groundedness_score": 4,
+      "kill_vectors": [],
+      "weak_vectors": ["V1", "V2", "V4", "V6", "V8", "V9"],
+      "factual_errors": [
+        "BRD4 --> EP300 recruitment direction is not established; may be fabricated feedback mechanism",
+        "Phase-separated condensate dissolution kinetics upon YAP exit not considered"
+      ]
+    },
+    {
+      "id": "H7",
+      "title": "Tissue-Specific ECM Stiffness Values Specify Tissue-Specific Enhancer Programs",
+      "verdict": "FAIL",
+      "primary_weakness": "Claims ECM stiffness is INSTRUCTIVE for tissue-specific enhancer programs, contradicting field consensus that stiffness is PERMISSIVE. No stiffness-to-TF mapping function specified. Tissue stiffness ranges overlap substantially between tissues. iPSC experimental design has fatal survival/selection confounds. Non-cognate tissue program activation is more parsimoniously explained by growth factor signaling.",
+      "conditions": [],
+      "adjusted_confidence": 0.12,
+      "original_confidence": 0.35,
+      "groundedness_verified": true,
+      "groundedness_score": 3,
+      "kill_vectors": ["V2", "V4", "V5", "V7"],
+      "weak_vectors": ["V1", "V3", "V6", "V8", "V9"],
+      "factual_errors": [
+        "Alpha-SMA super-enhancer claim is unverified",
+        "Osteomimicry attribution to ECM stiffness is speculative overstatement",
+        "Tissue stiffness ranges overlap more than presented (liver and mammary gland overlap)",
+        "YAP nuclear translocation is more binary than graded - does not provide dose-dependent TF switching"
+      ]
+    }
+  ],
+  "critic_questions": [
+    {
+      "hypothesis_id": "H1",
+      "question": "How do you distinguish stiffness-type-specific enhancer programs from cell-type-specific enhancer programs? Can you design an experiment using the SAME cell type under both stiffness and shear stress?"
+    },
+    {
+      "hypothesis_id": "H1",
+      "question": "Of the 14 existing YAP + super-enhancer papers, do any already demonstrate stiffness-dependent super-enhancer formation? This would affect the novelty claim."
+    },
+    {
+      "hypothesis_id": "H3",
+      "question": "KDM6B 2025 showed activity at PROMOTERS (Snail/Twist), not enhancers. What evidence supports KDM6B activity at bivalent ENHANCERS specifically?"
+    },
+    {
+      "hypothesis_id": "H3",
+      "question": "How would you experimentally distinguish 'coordinated handoff at same loci' from 'parallel independent activation at different loci'?"
+    },
+    {
+      "hypothesis_id": "H6",
+      "question": "Given H3K27ac half-life of 30-90 minutes, what is the minimum BRD4-EP300 re-acetylation rate needed to sustain H3K27ac for 72 hours against increasing HDAC activity post-softening?"
+    },
+    {
+      "hypothesis_id": "H6",
+      "question": "What evidence supports BRD4 RECRUITING EP300 (vs the well-established reverse: EP300 enables BRD4 binding via H3K27ac)?"
+    },
+    {
+      "hypothesis_id": "ALL",
+      "question": "Should all surviving hypotheses include cell density controls and micropatterning to isolate stiffness sensing from cell spreading/contact effects on Hippo pathway?"
+    }
+  ],
+  "surviving_count": 3,
+  "failed_count": 4,
+  "kill_rate": 0.571,
+  "meta_critique": {
+    "uniform_standard_applied": true,
+    "borderline_decisions": [
+      "H6 is the weakest survivor - rapid H3K27ac turnover makes persistence claim quantitatively questionable. Maintained CONDITIONAL_PASS because the open question of mechanical memory substrate is genuine and experiment is falsifiable."
+    ],
+    "blind_mode_limitations": [
+      "Could not verify whether 14 YAP+super-enhancer papers already cover H1 novelty claim",
+      "Could not verify CaMKII-DOT1L phosphorylation in any database",
+      "Could not verify BRD4 --> EP300 recruitment direction",
+      "Could not check exact mechanism in PIEZO1-DOT1L 2025 paper (transcriptional vs post-translational)",
+      "Could not check for recent Hi-C under ECM stiffness papers"
+    ]
+  }
+}

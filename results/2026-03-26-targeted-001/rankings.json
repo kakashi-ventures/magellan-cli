@@ -1,0 +1,127 @@
+{
+  "session_id": "2026-03-26-targeted-001",
+  "cycle": 1,
+  "ranker_model": "claude-sonnet-4-6",
+  "date": "2026-03-26",
+  "fields": {
+    "field_a": "Mechanobiology (extracellular matrix mechanics)",
+    "field_c": "Epigenomics (genomic enhancer regulation)"
+  },
+  "cross_domain_bonus_applied": false,
+  "cross_domain_bonus_reason": "Both fields reside within life sciences; mechanobiology and epigenomics share investigators, journals, and experimental infrastructure. Distance does not cross 2+ disciplinary boundaries required for +0.5 bonus.",
+  "rankings": [
+    {
+      "rank": 1,
+      "id": "H4",
+      "title": "LAD-Embedded Enhancers as Stiffness-Resistant Mechanical Selectivity Filter",
+      "critic_verdict": "SURVIVE",
+      "critic_revised_confidence": 5,
+      "novelty": 7,
+      "mech_specificity": 7,
+      "cross_field_distance": 5,
+      "testability": 9,
+      "impact": 8,
+      "groundedness": 7,
+      "composite": 7.30,
+      "elo_wins": 3,
+      "elo_losses": 0,
+      "elo_win_rate": 1.0,
+      "elo_rank": 1,
+      "advancing": true,
+      "evolution_priorities": [
+        "Refine >90% non-LAD enrichment prediction with proper null model (65% expected by chance; power calculation needed)",
+        "Distinguish constitutive LADs (cLADs) from facultative LADs (fLADs) — filter may be strongest for cLADs",
+        "Consider CRISPR tethering gain-of-function: force non-LAD TEAD enhancer into LAD via MS2-Lamin fusion"
+      ]
+    },
+    {
+      "rank": 2,
+      "id": "H2",
+      "title": "Coordinated Bivalent-to-Active Enhancer Conversion via Dual ECM-Stiffness-Controlled Enzymes (KDM6B + EP300)",
+      "critic_verdict": "SURVIVE_REVISED",
+      "critic_revised_confidence": 5,
+      "novelty": 7,
+      "mech_specificity": 7,
+      "cross_field_distance": 4,
+      "testability": 7,
+      "impact": 7,
+      "groundedness": 6,
+      "composite": 6.50,
+      "elo_wins": 2,
+      "elo_losses": 1,
+      "elo_win_rate": 0.667,
+      "elo_rank": 2,
+      "advancing": true,
+      "evolution_priorities": [
+        "Add siKDM6B/siKDM6A genetic experiment alongside GSK-J4 to resolve UTX (KDM6A) vs KDM6B specificity at enhancers",
+        "Reframe as sequential two-phase model: EP300/H3K27ac deposition first (fast, YAP-dependent), KDM6B/H3K27me3 removal second (slow, transcriptional upregulation)",
+        "Address CBP compensation: use dual EP300+CBP inhibition or genetic approaches; A-485 at 3 uM has partial CBP activity"
+      ]
+    },
+    {
+      "rank": 3,
+      "id": "H5",
+      "title": "Enhancer-Encoded Mechanical Memory via Self-Reinforcing H3K27ac-BRD4-EP300 Positive Feedback",
+      "critic_verdict": "SURVIVE_REVISED",
+      "critic_revised_confidence": 4,
+      "novelty": 7,
+      "mech_specificity": 7,
+      "cross_field_distance": 4,
+      "testability": 7,
+      "impact": 6,
+      "groundedness": 5,
+      "composite": 6.20,
+      "elo_wins": 1,
+      "elo_losses": 2,
+      "elo_win_rate": 0.333,
+      "elo_rank": 3,
+      "advancing": true,
+      "evolution_priorities": [
+        "Lower predicted memory half-life to 6-24 hr (mandatory per Critic; H3K27ac turnover is 2-6 hr, 24-72 hr is quantitatively inconsistent)",
+        "Add triptolide transcription-inhibitor control at transfer time to distinguish epigenetic memory from transcriptional auto-regulation",
+        "Use dBET6 (BET degrader) vs JQ1 (inhibitor) to distinguish BRD4-specific locus retention from global BRD4 inhibition effects; SAHA control is too non-specific"
+      ]
+    }
+  ],
+  "dropped": [
+    {
+      "rank": 4,
+      "id": "H1",
+      "title": "Stiffness-Dependent Super-Enhancer Nucleation via YAP-Recruited BRD4-MED1 Phase Condensates",
+      "critic_verdict": "SURVIVE_REVISED",
+      "critic_revised_confidence": 4,
+      "novelty": 5,
+      "mech_specificity": 8,
+      "cross_field_distance": 4,
+      "testability": 7,
+      "impact": 6,
+      "groundedness": 5,
+      "composite": 6.00,
+      "elo_wins": 0,
+      "elo_losses": 3,
+      "elo_win_rate": 0.0,
+      "elo_rank": 4,
+      "advancing": false,
+      "drop_reason": "Lowest composite (6.00) and unanimous last place in Elo tournament (0-3). Core mechanistic claim substantially pre-empted by Zanconato et al. Nat Med 2018 (YAP/TAZ/TEAD-BRD4 super-enhancer axis in cancer), reducing novelty score to 5/10. Phase separation biology is contested (McSwiggen et al. 2019). Weakest novelty-groundedness combination in the set. H5 offers a more testable and novel question with equal mechanistic specificity."
+    }
+  ],
+  "diversity_check": {
+    "performed": true,
+    "top_3_mechanisms": {
+      "H4": "Lamin A/C LAD geometry filter — nuclear architecture emergent property",
+      "H2": "KDM6B + EP300 dual enzyme coordinated bivalent-to-active conversion",
+      "H5": "EP300-BRD4-EP300 positive feedback self-reinforcing circuit for temporal persistence"
+    },
+    "redundancy_detected": false,
+    "convergence_detected": false,
+    "adjustment_made": false,
+    "note": "All three advancing hypotheses use distinct primary mechanisms. H2 and H5 share EP300 as a molecular actor but address orthogonal biological questions (bivalent conversion vs temporal memory). No diversity bonus or reordering required."
+  },
+  "elo_tournament": {
+    "method": "pairwise comparison on researcher-would-test-first criterion",
+    "n_comparisons": 6,
+    "ranking_agreement": "ELO_CONFIRMS_LINEAR",
+    "note": "Elo and linear composite rankings are identical (H4 > H2 > H5 > H1). Pairwise comparisons implicitly weight interpretability of results more heavily than the 6-dimension average. H4's advantage: binary, unambiguous experimental outcome. H1's consistent loss: Zanconato 2018 pre-emption makes it hard to frame as a first-priority experiment."
+  },
+  "ranked_at": "2026-03-26T03:00:00Z"
+}

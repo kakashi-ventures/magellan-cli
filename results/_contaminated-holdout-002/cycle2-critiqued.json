@@ -1,0 +1,272 @@
+{
+  "session_id": "2026-03-25-targeted-002",
+  "generated_at": "2026-03-25",
+  "cycle": 2,
+  "agent": "critic-v5.4",
+  "hypotheses_critiqued": 3,
+  "kill_rate": 0.33,
+  "kill_rate_assessment": "HEALTHY (33%, within 30-50% range)",
+  "hypotheses": [
+    {
+      "id": "C2-H1",
+      "title": "Two-Phase Mechanoenhancer Activation Constitutes a Temporal Coincidence Gate",
+      "original_confidence": 0.61,
+      "revised_confidence": 0.60,
+      "verdict": "SURVIVES",
+      "attacks": {
+        "novelty": {
+          "finding": "NOVEL — no published two-phase temporal dependency model for mechanoenhancer activation",
+          "search_queries": [
+            "\"two-phase\" mechanoenhancer activation Piezo1 YAP temporal sequence H3K27ac"
+          ],
+          "prior_work_found": false
+        },
+        "mechanism": {
+          "finding": "MOSTLY PLAUSIBLE — BRD4 heterogeneous nucleation on H3K27ac confirmed (Mol Biol Cell 2024 PMC11238092). CaMKII→HDAC4 export confirmed (Backs 2006). HDAC5 requires HDAC4 hetero-oligomerization for CaMKII responsiveness (not acknowledged). EP300 'freeing' mechanism oversimplified.",
+          "plausibility": "HIGH",
+          "concerns": [
+            "HDAC5 not directly responsive to CaMKII — requires HDAC4 hetero-oligomer",
+            "EP300 freeing via HDAC4/5 export is oversimplified; class IIa HDACs repress via NCoR/SMRT/HDAC3",
+            "Cell-type translation from cardiomyocytes to lung fibroblasts not verified"
+          ]
+        },
+        "logic": {
+          "finding": "PASSES — temporal dependency is logically sound based on BRD4 nucleation biochemistry"
+        },
+        "falsifiability": {
+          "finding": "PASSES — dCas9-p300 rescue experiment is well-designed and discriminating"
+        },
+        "triviality": {
+          "finding": "PASSES — non-trivial cross-domain connection bridging BRD4 condensation physics with mechanobiology"
+        },
+        "counter_evidence": {
+          "finding": "No strong counter-evidence. Piezo1 and YAP typically treated as parallel, not sequential. Cell-type translation concern.",
+          "search_queries": [
+            "Piezo1 CaMKII HDAC4 HDAC5 export EP300 H3K27ac mechanoenhancer temporal"
+          ],
+          "strong_counter_found": false
+        },
+        "groundedness": {
+          "percent_verified": 75,
+          "grounded_claims": [
+            "BRD4 BD1/BD2 binds H3K27ac",
+            "Piezo1→CaMKII activation rapid (minutes)",
+            "YAP-BRD4 condensates at acetylated chromatin (Zanconato 2018)"
+          ],
+          "inferred_claims": [
+            "H3K27ac from Phase 1 necessary for BRD4 condensate nucleation in mechanoenhancer context — WELL-SUPPORTED by independent BRD4 nucleation literature"
+          ]
+        },
+        "hallucination_as_novelty": {
+          "finding": "LOW RISK — all bridge components exist independently; novelty is in the connection"
+        },
+        "claim_level_verification": {
+          "finding": "Core claims verified. PMID 23804765 (cited in QG evidence, not hypothesis) RETRACTED March 2023.",
+          "verified_claims": [
+            "BRD4 BD1/BD2 binds H3K27ac (PMC11238092)",
+            "Piezo1→CaMKII rapid activation",
+            "YAP-BRD4 condensates (Zanconato 2018 Nature Medicine PMID 30224758)"
+          ],
+          "fabricated_claims": [],
+          "warnings": [
+            "PMID 23804765 (nuclear CaMKII→H3S10ph) RETRACTED — cited in QG new_evidence, not in hypothesis itself",
+            "Zanconato 2018 is Nature Medicine, not Nature Cancer"
+          ]
+        }
+      },
+      "survival_note": "Strongest cycle 2 hypothesis. BRD4 heterogeneous nucleation literature provides independent mechanistic confirmation. Main concerns: cell-type translation, HDAC5 dependency on HDAC4, EP300 mechanism oversimplification."
+    },
+    {
+      "id": "C2-H2",
+      "title": "Lamin A/C Concentration Sets the Cell-Intrinsic Stiffness-Sensing Threshold for Mechanoenhancer Activation",
+      "original_confidence": 0.58,
+      "revised_confidence": 0.40,
+      "verdict": "WOUNDED",
+      "attacks": {
+        "novelty": {
+          "finding": "SEVERE NOVELTY WOUND — core concept (lamin A/C tension → YAP threshold) published in 2024 Nature Communications (PMID 39578439). Swift 2013 Science established lamin A scaling with stiffness. Extension to mechanoenhancer H3K27ac is incremental.",
+          "search_queries": [
+            "lamin A/C YAP nuclear localization threshold stiffness sensing cell heterogeneity",
+            "lamin A/C mechanoenhancer enhancer activation stiffness threshold published 2024 2025"
+          ],
+          "prior_work_found": true,
+          "prior_work_refs": [
+            "Wang et al. 2024 Nature Communications PMID 39578439",
+            "Swift et al. 2013 Science PMID 23990565"
+          ]
+        },
+        "mechanism": {
+          "finding": "PLAUSIBLE — all established components. Novel step (YAP threshold → mechanoenhancer H3K27ac) is weakest link.",
+          "plausibility": "MODERATE",
+          "concerns": [
+            "Multiple other YAP regulators (LATS1/2, Hippo, cell-cell contact) not considered",
+            "'Rheostat' language overstates lamin A/C's role vs other YAP inputs"
+          ]
+        },
+        "logic": {
+          "finding": "MINOR WOUND — transitive chain is valid but 'rheostat' language overstates single-variable control"
+        },
+        "falsifiability": {
+          "finding": "PASSES — scCUT&RUN + lamin A IF + EC50 shift experiments are well-designed"
+        },
+        "triviality": {
+          "finding": "APPROACHES TRIVIALITY — core concept is well-known to mechanobiology community. Discher lab has published extensively on lamin A scaling. Mechanoenhancer extension is the only non-obvious element."
+        },
+        "counter_evidence": {
+          "finding": "Lamin A/C dispensable for mechanical repression of adipogenesis (PMID 34205295). Lamin A/C protects chromatin accessibility during mechanical loading (2025) — different mechanism than threshold setting. Context-dependence threatens generalizability.",
+          "search_queries": [
+            "lamin A/C mechanoenhancer enhancer activation stiffness threshold published 2024 2025",
+            "lamin A/C cell-to-cell variability single cell YAP stiffness bimodal heterogeneous response enhancer"
+          ],
+          "strong_counter_found": false,
+          "moderate_counter_found": true
+        },
+        "groundedness": {
+          "percent_verified": 80,
+          "grounded_claims": [
+            "Lamin A/C KO → increased nuclear deformability → enhanced mechanosensing",
+            "Lamin A/C expression scales with ECM stiffness (Swift 2013)",
+            "Cell-to-cell variability in nuclear YAP on uniform substrates (bimodal at 10 kPa)"
+          ],
+          "inferred_claims": [
+            "Lamin A/C variability → H3K27ac variability at mechanoenhancers in quantitatively predictable way"
+          ]
+        },
+        "hallucination_as_novelty": {
+          "finding": "LOW RISK — but novelty is inflated. Core concept is extension of known work."
+        },
+        "claim_level_verification": {
+          "finding": "All GROUNDED claims verified. No citation hallucinations.",
+          "verified_claims": [
+            "Swift 2013 Science PMID 23990565",
+            "Lamin A/C → nuclear deformability (PMC8186481)",
+            "Bimodal YAP on 10 kPa substrates (2024 Nat Comms)"
+          ],
+          "fabricated_claims": []
+        }
+      },
+      "survival_note": "Survives as WOUNDED because the mechanoenhancer H3K27ac prediction is technically untested. However, this is an incremental extension of published work (2024 Nat Comms), not a novel cross-domain discovery. Strongest reason to kill: the core concept is already published."
+    },
+    {
+      "id": "C2-H3",
+      "title": "Nuclear Actin Polymerization State Regulates MRTF-A Residence Time at CaRG-Box Mechanoenhancers",
+      "original_confidence": 0.60,
+      "revised_confidence": 0.10,
+      "verdict": "KILLED",
+      "kill_reason": "Fabricated protein property (RPEL-F-actin binding) + hallucination masquerading as novelty",
+      "attacks": {
+        "novelty": {
+          "finding": "Appears novel — but novel because the mechanism is structurally impossible, not because it's unexplored.",
+          "search_queries": [
+            "nuclear F-actin MRTF-A RPEL domain chromatin tether dwell time formin"
+          ],
+          "prior_work_found": false,
+          "note": "Absence of prior work is because the mechanism contradicts structural biology"
+        },
+        "mechanism": {
+          "finding": "CRITICAL FAILURE — RPEL domain binds G-actin exclusively, NOT F-actin. Structural studies (EMBO J 2008 PMC2583105, Science Signaling 2011) show RPEL-actin assemblies are 'not related to those in F-actin' and RPEL-F-actin binding is 'unlikely.' The actual mechanism is OPPOSITE: nuclear F-actin depletes nuclear G-actin → G-actin releases from RPEL → MRTF-A binds chromatin. FHOD3 is perinuclear (outer nuclear membrane), not nuclear interior.",
+          "plausibility": "IMPOSSIBLE",
+          "structural_evidence": [
+            "Mouilleron et al. EMBO J 2008 PMC2583105 — RPEL-actin assembly incompatible with F-actin geometry",
+            "Mouilleron et al. Science Signaling 2011 — pentavalent G-actin•RPEL complex distinctively different from F-actin",
+            "Nat Commun 2021 PMC8613289 — nuclear G-actin depletion promotes MRTF activation (not F-actin tethering)"
+          ],
+          "fabricated_properties": [
+            "RPEL domain binding F-actin (structurally impossible)",
+            "FHOD3 as nuclear interior formin (it is perinuclear/LINC-tethered)"
+          ]
+        },
+        "logic": {
+          "finding": "LOGICAL CONFLATION — two distinct mechanisms (RPEL-G-actin sensing and nuclear F-actin formation) incorrectly merged into fabricated RPEL-F-actin tethering"
+        },
+        "falsifiability": {
+          "finding": "WOUNDED — proposed experiments (SMIFH2, LatA) would yield results interpretable under the correct mechanism (G-actin depletion), making the proposed wrong mechanism unfalsifiable by its own tests"
+        },
+        "triviality": {
+          "finding": "N/A — mechanism is wrong"
+        },
+        "counter_evidence": {
+          "finding": "DIRECT COUNTER-EVIDENCE — established mechanism is G-actin depletion, not F-actin tethering. Nat Commun 2021: 'Nuclear-capture of endosomes depletes nuclear G-actin to promote SRF/MRTF activation.' MRTF chromatin binding requires G-actin-free RPEL, not F-actin-bound RPEL.",
+          "search_queries": [
+            "RPEL domain G-actin F-actin binding specificity MRTF structure \"does not bind\" filamentous",
+            "MRTF nuclear retention mechanism G-actin nuclear export actin polymerization depletes monomeric",
+            "FHOD3 formin nuclear localization fibroblast actin polymerization"
+          ],
+          "strong_counter_found": true,
+          "counter_refs": [
+            "Mouilleron et al. EMBO J 2008 PMC2583105",
+            "Mouilleron et al. Science Signaling 2011",
+            "Nat Commun 2021 PMC8613289"
+          ]
+        },
+        "groundedness": {
+          "percent_verified": 50,
+          "grounded_claims": [
+            "Nuclear actin polymerization under mechanical stimulation (Baarlink 2013 Science)",
+            "mDia1 formin promotes nuclear actin polymerization (Baarlink 2013)",
+            "MRTF-A RPEL domain binds G-actin (Miralles 2003 Cell)"
+          ],
+          "fabricated_claims": [
+            "RPEL domain contacts nuclear F-actin — STRUCTURALLY IMPOSSIBLE (EMBO J 2008, Sci Signal 2011)",
+            "FHOD3 as nuclear interior formin — INCORRECT (FHOD3 is perinuclear/LINC-tethered, Frontiers 2023)"
+          ]
+        },
+        "hallucination_as_novelty": {
+          "finding": "CONFIRMED — hypothesis appears novel because RPEL-F-actin tethering has never been proposed. It has never been proposed because structural biology explicitly rules it out. The 'novelty' is an artifact of a fabricated protein property.",
+          "is_hallucination": true
+        },
+        "claim_level_verification": {
+          "finding": "TWO FABRICATED CLAIMS — (1) RPEL-F-actin binding (structurally impossible), (2) FHOD3 as nuclear interior formin (it is perinuclear). Grounds for KILL.",
+          "verified_claims": [
+            "Baarlink 2013 Science — nuclear actin polymerization by formins",
+            "Miralles 2003 Cell PMID 12732141 — RPEL/G-actin mechanism",
+            "mDia1 as nuclear formin"
+          ],
+          "fabricated_claims": [
+            "RPEL domain binding F-actin (structural studies explicitly rule this out)",
+            "FHOD3 as nuclear interior formin in fibroblasts (FHOD3 is outer nuclear membrane/LINC complex)"
+          ]
+        }
+      },
+      "survival_note": "Does not survive. Core mechanism built on fabricated protein property. Note to Generator: the CONCEPT of stiffness affecting MRTF-A residence time is worth exploring through the CORRECT mechanism (nuclear G-actin depletion → RPEL release → stable MRTF-A-SRF chromatin association)."
+    }
+  ],
+  "critic_questions": [
+    {
+      "id": "CQ-C2-1",
+      "applies_to": "C2-H1",
+      "question": "What is the evidence for CaMKIIδ expression and HDAC4 protein levels in primary human lung fibroblasts? The CaMKII→HDAC4 pathway is characterized in cardiomyocytes — does the cell-type translation hold?"
+    },
+    {
+      "id": "CQ-C2-2",
+      "applies_to": "C2-H1",
+      "question": "EP300 'freeing' by HDAC4/5 export is oversimplified. Class IIa HDACs repress via NCoR/SMRT/HDAC3 complexes. What is the specific mechanism by which HDAC4 export leads to EP300 recruitment at mechanoenhancers?"
+    },
+    {
+      "id": "CQ-C2-3",
+      "applies_to": "C2-H2",
+      "question": "The 2024 Nat Comms paper (PMID 39578439) demonstrates lamin A/C tension → YAP threshold. How does C2-H2 advance beyond this published result? What specific prediction distinguishes C2-H2 from the known mechanism?"
+    }
+  ],
+  "meta_critique": {
+    "kill_rate": 0.33,
+    "kill_rate_assessment": "HEALTHY — 33% within 30-50% target range",
+    "web_searches_per_hypothesis": {
+      "C2-H1": 6,
+      "C2-H2": 5,
+      "C2-H3": 6
+    },
+    "strongest_surviving_weakness": {
+      "C2-H1": "CaMKII→HDAC4→EP300 chain characterized in cardiomyocytes, not lung fibroblasts. Cell-type translation may fail.",
+      "C2-H2": "Core concept already published in 2024 Nat Comms. Only mechanoenhancer H3K27ac extension is novel — arguably below discovery threshold."
+    },
+    "retracted_paper_flag": {
+      "pmid": 23804765,
+      "title": "Nuclear CaMKII enhances histone H3 phosphorylation and remodels chromatin during cardiac hypertrophy",
+      "retraction_date": "2023-03",
+      "retraction_reason": "Figure integrity issues (Figures 4B, 7C, 7D)",
+      "impact_on_hypotheses": "Cited in QG new_evidence list for C2-H1, but NOT in C2-H1 hypothesis itself. Does not invalidate C2-H1.",
+      "retraction_pmid": 36796793
+    }
+  }
+}

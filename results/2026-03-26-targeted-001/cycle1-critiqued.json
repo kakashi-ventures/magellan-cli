@@ -1,0 +1,262 @@
+{
+  "session_id": "2026-03-26-targeted-001",
+  "cycle": 1,
+  "phase": "critique",
+  "critic_model": "opus",
+  "mode": "blind",
+  "blind_restrictions": "No WebSearch/WebFetch. All 9 attack vectors applied using parametric knowledge only.",
+  "kill_rate": 0.29,
+  "total_hypotheses": 7,
+  "killed": 2,
+  "survived": 5,
+  "critiqued_hypotheses": [
+    {
+      "id": "C1-H1",
+      "title": "ECM Stiffness Nucleates Mechanosensitive Super-Enhancers via YAP-Dependent BRD4/MED1 Phase Condensate Assembly",
+      "verdict": "SURVIVE_REVISED",
+      "original_confidence": 5,
+      "revised_confidence": 3,
+      "original_groundedness": 5,
+      "revised_groundedness": 5,
+      "key_issues": [
+        "Zanconato et al. Nat Med 2018 already established YAP/TAZ → BRD4 → super-enhancers; novelty reduced to incremental (upstream trigger only)",
+        "BRD4 phase separation model contested (McSwiggen eLife 2019; Chong Science 2018)",
+        "Sabari 2018 showed MED1 phase separation, not BRD4 specifically — misattribution",
+        "EP300 kcat ~5/min is unverified in vivo"
+      ],
+      "attacks": {
+        "novelty": "PARTIAL KILL — Zanconato 2018 established YAP→BRD4→super-enhancers. H1 adds ECM stiffness trigger = incremental novelty only.",
+        "mechanism": "WOUNDED — plausible chain but BRD4 phase separation threshold in vivo unknown; phase separation model contested",
+        "logic": "MINOR — bisociation naming coincidence (supertranscription factor ↔ super-enhancer) not structural",
+        "falsifiability": "PASSES — well-designed ChIP-seq across stiffness gradient",
+        "triviality": "MODERATE — logical one-hop extension from Zanconato 2018 + Dupont 2011",
+        "counter_evidence": "McSwiggen eLife 2019 challenged BRD4 condensate model; 1,6-hexanediol unreliable",
+        "groundedness": "50% — 4/8 core claims verifiable",
+        "hallucination_check": "Low risk — components real but novelty inflated by Zanconato overlap",
+        "claim_verification": "No hallucinations; BRD4 phase separation attributed to Sabari 2018 which showed MED1 = misattribution not fabrication"
+      },
+      "survival_note": "Survives because stiffness-gradient super-enhancer ChIP-seq fills a genuine gap (0 papers). Must reframe as testing Zanconato mechanism under physiological stiffness, not claiming new connection."
+    },
+    {
+      "id": "C1-H2",
+      "title": "LINC-Transmitted Mechanical Force Detaches Enhancers from LADs, Creating Stiffness-Dependent Enhancer Derepression",
+      "verdict": "KILLED",
+      "original_confidence": 4,
+      "revised_confidence": 2,
+      "original_groundedness": 4,
+      "revised_groundedness": 4,
+      "key_issues": [
+        "FATAL: Force per lamin-chromatin contact is 0.001-0.01 pN — 100-1000x below detachment threshold",
+        "LAD tethering is biochemical (HP1-H3K9me2/3, LBR-lamin), not mechanical — piconewton forces irrelevant",
+        "Lamin A/C 'force conductor' argument equally supports opposite conclusion (strengthens LAD tethering)",
+        "Sun 2020 showed LAD-region genes RESIST force — direct counter-evidence",
+        "Confined migration (>>LINC forces) does not produce LAD reorganization"
+      ],
+      "attacks": {
+        "novelty": "PASSES — no prior work on physical LAD detachment by LINC force",
+        "mechanism": "FATAL — force per contact 100-1000x below threshold; biochemical tethering not susceptible to pN forces",
+        "logic": "Lamin A/C force conductor = cherry-picking; equally supports LAD strengthening",
+        "falsifiability": "PASSES — DamID + ChIP-seq well-designed",
+        "triviality": "PASSES — concept is non-obvious",
+        "counter_evidence": "Sun 2020 shows LAD genes resist force; confined migration shows stable LADs under extreme deformation",
+        "groundedness": "45% — 5/11 claims verifiable",
+        "hallucination_check": "Novel because wrong — no one proposed it because numbers are ~1000x insufficient",
+        "claim_verification": "No hallucinations; 'Wang & Bhatt' reference suspiciously vague"
+      },
+      "kill_rationale": "Three independent fatal flaws: (1) quantitative force insufficiency, (2) biochemical LAD tethering, (3) direct counter-evidence from Sun 2020 and confined migration"
+    },
+    {
+      "id": "C1-H3",
+      "title": "ECM Stiffness Coordinates a Dual-Enzyme Bivalent-to-Active Enhancer Switch via Concurrent KDM6B Activation and YAP-EP300 Recruitment",
+      "verdict": "SURVIVE_REVISED",
+      "original_confidence": 6,
+      "revised_confidence": 4,
+      "original_groundedness": 6,
+      "revised_groundedness": 5,
+      "key_issues": [
+        "UTX (KDM6A), not KDM6B, is the canonical enhancer H3K27me3 demethylase (MLL3/4-COMPASS)",
+        "Temporal mismatch: YAP/EP300 (minutes) vs KDM6B upregulation (hours) = sequential not simultaneous",
+        "KDM6B targets in Yu 2025 (Snail/Twist promoters) may not overlap YAP-TEAD enhancer targets",
+        "GSK-J4 inhibits both KDM6A and KDM6B — cannot distinguish in proposed experiment"
+      ],
+      "attacks": {
+        "novelty": "PASSES — no prior work on coordinated dual-enzyme enhancer switch under ECM stiffness",
+        "mechanism": "SIGNIFICANT ISSUES — KDM6B vs UTX at enhancers; temporal mismatch; PRC2 kinetic competition",
+        "logic": "MINOR — 'unique to ECM stiffness' overclaimed; other stimuli activate both pathways",
+        "falsifiability": "PASSES — excellent combinatorial inhibitor experiment",
+        "triviality": "PASSES — coordination not obvious",
+        "counter_evidence": "KDM6B targets (EMT genes) likely different from YAP-TEAD targets (proliferation genes); GSK-J4 off-target effects",
+        "groundedness": "55% — 6/10 claims verifiable; YAP-EP300 partially grounded",
+        "hallucination_check": "Low risk — individual enzymes verified; coordination claim parametric but not hallucinated",
+        "claim_verification": "No hallucinations; Whitworth 2024 uncertain but not suspicious; Yu 2025 from literature context"
+      },
+      "survival_note": "Strongest hypothesis. Dual-enzyme concept is elegant and genuinely novel. Must address: (1) reformulate with UTX as primary/alternative candidate, (2) reframe as sequential two-phase model, (3) add genetic knockdown (siKDM6B vs siKDM6A)."
+    },
+    {
+      "id": "C1-H4",
+      "title": "Stiffness-Induced Enhancer H3K27ac Creates Self-Sustaining Transcriptional Condensates That Persist as Mechanical Memory",
+      "verdict": "SURVIVE_REVISED",
+      "original_confidence": 5,
+      "revised_confidence": 3,
+      "original_groundedness": 5,
+      "revised_groundedness": 5,
+      "key_issues": [
+        "H3K27ac half-life ~2-6h precludes 24-72h self-sustaining memory",
+        "BRD4 FRAP shows seconds-scale exchange — condensates concentrate but don't trap enzymes",
+        "eRNA half-lives ~5-30 minutes — condensate scaffold dissolves quickly after transcription stops",
+        "Yang 2014 memory requires >10 days exposure; 48-72h establishment is inconsistent",
+        "HDAC activity will erase H3K27ac within hours without sustained YAP-EP300 recruitment"
+      ],
+      "attacks": {
+        "novelty": "PASSES — specific feedback loop mechanism for mechanical memory is novel",
+        "mechanism": "SEVERE — H3K27ac turnover and eRNA instability preclude self-sustaining loop; quantitative mismatch with Yang 2014",
+        "logic": "MODERATE — assumes positive feedback self-sustains but has no bistability mechanism for 'locking' on-state",
+        "falsifiability": "PASSES — excellent time-course design with JQ1 perturbation",
+        "triviality": "PASSES — specific molecular mechanism not obvious",
+        "counter_evidence": "H3K27ac ~2-6h turnover; eRNA ~5-30min half-life; JQ1 effects within 1-2h contradict days-long condensate stability",
+        "groundedness": "50% — 5/10 claims verifiable",
+        "hallucination_check": "Components real; self-sustaining claim may be novel because quantitatively impossible at proposed timescale",
+        "claim_verification": "Yang 2014 may be Nat Materials not Science — journal uncertain; Henninger 2021 verified but showed RNA broadly not eRNAs specifically"
+      },
+      "survival_note": "Survives because enhancer-level mechanical memory is worth testing. Must revise: (1) memory timescale from 24-72h to 6-12h, (2) feedback loop as short-term bridge not permanent memory, (3) position as first phase of multi-mechanism memory (DNA methylation provides long-term)."
+    },
+    {
+      "id": "C1-H5",
+      "title": "ECM Stiffness Rewires Enhancer-Promoter 3D Chromatin Loops via YAP-TEAD-Dependent NIPBL Recruitment and Cohesin Redistribution",
+      "verdict": "SURVIVE_REVISED",
+      "original_confidence": 4,
+      "revised_confidence": 3,
+      "original_groundedness": 4,
+      "revised_groundedness": 4,
+      "key_issues": [
+        "6-step cascade attenuates signal at each step — may be quantitatively insufficient",
+        "CTCF boundaries dominate loop architecture; enhancer-driven cohesin redistribution is minor",
+        "BRD4-NIPBL from Olley 2018 may be CdLS-specific, not general",
+        "Mechanism trivially follows from known enhancer-cohesin biology",
+        "TADs remarkably stable under strong perturbations (Rao 2017 auxin-cohesin experiments)"
+      ],
+      "attacks": {
+        "novelty": "MODERATE — HiChIP data under stiffness would be novel; mechanism is obvious inference",
+        "mechanism": "SIGNIFICANT — 6-step cascade; CTCF dominance; BRD4-NIPBL generalizability uncertain",
+        "logic": "TRIVIALITY CONCERN — stiffness → active enhancers → cohesin → loops is obvious deduction from premises",
+        "falsifiability": "PASSES — HiChIP well-designed with perturbation panel",
+        "triviality": "SIGNIFICANT — a grad student knowing Kagey 2010 + Dupont 2011 could predict this",
+        "counter_evidence": "Auxin cohesin degradation (Rao 2017) shows genetically determined loop positions; TADs stable under perturbation",
+        "groundedness": "45% — 4.5/9 claims verifiable",
+        "hallucination_check": "Low risk — all components real; novelty is in the data not the mechanism",
+        "claim_verification": "All citations verified (Kagey 2010, Olley 2018, Fudenberg 2016, Rao 2017, Mumbach 2016)"
+      },
+      "survival_note": "Survives because HiChIP under stiffness is genuinely novel data. Mechanism is trivial extension of known biology. Should be reframed as experimental prediction rather than mechanistic discovery."
+    },
+    {
+      "id": "C1-H6",
+      "title": "Tissue-Specific ECM Stiffness Selects Tissue-Specific Enhancer Programs Through Differential YAP Nuclear Residence Time and EP300 Occupancy Kinetics",
+      "verdict": "SURVIVE_REVISED",
+      "original_confidence": 5,
+      "revised_confidence": 3,
+      "original_groundedness": 5,
+      "revised_groundedness": 4,
+      "key_issues": [
+        "CONCEPTUAL FLAW: YAP-TEAD targets shared proliferation/survival enhancers, NOT tissue-specific enhancers",
+        "Tissue-specific enhancers require lineage TFs (MYOD, RUNX2, PPARγ) that YAP cannot substitute",
+        "Morphogen analogy structurally flawed — YAP produces quantitatively graded output of SAME program, not qualitatively different programs",
+        "YAP is antagonistic to some tissue programs (inhibits adipogenesis, can inhibit chondrogenesis)",
+        "Stiffness is permissive not instructive for differentiation"
+      ],
+      "attacks": {
+        "novelty": "MODERATE — kinetic selection model adds mechanistic layer; graded signal → graded output is general principle",
+        "mechanism": "FATAL CONCEPTUAL FLAW — YAP-TEAD targets are not tissue-specific; lineage TFs are required",
+        "logic": "SIGNIFICANT — morphogen analogy fails structurally; confuses quantitative grading with qualitative selection",
+        "falsifiability": "PASSES but prediction (d) (tissue profile matching) likely false",
+        "triviality": "PARTIAL — graded YAP → graded activation at TEAD sites is relatively obvious",
+        "counter_evidence": "MSCs on stiff substrate without supplements = minimal differentiation; YAP inhibits adipogenesis",
+        "groundedness": "45% — 3.5/9 claims verifiable",
+        "hallucination_check": "Stiffness-as-morphogen is novel because wrong — morphogen model doesn't apply to YAP signaling",
+        "claim_verification": "All citations verified (Elosegui-Artola 2017, Engler 2006, Dupont 2011); Levental 2007 journal uncertain"
+      },
+      "survival_note": "Survives narrowly if reframed from 'tissue-specific enhancer selection' to 'stiffness-graded YAP-TEAD enhancer activation.' The modest version (hierarchical TEAD enhancer activation at different stiffnesses) is probably correct. Prediction (d) should be flagged as likely false."
+    },
+    {
+      "id": "C1-H7",
+      "title": "Direct LINC-Transmitted Mechanical Force Functions as a Physical Pioneer Factor, Unwinding Nucleosomes at Mechanosensitive Enhancers",
+      "verdict": "KILLED",
+      "original_confidence": 4,
+      "revised_confidence": 1,
+      "original_groundedness": 4,
+      "revised_groundedness": 3,
+      "key_issues": [
+        "FATAL: Per-nucleosome force = 0.00015 pN, which is 13,000x below 2 pN unwrapping threshold",
+        "Stress concentration factors (2-50x typical) cannot compensate for 4-order-of-magnitude deficit",
+        "Per-nucleosome force is 3000-6000x below thermal noise — signal undetectable above background",
+        "Confined migration at >>LINC forces produces nuclear rupture but NOT chromatin opening",
+        "Chromatin is not a continuous elastic solid — materials science stress concentration model is category error",
+        "Viscoelastic relaxation dissipates forces on sub-second timescales"
+      ],
+      "attacks": {
+        "novelty": "PASSES — physical pioneer factor concept is genuinely creative and novel",
+        "mechanism": "FATAL — per-nucleosome force 13,000x below threshold; below thermal noise; wrong force geometry",
+        "logic": "SEVERE — materials science stress concentration model is category error for dynamic chromatin polymer",
+        "falsifiability": "PASSES with caveats — flavopiridol has pleiotropic effects confounding ATAC-seq",
+        "triviality": "PASSES — concept is non-obvious and creative",
+        "counter_evidence": "Confined migration (Denais/Raab 2016) at >>LINC forces does not open enhancers; AFM compression causes compaction not opening",
+        "groundedness": "35% — 4/10 claims verifiable; key parametric claims quantitatively refuted",
+        "hallucination_check": "Novel because wrong — no one proposed it because numbers are 13,000x insufficient",
+        "claim_verification": "Shimamoto 2017 misapplied (mitosis vs interphase); Li 2005 citation uncertain; core force values verified"
+      },
+      "kill_rationale": "Overwhelming quantitative impossibility: (1) per-nucleosome force 13,000x below threshold, (2) below thermal noise, (3) wrong force geometry, (4) viscoelastic dissipation, (5) category error in stress concentration model, (6) confined migration counter-evidence, (7) AFM compression counter-evidence. Seven independent lines of evidence converge on impossibility."
+    }
+  ],
+  "critic_questions": [
+    {
+      "hypothesis_id": "C1-H1",
+      "question": "Zanconato et al. Nat Med 2018 showed YAP/TAZ/TEAD recruit BRD4 to super-enhancers in breast cancer. H1 is mechanistically identical with a different upstream trigger. What is genuinely new? Can you quantitatively argue why stiffness specifically crosses phase separation threshold? Reframe novelty.",
+      "importance": "HIGH"
+    },
+    {
+      "hypothesis_id": "C1-H1",
+      "question": "BRD4 phase separation model contested (McSwiggen eLife 2019, Chong Science 2018). Can H1 be reformulated WITHOUT phase separation — based on H3K27ac density and BRD4 occupancy alone?",
+      "importance": "HIGH"
+    },
+    {
+      "hypothesis_id": "C1-H3",
+      "question": "UTX (KDM6A), not KDM6B, is the canonical enhancer H3K27me3 demethylase via MLL3/4-COMPASS. Yu 2025 showed KDM6B at PROMOTERS (Snail, Twist), not enhancers. Reformulate with UTX as primary candidate. What evidence exists for KDM6B at distal enhancers?",
+      "importance": "HIGH"
+    },
+    {
+      "hypothesis_id": "C1-H3",
+      "question": "YAP (15-60 min) arrives hours before KDM6B (transcriptional upregulation). Reframe as sequential two-phase model: Phase 1 = YAP-EP300 acetylates accessible enhancers; Phase 2 = KDM6B resolves bivalent enhancers. How does sequential operation change predictions?",
+      "importance": "MEDIUM"
+    },
+    {
+      "hypothesis_id": "C1-H4",
+      "question": "H3K27ac half-life ~2-6h. BRD4 FRAP = seconds (not trapped). After YAP exits (1-4h on soft ECM), what quantitative argument sustains H3K27ac for 24-72h? Consider revising to 6-12h memory timescale with position as short-term bridge to longer-term DNA methylation memory.",
+      "importance": "HIGH"
+    },
+    {
+      "hypothesis_id": "C1-H6",
+      "question": "YAP-TEAD targets are TEAD-motif enhancers (CTGF, CYR61) — shared proliferation/survival genes, NOT tissue-specific. Tissue-specific enhancers require MYOD/RUNX2/PPARγ. Revise from 'tissue-specific selection' to 'stiffness-graded TEAD enhancer activation'. Flag prediction (d) as likely false.",
+      "importance": "HIGH"
+    },
+    {
+      "hypothesis_id": "NEW",
+      "question": "5/7 hypotheses use YAP-EP300. The MRTF-SRF pathway (RhoA → actin → MRTF → SRF → CArG-box enhancers) is equally mechanosensitive and targets COMPLETELY DIFFERENT enhancers. Generate hypothesis: does ECM stiffness simultaneously activate two independent enhancer programs (YAP-TEAD + MRTF-SRF)? Do shear stress enhancers (Tsaryk 2022) differ from stiffness enhancers?",
+      "importance": "HIGH"
+    }
+  ],
+  "meta_critique": {
+    "kill_rate": 0.29,
+    "kill_rate_assessment": "Near lower boundary of healthy range (30-50%). Acceptable for BLIND MODE (no web search to discover additional prior work or counter-evidence).",
+    "strongest_surviving_hypothesis": "C1-H3",
+    "weakest_surviving_hypothesis": "C1-H6",
+    "systematic_bias_detected": "5/7 hypotheses depend on YAP-EP300 as primary mechanism. Pipeline needs MRTF-SRF, PIEZO1-CaMKII, and other non-YAP mechanosensitive pathways.",
+    "citation_issues": [
+      "Yang 2014: journal may be Nat Materials not Science",
+      "Sabari 2018: showed MED1 phase separation, hypothesis extrapolates to BRD4 without specific citation",
+      "Shimamoto 2017: measured mitotic chromosomes, misapplied to interphase chromatin",
+      "Levental 2007: journal uncertain",
+      "Whitworth 2024: cannot verify journal"
+    ],
+    "no_hallucinations_detected": true,
+    "overall_quality": "Hypotheses are well-structured with honest self-critique. Main weaknesses: (1) YAP-EP300 over-reliance, (2) quantitative insufficiency in force-based hypotheses (H2, H7), (3) overclaiming novelty where prior work exists (H1 vs Zanconato 2018), (4) conceptual errors in tissue-specificity claims (H6)."
+  }
+}

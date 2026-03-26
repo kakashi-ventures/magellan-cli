@@ -1,0 +1,87 @@
+{
+  "session_id": "2026-03-25-targeted-002",
+  "generated_at": "2026-03-25",
+  "cycle": 2,
+  "agent": "ranker-v5.2 (inline from critic)",
+  "input_hypotheses": 3,
+  "killed": ["C2-H3"],
+  "ranked_hypotheses": 2,
+  "ranking": [
+    {
+      "rank": 1,
+      "id": "C2-H1",
+      "title": "Two-Phase Mechanoenhancer Activation Constitutes a Temporal Coincidence Gate",
+      "scores": {
+        "novelty": 8,
+        "mechanistic_specificity": 8,
+        "testability": 9,
+        "groundedness": 7,
+        "cross_domain_creativity": 7,
+        "potential_impact": 8
+      },
+      "composite_score": 7.85,
+      "score_rationale": "Novelty: No prior two-phase temporal dependency model for mechanoenhancers (8). Mechanistic specificity: BRD4 heterogeneous nucleation on H3K27ac independently confirmed by 2024 literature; Piezo1→CaMKII→HDAC4 well-characterized (8). Testability: dCas9-p300 rescue experiment is a clean discriminating test; CUT&RUN time course feasible (9). Groundedness: 75% claims verified; INFERRED claim supported by independent BRD4 condensation physics (7). Cross-domain: bridges condensation physics, calcium signaling, and mechanoenhancer epigenomics (7). Impact: if confirmed, redefines mechanoenhancer activation from parallel to sequential model (8).",
+      "weights": {
+        "testability": 0.20,
+        "groundedness": 0.20,
+        "mechanistic_specificity": 0.20,
+        "novelty": 0.15,
+        "cross_domain_creativity": 0.10,
+        "potential_impact": 0.15
+      },
+      "weighted_score": 7.85,
+      "critic_verdict": "SURVIVES",
+      "critic_confidence": 0.60
+    },
+    {
+      "rank": 2,
+      "id": "C2-H2",
+      "title": "Lamin A/C Concentration Sets the Cell-Intrinsic Stiffness-Sensing Threshold for Mechanoenhancer Activation",
+      "scores": {
+        "novelty": 4,
+        "mechanistic_specificity": 6,
+        "testability": 8,
+        "groundedness": 8,
+        "cross_domain_creativity": 4,
+        "potential_impact": 5
+      },
+      "composite_score": 5.95,
+      "score_rationale": "Novelty: Core concept (lamin A/C → YAP threshold) published in 2024 Nat Comms PMID 39578439; only mechanoenhancer H3K27ac extension is new (4). Mechanistic specificity: all components well-characterized but mechanism is a transitive chain with YAP as bottleneck; multiple other YAP regulators not considered (6). Testability: scCUT&RUN + lamin A IF + EC50 shift experiments well-designed (8). Groundedness: 80% claims verified; all citations confirmed (8). Cross-domain: stays within mechanobiology — lamin mechanics to enhancers is incremental (4). Impact: would confirm expected behavior rather than reveal new principle (5).",
+      "weights": {
+        "testability": 0.20,
+        "groundedness": 0.20,
+        "mechanistic_specificity": 0.20,
+        "novelty": 0.15,
+        "cross_domain_creativity": 0.10,
+        "potential_impact": 0.15
+      },
+      "weighted_score": 5.95,
+      "critic_verdict": "WOUNDED",
+      "critic_confidence": 0.40
+    }
+  ],
+  "eliminated": [
+    {
+      "id": "C2-H3",
+      "title": "Nuclear Actin Polymerization State Regulates MRTF-A Residence Time at CaRG-Box Mechanoenhancers",
+      "reason": "KILLED by Critic — fabricated protein property (RPEL-F-actin binding structurally impossible)",
+      "critic_confidence": 0.10
+    }
+  ],
+  "diversity_check": {
+    "status": "PASSED",
+    "note": "C2-H1 (temporal dependency / condensate physics) and C2-H2 (nuclear mechanics / cell heterogeneity) are mechanistically distinct"
+  },
+  "elo_tournament": {
+    "note": "Skipped — only 2 hypotheses, pairwise comparison trivial. C2-H1 dominates C2-H2 on novelty, mechanism, and impact.",
+    "matches": [
+      {"pair": "C2-H1 vs C2-H2", "winner": "C2-H1", "reason": "Superior novelty (8 vs 4), stronger mechanism confirmation, higher impact"}
+    ]
+  },
+  "summary": {
+    "top_hypothesis": "C2-H1",
+    "mean_score": 6.90,
+    "score_spread": 1.90,
+    "proceed_to_quality_gate": ["C2-H1", "C2-H2"]
+  }
+}

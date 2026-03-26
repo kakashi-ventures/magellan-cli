@@ -1,0 +1,103 @@
+{
+  "session_id": "2026-03-26-targeted-001",
+  "cycle": 1,
+  "generator_model": "opus-4.6",
+  "generated_at": "2026-03-26T01:30:00Z",
+  "field_a": "Mechanobiology (ECM stiffness)",
+  "field_c": "Epigenomics (genomic enhancer regulation)",
+  "count": 5,
+  "hypotheses": [
+    {
+      "id": "H1",
+      "title": "Stiffness-Dependent Super-Enhancer Nucleation via YAP-Recruited BRD4-MED1 Phase Condensates",
+      "confidence": 0.55,
+      "groundedness": 6,
+      "mechanism_route": "ECM stiffness -> integrin/FAK -> LATS inhibition -> YAP nuclear -> TEAD/EP300 -> H3K27ac -> BRD4/MED1 condensate nucleation -> super-enhancer formation",
+      "bridge_type": "phase_separation_condensate_nucleation",
+      "novelty_claim": "Stiff ECM triggers qualitative typical-to-super-enhancer phase transition at TEAD-dense loci via BRD4-MED1 condensate nucleation; 0 PubMed papers for ECM stiffness + super-enhancer",
+      "key_proteins": ["ITGB1", "PTK2", "LATS1", "YAP1", "TEAD1", "EP300", "BRD4", "MED1"],
+      "histone_marks": ["H3K27ac"],
+      "cell_type": "MCF10A",
+      "stiffness_range_kpa": "1-25",
+      "test_assays": ["H3K27ac ChIP-seq", "BRD4 ChIP-seq", "ATAC-seq", "RNA-seq", "ROSE algorithm", "1,6-hexanediol", "JQ1"],
+      "cross_domain_score": 2,
+      "kill_vector": "Phase separation at super-enhancers contested (McSwiggen 2019); BRD4 clusters may not be true condensates"
+    },
+    {
+      "id": "H2",
+      "title": "Coordinated Bivalent-to-Active Enhancer Conversion via Dual ECM-Stiffness-Controlled Enzymes (KDM6B + EP300)",
+      "confidence": 0.60,
+      "groundedness": 7,
+      "mechanism_route": "ECM stiffness -> KDM6B upregulation (removes H3K27me3) + YAP/EP300 activation (writes H3K27ac) -> coordinated bivalent-to-active enhancer switch at developmental loci",
+      "bridge_type": "dual_enzyme_coordinated_switch",
+      "novelty_claim": "ECM stiffness simultaneously controls both the eraser (KDM6B) and writer (EP300) acting on the same H3K27 residue at enhancers, enabling coordinated bivalent-to-active conversion; no paper combines both enzymes at enhancers under stiffness",
+      "key_proteins": ["KDM6B", "EP300", "YAP1", "TEAD1", "EZH2"],
+      "histone_marks": ["H3K27me3", "H3K27ac", "H3K4me1"],
+      "cell_type": "Human MSCs",
+      "stiffness_range_kpa": "1-40",
+      "test_assays": ["CUT&Tag (H3K4me1, H3K27me3, H3K27ac)", "re-ChIP", "GSK-J4 (KDM6B inhibitor)", "A-485 (EP300 inhibitor)", "Western blot"],
+      "cross_domain_score": 2,
+      "kill_vector": "KDM6B may not act at distal enhancers (only shown at promoters in Yu 2025); UTX/KDM6A may be the dominant enhancer demethylase"
+    },
+    {
+      "id": "H3",
+      "title": "ECM Stiffness Reorganizes Enhancer-Promoter Loop Topology via LINC-Mediated Cohesin Dynamics",
+      "confidence": 0.45,
+      "groundedness": 4,
+      "mechanism_route": "ECM stiffness -> actin tension -> LINC complex (SUN2/LMNA) -> nuclear chromatin tension -> altered cohesin loop extrusion kinetics -> enhancer-promoter loop reorganization at YAP target TADs",
+      "bridge_type": "mechanical_force_3D_topology",
+      "novelty_claim": "ECM stiffness reorganizes enhancer-promoter loops via force-altered cohesin dynamics; 0 PubMed papers for Hi-C under ECM stiffness gradients",
+      "key_proteins": ["SUN2", "LMNA", "SMC1A", "SMC3", "RAD21", "CTCF", "WAPL"],
+      "histone_marks": ["H3K27ac"],
+      "cell_type": "MCF10A",
+      "stiffness_range_kpa": "1-10",
+      "test_assays": ["Micro-C", "H3K27ac CUT&Tag", "RNA-seq", "CTCF ChIP-seq", "virtual 4C", "CRISPR CTCF site deletion"],
+      "cross_domain_score": 3,
+      "kill_vector": "TADs are remarkably stable across perturbations (Rao 2017); cohesin dynamics under tension unmeasured; force may dissipate before reaching interior loci"
+    },
+    {
+      "id": "H4",
+      "title": "LAD-Embedded Enhancers as Stiffness-Resistant Mechanical Selectivity Filter",
+      "confidence": 0.50,
+      "groundedness": 6,
+      "mechanism_route": "ECM stiffness -> lamin A/C upregulation -> reinforced LAD silencing at periphery + YAP/EP300 activation at interior -> binary partition of enhancers into stiffness-responsive (non-LAD) and stiffness-resistant (LAD)",
+      "bridge_type": "nuclear_architecture_filter",
+      "novelty_claim": "LAD organization creates a binary selectivity filter determining which enhancers can respond to ECM stiffness; extends Sun 2020 gene-level finding to enhancer-resolution genomic architecture",
+      "key_proteins": ["LMNA", "LMNB1", "LAP2B", "YAP1", "EP300", "SUV39H1"],
+      "histone_marks": ["H3K27ac", "H3K9me3", "H3K9me2"],
+      "cell_type": "MCF10A",
+      "stiffness_range_kpa": "1-10",
+      "test_assays": ["H3K27ac CUT&Tag", "H3K9me3 CUT&Tag", "lamin B1 CUT&RUN", "siLMNA", "DamID-seq"],
+      "cross_domain_score": 2,
+      "kill_vector": "LINC forces act at nuclear periphery where LADs are; if lamin A/C upregulation causes LAD release rather than strengthening, prediction inverts"
+    },
+    {
+      "id": "H5",
+      "title": "Enhancer-Encoded Mechanical Memory via Self-Reinforcing H3K27ac-BRD4-EP300 Positive Feedback",
+      "confidence": 0.55,
+      "groundedness": 6,
+      "mechanism_route": "ECM stiffness -> YAP -> EP300 -> H3K27ac -> BRD4 recruitment -> BRD4 stabilizes EP300 -> self-reinforcing loop maintains H3K27ac after YAP relocalization -> mechanical memory at enhancers",
+      "bridge_type": "self_reinforcing_feedback_circuit",
+      "novelty_claim": "Specific molecular mechanism for mechanical memory at enhancer resolution: EP300-BRD4 positive feedback loop maintains stiffness-programmed H3K27ac after transfer to soft ECM; Hsia 2023 proposed concept but no experimental test at enhancer resolution exists",
+      "key_proteins": ["EP300", "BRD4", "YAP1", "TEAD1", "HDAC1", "HDAC2"],
+      "histone_marks": ["H3K27ac"],
+      "cell_type": "MCF10A",
+      "stiffness_range_kpa": "1-10",
+      "test_assays": ["H3K27ac CUT&Tag time course", "BRD4 CUT&Tag", "YAP immunofluorescence", "JQ1", "SAHA", "RT-qPCR"],
+      "cross_domain_score": 2,
+      "kill_vector": "H3K27ac rapid turnover (~2-6 hr half-life) may overwhelm feedback loop; YAP/nuclear actin may be the actual memory element (Yang et al., Nat Mater 2014)"
+    }
+  ],
+  "bridge_mechanism_diversity": {
+    "count": 5,
+    "types": [
+      "phase_separation_condensate_nucleation",
+      "dual_enzyme_coordinated_switch",
+      "mechanical_force_3D_topology",
+      "nuclear_architecture_filter",
+      "self_reinforcing_feedback_circuit"
+    ],
+    "max_shared": 1,
+    "diversity_check": "PASS"
+  }
+}

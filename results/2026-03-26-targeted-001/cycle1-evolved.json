@@ -1,0 +1,222 @@
+{
+  "session_id": "2026-03-26-targeted-001",
+  "cycle": 1,
+  "phase": "evolution",
+  "evolver_model": "sonnet",
+  "mode": "blind",
+  "evolved_at": "2026-03-26T07:30:00Z",
+  "parents_evolved": ["C1-H3", "C1-H4", "C1-H5"],
+  "evolved_hypotheses": [
+    {
+      "id": "E1-H3",
+      "parent_id": "C1-H3",
+      "parent_title": "ECM Stiffness Coordinates a Dual-Enzyme Bivalent-to-Active Enhancer Switch via Concurrent KDM6B Activation and YAP-EP300 Recruitment",
+      "parent_composite": 7.30,
+      "parent_bridge_mechanism": "enzymatic_coordination",
+      "evolved_title": "Sequential Two-Phase Bivalent Enhancer Activation Under ECM Stiffness: YAP-EP300 Non-Bivalent Priming (Phase 1, 2-4h) Feeds Forward to UTX(KDM6A)/MLL3-COMPASS Bivalent-to-Active Conversion (Phase 2, 12-24h), with KDM6A vs. KDM6B Paralog Disambiguation",
+      "bridge_mechanism": "sequential_enzymatic_UTX_feedforward",
+      "operations_applied": ["mutation", "specification"],
+      "lineage": "Evolved from Hypothesis C1-H3 via mutation (UTX replaces KDM6B as primary) + specification (two-phase temporal model, feedforward mechanism, three-arm genetic experiment)",
+      "key_changes": [
+        "UTX (KDM6A) replaces KDM6B as primary enhancer demethylase — UTX is the canonical COMPASS-associated enhancer H3K27me3 demethylase; KDM6B is a stress-inducible promoter demethylase (Yu MCB 2025 shows promoter activity, not enhancer)",
+        "Concurrent model replaced with sequential two-phase: Phase 1 (0-4h, EP300 at non-bivalent enhancers) feedsforward to Phase 2 (12-24h, UTX-COMPASS at bivalent enhancers). Temporal gap 8-14h is central prediction.",
+        "Three-arm genetic experiment: siKDM6A vs siKDM6B vs combined — predicts siKDM6A selectively blocks bivalent enhancer activation (Phase 2) without affecting non-bivalent activation (Phase 1)",
+        "Feedforward mechanism added: Phase 1 H3K27ac by EP300 enables COMPASS-UTX recruitment via EP300-MLL3/4-COMPASS co-occupancy (Dorighi 2017). A-485 at 0h vs 8h dissects feedforward dependency."
+      ],
+      "critic_conditions_addressed": [
+        "HIGH: UTX canonical — UTX as primary candidate; KDM6B demoted to secondary with explicit PARAMETRIC flag",
+        "MEDIUM: Sequential not concurrent — two-phase temporal model with 8-14h gap prediction",
+        "Added: siKDM6A vs siKDM6B disambiguation alongside GSK-J4"
+      ],
+      "central_mechanism": "EP300 (Phase 1, 0-4h) at non-bivalent enhancers feeds forward to recruit MLL3/4-COMPASS/UTX (Phase 2, 12-24h) to adjacent bivalent enhancers, creating an 8-14h temporal gap between non-bivalent and bivalent H3K27ac gain under ECM stiffness",
+      "key_predictions": [
+        "Temporal gap ≥8h between H3K27ac peaks at non-bivalent (CTGF/CYR61, 4-6h) and bivalent (SNAI1/RUNX2 distal, 12-18h) enhancer classes at 50 kPa — KS test p < 0.001",
+        "siKDM6A (not siKDM6B) reduces bivalent distal H3K27ac >50% at 24h while leaving CTGF/CYR61 H3K27ac intact (>90% at 6h)",
+        "KDM6A CUT&RUN enrichment at H3K4me1+ bivalent distal enhancers at 12-18h (not at 4h)",
+        "A-485 at 0h blocks both Phase 1 and Phase 2; A-485 at 8h blocks Phase 2 (>60% reduction at bivalent loci) but spares Phase 1 signal (>70% intact)"
+      ],
+      "test_protocol": "hMSCs on PA hydrogels (1→50 kPa, 0/2/6/12/24h). CUT&Tag H3K27ac + H3K27me3. KDM6A CUT&RUN (12h, 24h). siKDM6A / siKDM6B / siKDM6A+siKDM6B / si-NT (four-arm). A-485 (3µM) at 0h vs 8h pulse. re-ChIP at SNAI1 distal enhancer. ATAC-seq + RNA-seq at 24h. Overlap with Roadmap E026 (MSC) poised enhancer maps.",
+      "confidence": 5,
+      "groundedness": 6,
+      "predicted_composite": 7.8,
+      "predicted_composite_improvement": "+0.50",
+      "dimensions_improved": ["mechanism_specificity", "groundedness", "testability"],
+      "new_parametric_claims": [
+        "EP300 to MLL3/4-COMPASS feedforward via co-occupancy at Phase 1 enhancers (emerging from Dorighi 2017 but not shown under stiffness)",
+        "KDM6B PHD-Tudor domain recognizes H3K4me1 context at distal bivalent enhancers (candidate mechanism, unverified)",
+        "Temporal gap of 8-14h as mechanistic prediction (not yet measured)"
+      ],
+      "stronger_than_parent": true,
+      "improvement_rationale": "UTX canonical vs. KDM6B contested at enhancers (+groundedness); sequential model creates testable temporal gap (+testability); three-arm genetic experiment provides unambiguous paralog disambiguation (+testability); feedforward mechanism adds non-trivial prediction (+mechanism)"
+    },
+    {
+      "id": "E1-H4",
+      "parent_id": "C1-H4",
+      "parent_title": "Stiffness-Induced Enhancer H3K27ac Creates Self-Sustaining Transcriptional Condensates That Persist as Mechanical Memory",
+      "parent_composite": 6.55,
+      "parent_bridge_mechanism": "epigenetic_feedback_loop",
+      "evolved_title": "Mechanically-Induced H3K27ac Serves as a 6-12h Temporal Window That Recruits TET2-Mediated CpG Demethylation at Stiffness-Responsive Enhancers, Creating a DNA Methylation-Based Mechanical Memory That Persists (Days-Weeks) Beyond H3K27ac Decay",
+      "bridge_mechanism": "epigenetic_memory_DNA_methylation_TET_handoff",
+      "operations_applied": ["mutation", "specification"],
+      "lineage": "Evolved from Hypothesis C1-H4 via mutation (H3K27ac self-sustaining memory replaced with TET-mediated DNA methylation handoff) + specification (TET2 molecular mechanism, 5hmC intermediate, RRBS memory readout, priming prediction)",
+      "key_changes": [
+        "H3K27ac half-life contradiction resolved: H3K27ac (2-6h) is repositioned as a 6-12h TEMPORAL WINDOW enabling TET2 recruitment, not the memory storage medium itself. Eliminates the kinetically unjustified self-sustaining condensate claim.",
+        "Memory storage reframed: CpG demethylation at mechano-enhancer shores (driven by TET2 during the H3K27ac window) is the durable memory (days-weeks in non-cycling cells). TET1/TET2 enriched at H3K27ac+ enhancers via OGT/CXXC (Vella 2013, Williams 2011).",
+        "Timescale model internally consistent: 0-12h H3K27ac window → 6-12h TET2/5hmC → 12-72h BER → CpG demethylation measurable by day 3. Memory window (3-14d) supported by DNMT1 maintenance kinetics.",
+        "Bistability reframed: NOT H3K27ac bistability. Asymmetric hysteresis from CpG methylation state — primed cells (previously 50 kPa) re-activate mechano-enhancers faster upon re-stiffening vs. naïve cells."
+      ],
+      "critic_conditions_addressed": [
+        "HIGH: H3K27ac half-life constraint — 6-12h window (not 24-72h). Memory stored in DNA methylation.",
+        "PARTIAL: Short-term bridge to DNA methylation — explicit TET2 handoff mechanism proposed",
+        "Bistability addressed: asymmetric hysteresis (not strict bistability) from CpG methylation, not H3K27ac"
+      ],
+      "central_mechanism": "ECM stiffness-induced H3K27ac creates a 6-12h temporal window for TET2 recruitment and 5hmC deposition at mechano-enhancer CpG shores; BER completion converts 5hmC to unmethylated CpG within 24-72h; demethylated CpGs persist days-to-weeks as mechanical memory beyond H3K27ac decay, creating epigenetic priming for future stiffness responses",
+      "key_predictions": [
+        "RRBS: 50 kPa shows CpG demethylation at mechano-enhancer shores (ΔMethylation >15% at ≥100 CpGs within 2kb of top 500 stiffness-gained H3K27ac peaks). After 50→1 kPa transfer: >50% of demethylation signal retained at day 3.",
+        "TET2 CUT&RUN at 12h: enrichment at stiffness-gained H3K27ac peaks (>3-fold vs. stiffness-neutral peaks). siTET2 abolishes CpG demethylation without affecting H3K27ac levels.",
+        "5hmC DIP-seq at 12h: >2-fold enrichment at stiffness-gained vs. stiffness-neutral H3K27ac peaks",
+        "A-485 at 0h blocks TET2 recruitment AND CpG demethylation; A-485 at 24h does NOT prevent demethylation already in progress",
+        "Priming: hMSCs previously exposed to 50 kPa (50→1 kPa 7d) show >1.5-fold faster H3K27ac re-induction at mechano-enhancers upon re-stiffening vs. naïve cells. siTET2 in first cycle abolishes priming."
+      ],
+      "test_protocol": "hMSCs on PA hydrogels (1 kPa; 50 kPa 48h; 50→1 kPa transfer 3d/7d/14d). H3K27ac CUT&Tag + TET2 CUT&RUN (0/6/12/24h). 5hmC DIP-seq (12h, 24h). RRBS (0/48h; 3d/7d/14d post-transfer). siTET1, siTET2, si-NT. A-485 at 0h vs 24h. Cycling experiment: 50→1→50 kPa. 5-azacytidine (positive control for demethylation maintenance).",
+      "confidence": 4,
+      "groundedness": 6,
+      "predicted_composite": 7.2,
+      "predicted_composite_improvement": "+0.65",
+      "dimensions_improved": ["groundedness", "mechanism_specificity", "testability", "novelty"],
+      "new_parametric_claims": [
+        "TET2 co-occupancy at stiffness-gained H3K27ac peaks in hMSCs (TET2-H3K27ac co-enrichment grounded generally but not shown under stiffness)",
+        "CpG demethylation rate at mechano-enhancer shores under TET2 within 6-12h H3K27ac window (BER rate at specific loci is PARAMETRIC)",
+        "DNMT1 maintenance kinetics in non-cycling hMSCs sufficient to retain demethylation 3-14d (PARAMETRIC; will depend on cell cycle status)"
+      ],
+      "stronger_than_parent": true,
+      "improvement_rationale": "Eliminates fundamental H3K27ac half-life contradiction (+groundedness); introduces entirely new evidence class (5hmC, RRBS) not in parent (+testability); TET2 handoff is molecularly specific (+mechanism); priming prediction is testable and not in parent (+novelty)"
+    },
+    {
+      "id": "E1-H5",
+      "parent_id": "C1-H5",
+      "parent_title": "ECM Stiffness Rewires Enhancer-Promoter 3D Chromatin Loops via YAP-TEAD-Dependent NIPBL Recruitment and Cohesin Redistribution",
+      "parent_composite": 6.00,
+      "parent_bridge_mechanism": "3D_genome_architecture",
+      "evolved_title": "ECM Stiffness Selectively Activates Two Independent H3K27ac Programs (YAP-TEAD and MRTF-SRF) Each Contacting Distinct Promoters Within Pre-Established CTCF-Anchored Loop Domains: Empirical H3K27ac HiChIP Survey Prediction with NIPBL as Loop-Enabling Not Loop-Determining Factor",
+      "bridge_mechanism": "CTCF_permitted_dual_program_loop_activation",
+      "operations_applied": ["mutation", "specification", "crossover"],
+      "lineage": "Evolved from Hypothesis C1-H5 via mutation (CTCF-permitted framing replaces loop-creation claim) + specification (null model, dual program design) + crossover (MRTF-SRF program from Critic NEW question incorporated)",
+      "key_changes": [
+        "CTCF-permitted framing: parent claimed stiffness creates NEW loops via BRD4-NIPBL. Evolved: stiffness activates H3K27ac-marked enhancers WITHIN pre-existing CTCF-anchored loop domains, increasing contact frequency for pre-formed loop pairs. CTCF positions do not shift.",
+        "Dual-program crossover: MRTF-SRF (Critic HIGH question, labeled NEW) incorporated alongside YAP-TEAD. Population A = TEAD enhancers (verteporfin-sensitive); Population B = CArG-box enhancers (C3-transferase-sensitive). Each contacts distinct non-overlapping promoters.",
+        "BRD4-NIPBL demoted: not required for central prediction. General H3K27ac → NIPBL loading → cohesin extrusion within CTCF domains is the mechanism. BRD4-NIPBL tested as bonus sub-hypothesis.",
+        "Empirical survey design: central prediction is contact frequency enrichment at both program types vs. stiffness-neutral peaks, with null model. Not a claimed mechanistic discovery."
+      ],
+      "critic_conditions_addressed": [
+        "CTCF dominance acknowledged: loops are CTCF-permitted, not CTCF-independent",
+        "BRD4-NIPBL generalizability: demoted from required to testable bonus; general NIPBL-cohesin pathway is mechanism",
+        "Empirical reframe: survey prediction with null model (stiffness-neutral peaks) rather than mechanistic claim",
+        "MRTF-SRF dual program: addresses Critic HIGH-priority NEW question about independent mechanosensitive enhancer programs"
+      ],
+      "central_mechanism": "ECM stiffness activates two independent H3K27ac programs (YAP-TEAD at CTGF/CYR61 loci, 1-4h; MRTF-SRF at ACTA2/VCL loci, 2-6h) that each increase contact frequency with their pre-assigned CTCF-permitted promoters via NIPBL-facilitated cohesin extrusion within existing TAD boundaries; the two programs target non-overlapping promoters (<20% shared targets) and are independently suppressible by verteporfin vs. C3-transferase",
+      "key_predictions": [
+        "H3K27ac HiChIP: two non-overlapping contact networks at 50 kPa (>3-fold enrichment vs. 1 kPa): Network A (TEAD-motif anchors → CTGF/CYR61 promoters) and Network B (CArG-motif anchors → ACTA2/VCL promoters). <20% shared target genes.",
+        ">70% of stiffness-gained loop pairs anchored within 10kb of constitutive CTCF site (CTCF ChIP-seq overlap)",
+        "Verteporfin suppresses Network A (>60%) but not Network B (<20%). C3-transferase suppresses Network B (>60%) but not Network A (<20%).",
+        "siNIPBL reduces contact frequency at both Networks (>40% each) without shifting CTCF anchor positions",
+        "JQ1 reduces NIPBL occupancy at mechano-enhancers >30% vs. <10% at stiffness-neutral enhancers (BRD4-NIPBL bonus test)"
+      ],
+      "test_protocol": "MCF10A on PA hydrogels (1/10/50 kPa, 48h). H3K27ac HiChIP + H3K27ac ChIP-seq + CTCF ChIP-seq + NIPBL CUT&RUN. TEAD + CArG motif enrichment. Perturbations: verteporfin (1µM), C3-transferase (1µg/ml), siNIPBL, JQ1 (500nM), verteporfin+C3-transferase combined. 4C-seq from CTGF and ACTA2 promoters. 5,000 cells/cm2 + fibronectin micropatterns (spreading control).",
+      "confidence": 3,
+      "groundedness": 5,
+      "predicted_composite": 6.7,
+      "predicted_composite_improvement": "+0.70",
+      "dimensions_improved": ["novelty", "groundedness", "testability", "cross_domain_creativity"],
+      "new_parametric_claims": [
+        "MRTF-SRF and YAP-TEAD programs produce non-overlapping contact networks in MCF10A on stiff ECM (<20% shared target genes — not yet measured)",
+        "CArG-motif enhancers show increased H3K27ac HiChIP contacts specifically for actin cytoskeleton gene promoters under stiffness (not yet measured)",
+        "CTCF positions are unchanged under ECM stiffness (plausible but not formally verified)"
+      ],
+      "stronger_than_parent": true,
+      "improvement_rationale": "Removes overclaimed loop-creation mechanism and replaces with defensible CTCF-permitted framing (+groundedness); dual YAP+MRTF-SRF program is entirely new (+novelty, +cross_domain_creativity); verteporfin vs C3-transferase dissection is a powerful new experiment not in parent (+testability); empirical survey design with null model is more rigorous (+testability)"
+    }
+  ],
+  "diversity_check": {
+    "mechanisms": {
+      "E1-H3": "sequential_enzymatic_UTX_feedforward",
+      "E1-H4": "epigenetic_memory_DNA_methylation_TET_handoff",
+      "E1-H5": "CTCF_permitted_dual_program_loop_activation"
+    },
+    "pairwise_overlaps": {
+      "E1H3_vs_E1H4": {
+        "overlap_estimate_pct": 25,
+        "shared_actors": ["EP300 upstream", "H3K27ac readout"],
+        "distinct_actors": "E1-H3: UTX/KDM6A, MLL3/4-COMPASS, bivalent H3K27me3 | E1-H4: TET2, 5hmC, CpG demethylation, RRBS",
+        "verdict": "DIVERSE"
+      },
+      "E1H3_vs_E1H5": {
+        "overlap_estimate_pct": 15,
+        "shared_actors": ["H3K27ac readout"],
+        "distinct_actors": "E1-H3: UTX, bivalent conversion, temporal gap | E1-H5: CTCF loops, NIPBL, MRTF-SRF, HiChIP",
+        "verdict": "DIVERSE"
+      },
+      "E1H4_vs_E1H5": {
+        "overlap_estimate_pct": 10,
+        "shared_actors": ["H3K27ac readout", "ECM stiffness upstream"],
+        "distinct_actors": "E1-H4: TET2, DNA methylation, memory timescale | E1-H5: CTCF, cohesin, HiChIP contact networks, dual programs",
+        "verdict": "DIVERSE"
+      }
+    },
+    "all_bridge_mechanisms_distinct": true,
+    "max_pairwise_overlap_pct": 25,
+    "threshold_pct": 70,
+    "verdict": "PASS",
+    "note": "Three evolved hypotheses address orthogonal questions: which enzyme resolves bivalent enhancers (E1-H3), what stores mechanical memory durably (E1-H4), what loop topology do independent programs create (E1-H5). Max overlap 25% well below 70% threshold."
+  },
+  "crossovers_attempted": [
+    {
+      "attempted": "UTX-feedforward × CTCF-permitted loops (KDM6A acts preferentially within CTCF-anchored TAD domains)",
+      "outcome": "REJECTED",
+      "reason": ">65% mechanistic overlap with both E1-H3 and E1-H5 simultaneously; diversity constraint violation"
+    },
+    {
+      "attempted": "MRTF-SRF × 3D genome architecture",
+      "outcome": "ACCEPTED — incorporated into E1-H5 as Population B of dual-program survey",
+      "reason": "Coherent addition; addresses HIGH-priority critic question; distinct from E1-H3 and E1-H4 mechanisms; increases novelty substantially"
+    }
+  ],
+  "evolution_quality_check": {
+    "all_hypotheses_stronger": true,
+    "contradictions_resolved": {
+      "E1-H3": "Concurrent model kinetically implausible → sequential two-phase with quantified gap",
+      "E1-H4": "H3K27ac half-life contradiction eliminated → TET2 handoff repositions memory in DNA methylation",
+      "E1-H5": "CTCF-independent loop creation overclaim → CTCF-permitted activation of existing loop topology"
+    },
+    "critic_conditions_incorporated": {
+      "C1-H3": "Both HIGH and MEDIUM conditions incorporated: UTX primary, sequential model, siKDM6A/siKDM6B",
+      "C1-H4": "HIGH condition incorporated: 6-12h window + DNA methylation handoff; bistability reframed as asymmetric hysteresis",
+      "C1-H5": "All three conditions incorporated: CTCF-permitted framing, BRD4-NIPBL demoted, empirical reframe"
+    },
+    "new_evidence_classes_added": {
+      "E1-H3": "KDM6A CUT&RUN time-course; re-ChIP at SNAI1 distal enhancer",
+      "E1-H4": "5hmC DIP-seq; RRBS; priming cycling experiment — entirely new measurement types",
+      "E1-H5": "Dual-program network dissection via verteporfin vs C3-transferase; CArG-motif enrichment analysis"
+    },
+    "quantitative_predictions_internally_consistent": true,
+    "quantitative_consistency_notes": [
+      "E1-H3: 8-14h temporal gap consistent with UTX kinetics (~0.5-2 nM/min/µM) and transcriptional lag for stiffness-dependent UTX complex remodeling",
+      "E1-H4: 6-12h H3K27ac window is consistent with half-life data; 5hmC detectable within this window; BER completion 24-72h consistent with TDG/SMUG1 kinetics",
+      "E1-H5: >70% CTCF-anchored loops consistent with known loop architecture data; <20% program overlap consistent with TEAD vs CArG target gene literature"
+    ],
+    "verdict": "PASS",
+    "rationale": "All three evolved hypotheses are genuinely stronger than parents on at least 3 dimensions each. Diversity constraint satisfied (max overlap 25%). All mandatory Critic conditions incorporated. Two entirely new evidence classes added (5hmC DIP-seq/RRBS for E1-H4; dual-program HiChIP dissection for E1-H5). One accepted crossover coherent and non-redundant. Quantitative predictions internally consistent."
+  },
+  "evolution_metadata": {
+    "session_id": "2026-03-26-targeted-001",
+    "cycle": 1,
+    "parents_considered": ["C1-H3", "C1-H4", "C1-H5"],
+    "variants_generated_per_parent": 2,
+    "variants_selected": 3,
+    "crossovers_attempted": 2,
+    "crossovers_accepted": 1,
+    "crossovers_rejected": 1,
+    "diversity_adjustments_made": 0,
+    "evolution_quality_check_verdict": "PASS"
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "session_id": "2026-03-26-targeted-001",
+  "timestamp": "2026-03-26T00:00:00Z",
+  "target": {
+    "field_a": "Mechanobiology (extracellular matrix mechanics)",
+    "field_c": "Epigenomics (genomic enhancer regulation)",
+    "bridge_concepts": ["mechanotransduction signaling", "chromatin remodeling", "nuclear mechanics", "YAP/TAZ pathway", "integrin signaling"]
+  },
+  "kegg_bridging": {
+    "field_a_gene_pathway_counts": {
+      "YAP1": 3,
+      "WWTR1/TAZ": 3,
+      "PIEZO1": 0,
+      "PTK2/FAK": 20,
+      "ROCK1": 20,
+      "ITGB1": 20,
+      "RHOA": 20,
+      "MYH9": 8,
+      "LMNA": 5
+    },
+    "field_c_gene_pathway_counts": {
+      "EP300/P300": 29,
+      "HDAC3": 4,
+      "KDM6B": 0,
+      "DOT1L": 3,
+      "BRD4": 0,
+      "CTCF": 0,
+      "SMC1A/cohesin": 2,
+      "MED1": 2
+    },
+    "field_a_total_pathways": 52,
+    "field_c_total_pathways": 36,
+    "shared_pathways": {
+      "hsa01522": {
+        "name": "Endocrine resistance",
+        "field_a_genes": ["PTK2/FAK"],
+        "field_c_genes": ["MED1"]
+      },
+      "hsa04024": {
+        "name": "cAMP signaling pathway",
+        "field_a_genes": ["ROCK1", "RHOA"],
+        "field_c_genes": ["EP300/P300"]
+      },
+      "hsa04310": {
+        "name": "Wnt signaling pathway",
+        "field_a_genes": ["RHOA"],
+        "field_c_genes": ["EP300/P300"]
+      },
+      "hsa04350": {
+        "name": "TGF-beta signaling pathway",
+        "field_a_genes": ["ROCK1", "RHOA"],
+        "field_c_genes": ["EP300/P300"]
+      },
+      "hsa04519": {
+        "name": "Cadherin signaling",
+        "field_a_genes": ["YAP1", "WWTR1/TAZ", "PTK2/FAK", "ROCK1", "RHOA"],
+        "field_c_genes": ["EP300/P300"]
+      },
+      "hsa04520": {
+        "name": "Adherens junction",
+        "field_a_genes": ["ROCK1", "RHOA"],
+        "field_c_genes": ["EP300/P300"]
+      },
+      "hsa04935": {
+        "name": "Growth hormone synthesis, secretion and action",
+        "field_a_genes": ["PTK2/FAK"],
+        "field_c_genes": ["EP300/P300"]
+      },
+      "hsa05165": {
+        "name": "Human papillomavirus infection",
+        "field_a_genes": ["PTK2/FAK"],
+        "field_c_genes": ["EP300/P300"]
+      },
+      "hsa05200": {
+        "name": "Pathways in cancer",
+        "field_a_genes": ["ROCK1"],
+        "field_c_genes": ["EP300/P300"]
+      }
+    },
+    "overlap_score": "9/88 shared",
+    "strongest_shared_pathway": "hsa04519 (Cadherin signaling): YAP1, TAZ, FAK, ROCK1, RHOA all co-map with EP300",
+    "notable_gaps": "PIEZO1, KDM6B, BRD4, CTCF have no KEGG pathway annotations — these are less well-characterized in canonical pathways",
+    "verdict": "CONNECTED"
+  },
+  "string_interactions": [
+    {
+      "protein_a": "YAP1",
+      "protein_b": "EP300",
+      "score": 0.692,
+      "verdict": "PARTIAL (medium-high confidence)",
+      "note": "YAP1 recruits EP300/CBP acetyltransferase to target gene enhancers; this score reflects documented co-regulation"
+    },
+    {
+      "protein_a": "YAP1",
+      "protein_b": "BRD4",
+      "score": 0.691,
+      "verdict": "PARTIAL (medium-high confidence)",
+      "note": "YAP1-BRD4 co-occupy super-enhancers; consistent with emerging literature on mechanosensitive super-enhancers"
+    },
+    {
+      "protein_a": "PIEZO1",
+      "protein_b": "DOT1L",
+      "score": 0.0,
+      "verdict": "NOT FOUND",
+      "note": "No direct STRING interaction; PIEZO1 top partners are ion channels and DNA replication proteins (ATR, CHEK2). Connection to DOT1L/H3K79me2 is likely indirect via calcium signaling cascade"
+    },
+    {
+      "protein_a": "LMNA",
+      "protein_b": "HDAC3",
+      "score": 0.187,
+      "verdict": "UNVERIFIED (<0.4)",
+      "note": "Low STRING score; however LMNA-CTCF interaction is 0.654 and LMNA-HDAC2 is 0.690, suggesting lamin interaction with chromatin remodelers is real but HDAC3 specifically is not the primary partner"
+    },
+    {
+      "protein_a": "PTK2/FAK",
+      "protein_b": "EP300",
+      "score": 0.230,
+      "verdict": "UNVERIFIED (<0.4)",
+      "note": "Low direct STRING score; FAK-EP300 connection is likely indirect through RHOA/ROCK1 pathway"
+    },
+    {
+      "protein_a": "LMNA",
+      "protein_b": "CTCF",
+      "score": 0.654,
+      "verdict": "PARTIAL (medium confidence)",
+      "note": "Additional check: LMNA-CTCF interaction supports nuclear mechanics → 3D genome topology bridge"
+    },
+    {
+      "protein_a": "LMNA",
+      "protein_b": "HDAC2",
+      "score": 0.690,
+      "verdict": "PARTIAL (medium-high confidence)",
+      "note": "Additional: LMNA-HDAC2 supports lamin-chromatin remodeling axis even though HDAC3 score is low"
+    }
+  ],
+  "pubmed_cooccurrence": {
+    "mechanotransduction_AND_enhancer": {
+      "count": 2142,
+      "verdict": "HIGH (>50)",
+      "note": "High co-occurrence; 'enhancer' may include non-genomic enhancers. Field is active."
+    },
+    "ECM_stiffness_AND_chromatin_accessibility": {
+      "count": 9,
+      "verdict": "LOW (<10)",
+      "note": "Very low — confirms this is a nascent connection with few studies"
+    },
+    "YAP_AND_super_enhancer": {
+      "count": 14,
+      "verdict": "LOW (<10-50)",
+      "note": "Emerging area; 14 papers suggests early-stage research, not yet saturated"
+    },
+    "matrix_stiffness_AND_H3K27ac": {
+      "count": 1,
+      "verdict": "DISJOINT (1 paper)",
+      "note": "Near-zero co-occurrence — confirms the specific ECM stiffness → H3K27ac enhancer connection is almost unexplored. Critical novelty signal."
+    },
+    "integrin_AND_chromatin_remodeling_AND_epigenetic": {
+      "count": 17,
+      "verdict": "LOW (<10-50)",
+      "note": "Some literature exists but field is not saturated"
+    },
+    "nuclear_mechanics_AND_genomic_enhancer": {
+      "count": 165,
+      "verdict": "MODERATE (10-50 for specific context)",
+      "note": "General term; most papers are about nuclear structure not genomic enhancers specifically"
+    },
+    "nuclear_mechanics_AND_H3K27ac": {
+      "count": 4,
+      "verdict": "DISJOINT (<10)",
+      "note": "Very sparse — nuclear mechanics specifically linked to H3K27ac is nearly unstudied"
+    },
+    "mechanotransduction_AND_H3K27ac": {
+      "count": 2,
+      "verdict": "DISJOINT (<10)",
+      "note": "Near-zero: mechanotransduction → H3K27ac enhancer mark is almost unexplored"
+    }
+  },
+  "physics_check": {
+    "ecm_force_estimate_pN": {
+      "passive_linc_delta": 120,
+      "active_actomyosin_delta": 800,
+      "total_delta": 920,
+      "assumptions": "20 vs 4 focal adhesions (stiff vs soft), 30% LINC transmission, 10 vs 2 actomyosin stress fibers at 1 nN each, 10% transmission to nucleus"
+    },
+    "chromatin_stretch_threshold_pN": 5,
+    "ratio_above_threshold": 184,
+    "nuclear_deformation_passive_only": {
+      "stress_stiff_Pa": 2.0,
+      "stress_soft_Pa": 0.4,
+      "strain_stiff_percent": 0.286,
+      "note": "Passive LINC transmission alone gives sub-percent nuclear strain; literature 10-30% volume change requires active actomyosin contractility (ROCK1-dependent)"
+    },
+    "thermal_noise_pN": 0.0083,
+    "verdict": "PLAUSIBLE",
+    "notes": "ECM stiffness difference generates 120-920 pN differential force at the nucleus (passive + active mechanisms), far exceeding the 5 pN threshold for chromatin domain stretching (Sun 2020). Active ROCK1-myosin IIA (MYH9) contractility amplifies the passive LINC force ~7x. Both routes are quantitatively sufficient to deform chromatin loops in the 0.5-2 um size range."
+  },
+  "bridge_plausibility": {
+    "mechanotransduction_to_chromatin": {
+      "score": 5,
+      "verdict": "HIGHLY PLAUSIBLE",
+      "evidence": "KEGG: PTK2/FAK+ROCK1+RHOA share TGF-beta and Cadherin pathways with EP300. STRING: YAP1-EP300 (0.692). PubMed: 2142 co-occurrence papers. Multiple literature-verified mechanisms (HDAC3, KDM6B, DOT1L documented in lit scout).",
+      "key_gap": "ECM stiffness gradients specifically have not been profiled genome-wide for enhancers"
+    },
+    "nuclear_mechanics_to_3D_genome": {
+      "score": 4,
+      "verdict": "PLAUSIBLE",
+      "evidence": "STRING: LMNA-CTCF (0.654), LMNA-EMD (0.999), LMNA-SUN2 (0.999). Force physics: 120-920 pN >> 5 pN threshold. LAP2beta paper (PMID 34700042) directly shows force-chromatin domain stretching.",
+      "key_gap": "Hi-C under ECM stiffness gradients has not been performed; CTCF loop extrusion under mechanical load unstudied"
+    },
+    "YAP_TAZ_to_enhancer": {
+      "score": 4,
+      "verdict": "PLAUSIBLE",
+      "evidence": "STRING: YAP1-EP300 (0.692), YAP1-BRD4 (0.691). KEGG: YAP1/TAZ co-occur with EP300 in hsa04519. PubMed: YAP+super-enhancer = 14 papers (emerging). YAP1 interacts with TEAD factors which bind enhancers.",
+      "key_gap": "Direct ChIP-seq of H3K27ac under ECM stiffness (not shear) for YAP target enhancers not done"
+    },
+    "integrin_to_histone_marks": {
+      "score": 4,
+      "verdict": "PLAUSIBLE",
+      "evidence": "PMID 32270037: integrin force → H3K9me3 demethylation (direct experimental evidence). KEGG: ITGB1 shares pathways with FAK (hsa04517, hsa04518). PubMed: 17 papers on integrin+chromatin remodeling+epigenetic.",
+      "key_gap": "H3K27ac (activating enhancer mark) specifically downstream of integrin force is not well-characterized"
+    },
+    "ECM_stiffness_to_super_enhancer": {
+      "score": 3,
+      "verdict": "PLAUSIBLE WITH UNCERTAINTY",
+      "evidence": "PubMed: matrix stiffness + H3K27ac = 1 paper (near-disjoint). YAP1-BRD4 STRING 0.691 (BRD4 is the canonical super-enhancer reader). Physics PLAUSIBLE. No direct experimental evidence of super-enhancer formation under stiffness gradients.",
+      "key_gap": "This is the most novel and least evidenced connection — only 1 paper links matrix stiffness to H3K27ac. Highly novel target for Generator."
+    }
+  },
+  "overall_bridge_verdict": "VALIDATED",
+  "overall_bridge_verdict_rationale": "4/5 bridge concepts have PARTIAL-to-VERIFIED STRING interaction support or direct KEGG pathway overlap. Physics check strongly PLAUSIBLE (920 pN vs 5 pN threshold). The ECM stiffness → super-enhancer link is the most speculative but mechanistically coherent. PubMed near-zero counts for ECM stiffness + H3K27ac confirm novelty.",
+  "key_quantitative_constraints": [
+    "ECM stiffness delta force at nucleus: 120 pN (passive) to 920 pN (active+passive) — 24-184x above 5 pN chromatin stretch threshold",
+    "YAP1-EP300 STRING score: 0.692 (medium-high; supports YAP1 as enhancer activator via H3K27ac deposition)",
+    "YAP1-BRD4 STRING score: 0.691 (medium-high; supports YAP-super-enhancer connection)",
+    "LMNA-CTCF STRING score: 0.654 (supports nuclear mechanics → 3D genome topology)",
+    "PIEZO1-DOT1L: NO direct interaction in STRING; connection must be indirect (Ca2+/CaM signaling cascade)",
+    "LMNA-HDAC3 STRING score: 0.187 (low; LMNA-HDAC2 is 0.690 — use HDAC2, not HDAC3, for LMNA mechanistic claims)",
+    "KEGG overlap: 9 shared pathways, strongest = hsa04519 Cadherin signaling (5 Field A genes + EP300)",
+    "PubMed: matrix stiffness + H3K27ac = 1 paper (near-disjoint — maximum novelty for enhancer-stiffness connection)",
+    "PubMed: YAP + super-enhancer = 14 papers (early-stage, not saturated)",
+    "Nuclear deformation: passive LINC alone insufficient (<0.3% strain); active ROCK1-actomyosin required for observed 10-30% volume change"
+  ],
+  "generator_warnings": [
+    "Do NOT claim PIEZO1 directly interacts with DOT1L — STRING shows no interaction. The pathway is PIEZO1 → Ca2+ influx → CaM kinase → DOT1L activation",
+    "Do NOT claim LMNA-HDAC3 as a strong interaction — STRING score is 0.187. Use HDAC2 or the broader lamin-HDAC axis",
+    "Nuclear deformation claims must invoke ACTIVE actomyosin contractility (ROCK1-MYH9), not just passive force transmission through LINC, to reach the 10-30% volume changes in literature",
+    "ECM stiffness → super-enhancer is the most novel claim (1 paper): frame as a novel untested hypothesis, not established biology"
+  ],
+  "computational_readiness": "HIGH"
+}

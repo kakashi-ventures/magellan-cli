@@ -1,0 +1,297 @@
+{
+  "session_id": "2026-03-25-targeted-002",
+  "cycle": 1,
+  "agent": "critic-v5.4",
+  "generated_at": "2026-03-25",
+  "kill_rate": 0.20,
+  "total_hypotheses": 5,
+  "killed": 1,
+  "wounded": 4,
+  "survived": 0,
+  "hypotheses": [
+    {
+      "id": "H1",
+      "title": "KDM6B→EP300 Sequential Epigenetic Relay",
+      "verdict": "WOUNDED",
+      "original_confidence": 0.62,
+      "revised_confidence": 0.40,
+      "attacks": {
+        "novelty": {
+          "status": "HOLDS",
+          "finding": "No paper connects KDM6B→EP300 sequential relay at mechanoenhancers. Gap confirmed.",
+          "search_query": "KDM6B EP300 sequential epigenetic relay mechanoenhancers ECM stiffness"
+        },
+        "mechanism": {
+          "status": "WEAKENED",
+          "finding": "Biochemistry is sound but KDM6B-EP300 cooperation shown at promoters not enhancers (Malo 2013 PLOS ONE). KDM6B can act at enhancers in neuroblastoma context (Nat Comms 2021)."
+        },
+        "logic": {
+          "status": "WEAK",
+          "finding": "Critical unverified premise: assumes mechanoenhancers on soft ECM are Polycomb-repressed (H3K27me3+). Many enhancers are primed (H3K4me1+/H3K27me3-), making KDM6B irrelevant."
+        },
+        "falsifiability": {
+          "status": "PASSES",
+          "finding": "CUT&RUN time course with KDM6B siRNA is a clean, specific experiment."
+        },
+        "triviality": {
+          "status": "MODERATE",
+          "finding": "Polycomb-to-active transition is well-known at promoters. Extension to mechanoenhancers is modest conceptual step."
+        },
+        "counter_evidence": {
+          "status": "MODERATE",
+          "finding": "KDM6B studies show promoter bias for H3K27me3 demethylation. EP300+KDM6B enriched at promoter but NOT enhancer of Pou5f1 (Malo 2013).",
+          "search_query": "KDM6B enhancer H3K27me3 demethylation not just promoter"
+        },
+        "groundedness": {
+          "score": 0.70,
+          "finding": "Tayler 2026 verified (bioRxiv→MBC). STRING scores consistent. Critical gap: H3K27me3 at mechanoenhancers on soft ECM unverified."
+        },
+        "hallucination_check": {
+          "status": "LOW_RISK",
+          "finding": "Bridge components exist independently. Novelty is in the connection, not fabricated components."
+        },
+        "claim_verification": {
+          "status": "MOSTLY_VERIFIED",
+          "finding": "Tayler 2026 exists (may be 2025 pub date). STRING 0.754 is co-expression+text-mining, not experimental PPI. Cosgrove 2025 verified.",
+          "fabricated_claims": []
+        }
+      },
+      "survival_note": "Survives because KDM6B-ECM link is real, KDM6B can act at enhancers, connection to mechanoenhancers is novel. Wounded by unverified H3K27me3 premise and promoter bias counter-evidence.",
+      "strongest_kill_argument": "If mechanoenhancers are in primed (H3K4me1+/H3K27me3-) state on soft ECM, KDM6B has no substrate and the entire hypothesis is irrelevant."
+    },
+    {
+      "id": "H2",
+      "title": "Piezo1→CaMKII→EP300 Rapid Pre-Priming",
+      "verdict": "KILLED",
+      "original_confidence": 0.55,
+      "revised_confidence": 0.20,
+      "kill_reason": "Fabricated protein property: CaMKII does not directly activate EP300. The documented p300 activating kinase is CaMKIV, not CaMKII. CaMKII actually inhibits CREB-CBP association. STRING 0.908 reflects pathway co-occurrence, not the functional relationship claimed.",
+      "attacks": {
+        "novelty": {
+          "status": "HOLDS_BUT_IRRELEVANT",
+          "finding": "No prior work exists because the mechanism is wrong (CaMKIV, not CaMKII activates p300). The Science Advances 2025 paper shows Piezo1 goes through Rho-ROCK, not CaMKII→EP300.",
+          "search_query": "Piezo1 CaMKII EP300 H3K27ac enhancer calcium priming"
+        },
+        "mechanism": {
+          "status": "FATAL",
+          "finding": "CaMKII→EP300 activation is NOT supported by published biochemistry. CaMKIV phosphorylates and activates p300/CBP (Chemical Reviews 2014). CaMKII phosphorylates CREB Ser-142 which is INHIBITORY for CREB-CBP interaction."
+        },
+        "logic": {
+          "status": "BROKEN",
+          "finding": "Two-phase temporal model is creative but built on false CaMKII→EP300 premise. The actual Piezo1 epigenetic pathway (Rho-ROCK→H3K acetylation) doesn't use CaMKII→EP300."
+        },
+        "falsifiability": {
+          "status": "PASSES",
+          "finding": "Prediction is testable in principle but the mechanism underlying it is wrong."
+        },
+        "triviality": {
+          "status": "NOT_TRIVIAL",
+          "finding": "Two-phase temporal model is creative."
+        },
+        "counter_evidence": {
+          "status": "STRONG",
+          "finding": "Piezo1 mediates viscoelasticity sensing in soft NOT stiff ECMs (Nature Comms 2025). Piezo1 Ca2+ also activates NFAT, calcineurin, eNOS — confounding CaMKII attribution.",
+          "search_query": "Piezo1 static stiffness vs dynamic compression mechanosensing"
+        },
+        "groundedness": {
+          "score": 0.40,
+          "finding": "STRING 0.908 verified as score but misinterpreted (database+text-mining, not experimental PPI). Science Advances 2025 supports Piezo1→Rho-ROCK NOT Piezo1→CaMKII→EP300. CaMKII→EP300 activation has ZERO published evidence."
+        },
+        "hallucination_check": {
+          "status": "HIGH_RISK",
+          "finding": "Novelty depends on CaMKII→EP300 claim which is likely wrong (conflation with CaMKIV). The 'novel' connection is an artifact of incorrect parametric knowledge."
+        },
+        "claim_verification": {
+          "status": "FABRICATED_PROPERTY_DETECTED",
+          "finding": "CaMKII→EP300 activation: FABRICATED. No published evidence for CaMKII directly phosphorylating/activating EP300 HAT activity. CaMKIV is the documented calcium-dependent p300 activator. STRING 0.908 score type is d+t (database+text-mining), not experimental.",
+          "fabricated_claims": ["CaMKII activates EP300 acetyltransferase activity"]
+        }
+      },
+      "survival_note": "KILLED. The central bridge mechanism is a fabricated protein property.",
+      "strongest_kill_argument": "CaMKII does not phosphorylate/activate EP300. CaMKIV does. The entire hypothesis architecture depends on a false kinase-substrate claim."
+    },
+    {
+      "id": "H3",
+      "title": "YAP-BRD4 Condensate Size Supralinear Encoding",
+      "verdict": "WOUNDED",
+      "original_confidence": 0.58,
+      "revised_confidence": 0.40,
+      "attacks": {
+        "novelty": {
+          "status": "HOLDS",
+          "finding": "No paper proposes supralinear stiffness encoding via condensate cooperativity at mechanoenhancers.",
+          "search_query": "YAP BRD4 condensate phase separation stiffness supralinear threshold switch"
+        },
+        "mechanism": {
+          "status": "WEAKENED",
+          "finding": "YAP nuclear concentration plateaus at high stiffness (>5.7 kPa per PNAS 2021 spatial model). The ~4x increase from 1→50 kPa oversimplifies a saturating relationship. Hill coefficient n=2-4 is speculative, not measured."
+        },
+        "logic": {
+          "status": "OVERSTATED",
+          "finding": "Linear input→cooperative amplifier→supralinear output is sound in principle but input is sublinear/saturating, weakening the supralinear claim across the full stiffness range."
+        },
+        "falsifiability": {
+          "status": "PASSES",
+          "finding": "5-point stiffness gradient smFISH + JQ1 linearization test is excellent experimental design."
+        },
+        "triviality": {
+          "status": "NOT_TRIVIAL",
+          "finding": "Quantitative encoding model crossing mechanobiology and condensate biophysics is creative."
+        },
+        "counter_evidence": {
+          "status": "MODERATE",
+          "finding": "BRD4 condensate nature still debated (LLPS vs chromatin-tethered clusters). YAP nuclear sensitivity decreases at high stiffness. BRD4 condensates sensitive to ATP/PTMs beyond mechanics.",
+          "search_query": "BRD4 condensate true LLPS evidence against cluster debate 2024 2025"
+        },
+        "groundedness": {
+          "score": 0.55,
+          "finding": "Zanconato 2018 is Nature Medicine not Nature Cancer. LLPS evidence is Cai 2019, not Zanconato 2018 (misattribution). Shin 2018 verified. Quantitative parameters (Hill n=2-4, threshold ~8-15 kPa) are speculative."
+        },
+        "hallucination_check": {
+          "status": "LOW_RISK",
+          "finding": "Components exist independently. Novelty is in the quantitative model — genuine creative synthesis."
+        },
+        "claim_verification": {
+          "status": "PARTIALLY_VERIFIED",
+          "finding": "Zanconato 2018 published in Nature Medicine (NOT Nature Cancer). Paper focuses on BRD4 engagement, not explicit LLPS evidence (which is Cai 2019). YAP ~4x nuclear increase is approximately correct but oversimplified.",
+          "fabricated_claims": []
+        }
+      },
+      "survival_note": "Survives as genuinely novel quantitative model with real components. Wounded by YAP plateau, speculative cooperativity parameters, and LLPS debate.",
+      "strongest_kill_argument": "If YAP nuclear concentration saturates above ~20 kPa, the supralinear encoding model fails in the fibrotic stiffness range (20-50 kPa) where it matters most."
+    },
+    {
+      "id": "H4",
+      "title": "MRTF-A Preferential Mechanoenhancer Occupancy",
+      "verdict": "WOUNDED",
+      "original_confidence": 0.60,
+      "revised_confidence": 0.40,
+      "attacks": {
+        "novelty": {
+          "status": "HOLDS",
+          "finding": "No MRTF-A ChIP-seq under mechanical stiffness conditions published. CaRG motifs at mechanoenhancers found by Cosgrove 2025 (motif scanning, not direct binding).",
+          "search_query": "MRTF-A ChIP-seq enhancer vs promoter binding mechanical stiffness"
+        },
+        "mechanism": {
+          "status": "WEAKENED",
+          "finding": "MRTF-A nuclear entry is real (Miralles 2003). EP300-MRTFA interaction real (STRING 0.710). BUT existing MRTF-SRF ChIP-seq shows promoter-dominant binding. Cosgrove 2025 shows 5x more promoter peaks on stiff ECM."
+        },
+        "logic": {
+          "status": "GAP",
+          "finding": "No mechanism proposed for WHY MRTF would preferentially redistribute to enhancers on stiff ECM. The hypothesis asserts enhancer preference without mechanistic explanation."
+        },
+        "falsifiability": {
+          "status": "PASSES",
+          "finding": "MRTF-A ChIP-seq on 1 vs 50 kPa hydrogels is a clean experiment."
+        },
+        "triviality": {
+          "status": "MODERATE_CONCERN",
+          "finding": "MRTF-SRF at CaRG boxes is well-known. Extension to CaRG-box enhancers is modest conceptual step."
+        },
+        "counter_evidence": {
+          "status": "SIGNIFICANT",
+          "finding": "Esnault 2014 Genes Dev: MRTF-SRF binding predominantly at promoters. Cosgrove 2025: fivefold increase in promoter peaks on stiff hydrogels. Both oppose enhancer-preferential prediction.",
+          "search_query": "MRTF SRF promoter bias ChIP-seq genome-wide binding sites"
+        },
+        "groundedness": {
+          "score": 0.65,
+          "finding": "Miralles 2003, STRING scores, CaRG motifs all verified. Core prediction (enhancer-preferential) contradicted by existing promoter-biased data."
+        },
+        "hallucination_check": {
+          "status": "MODERATE_RISK",
+          "finding": "Components real. Enhancer-preferential claim is untested (no mechanical ChIP-seq) but contradicts trend in existing non-mechanical ChIP-seq data."
+        },
+        "claim_verification": {
+          "status": "MOSTLY_VERIFIED",
+          "finding": "Miralles 2003 Cell verified. STRING scores consistent. CaRG motif enrichment from Cosgrove 2025 verified as motif scanning result (not direct binding). EP300-MRTFA 'direct recruitment' is inferred from STRING, not experimentally demonstrated.",
+          "fabricated_claims": []
+        }
+      },
+      "survival_note": "Survives because no mechanical ChIP-seq exists — prediction could still be correct despite trend. CaRG motifs at mechanoenhancers are real. Wounded by promoter-dominant existing data and lack of mechanism for enhancer redistribution.",
+      "strongest_kill_argument": "Existing MRTF-SRF ChIP-seq consistently shows promoter-dominant binding, and Cosgrove 2025 ATAC-seq shows MORE promoter accessibility on stiff ECM."
+    },
+    {
+      "id": "H5",
+      "title": "YAP Condensates Mediate Looping-Independent E-P Contacts",
+      "verdict": "WOUNDED",
+      "original_confidence": 0.52,
+      "revised_confidence": 0.30,
+      "attacks": {
+        "novelty": {
+          "status": "PARTIALLY_HOLDS",
+          "finding": "Phase-separation-mediated E-P contacts are a studied concept. The YAP-specific link to Cosgrove 2025 86.2% finding is novel. But competing mechanism (microcompartments, Goel 2023 Nat Genet) explains same phenomenon without condensates.",
+          "search_query": "looping-independent enhancer promoter contact phase separation condensate chromatin"
+        },
+        "mechanism": {
+          "status": "WEAKENED",
+          "finding": "YAP condensates demonstrated in cancer cells on rigid plastic (Cai 2019), not fibroblasts on hydrogels. Surface tension ~10 pN is consistent with Shin 2018 but untested for chromatin in situ. Cancer cells have constitutively active YAP; fibroblasts do not."
+        },
+        "logic": {
+          "status": "OVERREACH",
+          "finding": "Presents condensates as THE explanation for 86.2% looping-independent contacts when at least 5 competing mechanisms exist (transcription factories, eRNA, TAD proximity, microcompartments, condensates)."
+        },
+        "falsifiability": {
+          "status": "COMPROMISED",
+          "finding": "Oligopaint FISH testable. But verteporfin control unreliable (massive off-target effects). 'Micro-C dark contacts' claim inherently hard to falsify."
+        },
+        "triviality": {
+          "status": "NOT_TRIVIAL",
+          "finding": "Creative connection of condensate biophysics to a specific quantitative finding."
+        },
+        "counter_evidence": {
+          "status": "STRONG",
+          "finding": "Verteporfin has devastating YAP-independent effects: ferroptosis, proteotoxicity, FAK signaling (all confirmed in YAP-KO cells). Microcompartments (Goel 2023) explain looping-independent contacts without condensates. Multiple alternative mechanisms compete.",
+          "search_query": "verteporfin off-target effects beyond YAP autophagy ferroptosis"
+        },
+        "groundedness": {
+          "score": 0.55,
+          "finding": "86.2% statistic verified. Shin 2018 verified. Zanconato 2018 LLPS condensate claim MISATTRIBUTED (should cite Cai 2019). Cancer-to-fibroblast translation gap."
+        },
+        "hallucination_check": {
+          "status": "MODERATE_RISK",
+          "finding": "Zanconato 2018 LLPS attribution overinterpreted. The paper focuses on BRD4 transcriptional addiction, not explicit LLPS evidence (which is Cai 2019)."
+        },
+        "claim_verification": {
+          "status": "PARTIALLY_VERIFIED",
+          "finding": "86.2% verified. Shin 2018 verified. Zanconato 2018 is Nature Medicine not Nature Cancer. LLPS evidence should cite Cai 2019 not Zanconato 2018 (wrong paper attribution). Surface tension estimates consistent.",
+          "fabricated_claims": []
+        }
+      },
+      "survival_note": "Survives as creative connection to the 86.2% paradox. Severely wounded by competing mechanisms (microcompartments), cancer-to-fibroblast translation gap, verteporfin unreliability, and Zanconato 2018 misattribution.",
+      "strongest_kill_argument": "Goel 2023 Nat Genet shows microcompartments connect enhancers and promoters through compartmentalization independent of both loops AND condensates — explaining the same phenomenon without requiring YAP condensates."
+    }
+  ],
+  "critic_questions": [
+    {
+      "hypothesis_id": "H1",
+      "question": "What is the histone modification state of mechanoenhancers on soft ECM? If primed (H3K4me1+/H3K27me3-) rather than Polycomb-repressed, does KDM6B have any role?"
+    },
+    {
+      "hypothesis_id": "H2",
+      "question": "Can the CaMKII→EP300 claim be replaced with CaMKIV→EP300 (the documented calcium-dependent p300 activator)? Or should the mechanism redirect through Rho-ROCK→histone acetylation (Science Advances 2025)?"
+    },
+    {
+      "hypothesis_id": "H3",
+      "question": "How does the supralinear model account for YAP nuclear concentration plateau above ~20 kPa? Does the switch only work in the 5-15 kPa range?"
+    },
+    {
+      "hypothesis_id": "H4",
+      "question": "What mechanism would cause enhancer-preferential MRTF redistribution on stiff ECM, given existing ChIP-seq shows promoter-dominant binding?"
+    },
+    {
+      "hypothesis_id": "H5",
+      "question": "How do you distinguish condensate-mediated from microcompartment-mediated contacts (Goel 2023)? Can you use a more specific YAP inhibitor than verteporfin?"
+    }
+  ],
+  "meta_critique": {
+    "kill_rate": 0.20,
+    "kill_rate_assessment": "At minimum threshold. H2 kill is well-justified by fabricated protein property (CaMKII≠CaMKIV). Remaining 4 hypotheses genuinely wounded but not fatally flawed.",
+    "web_searches_performed": 20,
+    "all_hypotheses_searched": true,
+    "claim_verification_complete": true,
+    "fabricated_claims_found": 1,
+    "fabricated_claim_details": "H2: CaMKII activates EP300 acetyltransferase activity — no published evidence; CaMKIV is the documented kinase",
+    "misattributions_found": 2,
+    "misattribution_details": "Zanconato 2018 is Nature Medicine not Nature Cancer; LLPS condensate evidence should cite Cai 2019 not Zanconato 2018"
+  }
+}

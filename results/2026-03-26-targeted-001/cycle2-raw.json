@@ -1,0 +1,291 @@
+{
+  "session_id": "2026-03-26-targeted-001",
+  "cycle": 2,
+  "phase": "generation",
+  "generator_model": "opus",
+  "mode": "blind",
+  "cycle1_survivors_extended": ["E1-H3", "E1-H4", "E1-H5"],
+  "critic_questions_addressed": [
+    "Q1 (Zanconato overlap): C2-H6 introduces eraser-depletion mechanism completely orthogonal to YAP-EP300 writer model; C2-H4 introduces PIEZO1-NFAT as parallel non-YAP pathway",
+    "Q2 (BRD4 phase separation): Dropped entirely from cycle 2. No hypothesis relies on phase separation.",
+    "Q3 (MRTF-SRF different enhancers): C2-H3 extends E1-H5 dual-program with differential threshold decoding across stiffness gradient",
+    "Q4 (KDM6B at distal enhancers): Maintained E1-H3 evolution — UTX primary at enhancers; KDM6B at promoters. C2-H1 adds metabolic cofactor gating for UTX activity (αKG-dependent).",
+    "Q5 (H3K27ac half-life memory): C2-H2 integrates E1-H4 TET2 handoff as Phase 3 of three-phase cascade with feedforward dependencies. C2-H6 proposes HDAC3 depletion extends H3K27ac half-life independently."
+  ],
+  "generation_techniques": [
+    "facet_recombination",
+    "gap_targeted_generation",
+    "counterfactual_probing",
+    "scale_bridging",
+    "bisociation",
+    "multi_level_abstraction",
+    "negation_exploration"
+  ],
+  "hypotheses": [
+    {
+      "id": "C2-H1",
+      "title": "Acetyl-CoA and α-Ketoglutarate as Metabolic Gatekeepers for the ECM Stiffness-Enhancer Enzyme Cascade",
+      "connection": {
+        "field_a": "ECM stiffness → metabolic reprogramming (glycolysis/glutaminolysis)",
+        "bridge": "Cofactor availability (acetyl-CoA for EP300, αKG for UTX and TET2) gates enhancer enzyme kinetics",
+        "field_c": "Enhancer activation rate determined by metabolite supply"
+      },
+      "bridge_type": "metabolic_cofactor_gating",
+      "extends": ["E1-H3", "E1-H4"],
+      "category": "survivor_extension",
+      "confidence": 5,
+      "confidence_justification": "Individual components well-supported (YAP-glycolysis, ACLY-histone acetylation, αKG-dioxygenase dependence). Novel claim: metabolite concentrations are RATE-LIMITING for enhancer enzyme activity under stiffness. Nuclear metabolite concentrations under stiffness unmeasured.",
+      "groundedness": 6,
+      "groundedness_label": "MEDIUM",
+      "groundedness_explanation": "6 grounded claims with full citations (Wellen Science 2009, Enzo Nat Cell Biol 2015, Carey Nature 2015, Agger Nature 2007, Tahiliani Science 2009, Bertero J Clin Invest 2016). 3 parametric claims: nuclear acetyl-CoA on stiff vs. soft ECM; EP300 Km in vivo; whether metabolic shift is quantitatively rate-limiting.",
+      "grounded_claims": [
+        "YAP drives glycolytic gene expression (Enzo Nat Cell Biol 2015)",
+        "ACLY-derived acetyl-CoA required for histone acetylation (Wellen Science 2009, PMID 19762564)",
+        "UTX uses αKG as essential cofactor (Agger Nature 2007)",
+        "TET enzymes require αKG (Tahiliani Science 2009, PMID 19372391)",
+        "αKG/succinate ratio controls TET activity in ESCs (Carey Nature 2015, PMID 25607371)",
+        "ECM stiffness enhances glutaminolysis via YAP (Bertero J Clin Invest 2016)"
+      ],
+      "parametric_claims": [
+        "Nuclear acetyl-CoA concentration on stiff vs. soft ECM",
+        "EP300 Km for acetyl-CoA in vivo at enhancers (~1-4 µM estimated from in vitro)",
+        "Whether metabolic shift is quantitatively rate-limiting for enhancer enzymes"
+      ],
+      "why_wrong": "Nuclear acetyl-CoA buffered by ACSS2/acetate pathway; αKG may be in excess even on soft ECM (cellular ~200-500 µM vs. UTX Km ~50-100 µM); metabolic shift may be cell-type specific (cancer/pulmonary, not hMSCs); EP300 may be limited by chromatin access not substrate.",
+      "literature_gap": "No paper has measured nuclear metabolite levels (acetyl-CoA, αKG) as a function of ECM stiffness or tested whether they are rate-limiting for enhancer enzyme activity.",
+      "falsifiable_prediction": "ACLY inhibitor (SB-204990) selectively ablates Phase 1 H3K27ac without affecting Phase 2/3. Glutaminase inhibitor (BPTES) selectively ablates Phase 2/3 without affecting Phase 1. Orthogonal metabolic dissection of the temporal cascade.",
+      "test_protocol": "hMSCs on PA hydrogels (1/50 kPa, 0/6/12/24h). LC-MS metabolomics in nuclear fractions. H3K27ac CUT&Tag + UTX CUT&RUN + TET2 CUT&RUN. Perturbations: SB-204990 (10 µM), BPTES (10 µM), dmαKG (4 mM rescue), sodium acetate (5 mM rescue)."
+    },
+    {
+      "id": "C2-H2",
+      "title": "Integrated Three-Phase Enhancer Memory Cascade with Strict Feedforward Dependencies Under ECM Stiffness",
+      "connection": {
+        "field_a": "ECM stiffness (mechanobiology)",
+        "bridge": "Three-phase temporal cascade: EP300→UTX-COMPASS→TET2 with strict feedforward dependencies",
+        "field_c": "Enhancer activation phases → lineage commitment → DNA methylation mechanical memory"
+      },
+      "bridge_type": "temporal_cascade_feedforward",
+      "extends": ["E1-H3", "E1-H4"],
+      "category": "survivor_extension",
+      "confidence": 5,
+      "confidence_justification": "Integrates two well-developed evolved hypotheses with sound logic. The three-phase feedforward hierarchy is the novel untested claim. Individual components from E1-H3 and E1-H4 validated.",
+      "groundedness": 5,
+      "groundedness_label": "MEDIUM",
+      "groundedness_explanation": "EP300-BRD4 (STRING 0.988), CTGF/CYR61 as YAP targets, TET2 oxidation cascade all grounded. Feedforward dependency logic, COMPASS transfer mechanism, and strict hierarchy are parametric.",
+      "grounded_claims": [
+        "EP300-BRD4 interaction (STRING 0.988)",
+        "CTGF/CYR61 are canonical YAP target genes encoding ECM proteins",
+        "EP300 and MLL3/4-COMPASS co-occupy enhancers (Dorighi Cell 2017)",
+        "TET2 oxidation cascade 5mC→5hmC→5fC→5caC (established biochemistry)",
+        "TDG-mediated BER completes demethylation (established)"
+      ],
+      "parametric_claims": [
+        "Phase 1→Phase 2 feedforward via BRD4-NIPBL-mediated proximity",
+        "COMPASS complex transfer from Phase 1 to Phase 2 sites",
+        "8-14h temporal gap represents feedforward assembly time (vs. just transcriptional delay)",
+        "Strict one-directional hierarchy (upstream collapse → all downstream phases fail)"
+      ],
+      "why_wrong": "Phase 2 may not require Phase 1: UTX-COMPASS recruited independently via PHD domain. TET2 may prefer Phase 1 enhancers (longer H3K27ac exposure). Strict hierarchy may be oversimplification — parallel activation exists.",
+      "literature_gap": "No paper has tested whether enhancer activation under ECM stiffness follows a feedforward hierarchy, or whether DNA methylation memory selectively consolidates lineage (Phase 2) vs. acute (Phase 1) enhancers.",
+      "falsifiable_prediction": "A-485 at 0h blocks all three phases. A-485 at 8h blocks Phase 2+3 only. GSK-J4 blocks Phase 2+3. siTET2 blocks Phase 3 only. Strict one-directional hierarchy with phase-specific inhibitor sensitivity.",
+      "test_protocol": "hMSCs on PA hydrogels (1→50 kPa). Time-course CUT&Tag H3K27ac+H3K27me3 at 0/2/6/12/18/24/48h. TET2 CUT&RUN at 12/24/48h. RRBS at 48h and 7d post-transfer. Phase disruption: A-485 at 0h vs 8h, GSK-J4, siTET2, siNIPBL. 4C-seq from CTGF promoter at 8h."
+    },
+    {
+      "id": "C2-H3",
+      "title": "Differential Stiffness Thresholds for YAP-TEAD vs. MRTF-SRF Create a Tissue-Stiffness-to-Enhancer Decoder",
+      "connection": {
+        "field_a": "ECM stiffness magnitude (tissue-specific values)",
+        "bridge": "Differential activation thresholds — MRTF-SRF ~5-10 kPa, YAP-TEAD ~15-25 kPa",
+        "field_c": "Stiffness-value-dependent enhancer program selection → tissue-specific gene regulation"
+      },
+      "bridge_type": "threshold_decoding",
+      "extends": ["E1-H5"],
+      "category": "survivor_extension",
+      "confidence": 4,
+      "confidence_justification": "Individual pathway thresholds partially supported (Dupont 2011 for YAP, Miralles 2003 for MRTF). Quantitative threshold values approximate and cell-type dependent. Decoder model is novel synthesis.",
+      "groundedness": 5,
+      "groundedness_label": "MEDIUM",
+      "groundedness_explanation": "MRTF-G-actin sequestration (Miralles Cell 2003), YAP threshold ~15 kPa (Dupont Nature 2011) grounded. Precise kPa thresholds, sequential activation in fibrosis, ratchet mechanism are parametric.",
+      "grounded_claims": [
+        "MRTF-A sequestered by G-actin in cytoplasm (Miralles Cell 2003, PMID 12526794)",
+        "YAP nuclear translocation requires substrate stiffness ≥15-20 kPa in hMSCs (Dupont Nature 2011, PMID 21654799)",
+        "CArG-box is MRTF-SRF binding motif (established)",
+        "TEAD motif for YAP-TEAD binding (established)"
+      ],
+      "parametric_claims": [
+        "MRTF threshold ~5-10 kPa (estimated from G-actin dynamics)",
+        "YAP threshold ~15-25 kPa (approximate from Dupont 2011)",
+        "Sequential MRTF→YAP activation in fibrosis progression",
+        "Ratchet mechanism (MRTF→contractility→stiffening→YAP→ECM deposition→more stiffening)",
+        "MRTF-actin Kd ~10-50 nM at physiological conditions"
+      ],
+      "why_wrong": "MRTF and YAP thresholds may be identical (both RhoA/ROCK-dependent). Cell density and cell-cell junctions strongly affect YAP via Hippo. Cell-type differences may override threshold hierarchy. MRTF may require high stiffness in some contexts.",
+      "literature_gap": "Gap #6: tissue-specific enhancer programs controlled by tissue-native ECM stiffness values. No paper has compared MRTF-SRF vs. YAP-TEAD enhancer program activation across a fine-grained stiffness gradient.",
+      "falsifiable_prediction": "H3K27ac ChIP-seq across 7 stiffness values (0.5-50 kPa): CArG-motif enhancer gain starting at 5-10 kPa, TEAD-motif enhancer gain starting at 15-25 kPa. Verteporfin at 10 kPa does not affect CArG enhancers; CCG-1423 at 10 kPa suppresses CArG but not TEAD.",
+      "test_protocol": "MCF10A or hMSCs on PA hydrogels at 7 stiffness values (0.5/2/5/10/15/25/50 kPa, 48h). H3K27ac ChIP-seq + ATAC-seq. TEAD vs CArG motif enrichment per stiffness step. MRTF-A and YAP IF dose-response curves. Perturbations: verteporfin, CCG-1423, combined. Fibrosis model: progressive stiffening 2→30 kPa over 7 days."
+    },
+    {
+      "id": "C2-H4",
+      "title": "PIEZO1-Calcineurin-NFAT Axis Activates a Calcium-Dependent Enhancer Program Parallel to YAP-TEAD",
+      "connection": {
+        "field_a": "ECM stiffness → PIEZO1 mechanosensitive channel → Ca²⁺ influx",
+        "bridge": "Calcineurin-mediated NFAT dephosphorylation and nuclear translocation",
+        "field_c": "NFAT-dependent enhancer program at GGAAA motifs, non-overlapping with YAP-TEAD enhancers"
+      },
+      "bridge_type": "calcium_signaling_enhancer_program",
+      "extends": [],
+      "category": "fresh",
+      "confidence": 4,
+      "confidence_justification": "PIEZO1 mechanosensitivity and calcineurin-NFAT individually well-established. Link from PIEZO1 to NFAT-dependent enhancers under ECM stiffness entirely parametric. PIEZO1-DOT1L axis exists (Zhang 2025) but PIEZO1-NFAT untested.",
+      "groundedness": 5,
+      "groundedness_label": "MEDIUM",
+      "groundedness_explanation": "5 grounded claims (PIEZO1 mechanosensitivity, calcineurin-NFAT pathway, NFATc1 osteoclasts, NFAT:AP-1 composites, PIEZO1 stiffness-responsive). 3 parametric claims (Ca²⁺ transient sufficiency, NFAT targets in hMSCs, non-overlapping prediction).",
+      "grounded_claims": [
+        "PIEZO1 mechanosensitivity (Coste Science 2010, PMID 20813920)",
+        "Calcineurin-NFAT pathway (Hogan Genes Dev 2003, PMID 12717109)",
+        "NFATc1 in osteoclast differentiation (Takayanagi Dev Cell 2002, PMID 12361601)",
+        "NFAT:AP-1 composite enhancer elements (Macian Oncogene 2001, PMID 11313928)",
+        "PIEZO1 activated by ECM stiffness (Zhang IOVS 2025, from literature context)"
+      ],
+      "parametric_claims": [
+        "Ca²⁺ transient amplitude/duration sufficient for calcineurin in mesenchymal cells on static stiff ECM",
+        "NFAT enhancer targets in hMSCs (extrapolated from immune/bone biology)",
+        "Non-overlapping enhancer prediction (NFAT vs. YAP-TEAD programs)"
+      ],
+      "why_wrong": "PIEZO1 Ca²⁺ transients on static substrates may be too transient (ms-scale) for calcineurin (requires minutes). RCAN1 feedback may dampen NFAT before enhancer engagement. Calcineurin-NFAT may not be active in mesenchymal cells.",
+      "literature_gap": "PIEZO1 → epigenetic effects shown only for DOT1L/H3K79me2. No study on PIEZO1→NFAT→enhancers under ECM stiffness. NFAT enhancer landscape in mesenchymal cells under mechanical stimulation uncharacterized.",
+      "falsifiable_prediction": "Yoda1 (PIEZO1 agonist) on soft ECM activates NFAT enhancer program. GsMTx4 (PIEZO1 inhibitor) on stiff ECM blocks NFAT but not YAP program. FK506 blocks NFAT program; verteporfin blocks YAP program — orthogonal inhibitor sensitivity.",
+      "test_protocol": "hMSCs on PA hydrogels (1/10/50 kPa, 24h). Ca²⁺ imaging (Fluo-4 AM). NFATc1 IF. H3K27ac ChIP-seq + ATAC-seq. NFAT (GGAAA) vs TEAD motif enrichment. Perturbations: Yoda1, GsMTx4, FK506, verteporfin, double FK506+verteporfin."
+    },
+    {
+      "id": "C2-H5",
+      "title": "Viscoelastic Stress Relaxation Time Acts as a Temporal Filter for Enhancer Activation Kinetics",
+      "connection": {
+        "field_a": "ECM viscoelasticity (stress relaxation timescale)",
+        "bridge": "Relaxation time determines duration of sustained nuclear deformation, which gates enzymatic kinetics at enhancers",
+        "field_c": "Enhancer landscape filtered by viscoelastic time constant — same stiffness, different enhancer outcomes"
+      },
+      "bridge_type": "viscoelastic_temporal_filter",
+      "extends": [],
+      "category": "fresh",
+      "confidence": 3,
+      "confidence_justification": "Viscoelastic biology well-established (Chaudhuri 2016). Link to enhancer kinetics via EP300 catalytic timing is parametric. Nuclear deformation dynamics under viscoelastic loading poorly characterized. Cytoskeleton may decouple ECM relaxation from nuclear deformation.",
+      "groundedness": 4,
+      "groundedness_label": "LOW-MEDIUM",
+      "groundedness_explanation": "2 grounded claims (Chaudhuri Nat Mater 2016, Charrier Nat Commun 2018 on viscoelastic substrates). 4 parametric claims (EP300 kcat in vivo, H3K27ac threshold, nuclear deformation coupling, kinetic window).",
+      "grounded_claims": [
+        "Viscoelastic substrates affect stem cell fate differently from elastic (Chaudhuri Nat Mater 2016, PMID 26098228)",
+        "Stress relaxation time independently controls cell spreading and fate (Charrier Nat Commun 2018)"
+      ],
+      "parametric_claims": [
+        "EP300 kcat at enhancers in vivo (~2-10 events/min estimated)",
+        "H3K27ac threshold for stable BRD4 recruitment (~10-30 marks per nucleosome array)",
+        "Nuclear deformation directly gates EP300 chromatin access under viscoelastic loading",
+        "1-5 minute kinetic window for stable H3K27ac domain establishment"
+      ],
+      "why_wrong": "Cytoskeleton may act as mechanical capacitor — ROCK1-actomyosin sustains nuclear deformation independently of ECM relaxation. YAP activation is biochemically triggered (LATS1/2 suppression) and may persist after ECM relaxes. Enhancer activation may be binary switch not graded kinetic process.",
+      "literature_gap": "Gap #1: All existing mechanoepigenetics studies use purely elastic substrates. No study has compared enhancer landscapes on viscoelastic vs. elastic substrates matched for modulus. Fundamental confound in the field.",
+      "falsifiable_prediction": "Two substrates with identical 25 kPa modulus but different relaxation times (τ-fast ~10s vs. τ-slow ~1h) produce different enhancer landscapes. Phase 2 (bivalent) enhancers selectively lost under fast relaxation.",
+      "test_protocol": "hMSCs on alginate-RGD hydrogels: matched 25 kPa with τ-fast (~10s), τ-medium (~5min), τ-slow (~1h). H3K27ac CUT&Tag + ATAC-seq + RNA-seq at 24h. Phase 1 vs Phase 2 enhancer classification. YAP IF at 1h. PA hydrogel 25 kPa as purely elastic reference."
+    },
+    {
+      "id": "C2-H6",
+      "title": "HDAC3-NCoR Eraser Depletion by ECM Stiffness Creates Enhancer Stabilization Independent of Writer Activation",
+      "connection": {
+        "field_a": "ECM stiffness → HDAC3 protein downregulation",
+        "bridge": "NCoR/SMRT corepressor dysfunction → failure to decommission active enhancers → H3K27ac retention",
+        "field_c": "Enhancer stabilization at pre-existing active enhancers (diverse motifs, not TEAD-specific)"
+      },
+      "bridge_type": "eraser_depletion",
+      "extends": [],
+      "category": "fresh",
+      "confidence": 5,
+      "confidence_justification": "HDAC3 downregulation on stiff ECM demonstrated in vivo (Fu 2024). HDAC3-NCoR enhancer decommissioning well-established (You Cell 2013). Novel claim: HDAC3 loss globally stabilizes existing H3K27ac. Conceptually orthogonal to all cycle 1 writer-activation models.",
+      "groundedness": 6,
+      "groundedness_label": "MEDIUM",
+      "groundedness_explanation": "4 grounded claims (Fu 2024, You Cell 2013, Xu 2023, Watson Nature 2012). 2 parametric claims (HDAC3 dominance across cell types, magnitude of half-life extension).",
+      "grounded_claims": [
+        "HDAC3 downregulated by ECM stiffening (Fu Bone Research 2024, PMID 38789434)",
+        "HDAC3-NCoR at enhancers removes H3K27ac (You Cell 2013)",
+        "Global histone acetylation increase on stiff ECM (Xu Materials Today Bio 2023, PMID 37229211)",
+        "NCoR-HDAC3 complex requires DAD domain interaction for activity (Watson Nature 2012)"
+      ],
+      "parametric_claims": [
+        "HDAC3 is the dominant H3K27ac eraser at enhancers across cell types (vs. HDAC1/2 compensation)",
+        "Magnitude of H3K27ac half-life extension from partial HDAC3 depletion"
+      ],
+      "why_wrong": "HDAC1/2 redundancy may compensate. Fu 2024 showed HDAC3→Parkin (non-histone substrate), not enhancer H3K27ac specifically. Cell-type specificity (chondrocytes vs. mesenchymal). HDAC3 downregulation mechanism by stiff ECM unknown.",
+      "literature_gap": "No paper has examined whether ECM stiffness-driven HDAC3 loss affects the enhancer landscape genome-wide. All mechanoepigenetics papers assume writer-activation model.",
+      "falsifiable_prediction": "RGFP966 (HDAC3 inhibitor) on soft ECM phenocopies a subset of stiff-ECM-gained H3K27ac (eraser-stabilized, diverse motifs). A-485 on stiff ECM eliminates writer-activated but NOT eraser-stabilized H3K27ac. HDAC3 AAV rescue on stiff ECM collapses eraser-stabilized enhancers.",
+      "test_protocol": "Chondrocytes/ATDC5 on PDMS (1/50 kPa, 48h). HDAC3 WB + HDAC3 ChIP-seq (soft). H3K27ac ChIP-seq + ATAC-seq (both). Perturbations: RGFP966 on soft, A-485 on stiff, HDAC3 AAV on stiff. Compare TEAD vs non-TEAD motif gained enhancers."
+    },
+    {
+      "id": "C2-H7",
+      "title": "Integrin Force-Induced H3K9me3 Demethylation at Nuclear Interior Enhancers Creates Competence Windows for H3K27ac Activation",
+      "connection": {
+        "field_a": "ECM stiffness → integrin-transmitted force via LINC complex",
+        "bridge": "H3K9me3 demethylation at nuclear interior enhancers → heterochromatin decompaction → chromatin accessibility",
+        "field_c": "Enhancer competence window — accessible but not yet active — enables subsequent H3K27ac by YAP-EP300"
+      },
+      "bridge_type": "force_direct_enhancer_derepression",
+      "extends": [],
+      "category": "fresh",
+      "confidence": 4,
+      "confidence_justification": "Sun 2020 provides strong evidence for force→H3K9me3 demethylation at nuclear interior loci. Extension to enhancers logical but undemonstrated. Sun 2020 used cyclic force, not static stiffness. Two-step model is elegant but adds complexity.",
+      "groundedness": 5,
+      "groundedness_label": "MEDIUM",
+      "groundedness_explanation": "3 grounded claims (Sun 2020 force→H3K9me3 demethylation, nuclear interior vs periphery differential, H3K4me1+H3K9me3 co-occurrence). 3 parametric claims (KDM4A identification, enhancer fraction, two-step model).",
+      "grounded_claims": [
+        "Integrin force → H3K9me3 demethylation at nuclear interior (Sun Sci Advances 2020, PMID 32270037)",
+        "Nuclear interior vs. periphery differential force response (Sun 2020)",
+        "H3K4me1 and H3K9me3 co-occur at some regulatory regions (Roadmap Epigenomics consortium data)"
+      ],
+      "parametric_claims": [
+        "KDM4A/JMJD2A as the specific force-responsive H3K9me3 demethylase (Sun 2020 did not identify enzyme)",
+        "5-15% of enhancers reside in H3K9me3+ regions (estimated from Roadmap data, varies by cell type)",
+        "Two-step model: Step 1 (force→H3K9me3 removal→competence) prerequisite for Step 2 (signaling→H3K27ac→activation)"
+      ],
+      "why_wrong": "Sun 2020 used cyclic force via magnetic beads, not static ECM stiffness — mechanism may not transfer. H3K9me3 enhancers may be truly silenced (no H3K4me1) and non-functional after H3K9me3 removal. KDM4A identity speculative. Two-step model may be unnecessary — YAP-EP300 sufficient.",
+      "literature_gap": "Sun 2020 examined only promoters (DHFR, PCNA). No study on force-induced H3K9me3 demethylation at enhancers. Enhancer competence windows gated by heterochromatin removal under force completely unstudied. Partial address of Gap #5 (nuclear position-dependent enhancer mechanosensitivity).",
+      "falsifiable_prediction": "CUT&Tag time course: a subset of enhancers (H3K4me1+) lose H3K9me3 by 1-4h BEFORE gaining H3K27ac at 6-24h = two-step temporal signature. These enhancers are nuclear interior (DamID-seq negative for lamin B1). Chaetocin on soft ECM makes enhancers accessible (ATAC+) but NOT active (no H3K27ac) without YAP signal.",
+      "test_protocol": "hMSCs on PA hydrogels (1/50 kPa, 0/1/4/12/24h). CUT&Tag: H3K9me3 + H3K27ac + H3K4me1 + ATAC-seq. DamID-seq (lamin B1). Perturbations: chaetocin (50 nM on soft ECM), chaetocin + YAP(S127A), ML324 (KDM4A inhibitor, 10 µM on stiff ECM). Magnetic bead replication of Sun 2020 on soft ECM → test enhancer H3K9me3."
+    }
+  ],
+  "diversity_check": {
+    "bridge_mechanisms": {
+      "C2-H1": "metabolic_cofactor_gating",
+      "C2-H2": "temporal_cascade_feedforward",
+      "C2-H3": "threshold_decoding",
+      "C2-H4": "calcium_signaling_enhancer_program",
+      "C2-H5": "viscoelastic_temporal_filter",
+      "C2-H6": "eraser_depletion",
+      "C2-H7": "force_direct_enhancer_derepression"
+    },
+    "distinct_mechanisms": 7,
+    "max_shared_mechanism_count": 1,
+    "constraint_satisfied": true,
+    "note": "All 7 hypotheses use distinct bridge mechanisms. Also distinct from all 3 cycle 1 evolved bridges (sequential_enzymatic_UTX_feedforward, epigenetic_memory_DNA_methylation_TET_handoff, CTCF_permitted_dual_program_loop_activation)."
+  },
+  "self_critique": {
+    "citation_specificity": "All GROUNDED claims verified with author, year, journal, and PMID where available. No downgrades needed.",
+    "directionality": "All enzyme directions verified: ACLY citrate→acetyl-CoA; αKG consumed by dioxygenases; calcineurin DEphosphorylates NFAT; HDAC3 REMOVES acetyl; H3K9me3 demethylation REMOVES methyl.",
+    "compartmental": "All compartmental flows verified: PIEZO1 plasma membrane→Ca²⁺ cytoplasm→calcineurin cytoplasm→NFAT nucleus; ACLY nuclear pool; HDAC3-NCoR nuclear/chromatin; H3K9me3 demethylation nuclear interior.",
+    "quantitative_sanity": "αKG may not be rate-limiting (cellular ~200-500 µM vs UTX Km ~50-100 µM) — flagged in C2-H1 Why Wrong. EP300 kinetics ~1-5 min per enhancer — approximate, flagged in C2-H5. Nuclear force 120-920 pN >> 5 pN threshold verified from computational validation.",
+    "protein_properties": "UTX is αKG-dependent dioxygenase (JmjC domain) ✓. NFATc1 has ~13 phosphosites ✓. HDAC3 requires NCoR DAD domain ✓. KDM4A is H3K9me3 demethylase ✓ but identity in Sun 2020 is speculative."
+  },
+  "generation_metadata": {
+    "total_hypotheses": 7,
+    "survivor_extensions": 3,
+    "fresh_hypotheses": 4,
+    "cycle1_critic_questions_addressed": 5,
+    "techniques_per_hypothesis": {
+      "C2-H1": ["bisociation", "multi_level_abstraction", "scale_bridging"],
+      "C2-H2": ["facet_recombination", "multi_level_abstraction"],
+      "C2-H3": ["scale_bridging", "analogy_transfer", "gap_targeted_generation"],
+      "C2-H4": ["counterfactual_probing", "gap_targeted_generation"],
+      "C2-H5": ["counterfactual_probing", "negation_exploration", "scale_bridging"],
+      "C2-H6": ["negation_exploration", "counterfactual_probing"],
+      "C2-H7": ["facet_recombination", "gap_targeted_generation"]
+    }
+  }
+}

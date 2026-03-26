@@ -1,0 +1,31 @@
+{
+  "session_id": "2026-03-26-targeted-001",
+  "mode": "targeted",
+  "status": "success",
+  "field_a": "Mechanobiology (extracellular matrix mechanics)",
+  "field_c": "Epigenomics (genomic enhancer regulation)",
+  "bridge_concepts": [
+    "mechanotransduction signaling",
+    "chromatin remodeling",
+    "nuclear mechanics",
+    "YAP/TAZ pathway",
+    "integrin signaling"
+  ],
+  "strategy": "targeted_user_specified",
+  "disjointness": 0.6,
+  "contributor_key": null,
+  "started_at": "2026-03-25T23:04:39Z",
+  "completed_at": "2026-03-26T01:41:52Z",
+  "blind_mode": true,
+  "blind_mode_restrictions": "No WebSearch/WebFetch for Literature Scout, Critic, Quality Gate. Pre-June 2025 papers only. Cross-Model Validator skipped.",
+  "pipeline_stats": {
+    "hypotheses_generated": 14,
+    "survived_critique": 10,
+    "passed_quality_gate": 5,
+    "kill_rate": 28.6,
+    "attrition_rate": 64.3,
+    "cycles_run": 2,
+    "evolver_skipped": true
+  },
+  "uploaded": false
+}

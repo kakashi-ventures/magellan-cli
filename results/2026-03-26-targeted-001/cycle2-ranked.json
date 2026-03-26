@@ -1,0 +1,280 @@
+{
+  "session_id": "2026-03-26-targeted-001",
+  "cycle": 2,
+  "phase": "ranking",
+  "ranker_model": "sonnet",
+  "mode": "blind",
+  "total_ranked": 8,
+  "cross_domain_bonus_applied": false,
+  "cross_domain_bonus_note": "All 8 hypotheses bridge adjacent biomedical sub-disciplines (mechanobiology ↔ epigenomics). Bonus requires 2+ disciplinary boundaries (e.g., materials science → neuroscience). Not applicable here. Cycle 1 applied +0.5 but per v5.8 rule this was an over-application.",
+  "ranked_hypotheses": [
+    {
+      "rank": 1,
+      "id": "C2-H6",
+      "title": "HDAC3-NCoR Eraser Depletion by ECM Stiffness Creates Enhancer Stabilization Independent of Writer Activation",
+      "source": "cycle2_fresh",
+      "scores": {
+        "novelty": 9,
+        "mechanistic_specificity": 7,
+        "cross_field_distance": 5,
+        "testability": 9,
+        "impact": 7,
+        "groundedness": 6
+      },
+      "composite": 7.4,
+      "revised_confidence": 4,
+      "revised_groundedness": 6,
+      "bridge_mechanism": "eraser_depletion",
+      "key_strength": "Genuinely orthogonal eraser-depletion model; paradigm inversion; best experimental design (triple orthogonal test); zero citation hallucinations",
+      "key_concern": "HDAC1/2 compensation; Fu 2024 substrate was Parkin (non-histone), not enhancer H3K27ac",
+      "advancing": true,
+      "advancing_rank": 1
+    },
+    {
+      "rank": 2,
+      "id": "E1-H4",
+      "title": "Mechanically-Induced H3K27ac as 6-12h Temporal Window for TET2-Mediated CpG Demethylation and DNA Methylation Mechanical Memory",
+      "source": "cycle1_evolved",
+      "parent_id": "C1-H4",
+      "parent_composite": 6.55,
+      "scores": {
+        "novelty": 7,
+        "mechanistic_specificity": 8,
+        "cross_field_distance": 5,
+        "testability": 9,
+        "impact": 7,
+        "groundedness": 6
+      },
+      "composite": 7.2,
+      "revised_confidence": 4,
+      "revised_groundedness": 6,
+      "bridge_mechanism": "epigenetic_memory_DNA_methylation_TET_handoff",
+      "key_strength": "New evidence classes (5hmC DIP-seq, RRBS); internally consistent timescales; priming cycling experiment is elegant; answers fundamental memory question",
+      "key_concern": "TET2 co-occupancy at stiffness-gained enhancers in hMSCs is entirely parametric",
+      "advancing": true,
+      "advancing_rank": 2
+    },
+    {
+      "rank": 3,
+      "id": "E1-H3",
+      "title": "Sequential Two-Phase Bivalent Enhancer Activation: YAP-EP300 Phase 1 (0-4h) Feeds Forward to UTX/MLL3-COMPASS Phase 2 (12-24h) with KDM6A/KDM6B Paralog Disambiguation",
+      "source": "cycle1_evolved",
+      "parent_id": "C1-H3",
+      "parent_composite": 7.30,
+      "scores": {
+        "novelty": 7,
+        "mechanistic_specificity": 8,
+        "cross_field_distance": 5,
+        "testability": 9,
+        "impact": 6,
+        "groundedness": 6
+      },
+      "composite": 7.1,
+      "revised_confidence": 5,
+      "revised_groundedness": 6,
+      "bridge_mechanism": "sequential_enzymatic_UTX_feedforward",
+      "key_strength": "Most mechanistically specific; four-arm siRNA experiment; A-485 timing dissection; UTX-COMPASS well-grounded (Dorighi 2017)",
+      "key_concern": "UTX-COMPASS recruited independently via MLL3/4 PHD→H3K4me1 may bypass Phase 1 feedforward",
+      "advancing": true,
+      "advancing_rank": 3
+    },
+    {
+      "rank": 4,
+      "id": "C2-H2",
+      "title": "Integrated Three-Phase Enhancer Memory Cascade with Strict Feedforward Dependencies Under ECM Stiffness",
+      "source": "cycle2_survivor_extension",
+      "extends": ["E1-H3", "E1-H4"],
+      "scores": {
+        "novelty": 7,
+        "mechanistic_specificity": 7,
+        "cross_field_distance": 5,
+        "testability": 8,
+        "impact": 7,
+        "groundedness": 5
+      },
+      "composite": 6.6,
+      "revised_confidence": 4,
+      "revised_groundedness": 5,
+      "bridge_mechanism": "temporal_cascade_feedforward",
+      "key_strength": "Integrates E1-H3+E1-H4; strict feedforward is a falsifiable novel claim; highest impact potential if true",
+      "key_concern": "UTX independent recruitment; C2-H2 is a superset of E1-H3+E1-H4 — redundant when both parents advance",
+      "advancing": false,
+      "advancing_rank": null,
+      "demotion_reason": "DIVERSITY ADJUSTMENT: C2-H2 directly extends both E1-H3 and E1-H4, which both advance. Sending all three to QG would test overlapping biology. C2-H2 recommended for Cycle 3 if strict feedforward remains untested after QG."
+    },
+    {
+      "rank": 5,
+      "id": "C2-H7",
+      "title": "Integrin Force-Induced H3K9me3 Demethylation at Nuclear Interior Enhancers Creates Competence Windows for H3K27ac Activation",
+      "source": "cycle2_fresh",
+      "scores": {
+        "novelty": 7,
+        "mechanistic_specificity": 6,
+        "cross_field_distance": 6,
+        "testability": 8,
+        "impact": 6,
+        "groundedness": 5
+      },
+      "composite": 6.4,
+      "revised_confidence": 3,
+      "revised_groundedness": 5,
+      "bridge_mechanism": "force_direct_enhancer_derepression",
+      "key_strength": "Novel physical force-to-heterochromatin mechanism; Sun 2020 provides direct experimental precedent; DamID-seq nuclear localization adds specificity",
+      "key_concern": "Sun 2020 used cyclic magnetic bead force, not static ECM stiffness — fundamental methodological question",
+      "advancing": true,
+      "advancing_rank": 4
+    },
+    {
+      "rank": 6,
+      "id": "E1-H5",
+      "title": "ECM Stiffness Activates Two Independent H3K27ac Programs (YAP-TEAD and MRTF-SRF) in CTCF-Permitted Loop Domains via NIPBL-Cohesin",
+      "source": "cycle1_evolved",
+      "parent_id": "C1-H5",
+      "parent_composite": 6.00,
+      "scores": {
+        "novelty": 7,
+        "mechanistic_specificity": 7,
+        "cross_field_distance": 5,
+        "testability": 7,
+        "impact": 6,
+        "groundedness": 5
+      },
+      "composite": 6.3,
+      "revised_confidence": 3,
+      "revised_groundedness": 5,
+      "bridge_mechanism": "CTCF_permitted_dual_program_loop_activation",
+      "key_strength": "Dual-program (YAP-TEAD + MRTF-SRF) contact network is novel; CTCF-permitted framing is well-grounded; verteporfin vs C3-transferase dissection is elegant",
+      "key_concern": "HiChIP is technically demanding; empirical survey framing limits mechanistic impact",
+      "advancing": true,
+      "advancing_rank": 5,
+      "promoted_after_diversity_check": true,
+      "promotion_reason": "Promoted to replace C2-H2 after diversity adjustment. Distinct mechanism (3D chromatin architecture) from all other advancing hypotheses."
+    },
+    {
+      "rank": 7,
+      "id": "C2-H3",
+      "title": "Differential Stiffness Thresholds for YAP-TEAD vs MRTF-SRF Create a Tissue-Stiffness-to-Enhancer Decoder",
+      "source": "cycle2_survivor_extension",
+      "extends": ["E1-H5"],
+      "scores": {
+        "novelty": 6,
+        "mechanistic_specificity": 5,
+        "cross_field_distance": 5,
+        "testability": 9,
+        "impact": 6,
+        "groundedness": 5
+      },
+      "composite": 6.1,
+      "revised_confidence": 3,
+      "revised_groundedness": 5,
+      "bridge_mechanism": "threshold_decoding",
+      "key_strength": "Highest testability (9); 7-stiffness-gradient design is elegant and would be definitive",
+      "key_concern": "MRTF threshold (~5-10 kPa) is entirely parametric with no direct measurement; cardiac fibroblasts require ~25 kPa (same as YAP)",
+      "advancing": false,
+      "advancing_rank": null,
+      "drop_reason": "Below composite threshold (6.1); lowest mechanistic specificity (5); central MRTF threshold claim entirely parametric. Salvageable as supporting experiment for E1-H5."
+    },
+    {
+      "rank": 8,
+      "id": "C2-H1",
+      "title": "Acetyl-CoA and α-Ketoglutarate as Metabolic Gatekeepers for the ECM Stiffness-Enhancer Enzyme Cascade",
+      "source": "cycle2_survivor_extension",
+      "extends": ["E1-H3", "E1-H4"],
+      "scores": {
+        "novelty": 5,
+        "mechanistic_specificity": 6,
+        "cross_field_distance": 5,
+        "testability": 8,
+        "impact": 5,
+        "groundedness": 5
+      },
+      "composite": 5.8,
+      "revised_confidence": 3,
+      "revised_groundedness": 6,
+      "bridge_mechanism": "metabolic_cofactor_gating",
+      "key_strength": "Elegant orthogonal inhibitor dissection; informative even if hypothesis fails",
+      "key_concern": "Quantitatively implausible: cofactors 5-100x above enzyme Km — rate-limiting claim fails basic enzyme kinetics",
+      "advancing": false,
+      "advancing_rank": null,
+      "drop_reason": "Lowest composite (5.8); core rate-limiting claim quantitatively implausible (Critic: cofactors 5-100x above Km); metabolic-epigenetic nexus heavily studied with minimal remaining novelty."
+    }
+  ],
+  "diversity_check": {
+    "cluster_identified": true,
+    "cluster_members": ["E1-H3", "E1-H4", "C2-H2"],
+    "cluster_mechanism": "temporal_enzymatic_cascade (ECM stiffness → sequential enzyme recruitment → H3K27ac phases)",
+    "cluster_convergence_type": "C2-H2 is a direct superset of E1-H3 + E1-H4 (explicitly extends both)",
+    "action_taken": "C2-H2 demoted from evolution selection. E1-H3 and E1-H4 retained as borderline-diverse (different timescales, different readouts, different biological questions). E1-H5 promoted to fill C2-H2's slot.",
+    "cluster_size_vs_threshold": "3 of top 5 — triggers diversity rule",
+    "adjustment_note": "E1-H3 (Phase 1-2, hours) and E1-H4 (Phase 3/memory, days-weeks) make genuinely different predictions with different evidence classes. Retaining both provides more experimental information per QG slot than C2-H2 alone."
+  },
+  "elo_tournament": {
+    "participants": ["C2-H6", "E1-H4", "E1-H3", "C2-H2", "C2-H7", "E1-H5"],
+    "comparisons_run": 15,
+    "results": [
+      {"winner": "C2-H6", "loser": "E1-H4"},
+      {"winner": "C2-H6", "loser": "E1-H3"},
+      {"winner": "C2-H6", "loser": "C2-H2"},
+      {"winner": "C2-H6", "loser": "C2-H7"},
+      {"winner": "C2-H6", "loser": "E1-H5"},
+      {"winner": "E1-H4", "loser": "E1-H3"},
+      {"winner": "E1-H4", "loser": "C2-H2"},
+      {"winner": "E1-H4", "loser": "C2-H7"},
+      {"winner": "E1-H4", "loser": "E1-H5"},
+      {"winner": "E1-H3", "loser": "C2-H2"},
+      {"winner": "E1-H3", "loser": "C2-H7"},
+      {"winner": "E1-H3", "loser": "E1-H5"},
+      {"winner": "C2-H2", "loser": "C2-H7"},
+      {"winner": "C2-H2", "loser": "E1-H5"},
+      {"winner": "C2-H7", "loser": "E1-H5"}
+    ],
+    "win_rates": {
+      "C2-H6": 1.0,
+      "E1-H4": 0.8,
+      "E1-H3": 0.6,
+      "C2-H2": 0.4,
+      "C2-H7": 0.2,
+      "E1-H5": 0.0
+    },
+    "elo_ranking": ["C2-H6", "E1-H4", "E1-H3", "C2-H2", "C2-H7", "E1-H5"],
+    "linear_ranking": ["C2-H6", "E1-H4", "E1-H3", "C2-H2", "C2-H7", "E1-H5"],
+    "verdict": "ELO_CONFIRMS_LINEAR",
+    "diagnostic_note": "Perfect agreement across all 6 positions. Implicit dimension surfaced by Elo: methodological accessibility and experimental independence. C2-H6's paradigm-challenging orthogonality drives 100% win rate. E1-H5's HiChIP burden drives 0% win rate — partially captured by Testability=7 but more salient in pairwise comparisons."
+  },
+  "evolution_selection": {
+    "count": 5,
+    "selected_ids": ["C2-H6", "E1-H4", "E1-H3", "C2-H7", "E1-H5"],
+    "selection_rationale": [
+      "C2-H6 (7.4): Highest composite; genuinely orthogonal eraser mechanism; paradigm-challenging",
+      "E1-H4 (7.2): Second highest; new evidence class; answers fundamental memory question",
+      "E1-H3 (7.1): Third highest; most mechanistically specific cascade hypothesis; distinct from E1-H4 in timescale and prediction",
+      "C2-H7 (6.4): Post-diversity rank 4; only force-direct mechanism; distinct from all signaling-relay models",
+      "E1-H5 (6.3): Post-diversity rank 5; promoted over C2-H2; CTCF/3D-architecture mechanism distinct from all others"
+    ],
+    "demoted_ids": ["C2-H2"],
+    "eliminated_ids": ["C2-H3", "C2-H1"],
+    "mechanism_diversity": {
+      "C2-H6": "eraser_depletion",
+      "E1-H4": "epigenetic_memory_DNA_methylation_TET_handoff",
+      "E1-H3": "sequential_enzymatic_UTX_feedforward",
+      "C2-H7": "force_direct_enhancer_derepression",
+      "E1-H5": "CTCF_permitted_dual_program_loop_activation"
+    },
+    "max_pairwise_overlap_pct": 25,
+    "diversity_satisfied": true
+  },
+  "ranking_metadata": {
+    "weights_used": {
+      "novelty": 0.20,
+      "mechanistic_specificity": 0.20,
+      "cross_field_distance": 0.10,
+      "testability": 0.20,
+      "impact": 0.10,
+      "groundedness": 0.20
+    },
+    "score_range_used": "1-10 integer",
+    "cross_domain_bonus_rule": "v5.8 — requires 2+ disciplinary boundaries (not adjacent biomedical sub-disciplines)",
+    "ranked_file": "results/2026-03-26-targeted-001/cycle2-ranked.md",
+    "timestamp": "2026-03-26T10:30:00Z"
+  }
+}

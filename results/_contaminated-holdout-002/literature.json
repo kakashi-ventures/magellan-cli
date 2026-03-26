@@ -1,0 +1,277 @@
+{
+  "session_id": "2026-03-25-targeted-002",
+  "generated_at": "2026-03-25",
+  "agent": "literature-scout-v5.2",
+  "target": {
+    "field_a": "Mechanobiology (extracellular matrix mechanics) — ECM stiffness, viscoelasticity, fiber architecture, integrins, focal adhesions, cytoskeleton, YAP/TAZ, MRTF, Piezo channels",
+    "field_c": "Epigenomics (genomic enhancer regulation) — distal enhancer elements, 3D chromatin looping, H3K27ac, H3K4me1, mediator complex, phase-separated transcriptional condensates"
+  },
+  "disjointness_status": "PARTIALLY_EXPLORED",
+  "disjointness_confidence": "HIGH",
+  "disjointness_evidence": "Landmark paper Cosgrove 2025 (Science) defines mechanoenhancers genome-wide using ATAC-seq+CRISPRi. ECM stiffness → 3D genome (TAD level) shown by Li 2024 Hi-C. Viscoelastic ECM → cis-regulatory element accessibility shown by Zhang 2025 (Nat Commun). YAP/TAZ enhancer binding well-established in oncology. ECM mechanics → KDM histone demethylase activity shown by Tayler 2026. Key gaps remain: H3K27ac/H3K4me1 ChIP at mechanoenhancers, E-P loop dynamics at mechanoenhancer resolution, condensate assembly as ECM stiffness function, MRTF enhancer binding landscape.",
+  "disjointness_implication": "Do NOT rehash mechanoenhancer existence (Cosgrove 2025 covered this). Generator should focus on unresolved mechanisms: (1) H3K27ac/H3K4me1 histone mark dynamics at mechanoenhancers, (2) phase-separated condensate assembly as mechanical input function, (3) looping-independent E-P contact mechanism (86.2% of connections lack loops), (4) Piezo1→HAT→H3K27ac enhancer circuit, (5) MRTF genome-wide enhancer binding under force.",
+  "papers_retrieved": [
+    {
+      "id": "cosgrove2025",
+      "title": "Mechanosensitive genomic enhancers potentiate the cellular response to matrix stiffness",
+      "authors": "Cosgrove BD, Bounds LR, Taylor CK, Su AL, Rizzo AJ, Barrera A, Crawford GE, Hoffman BD, Gersbach CA",
+      "year": 2025,
+      "journal": "Science",
+      "pmid": 40997217,
+      "pmc": 13005951,
+      "doi": "10.1126/science.adl1988",
+      "filename": "cosgrove2025-mechanoenhancers-ecm-stiffness.md",
+      "significance": "LANDMARK: First genome-wide identification of mechanoenhancers using ATAC-seq+CRISPRi. Stiff/soft ECM activate distinct enhancer programs (TEAD/AP-1/SRF vs RUNX1/FOXF1). Critical finding: only 13.8% of E-P connections have annotated chromatin loops. Chromatin accessibility changes within 1h of contractile perturbation. Validated in IPF patient fibroblasts.",
+      "tier": 1,
+      "fields": ["mechanobiology", "epigenomics", "bridge"],
+      "key_motifs": ["TEAD", "AP-1", "SRF/CaRG", "RUNX1", "FOXF1"],
+      "key_enhancers": ["MYH9 intron3", "BMF intron4", "CYR61 intergenic", "CTGF", "SKP2", "NF2", "RANGAP1"]
+    },
+    {
+      "id": "zhang2025",
+      "title": "Viscoelastic extracellular matrix enhances epigenetic remodeling and cellular plasticity",
+      "authors": "Zhang et al.",
+      "year": 2025,
+      "journal": "Nature Communications",
+      "pmid": 40307238,
+      "pmc": 12043949,
+      "url": "https://www.nature.com/articles/s41467-025-59190-7",
+      "filename": "zhang2025-viscoelastic-ecm-epigenome.md",
+      "significance": "Viscoelastic (slow-relaxing) ECM reduces lamin A/C, increases nuclear size, decreases chromatin compaction, increases chromatin accessibility at cis-regulatory elements. Global euchromatin mark increase. Improves fibroblast-to-neuron and iPSC reprogramming.",
+      "tier": 1,
+      "fields": ["mechanobiology", "epigenomics", "bridge"],
+      "gap": "Cis-regulatory elements opened are not specifically characterized as enhancers; H3K27ac/H3K4me1 not mapped"
+    },
+    {
+      "id": "li2024",
+      "title": "Stiff extracellular matrix drives the differentiation of mesenchymal stem cells toward osteogenesis by the multiscale 3D genome reorganization",
+      "authors": "Li et al.",
+      "year": 2024,
+      "pmid": 39094522,
+      "filename": "li2024-ecm-stiffness-3d-genome-msc.md",
+      "significance": "Hi-C in MSCs: stiff ECM drives more long-range interactions, compartment B→A switching at cytoskeletal genes, TAD merging around osteogenic TFs (SP1, ETS1). First direct Hi-C evidence that ECM stiffness reorganizes 3D genome architecture.",
+      "tier": 1,
+      "fields": ["mechanobiology", "epigenomics", "bridge"],
+      "gap": "TAD-level only; no enhancer-promoter loop resolution; no histone mark mapping"
+    },
+    {
+      "id": "zanconato2018",
+      "title": "Transcriptional addiction in cancer cells is mediated by YAP/TAZ through BRD4",
+      "authors": "Zanconato F, Piccolo S et al.",
+      "year": 2018,
+      "journal": "Nature Cancer",
+      "pmc": "6181206",
+      "semantic_scholar_id": "58b7bd7bab254c6de3e22564ee4ee6473973f539",
+      "filename": "zanconato2018-yaptaz-brd4-superenhancer.md",
+      "significance": "YAP/TAZ form phase-separated condensates with BRD4, MED1, CDK9 at super-enhancers. TAZ condensates at TEAD4-marked super-enhancers concentrate transcriptional machinery. Condensate dissolution reverses chromatin topological changes within 4h. 269 citations — foundational.",
+      "tier": 1,
+      "fields": ["epigenomics", "mechanobiology_adjacent"],
+      "gap": "Cancer context on rigid plastic; stiffness-dependent condensate assembly at specific mechanoenhancers not studied"
+    },
+    {
+      "id": "shin2018",
+      "title": "Liquid Nuclear Condensates Mechanically Sense and Restructure the Genome",
+      "authors": "Shin Y, Brangwynne CP et al.",
+      "year": 2018,
+      "journal": "Cell",
+      "pmid": 30500535,
+      "pmc": "6724728",
+      "doi": "10.1016/j.cell.2018.10.057",
+      "filename": "shin2018-nuclear-condensates-chromatin-mechanics.md",
+      "significance": "Phase-separated condensates preferentially nucleate in euchromatic (softer) regions via lower mechanical energy cost. Condensates mechanically exclude heterochromatin. Surface tension-driven coalescence can pull targeted loci together without chromatin looping.",
+      "tier": 1,
+      "fields": ["epigenomics", "mechanobiology"],
+      "bridge_potential": "Provides mechanism for looping-independent E-P regulation at mechanoenhancers — condensates co-localize multiple mechanoenhancers by phase separation physics"
+    },
+    {
+      "id": "chen2025",
+      "title": "Pulsatile flow induces chromatin interaction with lamin-associated proteins to enrich H3K9 methylation in endothelial cells",
+      "authors": "Chen LJ, Shyy JYJ, Chien S et al.",
+      "year": 2025,
+      "journal": "PNAS",
+      "pmid": 40117319,
+      "pmc": "11962468",
+      "doi": "10.1073/pnas.2424566122",
+      "filename": "chen2025-pulsatile-flow-h3k9-lamin.md",
+      "significance": "First direct mechanosensitive histone mark ChIP-seq: shear flow → H3K9me3 at lamin-associated chromatin. Demonstrates mechanical force deposits specific histone marks. Repressive mark — establishes bimodal epigenomic response to force.",
+      "tier": 2,
+      "fields": ["mechanobiology", "epigenomics"],
+      "gap": "H3K9me3 (repressive); H3K27ac (activating enhancer mark) at mechanoenhancers still unmapped"
+    },
+    {
+      "id": "tayler2026",
+      "title": "Matrix stiffness and stress relaxation regulate osteogenesis through histone demethylases KDM4B and KDM6B",
+      "authors": "Tayler IM, Stowers RS et al.",
+      "year": 2026,
+      "semantic_scholar_id": "ca0fc00f2285bca6eeeb260c659b21fef2a2ef24",
+      "filename": "tayler2026-matrix-stiffness-kdm4b-kdm6b.md",
+      "significance": "ECM stiffness and stress relaxation directly regulate KDM4B (H3K9me3 demethylase) and KDM6B (H3K27me3 demethylase) activity. KDM6B removes Polycomb repression — prerequisite for enhancer activation. Creates direct ECM mechanics → epigenetic enzyme → histone mark chain.",
+      "tier": 2,
+      "fields": ["mechanobiology", "epigenomics"],
+      "gap": "Studied at gene promoters/bodies; enhancer-specific KDM6B activity at mechanoenhancers not characterized"
+    },
+    {
+      "id": "hsia2023",
+      "title": "The Force is Strong with This Epigenome: Chromatin Structure and Mechanobiology",
+      "authors": "Hsia CR, Melters DP, Dalal Y",
+      "year": 2023,
+      "journal": "Journal of Molecular Biology",
+      "pmc": "10567996",
+      "doi": "10.1016/j.jmb.2023.168057",
+      "filename": "hsia2023-epigenome-mechanobiology-review.md",
+      "significance": "Comprehensive 193-reference review. Establishes bidirectional mechanical feedback between chromatin and ECM. Confirms as of 2023 that enhancer-specific mechanosensing was 'largely unmapped'.",
+      "tier": 2,
+      "fields": ["mechanobiology", "epigenomics", "review"]
+    },
+    {
+      "id": "seol2026",
+      "title": "YAP/TAZ-VGLL3 governs adipocyte fate via epigenetic reprogramming of PPARgamma and its target enhancers",
+      "authors": "Seol T, Lim DS et al.",
+      "year": 2026,
+      "semantic_scholar_id": "2daefb64f3b4622c883e25b4c01944c87b880410",
+      "filename": "seol2026-yaptaz-vgll3-pparg-enhancers.md",
+      "significance": "YAP/TAZ have direct, named-enhancer-specific effects: maintain H3K27me3 at PPARg enhancers; VGLL3 displacement switches to H3K27ac activation. Shows YAP/TAZ directly control enhancer histone mark balance.",
+      "tier": 2,
+      "fields": ["epigenomics", "mechanobiology_adjacent"]
+    },
+    {
+      "id": "piezo1_epigenetic_memory",
+      "title": "Compressive stress-driven Piezo1 activation and Rho-ROCK mechanotransduction promote tumor progression via epigenetic mechanical memory",
+      "authors": "Not specified",
+      "year": 2025,
+      "journal": "Science Advances",
+      "doi": "10.1126/sciadv.aeb1271",
+      "filename": "piezo1-compressive-stress-epigenetic-memory.md",
+      "significance": "Piezo1 compressive stress → Rho-ROCK → H3K acetylation → open chromatin → cancer gene expression. Epigenetic mechanical memory (imprint persists after force removal). Parallel study: Piezo1 → F-actin → YAP nuclear localization.",
+      "tier": 2,
+      "fields": ["mechanobiology", "epigenomics"],
+      "gap": "H3K acetylation bulk; specific HAT and enhancer targeting not identified"
+    }
+  ],
+  "bridge_validation": {
+    "yap_taz_enhancer_binding": {
+      "status": "WELL_ESTABLISHED",
+      "evidence": "YAP/TAZ bind primarily to TEAD-occupied distal enhancers genome-wide (>90% of targets). H3K27ac marks at YAP-bound loci. TEAD motifs enriched at stiff-ECM mechanoenhancers (Cosgrove 2025). YAP/TAZ-BRD4 condensates at super-enhancers (Zanconato 2018).",
+      "gap": "YAP ChIP-seq not performed under ECM stiffness gradients; mostly cancer cells on rigid plastic"
+    },
+    "mrtf_srf_enhancer_binding": {
+      "status": "PARTIALLY_ESTABLISHED",
+      "evidence": "MRTF nuclear translocation is actin/stiffness-dependent. SRF/CaRG motifs at MYH9 mechanoenhancer (Cosgrove 2025). Nuclear actin associates with chromatin remodeling complexes.",
+      "gap": "No genome-wide MRTF ChIP-seq under ECM stiffness conditions; enhancer vs promoter preference unmapped"
+    },
+    "ecm_stiffness_3d_genome": {
+      "status": "NEWLY_ESTABLISHED",
+      "evidence": "Li 2024 Hi-C: TAD merging and compartment switching with ECM stiffness in MSCs. Cosgrove 2025 Micro-C: only 13.8% E-P connections have loops at mechanoenhancers.",
+      "gap": "No E-P loop resolution Micro-C data at specific mechanoenhancers across stiffness gradient"
+    },
+    "condensate_mechanical_response": {
+      "status": "INDIRECT_ONLY",
+      "evidence": "Shin 2018: condensates sense chromatin stiffness. Zanconato 2018: YAP-BRD4 condensates at super-enhancers. pH-condensate dissolution (Cell 2025).",
+      "gap": "No direct study of ECM stiffness gradient → YAP-BRD4 condensate assembly/dissolution at specific mechanoenhancers"
+    },
+    "piezo1_histone_enhancer": {
+      "status": "EMERGING",
+      "evidence": "Piezo1 → Rho-ROCK → H3K acetylation (Sci Adv 2025). Piezo1 → YAP nuclear (ACS AMI 2025). Ca2+ → nuclear signaling cascades.",
+      "gap": "No direct Piezo1 → p300/CBP → H3K27ac at enhancers circuit established"
+    },
+    "h3k27ac_h3k4me1_mechanoenhancer": {
+      "status": "DISJOINT",
+      "evidence": "H3K27ac/H3K4me1 ChIP-seq at mechanoenhancers under ECM stiffness: NOT PERFORMED ANYWHERE. NAR Cancer 2025 shows H3K27ac at promoters (not enhancers) on soft ECM.",
+      "gap": "THIS IS THE PRIMARY UNEXPLORED MECHANISTIC GAP — canonical enhancer histone marks at mechanoenhancers never mapped"
+    },
+    "ecm_stiffness_ep_loops": {
+      "status": "DISJOINT",
+      "evidence": "TAD-level 3D genome changes with stiffness exist (Li 2024). Only 13.8% of mechanoenhancer-gene connections have chromatin loops (Cosgrove 2025).",
+      "gap": "Specific enhancer-promoter loop formation/disruption as function of ECM stiffness not measured"
+    }
+  },
+  "gap_analysis": [
+    {
+      "gap_id": 1,
+      "priority": "HIGH",
+      "label": "Mechanoenhancer histone code",
+      "description": "H3K27ac and H3K4me1 ChIP-seq at mechanoenhancers under ECM stiffness gradients",
+      "what_exists": "ATAC-seq chromatin accessibility at mechanoenhancers (Cosgrove 2025); H3K27ac at promoters on soft ECM (NAR Cancer 2025); KDM6B H3K27me3 demethylase controlled by ECM stiffness (Tayler 2026)",
+      "what_missing": "ChIP-seq for canonical active enhancer marks (H3K27ac, H3K4me1) at specific mechanoenhancers under stiffness gradients; kinetics of H3K27ac deposition/removal at mechanoenhancers with stiffness change",
+      "hypothesis_seed": "ECM stiffness encodes H3K27ac at stiff-ECM mechanoenhancers via YAP-p300 co-recruitment, with KDM6B-mediated H3K27me3 erasure as prerequisite; soft ECM maintains H3K27me3 at these same loci via YAP nuclear exclusion and Polycomb maintenance"
+    },
+    {
+      "gap_id": 2,
+      "priority": "HIGH",
+      "label": "Looping-independent E-P contact mechanism at mechanoenhancers",
+      "description": "How do 86.2% of mechanoenhancers regulate gene expression without chromatin loops?",
+      "what_exists": "13.8% E-P connections have loops (Cosgrove 2025 Micro-C); phase-separated condensates can pull loci together without looping (Shin 2018); YAP-BRD4 condensates at super-enhancers (Zanconato 2018)",
+      "what_missing": "Direct evidence that condensate-mediated multi-enhancer co-localization (not looping) is the dominant mechanism at mechanoenhancers; high-resolution imaging of YAP condensates at mechanoenhancer clusters",
+      "hypothesis_seed": "YAP phase-separated nuclear condensates physically co-localize multiple non-looped mechanoenhancers in 3D nuclear space via condensate surface tension (Shin 2018 mechanism), creating transcriptional hubs that act collectively — explaining the 86.2% looping-independent regulation"
+    },
+    {
+      "gap_id": 3,
+      "priority": "HIGH",
+      "label": "ECM stiffness → condensate assembly at mechanoenhancers",
+      "description": "Does ECM stiffness gradient control YAP-BRD4 condensate number/size at specific mechanoenhancers?",
+      "what_exists": "YAP-BRD4 condensates at super-enhancers in cancer (Zanconato 2018); YAP nuclear entry is stiffness-dependent; condensate dissolution reverses chromatin topology within 4h",
+      "what_missing": "Quantitative relationship between ECM stiffness and YAP-BRD4 condensate assembly at specific mechanoenhancer loci; whether condensates are absent on soft ECM at these loci",
+      "hypothesis_seed": "ECM stiffness gradient is encoded as analog YAP nuclear concentration, which proportionally drives BRD4-MED1 condensate assembly at mechanoenhancers — creating a mechanical rheostat that continuously tunes super-enhancer output proportional to ECM stiffness"
+    },
+    {
+      "gap_id": 4,
+      "priority": "MODERATE",
+      "label": "MRTF genome-wide enhancer binding under mechanical force",
+      "description": "Does MRTF-SRF preferentially bind mechanoenhancers vs promoters on stiff ECM?",
+      "what_exists": "MRTF nuclear translocation with actin/stiffness; SRF/CaRG motifs at MYH9 mechanoenhancer; nuclear actin in chromatin remodeling complexes",
+      "what_missing": "Genome-wide MRTF ChIP-seq on soft vs stiff hydrogels; proportion of MRTF targets that are enhancers vs promoters under mechanical conditions",
+      "hypothesis_seed": "MRTF preferentially occupies mechanoenhancers (over promoters) on stiff ECM by exploiting the open chromatin created by the YAP/p300 mechanoepigenetic cascade, driving a cytoskeletal gene program that reinforces ECM stiffness sensing in a feed-forward loop"
+    },
+    {
+      "gap_id": 5,
+      "priority": "MODERATE",
+      "label": "Piezo1 → p300/CBP → H3K27ac at mechanoenhancers",
+      "description": "Does Piezo1 Ca2+ activate p300/CBP to deposit H3K27ac specifically at mechanoenhancers?",
+      "what_exists": "Piezo1 → Rho-ROCK → H3K acetylation (bulk; Sci Adv 2025); Piezo1 → F-actin → YAP nuclear; p300/CBP are H3K27ac writers recruited by YAP at enhancers",
+      "what_missing": "Specific HAT (p300 vs CBP) downstream of Piezo1; enhancer-specific H3K27ac deposition at mechanoenhancers; kinetics faster than YAP translocation?",
+      "hypothesis_seed": "Piezo1 Ca2+ → CaM-CAMKII → p300 HAT activation → H3K27ac at stiff-ECM mechanoenhancers within 15 minutes of mechanical stimulation — providing a rapid pre-priming mechanism before YAP nuclear entry (30-60 min), establishing a two-phase mechanoenhancer activation: Piezo1-fast priming then YAP-dependent amplification"
+    },
+    {
+      "gap_id": 6,
+      "priority": "MODERATE",
+      "label": "Nuclear deformation → specific E-P loop restructuring",
+      "description": "Does nuclear deformation magnitude causally restructure specific E-P loops at mechanoenhancers?",
+      "what_exists": "Nuclear confinement/deformation alters chromatin organization generally; lamin A/C level determines nuclear stiffness; LINC complex transmits cytoskeletal forces",
+      "what_missing": "Quantitative causal link between nuclear strain magnitude and specific chromatin loop changes at mechanoenhancers; whether lamin A/C level determines which mechanoenhancers respond to nuclear deformation",
+      "hypothesis_seed": "Threshold nuclear strain (set by lamin A/C level) irreversibly shifts specific mechanoenhancer-gene contact topology, encoding a mechanical history in the 3D genome that persists as epigenetic mechanical memory"
+    }
+  ],
+  "key_questions_answered": {
+    "ecm_stiffness_alters_ep_loop_formation": {
+      "answer": "PARTIALLY",
+      "detail": "TAD merging and compartment changes with stiffness shown (Li 2024 Hi-C). But E-P loop formation at specific mechanoenhancers not studied. Cosgrove 2025 shows only 13.8% of mechanoenhancer-gene connections have loops, suggesting looping-independent mechanism dominates."
+    },
+    "yap_taz_mrtf_bind_specific_enhancers": {
+      "answer": "YES for YAP/TAZ; PARTIAL for MRTF",
+      "detail": "YAP/TAZ bind TEAD distal enhancers genome-wide (well-established). MRTF: SRF/CaRG motifs at MYH9 mechanoenhancer shown; no genome-wide MRTF ChIP-seq under ECM stiffness conditions."
+    },
+    "nuclear_deformation_alters_3d_chromatin_at_enhancers": {
+      "answer": "NO direct evidence",
+      "detail": "General nuclear mechanics → chromatin organization established. Specific mechanoenhancer E-P loop changes from nuclear deformation not mapped."
+    },
+    "mechanosensitive_histone_mods_at_enhancer_regions": {
+      "answer": "NO — primary gap",
+      "detail": "H3K9me3 at lamin-associated heterochromatin from shear force shown (Chen 2025 PNAS). H3K27ac at promoters from soft ECM shown (NAR Cancer 2025). H3K27ac/H3K4me1 specifically at mechanoenhancers under stiffness gradients: NOT DONE."
+    },
+    "phase_separated_condensates_respond_to_mechanical_force": {
+      "answer": "INDIRECT — key open question",
+      "detail": "Condensates sense chromatin stiffness (Shin 2018). YAP-BRD4 condensates at super-enhancers (Zanconato 2018, cancer context). No direct ECM stiffness → condensate formation/dissolution at mechanoenhancers studied."
+    }
+  },
+  "mcp_retrieval_summary": {
+    "semantic_scholar_used": true,
+    "semantic_scholar_rate_limited": true,
+    "pubmed_used": true,
+    "pubmed_searches_completed": 8,
+    "web_search_fallback_used": true,
+    "web_fetch_papers_accessed": 4,
+    "total_papers_identified": 20,
+    "papers_with_full_abstract": 12,
+    "papers_saved_to_disk": 10
+  }
+}

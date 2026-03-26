@@ -1,0 +1,181 @@
+{
+  "session_id": "2026-03-25-targeted-002",
+  "mode": "targeted",
+  "status": "success",
+  "field_a": "Mechanobiology (ECM mechanics, integrin/focal adhesion signaling, YAP/TAZ, MRTF, Piezo channels)",
+  "field_c": "Epigenomics (genomic enhancer regulation, 3D chromatin, H3K27ac/H3K4me1, mediator/BRD4, phase-separated condensates)",
+  "bridge_concepts": [
+    "YAP/TAZ-BRD4 condensates at mechanoenhancers",
+    "looping-independent E-P contacts via phase separation",
+    "H3K27ac/H3K4me1 mechanoenhancer histone code",
+    "Piezo1-p300-H3K27ac rapid enhancer priming",
+    "MRTF-SRF CaRG mechanoenhancer binding",
+    "KDM6B H3K27me3 erasure as mechanoenhancer derepression"
+  ],
+  "strategy": "targeted",
+  "disjointness": 0.6,
+  "contributor_key": "mgln_7dc49810093a6bcb70ff8f751dc99332",
+  "started_at": "2026-03-25T18:26:23Z",
+  "completed_at": "2026-03-25T22:54:47Z",
+  "cycle_decision": "standard",
+  "pipeline_stats": {
+    "hypotheses_generated": 8,
+    "survived_critique": 6,
+    "passed_quality_gate": 6,
+    "kill_rate": 25,
+    "cycles_run": 2,
+    "evolver_skipped": false,
+    "mean_qg_score": 7.63,
+    "top3_scores": [
+      7.85,
+      7.55,
+      7.5
+    ]
+  },
+  "hypotheses": [
+    {
+      "id": "H3",
+      "title": "ECM Stiffness Drives YAP-BRD4 Phase-Separated Condensate Assembly at Mechanoenhancers",
+      "confidence": 0.63,
+      "qg_verdict": "PASS",
+      "qg_score": 7.85,
+      "disciplines": [
+        "mechanobiology",
+        "phase separation",
+        "enhancer epigenomics"
+      ],
+      "core_claim": "On stiff ECM (>10 kPa), nuclear YAP undergoes IDR-driven phase separation with BRD4 BD1/BD2 at TEAD-occupied mechanoenhancers, forming transcriptional condensates that amplify H3K27ac deposition and drive stiffness-dependent gene programs. Condensate size is tunable — crosses threshold (~200-500 nm radius) above 20 kPa, enabling BRD4-P-TEFb-CDK9 pause-release amplification.",
+      "key_prediction": "YAP-HaloTag SPT shows longer dwell time and condensate assembly at TEAD mechanoenhancer loci (CYR61, CTGF) on 50 kPa vs 1 kPa hydrogels; IDR-deleted YAP (F95A/W96A) cannot form condensates and abolishes stiffness-dependent gene activation even at equal nuclear YAP concentration",
+      "evolved_to": null
+    },
+    {
+      "id": "H4",
+      "title": "MRTF-A Occupies CaRG-Box Mechanoenhancers on Stiff ECM via G-Actin Depletion",
+      "confidence": 0.62,
+      "qg_verdict": "PASS",
+      "qg_score": 7.55,
+      "disciplines": [
+        "mechanobiology",
+        "enhancer epigenomics"
+      ],
+      "core_claim": "On stiff ECM, cytoskeletal tension depletes the cytoplasmic G-actin pool, releasing MRTF-A from G-actin sequestration (RPEL domain). Free MRTF-A translocates to the nucleus and preferentially occupies CaRG-box-containing mechanoenhancers (MYH9 intron 3, ACTA2 upstream), recruiting EP300 and driving H3K27ac at these specific loci.",
+      "key_prediction": "MRTF-A CUT&RUN on 1 kPa vs 50 kPa shows differential enrichment at CaRG-box mechanoenhancers; Cytochalasin B (G-actin release) on soft ECM mimics stiff ECM MRTF-A distribution; Jasplakinolide (F-actin stabilization) on stiff ECM abolishes MRTF-A enrichment at CaRG-box mechanoenhancers",
+      "evolved_to": null
+    },
+    {
+      "id": "H2",
+      "title": "Two-Phase Mechanoenhancer Activation: Piezo1→CaMKII→HDAC4/5→EP300 Rapid Priming Then YAP Amplification",
+      "confidence": 0.6,
+      "qg_verdict": "PASS",
+      "qg_score": 7.5,
+      "disciplines": [
+        "mechanobiology",
+        "calcium signaling",
+        "enhancer epigenomics"
+      ],
+      "core_claim": "ECM stiffness activates mechanoenhancers in two temporal phases: Phase 1 (<15 min): Piezo1→Ca2+→CaMKII→phospho-HDAC4/5 (Ser467/498)→HDAC4/5 nuclear export→EP300 derepression→H3K27ac at mechanoenhancers; Phase 2 (30-120 min): YAP/MRTF nuclear translocation→BRD4 condensate amplification of Phase 1-primed marks.",
+      "key_prediction": "H3K27ac CUT&RUN time course shows first appearance at mechanoenhancers at 10-15 min (HDAC4/5 export) preceding YAP nuclear entry (30-60 min); Piezo1 KO abolishes Phase 1 H3K27ac kinetics but not eventual Phase 2 H3K27ac (YAP-dependent); GSK2334470 (CaMKII inhibitor) recapitulates Piezo1 KO phenotype for Phase 1",
+      "evolved_to": "C2-H1"
+    },
+    {
+      "id": "H1e",
+      "title": "KDM6B→EP300 Sequential Epigenetic Relay Derepresses Mechanoenhancers in IPF Fibroblasts",
+      "confidence": 0.56,
+      "qg_verdict": "evolved_from_H1",
+      "disciplines": [
+        "mechanobiology",
+        "epigenomics",
+        "fibrosis"
+      ],
+      "core_claim": "In IPF fibroblasts (which retain poised/bivalent enhancer marks at mechanoenhancers from their progenitor state), stiff ECM activates KDM6B to erase H3K27me3 at bivalent mechanoenhancers (keeping H3K4me1), then EP300 deposits H3K27ac at newly derepressed loci. This sequential relay (KDM6B→EP300) acts as a ratchet that locks the IPF fibroblast into a stiffness-activated state, explaining why IPF fibroblasts are epigenetically hyperresponsive to mechanical cues.",
+      "key_prediction": "IPF patient-derived fibroblasts show H3K4me1+H3K27me3 bivalency at Cosgrove 2025 mechanoenhancers on soft substrate; stiff substrate resolves bivalency to H3K4me1+H3K27ac (KDM6B-dependent); GSK-J4 (KDM6B inhibitor) blocks mechanoenhancer H3K27ac and fibrosis marker expression specifically in IPF but not normal fibroblasts",
+      "evolved_to": null
+    },
+    {
+      "id": "H5e",
+      "title": "Condensate Volume Threshold Mechanism Explains Looping-Independent Mechanoenhancer-Gene Regulation",
+      "confidence": 0.53,
+      "qg_verdict": "evolved_from_H5",
+      "disciplines": [
+        "mechanobiology",
+        "phase separation",
+        "enhancer epigenomics",
+        "genome organization"
+      ],
+      "core_claim": "The 86.2% of mechanoenhancer-gene connections that lack annotated chromatin loops (Cosgrove 2025) are regulated by a condensate volume threshold mechanism: when ECM stiffness exceeds ~20 kPa, YAP nuclear enrichment drives IDR-mediated BRD4-MED1 condensate growth above a critical radius (~200-500 nm), at which point the condensate volume physically bridges enhancer-promoter spatial gaps (typically 100-300 nm) without requiring stable looping. This stiffness-tunable condensate bridge is cohesin-independent.",
+      "key_prediction": "STORM super-resolution imaging shows BRD4 condensate diameter increases monotonically with ECM stiffness (1-50 kPa); condensate radius on stiff ECM matches or exceeds enhancer-promoter spatial separation at mechanoenhancer loci; WAPL/RAD21 knockdown (cohesin depletion) does NOT abolish stiffness-dependent gene activation at looping-independent mechanoenhancers",
+      "evolved_to": null
+    }
+  ],
+  "supplementary_hypotheses": [
+    {
+      "id": "C2-H1",
+      "title": "Two-Phase Mechanoenhancer Activation Constitutes a Temporal Coincidence Gate",
+      "confidence": 0.61,
+      "note": "Cycle 2 bonus hypothesis — Phase 1 H3K27ac marks are PREREQUISITE for Phase 2 BRD4 condensate nucleation"
+    },
+    {
+      "id": "C2-H2",
+      "title": "Lamin A/C Concentration Sets Cell-Intrinsic Stiffness-Sensing Threshold for Mechanoenhancer Activation",
+      "confidence": 0.58,
+      "note": "Cycle 2 bonus hypothesis — explains cell-to-cell heterogeneity in mechanoenhancer responsiveness"
+    },
+    {
+      "id": "C2-H3",
+      "title": "Nuclear Actin Polymerization State Regulates MRTF-A Residence Time at CaRG-Box Mechanoenhancers",
+      "confidence": 0.6,
+      "note": "Cycle 2 bonus hypothesis — nuclear F-actin tethers MRTF-A via RPEL domain at CaRG-box chromatin"
+    },
+    {
+      "id": "EH3",
+      "title": "YAP-BRD4 Condensate Phase Switch (BRD4 IDR n≈4 multivalency, 5-15 kPa threshold)",
+      "confidence": 0.63,
+      "note": "Supplementary evolved from H3"
+    },
+    {
+      "id": "EH4",
+      "title": "MRTF-A G-Actin Threshold Drives RPEL Unmasking — LXXLL Motif Exposed for EP300 Binding",
+      "confidence": 0.58,
+      "note": "Supplementary evolved from H4"
+    },
+    {
+      "id": "EH2",
+      "title": "CaMKII→HDAC4/5-Ser467/498 Nuclear Export→EP300 Derepression (mechanism fix)",
+      "confidence": 0.57,
+      "note": "Supplementary evolved from H2"
+    },
+    {
+      "id": "EH1",
+      "title": "KDM6B Nuclear Retention Controlled by ECM Viscoelastic Stress Relaxation τ½",
+      "confidence": 0.56,
+      "note": "Supplementary evolved from H1"
+    },
+    {
+      "id": "EH5",
+      "title": "IDR-Deleted YAP F95A/W96A Condensate Test — Coalescence Dynamics Replaces Surface Tension",
+      "confidence": 0.55,
+      "note": "Supplementary evolved from H5"
+    }
+  ],
+  "key_anomaly": "86.2% of mechanoenhancer-gene connections lack annotated chromatin loops (Cosgrove 2025) — dominant mechanism is looping-independent",
+  "landmark_paper": "Cosgrove et al. 2025, Science — mechanoenhancers genome-wide (ATAC-seq + CRISPRi)",
+  "hub_protein": "EP300",
+  "hub_string_scores": {
+    "EP300-BRD4": 0.988,
+    "EP300-CAMK2A": 0.908,
+    "EP300-MRTFA": 0.71
+  },
+  "new_evidence": [
+    "iScience 2024 PMID 38784009 — endogenous YAP condensates with TEAD1+BRD4 in response to actin tension",
+    "CaMKII activated within 3 min of Piezo1 Ca2+ influx (NEC 2025 Nat Commun Biol)",
+    "PMID 23804765 — nuclear CaMKII → H3S10ph in cardiac context (nuclear CaMKII precedent)"
+  ],
+  "disjointness_context": "NEWLY_OPENED — landmark paper (Cosgrove 2025, Science) published ~3 months before session; field genuinely new despite PARTIALLY_EXPLORED classification",
+  "new_heuristics": [
+    "NEWLY_OPENED_PARTIALLY_EXPLORED is viable when landmark paper < 6 months old",
+    "Hub protein discovery first (STRING), then upstream diversity — generates non-redundant hypothesis families",
+    "Quality Gate verification is a supplementary literature search phase (hypothesis-specific terms find papers missed by field-level scout)",
+    "Cell-type mutation in evolution resolves cell-context mismatch without killing hypothesis — IPF fibroblast example"
+  ],
+  "uploaded": false
+}

@@ -1,0 +1,149 @@
+{
+  "session_id": "2026-03-26-targeted-001",
+  "cycle": 1,
+  "evaluated_at": "2026-03-26T08:30:00Z",
+  "mode": "web-verified (post-blind)",
+  "web_searches_performed": 22,
+  "hypotheses_evaluated": 3,
+  "passed": 1,
+  "conditional_passed": 2,
+  "failed": 0,
+  "verdicts": [
+    {
+      "id": "H4-v2",
+      "title": "Stiffness-Calibrated LAD Compartmentalization as Genomic Selectivity Filter for TEAD Enhancer Access",
+      "verdict": "PASS",
+      "confidence": 0.68,
+      "groundedness": 8,
+      "rubric_scores": {
+        "abc_structure": "PASS",
+        "mechanism_specificity": "PASS",
+        "falsifiable_prediction": "PASS",
+        "counter_evidence": "PASS",
+        "test_protocol": "PASS",
+        "confidence_calibration": "PASS",
+        "novelty_web_verified": "PASS",
+        "groundedness_score": "PASS",
+        "language_precision": "PASS",
+        "per_claim_verification": "PASS"
+      },
+      "grounded_claims_verified": 7,
+      "grounded_claims_total": 7,
+      "parametric_claims": 2,
+      "citation_hallucinations": 0,
+      "key_strength": "Three-tier LAD selectivity model (cLAD/fLAD/non-LAD) is genuinely novel after exhaustive web search. CRISPR tethering causal test. Properly constructed null model (OR >= 4.0).",
+      "key_concern": "fLAD stiffness-modulation is parametric. Pigeot 2025 bioRxiv is convergent but does not pre-empt.",
+      "novelty_evidence": "Cosgrove 2025 (mechanoenhancers) uses ATAC-seq, no LAD stratification. Pigeot 2025 connects lamin+PRC2 at gene level, not enhancer selectivity. PubMed 'nuclear mechanics AND H3K27ac' = 4 papers. No paper proposes three-tier LAD selectivity filter.",
+      "post_cutoff_papers_found": [
+        {
+          "authors": "Cosgrove et al.",
+          "journal": "Science",
+          "year": 2025,
+          "relevance": "Identifies mechanoenhancers but does NOT address LAD compartmentalization",
+          "pre_empts": false
+        },
+        {
+          "authors": "Pigeot et al.",
+          "journal": "bioRxiv",
+          "year": 2025,
+          "relevance": "ECM stiffness + lamin + PRC2 at gene level, not enhancer selectivity level",
+          "pre_empts": false
+        }
+      ]
+    },
+    {
+      "id": "H2-v2",
+      "title": "Sequential Two-Phase Bivalent Enhancer Resolution: KDM6B Demethylation as Rate-Limiting Gate",
+      "verdict": "CONDITIONAL_PASS",
+      "fix_required": "Remove or replace unverifiable 'Whitworth 2024' citation with verified EP300-YAP reference (e.g., PMID 38048728)",
+      "confidence": 0.62,
+      "groundedness": 7,
+      "rubric_scores": {
+        "abc_structure": "PASS",
+        "mechanism_specificity": "PASS",
+        "falsifiable_prediction": "PASS",
+        "counter_evidence": "PASS",
+        "test_protocol": "PASS",
+        "confidence_calibration": "PASS",
+        "novelty_web_verified": "PASS",
+        "groundedness_score": "PASS",
+        "language_precision": "PASS",
+        "per_claim_verification": "PARTIAL — Whitworth 2024 unverifiable"
+      },
+      "grounded_claims_verified": 7,
+      "grounded_claims_total": 8,
+      "parametric_claims": 2,
+      "citation_hallucinations": 0,
+      "citation_concerns": [
+        {
+          "citation": "Whitworth 2024",
+          "issue": "Cannot be found via multiple web searches. Claim it supports (EP300 at YAP-TEAD) is independently confirmed, so this is a citation quality issue, not a hallucination of a supporting fact.",
+          "severity": "MODERATE",
+          "bridge_critical": false
+        }
+      ],
+      "key_strength": "Two-phase temporal model with biochemically forced sequential ordering. KDM6B at enhancers strengthened by Zhu 2021 neuroblastoma precedent. Three-armed paralog experiment.",
+      "key_concern": "KDM6B vs KDM6A at enhancers under ECM stiffness is the central untested novel claim. Whitworth 2024 unverifiable.",
+      "novelty_evidence": "No paper proposes two-phase temporal model for bivalent enhancer resolution under ECM stiffness. KDM6B 2025 (Yu) showed promoter-level activity only. Zhu 2021 shows KDM6B at enhancers in neuroblastoma (supports but doesn't pre-empt ECM context)."
+    },
+    {
+      "id": "H5-v2",
+      "title": "Kinetically Gated Epigenetic Memory at Mechanosensitive Super-Enhancers via BRD4-Scaffolded EP300 Retention",
+      "verdict": "CONDITIONAL_PASS",
+      "fix_required": "Revise H3K27ac base half-life from '30-90 min' to ~1.5h (in vivo enhancer measurement). Propagate through kinetic model to produce revised memory window estimate.",
+      "confidence": 0.45,
+      "groundedness": 7,
+      "rubric_scores": {
+        "abc_structure": "PASS",
+        "mechanism_specificity": "PASS",
+        "falsifiable_prediction": "PASS",
+        "counter_evidence": "PASS",
+        "test_protocol": "PASS",
+        "confidence_calibration": "PASS",
+        "novelty_web_verified": "PASS",
+        "groundedness_score": "PASS",
+        "language_precision": "PASS",
+        "per_claim_verification": "PARTIAL — H3K27ac half-life slightly underestimated"
+      },
+      "grounded_claims_verified": 5,
+      "grounded_claims_total": 6,
+      "parametric_claims": 4,
+      "citation_hallucinations": 0,
+      "quantitative_concerns": [
+        {
+          "claim": "H3K27ac half-life 30-90 min at single nucleosomes",
+          "actual": "~1.5h at enhancers in vivo",
+          "discrepancy_fold": 1.5,
+          "impact": "Memory window may be slightly longer or the effective ratio k_write/k_erase may be marginally different. Does not invalidate the model.",
+          "severity": "MINOR"
+        }
+      ],
+      "key_strength": "Kinetic rate model converts qualitative 'memory' into quantitative prediction. dBET6/JQ1 differential is an elegant mechanistic discriminator. Triptolide experiment cleanly dissects epigenetic vs. transcriptional memory.",
+      "key_concern": "High parameter sensitivity (4 PARAMETRIC rate constants). BRD4-CTD scaffold mechanism inferred from co-IP/STRING, not structurally characterized. 6-18h range is a 3x spread.",
+      "novelty_evidence": "No paper proposes BRD4-scaffolded EP300 retention as mechanism for SE memory post-softening. Mechanical memory exists (Yang 2014) but at gene expression level. SE-level H3K27ac memory with kinetic model is novel."
+    }
+  ],
+  "citation_audit": {
+    "total_unique_citations": 15,
+    "verified": 14,
+    "unverifiable": 1,
+    "confirmed_hallucinations": 0,
+    "unverifiable_details": [
+      {
+        "citation": "Whitworth 2024",
+        "hypothesis": "H2-v2",
+        "claim_supported": "EP300 at YAP-TEAD enhancers",
+        "independently_confirmed": true,
+        "bridge_critical": false
+      }
+    ]
+  },
+  "meta_validation": {
+    "kill_rate_session": 0.57,
+    "kill_rate_quality_gate": 0.0,
+    "strongest_hypothesis": "H4-v2",
+    "strongest_rationale": "Most novel (three-tier LAD selectivity model), best-grounded (8/10), cleanest causal test (CRISPR tethering), all citations verified",
+    "calibration_assessment": "Marginally permissive — H5-v2 at boundary with 4 PARAMETRIC claims. Overall appropriate.",
+    "recommendation": "Proceed to session_analysis. All 3 hypotheses meet quality standards. H4-v2 is flagship."
+  }
+}
