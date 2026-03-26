@@ -165,23 +165,38 @@ Highlight the verdict and key findings.
 
 Help the user find and add new holdout discoveries to the test bank.
 
-### 2B.1: Search for Candidates
+### 2B.1: Search for Candidates via Subagent
 
-Use WebSearch to find recent cross-disciplinary scientific discoveries
-published after May 2025. Good candidates:
-- Connect two fields that seem unrelated
-- Have a clear, specific mechanism (not just a correlation)
-- Are published in peer-reviewed journals with a citable DOI
-- Are surprising enough that parametric knowledge alone might miss them
+Dispatch a general-purpose Agent to search the web for recent
+cross-disciplinary discoveries. The command itself has no WebSearch
+(to prevent accidental contamination during validation runs), so
+curation MUST be delegated to a subagent.
 
-Search queries to try:
-- "unexpected connection between [field] and [field] 2025 2026"
-- "surprising discovery links [domain] [domain] mechanism"
-- "cross-disciplinary breakthrough biology 2025 2026"
+Dispatch prompt for the curation agent:
+
+> Search the web for recent cross-disciplinary scientific discoveries
+> published after May 2025 that could serve as holdout validation targets
+> for MAGELLAN. Good candidates:
+> - Connect two fields that seem unrelated
+> - Have a clear, specific mechanism (not just a correlation)
+> - Are published in peer-reviewed journals with a citable DOI
+> - Are surprising enough that parametric knowledge alone might miss them
+>
+> Search queries to try:
+> - "unexpected connection between [field] and [field] 2025 2026"
+> - "surprising discovery links [domain] [domain] mechanism"
+> - "cross-disciplinary breakthrough biology 2025 2026"
+>
+> For each candidate, return: title, DOI, journal, publication date,
+> Field A, Field C, core mechanism (A → B → C), first author, and
+> why it's a good holdout target.
+>
+> Verify each DOI resolves to a real paper via WebFetch.
+> Return 3-5 candidates ranked by quality.
 
 ### 2B.2: Present Candidates
 
-For each candidate, present:
+Present the agent's findings to the user:
 - Title and citation
 - Field A and Field C
 - The core mechanism (A -> B -> C)
@@ -193,7 +208,7 @@ For each candidate, present:
 Ask the user which candidates to add. For each selected candidate, create
 a new entry in `validation/holdout-discoveries.json` with:
 - Auto-generated ID (`holdout-NNN`, incrementing from highest existing)
-- All required fields populated
+- All required fields populated including `first_author`
 - `status: "pending"`
 
 ---
