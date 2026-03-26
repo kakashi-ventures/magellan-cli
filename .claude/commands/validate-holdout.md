@@ -1,6 +1,6 @@
 ---
 description: "Run a holdout validation test — execute MAGELLAN on a known post-cutoff discovery and evaluate if it rediscovers the connection. Usage: /validate-holdout [holdout-id], /validate-holdout --curate, /validate-holdout --report"
-allowed-tools: Read, Write, Agent, Bash, Glob, Grep, WebSearch, WebFetch
+allowed-tools: Read, Write, Agent, Bash, Glob, Grep
 user-invocable: true
 ---
 
