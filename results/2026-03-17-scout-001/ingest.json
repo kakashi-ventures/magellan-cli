@@ -23,5 +23,26 @@
     "cycles_run": 2,
     "evolver_skipped": false
   },
-  "display_name": "Alberto Trivero"
+  "display_name": "Alberto Trivero",
+  "files": [
+    "critiqued-cycle1.md",
+    "critiqued-cycle2.md",
+    "dispatch-log.json",
+    "evolved-cycle1.md",
+    "evolved-cycle2.md",
+    "ingest.json",
+    "literature-landscape.md",
+    "quality-gate.md",
+    "ranked-cycle1.md",
+    "ranked-cycle2.md",
+    "raw-hypotheses-cycle1.md",
+    "raw-hypotheses-cycle2.md",
+    "scout-targets.md",
+    "session-summary.md",
+    "session.json",
+    "validation-FINAL1.md",
+    "validation-FINAL2.md",
+    "validation-FINAL3.md",
+    "validation-FINAL4.md"
+  ]
 }

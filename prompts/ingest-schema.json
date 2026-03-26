@@ -35,10 +35,15 @@
     "convergence_translational_signals": "N (count of clinical trials + grants + patents with hits)",
     "impact_potential_score": "N.N (IPS: scout 0.4 + convergence 0.6)"
   },
+  "files": {
+    "_comment": "Array of all files produced in this session's results directory. List every .json and .md file. Enables the website to know exactly what data is available without filename guessing.",
+    "_example": ["ingest.json", "scout.json", "literature.json", "computational.json", "cycle1-raw.json", "cycle1-critiqued.json", "cycle1-ranked.json", "cycle1-evolved.json", "quality-gate.json", "final.json", "cross-model.json", "session-summary.md", "quality-gate.md", "final-hypotheses.md"]
+  },
   "_sources": {
     "status": "from state/session.json",
     "field_a_field_c_bridge_concepts_strategy": "from selected_target in state/session.json",
     "pipeline_stats": "from health counters in state/session.json",
-    "contributor_key": "from .magellan/config.json"
+    "contributor_key": "from .magellan/config.json",
+    "files": "list results directory contents (ls {results_dir}/*.json {results_dir}/*.md)"
   }
 }

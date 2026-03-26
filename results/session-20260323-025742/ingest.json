@@ -23,5 +23,33 @@
     "kill_rate": 50.0,
     "cycles_run": 1,
     "evolver_skipped": true
-  }
+  },
+  "files": [
+    "computational-validation.md",
+    "computational.json",
+    "critiqued-cycle1.md",
+    "cross-model-report.md",
+    "cross-model.json",
+    "cycle1-critiqued.json",
+    "cycle1-ranked.json",
+    "cycle1-raw.json",
+    "export-gemini.md",
+    "export-gpt.md",
+    "final-hypotheses.md",
+    "final.json",
+    "ingest.json",
+    "literature-landscape.md",
+    "meta-insights.json",
+    "quality-gate.json",
+    "quality-gate.md",
+    "ranked-cycle1.md",
+    "raw-hypotheses-cycle1.md",
+    "response-gemini.md",
+    "response-gpt.md",
+    "scout-targets.md",
+    "scout.json",
+    "session-analysis.md",
+    "session-summary.md",
+    "target-evaluation.md"
+  ]
 }

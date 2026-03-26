@@ -107,6 +107,13 @@ results/{SESSION_ID}/             ← All session outputs: markdown + JSON phase
 alongside the markdown files. Read SESSION_ID from state/session.json. Example:
 `results/2026-03-22-scout-009/scout.json`.
 
+**Hypothesis ID convention**: All agents MUST use consistent IDs across the pipeline:
+- Generator assigns: `H1`, `H2`, ..., `H{N}` (simple sequential within a cycle)
+- Ranker prefixes with cycle: `C1-H1`, `C1-H2`, ..., `C2-H1`, `C2-H2`, ...
+- Evolver prefixes with E: `E1-C1-H3` (evolution 1 of cycle 1's H3)
+- Quality Gate and final.json: preserve the ID from the last phase that touched the hypothesis
+- The ID MUST be consistent across cycle{N}-raw.json → cycle{N}-critiqued.json → cycle{N}-ranked.json → cycle{N}-evolved.json → quality-gate.json → final.json. Agents must NOT invent new ID formats (e.g., do NOT append session numbers like `-009-C1`).
+
 **Principle**: Full hypothesis text lives in `results/{session-id}/*.md`.
 Phase JSON files contain structured metadata (IDs, titles, scores, verdicts, pointers)
 and live alongside the markdown in `results/{session-id}/`.
@@ -558,10 +565,23 @@ Update health counters in state with final values.
 Read `prompts/session-summary-format.md` for detailed formatting instructions per status type.
 Write {results_dir}/session-summary.md and {results_dir}/final-hypotheses.md.
 
+### Enrich final.json with rubric details
+
+After writing session summary, read `{results_dir}/quality-gate.json` and `{results_dir}/final.json`.
+For each hypothesis in `final.json`, merge the `rubric_details` (or `rubric`) object from the
+matching entry in `quality-gate.json` (match by `id` field — check `verdicts`, `results`, or `hypotheses` arrays).
+Also merge `claims_verified`, `claims_failed`, `claims_unverifiable`, `claims_parametric`, `key_strength`, `key_risk` if present.
+Write the enriched `final.json` back. This ensures downstream consumers get full rubric data without cross-referencing files.
+If quality-gate.json is missing or has a different format, skip enrichment silently.
+
 ### Write Ingest Manifest
 
 Write `{results_dir}/ingest.json` — read schema from `prompts/ingest-schema.json`.
 Populate values from `state/session.json` (selected_target, metadata, health).
+
+**IMPORTANT**: Populate the `files` array by listing all `.json` and `.md` files in `{results_dir}/`.
+Run `ls {results_dir}/*.json {results_dir}/*.md 2>/dev/null` and include just the filenames (not full paths).
+This tells the website exactly what data is available without filename guessing.
 
 Update state/session.json with EXACT terminal values (stop hook validates these):
 ```json

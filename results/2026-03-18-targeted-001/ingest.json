@@ -19,9 +19,24 @@
     "hypotheses_generated": 15,
     "survived_critique": 9,
     "passed_quality_gate": 1,
-    "kill_rate": 0.40,
+    "kill_rate": 0.4,
     "cycles_run": 2,
     "evolver_skipped": true
   },
-  "display_name": "Alberto Trivero"
+  "display_name": "Alberto Trivero",
+  "files": [
+    "critiqued-cycle1.md",
+    "critiqued-cycle2.md",
+    "evolved-cycle1.md",
+    "export-gpt.md",
+    "final-hypotheses.md",
+    "ingest.json",
+    "literature-context.md",
+    "quality-gate.md",
+    "ranked-cycle1.md",
+    "ranked-cycle2.md",
+    "raw-hypotheses-cycle1.md",
+    "raw-hypotheses-cycle2.md",
+    "session-summary.md"
+  ]
 }

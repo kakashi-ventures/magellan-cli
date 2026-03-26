@@ -90,7 +90,16 @@ const hypotheses = (Array.isArray(finalData) ? finalData : []).map(h => ({
   qualityGate: h.verdict || h.quality_gate || h.qualityGate || 'CONDITIONAL_PASS',
   noveltyStatus: h.novelty_status || h.noveltyStatus || 'Unknown',
   cycle: h.cycle || 1,
-  parentIds: h.parent_ids || h.parentIds || []
+  parentIds: h.parent_ids || h.parentIds || [],
+  // Rich data (v5.15+) — merged from quality-gate.json enrichment or present directly
+  ...(h.rubric_details || h.rubric ? { rubricScores: h.rubric_details || h.rubric } : {}),
+  ...(h.claims_verified != null ? { claimVerification: {
+    claims_verified: h.claims_verified, claims_failed: h.claims_failed,
+    claims_unverifiable: h.claims_unverifiable || h.claims_unverified,
+    claims_parametric: h.claims_parametric || h.claims_speculative,
+    citation_hallucinations: h.citation_hallucinations,
+    key_strength: h.key_strength, key_risk: h.key_risk || h.key_weakness,
+  } } : {}),
 }));
 
 // Read killed hypotheses — check final.json "excluded" first, then quality-gate.json
@@ -126,10 +135,49 @@ if (killed.length === 0) {
   } catch {}
 }
 
-// Read cross-model validation
+// Read cross-model validation (raw markdown — backward compat)
 let crossModel = {};
 try { crossModel.gpt = fs.readFileSync(path.join(dir, 'validation-gpt.md'), 'utf-8').slice(0, 5000); } catch {}
 try { crossModel.gemini = fs.readFileSync(path.join(dir, 'validation-gemini.md'), 'utf-8').slice(0, 5000); } catch {}
+
+// Read structured session-level data for rich upload
+let crossModelConsensus, computationalValidation, sessionAnalysis, literatureData, scoutData;
+try { crossModelConsensus = JSON.parse(fs.readFileSync(path.join(dir, 'cross-model.json'), 'utf-8')); } catch {}
+try { computationalValidation = JSON.parse(fs.readFileSync(path.join(dir, 'computational.json'), 'utf-8')); } catch {
+  try { computationalValidation = JSON.parse(fs.readFileSync(path.join(dir, 'computational-validation.json'), 'utf-8')); } catch {}
+}
+try { sessionAnalysis = JSON.parse(fs.readFileSync(path.join(dir, 'session-analyst.json'), 'utf-8')); } catch {
+  try { sessionAnalysis = JSON.parse(fs.readFileSync(path.join(dir, 'session-analysis.json'), 'utf-8')); } catch {}
+}
+try { literatureData = JSON.parse(fs.readFileSync(path.join(dir, 'literature.json'), 'utf-8')); } catch {}
+try { scoutData = JSON.parse(fs.readFileSync(path.join(dir, 'scout.json'), 'utf-8')); } catch {}
+
+// Read pipeline narratives (all markdown files → { key: content })
+const pipelineNarratives = {};
+const mdMappings = [
+  ['session-summary', 'session-summary.md'],
+  ['quality-gate', 'quality-gate.md'],
+  ['quality-gate-cycle1', 'quality-gate-cycle1.md'],
+  ['quality-gate-cycle2', 'quality-gate-cycle2.md'],
+  ['critique-cycle1', 'critique-cycle1.md'], ['critique-cycle1', 'cycle1-critique.md'], ['critique-cycle1', 'critiqued-cycle1.md'],
+  ['critique-cycle2', 'critique-cycle2.md'], ['critique-cycle2', 'cycle2-critique.md'],
+  ['ranking-cycle1', 'ranking-cycle1.md'], ['ranking-cycle1', 'cycle1-ranked.md'], ['ranking-cycle1', 'ranked-cycle1.md'],
+  ['cross-model-consensus', 'cross-model-consensus.md'],
+  ['computational-validation', 'computational-validation.md'],
+  ['scout-targets', 'scout-targets.md'],
+  ['target-evaluation', 'target-evaluation.md'],
+  ['literature-context', 'literature-context.md'], ['literature-context', 'literature-landscape.md'],
+  ['session-analysis', 'session-analysis.md'],
+  ['evolved-cycle1', 'evolution-cycle1.md'], ['evolved-cycle1', 'cycle1-evolved.md'], ['evolved-cycle1', 'evolved-cycle1.md'],
+  ['final-hypotheses', 'final-hypotheses.md'],
+  ['dataset-evidence', 'dataset-evidence.md'],
+  ['validation-gpt', 'validation-gpt.md'],
+  ['validation-gemini', 'validation-gemini.md'],
+];
+for (const [key, filename] of mdMappings) {
+  if (pipelineNarratives[key]) continue; // first match wins
+  try { pipelineNarratives[key] = fs.readFileSync(path.join(dir, filename), 'utf-8'); } catch {}
+}
 
 // Read empirical validation (v5.13) — optional, backward-compatible
 let empiricalValidation;
@@ -174,7 +222,14 @@ const payload = {
   hypotheses,
   killedHypotheses: killed,
   crossModelValidation: Object.keys(crossModel).length > 0 ? crossModel : undefined,
-  empiricalValidation: empiricalValidation || undefined
+  empiricalValidation: empiricalValidation || undefined,
+  // Rich session-level data (v5.15+ — website will store as JSONB)
+  crossModelConsensus: crossModelConsensus || undefined,
+  computationalValidation: computationalValidation || undefined,
+  sessionAnalysis: sessionAnalysis || undefined,
+  literatureData: literatureData || undefined,
+  scoutData: scoutData || undefined,
+  pipelineNarratives: Object.keys(pipelineNarratives).length > 0 ? pipelineNarratives : undefined,
 };
 
 try {

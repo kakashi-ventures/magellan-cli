@@ -44,7 +44,7 @@
         "phase separation",
         "enhancer epigenomics"
       ],
-      "core_claim": "On stiff ECM (>10 kPa), nuclear YAP undergoes IDR-driven phase separation with BRD4 BD1/BD2 at TEAD-occupied mechanoenhancers, forming transcriptional condensates that amplify H3K27ac deposition and drive stiffness-dependent gene programs. Condensate size is tunable — crosses threshold (~200-500 nm radius) above 20 kPa, enabling BRD4-P-TEFb-CDK9 pause-release amplification.",
+      "core_claim": "On stiff ECM (>10 kPa), nuclear YAP undergoes IDR-driven phase separation with BRD4 BD1/BD2 at TEAD-occupied mechanoenhancers, forming transcriptional condensates that amplify H3K27ac deposition and drive stiffness-dependent gene programs. Condensate size is tunable \u2014 crosses threshold (~200-500 nm radius) above 20 kPa, enabling BRD4-P-TEFb-CDK9 pause-release amplification.",
       "key_prediction": "YAP-HaloTag SPT shows longer dwell time and condensate assembly at TEAD mechanoenhancer loci (CYR61, CTGF) on 50 kPa vs 1 kPa hydrogels; IDR-deleted YAP (F95A/W96A) cannot form condensates and abolishes stiffness-dependent gene activation even at equal nuclear YAP concentration",
       "evolved_to": null
     },
@@ -64,7 +64,7 @@
     },
     {
       "id": "H2",
-      "title": "Two-Phase Mechanoenhancer Activation: Piezo1→CaMKII→HDAC4/5→EP300 Rapid Priming Then YAP Amplification",
+      "title": "Two-Phase Mechanoenhancer Activation: Piezo1\u2192CaMKII\u2192HDAC4/5\u2192EP300 Rapid Priming Then YAP Amplification",
       "confidence": 0.6,
       "qg_verdict": "PASS",
       "qg_score": 7.5,
@@ -73,13 +73,13 @@
         "calcium signaling",
         "enhancer epigenomics"
       ],
-      "core_claim": "ECM stiffness activates mechanoenhancers in two temporal phases: Phase 1 (<15 min): Piezo1→Ca2+→CaMKII→phospho-HDAC4/5 (Ser467/498)→HDAC4/5 nuclear export→EP300 derepression→H3K27ac at mechanoenhancers; Phase 2 (30-120 min): YAP/MRTF nuclear translocation→BRD4 condensate amplification of Phase 1-primed marks.",
+      "core_claim": "ECM stiffness activates mechanoenhancers in two temporal phases: Phase 1 (<15 min): Piezo1\u2192Ca2+\u2192CaMKII\u2192phospho-HDAC4/5 (Ser467/498)\u2192HDAC4/5 nuclear export\u2192EP300 derepression\u2192H3K27ac at mechanoenhancers; Phase 2 (30-120 min): YAP/MRTF nuclear translocation\u2192BRD4 condensate amplification of Phase 1-primed marks.",
       "key_prediction": "H3K27ac CUT&RUN time course shows first appearance at mechanoenhancers at 10-15 min (HDAC4/5 export) preceding YAP nuclear entry (30-60 min); Piezo1 KO abolishes Phase 1 H3K27ac kinetics but not eventual Phase 2 H3K27ac (YAP-dependent); GSK2334470 (CaMKII inhibitor) recapitulates Piezo1 KO phenotype for Phase 1",
       "evolved_to": "C2-H1"
     },
     {
       "id": "H1e",
-      "title": "KDM6B→EP300 Sequential Epigenetic Relay Derepresses Mechanoenhancers in IPF Fibroblasts",
+      "title": "KDM6B\u2192EP300 Sequential Epigenetic Relay Derepresses Mechanoenhancers in IPF Fibroblasts",
       "confidence": 0.56,
       "qg_verdict": "evolved_from_H1",
       "disciplines": [
@@ -87,7 +87,7 @@
         "epigenomics",
         "fibrosis"
       ],
-      "core_claim": "In IPF fibroblasts (which retain poised/bivalent enhancer marks at mechanoenhancers from their progenitor state), stiff ECM activates KDM6B to erase H3K27me3 at bivalent mechanoenhancers (keeping H3K4me1), then EP300 deposits H3K27ac at newly derepressed loci. This sequential relay (KDM6B→EP300) acts as a ratchet that locks the IPF fibroblast into a stiffness-activated state, explaining why IPF fibroblasts are epigenetically hyperresponsive to mechanical cues.",
+      "core_claim": "In IPF fibroblasts (which retain poised/bivalent enhancer marks at mechanoenhancers from their progenitor state), stiff ECM activates KDM6B to erase H3K27me3 at bivalent mechanoenhancers (keeping H3K4me1), then EP300 deposits H3K27ac at newly derepressed loci. This sequential relay (KDM6B\u2192EP300) acts as a ratchet that locks the IPF fibroblast into a stiffness-activated state, explaining why IPF fibroblasts are epigenetically hyperresponsive to mechanical cues.",
       "key_prediction": "IPF patient-derived fibroblasts show H3K4me1+H3K27me3 bivalency at Cosgrove 2025 mechanoenhancers on soft substrate; stiff substrate resolves bivalency to H3K4me1+H3K27ac (KDM6B-dependent); GSK-J4 (KDM6B inhibitor) blocks mechanoenhancer H3K27ac and fibrosis marker expression specifically in IPF but not normal fibroblasts",
       "evolved_to": null
     },
@@ -112,53 +112,53 @@
       "id": "C2-H1",
       "title": "Two-Phase Mechanoenhancer Activation Constitutes a Temporal Coincidence Gate",
       "confidence": 0.61,
-      "note": "Cycle 2 bonus hypothesis — Phase 1 H3K27ac marks are PREREQUISITE for Phase 2 BRD4 condensate nucleation"
+      "note": "Cycle 2 bonus hypothesis \u2014 Phase 1 H3K27ac marks are PREREQUISITE for Phase 2 BRD4 condensate nucleation"
     },
     {
       "id": "C2-H2",
       "title": "Lamin A/C Concentration Sets Cell-Intrinsic Stiffness-Sensing Threshold for Mechanoenhancer Activation",
       "confidence": 0.58,
-      "note": "Cycle 2 bonus hypothesis — explains cell-to-cell heterogeneity in mechanoenhancer responsiveness"
+      "note": "Cycle 2 bonus hypothesis \u2014 explains cell-to-cell heterogeneity in mechanoenhancer responsiveness"
     },
     {
       "id": "C2-H3",
       "title": "Nuclear Actin Polymerization State Regulates MRTF-A Residence Time at CaRG-Box Mechanoenhancers",
       "confidence": 0.6,
-      "note": "Cycle 2 bonus hypothesis — nuclear F-actin tethers MRTF-A via RPEL domain at CaRG-box chromatin"
+      "note": "Cycle 2 bonus hypothesis \u2014 nuclear F-actin tethers MRTF-A via RPEL domain at CaRG-box chromatin"
     },
     {
       "id": "EH3",
-      "title": "YAP-BRD4 Condensate Phase Switch (BRD4 IDR n≈4 multivalency, 5-15 kPa threshold)",
+      "title": "YAP-BRD4 Condensate Phase Switch (BRD4 IDR n\u22484 multivalency, 5-15 kPa threshold)",
       "confidence": 0.63,
       "note": "Supplementary evolved from H3"
     },
     {
       "id": "EH4",
-      "title": "MRTF-A G-Actin Threshold Drives RPEL Unmasking — LXXLL Motif Exposed for EP300 Binding",
+      "title": "MRTF-A G-Actin Threshold Drives RPEL Unmasking \u2014 LXXLL Motif Exposed for EP300 Binding",
       "confidence": 0.58,
       "note": "Supplementary evolved from H4"
     },
     {
       "id": "EH2",
-      "title": "CaMKII→HDAC4/5-Ser467/498 Nuclear Export→EP300 Derepression (mechanism fix)",
+      "title": "CaMKII\u2192HDAC4/5-Ser467/498 Nuclear Export\u2192EP300 Derepression (mechanism fix)",
       "confidence": 0.57,
       "note": "Supplementary evolved from H2"
     },
     {
       "id": "EH1",
-      "title": "KDM6B Nuclear Retention Controlled by ECM Viscoelastic Stress Relaxation τ½",
+      "title": "KDM6B Nuclear Retention Controlled by ECM Viscoelastic Stress Relaxation \u03c4\u00bd",
       "confidence": 0.56,
       "note": "Supplementary evolved from H1"
     },
     {
       "id": "EH5",
-      "title": "IDR-Deleted YAP F95A/W96A Condensate Test — Coalescence Dynamics Replaces Surface Tension",
+      "title": "IDR-Deleted YAP F95A/W96A Condensate Test \u2014 Coalescence Dynamics Replaces Surface Tension",
       "confidence": 0.55,
       "note": "Supplementary evolved from H5"
     }
   ],
-  "key_anomaly": "86.2% of mechanoenhancer-gene connections lack annotated chromatin loops (Cosgrove 2025) — dominant mechanism is looping-independent",
-  "landmark_paper": "Cosgrove et al. 2025, Science — mechanoenhancers genome-wide (ATAC-seq + CRISPRi)",
+  "key_anomaly": "86.2% of mechanoenhancer-gene connections lack annotated chromatin loops (Cosgrove 2025) \u2014 dominant mechanism is looping-independent",
+  "landmark_paper": "Cosgrove et al. 2025, Science \u2014 mechanoenhancers genome-wide (ATAC-seq + CRISPRi)",
   "hub_protein": "EP300",
   "hub_string_scores": {
     "EP300-BRD4": 0.988,
@@ -166,16 +166,53 @@
     "EP300-MRTFA": 0.71
   },
   "new_evidence": [
-    "iScience 2024 PMID 38784009 — endogenous YAP condensates with TEAD1+BRD4 in response to actin tension",
+    "iScience 2024 PMID 38784009 \u2014 endogenous YAP condensates with TEAD1+BRD4 in response to actin tension",
     "CaMKII activated within 3 min of Piezo1 Ca2+ influx (NEC 2025 Nat Commun Biol)",
-    "PMID 23804765 — nuclear CaMKII → H3S10ph in cardiac context (nuclear CaMKII precedent)"
+    "PMID 23804765 \u2014 nuclear CaMKII \u2192 H3S10ph in cardiac context (nuclear CaMKII precedent)"
   ],
-  "disjointness_context": "NEWLY_OPENED — landmark paper (Cosgrove 2025, Science) published ~3 months before session; field genuinely new despite PARTIALLY_EXPLORED classification",
+  "disjointness_context": "NEWLY_OPENED \u2014 landmark paper (Cosgrove 2025, Science) published ~3 months before session; field genuinely new despite PARTIALLY_EXPLORED classification",
   "new_heuristics": [
     "NEWLY_OPENED_PARTIALLY_EXPLORED is viable when landmark paper < 6 months old",
-    "Hub protein discovery first (STRING), then upstream diversity — generates non-redundant hypothesis families",
+    "Hub protein discovery first (STRING), then upstream diversity \u2014 generates non-redundant hypothesis families",
     "Quality Gate verification is a supplementary literature search phase (hypothesis-specific terms find papers missed by field-level scout)",
-    "Cell-type mutation in evolution resolves cell-context mismatch without killing hypothesis — IPF fibroblast example"
+    "Cell-type mutation in evolution resolves cell-context mismatch without killing hypothesis \u2014 IPF fibroblast example"
   ],
-  "uploaded": false
+  "uploaded": false,
+  "files": [
+    "computational-validation.json",
+    "computational-validation.md",
+    "critique.json",
+    "critique.md",
+    "cycle1-critique.md",
+    "cycle1-critiqued.json",
+    "cycle1-evolved.json",
+    "cycle1-evolved.md",
+    "cycle1-ranked.json",
+    "cycle1-raw.json",
+    "cycle2-critique.md",
+    "cycle2-critiqued.json",
+    "cycle2-hypotheses.json",
+    "cycle2-hypotheses.md",
+    "cycle2-quality-gate.json",
+    "cycle2-quality-gate.md",
+    "cycle2-ranked.json",
+    "cycle2-ranking.md",
+    "cycle2-raw.json",
+    "evolution.json",
+    "evolution.md",
+    "final-hypotheses.md",
+    "final.json",
+    "hypotheses.json",
+    "hypotheses.md",
+    "ingest.json",
+    "literature-context.md",
+    "literature.json",
+    "quality-gate.json",
+    "quality-gate.md",
+    "ranking.json",
+    "ranking.md",
+    "session-analysis.json",
+    "session-analysis.md",
+    "session-summary.md"
+  ]
 }
