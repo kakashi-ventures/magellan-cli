@@ -1,0 +1,252 @@
+{
+  "session_id": "2026-03-27-scout-013",
+  "cycle": 1,
+  "phase": "critique",
+  "timestamp": "2026-03-27",
+  "critic_model": "opus-4.6",
+  "hypotheses_critiqued": 7,
+  "kill_rate": 0.286,
+  "wound_rate": 0.429,
+  "survive_rate": 0.286,
+  "kills": 2,
+  "wounds": 3,
+  "survives": 2,
+  "hypotheses": [
+    {
+      "id": "H1",
+      "title": "GEV Tail Index (xi) as a Phylogenomic Signature of Thermal Adaptation Strategy",
+      "verdict": "SURVIVES",
+      "original_confidence": 6,
+      "revised_confidence": 5,
+      "original_groundedness": 8,
+      "revised_groundedness": 8,
+      "key_attack": "n=13 species with phylogenetic confounding (archaea-eukaryote split may dominate OGT signal); proteome composition effects may determine xi independently of thermal adaptation",
+      "novelty_status": "NOVEL",
+      "citation_errors": [],
+      "strongest_kill_argument": "Proteome composition (fold-type distribution, IDP fraction, protein size) varies across the tree of life and could entirely determine xi, making the 'thermal adaptation strategy' interpretation an ecological fallacy.",
+      "attacks_summary": {
+        "novelty": "HOLDS — zero results for GEV shape parameter applied to proteome Tm distributions",
+        "mechanism": "PLAUSIBLE — FTG theorem guaranteed; biological prediction follows from known adaptation mechanisms. Independence violation requires cluster-maxima correction",
+        "logic": "CAUTION — xi-OGT vulnerable to phylogenetic confounding with n=13. Requires phylogenetically independent contrasts",
+        "falsifiability": "PASSES — testable with existing Meltome Atlas data",
+        "triviality": "NOT trivial",
+        "counter_evidence": "Leuenberger 2017 (Science) showed protein size, amino acid composition, beta-sheet determine Tm. Proteome composition effects may dominate.",
+        "groundedness": "~80% grounded. Coles 2001 VERIFIED. Jarzab 2020 VERIFIED. Fisher-Tippett 1928 VERIFIED.",
+        "hallucination_check": "LOW risk",
+        "claim_verification": "All cited papers confirmed. SE(xi) estimate is parametric but plausible."
+      }
+    },
+    {
+      "id": "H2",
+      "title": "Complex-Minimum Tm Identifies Thermal Bottleneck Complexes Invisible to Mean-Tm Analysis",
+      "verdict": "SURVIVES",
+      "original_confidence": 7,
+      "revised_confidence": 6,
+      "original_groundedness": 8,
+      "revised_groundedness": 7,
+      "key_attack": "TPCA citation error (Tan et al. 2018 Science, not Mateus 2020 MSB); chaperone buffering (HSP70/HSP90) may add 3-5C effective stabilization that static Tm ignores",
+      "novelty_status": "NOVEL",
+      "citation_errors": [
+        {
+          "claim": "TPCA co-aggregation data attributed to Mateus 2020, Molecular Systems Biology",
+          "error_type": "attribution",
+          "correct_citation": "TPCA introduced by Tan et al. 2018, Science 359:1170-1177 (PMID 29439025). Mateus 2020 MSB is a TPP review.",
+          "severity": "soft",
+          "underlying_fact_correct": true
+        }
+      ],
+      "strongest_kill_argument": "Chaperone networks (HSP70/HSP90) actively rescue denaturing proteins in vivo, potentially adding 3-5C stabilization that the static Tm-based EVT model ignores. The ±2C prediction window may be too narrow.",
+      "attacks_summary": {
+        "novelty": "HOLDS — zero results for return level estimation applied to protein complex thermal failure",
+        "mechanism": "PLAUSIBLE — bottleneck principle supported by TPCA (Tan 2018). Chaperone buffering is main concern.",
+        "logic": "SOUND — multi-level abstraction is rigorous. Hydrology analogy structural, not superficial.",
+        "falsifiability": "STRONG — puromycin incorporation and Seahorse respirometry validation specific and feasible",
+        "triviality": "NOT trivial",
+        "counter_evidence": "Chaperone rescue can shift effective Tm in vivo. Heating rate and kinetic effects not captured by equilibrium Tm.",
+        "groundedness": "~75% grounded. TPCA 350+ complexes confirmed from Tan 2018 (misattributed to Mateus 2020). HSP STRING scores confirmed. Lim 2023 NatComms confirmed.",
+        "hallucination_check": "LOW risk",
+        "claim_verification": "TPCA data confirmed (Tan 2018 PMID 29439025). Soft attribution error, not fabrication."
+      }
+    },
+    {
+      "id": "H3",
+      "title": "Censored GEV Recovers the Invisible 20% Below TPP Window",
+      "verdict": "WOUNDED",
+      "original_confidence": 5,
+      "revised_confidence": 3,
+      "original_groundedness": 6,
+      "revised_groundedness": 5,
+      "key_attack": "CRITICAL: IDPs lack cooperative unfolding transitions — Tm is UNDEFINED for these proteins. Censored GEV assumes Tm exists for all censored proteins. This is model misspecification, not censoring. IDPs constitute a substantial fraction of the sub-30C population.",
+      "novelty_status": "NOVEL",
+      "citation_errors": [],
+      "strongest_kill_argument": "IDPs don't have Tm. Censored GEV models P(Tm <= 30C) but for IDPs this quantity is undefined. This is model misspecification, not data censoring.",
+      "attacks_summary": {
+        "novelty": "HOLDS — zero results for censored EVT applied to TPP data",
+        "mechanism": "CRITICAL FAILURE — IDPs have no cooperative unfolding and no defined Tm. Censored GEV assumes Tm exists for all censored proteins. For IDPs, Tm is undefined.",
+        "logic": "FLAWED — hydrology analogy breaks down. In hydrology, every year has a flood level. In proteomics, IDPs have no Tm at all.",
+        "falsifiability": "WEAK — +/-3% accuracy for proteins at 20-30C is difficult to validate because these are precisely the hard-to-measure proteins",
+        "triviality": "NOT trivial — censored EVT for TPP is genuinely novel",
+        "counter_evidence": "IDPs constitute 30-50% of eukaryotic proteomes. Many censored proteins likely have no defined Tm.",
+        "groundedness": "~60% grounded. Censored EVT methodology GROUNDED (Stedinger 1993). 20% unmeasured GROUNDED (Jarzab 2020, Figueroa-Navedo 2024 confirmed). IDP issue unaddressed.",
+        "hallucination_check": "MODERATE risk — hydrology-to-proteomics transfer invalid because censoring mechanisms differ fundamentally",
+        "claim_verification": "Figueroa-Navedo 2024 CRM CONFIRMED. Stedinger 1993 CONFIRMED. Smith 1985 correctly downgraded."
+      }
+    },
+    {
+      "id": "H4",
+      "title": "Non-Stationary GEV with Drug Covariate Predicts Thermal Destabilization Cascades",
+      "verdict": "KILLED",
+      "original_confidence": 4,
+      "revised_confidence": 2,
+      "original_groundedness": 5,
+      "revised_groundedness": 4,
+      "key_attack": "FATAL data-method mismatch. Non-stationary GEV requires the ENTIRE distribution to shift with covariate. Drug TPP shifts only 1-3% of proteome (50-200 out of 7000 proteins). 97% unchanged proteins dominate GEV parameter estimates. 3-5 drug concentrations provide insufficient data for covariate-dependent GEV fitting.",
+      "novelty_status": "NOVEL_BUT_METHODOLOGICALLY_INVALID",
+      "citation_errors": [],
+      "kill_rationale": "Non-stationary GEV requires systematic distribution-level shifts; drug TPP produces localized shifts in <3% of the proteome. The GEV parameters will be dominated by the unchanged 97% bulk. With 3-5 concentration levels and one proteome snapshot per level, there is insufficient data for non-stationary GEV parameter estimation.",
+      "attacks_summary": {
+        "novelty": "HOLDS — zero results. But novelty does not save fatal methodology.",
+        "mechanism": "FATAL — drug TPP shifts 1-3% of proteome. Non-stationary GEV requires ENTIRE distribution to shift. The analogy to climate non-stationary GEV is structurally broken.",
+        "logic": "FATAL — this is a mixture model problem (shifted subpopulation + unchanged majority), not a non-stationary distribution problem",
+        "falsifiability": "WEAK — 3-5 drug concentrations insufficient for covariate GEV estimation",
+        "triviality": "N/A — methodologically invalid",
+        "counter_evidence": "Staurosporine shifts only 49/66 kinases by >1C. Most proteins unaffected. Distribution-level shifts do not occur.",
+        "groundedness": "~50% grounded. Methodology real but inapplicable to drug TPP data structure.",
+        "hallucination_check": "HIGH risk — novelty is artifact of approach being wrong",
+        "claim_verification": "Drug shifts 1-5C on 50-200 proteins CONFIRMED. 3-5 concentrations CONFIRMED."
+      }
+    },
+    {
+      "id": "H5",
+      "title": "Pathway-Level Block Maxima Reveal Translation Initiation as Universal Thermal Death Bottleneck",
+      "verdict": "WOUNDED",
+      "original_confidence": 5,
+      "revised_confidence": 4,
+      "original_groundedness": 6,
+      "revised_groundedness": 5,
+      "key_attack": "Biological prediction (translation initiation is thermally vulnerable) is ALREADY KNOWN from heat stress biology (eIF2a phosphorylation, eIF4F disassembly). Membrane Sensor Hypothesis shows lipid phase transitions may trigger death before protein denaturation. KEGG annotations incomplete for non-model species.",
+      "novelty_status": "PARTIALLY_EXPLORED",
+      "citation_errors": [],
+      "strongest_kill_argument": "The Membrane Sensor Hypothesis (Vigh et al. 2007 PNAS) shows membrane fluidity changes trigger thermal death before protein denaturation at physiological temperatures. The protein-Tm framework may measure the wrong bottleneck.",
+      "attacks_summary": {
+        "novelty": "PARTIAL — EVT formalization novel, but translation initiation heat sensitivity already known from eIF2a/eIF4F literature",
+        "mechanism": "PLAUSIBLE for EVT formalization. KEGG incomplete for non-model organisms.",
+        "logic": "FLAWED ASSUMPTION — assumes proteins are THE thermal bottleneck. Membrane lipid phase transitions and RNA/DNA also have thermal limits.",
+        "falsifiability": "PASSES — but 10/13 species prediction ambiguous if annotation gaps cause failure",
+        "triviality": "MODERATE — heat stress biologists know translation is thermally sensitive",
+        "counter_evidence": "Membrane Sensor Hypothesis (Vigh et al. 2007): lipid transitions trigger thermal death before protein denaturation at fever-range temperatures",
+        "groundedness": "~65% grounded. Block maxima EVT GROUNDED. KEGG partially GROUNDED. Translation sensitivity GROUNDED.",
+        "hallucination_check": "LOW risk",
+        "claim_verification": "Translation initiation inhibited by heat stress CONFIRMED. Incomplete KEGG for non-model species CONFIRMED."
+      }
+    },
+    {
+      "id": "H6",
+      "title": "Extremal Index Quantifies Thermal Cooperativity — Eukaryotes vs. Prokaryotes",
+      "verdict": "KILLED",
+      "original_confidence": 5,
+      "revised_confidence": 1,
+      "original_groundedness": 5,
+      "revised_groundedness": 2,
+      "key_attack": "FATAL methodological error: extremal index theta is defined for stationary TIME SERIES, not cross-sectional data. Proteome Tm is cross-sectional (13,000 proteins measured simultaneously, no natural sequential ordering). Theta estimate depends entirely on arbitrary protein ordering. Ferro-Segers 2003 intervals estimator operates on interexceedance TIMES requiring temporal ordering.",
+      "novelty_status": "NOVEL_BUT_METHODOLOGICALLY_INVALID",
+      "citation_errors": [
+        {
+          "claim": "TPCA co-aggregation data attributed to Mateus 2020",
+          "error_type": "attribution",
+          "correct_citation": "TPCA introduced by Tan et al. 2018, Science 359:1170-1177",
+          "severity": "soft",
+          "underlying_fact_correct": true
+        }
+      ],
+      "kill_rationale": "The extremal index is a time-series statistic requiring sequential data with natural ordering. Proteome Tm is cross-sectional. No natural ordering of proteins exists for theta estimation — different orderings yield different theta values. The Ferro-Segers 2003 intervals estimator requires interexceedance times between consecutive threshold crossings in an ordered sequence. Co-aggregation is a functional relationship, not temporal clustering. Proper tools: multivariate EVT (copulas), TPCA pairwise analysis, network cascade methods.",
+      "attacks_summary": {
+        "novelty": "HOLDS — but novelty is artifact of methodological error",
+        "mechanism": "FATAL — theta requires time series. Proteome Tm is cross-sectional. No natural ordering exists.",
+        "logic": "FATAL — co-aggregation is functional, not temporal. Proper tools: copula-based multivariate EVT, TPCA.",
+        "falsifiability": "FAILS — theta undefined for cross-sectional data",
+        "triviality": "N/A — methodologically invalid",
+        "counter_evidence": "Web search confirms: extremal index 'cannot be meaningfully applied to cross-sectional data'",
+        "groundedness": "~40% grounded. Ferro-Segers 2003 CONFIRMED (JRSS B 65:545-556). TPCA data GROUNDED. Application to cross-sectional data UNGROUNDED.",
+        "hallucination_check": "TRIGGERED — novelty is artifact of approach being wrong",
+        "claim_verification": "Ferro-Segers 2003 CONFIRMED. TPCA confirmed (Tan 2018). Human theta UNVERIFIABLE."
+      }
+    },
+    {
+      "id": "H7",
+      "title": "POT Functional Enrichment Reveals Thermal Disposability in Signal Transduction",
+      "verdict": "WOUNDED",
+      "original_confidence": 6,
+      "revised_confidence": 4,
+      "original_groundedness": 6,
+      "revised_groundedness": 5,
+      "key_attack": "Biological finding has PRIOR ART: Leuenberger et al. 2017 (Science, PMID 28232526) showed bottom 10% by Tm enriched for cofactor/DNA-binding proteins. GPD threshold selection is novel but 'thermal disposability' interpretation is post-hoc and confounded by disorder, expression level, protein size.",
+      "novelty_status": "PARTIALLY_EXPLORED",
+      "citation_errors": [
+        {
+          "claim": "CDK2 Tm ~55C",
+          "error_type": "unverified",
+          "correct_value": "Could not verify specific CDK2 Tm via web search",
+          "severity": "minor"
+        }
+      ],
+      "strongest_kill_argument": "Leuenberger et al. 2017 (Science) already performed GO enrichment of thermally stratified proteins, finding enrichment for cofactor/DNA-binding proteins in the unstable set. The GPD-selected threshold adds methodological rigor but the biological finding is incremental over prior art.",
+      "attacks_summary": {
+        "novelty": "PARTIAL — GPD threshold novel. But GO enrichment of unstable proteins already done (Leuenberger 2017).",
+        "mechanism": "SOUND for GPD methodology. 'Thermal disposability' interpretation is post-hoc. Low Tm likely reflects disorder for binding flexibility.",
+        "logic": "NON SEQUITUR — enrichment in low-Tm tail does not imply 'disposability.' Confounders: disorder, expression, size, evolutionary age.",
+        "falsifiability": "PASSES — FDR<0.01 across 13 species is testable",
+        "triviality": "MODERATE — GO enrichment of low-Tm proteins is standard TPP analysis",
+        "counter_evidence": "Many kinases are stable. Enrichment driven by disordered regulatory proteins, not kinases. Expression confounder.",
+        "groundedness": "~55% grounded. GPD methodology GROUNDED. Prior art GROUNDED. 'Thermal disposability' is PARAMETRIC. CDK2 Tm UNVERIFIED.",
+        "hallucination_check": "MODERATE risk — 'thermal disposability design principle' may be over-interpretation",
+        "claim_verification": "GO terms CONFIRMED. CDK2 Tm UNVERIFIED. Leuenberger 2017 CONFIRMED as prior art."
+      }
+    }
+  ],
+  "critic_questions": [
+    {
+      "hypothesis_id": "H3",
+      "question": "How do you handle IDPs that lack cooperative unfolding transitions? Censored GEV assumes Tm exists for all censored proteins. If 30-50% of the censored set are IDPs without defined Tm, how does this model misspecification affect parameter estimates and predicted protein counts?"
+    },
+    {
+      "hypothesis_id": "H5",
+      "question": "The Membrane Sensor Hypothesis (Vigh et al. 2007 PNAS) shows membrane lipid phase transitions trigger thermal death before protein denaturation at physiological temperatures. If membranes fail first, does the protein-Tm-based EVT framework miss the actual bottleneck?"
+    },
+    {
+      "hypothesis_id": "H7",
+      "question": "Leuenberger et al. 2017 (Science) already showed GO enrichment of the 10% least thermally stable proteins. What does the GPD-selected threshold reveal BEYOND a simple percentile cutoff? Can you deconfound enrichment from protein size, disorder fraction, and expression level?"
+    }
+  ],
+  "citation_issues": [
+    {
+      "claim": "TPCA attributed to Mateus 2020, Molecular Systems Biology",
+      "actual": "TPCA introduced by Tan et al. 2018, Science 359:1170-1177 (PMID 29439025). Mateus 2020 MSB is a TPP review.",
+      "severity": "soft_attribution_error",
+      "affected_hypotheses": ["H2", "H6"]
+    },
+    {
+      "claim": "CDK2 Tm ~55C (H7)",
+      "actual": "Could not verify specific CDK2 Tm value via web search",
+      "severity": "unverified_claim",
+      "affected_hypotheses": ["H7"]
+    }
+  ],
+  "meta_critique": {
+    "kill_rate": 0.286,
+    "kill_rate_assessment": "Within healthy range (28.6%). Combined kill+wound = 71.4% demonstrates strong adversarial pressure.",
+    "web_searches_performed": 18,
+    "web_searches_per_hypothesis_min": 2,
+    "claim_verification_complete": true,
+    "fabricated_citations_found": 0,
+    "attribution_errors_found": 1,
+    "unverified_claims": 1,
+    "key_counter_evidence": [
+      "Extremal index literature: exclusively defined for stationary time series, not cross-sectional data",
+      "IDPs lack cooperative unfolding — no defined Tm for censored GEV to model",
+      "Non-stationary GEV requires distribution-level shifts; drug TPP shifts only 1-3% of proteome",
+      "Leuenberger et al. 2017 (Science): GO enrichment of thermally unstable proteins already performed",
+      "Membrane Sensor Hypothesis (Vigh 2007): lipid transitions trigger thermal death before protein denaturation"
+    ]
+  }
+}

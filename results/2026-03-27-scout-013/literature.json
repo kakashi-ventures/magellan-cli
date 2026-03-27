@@ -1,0 +1,291 @@
+{
+  "session_id": "2026-03-27-scout-013",
+  "generated": "2026-03-27",
+  "mode": "scout",
+  "retrieval_method": "MCP-first (Semantic Scholar + PubMed), WebSearch fallback",
+  "mcp_status": {
+    "semantic_scholar": "available — individual field queries returned results; cross-field queries returned zero hits (confirms disjointness)",
+    "pubmed": "empty results for all queries (likely connectivity issue) — WebSearch used as primary fallback"
+  },
+  "candidates": [
+    {
+      "id": 1,
+      "title": "Extreme Value Theory x Proteome Thermal Vulnerability Mapping",
+      "field_a": "Extreme value statistics (GEV distributions, tail index analysis)",
+      "field_c": "Proteome-wide thermal stability distributions (thermal proteome profiling)",
+      "disjointness_status": "DISJOINT",
+      "disjointness_confidence": 0.97,
+      "cross_field_papers_found": 0,
+      "adjacent_note": "BLAST e-values use Gumbel distribution for sequence alignment scores — distinct application, NOT thermal stability distributions",
+      "papers_retrieved": [
+        {
+          "filename": "jarzab2020-meltome-atlas-thermal-proteome-stability.md",
+          "title": "Meltome atlas — thermal proteome stability across the tree of life",
+          "authors": "Jarzab A et al.",
+          "year": 2020,
+          "journal": "Nature Methods",
+          "doi": "10.1038/s41592-020-0801-4",
+          "pmid": 32284610,
+          "relevance": "Largest Tm dataset (48,000 proteins, 13 species); identifies 20% unmeasured tail proteins; uses mean/SD statistics only — the EVT gap"
+        },
+        {
+          "filename": "figueroa-navedo2024-thermal-proteome-profiling-advances.md",
+          "title": "Experimental and data analysis advances in thermal proteome profiling",
+          "authors": "Figueroa-Navedo AM, Ivanov AR",
+          "year": 2024,
+          "journal": "Cell Reports Methods",
+          "doi": "10.1016/j.crmeth.2024.100717",
+          "relevance": "Confirms statistical limitations of Tm-centric analysis; advocates GPMelt but not EVT; quantifies the 20% out-of-range problem"
+        }
+      ],
+      "key_breakthroughs_field_a": [
+        "GEV/EVT mature in hydrology, climate, finance, power grids — computationally tractable",
+        "Peaks-over-threshold and return level estimation standard practice for tail behavior",
+        "Fisher-Tippett-Gnedenko theorem: only 3 possible limit distributions for maxima"
+      ],
+      "key_breakthroughs_field_c": [
+        "Meltome Atlas (2020): 48,000 proteins across 13 species, Tm 30-90 C",
+        "20% of proteome has Tm outside measurable ranges — heavy tail problem",
+        "GPMelt (2024): Gaussian process alternative to curve fitting; still not EVT",
+        "All eukaryotes show substantial safety margin between OGT and bulk protein precipitation temperature"
+      ],
+      "key_anomalies": [
+        "20% of proteome unmeasured because Tm values are outside temperature ranges — precisely the tail-estimation problem EVT addresses",
+        "Organism thermal death is set by extreme-vulnerable proteins (tail), not mean Tm — but field uses mean statistics",
+        "Safety margin between OGT and thermal death is a return-level problem — EVT is the correct tool but has never been applied"
+      ],
+      "gap_analysis": {
+        "explored": ["Mean/SD Tm statistics", "GPMelt Gaussian process approach", "NPARC nonparametric analysis", "BLAST Gumbel for sequence alignment scores"],
+        "not_explored": [
+          "GEV distribution fitting to proteome Tm data",
+          "Return level estimation for thermal death point prediction",
+          "Tail index classification across thermophiles vs mesophiles vs psychrophiles",
+          "Peaks-over-threshold for identifying thermally vulnerable subproteome",
+          "Fisher-Tippett-Gnedenko theorem to classify which EVT family a proteome belongs to"
+        ],
+        "most_promising": "Apply GEV fitting to Meltome Atlas 48,000-protein dataset; compute return levels (temperature killing 1% of proteome); compare tail indices across thermal adaptation strategies"
+      }
+    },
+    {
+      "id": 2,
+      "title": "Reservoir Computing Theory x Gut Microbiome Community Dynamics",
+      "field_a": "Reservoir computing (echo state networks, liquid state machines)",
+      "field_c": "Gut microbiome temporal dynamics and resilience",
+      "disjointness_status": "DISJOINT",
+      "disjointness_confidence": 0.93,
+      "cross_field_papers_found": 0,
+      "adjacent_note": "Bacterial RC (bioRxiv 2024) uses single-strain E. coli metabolic network as reservoir — NOT multi-species community dynamics. Ecological Jacobian stability analysis uses spectral radius of interaction matrix (same mathematical object as echo state property) but neither field has recognized the connection.",
+      "papers_retrieved": [
+        {
+          "filename": "stein2013-gut-microbiome-ecological-modeling-stability.md",
+          "title": "Ecological Modeling from Time-Series Inference: Insight into Dynamics and Stability of Intestinal Microbiota",
+          "authors": "Stein RR et al.",
+          "year": 2013,
+          "journal": "PLOS Computational Biology",
+          "doi": "10.1371/journal.pcbi.1003388",
+          "pmid": 24348232,
+          "relevance": "Uses Jacobian spectral radius as stability criterion — mathematically identical to echo state property but never named as such; foundational paper showing the latent mathematical bridge"
+        }
+      ],
+      "key_breakthroughs_field_a": [
+        "Echo state networks: sparse recurrent reservoir + linear readout; edge of chaos at spectral radius ~ 1",
+        "Bacterial RC (bioRxiv Sept 2024): E. coli K-12 as physical reservoir for regression/classification tasks — single strain, metabolic network",
+        "Connectome-based ESN (2025): biological connectivity matrices improve overfitting resistance",
+        "Nature Communications RC review (2024): RC expanding to physical systems and edge AI"
+      ],
+      "key_breakthroughs_field_c": [
+        "gLV + Jacobian stability (Stein 2013): spectral radius |lambda_max(J)| < 1 = stable community — same criterion as echo state property",
+        "Graph neural networks for microbiome temporal prediction (Nature Comms 2025)",
+        "Alternative stable states in microbiome (Microbiome 2023): bistability consistent with edge-of-chaos dynamics",
+        "LSTM for microbiome community design (eLife): temporal prediction but not reservoir computing"
+      ],
+      "key_anomalies": [
+        "Spectral radius of interaction matrix is the key criterion in BOTH ecological stability theory AND echo state property — neither field has recognized this overlap",
+        "Dysbiosis (spectral radius > 1, unstable) maps to chaotic reservoir regime in RC theory — useful health biomarker that has never been computed from clinical microbiome data",
+        "LSTM models applied to microbiome dynamics but reservoir computing (which uses the biologically meaningful interaction matrix directly) has never been tried"
+      ],
+      "gap_analysis": {
+        "explored": ["gLV dynamics + Jacobian stability for microbiome", "LSTM/GNN temporal prediction of microbiome", "Single-strain bacterial reservoir computing (E. coli metabolics)", "Ecology of microbiome networks"],
+        "not_explored": [
+          "Multi-species community interaction matrix analyzed as reservoir weight matrix W",
+          "Echo state property formally computed for real microbiome interaction matrices",
+          "Memory capacity from fecal microbiota transplant (FMT) time series",
+          "Lyapunov exponent of community dynamics as health biomarker",
+          "Spectral radius ~ 1 as quantitative marker for resilient vs fragile microbiome",
+          "Input separability (dietary discrimination) as gut health metric via RC framework"
+        ],
+        "most_promising": "Compute echo state property of inferred gLV interaction matrices from HMP/MITRE longitudinal datasets; test whether healthy subjects have spectral radius closer to 1 (edge of chaos) than IBD subjects"
+      }
+    },
+    {
+      "id": 3,
+      "title": "Granular Jamming Transition Physics x Chromatin Compaction During Confined Migration",
+      "field_a": "Granular jamming physics (jamming transition, force chains, marginally jammed states)",
+      "field_c": "Chromatin compaction mechanics during cancer cell constriction migration",
+      "disjointness_status": "DISJOINT",
+      "disjointness_confidence": 0.91,
+      "cross_field_papers_found": 0,
+      "adjacent_note": "'Nucleosome jamming' language exists in replication biology (kinetic parking-lot problem of nucleosome assembly on DNA) but is a distinct concept from the granular jamming transition (rigidity transition at phi_J). Cell-level jamming transitions in cancer metastasis exist but explicitly do not extend to sub-cellular chromatin organization. Chromatin glass/gel analogies exist but do not use jamming physics formalism.",
+      "papers_retrieved": [
+        {
+          "filename": "zhao2024-chromatin-condensates-confined-migration.md",
+          "title": "Chromatin compaction during confined cell migration induces and reshapes nuclear condensates",
+          "authors": "Zhao JZ, Xia J, Brangwynne CP",
+          "year": 2024,
+          "journal": "Nature Communications",
+          "doi": "10.1038/s41467-024-54120-5",
+          "pmid": 39557835,
+          "relevance": "State-of-the-art chromatin mechanics during confinement; uses LLPS framework exclusively; no jamming physics formalism; confirms the gap"
+        }
+      ],
+      "key_breakthroughs_field_a": [
+        "Gardner transition coincides with jamming scalings in hard spheres (arXiv 2024): Gardner transition is precursor to jamming — structural order parameter established",
+        "Unjamming transition in cancer (PMID 39633605, 2024): cell-level critical shape index p0* = 3.81",
+        "Jamming in embryogenesis and cancer (Frontiers Physics 2021): tissue-level jamming",
+        "No biological applications at sub-cellular/chromatin scale in any paper found"
+      ],
+      "key_breakthroughs_field_c": [
+        "Zhao, Xia, Brangwynne 2024: LLPS framework for chromatin during confinement; no jamming formalism",
+        "PNAS 2025: chromatin decompaction stiffens nucleus — mechanical coupling confirmed",
+        "bioRxiv 2026: chromatin architecture and constriction cooperate in cancer dissemination",
+        "Multiscale chromatin condensates (Science 2025): LLPS and material properties"
+      ],
+      "key_anomalies": [
+        "Chromatin must undergo solid-to-fluid transition during nuclear squeezing — this is a jamming-unjamming transition at nucleosome packing level, but no paper computes phi_J for nucleosome arrays",
+        "Nucleosome volume fraction phi ~ 0.3-0.6 in heterochromatin is in the range where granular jamming predicts a phase transition",
+        "LLPS and glass/gel frameworks for chromatin are incompatible but both used — jamming theory could reconcile them"
+      ],
+      "gap_analysis": {
+        "explored": ["Cell-level jamming transitions in cancer metastasis", "LLPS framework for chromatin condensates", "Polymer glass/gel analogies for chromatin", "Kinetic 'nucleosome jamming' in replication biology (parking-lot kinetics)"],
+        "not_explored": [
+          "Jamming transition phi_J for nucleosome packings in heterochromatin",
+          "Coordination number Z_c analysis for nucleosome contact networks",
+          "Force chain detection in compressed chromatin (high-resolution imaging + stress inference)",
+          "Gardner transition as origin of irreversible chromatin rearrangements during confined migration",
+          "Power-law elastic modulus scaling near jamming applied to chromatin mechanics data"
+        ],
+        "most_promising": "Measure phi (nucleosome volume fraction) in heterochromatin vs euchromatin vs migrating cell constriction zones; test whether phi crosses phi_J during confinement; use sub-nuclear resolution force inference to detect force chains in jammed chromatin"
+      }
+    },
+    {
+      "id": 4,
+      "title": "ML-Augmented Acoustic Emission Classification x Plant Xylem Cavitation Mode Identification",
+      "field_a": "ML-enhanced AE analysis (CWT+CNN) for composite failure mode classification",
+      "field_c": "Plant xylem cavitation and embolism during drought stress",
+      "disjointness_status": "DISJOINT_AT_BRIDGE_LEVEL",
+      "disjointness_confidence": 0.88,
+      "cross_field_papers_found": 0,
+      "adjacent_note": "Frequency-band feature clustering exists in plant AE literature (Vergeynst 2016) using partial powers in 100-200 kHz, 200-400 kHz, 400-800 kHz bands — analogous to composites NDT but rule-based, NOT CWT scalogram + CNN. The full deep learning pipeline transfer has never been made.",
+      "papers_retrieved": [
+        {
+          "filename": "guo2022-deep-learning-acoustic-emission-composite.md",
+          "title": "Deep Learning Approach for Damage Classification Based on Acoustic Emission Data in Composite Materials",
+          "authors": "Guo F et al.",
+          "year": 2022,
+          "journal": "Materials (MDPI)",
+          "doi": "10.3390/ma15124270",
+          "relevance": "CWT+CNN pipeline achieving 84.6-99.8% accuracy for composite failure mode classification — the source technology for transfer to plant AE"
+        },
+        {
+          "filename": "oletic2020-grapevine-xylem-acoustic-emission-time-frequency.md",
+          "title": "Time-frequency features of grapevine's xylem acoustic emissions for detection of drought stress",
+          "authors": "Oletic D et al.",
+          "year": 2020,
+          "journal": "Computers and Electronics in Agriculture",
+          "doi": "10.1016/j.compag.2020.105797",
+          "relevance": "State of the art in plant AE: manual frequency-band feature extraction; no CNN/deep learning; represents the methodological gap the bridge would close"
+        }
+      ],
+      "key_breakthroughs_field_a": [
+        "CWT scalogram + CNN: 84.6-94.3% accuracy for composite damage mode classification (2018-2024 literature, mature pipeline)",
+        "InceptionTime on raw AE: 99.8% accuracy — but CWT+CNN remains dominant for interpretable feature spaces",
+        "ML for discrete AE review (Springer NDT Journal 2025): comprehensive; no plant applications mentioned",
+        "ASTM E1930 feature space well established for AE classification"
+      ],
+      "key_breakthroughs_field_c": [
+        "Vergeynst 2016: frequency-domain features for cavitation AE discrimination (foundational rule-based method)",
+        "Oletic 2020: time-frequency signatures for drought stress detection across 4 grapevine cultivars",
+        "Talk is Cheap review (Trends Plant Science 2024): plant acoustic emissions overview; ML potential noted but not implemented for cavitation mode classification",
+        "Revised acoustic vulnerability curves (Tree Physiology 2024): cumulative AE counting methods improved; still not source classification"
+      ],
+      "key_anomalies": [
+        "Plant AE source classification is formally identical to composite failure mode classification (multi-source discrimination from frequency/amplitude features) — but the transfer has never been made",
+        "Plant hydraulics literature argues AE is both a reliable drought indicator AND unreliable due to source ambiguity — deep learning source classification resolves this but has not been applied",
+        "CWT scalogram reduces data to interpretable 2D image that captures both time and frequency structure — precisely what noisy plant field AE data needs"
+      ],
+      "gap_analysis": {
+        "explored": ["Manual frequency-band feature extraction for plant AE", "Cumulative AE counting for hydraulic vulnerability curves", "Basic wavelet scalar features (energy, entropy, variance)", "AE for drought stress detection"],
+        "not_explored": [
+          "CWT scalogram generation from plant AE signals as CNN input",
+          "Transfer learning or domain adaptation from composites NDT models to plant AE",
+          "Multi-class source classification (cavitation vs bark cracking vs embolism propagation vs noise) using deep learning",
+          "Felicity ratio mapping to quantify cavitation reversibility (embolism refilling)",
+          "ASTM E1930 feature space applied to plant AE data"
+        ],
+        "most_promising": "Train CWT+CNN on grapevine or oak dehydration AE data with known source proportions; validate against hydraulic conductance measurements; assess whether composite NDT domain adaptation provides useful prior features"
+      }
+    },
+    {
+      "id": 5,
+      "title": "Classical Nucleation Theory x Ferroptosis Ferritin Iron Pool Dynamics",
+      "field_a": "Classical nucleation theory (nucleation kinetics, critical radius, supersaturation)",
+      "field_c": "Intracellular iron pool dynamics during ferroptosis",
+      "disjointness_status": "DISJOINT",
+      "disjointness_confidence": 0.96,
+      "cross_field_papers_found": 0,
+      "adjacent_note": "JACS 2025 papers on ferritin mineral nucleation use CNT concepts for ferritin assembly in HEALTHY cells — distinct from ferroptosis context. No paper applies CNT to iron speciation during ferroptosis or uses CNT to explain the LIP paradox.",
+      "papers_retrieved": [
+        {
+          "filename": "ponnusamy2025-labile-iron-pool-ferroptosis.md",
+          "title": "Labile iron pool dynamics do not drive ferroptosis potentiation in colorectal cancer cells",
+          "authors": "Ponnusamy V et al.",
+          "year": 2025,
+          "journal": "bioRxiv / PMC",
+          "doi": "10.1101/2025.07.01.662602",
+          "pmid": 40631145,
+          "relevance": "Confirms the LIP paradox: LIP does NOT expand during ferroptosis despite ferritinophagy — the anomaly CNT is positioned to explain"
+        }
+      ],
+      "key_breakthroughs_field_a": [
+        "CNT nucleation landscape for biomolecular condensates (Nature 2021): CNT applies in cells for protein condensates",
+        "Ferritin mineral nucleation at 1.86 A resolution (JACS 2025): nucleation at acidic 3-fold pores, iron clusters resemble ferrihydrite — structural biology in healthy cells",
+        "Ferrihydrite transformation kinetics: labile Fe(III) supersaturation controls nucleation consistent with CNT principles (Geochimica 2021)",
+        "LSW Ostwald ripening kinetics: well-established framework for nano-particle coarsening applicable to iron nano-clusters"
+      ],
+      "key_breakthroughs_field_c": [
+        "Ponnusamy et al. 2025: LIP does NOT expand during ferroptosis despite ferritinophagy — central paradox of the field",
+        "Canonical ferroptosis mechanism review (Kong 2024): ferritinophagy → Fe3+ release → LIP expansion → Fenton → lipid peroxidation — CONTRADICTED by 2025 finding",
+        "NRF2 controls iron homeostasis during ferroptosis (Science Advances 2023)",
+        "Iron metabolism and ferroptosis review (PMC12374342, 2024): no nucleation theory content"
+      ],
+      "key_anomalies": [
+        "LIP paradox (Ponnusamy 2025): ferritinophagy releases iron from ferritin but LIP probe does not detect free Fe2+ increase — iron must be in a form the probe cannot detect",
+        "CNT prediction: at intracellular pH ~7.2 and the iron concentrations released by ferritinophagy, iron supersaturation drives nucleation of sub-critical Fe(OH)3/ferrihydrite clusters below detection threshold of TRX-PURO probe",
+        "pH drops during ferroptosis (acidification): lower pH → smaller r* → more nucleation → less free LIP → explains the paradox kinetically"
+      ],
+      "key_contradictions": [
+        "Field holds simultaneously: (a) ferritinophagy is required for ferroptosis and (b) LIP does not expand during ferroptosis. CNT resolves this: iron is released but immediately re-nucleates as sub-critical clusters."
+      ],
+      "gap_analysis": {
+        "explored": ["Ferritin mineral nucleation structural biology (JACS 2025)", "CNT for biomolecular condensate formation", "Ferroptosis iron metabolism reviews", "LIP probes and detection methods", "NCOA4-mediated ferritinophagy mechanism"],
+        "not_explored": [
+          "CNT nucleation rate equation J = A*exp(-DeltaG*/kT) applied to iron speciation during ferroptosis",
+          "Critical nucleus radius r* as function of intracellular pH during ferroptosis",
+          "Ostwald ripening kinetics (LSW theory) for iron nano-clusters during ferritinophagy",
+          "Ferrihydrite surface energy gamma in cytoplasmic conditions at ferroptotic pH",
+          "Mineral dissolution rate law connecting ferritin iron release to free LIP at cytoplasmic pH",
+          "Sub-critical iron nano-cluster detection by methods beyond free Fe2+ probes"
+        ],
+        "most_promising": "Compute expected LIP probe signal under CNT-predicted nano-cluster formation during ferroptosis; test whether alkaline conditions (larger r*, less nucleation) allow LIP expansion and accelerate ferroptosis; use iron speciation techniques beyond TRX-PURO (XANES, Mossbauer on ferroptotic cells)"
+      }
+    }
+  ],
+  "overall_disjointness_summary": {
+    "all_disjoint": true,
+    "highest_confidence": {"candidate_id": 1, "confidence": 0.97, "reason": "Zero cross-field papers; adjacent BLAST Gumbel application is distinct"},
+    "lowest_confidence": {"candidate_id": 4, "confidence": 0.88, "reason": "Frequency-band clustering exists in plant AE (Vergeynst) — bridge-level disjoint but not field-level"},
+    "note": "All 5 candidates classified DISJOINT or DISJOINT_AT_BRIDGE_LEVEL. All 5 are recommended for Generator phase."
+  },
+  "papers_retrieved_count": 7,
+  "papers_dir": "results/2026-03-27-scout-013/papers/"
+}

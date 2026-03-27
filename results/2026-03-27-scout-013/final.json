@@ -1,0 +1,91 @@
+{
+  "session_id": "2026-03-27-scout-013",
+  "phase": "empirical_validation",
+  "timestamp": "2026-03-27",
+  "cycle": 1,
+  "passing_hypotheses": [
+    {
+      "id": "C1-H1",
+      "title": "GEV Tail Index (xi) as Phylogenomic Signature of Thermal Adaptation Strategy",
+      "verdict": "PASS",
+      "ranker_composite": 8.45,
+      "confidence": 5,
+      "novelty_verified": true,
+      "citation_issues": false,
+      "mechanism": "GEV shape parameter xi fitted to proteome Tm distributions classifies thermal adaptation strategy (tail truncation vs. distribution shift). Thermophiles: more negative xi (Weibull domain, compressed lower tail). Psychrophiles: xi closer to zero (Gumbel, preserved tail shape but shifted location). Testable across 13 Meltome Atlas species via xi-OGT regression.",
+      "key_molecules": [],
+      "key_proteins": [],
+      "mathematical_framework": "GEV shape parameter xi, Fisher-Tippett-Gnedenko theorem, maximum likelihood estimation",
+      "datasets": ["Meltome Atlas PRIDE PXD011929 (13 species, 48,000 proteins)"],
+      "validation_approach": "computational — fit GEV per species, correlate xi with OGT, phylogenetically independent contrasts",
+      "application_pathway": "measurement_method",
+      "nearest_applied_domain": "comparative/evolutionary genomics, extremophile biology",
+      "validation_horizon": "near-term"
+    },
+    {
+      "id": "C1-H2",
+      "title": "Complex-Minimum Tm Return Levels Predict Process-Specific Thermal Failure Temperatures",
+      "verdict": "CONDITIONAL_PASS",
+      "ranker_composite": 8.15,
+      "confidence": 5,
+      "novelty_verified": true,
+      "citation_issues": true,
+      "citation_issue_detail": "TPCA finding attributed to Mateus 2020 MSB (review); correct primary source is Tan et al. 2018, Science 359:1170-1177",
+      "conditions": [
+        "Correct TPCA attribution from Mateus 2020 MSB to Tan et al. 2018 Science 359:1170-1177",
+        "Quantify chaperone buffering correction for in vivo vs. in vitro Tm gap"
+      ],
+      "mechanism": "Return level estimation on complex-minimum Tm distributions predicts process-specific thermal failure temperatures. The 1% return level of ribosomal complex-minimum Tm predicts the temperature at which translation rate drops below 90% baseline; same framework for mitochondrial respiratory chain. Agreement within +/-2C validates framework; systematic underestimation indicates chaperone buffering.",
+      "key_molecules": ["HSP70", "HSP90"],
+      "key_proteins": ["ribosomal subunits", "mitochondrial respiratory chain complexes"],
+      "mathematical_framework": "Return level R_p = mu + (sigma/xi)[(-log(1-p))^{-xi} - 1], GEV fitting to complex-minimum Tm, profile likelihood CIs",
+      "datasets": ["Meltome Atlas PRIDE PXD011929", "TPCA (Tan et al. 2018, 350+ human complexes)"],
+      "validation_approach": "computational + experimental: puromycin incorporation (translation), Seahorse respirometry (mitochondria)",
+      "application_pathway": "measurement_method",
+      "nearest_applied_domain": "thermal physiology, heat stroke research, therapeutic hyperthermia",
+      "validation_horizon": "near-term"
+    },
+    {
+      "id": "C1-H7",
+      "title": "GPD Scale Parameter Predicts Evolutionary Rate in the Thermally Vulnerable Subproteome",
+      "verdict": "CONDITIONAL_PASS",
+      "ranker_composite": 7.00,
+      "confidence": 4,
+      "novelty_verified": true,
+      "citation_issues": true,
+      "citation_issue_detail": "Drummond et al. 2005 cited as Cell; correct journal is PNAS 102:14338",
+      "conditions": [
+        "Correct Drummond 2005 citation (PNAS 102:14338, not Cell)",
+        "Clearly distinguish novel component (sigma-dN/dS correlation) from prior art (GO enrichment per Leuenberger 2017)",
+        "Acknowledge and control for Drummond-identified confounders (expression level, interaction degree) in dN/dS analysis"
+      ],
+      "mechanism": "GPD scale parameter sigma of lower-tail Tm exceedances (proteins with Tm below POT threshold) negatively correlates with mean dN/dS of orthologous tail-protein genes across 13 Meltome Atlas species. Small sigma = narrow vulnerability zone = strong purifying selection = low dN/dS. Large sigma = wide vulnerability spread = weaker selection = higher dN/dS.",
+      "key_molecules": [],
+      "key_proteins": ["thermally vulnerable subproteome (<5th percentile Tm)"],
+      "mathematical_framework": "GPD (Generalized Pareto Distribution), peaks-over-threshold, mean residual life plot, PAML codeml for dN/dS",
+      "datasets": ["Meltome Atlas PRIDE PXD011929", "OrthoFinder/reciprocal BLAST for orthologs", "PAML for molecular evolution"],
+      "validation_approach": "computational — GPD fit, ortholog dN/dS via PAML, partial correlation controlling for expression level and OGT",
+      "application_pathway": "enabling_technology",
+      "nearest_applied_domain": "molecular evolution, comparative proteomics",
+      "validation_horizon": "near-term"
+    }
+  ],
+  "failed_hypotheses": [
+    {
+      "id": "C1-H3",
+      "title": "Censored GEV Recovers the Invisible 20% Below TPP Measurement Window",
+      "verdict": "FAIL",
+      "fail_reason": "MECHANISM IMPLAUSIBLE: censored GEV assumes all censored proteins have defined Tm, but IDPs (30-50% of eukaryotic proteome) lack cooperative unfolding transition — Tm is undefined for substantial fraction of censored population. Model misspecification by population heterogeneity."
+    }
+  ],
+  "session_stats": {
+    "generated": 7,
+    "survived_critique": 5,
+    "entered_qg": 4,
+    "passed_qg": 3,
+    "failed_qg": 1,
+    "qg_pass_rate": 0.75,
+    "cycle_decision": "early_complete",
+    "top_composite": 8.45
+  }
+}

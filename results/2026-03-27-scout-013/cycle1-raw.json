@@ -1,0 +1,156 @@
+{
+  "session_id": "2026-03-27-scout-013",
+  "cycle": 1,
+  "phase": "generation",
+  "timestamp": "2026-03-27",
+  "field_a": "Extreme value statistics (GEV distributions, tail index analysis, return level estimation, peaks-over-threshold)",
+  "field_c": "Proteome-wide thermal stability distributions (thermal proteome profiling, Meltome Atlas)",
+  "strategy": "converging_vocabularies",
+  "hypotheses_count": 7,
+  "bridge_mechanisms_count": 7,
+  "generation_techniques": ["bisociation", "tool_transfer", "gap_targeted_generation", "analogy_transfer", "multi_level_abstraction", "counterfactual_probing"],
+  "hypotheses": [
+    {
+      "id": "C1-H1",
+      "title": "GEV Tail Index Classifies Thermal Adaptation Strategies Across the Tree of Life",
+      "connection": "Extreme value statistics → GEV shape parameter ξ → Evolutionary thermal adaptation strategy classification",
+      "bridge_mechanism": "GEV shape parameter xi classification",
+      "confidence": 6,
+      "groundedness": 6,
+      "groundedness_label": "MEDIUM",
+      "key_prediction": "ξ correlates negatively with OGT across 13 Meltome Atlas species; thermophiles have more negative ξ (Weibull, truncated tail) than psychrophiles (approaching Gumbel); expected difference 0.3-0.5",
+      "grounded_claims": ["GEV fitting methodology (Coles 2001, Springer)", "Meltome Atlas data (Jarzab 2020, Nature Methods, PMID 32284610)", "Thermophile amino acid adaptations (documented in structural biology)"],
+      "parametric_claims": ["ξ-OGT correlation direction and magnitude", "Tail-truncation vs distribution-shift strategy distinction", "Expected ξ difference 0.3-0.5"],
+      "why_wrong": "Proteome composition (IDP fraction, membrane protein fraction) may dominate tail shape over thermal adaptation; 13 species with phylogenetic confounding (archaea-eukaryote split); OGT range may be insufficient",
+      "literature_gap": "No study has fitted GEV to proteome Tm distributions or classified organisms by extreme value domain of attraction",
+      "technique": "bisociation (classification concept transfer)"
+    },
+    {
+      "id": "C1-H2",
+      "title": "Complex-Minimum Tm Return Levels Predict Process-Specific Thermal Failure Temperatures",
+      "connection": "Extreme value statistics → Return levels on complex-minimum Tm → Pathway-specific thermal failure prediction",
+      "bridge_mechanism": "Return level estimation at complex-bottleneck level",
+      "confidence": 7,
+      "groundedness": 7,
+      "groundedness_label": "MEDIUM-HIGH",
+      "key_prediction": "1% return level of ribosomal complex-minimum Tm predicts temperature of 90% translation loss (±2°C); same for respiratory chain and Seahorse-measured O2 consumption drop",
+      "grounded_claims": ["Return level mathematics (Coles 2001)", "TPCA co-aggregation r=0.75-0.83 (Mateus 2020, Lim 2023)", "Meltome Atlas Tm data (Jarzab 2020)", "HSP70/HSP90 STRING scores >0.93 (computational validation)"],
+      "parametric_claims": ["±2°C prediction accuracy", "Mapping to puromycin incorporation / Seahorse assays", "Chaperone buffering magnitude"],
+      "why_wrong": "Chaperones may rescue bottleneck subunits above in-vitro Tm; kinetic effects (heating rate, exposure duration) not captured by equilibrium Tm; subunit redundancy in some complexes",
+      "literature_gap": "No framework predicts temperature of SPECIFIC process failure with quantified uncertainty; Jarzab 2020 noted mitochondrial respiration at 46°C but as anecdotal observation",
+      "technique": "tool_transfer + multi_level_abstraction",
+      "multi_level": true,
+      "abstraction_levels": ["molecular (bottleneck subunit Tm)", "systemic (pathway failure cascade)", "formal (return level formula R_p)", "informational (catastrophic process failure prediction)"]
+    },
+    {
+      "id": "C1-H3",
+      "title": "POT Analysis Reveals Intrinsically Disordered Proteins as the Functional Architecture of Thermal Vulnerability",
+      "connection": "Extreme value statistics → POT/GPD exceedance set → Functional profiling of thermally vulnerable subproteome",
+      "bridge_mechanism": "POT/GPD exceedance set identity (lower-tail)",
+      "confidence": 6,
+      "groundedness": 6,
+      "groundedness_label": "MEDIUM",
+      "key_prediction": "GPD-defined exceedance set enriched >2x for IDPs (>30% disorder), signaling GO terms, and STRING hub proteins (degree >10); bimodal ξ in IDP vs non-IDP exceedances",
+      "grounded_claims": ["POT methodology (Coles 2001)", "IDP structural instability (established in protein science)", "TPP statistical limitations (Figueroa-Navedo 2024)"],
+      "parametric_claims": [">30% disorder threshold", "Enrichment ratio ≥2.0", "STRING degree >10 enrichment ≥1.5", "Bimodal ξ prediction"],
+      "why_wrong": "Protein molecular weight confounds both disorder and Tm variability; most vulnerable IDPs may be censored (Tm < 30°C); STRING degree enrichment may reflect annotation bias",
+      "literature_gap": "TPP uses arbitrary Tm cutoffs (bottom 5-10%) without EVT-principled threshold selection; no study has used mean residual life plot for proteome threshold definition",
+      "technique": "gap_targeted_generation"
+    },
+    {
+      "id": "C1-H4",
+      "title": "Censored GEV Estimation Recovers the Invisible Proteome and Quantifies Systematic Vulnerability Bias",
+      "connection": "Extreme value statistics → Censored GEV likelihood → Corrected proteome Tm distribution with predicted unmeasured values",
+      "bridge_mechanism": "Censored maximum likelihood GEV estimation",
+      "confidence": 7,
+      "groundedness": 8,
+      "groundedness_label": "HIGH",
+      "key_prediction": "Censored vs naive GEV: Δμ > 1°C downward, Δσ > 0.5°C increase; left-censored proteins enriched for IDPs and chaperone clients; validated within ±3°C against extended-range TPP",
+      "grounded_claims": ["Censored extreme value methods (standard in hydrology, Stedinger et al. 1993 Handbook of Hydrology)", "20% unmeasured proteome (Jarzab 2020; Figueroa-Navedo 2024, Cell Reports Methods)"],
+      "parametric_claims": ["Δμ > 1°C and Δσ > 0.5°C thresholds", "IDP enrichment in left-censored set", "±3°C validation accuracy"],
+      "why_wrong": "Proteins with Tm < 30°C may not have cooperative unfolding (IDPs unfold non-cooperatively → 'Tm' undefined); right-censored may include aggregation-resistant peptides; informative censoring violates MLE independence",
+      "literature_gap": "Figueroa-Navedo 2024 explicitly flags 20% problem as unresolved; GPMelt addresses curve fitting NOT censoring; censored EVT is the exact statistical framework for detection-limit data",
+      "technique": "tool_transfer (hydrology censored methods → proteomics)"
+    },
+    {
+      "id": "C1-H5",
+      "title": "The Extremal Index Encodes Proteome Modularity and Chaperone Buffering Capacity",
+      "connection": "Extreme value statistics → Extremal index θ → Co-aggregation cascade length and chaperone network effectiveness",
+      "bridge_mechanism": "Extremal index θ (dependence structure of extremes)",
+      "confidence": 5,
+      "groundedness": 6,
+      "groundedness_label": "MEDIUM",
+      "key_prediction": "θ ~ 0.5-0.7 for human proteome (cascade size 1.4-2.0); membrane θ < soluble θ; θ positively correlates with chaperone-to-client ratio across 13 species",
+      "grounded_claims": ["Extremal index estimation (Ferro & Segers 2003, JRSS-B)", "TPCA co-aggregation 350+ complexes (Mateus 2020, Lim 2023)", "HSP70/HSP90 STRING scores >0.93", "KEGG hsa04141 chaperone pathway"],
+      "parametric_claims": ["θ range 0.5-0.7", "Membrane vs soluble θ difference", "θ-chaperone ratio positive correlation", "Cascade size interpretation"],
+      "why_wrong": "In-vitro lysate Tm may not reflect in-vivo co-aggregation (diluted chaperones, lost compartmentalization); θ estimation assumes exchangeable observations (questionable for diverse proteome); expression-level confounding",
+      "literature_gap": "TPCA reports pairwise co-aggregation but no system-level metric exists; extremal index provides exactly this — single number for proteome-wide co-aggregation propensity",
+      "technique": "bisociation + multi_level_abstraction",
+      "multi_level": true,
+      "abstraction_levels": ["molecular (co-aggregation of complex subunits)", "systemic (chaperone network buffering)", "formal (extremal index θ from EVT)", "informational (proteome fragility assessment)"]
+    },
+    {
+      "id": "C1-H6",
+      "title": "Fisher-Tippett-Gnedenko Universality Guarantees Weibull-Domain Convergence for All Proteome Tm Distributions",
+      "connection": "Extreme value statistics → FTG theorem → Universal Weibull prediction for bounded proteome Tm extremes",
+      "bridge_mechanism": "Fisher-Tippett-Gnedenko theorem (mathematical universality)",
+      "confidence": 8,
+      "groundedness": 8,
+      "groundedness_label": "HIGH",
+      "key_prediction": "All 13 species accept Weibull (ξ < 0) at p > 0.05 by Anderson-Darling/KS tests; fitted endpoint ω correlates with OGT; no Gumbel or Fréchet behavior",
+      "grounded_claims": ["FTG theorem (Fisher & Tippett 1928, Proc Cambridge Phil Soc; Gnedenko 1943, Annals of Mathematics)", "Physical Tm bounds 0-90°C observed (Jarzab 2020)", "Modern EVT treatment (Coles 2001)"],
+      "parametric_claims": ["~120°C theoretical upper bound", "ω-OGT correlation", "Block sizes sufficient for asymptotic convergence"],
+      "why_wrong": "FTG is asymptotic — blocks of 10-30 proteins per pathway may not reach convergence; IDPs without cooperative unfolding reduce effective block sizes; 90°C ceiling is measurement artifact not biophysical limit",
+      "literature_gap": "No study has tested which extreme value domain proteome Tm distributions belong to; FTG theorem (85+ years old) never applied to proteomics",
+      "technique": "bisociation (universality class → convergent evolution)"
+    },
+    {
+      "id": "C1-H7",
+      "title": "GPD Scale Parameter Predicts Evolutionary Rate in the Thermally Vulnerable Subproteome",
+      "connection": "Extreme value statistics → GPD σ of lower-tail exceedances → Purifying selection strength (dN/dS) on vulnerable proteins",
+      "bridge_mechanism": "GPD scale parameter σ as evolutionary constraint metric",
+      "confidence": 5,
+      "groundedness": 6,
+      "groundedness_label": "MEDIUM",
+      "key_prediction": "σ negatively correlates with dN/dS in tail-protein orthologs across 13 species; small σ = tight constraint = slower evolution; controls for expression level and protein size",
+      "grounded_claims": ["GPD methodology (Coles 2001)", "dN/dS estimation (Yang 2007, PAML, Mol Biol Evol)", "Expression-rate relationship (Drummond et al. 2005, Cell)"],
+      "parametric_claims": ["σ-dN/dS negative correlation", "Narrow vulnerability zone imposes stronger purifying selection", "Effect detectable after controlling for confounders"],
+      "why_wrong": "dN/dS dominated by expression level, interaction degree, essentiality, population size; σ-dN/dS correlation may be undetectable; tail protein identity differs across species making ortholog comparison difficult",
+      "literature_gap": "Evolutionary rate of thermally vulnerable proteins never analyzed as a class; GPD provides first principled definition of 'thermally vulnerable subproteome' for evolutionary comparison",
+      "technique": "analogy_transfer (tail dispersion → evolutionary constraint)"
+    }
+  ],
+  "self_critique": {
+    "claims_verified": 10,
+    "claims_downgraded": 2,
+    "downgraded_details": [
+      "Smith 1985 censored GEV → replaced with Stedinger et al. 1993 Handbook of Hydrology (more defensible)",
+      "~120°C upper Tm bound → flagged as PARAMETRIC"
+    ],
+    "directionality_verified": ["H1: more negative ξ = shorter tail = thermophiles ✓", "H2: return level R_p increases with p ✓", "H5: more chaperones → higher θ (prevents cascades) ✓"],
+    "quantitative_checks": [
+      "H2: ±2°C aggressive but consistent with Jarzab 2020 (mitochondria functional at 46°C, bulk Tm ~50°C)",
+      "H5: θ ~ 0.5-0.7 consistent with 350+ complexes in 13K protein proteome (60% in complexes, ~5 subunits avg)"
+    ],
+    "bridge_diversity": "7 hypotheses × 7 distinct bridge mechanisms — no duplication (constraint satisfied: ≤2 per bridge)",
+    "multi_level_abstraction": "H2 and H5 both have 4-level abstraction (molecular, systemic, formal, informational) — meets ≥2 requirement",
+    "target_evaluator_concerns_addressed": {
+      "phenomenological_risk": "All 7 pair EVT with biological predictions (adaptation strategies, pathway failure, disorder enrichment, invisible proteome, modularity, universality, evolutionary rate)",
+      "independence_violation": "H2 uses complex-minimum Tm; H5 models dependence as biological signal via extremal index",
+      "censoring": "H4 directly addresses with censored GEV methodology",
+      "mechanistic_depth": "H2, H3, H5, H7 include mechanism-level predictions beyond statistical description"
+    },
+    "computational_validator_recommendations_followed": [
+      "Complex-minimum Tm (H2, H5) ✓",
+      "Censored GEV for 10% left-censored (H4) ✓",
+      "Thermophile xi more negative than mesophile (H1) ✓",
+      "Complex-min return levels predict process failure (H2) ✓",
+      "POT exceedances enriched for IDPs (H3) ✓",
+      "BLAST Gumbel NOT included as prior work ✓"
+    ]
+  },
+  "output_files": [
+    "results/2026-03-27-scout-013/cycle1-hypotheses.md",
+    "results/2026-03-27-scout-013/cycle1-raw.json"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "cross_model_validation": {
+    "status": "completed",
+    "gpt_model": "gpt-5.4",
+    "gpt_model_note": "gpt-5.4-pro returned 'terminated' errors; gpt-5.4 used as equivalent (confirmed available and functional)",
+    "gemini_model": "gemini-3.1-pro-preview",
+    "gemini_note": "Gemini validation ran in prior session (2026-03-27T02:09Z); 41KB output. Gemini rerun in this session returned CANCELLED error mid-execution; original output used.",
+    "models_used": ["openai"],
+    "models_attempted": ["openai", "gemini"],
+    "gpt_tools": ["web_search_preview", "code_interpreter"],
+    "gpt_duration_s": 604,
+    "gpt_web_searches": 25,
+    "gpt_code_executions": 13,
+    "gpt_citations": 42,
+    "gemini_tools": ["codeExecution", "googleSearch"],
+    "gemini_code_executions": 9,
+    "consensus": {
+      "C1-H1": {
+        "gpt_confidence": 4,
+        "gemini_confidence": 7,
+        "gpt_novelty": "PARTIALLY EXPLORED",
+        "gemini_depth": "Structural correspondence (deep)",
+        "agreement": "medium",
+        "key_agreement": "SE(xi)=0.029 claim inconsistent — correct value is ~0.035 at n=300 block minima, not n=5000-7000",
+        "key_divergence": "GPT: 4/10 (n=13 underpowered, psychrophile counter-evidence); Gemini: 7/10 (mathematical rigor strong, ~10-sigma effect size)",
+        "new_finding": "2025 psychrophile study shows Pseudoalteromonas arctica has long right tail extending to 351K, not simple left-shift; FTG guarantees xi<0 for all species (tautology), so magnitude not sign is the meaningful variable",
+        "combined_recommendation": "PROMISING — pursue with corrections to SE, reframe to |xi| magnitude, add composition controls"
+      },
+      "C1-H2": {
+        "gpt_confidence": 5,
+        "gemini_confidence": 2,
+        "gpt_novelty": "PARTIALLY EXPLORED",
+        "gemini_depth": "Surface analogy (Flawed math)",
+        "agreement": "medium",
+        "key_agreement": "Return-level formula has directional error for lower tail; ±2°C precision claim unsupported (95% CI spans ~9°C at n=100); complex bottleneck concept real but mechanism oversimplified",
+        "key_divergence": "GPT: 5/10 (error correctable, framework salvageable); Gemini: 2/10 (extrapolation from 15% tail to 99% bulk invalid)",
+        "new_citation_error": "GPT found Sun et al. 2023 NatComm is first author Sun, not Lim (Yan Ting Lim is coauthor); another citation correction required",
+        "new_biology": "Tufm (mitochondrial translation factor) is hypersensitive to heat — an example of special-regulator failure that breaks minimum-subunit bottleneck model",
+        "combined_recommendation": "NEEDS WORK — correct formula, remove ±2°C claim, use essential-subunit definitions, use intact-cell TPP for validation"
+      },
+      "C1-H7": {
+        "gpt_confidence": 2,
+        "gemini_confidence": 4,
+        "gpt_novelty": "PARTIALLY EXPLORED",
+        "gemini_depth": "Metaphorical similarity (Confounded)",
+        "agreement": "high",
+        "key_agreement": "Protein-size confound is mathematically exact: sigma_Tm = b*sigma_ln(MW). n=13 severely underpowered (requires |partial_r|>0.75 for 80% power with covariates). Drummond 2005 is PNAS confirmed.",
+        "key_divergence": "Gemini: 4/10 (confound controllable in principle); GPT: 2/10 (fundamental redesign required)",
+        "gemini_proof": "Algebraically proved sigma_Tm = b*sigma_ln(MW) via GPD affine transformation; ratio verified as exactly 2.000 in simulation",
+        "combined_recommendation": "UNLIKELY in current form — redesign as within-species protein-level analysis, not species-level correlation"
+      }
+    },
+    "cross_cutting_findings": {
+      "evt_in_proteomics_prior_art": "EVT applied to MS score calibration and biomarker null distributions — but NOT to thermal stability distributions. Novel bridge confirmed by GPT web search.",
+      "meltome_atlas_status": "Still 13 species / ~48,000 proteins as of 2026-03-27. No peer-reviewed cross-species expansion found.",
+      "mathematical_interdependence": "sigma_GPD = sigma_GEV + xi*(u-mu). H1/H2/H3 parameters are mathematically coupled transforms of same GEV fit, not independent variables.",
+      "best_hypothesis_to_pursue": "C1-H2 (both models agree complex-level thermal coupling is real and tractable within a single species, avoiding n=13 cross-species limit)"
+    },
+    "files": {
+      "gpt_validation": "results/2026-03-27-scout-013/validation-gpt.md",
+      "gemini_validation": "results/2026-03-27-scout-013/validation-gemini.md",
+      "consensus": "results/2026-03-27-scout-013/cross-model-report.md"
+    }
+  }
+}

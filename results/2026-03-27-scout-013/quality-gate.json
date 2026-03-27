@@ -1,0 +1,105 @@
+{
+  "session_id": "2026-03-27-scout-013",
+  "cycle": 1,
+  "phase": "quality_gate",
+  "timestamp": "2026-03-27",
+  "qg_model": "opus-4.6",
+  "hypotheses_evaluated": 4,
+  "passed": 1,
+  "conditional_pass": 3,
+  "failed": 0,
+  "total_advancing": 4,
+  "pass_rate": 1.0,
+  "web_searches_performed": 21,
+  "citation_hallucinations_found": 1,
+  "citation_hallucinations_fatal": false,
+  "verdicts": [
+    {
+      "id": "C1-H1",
+      "title": "GEV Tail Index (xi) as Phylogenomic Signature of Thermal Adaptation Strategy",
+      "verdict": "PASS",
+      "ranker_composite": 7.85,
+      "conditions": [],
+      "rubric_checks_passed": 10,
+      "rubric_checks_total": 10,
+      "novelty_verified": true,
+      "citation_issues": false,
+      "key_finding": "Genuinely novel (zero prior work across 6 novelty searches). All citations verified. Immediately testable on existing public data. Confidence 5/10 well-calibrated.",
+      "application_pathway": "measurement_method",
+      "nearest_applied_domain": "Evolutionary proteomics / thermal adaptation biology",
+      "validation_horizon": "near-term",
+      "secondary_domains": ["protein engineering", "synthetic biology"]
+    },
+    {
+      "id": "C1-H2",
+      "title": "Complex-Minimum Tm via POT Identifies Thermal Bottleneck Complexes",
+      "verdict": "CONDITIONAL_PASS",
+      "ranker_composite": 8.45,
+      "conditions": [
+        "Mandatory citation correction: replace 'Mateus et al. 2020, Science 367:eaaz5268' (fabricated identifier) with 'Tan et al. 2018, Science 359:1170-1177, DOI: 10.1126/science.aan0346'. The underlying finding (>350 human complexes with TPCA signatures) is real and verified."
+      ],
+      "rubric_checks_passed": 9,
+      "rubric_checks_total": 10,
+      "novelty_verified": true,
+      "citation_issues": true,
+      "citation_issue_detail": "Mateus 2020 Science 367:eaaz5268 is a fabricated identifier. Finding is real from Tan et al. 2018. Treated as soft attribution error (conflation of two real papers), not fabrication of non-existent evidence.",
+      "key_finding": "Novel (zero prior work on EVT return levels for protein complex failure). Sound mechanism (weakest-link analysis, independence restoration). Immediately testable.",
+      "application_pathway": "enabling_technology",
+      "nearest_applied_domain": "Cell biology / protein complex engineering",
+      "validation_horizon": "near-term",
+      "secondary_domains": ["bioproduction", "hyperthermia cancer treatment"]
+    },
+    {
+      "id": "C1-H3",
+      "title": "Censored GEV Recovers the Invisible 20% Below TPP Measurement Window",
+      "verdict": "CONDITIONAL_PASS",
+      "ranker_composite": 6.40,
+      "conditions": [
+        "Reframe the +/-3% accuracy prediction as an empirically determined calibration target rather than a grounded claim — no proteomics-domain basis exists for this specific threshold.",
+        "Include a mandatory pre-analysis unimodality test on the sub-30C tail before GEV extrapolation. If multi-modality is detected, the censored GEV must be extended to a mixture model or the scope limited to the folded-protein subpopulation only."
+      ],
+      "rubric_checks_passed": 9,
+      "rubric_checks_total": 10,
+      "novelty_verified": true,
+      "citation_issues": false,
+      "key_finding": "Novel cross-domain transfer (censored GEV from hydrology to proteomics, zero prior work). Addresses documented unmet need (Figueroa-Navedo 2024). Real methodological concern: multi-modal sub-30C tail and cold denaturation create non-random censoring.",
+      "application_pathway": "measurement_method",
+      "nearest_applied_domain": "Proteomics methodology / TPP data analysis",
+      "validation_horizon": "medium-term",
+      "secondary_domains": ["drug target prioritization", "thermal biology"]
+    },
+    {
+      "id": "C1-H7",
+      "title": "POT Functional Enrichment Reveals Thermal Disposability Design Principle",
+      "verdict": "CONDITIONAL_PASS",
+      "ranker_composite": 6.15,
+      "conditions": [
+        "Remove the CDK2 Tm ~55C example — it contradicts the hypothesis (55C is above proteome median ~48-52C) and has no verified source.",
+        "Reframe the central prediction from 'kinases have low Tm' to the weaker, more defensible 'regulatory subunits of protein complexes have lower Tm than core subunits' (supported by Arabidopsis TPP data). CDK7/CCNH/MNAT1 complex shows higher, not lower, thermal stability.",
+        "Protein size must be a mandatory covariate in the GO enrichment test (not optional). An enrichment explained entirely by the known size-stability correlation would not constitute support for the 'thermal disposability' design principle.",
+        "Add explicit null-result falsification criterion: if GO enrichment is fully explained by protein size + disorder fraction after covariate correction, the hypothesis is falsified as a distinct principle."
+      ],
+      "rubric_checks_passed": 8,
+      "rubric_checks_total": 10,
+      "novelty_verified": true,
+      "citation_issues": false,
+      "key_finding": "Novel framing ('thermal disposability' — zero prior results). Methodological framework (GPD threshold + GO enrichment) is sound. Central kinase Tm claim UNVERIFIED and potentially contradicted by CDK7 complex data and CDK2 example. Weakest CONDITIONAL_PASS in the set.",
+      "application_pathway": "enabling_technology",
+      "nearest_applied_domain": "Evolutionary functional genomics / protein design",
+      "validation_horizon": "near-term",
+      "secondary_domains": ["hyperthermia cancer treatment"]
+    }
+  ],
+  "meta_validation": {
+    "reputation_check_passed": true,
+    "search_adequacy": "21 total searches (7 citation, 3 database, 6 novelty, 5 claim-level). All hypotheses received minimum 6 searches.",
+    "grounded_claims_audited": true,
+    "all_grounded_citations_verified": true,
+    "fabricated_citations": 1,
+    "fabricated_citations_fatal": false,
+    "unverifiable_bridge_critical_claims": 1,
+    "unverifiable_claim_detail": "H7: kinase Tm systematically lower than proteome average — addressed by reframing to regulatory subunits"
+  },
+  "advancing_hypotheses": ["C1-H1", "C1-H2", "C1-H3", "C1-H7"],
+  "output_file": "results/2026-03-27-scout-013/quality-gate.md"
+}
