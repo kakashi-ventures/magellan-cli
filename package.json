@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kakashi-ventures/magellan"
+    "url": "https://github.com/kakashi-ventures/magellan-cli"
   },
   "type": "module",
   "description": "Multi-Agent Generative Exploration of Latent Links Across kNowledge",
