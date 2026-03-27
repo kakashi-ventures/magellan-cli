@@ -17,8 +17,8 @@ sacrificing novelty or rigor.
 ## Quick Start
 
 ```bash
-cd magellan
-claude --permission-mode auto
+cd magellan-cli
+claude --enable-auto-mode
 ```
 
 ### Primary mode (fully autonomous — the whole point)

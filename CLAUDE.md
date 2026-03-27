@@ -24,7 +24,7 @@ You come back to find hypothesis cards in `results/{session-id}/`.
 
 ### Launch mode
 ```
-claude --permission-mode auto
+claude --enable-auto-mode
 ```
 
 ### Publishing results to the website
