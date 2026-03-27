@@ -1,853 +1,716 @@
 {
-  "session_id": "session-20260325-000727",
-  "results_dir": "results/session-20260325-000727",
+  "session_id": "2026-03-27-scout-013",
+  "mode": "scout",
   "phase": "complete",
-  "cycle": 2,
+  "cycle": 1,
   "status": "success",
-  "status_reason": "1 PASS + 6 CONDITIONAL_PASS hypotheses connecting TUR to bacterial cell size homeostasis",
-  "completed_at": "2026-03-25T03:03:42Z",
-  "started_at": "2026-03-24T23:07:27Z",
+  "status_reason": "3 hypotheses passed Quality Gate (1 PASS + 2 CONDITIONAL_PASS); early-complete after cycle 1 (top-3 composites all >= 7.0)",
+  "completed_at": "2026-03-27T01:09:33Z",
+  "results_dir": "results/2026-03-27-scout-013",
   "selected_target": {
-    "id": "T4",
-    "title": "Thermodynamic Uncertainty Relation Sets Precision Limit of Bacterial Cell Size Control",
-    "field_a": "Stochastic thermodynamics \u2014 thermodynamic uncertainty relation, entropy production bounds",
-    "field_c": "Bacterial cell biology \u2014 cell size homeostasis via the adder model",
+    "id": 1,
+    "field_a": "Extreme value statistics (GEV distributions, tail index analysis)",
+    "field_c": "Proteome-wide thermal stability distributions",
     "bridge_concepts": [
-      "TUR bound: CV^2 x entropy_production_rate x cycle_time >= 2kT",
-      "Growth rate as dissipation proxy",
-      "DnaA-ATP accumulation as molecular current counter",
-      "Nutrient-dependent precision degradation as thermodynamic necessity"
+      "GEV distribution fitting",
+      "return level estimation",
+      "tail index classification",
+      "peaks-over-threshold",
+      "Fisher-Tippett-Gnedenko theorem"
     ],
     "strategy": "converging_vocabularies",
     "disjointness_status": "DISJOINT",
-    "target_quality_score": 8.5
+    "disjointness_confidence": 0.97,
+    "impact_potential": 7,
+    "impact_type": "enabling_technology",
+    "te_composite": 8.25,
+    "te_recommendation": "PROCEED",
+    "selection_rationale": "Highest TE composite (8.25), maximum frontier expansion (10/10 local-optima), highest disjointness confidence (0.97), opens statistics x systems biology domain type never explored in 16 sessions"
+  },
+  "disjointness_status": "all_disjoint",
+  "literature_context": {
+    "completed": true,
+    "timestamp": "2026-03-27",
+    "retrieval_method": "Semantic Scholar MCP (cross-field: zero results confirming disjointness) + WebSearch (field-specific validation searches)",
+    "papers_retrieved": 7,
+    "papers_dir": "results/2026-03-27-scout-013/papers/",
+    "output_files": [
+      "results/2026-03-27-scout-013/literature-landscape.md",
+      "results/2026-03-27-scout-013/literature.json"
+    ],
+    "disjointness_verdicts": [
+      {
+        "id": 1,
+        "title": "Extreme Value Theory x Proteome Thermal Vulnerability Mapping",
+        "verdict": "DISJOINT",
+        "confidence": 0.97
+      },
+      {
+        "id": 2,
+        "title": "Reservoir Computing Theory x Gut Microbiome Community Dynamics",
+        "verdict": "DISJOINT",
+        "confidence": 0.93
+      },
+      {
+        "id": 3,
+        "title": "Granular Jamming Transition Physics x Chromatin Compaction During Confined Migration",
+        "verdict": "DISJOINT",
+        "confidence": 0.91
+      },
+      {
+        "id": 4,
+        "title": "ML-Augmented Acoustic Emission Classification x Plant Xylem Cavitation Mode Identification",
+        "verdict": "DISJOINT_AT_BRIDGE_LEVEL",
+        "confidence": 0.88
+      },
+      {
+        "id": 5,
+        "title": "Classical Nucleation Theory x Ferroptosis Ferritin Iron Pool Dynamics",
+        "verdict": "DISJOINT",
+        "confidence": 0.96
+      }
+    ],
+    "all_candidates_eligible": true
   },
   "scout_targets": [
     {
-      "id": "T1",
-      "title": "Percolation Threshold Predicts T Cell Infiltration Failure in Solid Tumors",
-      "field_a": "Statistical physics \u2014 percolation theory on random lattices",
-      "field_c": "Tumor immunology \u2014 immune cell exclusion by extracellular matrix in solid tumors",
+      "id": 1,
+      "title": "Extreme Value Theory x Proteome Thermal Vulnerability Mapping",
+      "field_a": "Extreme value statistics (GEV distributions, tail index analysis)",
+      "field_c": "Proteome-wide thermal stability distributions",
       "bridge_concepts": [
-        "Bond percolation threshold p_c as collagen volume fraction for immune exclusion",
-        "Correlation length exponent nu predicting T cell cluster sizes near threshold",
-        "Anomalous diffusion exponent d_w on percolation clusters predicting T cell MSD",
-        "Finite-size scaling: tumor geometry modifies percolation transition",
-        "LOX collagen crosslinking as bond probability p"
-      ],
-      "strategy": "anomaly_hunting",
-      "scout_confidence": 8,
-      "disjointness_estimate": "DISJOINT",
-      "web_verified": true
-    },
-    {
-      "id": "T2",
-      "title": "Acoustic Filter-Bank Theory Solves the Plant Sound Detection Problem",
-      "field_a": "Acoustic engineering \u2014 matched-filter detection theory and parallel filter-bank architectures",
-      "field_c": "Plant bioacoustics \u2014 mechanism for detecting airborne ultrasonic stress emissions",
-      "bridge_concepts": [
-        "MSL10 channel as mechano-electrical transducer with untested kHz-MHz frequency response",
-        "Trichome resonant frequency as acoustic pre-filter",
-        "Parallel filter-bank: MSL2/3/9/10 variants as frequency-selective parallel detectors",
-        "SNR improvement via matched filtering: trichome bandwidth x MSL integration time",
-        "Frequency-selective calcium signaling encoding acoustic signal identity"
-      ],
-      "strategy": "serendipity",
-      "scout_confidence": 7,
-      "disjointness_estimate": "DISJOINT",
-      "web_verified": true
-    },
-    {
-      "id": "T3",
-      "title": "Jamming Phase Diagram Unifies Chromatin Compaction States",
-      "field_a": "Granular physics \u2014 jamming transition, Liu-Nagel phase diagram, Edwards entropy",
-      "field_c": "Chromatin biology \u2014 higher-order chromatin compaction and eu/heterochromatin transitions",
-      "bridge_concepts": [
-        "Liu-Nagel axes: packing fraction (histone modifications), temperature (thermal fluctuations), stress (nuclear lamina confinement)",
-        "Edwards entropy counting mechanically stable chromatin configurations",
-        "Jamming criticality: coordination number z=z_c at eu/hetero boundary",
-        "Force chain networks through heterochromatin",
-        "Fragility: heterochromatin near boundaries yields under small mechanical perturbation"
-      ],
-      "strategy": "structural_isomorphism",
-      "scout_confidence": 7,
-      "disjointness_estimate": "DISJOINT",
-      "web_verified": true
-    },
-    {
-      "id": "T4",
-      "title": "Thermodynamic Uncertainty Relation Sets Precision Limit of Bacterial Cell Size Control",
-      "field_a": "Stochastic thermodynamics \u2014 thermodynamic uncertainty relation, entropy production bounds",
-      "field_c": "Bacterial cell biology \u2014 cell size homeostasis via the adder model",
-      "bridge_concepts": [
-        "TUR bound: CV^2 x entropy_production_rate x cycle_time >= 2kT",
-        "Growth rate as dissipation proxy (confirmed 2025 Nature Comms)",
-        "Prediction: CV^2 vs 1/(growth_rate x tau) must fall on or above TUR bound",
-        "Nutrient-dependent precision degradation as thermodynamic necessity",
-        "DnaA-ATP accumulation as molecular current counter with TUR-bounded counting precision"
+        "GEV distribution fitting",
+        "return level estimation",
+        "tail index classification",
+        "peaks-over-threshold",
+        "Fisher-Tippett-Gnedenko theorem"
       ],
       "strategy": "converging_vocabularies",
-      "scout_confidence": 8,
-      "disjointness_estimate": "DISJOINT",
+      "confidence": 0.85,
+      "impact_potential": 7,
+      "impact_type": "enabling_technology",
+      "estimated_disjointness": "DISJOINT",
+      "verified_disjointness": "DISJOINT",
+      "disjointness_confidence": 0.97,
       "web_verified": true
     },
     {
-      "id": "T5",
-      "title": "FLIM Metabolic Imaging Resolves Bacterial Persister Heterogeneity",
-      "field_a": "Optical metabolic imaging \u2014 FLIM of endogenous NADH/FAD for single-cell metabolic phenotyping",
-      "field_c": "Antimicrobial resistance \u2014 bacterial persister cell metabolic state transitions",
+      "id": 2,
+      "title": "Reservoir Computing Theory x Gut Microbiome Community Dynamics",
+      "field_a": "Reservoir computing (echo state networks, liquid state machines)",
+      "field_c": "Gut microbiome temporal dynamics and resilience",
       "bridge_concepts": [
-        "NADH fluorescence lifetime (tau_bound=3.4ns, tau_free=0.4ns) as metabolic state readout",
-        "Phasor-FLIM mapping persister cells to distinct metabolic cluster",
-        "Time-lapse FLIM + mother-machine microfluidics for real-time persister tracking",
-        "NADH/FAD redox ratio validated in cancer DTPs but unapplied to bacterial persisters"
+        "echo state property on interaction matrix",
+        "memory capacity from time series",
+        "Lyapunov exponent as health indicator",
+        "spectral radius of interaction matrix",
+        "input separability via mutual information"
       ],
-      "strategy": "network_gap_analysis",
-      "scout_confidence": 7,
-      "disjointness_estimate": "PARTIALLY_EXPLORED",
+      "strategy": "serendipity",
+      "confidence": 0.72,
+      "impact_potential": 7,
+      "impact_type": "paradigm",
+      "estimated_disjointness": "LIKELY_DISJOINT",
+      "verified_disjointness": "DISJOINT",
+      "disjointness_confidence": 0.93,
       "web_verified": true
     },
     {
-      "id": "T6",
-      "title": "Classical Nucleation Theory Predicts Ferritin Iron Release Catastrophe in Ferroptosis",
-      "field_a": "Physical chemistry \u2014 classical nucleation theory, Ostwald ripening, nanoparticle dissolution kinetics",
-      "field_c": "Ferroptosis biology \u2014 ferritin-bound to labile iron pool transition",
+      "id": 3,
+      "title": "Granular Jamming Transition Physics x Chromatin Compaction During Confined Migration",
+      "field_a": "Granular jamming physics (jamming transition, force chains, marginally jammed states)",
+      "field_c": "Chromatin compaction mechanics during cancer cell constriction migration",
       "bridge_concepts": [
-        "Gibbs-Thomson equation for ferrihydrite core solubility vs radius",
-        "Critical nucleus size for dissolution: r_c = 2*gamma*V_m/(RT*ln(S))",
-        "Ostwald ripening between ferritin molecules with different iron loads",
-        "NCOA4-mediated ferritinophagy pH drop (7.4->4.5) shifts r_c quantitatively",
-        "Dissolution rate law: J = k_diss x (S-1) x (A/V)"
+        "jamming transition phi_J",
+        "coordination number Z_c isostatic condition",
+        "force chains in jammed chromatin",
+        "power-law elastic modulus scaling near jamming",
+        "Gardner transition for irreversible rearrangements"
       ],
-      "strategy": "scale_bridging",
-      "scout_confidence": 7,
-      "disjointness_estimate": "DISJOINT",
+      "strategy": "structural_isomorphism",
+      "confidence": 0.88,
+      "impact_potential": 7,
+      "impact_type": "paradigm",
+      "estimated_disjointness": "DISJOINT",
+      "verified_disjointness": "DISJOINT",
+      "disjointness_confidence": 0.91,
       "web_verified": true
+    },
+    {
+      "id": 4,
+      "title": "ML-Augmented Acoustic Emission Classification x Plant Xylem Cavitation Mode Identification",
+      "field_a": "ML-enhanced AE analysis (CWT + CNN) for composite failure mode classification",
+      "field_c": "Plant xylem cavitation and embolism during drought stress",
+      "bridge_concepts": [
+        "CWT scalogram generation",
+        "CNN architecture transfer via domain adaptation",
+        "wavelet packet decomposition energy fingerprint",
+        "AE source characterization feature space (ASTM E1930)",
+        "Felicity ratio for cavitation reversibility"
+      ],
+      "strategy": "tool_transfer",
+      "confidence": 0.78,
+      "impact_potential": 6,
+      "impact_type": "enabling_technology",
+      "estimated_disjointness": "DISJOINT_AT_BRIDGE_LEVEL",
+      "verified_disjointness": "DISJOINT_AT_BRIDGE_LEVEL",
+      "disjointness_confidence": 0.88,
+      "web_verified": true
+    },
+    {
+      "id": 5,
+      "title": "Classical Nucleation Theory x Ferroptosis Ferritin Iron Pool Dynamics",
+      "field_a": "Classical nucleation theory (nucleation kinetics, critical radius, supersaturation)",
+      "field_c": "Intracellular iron pool dynamics during ferroptosis",
+      "bridge_concepts": [
+        "CNT nucleation rate equation J = A*exp(-DG*/kT)",
+        "critical nucleus radius r* pH-dependent",
+        "Ostwald ripening kinetics (LSW theory)",
+        "ferrihydrite surface energy gamma",
+        "mineral dissolution rate law"
+      ],
+      "strategy": "tool_transfer",
+      "confidence": 0.88,
+      "impact_potential": 8,
+      "impact_type": "translational",
+      "estimated_disjointness": "DISJOINT",
+      "verified_disjointness": "DISJOINT",
+      "disjointness_confidence": 0.96,
+      "web_verified": true,
+      "key_anomaly": "LIP does NOT expand during ferroptosis despite ferritinophagy"
     }
   ],
-  "literature_context": {
-    "completed_at": "2026-03-25T00:45:00Z",
-    "output_file": "results/session-20260325-000727/literature-landscape.md",
-    "json_file": "results/session-20260325-000727/literature.json",
-    "papers_dir": "results/session-20260325-000727/papers/",
-    "papers_retrieved": 10,
-    "mcp_status": "RATE_LIMITED/DEGRADED \u2014 fell back to WebSearch + WebFetch",
-    "disjointness_results": {
-      "T1": "PARTIALLY_EXPLORED",
-      "T2": "DISJOINT",
-      "T3": "DISJOINT",
-      "T4": "DISJOINT",
-      "T5": "PARTIALLY_EXPLORED",
-      "T6": "DISJOINT"
-    },
-    "disjoint_count": 4,
-    "partially_explored_count": 2,
-    "well_explored_count": 0,
-    "recommended_primary": "T4",
-    "recommended_secondary": [
-      "T6",
-      "T3"
-    ],
-    "deprioritize": [
-      "T5"
-    ],
-    "key_finding": "T4 (TUR x bacterial cell size homeostasis) is the cleanest DISJOINT \u2014 no paper applies TUR inequality to the adder model or DnaA-ATP counting mechanism. T6 benefits from Ponnusamy 2025 anomaly (LIP doesn't expand) + JACS 2025 ferritin nucleation papers. T1 and T5 are PARTIALLY_EXPLORED and must acknowledge prior art."
-  },
-  "target_quality_scores": [
-    {
-      "id": "T4",
-      "title": "TUR \u00d7 Bacterial Cell Size Homeostasis",
-      "popularity": 8,
-      "vagueness": 9,
-      "structural_impossibility": 8,
-      "local_optima": 9,
-      "composite": 8.5,
-      "recommendation": "PROCEED",
-      "concerns": [
-        "Which TUR formulation (steady-state, first-passage, periodic) for cell cycle?",
-        "Active noise corrections may weaken bound",
-        "2025 Nat Comms paper is adjacent context, not prior art"
-      ]
-    },
-    {
-      "id": "T6",
-      "title": "CNT \u00d7 Ferroptosis Iron Release",
-      "popularity": 6,
-      "vagueness": 8,
-      "structural_impossibility": 6,
-      "local_optima": 4,
-      "composite": 6.0,
-      "recommendation": "PROCEED",
-      "concerns": [
-        "Ferroptosis as Field C for 3rd time \u2014 domain saturation risk",
-        "JACS 2025 ferritin nucleation paper narrows novelty window",
-        "Protein shell degradation may be rate-limiting, not mineral dissolution",
-        "Recycled target from S012"
-      ]
-    },
-    {
-      "id": "T3",
-      "title": "Jamming \u00d7 Chromatin Compaction",
-      "popularity": 6,
-      "vagueness": 4,
-      "structural_impossibility": 4,
-      "local_optima": 5,
-      "composite": 4.75,
-      "recommendation": "MODIFY",
-      "concerns": [
-        "Chromatin is a polymer, not granular matter \u2014 Liu-Nagel applies to particulate systems",
-        "Bridge concepts are metaphorical: packing fraction \u2260 histone modifications",
-        "LLPS already explains eu/heterochromatin transitions",
-        "Active processes (remodelers, loop extrusion) violate passive jamming assumptions",
-        "Recycled target from S012",
-        "Vocabulary re-description risk (force chains)"
-      ],
-      "modification_suggestions": [
-        "Replace Liu-Nagel with polymer glass transition framework",
-        "Focus on predictions LLPS/gelation models do NOT make",
-        "Replace Edwards entropy with polymer configurational entropy",
-        "Replace force chains with stress percolation through nucleosome contact networks"
-      ]
-    }
-  ],
-  "computational_readiness": {
-    "status": "MEDIUM",
-    "overall_verdict": "PLAUSIBLE WITH KEY CLARIFICATIONS",
-    "checks_passed": 4,
-    "checks_total": 5,
-    "completed_at": "2026-03-25T01:30:00Z",
-    "output_file": "results/session-20260325-000727/computational-validation.md",
-    "json_file": "results/session-20260325-000727/computational.json",
-    "key_verdicts": {
-      "kegg": "INCONCLUSIVE",
-      "string": "VERIFIED",
-      "pubmed": "DISJOINT (0 papers)",
-      "quantitative_total_entropy": "IMPLAUSIBLE as current",
-      "quantitative_DnaA_subsystem": "PLAUSIBLE (7.1-12% floor vs 10-18% observed)",
-      "DnaA_scaling": "MARGINAL (non-monotonic complication)"
-    },
-    "critical_concerns": [
-      "sigma_dot \u00d7 tau CANCELS if sigma_dot \u221d mu \u2014 TUR floor growth-rate-independent for total entropy",
-      "DnaA copy number is non-monotonic with growth rate (min at 0.7 dbl/hr)",
-      "Correct current is DnaA-oriC subsystem (N_eff=20 events), NOT total cellular entropy"
-    ],
-    "key_strengths": [
-      "STRING confirms DnaA-Hda (0.962) \u2014 RIDA ATP hydrolysis machinery REAL",
-      "STRING confirms DnaA-FtsZ (0.920) \u2014 replication-division coupling REAL",
-      "PubMed: 0 papers bridge TUR + adder model \u2014 gap is confirmed REAL",
-      "DnaA subsystem TUR floor (7.1%) within 1.4x of observed CV (10%) \u2014 physically meaningful",
-      "E. coli operates near TUR optimum (1.4x) vs oscillators (10^4-10^6x away) \u2014 novel near-optimality prediction"
-    ],
-    "recommendations_for_generator": [
-      "Use DnaA-oriC N_eff=20 events (20 kT each) as sigma_current, not total entropy",
-      "Hard TUR floor: CV_added >= 7.1% universally falsifiable",
-      "Predict non-monotonic CV vs growth rate with minimum near 0.7 dbl/hr",
-      "Emphasize near-optimality (1.4x from bound) as the novel surprising finding"
-    ]
-  },
   "hypotheses": {
     "cycle1": {
-      "evolved": {
-        "evolved_at": "2026-03-25",
-        "output_file": "results/session-20260325-000727/cycle1-evolved.json",
-        "parents": [
-          "H1",
-          "H4",
-          "H2",
-          "H7"
-        ],
-        "operations": {
-          "H1": "specification",
-          "H4": "mutation",
-          "H2": "mutation",
-          "H7": "crossover"
-        },
-        "evolved": [
-          {
-            "id": "E-H1",
-            "parent_id": "H1",
-            "bridge": "Variance-component decomposition of TUR sub-system noise",
-            "confidence": 6,
-            "key_prediction": "CV^2_counting > 50% of CV^2_total at fast growth; phase transition at 0.8-1.0 dbl/hr"
-          },
-          {
-            "id": "E-H4",
-            "parent_id": "H4",
-            "bridge": "Spatially heterogeneous DnaA-ATP counting current via CL/PG membrane-affinity gradient",
-            "confidence": 5,
-            "key_prediction": "Pole-proximal origins fire first by 3-8 min; CL deletion randomizes order and increases CV 15-25%"
-          },
-          {
-            "id": "E-H2",
-            "parent_id": "H2",
-            "bridge": "RIDA kinetic timing window: U-shaped rate-accuracy tradeoff",
-            "confidence": 6,
-            "key_prediction": "U-shaped CV_added vs Hda titration: min at 1x WT; CV increases at both 0.1x and 10x"
-          },
-          {
-            "id": "E-H7",
-            "parent_id": "H7",
-            "bridge": "Min Pareto-frontier TUR with pattern instability bifurcation",
-            "confidence": 5,
-            "key_prediction": "U-shaped sigma_z/L vs MinD; minimum at WT MinD; bifurcation coincides with precision loss onset"
-          }
-        ],
-        "diversity_check_passed": true,
-        "all_stronger_than_parents": true
-      },
-      "ranked": {
-        "ranked_at": "2026-03-25",
-        "output_file": "results/session-20260325-000727/cycle1-ranked.json",
-        "top_composite": 8.3,
-        "ranking": [
-          {
-            "id": "H1",
-            "composite": 8.3,
-            "rank": 1,
-            "selected_for_evolution": true
-          },
-          {
-            "id": "H4",
-            "composite": 6.5,
-            "rank": 2,
-            "selected_for_evolution": true
-          },
-          {
-            "id": "H2",
-            "composite": 6.1,
-            "rank": 3,
-            "selected_for_evolution": true
-          },
-          {
-            "id": "H7",
-            "composite": 5.2,
-            "rank": 4,
-            "selected_for_evolution": true,
-            "diversity_promoted": true
-          },
-          {
-            "id": "H3",
-            "composite": 5.5,
-            "rank": 5,
-            "selected_for_evolution": false,
-            "diversity_demoted": true
-          }
-        ],
-        "evolution_selection": [
-          "H1",
-          "H4",
-          "H2",
-          "H7"
-        ],
-        "diversity_check_triggered": true,
-        "elo_verdict": "Elo confirms linear ranking (top 3 identical: H1, H4, H2)",
-        "cycle_decision": "CONTINUE_TO_EVOLUTION"
-      },
       "raw": [
-        {
-          "id": "H1",
-          "title": "DnaA-ATP Counting at oriC Is a Thermodynamically Near-Optimal Molecular Current for the Bacterial Adder",
-          "bridge": "TUR on DnaA-ATP counting at oriC",
-          "confidence": 6,
-          "groundedness": "MEDIUM",
-          "key_prediction": "CV_added >= 7.07%; E. coli at 1.4x TUR floor"
-        },
-        {
-          "id": "H2",
-          "title": "RIDA-Mediated ATP Hydrolysis as Landauer Erasure Counter-Reset",
-          "bridge": "Information-theoretic erasure via RIDA",
-          "confidence": 5,
-          "groundedness": "MEDIUM",
-          "key_prediction": "Hda loss -> CV up; Hda excess -> CV unchanged below 7%"
-        },
-        {
-          "id": "H3",
-          "title": "Non-Monotonic DnaA Generates Counterintuitive Precision Maximum at Intermediate Growth",
-          "bridge": "Growth-rate-dependent TUR floor landscape",
-          "confidence": 4,
-          "groundedness": "LOW-MEDIUM",
-          "key_prediction": "Counting noise peak at 0.7 dbl/hr"
-        },
-        {
-          "id": "H4",
-          "title": "Multi-Fork Replication Creates Parallel Counting Currents with Correlated Noise",
-          "bridge": "Multi-current TUR for parallel origins",
-          "confidence": 5,
-          "groundedness": "MEDIUM",
-          "key_prediction": "DnaA overexpression reduces CV at fast growth only"
-        },
-        {
-          "id": "H5",
-          "title": "ppGpp Coordinates Thermodynamically Near-Optimal Trajectory Under Stress",
-          "bridge": "Coordinated TUR axis traversal via ppGpp",
-          "confidence": 4,
-          "groundedness": "LOW-MEDIUM",
-          "key_prediction": "ppGpp titration traces CV^2 x Sigma ~ 2 curve"
-        },
-        {
-          "id": "H6",
-          "title": "First-Passage TUR Establishes Thermodynamic Cost Hierarchy: Adder Cheapest",
-          "bridge": "First-passage TUR classifies homeostasis strategies",
-          "confidence": 4,
-          "groundedness": "LOW-MEDIUM",
-          "key_prediction": "Timer >> sizer > adder in dissipation cost per precision"
-        },
-        {
-          "id": "H7",
-          "title": "MinCDE Oscillation Dissipation Sets TUR Floor for Division Positioning",
-          "bridge": "Periodic TUR for oscillatory spatial precision",
-          "confidence": 4,
-          "groundedness": "MEDIUM",
-          "key_prediction": "Min at 15-25x TUR floor; DnaA at 1.4x; Min is bottleneck"
-        },
-        {
-          "id": "H8",
-          "title": "Cross-Species Adder Precision Scales with oriC DnaA-Box Count",
-          "bridge": "Universal TUR scaling law across species",
-          "confidence": 3,
-          "groundedness": "LOW",
-          "key_prediction": "CV^2_min x N_boxes ~ 0.1 across bacterial species"
-        }
+        "C1-H1: GEV Tail Index Classifies Thermal Adaptation Strategies Across the Tree of Life",
+        "C1-H2: Complex-Minimum Tm Return Levels Predict Process-Specific Thermal Failure Temperatures",
+        "C1-H3: POT Analysis Reveals IDPs as the Functional Architecture of Thermal Vulnerability",
+        "C1-H4: Censored GEV Estimation Recovers the Invisible Proteome and Quantifies Systematic Bias",
+        "C1-H5: The Extremal Index Encodes Proteome Modularity and Chaperone Buffering Capacity",
+        "C1-H6: FTG Universality Guarantees Weibull-Domain Convergence for All Proteome Tm Distributions",
+        "C1-H7: GPD Scale Parameter Predicts Evolutionary Rate in the Thermally Vulnerable Subproteome"
       ],
       "critiqued": [
         {
-          "id": "H1",
-          "title": "DnaA-ATP Counting at oriC Is a Thermodynamically Near-Optimal Molecular Current for the Bacterial Adder",
+          "id": "C1-H1",
+          "title": "GEV Tail Index (xi) as Phylogenomic Signature of Thermal Adaptation Strategy",
           "verdict": "SURVIVES",
+          "original_confidence": 6,
           "revised_confidence": 5,
-          "key_finding": "Genuinely novel. DnaA box count error (20\u219211) actually strengthens near-optimality. Main vulnerability: noise decomposition."
+          "key_attack": "Effect size unknown; only 1-2 thermophiles in 13-species dataset may under-power xi-OGT regression",
+          "citation_issues": "none"
         },
         {
-          "id": "H2",
-          "title": "RIDA-Mediated ATP Hydrolysis as Landauer Erasure Counter-Reset",
+          "id": "C1-H2",
+          "title": "Complex-Minimum Tm via POT Identifies Thermal Bottleneck Complexes",
           "verdict": "WOUNDED",
-          "revised_confidence": 3,
-          "key_finding": "Landauer framing uninformative at 30x above erasure bound."
+          "original_confidence": 7,
+          "revised_confidence": 5,
+          "key_attack": "Citation conflation (Mateus 2020 MSB cited as Science 367:eaaz5268; correct: Tan 2018 Science 359:1170). In-complex stabilization makes lysate Tm_min a poor proxy for functional failure.",
+          "citation_issues": "Mateus et al. 2020, Science 367:eaaz5268 is FABRICATED \u2014 finding from Tan et al. 2018, Science 359:1170-1177"
         },
         {
-          "id": "H3",
-          "title": "Non-Monotonic DnaA Generates Counterintuitive Precision Maximum at Intermediate Growth",
+          "id": "C1-H3",
+          "title": "Censored GEV Recovers the Invisible 20% Below TPP Measurement Window",
           "verdict": "WOUNDED",
-          "revised_confidence": 2,
-          "key_finding": "Core claim (non-monotonic DnaA per origin) unverified. Prediction speculative."
-        },
-        {
-          "id": "H4",
-          "title": "Multi-Fork Replication Creates Parallel Counting Currents with Correlated Noise",
-          "verdict": "WOUNDED",
+          "original_confidence": 5,
           "revised_confidence": 4,
-          "key_finding": "Partially anticipated by 2023 PRX Life paper. DnaA membrane interactions complicate model."
+          "key_attack": "Multi-modal tail (IDPs vs. marginally stable proteins) would defeat unimodal GEV extrapolation. Cold denaturation creates non-random censoring. +/-3% accuracy claim is speculative.",
+          "citation_issues": "none"
         },
         {
-          "id": "H5",
-          "title": "ppGpp Coordinates Thermodynamically Near-Optimal Trajectory Under Stress",
+          "id": "C1-H4",
+          "title": "Non-Stationary GEV with Drug Concentration as Covariate",
           "verdict": "KILLED",
-          "revised_confidence": 1,
-          "key_finding": "Mechanism wrong \u2014 ppGpp acts via supercoiling, not DnaA levels (Fern\u00e1ndez-Coll 2020)."
+          "original_confidence": 4,
+          "revised_confidence": 2,
+          "key_attack": "Three independent kill signals: (1) 3-5 drug concentrations grossly insufficient for non-stationary GEV trend detection, (2) cascade mechanism unsupported and dominant drug effect (target stabilization) is opposite to predicted destabilization, (3) >50% claims speculative or contradicted.",
+          "citation_issues": "none"
         },
         {
-          "id": "H6",
-          "title": "First-Passage TUR Establishes Thermodynamic Cost Hierarchy: Adder Cheapest",
-          "verdict": "KILLED",
-          "revised_confidence": 1,
-          "key_finding": "Citation hallucination \u2014 Campos 2014 proves Caulobacter ADDER, not sizer."
-        },
-        {
-          "id": "H7",
-          "title": "MinCDE Oscillation Dissipation Sets TUR Floor for Division Positioning",
+          "id": "C1-H5",
+          "title": "Pathway-Level Block Maxima: Translation Initiation as Universal Thermal Death Bottleneck",
           "verdict": "WOUNDED",
+          "original_confidence": 5,
           "revised_confidence": 3,
-          "key_finding": "Partially anticipated by Fei & Bhatt 2015 MinCDE dissipation paper."
+          "key_attack": "Biological prediction partially pre-empted by Bresson 2024 Molecular Cell (eIF4F is a thermo-sensing node). eIF4A is heat-resistant (contradicts low-Tm assumption). Single-bottleneck framework conflicts with multi-factorial thermal death models.",
+          "citation_issues": "none"
         },
         {
-          "id": "H8",
-          "title": "Cross-Species Adder Precision Scales with oriC DnaA-Box Count",
+          "id": "C1-H6",
+          "title": "Extremal Index Quantifies Thermal Cooperativity",
           "verdict": "KILLED",
-          "revised_confidence": 1,
-          "key_finding": "Multiple errors: box count wrong (11 not 20), V. cholerae Chr2 uses RctB not DnaA."
+          "original_confidence": 5,
+          "revised_confidence": 2,
+          "key_attack": "Extremal index theta is defined for sequential/temporal data. Cross-sectional Tm data sorted by value creates tautological clustering. Spatial extensions require pre-defined spatial structure that Tm data lacks. Same citation conflation as H2.",
+          "citation_issues": "Mateus et al. 2020, Science 367:eaaz5268 is FABRICATED \u2014 finding from Tan et al. 2018, Science 359:1170-1177"
+        },
+        {
+          "id": "C1-H7",
+          "title": "POT Functional Enrichment: Thermal Disposability Design Principle",
+          "verdict": "WOUNDED",
+          "original_confidence": 6,
+          "revised_confidence": 4,
+          "key_attack": "Kinase low-Tm claim is unverified and potentially self-contradicted (CDK2 ~55C > proteome median). Protein size confound (large proteins have lower Tm; kinases are large) could explain any enrichment without invoking 'thermal disposability'.",
+          "citation_issues": "none"
         }
       ],
-      "critique_stats": {
-        "survived": 1,
-        "wounded": 4,
-        "killed": 3,
-        "kill_rate": 0.375,
-        "critic_questions_count": 5
-      },
-      "count": 8,
-      "generation_techniques": [
-        "mathematical_necessity",
-        "bisociation",
-        "counterfactual_probing",
-        "scale_bridging",
-        "facet_recombination",
-        "analogy_transfer",
-        "measurement_transfer",
-        "multi_level_abstraction"
+      "critic_questions": [
+        {
+          "hypothesis_id": "C1-H2/H6",
+          "question": "Citation 'Mateus et al. 2020, Science 367:eaaz5268' does not exist. The TPCA >350 complexes finding is from Tan et al. 2018, Science 359:1170-1177. Please correct."
+        },
+        {
+          "hypothesis_id": "C1-H5",
+          "question": "What are the specific Tm values for eIF4E, eIF4A, eIF2alpha, and eIF4G in the Meltome Atlas? Bresson et al. 2024 (Molecular Cell) shows eIF4A is heat-resistant. Can you look up actual Tm values?"
+        },
+        {
+          "hypothesis_id": "C1-H7",
+          "question": "The hypothesis claims kinases have low Tm but CDK2 Tm ~55C would be above the proteome median. What is the actual distribution of kinase Tm values in the Meltome Atlas? Does GO:0004672 enrich in the lower or upper tail?"
+        },
+        {
+          "hypothesis_id": "C1-H3",
+          "question": "Is there evidence that the sub-30C proteome contains distinct subpopulations (IDPs vs. marginally stable folded proteins)? This determines whether censored GEV (unimodal assumption) is appropriate."
+        },
+        {
+          "hypothesis_id": "C1-H1",
+          "question": "Is there any prior data on the SHAPE of Tm distributions (not just mean/SD) across species? Even qualitative descriptions (unimodal vs. bimodal, skewness) would help calibrate xi effect size."
+        }
       ],
-      "bridge_mechanisms_distinct": 8,
-      "self_critique": {
-        "claims_downgraded": 3,
-        "quantitative_errors_caught": 1,
-        "directionality_errors": 0,
-        "compartmental_errors": 0,
-        "protein_property_errors": 0
-      }
+      "ranked": [
+        {
+          "id": "C1-H1",
+          "title": "GEV Tail Index (xi) as Phylogenomic Signature of Thermal Adaptation Strategy",
+          "rank": 1,
+          "scores": {
+            "novelty": 9,
+            "mechanistic_specificity": 8,
+            "cross_field_distance": 8,
+            "testability": 9,
+            "impact_paradigm": 7,
+            "impact_translational": 4,
+            "groundedness": 7
+          },
+          "weighted_avg": 7.95,
+          "cross_domain_bonus": 0.5,
+          "composite": 8.45,
+          "elo_wins": 3,
+          "elo_win_rate": 0.75,
+          "selected_for_quality_gate": true
+        },
+        {
+          "id": "C1-H2",
+          "title": "Complex-Minimum Tm via POT Identifies Thermal Bottleneck Complexes",
+          "rank": 2,
+          "scores": {
+            "novelty": 8,
+            "mechanistic_specificity": 8,
+            "cross_field_distance": 8,
+            "testability": 9,
+            "impact_paradigm": 7,
+            "impact_translational": 6,
+            "groundedness": 6
+          },
+          "weighted_avg": 7.65,
+          "cross_domain_bonus": 0.5,
+          "composite": 8.15,
+          "elo_wins": 4,
+          "elo_win_rate": 1.0,
+          "selected_for_quality_gate": true
+        },
+        {
+          "id": "C1-H3",
+          "title": "Censored GEV Recovers the Invisible 20% Below TPP Measurement Window",
+          "rank": 3,
+          "scores": {
+            "novelty": 8,
+            "mechanistic_specificity": 6,
+            "cross_field_distance": 9,
+            "testability": 7,
+            "impact_paradigm": 5,
+            "impact_translational": 4,
+            "groundedness": 5
+          },
+          "weighted_avg": 6.55,
+          "cross_domain_bonus": 0.5,
+          "composite": 7.05,
+          "elo_wins": 2,
+          "elo_win_rate": 0.5,
+          "selected_for_quality_gate": true
+        },
+        {
+          "id": "C1-H7",
+          "title": "POT Functional Enrichment: Thermal Disposability Design Principle",
+          "rank": 4,
+          "scores": {
+            "novelty": 7,
+            "mechanistic_specificity": 6,
+            "cross_field_distance": 8,
+            "testability": 8,
+            "impact_paradigm": 5,
+            "impact_translational": 5,
+            "groundedness": 5
+          },
+          "weighted_avg": 6.5,
+          "cross_domain_bonus": 0.5,
+          "composite": 7.0,
+          "elo_wins": 1,
+          "elo_win_rate": 0.25,
+          "selected_for_quality_gate": true
+        },
+        {
+          "id": "C1-H5",
+          "title": "Pathway-Level Block Maxima: Translation Initiation as Universal Thermal Death Bottleneck",
+          "rank": 5,
+          "scores": {
+            "novelty": 5,
+            "mechanistic_specificity": 5,
+            "cross_field_distance": 8,
+            "testability": 8,
+            "impact_paradigm": 6,
+            "impact_translational": 5,
+            "groundedness": 4
+          },
+          "weighted_avg": 5.75,
+          "cross_domain_bonus": 0.5,
+          "composite": 6.25,
+          "elo_wins": 0,
+          "elo_win_rate": 0.0,
+          "selected_for_quality_gate": false
+        }
+      ],
+      "quality_gate": [
+        {
+          "id": "C1-H1",
+          "title": "GEV Tail Index (xi) as Phylogenomic Signature of Thermal Adaptation Strategy",
+          "verdict": "PASS",
+          "confidence": 5,
+          "novelty_verified": true,
+          "citations_verified": true,
+          "mechanism_plausible": true,
+          "key_strength": "Genuinely novel connection, theorem-backed mathematics, all citations verified, testable with existing data",
+          "key_weakness": "n=13 species with phylogenetic confounding; bimodal distributions (E. coli) may complicate GEV fitting",
+          "web_searches_performed": 8,
+          "citation_errors": "none",
+          "impact_annotation": {
+            "application_pathway": "measurement method",
+            "nearest_applied_domain": "comparative/evolutionary genomics",
+            "validation_horizon": "near-term"
+          }
+        },
+        {
+          "id": "C1-H2",
+          "title": "Complex-Minimum Tm Return Levels Predict Process-Specific Thermal Failure Temperatures",
+          "verdict": "CONDITIONAL_PASS",
+          "confidence": 5,
+          "novelty_verified": true,
+          "citations_verified": true,
+          "mechanism_plausible": true,
+          "key_strength": "Best mechanistic specification; novel application of return levels to process failure prediction",
+          "key_weakness": "TPCA attribution error (Mateus 2020 -> Tan 2018); chaperone buffering may invalidate +-2C window",
+          "conditions": "Correct TPCA attribution to Tan 2018; quantify chaperone buffering correction",
+          "web_searches_performed": 6,
+          "citation_errors": "soft attribution error (TPCA finding attributed to review instead of primary source)",
+          "impact_annotation": {
+            "application_pathway": "measurement method",
+            "nearest_applied_domain": "thermal physiology / hyperthermia research",
+            "validation_horizon": "near-term"
+          }
+        },
+        {
+          "id": "C1-H3",
+          "title": "Censored GEV Recovers the Invisible 20% Below TPP Measurement Window",
+          "verdict": "FAIL",
+          "confidence": 4,
+          "novelty_verified": true,
+          "citations_verified": true,
+          "mechanism_plausible": false,
+          "key_strength": "Genuinely novel methodological transfer; addresses real problem (20% unmeasured)",
+          "key_weakness": "MECHANISM IMPLAUSIBLE: censored GEV assumes all censored proteins have defined Tm, but IDPs lack cooperative unfolding transition",
+          "fail_reason": "MECHANISM IMPLAUSIBLE: Core censoring assumption violated -- IDPs in the censored population have no defined Tm, making the censored likelihood misspecified",
+          "web_searches_performed": 5,
+          "citation_errors": "none"
+        },
+        {
+          "id": "C1-H7",
+          "title": "GPD Scale Parameter Predicts Evolutionary Rate in the Thermally Vulnerable Subproteome",
+          "verdict": "CONDITIONAL_PASS",
+          "confidence": 4,
+          "novelty_verified": true,
+          "citations_verified": true,
+          "mechanism_plausible": true,
+          "key_strength": "Novel sigma-dN/dS prediction connecting thermal vulnerability to evolutionary constraint",
+          "key_weakness": "Drummond citation error (PNAS not Cell); enrichment component has prior art (Leuenberger 2017); dN/dS confounders may swamp signal",
+          "conditions": "Correct Drummond citation; distinguish novel component (sigma-dN/dS) from prior art (GO enrichment); control for expression-level confounders",
+          "web_searches_performed": 6,
+          "citation_errors": "journal attribution error (Drummond 2005 cited as Cell, actual journal is PNAS)",
+          "impact_annotation": {
+            "application_pathway": "enabling_technology",
+            "nearest_applied_domain": "molecular evolution / comparative proteomics",
+            "validation_horizon": "near-term"
+          }
+        }
+      ]
     }
-  },
-  "hypotheses_cycle2_raw": {
-    "raw": [
-      {
-        "id": "C2-H1",
-        "title": "Multi-Current TUR Decomposition \u2014 Noise Portfolio with DnaA as Sole Near-Optimal Subsystem",
-        "bridge": "Multi-current coupled TUR decomposition",
-        "confidence": 6,
-        "groundedness": "MEDIUM",
-        "parent": "E-H1+E-H7",
-        "relationship": "extends"
-      },
-      {
-        "id": "C2-H2",
-        "title": "ppGpp \u2192 Supercoiling \u2192 N_eff Reduction as Stress-Responsive TUR Tuning",
-        "bridge": "DNA topology as N_eff modulator",
-        "confidence": 5,
-        "groundedness": "MEDIUM",
-        "parent": "H5-reformulated",
-        "relationship": "reformulates"
-      },
-      {
-        "id": "C2-H3",
-        "title": "Incomplete RIDA Reset Creates Inter-Generational Memory Shifting Adder Toward Timer",
-        "bridge": "Incomplete counter-reset creating autocorrelation",
-        "confidence": 6,
-        "groundedness": "MEDIUM",
-        "parent": "E-H2",
-        "relationship": "extends"
-      },
-      {
-        "id": "C2-H4",
-        "title": "Per-Origin Noise Spectroscopy \u2014 CL/PG Gradient Creates CV Asymmetry",
-        "bridge": "Lipid-domain spatial entropy gradient",
-        "confidence": 5,
-        "groundedness": "MEDIUM",
-        "parent": "E-H4",
-        "relationship": "extends"
-      },
-      {
-        "id": "C2-H5",
-        "title": "FtsZ GTPase ~2000x Over-Dissipating vs DnaA \u2014 Precision Bottleneck at Initiation",
-        "bridge": "GTPase vs ATPase molecular current comparison",
-        "confidence": 7,
-        "groundedness": "HIGH",
-        "parent": null,
-        "relationship": "fresh"
-      },
-      {
-        "id": "C2-H6",
-        "title": "TUR Dominates Berg-Purcell for DnaA-oriC \u2014 Bottleneck Is Thermodynamic Not Diffusive",
-        "bridge": "TUR vs Berg-Purcell dual-bound comparison",
-        "confidence": 6,
-        "groundedness": "MEDIUM-HIGH",
-        "parent": null,
-        "relationship": "fresh"
-      },
-      {
-        "id": "C2-H7",
-        "title": "Antibiotic-Specific Noise Fingerprinting at Matched Growth Rate",
-        "bridge": "Antibiotic-specific noise-source targeting",
-        "confidence": 5,
-        "groundedness": "MEDIUM",
-        "parent": null,
-        "relationship": "fresh"
-      }
-    ],
-    "count": 7,
-    "building_on_survivors": 4,
-    "fresh": 3,
-    "bridge_mechanisms_distinct": 7,
-    "critic_questions_addressed": [
-      "Q1_N_eff_11",
-      "Q2_noise_decomposition",
-      "Q3_ppGpp_supercoiling",
-      "Q4_Caulobacter_adder"
-    ],
-    "generation_techniques": [
-      "multi_level_abstraction",
-      "facet_recombination",
-      "counterfactual_probing",
-      "gap_targeted_generation",
-      "analogy_transfer",
-      "negation_exploration",
-      "scale_bridging",
-      "bisociation",
-      "mathematical_necessity"
-    ],
-    "self_critique": {
-      "claims_downgraded": 2,
-      "quantitative_errors_caught": 0,
-      "directionality_errors": 0,
-      "compartmental_errors": 0,
-      "protein_property_uncertainties": 1
-    }
-  },
-  "cycle2": {
-    "critiqued": [
-      {
-        "id": "C2-H1",
-        "title": "Multi-Current TUR Decomposition \u2014 Noise Portfolio with DnaA as Sole Near-Optimal Subsystem",
-        "verdict": "WOUNDED",
-        "revised_confidence": 4,
-        "key_finding": "Extrinsic noise dominates (Genthon 2026) \u2014 intrinsic noise decomposition may be practically irrelevant. Independent-subsystem assumption questionable."
-      },
-      {
-        "id": "C2-H2",
-        "title": "ppGpp \u2192 Supercoiling \u2192 N_eff Reduction as Stress-Responsive TUR Tuning",
-        "verdict": "WOUNDED",
-        "revised_confidence": 4,
-        "key_finding": "Cooperative DnaA filament assembly undermines independent-site N_eff model. Novobiocin test confounded by DARS2 effects."
-      },
-      {
-        "id": "C2-H3",
-        "title": "Incomplete RIDA Reset Creates Inter-Generational Memory Shifting Adder Toward Timer",
-        "verdict": "KILLED",
-        "revised_confidence": 1,
-        "key_finding": "Logic kill: model predicts negligible WT memory (rho=0.005) but claims to explain Susman 2025 substantial WT memory. RIDA dispensable (Lobner-Olesen 2024)."
-      },
-      {
-        "id": "C2-H4",
-        "title": "Per-Origin Noise Spectroscopy \u2014 CL/PG Gradient Creates CV Asymmetry",
-        "verdict": "KILLED",
-        "revised_confidence": 1,
-        "key_finding": "Mechanism kill: DnaA diffusion (~3 um2/s) homogenizes spatial gradient in ~1s vs minutes-long counting. Peclet number ~0.002."
-      },
-      {
-        "id": "C2-H5",
-        "title": "FtsZ GTPase ~2000x Over-Dissipating vs DnaA \u2014 Precision Bottleneck at Initiation Not Division",
-        "verdict": "SURVIVES",
-        "revised_confidence": 6,
-        "key_finding": "Robust calculation (410-1840x ratio), all key parameters grounded, clean FtsZ84 vs dnaA46 falsification test. Main risk: triviality + extrinsic noise irrelevance."
-      },
-      {
-        "id": "C2-H6",
-        "title": "TUR Dominates Berg-Purcell for DnaA-oriC \u2014 Bottleneck Is Thermodynamic Not Diffusive",
-        "verdict": "WOUNDED",
-        "revised_confidence": 4,
-        "key_finding": "DnaA(L366K) cannot initiate replication \u2014 primary experiment flawed. Effective D_DnaA unknown; if low, BPL approaches TUR."
-      },
-      {
-        "id": "C2-H7",
-        "title": "Antibiotic-Specific Noise Fingerprinting at Matched Growth Rate",
-        "verdict": "WOUNDED",
-        "revised_confidence": 3,
-        "key_finding": "SOS response confound from sub-MIC cipro (~25-fold SulA) far more severe than acknowledged. >40 SOS genes confound attribution."
-      }
-    ],
-    "critique_stats": {
-      "survived": 1,
-      "wounded": 4,
-      "killed": 2,
-      "kill_rate": 0.286,
-      "critic_questions_count": 3
-    },
-    "critic_questions": [
-      {
-        "id": "Q1",
-        "hypothesis_ids": [
-          "C2-H1",
-          "C2-H5"
-        ],
-        "question": "How does extrinsic noise dominance (Genthon 2026) affect the multi-current TUR decomposition?"
-      },
-      {
-        "id": "Q2",
-        "hypothesis_ids": [
-          "C2-H2"
-        ],
-        "question": "How does cooperative DnaA filament assembly change the N_eff vs supercoiling prediction?"
-      },
-      {
-        "id": "Q3",
-        "hypothesis_ids": [
-          "C2-H7"
-        ],
-        "question": "Can noise fingerprinting use genetic perturbations instead of pleiotropic antibiotics?"
-      }
-    ]
-  },
-  "final": [
-    {
-      "id": "C2-H5",
-      "verdict": "PASS",
-      "confidence": 7,
-      "groundedness": "HIGH"
-    },
-    {
-      "id": "E-H1",
-      "verdict": "CONDITIONAL_PASS",
-      "confidence": 6,
-      "groundedness": "MEDIUM"
-    },
-    {
-      "id": "C2-H2",
-      "verdict": "CONDITIONAL_PASS",
-      "confidence": 5,
-      "groundedness": "MEDIUM"
-    },
-    {
-      "id": "E-H2",
-      "verdict": "CONDITIONAL_PASS",
-      "confidence": 5,
-      "groundedness": "MEDIUM"
-    },
-    {
-      "id": "C2-H6",
-      "verdict": "CONDITIONAL_PASS",
-      "confidence": 4,
-      "groundedness": "MEDIUM"
-    },
-    {
-      "id": "C2-H1",
-      "verdict": "CONDITIONAL_PASS",
-      "confidence": 4,
-      "groundedness": "MEDIUM"
-    },
-    {
-      "id": "E-H7",
-      "verdict": "CONDITIONAL_PASS",
-      "confidence": 5,
-      "groundedness": "MEDIUM"
-    }
-  ],
-  "quality_gate_results": {
-    "completed_at": "2026-03-25",
-    "output_file": "results/session-20260325-000727/quality-gate.md",
-    "json_file": "results/session-20260325-000727/quality-gate.json",
-    "final_file": "results/session-20260325-000727/final.json",
-    "evaluated": 8,
-    "pass": 1,
-    "conditional_pass": 6,
-    "fail": 1,
-    "fail_ids": [
-      "E-H4"
-    ],
-    "fail_reasons": {
-      "E-H4": "MECHANISM IMPLAUSIBLE: DnaA diffusion homogenizes spatial gradient"
-    },
-    "citation_hallucinations": 0,
-    "citation_errors": 2,
-    "web_searches": 27
-  },
-  "hypotheses_cycle2_ranked": {
-    "ranked_at": "2026-03-25",
-    "output_file": "results/session-20260325-000727/cycle2-ranked.json",
-    "top_composite": 7.9,
-    "ranking": [
-      {
-        "id": "C2-H5",
-        "composite": 7.9,
-        "rank": 1,
-        "selected_for_evolution": true
-      },
-      {
-        "id": "C2-H2",
-        "composite": 7.0,
-        "rank": 2,
-        "selected_for_evolution": true
-      },
-      {
-        "id": "C2-H6",
-        "composite": 6.6,
-        "rank": 3,
-        "selected_for_evolution": true,
-        "diversity_promoted": true
-      },
-      {
-        "id": "C2-H1",
-        "composite": 6.6,
-        "rank": 4,
-        "selected_for_evolution": true,
-        "diversity_noted_convergent": true
-      },
-      {
-        "id": "C2-H7",
-        "composite": 5.9,
-        "rank": 5,
-        "selected_for_evolution": false,
-        "diversity_excluded": true
-      }
-    ],
-    "evolution_selection": [
-      "C2-H5",
-      "C2-H2",
-      "C2-H6",
-      "C2-H1"
-    ],
-    "diversity_check_triggered": true,
-    "diversity_similar_group": [
-      "C2-H5",
-      "C2-H1",
-      "C2-H7"
-    ],
-    "elo_verdict": "Elo confirms linear ranking \u2014 top 3 identical (H5, H2, H1). H1/H6 tie broken by Elo in H1's favor due to experimental irreparability penalty on H6.",
-    "cycle_decision": "CONTINUE_TO_EVOLUTION",
-    "top_hypothesis_criteria_check": "Top composite 7.90 < 7.0 threshold not met for early-completion \u2014 continue to evolution as planned"
   },
   "metadata": {
-    "start_time": "2026-03-24T23:07:43Z",
-    "total_hypotheses_generated": 15,
-    "retries_needed": 0,
+    "start_time": "2026-03-26T23:01:17Z",
+    "model": "opus-4.6",
+    "contributor_key": "none",
+    "total_hypotheses_generated": 7,
+    "kill_rate": 0.29,
     "fallback_used": false,
     "literature_unavailable": false,
     "generation_degraded": false,
-    "contributor_key": "null",
-    "cycle_decision": "standard",
-    "evolver_skipped": true,
-    "web_search_failures": 9
+    "web_search_failures": 27,
+    "retries_needed": 0,
+    "cycle_decision": "early_complete",
+    "evolver_skipped": false,
+    "literature_reinforcement": false
   },
-  "health": {
-    "scout_targets_found": 6,
-    "hypotheses_generated": 15,
-    "survived_critique": 5,
-    "passed_quality_gate": 7,
-    "pass_count": 1,
-    "conditional_pass_count": 6,
-    "fail_count": 1,
-    "fallback_used": false
+  "target_evaluation": {
+    "completed": true,
+    "timestamp": "2026-03-27",
+    "evaluated_targets": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "target_quality_scores": [
+      {
+        "id": 1,
+        "title": "Extreme Value Theory x Proteome Thermal Vulnerability Mapping",
+        "popularity": 9,
+        "vagueness": 7,
+        "structural_impossibility": 7,
+        "local_optima": 10,
+        "composite": 8.25,
+        "recommendation": "PROCEED"
+      },
+      {
+        "id": 2,
+        "title": "Reservoir Computing Theory x Gut Microbiome Community Dynamics",
+        "popularity": 6,
+        "vagueness": 7,
+        "structural_impossibility": 5,
+        "local_optima": 8,
+        "composite": 6.5,
+        "recommendation": "PROCEED"
+      },
+      {
+        "id": 3,
+        "title": "Granular Jamming Transition Physics x Chromatin Compaction During Confined Migration",
+        "popularity": 7,
+        "vagueness": 8,
+        "structural_impossibility": 5,
+        "local_optima": 7,
+        "composite": 6.75,
+        "recommendation": "PROCEED"
+      },
+      {
+        "id": 4,
+        "title": "ML-Augmented Acoustic Emission Classification x Plant Xylem Cavitation Mode Identification",
+        "popularity": 6,
+        "vagueness": 8,
+        "structural_impossibility": 7,
+        "local_optima": 8,
+        "composite": 7.25,
+        "recommendation": "PROCEED"
+      },
+      {
+        "id": 5,
+        "title": "Classical Nucleation Theory x Ferroptosis Ferritin Iron Pool Dynamics",
+        "popularity": 8,
+        "vagueness": 9,
+        "structural_impossibility": 7,
+        "local_optima": 5,
+        "composite": 7.25,
+        "recommendation": "PROCEED"
+      }
+    ],
+    "impact_potential_scores": [
+      {
+        "id": 1,
+        "impact_potential": 7,
+        "impact_type": "enabling_technology",
+        "rationale": "Thermal death prediction; drug target prioritization; climate adaptation biology; cross-species tail analysis"
+      },
+      {
+        "id": 2,
+        "impact_potential": 7,
+        "impact_type": "paradigm",
+        "rationale": "Microbiome resilience diagnostics; dysbiosis prediction via Lyapunov exponent; intervention design via input engineering"
+      },
+      {
+        "id": 3,
+        "impact_potential": 7,
+        "impact_type": "paradigm",
+        "rationale": "Nuclear mechanics during metastasis; mechanical biomarker for metastatic potential; HDAC inhibitors as jamming modulators"
+      },
+      {
+        "id": 4,
+        "impact_potential": 6,
+        "impact_type": "enabling_technology",
+        "rationale": "Agricultural drought vulnerability assessment; forest mortality prediction; non-destructive plant health monitoring"
+      },
+      {
+        "id": 5,
+        "impact_potential": 8,
+        "impact_type": "translational",
+        "rationale": "Ferroptosis modulators for cancer/neurodegeneration; iron pool dynamics prediction; tissue-specific vulnerability via pH/supersaturation"
+      }
+    ],
+    "recommended_primary": 1,
+    "recommended_primary_title": "Extreme Value Theory x Proteome Thermal Vulnerability Mapping",
+    "recommended_primary_rationale": "Highest composite (8.25), maximum frontier expansion (10/10 local-optima), highest disjointness confidence (0.97), immediately testable on existing data, converging_vocabularies has strong track record (S014: 87.5% PASS+COND)",
+    "strongest_alternative": 5,
+    "strongest_alternative_title": "Classical Nucleation Theory x Ferroptosis Ferritin Iron Pool Dynamics",
+    "strongest_alternative_rationale": "Highest mechanistic specificity (9/10), highest impact (8/10), compelling anomaly (LIP non-expansion), but ferroptosis field recurrence (3rd session) is a concern",
+    "output_file": "results/2026-03-27-scout-013/target-evaluation.md"
+  },
+  "computational_readiness": {
+    "completed": true,
+    "timestamp": "2026-03-27",
+    "overall_verdict": "HIGH",
+    "checks_passed": "9/10",
+    "blocker_detected": false,
+    "checks_detail": {
+      "pubmed_cooccurrence": "DISJOINT \u2014 0 papers on EVT x Tm-distributions bridge; 7 EVT+proteomics papers all in MS scoring domain",
+      "kegg_pathway": "CONNECTED \u2014 hsa04141 confirmed; STRING HSP90/HSP70 scores 0.939-0.999",
+      "dataset_existence": "VERIFIED \u2014 Meltome Atlas PXD011929: 13,000 human proteins, 77 datasets, publicly downloadable",
+      "gev_sample_size": "PLAUSIBLE \u2014 70-130 blocks (typical-Meltome) >> 50 minimum",
+      "pot_tail_exceedances": "PLAUSIBLE \u2014 700-1300 at 90th pct; 70-130 at 99th pct >> 50 minimum",
+      "gev_shape_reliability": "PLAUSIBLE \u2014 SE(xi)=0.029-0.035 at n=5000-7000; distinguishes Weibull/Gumbel/Frechet",
+      "return_level_mapping": "PLAUSIBLE \u2014 23% proteome below 42C; paper confirms 10% precipitation at 44C",
+      "weibull_domain": "PLAUSIBLE \u2014 Tm bounded 30-90C empirically; no eukaryote proteins >90C",
+      "independence_assumption": "MARGINAL \u2014 complex co-melting r=0.75-0.83; standard corrections available (cluster-maxima, extremal index)",
+      "string_scores": "VERIFIED \u2014 all HSP90/HSP70 pairs >0.93; highest confidence"
+    },
+    "key_concerns": [
+      "Independence violation: protein complex co-aggregation confirmed (350+ human complexes, r=0.75-0.83 within complexes). Use cluster-maxima (min Tm per complex) to restore approximate independence. Generator should explicitly frame EVT at complex level.",
+      "Left-censoring: Meltome Atlas Tm<30C proteins unobservable (most thermally vulnerable tail). Use censored GEV likelihood or confine POT to observable 30-45C range. Should be stated as methodological contribution.",
+      "Nonmelters (~15-25% body fluids, minimal in cell lines): affects upper-tail analysis only; lower-tail / vulnerability analysis unaffected."
+    ],
+    "data_confirmed": {
+      "primary_dataset": "Meltome Atlas",
+      "accession": "PRIDE PXD011929",
+      "human_proteins": 13000,
+      "species_count": 13,
+      "tm_range_celsius": "30-90",
+      "access": "public",
+      "url": "https://www.ebi.ac.uk/pride/archive/projects/PXD011929"
+    },
+    "disjointness_reconfirmed": true,
+    "disjointness_confidence": 0.97,
+    "blast_gumbel_distinction": "BLAST/Karlin-Altschul applies EVT to alignment score maxima; not related to Tm distribution analysis; not a novelty threat",
+    "quantitative_validation": {
+      "sample_size_adequate": true,
+      "pot_exceedances_adequate": true,
+      "xi_estimation_reliable": true,
+      "return_level_biologically_mapped": true,
+      "weibull_domain_confirmed": true
+    },
+    "recommendation": "Proceed to generation with HIGH confidence. Generator should apply EVT to complex-minimum Tm (thermal bottleneck), focus on lower tail / thermally vulnerable subset (POT), specify Weibull domain (xi<0) as testable prediction, and use 13-species Meltome Atlas for tail index vs. OGT correlation as primary validation.",
+    "output_file": "results/2026-03-27-scout-013/computational-validation.md"
   },
   "progress": {
-    "current_phase": "complete",
     "phases_completed": [
       "scout",
       "literature_verification",
-      "narrowing",
       "target_evaluation",
+      "target_selection",
       "computational_validation",
-      "cycle1_generation",
-      "cycle1_critique",
-      "cycle1_ranking",
-      "cycle1_evolution",
-      "cycle2_generation",
-      "cycle2_critique",
-      "cycle2_ranking",
+      "generation",
+      "critique",
+      "ranking",
+      "evolution",
       "quality_gate",
-      "session_analysis",
-      "cross_model_validation"
+      "cross_model_validation",
+      "convergence_scanning",
+      "dataset_evidence_mining",
+      "session_analyst"
+    ],
+    "current_phase": "complete"
+  },
+  "health": {
+    "scout_targets_found": 5,
+    "hypotheses_generated": 7,
+    "survived_critique": 5,
+    "passed_quality_gate": 3,
+    "fallback_used": false,
+    "retries_needed": 0,
+    "web_search_failures": 0,
+    "impact_potential_score": 4.0
+  },
+  "dataset_evidence": {
+    "completed": true,
+    "timestamp": "2026-03-27",
+    "hypotheses_processed": [
+      "C1-H1",
+      "C1-H2",
+      "C1-H7"
+    ],
+    "total_claims": 15,
+    "confirmed": 13,
+    "supported": 2,
+    "no_data": 0,
+    "contradicted": 0,
+    "evidence_scores": {
+      "C1-H1": 9.0,
+      "C1-H2": 10.0,
+      "C1-H7": 9.33
+    },
+    "overall_evidence_score": 9.47,
+    "apis_queried": [
+      "UniProt",
+      "PDB",
+      "HumanProteinAtlas",
+      "STRING",
+      "KEGG"
+    ],
+    "key_finding": "All molecular biology substrates confirmed. CDK2 structural evidence (pLDDT=88.44, 498 PDB structures, STRING 0.999 with CCNA2/p27) independently validates QG mandatory correction to H7. HSPA8 chaperone function confirms complex formation/dissociation mechanism underlying H2 chaperone-buffering caveat.",
+    "output_files": [
+      "results/2026-03-27-scout-013/dataset-evidence.json",
+      "results/2026-03-27-scout-013/dataset-evidence-report.md"
     ]
   },
-  "strategy_performance": {
-    "converging_vocabularies": {
-      "targets_produced": 1,
-      "hypotheses_survived": 10,
-      "avg_composite": 6.81
+  "cross_model_validation": {
+    "status": "completed",
+    "completed_at": "2026-03-27T22:56:00Z",
+    "gpt_model": "gpt-5.4",
+    "gemini_model": "gemini-3.1-pro-preview (prior run)",
+    "models_used": [
+      "openai",
+      "gemini"
+    ],
+    "gpt_web_searches": 25,
+    "gpt_code_executions": 13,
+    "gpt_duration_s": 604,
+    "consensus_summary": {
+      "C1-H1": {
+        "combined_recommendation": "PROMISING \u2014 pursue with corrections",
+        "gpt_confidence": 4,
+        "gemini_confidence": 7
+      },
+      "C1-H2": {
+        "combined_recommendation": "NEEDS WORK \u2014 correctable with formula fix",
+        "gpt_confidence": 5,
+        "gemini_confidence": 2
+      },
+      "C1-H7": {
+        "combined_recommendation": "UNLIKELY in current form \u2014 redesign required",
+        "gpt_confidence": 2,
+        "gemini_confidence": 4
+      }
+    },
+    "files": {
+      "gpt_validation": "results/2026-03-27-scout-013/validation-gpt.md",
+      "gemini_validation": "results/2026-03-27-scout-013/validation-gemini.md",
+      "consensus": "results/2026-03-27-scout-013/cross-model-report.md",
+      "structured_data": "results/2026-03-27-scout-013/cross-model.json"
     }
-  },
-  "session_meta_insights": [
-    "converging_vocabularies strategy (physics\u00d7biology via shared mathematical vocabulary): 87.5% PASS+COND rate at QG \u2014 strongest debut of any new strategy",
-    "Physical law as bridge concept (TUR inequality) outperforms physical model as bridge: constraint-based hypotheses survive adversarial critique because bounds are mathematically necessary",
-    "Computational phase error propagation: ambiguous Computational Validator output (N_eff=20 events vs 20 boxes) cascaded errors to 3 simultaneous hypotheses \u2014 distinguish binding site count from events per cycle from TUR parameter N_eff",
-    "Diffusion physics kill (P\u00e9clet number): for passive diffusion in E. coli (D~3 \u03bcm\u00b2/s, L=2 \u03bcm), Pe~0.002 \u2014 spatial gradients impossible without active maintenance; add Pe check to quantitative validation",
-    "Cross-cycle learning works: ppGpp kill (H5, wrong mechanism) \u2014 correct mechanism named by Critic \u2014 successful reformulation (C2-H2 COND) in Cycle 2",
-    "Genthon 2026 preprint (extrinsic noise dominance) threatens entire class of TUR intrinsic noise decompositions \u2014 design experiments separating intrinsic from extrinsic or use structural comparisons robust to noise partition",
-    "Citation misuse (real paper, wrong conclusion attributed) is a distinct kill mode from citation hallucination \u2014 verify paper's MAIN CONCLUSION, not just its existence"
-  ]
+  }
 }

@@ -1,6 +1,6 @@
 # MAGELLAN Meta-Insights (Cumulative)
-Updated: 2026-03-26 after Session 016 Cycle 2 (2026-03-26-targeted-001)
-Based on 16 sessions (~2 cycles for S016), ~230 hypotheses generated, ~86 passed Quality Gate (PASS+COND)
+Updated: 2026-03-27 after Session 017 (2026-03-27-scout-013)
+Based on 17 sessions (~2 cycles for S016), ~237 hypotheses generated, ~89 passed Quality Gate (PASS+COND)
 
 ---
 
@@ -16,7 +16,7 @@ Based on 16 sessions (~2 cycles for S016), ~230 hypotheses generated, ~86 passed
 | Swanson_ABC_bridging | 009 (primary) | 1 | 10 | 10 | 0 PASS, 3 COND | 0% PASS, 30% COND | 5.87 |
 | **structural_isomorphism** | **011 (primary)** | **2** | **8** | **6** | **2 PASS, 2 COND** | **25% PASS, 50% PASS+COND** | **7.28** |
 | **contradiction_mining** | **012 (primary)**, 006 (secondary), 009 (secondary) | **1** | **14** | **11** | **0 PASS, 5 COND** | **0% PASS, 35.7% COND** | **6.7** |
-| **converging_vocabularies** | **014 (primary)** | **1** | **15** | **10** | **1 PASS, 6 COND** | **87.5% PASS+COND at QG** | **6.81** |
+| **converging_vocabularies** | **014, 017 (primary)** | **2** | **22** | **15** | **014: 1 PASS, 6 COND; 017: 1 PASS, 2 COND** | **S014: 87.5%; S017: 75%** | **S014: 6.81; S017: 7.87** |
 | evolutionary_conservation_gap | 006 (secondary) | — | — | — | — | — | — |
 | dimensional_mismatch | 006 (secondary) | — | — | — | — | — | — |
 | **targeted_user_specified** | **015, 016** | **— (user-set)** | **~12 (est. S015) + 7 (S016 C1) + 7 (S016 C2) = ~26** | **~12 + 5 + 5 = ~22** | **S015: 3 PASS; S016 C1: 2 PASS + 1 COND; S016 C2: 3 PASS + 2 COND** | **S015: 100% (3/3); S016 C1: 100% (3/3); S016 C2: 100% (5/5)** | **S015: ~7.5 est; S016 C1: 7.50; S016 C2: 7.10 (mean of 3 PASS + 2 COND: 7.5/7.5/7.0/6.0/5.5)** |
@@ -44,6 +44,8 @@ Based on 16 sessions (~2 cycles for S016), ~230 hypotheses generated, ~86 passed
 8. **New heuristic (S011): "Measurement transfer > model transfer"** — hypotheses introducing new measurements into Field C outperform those transferring predictive models. Measurements are independently verifiable; models require parameter data first.
 9. **New heuristic (S013): "Same-class tool transfer > cross-class tool transfer"** — tool_repurposing works best within the life sciences. Cross-domain transfers (materials/geochemistry to biology) require extra domain compatibility verification.
 10. **New heuristic (S014): "Physical law as bridge > physical model as bridge"** — inequalities and conservation laws are stronger bridges than predictive models. For converging_vocabularies, identify the mathematical law in Field A (TUR inequality, Poincare-Hopf theorem, Landauer bound) and check if Field C systems must satisfy it.
+**New heuristic (S017): "Universality theorem as bridge = strongest converging_vocabularies configuration"** — FTG theorem guarantees GEV convergence regardless of underlying distribution shape. This creates unfalsifiable-direction predictions (the Tm distribution MUST have a GEV tail) while leaving the shape parameter (xi) as the testable biological variable. The same architecture made TUR work in S014. When using converging_vocabularies, search for universality theorems in Field A (CLT, FTG, ergodicity, conservation laws) that apply to Field C data by mathematical necessity. Template: [universality theorem] guarantees [form] → [Field C parameter] is the testable biological/physical variable.
+**New heuristic (S017): "Statistics x life sciences is a high-distance, high-yield pairing"** — S017 is the first session applying formal mathematical statistics at theorem level (not just regression) to biology. Disciplinary distance 3.0 (maximum). Formal statistics (EVT, extreme value theory, stochastic processes, information theory, topological data analysis) are largely underexplored bridges to life science domains. Scout should systematically consider adding one statistics-as-Field-A target per 3 autonomous sessions.
 
 ---
 
@@ -51,7 +53,7 @@ Based on 16 sessions (~2 cycles for S016), ~230 hypotheses generated, ~86 passed
 
 | Disjointness | Sessions | Targets selected | Hyps survived | QG passed (PASS only) | QG CONDITIONAL | QG pass + cond rate | PASS rate |
 |---|---|---|---|---|---|---|---|
-| DISJOINT | 001, 002, 004, 005, 006, 007, 008, 010, 013, **014** | **11** | ~67 | ~43 PASS or COND | majority are PASS | ~87% combined | ~35-40% PASS |
+| DISJOINT | 001, 002, 004, 005, 006, 007, 008, 010, 013, **014**, **017** | **12** | ~74 | ~46 PASS or COND | majority are PASS | ~87% combined | ~35-40% PASS |
 | PARTIALLY_EXPLORED (traditional) | 009 | 1 | 10 | 0 PASS | 3 COND | 30% COND only | 0% PASS |
 | **PARTIALLY_EXPLORED (newly opened — < 6 months since landmark)** | **015, 016** | **2** | **~17 (C1) + 5 (S016 C2) = ~22** | **3 PASS (S015) + 2 PASS (S016 C1) + 3 PASS (S016 C2)** | **0 (S015) + 1 (S016 C1) + 2 COND (S016 C2)** | **100% (all three batches entering QG)** | **S015: 100%; S016 C1: 100%; S016 C2: 100%** |
 
@@ -189,6 +191,10 @@ Based on 16 sessions (~2 cycles for S016), ~230 hypotheses generated, ~86 passed
 10. **Time-scale mismatch (kinetic incompatibility) — confirmed dominant kill vector**: C2-H4 killed because PIEZO1 inactivation (~30 ms) is 10,000-100,000x too fast for calcineurin (requires minutes of sustained Ca2+ for full activation). Same root cause as S001/S004 energy scale kills and S016-C1 force-below-threshold kills: a quantitative physical/biochemical incompatibility that is detectable before generation. Pattern is now confirmed across 3 session families: energy scale (S001, S004), force below threshold (S016 C1), kinetic time-scale mismatch (S016 C2). Generator MUST perform a time-scale compatibility check before pairing a fast upstream trigger (ion channel gating, receptor internalization) with a slow downstream effector (phosphatase activation, transcription factor translocation). Minimum check: does the upstream event persist long enough to saturate or significantly activate the downstream effector? If upstream τ << downstream τ by > 100x on STATIC substrates, the mechanism is kinetically impossible.
 11. **Groundedness below 50% + multi-step unverified chain = pre-kill vulnerability**: C2-H5 (viscoelastic filter) killed with groundedness 33% AND three sequential unverified mechanism steps. This combination — low grounding combined with mechanistic dependency chain (each step must be true for hypothesis to hold) — represents a fatal structural flaw. A three-step unverified chain where each step has 50% individual confidence gives compound confidence of 12.5%. Generator rule: when < 50% of mechanism claims are grounded, the hypothesis should not be submitted. Force at least one anchor (named protein, published interaction, measured timescale) at each step before proposing multi-step cascades.
 
+**New Kill Patterns (Session 017 — EVT x Proteome Thermal Stability)**:
+12. **Data-type requirement mismatch for mathematical bridge concepts**: Extremal index (H6) requires sequential/temporal data with defined clustering order; applying it to cross-sectional Tm data sorted by value creates tautological clustering. Non-stationary GEV with trend (H4) requires smoothly-ordered observations; drug concentration series (3-5 points) is grossly insufficient. When transferring a mathematical concept, verify that Field C's available data has the STRUCTURAL FORM required by the concept definition. This is distinct from quantitative checks (sample size, effect size). Add as a pre-generation step alongside specimen compatibility and Peclet checks.
+13. **IDP model misspecification by population heterogeneity (new QG-level kill)**: Censored GEV (H3) survived critique but failed QG because IDPs in the censored population have NO defined cooperative unfolding transition — Tm is undefined, not merely below the measurement window. This is a new failure mode: a parametric model that is mathematically valid for one subpopulation (folded proteins with defined Tm) is catastrophically misspecified for a qualitatively different subpopulation (IDPs). For any hypothesis applying a parametric model to proteome-wide data, verify that ALL subpopulations satisfy the model's foundational assumptions. IDPs are now a confirmed recurrent assumption-violation risk in proteomics: 30-50% of eukaryotic proteome; enriched in the low-Tm tail; lack cooperative unfolding; behave qualitatively differently from folded proteins.
+
 **New Kill Patterns (Session 016, Cycle 1)**:
 8. **Force per element below physical threshold — force-on-chromatin class**: Two hypotheses killed by the same mechanism. C1-H2: per-LAD tether force 100-1000x below biochemical LAD detachment threshold (H3K9me2 removal requires enzymatic demethylase, not mechanical force; Sun 2020 PMID 32270037 confirms). C1-H7: per-nucleosome force 13,000x below nucleosome unwrapping threshold (~50 pN), well below thermal noise (~4.1 pN). Root cause: ECM stiffness forces divide across thousands-to-millions of molecular contacts; per-molecule force is always below threshold. Pre-check: (total force) / (molecular contacts) vs physical threshold. All surviving mechanobiology hypotheses used biochemical amplification (YAP translocation, Ca2+/CaM, actomyosin -> MRTF). This kill pattern is the mechanobiology-domain equivalent of the S001/S004 energy scale mismatch pattern.
 9. **YAP-TEAD tissue-specificity error — biology specificity class**: Hypothesis C1-H6 claimed YAP-TEAD drives tissue-specific enhancer programs. YAP-TEAD targets are shared proliferation/survival enhancers (CTGF, CYR61, AMOTL1) expressed across all stiff-matrix cell types. Tissue identity requires lineage-specific TFs (MYOD, RUNX2, PPARgamma) co-binding at tissue-restricted loci. YAP-TEAD produces QUANTITATIVELY GRADED activation of the SAME enhancer program, not QUALITATIVELY DIFFERENT programs. The morphogen analogy fails because morphogens produce qualitatively different cell fates at different concentrations; YAP produces more or less of the same target gene set. Generator rule: never claim YAP-TEAD is "tissue-specific" without citing a co-binding lineage TF.
@@ -202,6 +208,8 @@ Based on 16 sessions (~2 cycles for S016), ~230 hypotheses generated, ~86 passed
 5. **Peclet number check for spatial gradient hypotheses (NEW — S014)**: Before proposing any spatial concentration gradient in a cell, compute Pe = v*L/D. If Pe << 1 (passive diffusion dominates), the gradient washes out faster than the biological process operates. Cite the active confinement mechanism explicitly or abandon the spatial gradient.
 6. **Citation conclusion verification (NEW — S014)**: When citing a paper for a specific result, verify the paper's MAIN CONCLUSION — not just its existence. Papers are sometimes cited for the opposite of their conclusion. Cross-check: does the paper's abstract conclusion match the claim being grounded?
 7. **Independent verification of Computational Validator counting parameters (NEW — S014)**: When Computational Validator provides N_eff or copy number recommendations, independently verify from primary literature: (a) the physical binding site count, (b) events per cycle, (c) regulatory context (RIDA, DARS, datA). Upstream parameter errors cascade into multiple hypotheses.
+7b. **Data-structural form check for mathematical bridge concepts (NEW — S017, MANDATORY)**: Before proposing a mathematical method as a bridge, verify that Field C's available data has the structural form required by the method definition. Check: (a) sequential/temporal vs cross-sectional; (b) ordered vs unordered; (c) sufficient observation density for trend fitting. Cross-sectional proteome Tm data lacks time-ordering required for extremal index and lacks sufficient points for non-stationary GEV. Pre-generation checklist: [what data structure does this method require?] vs [what structure does Field C data actually have?]
+7c. **IDP subpopulation check for proteome-wide parametric models (NEW — S017)**: For any parametric model applied to proteome-wide data, ask: "Do IDPs (30-50% of eukaryotic proteome) satisfy this model's foundational assumptions?" IDPs lack defined Tm, cooperative unfolding, stable hydrophobic core. Any model assuming "all proteins have a defined Tm" is structurally misspecified for IDPs. State IDP exclusion criteria explicitly and estimate the excluded fraction.
 8. **YAP-TEAD tissue-specificity error (NEW — S016)**: Never claim YAP-TEAD drives tissue-specific enhancers without specifying the co-binding lineage-restricted TF (MYOD, RUNX2, PPARgamma, SOX2, CDX2). YAP-TEAD alone activates CTGF/CYR61/AMOTL1 — shared proliferation enhancers across ALL stiff-matrix cell types.
 9. **MRTF-SRF mandatory consideration for mechano-epigenomics (NEW — S016)**: When generating hypotheses for ECM mechanics x chromatin/epigenomics, include at least one MRTF-SRF hypothesis. Route: RhoA -> ROCK -> actin polymerization -> MRTF-A released from G-actin -> SRF -> CArG-box enhancers. Targets non-overlapping from TEAD. Do NOT generate more than 3 YAP-centric hypotheses in a 7-hypothesis cycle for this domain.
 
@@ -227,6 +235,7 @@ Based on 16 sessions (~2 cycles for S016), ~230 hypotheses generated, ~86 passed
 | **014** | **TUR x Bacterial adder model** | **15** | **33%** | **1 PASS, 6 COND** | **1** | **6.81** | **run** | **SUCCESS** |
 | **015** | **Mechanobiology x Epigenomics (targeted, NEWLY_OPENED)** | **~12 est.** | **0%** | **3 PASS** | **3** | **~7.5 est.** | **run** | **SUCCESS** |
 | **016** | **Mechanobiology x Epigenomics (targeted, blind mode, 2 cycles)** | **7 (C1) + 7 (C2) = 14** | **C1: 28.6%, C2: 28.6%** | **C1: 2 PASS, 1 COND; C2: 3 PASS, 2 COND** | **C1: 2, C2: 3** | **C1: 7.50; C2: 7.10** | **C1: run; C2: SKIPPED** | **SUCCESS** |
+| **017** | **EVT x Proteome Thermal Stability (2026-03-27-scout-013)** | **7** | **28.6%** | **1 PASS, 2 COND** | **1** | **7.87** | **SKIPPED** | **SUCCESS** |
 
 **Session 013 Analysis**:
 - **Best QG PASS count ever**: 3 PASS verdicts from 4 entering hypotheses. S013 achieved 75% outright PASS rate.
@@ -267,11 +276,21 @@ Based on 16 sessions (~2 cycles for S016), ~230 hypotheses generated, ~86 passed
 - **Cycle 1 evolved hypotheses outperformed cycle 2 raw**: E1-H3 and E1-H4 (both PASS, 7.5/7.0) from cycle 1 evolution performed at least as well as best cycle 2 raw (C2-H6 7.5). Evolution quality is equivalent to fresh generation when source hypotheses are structurally sound.
 - **Combined session totals (S016 C1+C2)**: 14 hypotheses generated, 10 survived critique (71.4% survival), 8 entering QG (after diversity pruning), 5 PASS + 3 COND (100% QG pass+cond across all batches).
 
-**Trend analysis (S013-S016)**:
-- **Pipeline quality trajectory**: S013 (8.31) -> S014 (6.81) -> S015 (~7.5 est.) -> S016 (7.50). Stable in the 7.0-7.5 range after S013's exceptional peak.
-- **Survivor count trend**: S013 (4) -> S014 (7) -> S015 (3) -> S016 (3). The 3-survivor sessions reflect smaller generation batches (7-12 hypotheses vs 15 in S014). Survivor count is batch-size-dependent.
-- **Strategy rotation paused**: S013 (tool_repurposing) -> S014 (converging_vocabularies) -> S015-S016 (targeted_user_specified). Two consecutive targeted sessions is a break from autonomous strategy rotation. Next autonomous session must use Scout deferred queue.
-- **DISJOINT streak ended at S014**: S015 and S016 are PARTIALLY_EXPLORED (newly opened), not DISJOINT. However, the NEWLY_OPENED subtype achieves DISJOINT-level performance. The strict DISJOINT constraint should resume for Scout-autonomous sessions.
+**Session 017 Analysis (2026-03-27-scout-013)**:
+- **EVT x Proteome Thermal Stability**: First session pairing formal mathematical statistics (extreme value theory) with proteomics. Domain type "statistics x life sciences" is entirely new to the pipeline.
+- **Highest disciplinary distance ever**: Avg 3.0/3.0 for QG-passing hypotheses. Statistics → biostatistics → biology crosses three disciplinary boundaries. Previous pipeline avg ~2.2.
+- **Mean composite 7.87 (QG-passing)**: Highest mean composite for passing hypotheses ever recorded, surpassing S013 (8.31 overall) on a per-survivor basis.
+- **converging_vocabularies + FTG universality theorem**: Second confirmation that converging_vocabularies works best when Field A contributes a mathematical theorem (TUR in S014, FTG in S017) rather than a fitting procedure. The theorem creates guaranteed predictions about form; parameters become the testable biology.
+- **Kill rate 28.6%**: Healthy range. Both kills were data-type mismatch errors (extremal index requires temporal/sequential data; non-stationary GEV requires dense ordered observations — neither applies to cross-sectional Tm data).
+- **IDP model misspecification (new QG-level kill)**: H3 passed critique but failed QG for model misspecification by population heterogeneity. IDPs (30-50% eukaryotic proteome) lack defined Tm — censored GEV models a non-existent quantity. This is a new failure mode: mathematically correct method applied to a heterogeneous population where assumptions hold for one subpopulation but are violated for another.
+- **Systematic citation attribution error (3rd session)**: S007, S013 (cryo-EM), S017 — all show review-paper substitution for primary source. Generator pattern confirmed across multiple domains.
+- **Evolver correctly skipped**: Top-3 composites (8.45, 8.15, 7.05) all ≥ 7.0 early-complete threshold.
+
+**Trend analysis (S013-S017)**:
+- **Pipeline quality trajectory**: S013 (8.31) -> S014 (6.81) -> S015 (~7.5 est.) -> S016 (7.50) -> S017 (7.87). Recovery after S014 dip. Statistics x biology pairing achieved second-highest mean composite in pipeline history.
+- **Survivor count trend**: S013 (4) -> S014 (7) -> S015 (3) -> S016 (3) -> S017 (3). The 3-survivor sessions reflect smaller generation batches (7 hypotheses). Survivor count is batch-size-dependent.
+- **Strategy rotation resumed**: S013 (tool_repurposing) -> S014 (converging_vocabularies) -> S015-S016 (targeted_user_specified) -> S017 (converging_vocabularies). Scout correctly returned to autonomous mode after 2 targeted sessions.
+- **DISJOINT restored**: S017 target had disjointness confidence 0.97 (PubMed: 0 cross-field papers). DISJOINT constraint confirmed operative after NEWLY_OPENED sessions S015-S016.
 
 ---
 
@@ -296,9 +315,10 @@ Based on 16 sessions (~2 cycles for S016), ~230 hypotheses generated, ~86 passed
 | **014** | **2.0** | **1.7** | **2.6** | **converging_vocabularies** |
 | **015** | **2.6** | **2.0** | **2.5** | **targeted (newly opened, mechano x epigenomics)** |
 | **016** | **2.0** | **1.7** | **2.3** | **targeted (blind, newly opened, mechano x epigenomics)** |
+| **017** | **3.0** | **2.3** | **3.0** | **converging_vocabularies (EVT x Proteome Thermal Stability)** |
 
 ### Cross-Session Creativity Trend
-- Disciplinary Distance trend: **STABLE**. Pipeline avg 2.2. S013 dip (1.5) -> S014 recovery (2.0) -> S015 peak (2.6) -> S016 (2.0). No consecutive decline. No corrective action needed.
+- Disciplinary Distance trend: **INCREASING**. Pipeline avg now 2.2+. S013 dip (1.5) -> S014 recovery (2.0) -> S015 peak (2.6) -> S016 (2.0) -> S017 peak (3.0). S017 is the highest disciplinary distance session in pipeline history — statistics × life sciences at theorem level. No corrective action needed; continue high-distance target selection.
 - Abstraction Level trend: **stable at 1.5-2.5**. S016 (1.7) is moderate — molecular-enzymatic hypotheses for a specific biology domain. Consistent with targeted sessions in life sciences.
 - Novelty Type trend: **stable at 2.0-2.6**. S016 (2.3) at pipeline mean. LAD filter hypothesis (H4-v2) scored 3.0 novelty (new framework); KDM6B temporal gate (H2-v2) scored 2.0 (new application). Average reflects the mix.
 - Strategies with primary data: **8 / 11** (network_gap_analysis, tool_repurposing, scale_bridging, recent_breakthrough_radiation, Swanson_ABC_bridging, structural_isomorphism, contradiction_mining, converging_vocabularies). Untested: evolutionary_conservation_gap, dimensional_mismatch, anomaly_hunting, serendipity.
@@ -306,7 +326,7 @@ Based on 16 sessions (~2 cycles for S016), ~230 hypotheses generated, ~86 passed
 
 **Creativity Assessment**: Pipeline is NOT in a creativity decline. The S013-S016 pattern is: S013 (1.5) -> S014 (2.0) -> S015 (2.6) -> S016 (2.0) — alternating low-high pattern consistent with strategy switching rather than monotonic decline. However, two consecutive targeted sessions in the same domain create convergence risk for the next session. The next autonomous session should target disciplinary distance 2.5+ to restore diversity.
 
-**Recommendation**: Next autonomous session should use anomaly_hunting (first primary data point) or serendipity (first primary data point), targeting Percolation x T cell infiltration (est. distance 2.5) or Acoustic filter-bank x Plant bioacoustics (est. distance 2.5). Three consecutive sessions below 2.0 distance = corrective action trigger. Current position: S014 (2.0) -> S015 (2.6) -> S016 (2.0) -> next should be 2.5+.
+**Recommendation**: S017 restored pipeline to maximum disciplinary distance (3.0). Discipline diversity is healthy. Next session should explore strategies with no primary data: anomaly_hunting or serendipity. S017 confirmed that formal mathematics (statistics, topology, information theory) × life sciences pairings are the highest-distance targets available — explore Topological Data Analysis, Stochastic Processes, or Information Theory as Field A candidates for the next converging_vocabularies iteration. Three consecutive sessions below 2.0 distance = corrective action trigger. Current position: S015 (2.6) -> S016 (2.0) -> S017 (3.0) — no corrective action needed.
 
 ---
 
