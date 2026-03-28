@@ -314,6 +314,13 @@
       "timestamp": "2026-03-28T13:40:25Z",
       "prompt_preview": "Run a full SCOUT MODE discovery session.\n\nSession ID: session-20260328-123317\nResults directory: results/session-20260328-123317/\nState file: state/se",
       "result_preview": ""
+    },
+    {
+      "agent": "Explore",
+      "description": "Diagnose orchestrator reporting bug",
+      "timestamp": "2026-03-28T15:19:28Z",
+      "prompt_preview": "I need to understand the discovery-orchestrator agent thoroughly to diagnose why it misreported session results.\n\nThe bug: The orchestrator reported \"",
+      "result_preview": ""
     }
   ],
   "stage": "running"

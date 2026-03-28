@@ -2139,7 +2139,7 @@
     "date": "2026-03-28",
     "session_id": "session-20260328-123317",
     "mode": "scout",
-    "status": "partial",
+    "status": "success",
     "session_number": 15,
     "creativity_constraint": "bridge physical sciences and life sciences",
     "targets": [
