@@ -14,9 +14,22 @@ Impact-aware prioritization (v5.14) steers the pipeline toward high-impact
 directions via tiebreakers, decomposed scoring, and meta-learning — without
 sacrificing novelty or rigor.
 
+## Prerequisites
+
+1. **[Claude Code](https://claude.com/product/claude-code)** — Anthropic's terminal-based AI tool. NOT the web chat or desktop app — the CLI version. Requires a Claude subscription (Pro minimum, Max/Team recommended for Opus access). [Install docs →](https://code.claude.com/docs/it/overview)
+
+2. **API keys for cross-model validation** _(optional)_ — For GPT-5.4 Pro and Gemini 3.1 Pro independent review. Create a `.env.local` file in the project root:
+   ```
+   OPENAI_API_KEY=sk-...
+   GEMINI_API_KEY=AI...
+   ```
+   Get your keys: [OpenAI](https://platform.openai.com/api-keys) · [Google AI Studio](https://aistudio.google.com/app/api-keys)
+   Without these, the pipeline generates export files for manual copy-paste validation.
+
 ## Quick Start
 
 ```bash
+git clone https://github.com/kakashi-ventures/magellan-cli.git
 cd magellan-cli
 claude --enable-auto-mode
 ```
@@ -75,17 +88,20 @@ Typical runtime: 20-55 minutes. Check progress with `/status`.
 
 ## After Discovery: Cross-Model Validation
 
-**Automatic (v5.6+)**: If `OPENAI_API_KEY` and/or `GEMINI_API_KEY` are set,
+**Automatic (v5.6+)**: If `OPENAI_API_KEY` and/or `GEMINI_API_KEY` are set in `.env.local`,
 the pipeline automatically calls GPT-5.4 Pro (with web search + code interpreter)
 and Gemini 3.1 Pro (with code execution + Google Search grounding) for
 independent validation and generates a consensus report.
 
 ```bash
-# Enable automatic cross-model validation (optional)
-export OPENAI_API_KEY="sk-..."
-export GEMINI_API_KEY="AI..."
-npm install   # one-time setup for API dependencies
+# Create .env.local in the project root (one-time setup)
+OPENAI_API_KEY=sk-...
+GEMINI_API_KEY=AI...
 ```
+
+Get your keys: [OpenAI](https://platform.openai.com/api-keys) · [Google AI Studio](https://aistudio.google.com/app/api-keys)
+
+> Coming soon: OpenAI Codex CLI support as an alternative runtime to Claude Code.
 
 **Manual fallback**: If no API keys are set, export files are generated:
 ```
@@ -199,9 +215,9 @@ results/                                     ← All session outputs (markdown +
     evolved-cycle{N}.md                      ← Evolution output
     cycle{N}-evolved.json                    ← Evolved hypotheses with lineage
     quality-gate.md                          ← Quality Gate rubric
-    quality-gate.json                        ← Quality gate verdicts
+    quality-gate.json                        ← Quality gate verdicts + session_status
     final-hypotheses.md                      ← Final hypothesis cards
-    final.json                               ← PASS/CONDITIONAL_PASS only
+    final.json                               ← PASS/CONDITIONAL_PASS only (created by orchestrator from quality-gate.json)
     session-analysis.md                      ← Session Analyst output
     meta-insights.json                       ← Session analyst structured output
     export-gpt.md                            ← GPT validation prompt
