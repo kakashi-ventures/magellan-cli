@@ -1,0 +1,284 @@
+[
+  {
+    "id": "C2-H7",
+    "title": "Cooling-Rate-Dependent Fibril Polymorph Selection in Insulin: Three-Arm Mechanism Discrimination",
+    "verdict": "PASS",
+    "qg_composite": 7.5,
+    "ranker_composite": 8.43,
+    "groundedness": 8,
+    "confidence": 5,
+    "cycle": 2,
+    "lineage": "C1-H7 -> E3-H7xH5 -> C2-H3/H7",
+    "key_strength": "Only SURVIVES hypothesis. Perfect citation integrity. Three-arm discriminant design. Near-term wet-lab testable (2-3 months). Exemplary cycle-to-cycle learning.",
+    "key_risk": "Polymorph selection may be dominated by elongation-phase templating, not monomer eigenmode state.",
+    "hypothesis": "If the Abeta42/insulin MSM has multiple slow eigenmodes (v_2, v_3) each encoding a distinct polymorph precursor basin, then different cooling rates from 50C to 37C produce different a_2/a_3 overlap ratios, directing monomer flux preferentially toward one polymorph or another. The three-arm discriminant: fast quench -> polymorph A, slow cool -> polymorph B, intermediate rate -> specific polymorph (eigenmode) vs mixed (stochastic). T_cross = 45-55C (+/-5C).",
+    "bridge": "Mpemba eigenmode overlap coefficients controlled by cooling rate -> differential monomer flux to distinct polymorph precursor basins -> cryo-EM-detectable polymorph distribution shift",
+    "falsifiable_prediction": "(1) Insulin fibril polymorph distribution depends on cooling rate. (2) Total fibril mass at 72h within 25% across rates; polymorph fractions shift by >20%. (3) Three-arm intermediate rate discriminates eigenmode (specific polymorph) from stochastic (mixed). (4) T_cross within 45-55C (+/-5C).",
+    "test_protocol": "1. Insulin pH 2, 0.5 mg/mL. 2. Three arms: fast quench (<2 min from 65C to 37C), slow cool (0.1C/min), intermediate (3C/min). 3. ThT kinetics 72h, cryo-EM polymorph classification, FTIR amide I band analysis. 4. n >= 10 replicates per arm. 5. T_cross test at 45C and 55C endpoints.",
+    "impact_annotation": {
+      "application_pathway": "enabling_technology",
+      "nearest_applied_domain": "Protein engineering / amyloid polymorph control",
+      "validation_horizon": "near-term"
+    },
+    "rubric_details": {
+      "mechanistic_specificity": 8,
+      "falsifiable_prediction": 9,
+      "test_protocol": 9,
+      "novelty": 8,
+      "groundedness": 8,
+      "counter_evidence_addressed": 7,
+      "bridge_strength": 7,
+      "mathematical_consistency": 8,
+      "impact": 7,
+      "calibration": 8
+    },
+    "claims_verified": 3,
+    "claims_failed": 0,
+    "web_novelty_check": {
+      "queries": [
+        "cooling rate fibril polymorph selection eigenmode branching insulin amyloid",
+        "Mpemba eigenmode polymorph insulin temperature"
+      ],
+      "result": "NOVEL \u2014 zero results connecting eigenmode branching to fibril polymorph selection in any protein system"
+    }
+  },
+  {
+    "id": "C2-H4",
+    "title": "Spectral Entropy Production Rate Distinguishes Folding from Misfolding Pathways in Non-Equilibrium Protein Dynamics",
+    "verdict": "CONDITIONAL_PASS",
+    "qg_composite": 7.3,
+    "ranker_composite": 8.28,
+    "groundedness": 7,
+    "confidence": 4,
+    "cycle": 2,
+    "lineage": "Fresh cycle 2 hypothesis",
+    "key_strength": "Highest novelty (9/10). All 4 citations verified, zero errors. Sigma-spike mechanism physically motivated from Schnakenberg + Yu 2015 measured D ratios. Sharp quantitative predictions.",
+    "key_risk": "MSM estimation noise in low-population states could produce false sigma-spikes. DT vs CT conversion introduces lag-time dependence.",
+    "conditions": [
+      "Develop explicit noise model to distinguish genuine sigma-spikes from MSM estimation artifacts in low-population states",
+      "Clarify regime of validity: Schnakenberg exact for CT Markov chains, but MSM transition matrices are DT approximations",
+      "Address whether sigma-spike magnitude depends on MSM lag time choice"
+    ],
+    "hypothesis": "The Schnakenberg entropy production rate sigma(t) computed along MSM trajectories shows transient spikes (>3x baseline) when a protein visits misfolding intermediates, due to the D_misfold/D_fold roughness asymmetry creating highly irreversible transitions. 70% of trajectories reaching A* aggregation-competent states show sigma-spikes; 80% of native-folding trajectories are monotonic in sigma.",
+    "bridge": "Schnakenberg entropy production from non-equilibrium thermodynamics -> sigma-spike signatures in protein MSM trajectories -> misfolding pathway classifier",
+    "falsifiable_prediction": "(1) 70% of A*-reaching trajectories show sigma-spikes >3x baseline. (2) 80% of native-folding trajectories are sigma-monotonic. (3) K(Abeta42) > K(Abeta40). (4) If both populations show similar sigma distributions, hypothesis refuted.",
+    "test_protocol": "1. Construct MSMs for Abeta42 and Abeta40. 2. Compute Schnakenberg entropy production along sampled trajectories. 3. Classify spike vs monotonic using Mann-Whitney U test. 4. Cross-protein comparison. Timeline: 4-8 months computational.",
+    "impact_annotation": {
+      "application_pathway": "diagnostic_method",
+      "nearest_applied_domain": "Computational biophysics / misfolding identification",
+      "validation_horizon": "medium-term"
+    },
+    "rubric_details": {
+      "mechanistic_specificity": 8,
+      "falsifiable_prediction": 8,
+      "test_protocol": 8,
+      "novelty": 9,
+      "groundedness": 7,
+      "counter_evidence_addressed": 7,
+      "bridge_strength": 8,
+      "mathematical_consistency": 7,
+      "impact": 7,
+      "calibration": 7
+    },
+    "claims_verified": 4,
+    "claims_failed": 0,
+    "web_novelty_check": {
+      "queries": [
+        "entropy production rate Schnakenberg misfolding pathway protein MSM diagnostic"
+      ],
+      "result": "NOVEL \u2014 Schnakenberg entropy production applied to MSMs exists, but sigma-spike as misfolding diagnostic is novel"
+    }
+  },
+  {
+    "id": "C2-H5",
+    "title": "Refined Hierarchical Spectral Scoring with Yu et al. D_misfold Calibration and Cross-Validation Against TANGO/CamSol",
+    "verdict": "CONDITIONAL_PASS",
+    "qg_composite": 7.2,
+    "ranker_composite": 7.81,
+    "groundedness": 8,
+    "confidence": 5,
+    "cycle": 2,
+    "lineage": "C1-H5 -> E1-H5 -> E6-H1xH5 -> C2-H2/H5",
+    "key_strength": "Highest groundedness in session. Most complete causal chain (roughness -> bimodality -> M_eff -> aggregation). Self-refuting prediction range (rho 0.4-0.7). TANGO/CamSol cross-validation.",
+    "key_risk": "Yu et al. force spectroscopy data (PrP dimers under ~10 pN) may not transfer to zero-force solution conditions. D_fold undefined for IDPs.",
+    "conditions": [
+      "Correct Cohen citation to 2013, PNAS 110(24):9758-9763",
+      "Address force spectroscopy to free-diffusion transferability explicitly",
+      "Define D_fold operationally for IDPs or restrict panel to structured proteins",
+      "Expand panel beyond 4+4 for statistical power"
+    ],
+    "hypothesis": "Amyloidogenic proteins exhibit bimodal MSM eigenvalue spectra (BC > 0.555) due to Zwanzig roughness asymmetry (epsilon_misfold > 1.0 kT). Yu et al. 2015 measured D_misfold/D_fold ~10^-3 for PrP calibrates epsilon_misfold ~3.3 kT. The resulting M_eff aggregation vulnerability index correlates with experimental ThT half-times (Spearman rho 0.4-0.7) and provides complementary information to TANGO/CamSol sequence predictors.",
+    "bridge": "Zwanzig roughness (physics) -> D ratio calibration (force spectroscopy) -> bimodal eigenspectrum (MSM) -> M_eff aggregation vulnerability (prediction) -> TANGO/CamSol cross-validation (benchmarking)",
+    "falsifiable_prediction": "(1) Epsilon_misfold within 2.8-3.8 kT for amyloidogenic proteins. (2) M_eff vs TANGO rho 0.4-0.7. (3) Where they disagree (>=2/8 proteins), M_eff better matches ThT data. (4) If rho > 0.9 or < 0.4, hypothesis refuted.",
+    "test_protocol": "1. Build MSMs for 4 amyloidogenic + 4 non-amyloidogenic proteins. 2. Fit MFPT to Zwanzig formula, extract epsilon. 3. Compute BC, M_eff. 4. Cross-validate against TANGO/CamSol. 5. Adjudicate disagreements by ThT. 6. Concentration test at 1/5/25 uM. Timeline: 3-6 months.",
+    "impact_annotation": {
+      "application_pathway": "enabling_technology",
+      "nearest_applied_domain": "Computational biophysics / aggregation prediction",
+      "validation_horizon": "medium-term"
+    },
+    "rubric_details": {
+      "mechanistic_specificity": 8,
+      "falsifiable_prediction": 9,
+      "test_protocol": 8,
+      "novelty": 6,
+      "groundedness": 8,
+      "counter_evidence_addressed": 7,
+      "bridge_strength": 8,
+      "mathematical_consistency": 8,
+      "impact": 7,
+      "calibration": 7
+    },
+    "claims_verified": 5,
+    "claims_failed": 0,
+    "web_novelty_check": {
+      "queries": [
+        "Zwanzig roughness asymmetry D_fold D_misfold amyloid eigenspectrum bimodal"
+      ],
+      "result": "NOVEL \u2014 zero results connecting Zwanzig roughness asymmetry to amyloid eigenvalue spectra"
+    }
+  },
+  {
+    "id": "C2-H2",
+    "title": "Mpemba-Guided Aggregation Inhibitor Design: Small Molecules That Maximize Eigenmode Overlap Disruption",
+    "verdict": "CONDITIONAL_PASS",
+    "qg_composite": 6.8,
+    "ranker_composite": 7.6,
+    "groundedness": 7,
+    "confidence": 4,
+    "cycle": 2,
+    "lineage": "Fresh cycle 2 hypothesis",
+    "key_strength": "Perfect citation accuracy (4/4 verified). Eigenmode-overlap-guided drug design is genuinely novel paradigm. TTR/tafamidis retrospective validation well-designed.",
+    "key_risk": "Abeta42 IDP has no stable pockets. Perturbative MSM reweighting fails for strong binders. Eigenmode landscape changes upon ligand binding.",
+    "conditions": [
+      "Pivot primary test system from Abeta42 (IDP) to TTR (structured protein with known binding site)",
+      "Address eigenmode landscape change upon ligand binding \u2014 apo MSM may not predict holo eigenspectrum",
+      "Replace structurally dissimilar negative controls (ATP, glucose) with structurally similar non-inhibitors",
+      "Validate that perturbative reweighting approximation holds for tafamidis binding affinity"
+    ],
+    "hypothesis": "Small molecules that maximally reduce the overlap coefficient a_2 = <P_bound|v_slow> between the ligand-bound conformational ensemble and the slowest misfolding eigenmode constitute optimal aggregation inhibitors. Retrospective test: tafamidis (approved TTR stabilizer) reduces a_2 more than non-inhibitor controls. Prospective test: rank candidate molecules by delta_a_2 and validate enrichment.",
+    "bridge": "Mpemba eigenmode overlap disruption by small molecules -> selective stabilization of non-aggregation-prone microstates -> aggregation inhibition",
+    "falsifiable_prediction": "(1) Retrospective: tafamidis reduces TTR a_2 more than ATP/glucose controls (enrichment >2). (2) Known inhibitors cluster at high delta_a_2 values. (3) If delta_a_2 does not correlate with inhibitory activity (rho < 0.3), refuted.",
+    "test_protocol": "1. Construct TTR MSM from existing trajectories. 2. Compute v_slow and a_2 for apo state. 3. Reweight P_bound for tafamidis and controls. 4. Rank by delta_a_2. 5. Validate against published IC50 values. Timeline: 6-12 months.",
+    "impact_annotation": {
+      "application_pathway": "therapeutic",
+      "nearest_applied_domain": "Computational drug design / amyloid therapeutics",
+      "validation_horizon": "long-term"
+    },
+    "rubric_details": {
+      "mechanistic_specificity": 7,
+      "falsifiable_prediction": 7,
+      "test_protocol": 7,
+      "novelty": 9,
+      "groundedness": 7,
+      "counter_evidence_addressed": 6,
+      "bridge_strength": 7,
+      "mathematical_consistency": 6,
+      "impact": 7,
+      "calibration": 6
+    },
+    "claims_verified": 4,
+    "claims_failed": 0,
+    "web_novelty_check": {
+      "queries": [
+        "Mpemba eigenmode overlap drug design aggregation inhibitor small molecule"
+      ],
+      "result": "NOVEL \u2014 zero results connecting Mpemba/eigenmode overlap to drug design or aggregation inhibition"
+    }
+  },
+  {
+    "id": "C2-H8",
+    "title": "Chaperone-Modulated Mpemba Index: Hsp70 Binding Selectively Reduces Slow-Eigenmode Overlap, Constituting a Biological Mpemba Protocol",
+    "verdict": "CONDITIONAL_PASS",
+    "qg_composite": 6.5,
+    "ranker_composite": 7.08,
+    "groundedness": 6,
+    "confidence": 4,
+    "cycle": 2,
+    "lineage": "Fresh cycle 2 hypothesis",
+    "key_strength": "Conceptually elegant: Hsp70 as biological Mpemba protocol. All 4 citations verified. Age-dependent chaperone decline framing is creative.",
+    "key_risk": "Central assumption (Hsp70 sites = high-|v_slow| microstates) untested. Holo MSM mathematically crude. Hsp70 targets oligomers not monomers for Abeta42.",
+    "conditions": [
+      "Redirect primary system from Abeta42 to tau or alpha-synuclein (where Hsp70 monomer interaction is documented)",
+      "Address rank-deficiency risk in holo MSM construction with zero-population states",
+      "Clarify monomer vs oligomer targeting: hypothesis should specify which aggregation state Hsp70 modulates",
+      "Provide sensitivity analysis for co-chaperone specificity (Hsp40, NEFs)"
+    ],
+    "hypothesis": "Hsp70 chaperone binding sites on amyloidogenic proteins preferentially overlap with high-|v_slow| microstates (>70% co-localization), constituting a biological Mpemba protocol that selectively reduces eigenmode overlap with the slowest misfolding mode. Age-dependent decline in chaperone capacity ('weakening Mpemba protocol') increases misfolding eigenmode accessibility, explaining age-onset aggregation diseases.",
+    "bridge": "Hsp70 binding site specificity -> selective slow-eigenmode overlap reduction -> biological Mpemba effect -> age-dependent proteostasis failure",
+    "falsifiable_prediction": "(1) >70% of Hsp70 binding sites co-localize with high-|v_slow| microstates. (2) Mpemba index decreases 3-fold in holo vs apo MSM. (3) If co-localization <30%, hypothesis refuted.",
+    "test_protocol": "1. Construct MSM for tau/alpha-synuclein. 2. Map known Hsp70 binding sites to MSM microstates. 3. Compute |v_slow| per microstate. 4. Test co-localization (Fisher exact test). 5. Construct holo MSM with zero-population bound states. 6. Compare Mpemba index apo vs holo. Timeline: 6-12 months.",
+    "impact_annotation": {
+      "application_pathway": "conceptual_framework",
+      "nearest_applied_domain": "Chaperone biology / neurodegeneration",
+      "validation_horizon": "long-term"
+    },
+    "rubric_details": {
+      "mechanistic_specificity": 6,
+      "falsifiable_prediction": 7,
+      "test_protocol": 7,
+      "novelty": 8,
+      "groundedness": 6,
+      "counter_evidence_addressed": 6,
+      "bridge_strength": 6,
+      "mathematical_consistency": 6,
+      "impact": 7,
+      "calibration": 6
+    },
+    "claims_verified": 4,
+    "claims_failed": 0,
+    "web_novelty_check": {
+      "queries": [
+        "Hsp70 chaperone Mpemba eigenmode biological protocol protein folding"
+      ],
+      "result": "NOVEL \u2014 recent Hsp70+MSM paper (2025 ScienceDirect) exists but does NOT use Mpemba framework. Novel connection."
+    }
+  },
+  {
+    "id": "C2-H3-evo",
+    "title": "Evolutionary Mpemba Tradeoff: Amyloidogenic Sequences Persist Because High Mpemba Index Enables Rapid Native Folding at the Cost of Deep Misfolding Traps",
+    "verdict": "CONDITIONAL_PASS",
+    "qg_composite": 5.6,
+    "ranker_composite": 6.15,
+    "groundedness": 6,
+    "confidence": 3,
+    "cycle": 2,
+    "lineage": "Fresh cycle 2 hypothesis",
+    "key_strength": "All citations verified. Evolutionary dual-use framing is genuinely novel.",
+    "key_risk": "CRITICAL: IDP folding rate is undefined. Half the amyloid-disease-relevant proteins are IDPs. Contact order confound unaddressed.",
+    "conditions": [
+      "MUST restrict scope to non-IDP amyloid proteins (TTR, lysozyme, beta-2-microglobulin) where folding rate is defined",
+      "Add partial correlation controlling for contact order (Plaxco 1998)",
+      "Reduce panel to proteins with both measured folding rates AND published MSMs",
+      "Acknowledge that IDP-mediated amyloid diseases (AD, PD, ALS) are excluded from the framework"
+    ],
+    "hypothesis": "Amyloidogenic sequences are evolutionarily maintained because high Mpemba index (many eigenmode zero-crossings) enables rapid native folding under normal conditions, at the cost of deep misfolding traps accessible under stress. High expression level + high Mpemba index = evolutionary advantage that comes with aggregation vulnerability. Restricted to structured amyloid proteins where folding rate is defined.",
+    "bridge": "Mpemba index as dual-use metric: rapid folding capability AND misfolding vulnerability -> evolutionary tradeoff maintaining amyloidogenic sequences",
+    "falsifiable_prediction": "(1) Mpemba index correlates with folding rate for 6+ structured amyloid proteins (rho > 0.5). (2) Partial correlation controlling for contact order remains significant. (3) High-expression amyloidogenic proteins have higher Mpemba indices than low-expression non-amyloidogenic homologs.",
+    "test_protocol": "1. Compute Mpemba index for 6+ structured proteins with known folding rates. 2. Retrieve expression levels from PAXdb. 3. Spearman correlation M vs k_fold. 4. Partial correlation controlling for contact order. 5. Mann-Whitney test M(amyloidogenic) vs M(non-amyloidogenic). Timeline: 6-12 months.",
+    "impact_annotation": {
+      "application_pathway": "conceptual_framework",
+      "nearest_applied_domain": "Evolutionary biology / protein biophysics",
+      "validation_horizon": "long-term"
+    },
+    "rubric_details": {
+      "mechanistic_specificity": 5,
+      "falsifiable_prediction": 5,
+      "test_protocol": 4,
+      "novelty": 8,
+      "groundedness": 6,
+      "counter_evidence_addressed": 5,
+      "bridge_strength": 6,
+      "mathematical_consistency": 6,
+      "impact": 6,
+      "calibration": 5
+    },
+    "claims_verified": 3,
+    "claims_failed": 0,
+    "web_novelty_check": {
+      "queries": [
+        "Mpemba index evolutionary tradeoff folding rate amyloid"
+      ],
+      "result": "NOVEL \u2014 no published work connecting Mpemba index to evolutionary protein folding tradeoffs"
+    }
+  }
+]

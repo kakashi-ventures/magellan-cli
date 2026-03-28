@@ -1,0 +1,130 @@
+[
+  {
+    "title": "Mpemba Spectral Relaxation Theory Predicts Amyloid Aggregation Vulnerability",
+    "field_a": "Non-equilibrium statistical mechanics — Mpemba effect spectral theory",
+    "field_c": "Neurodegenerative protein biochemistry — amyloid aggregation selectivity",
+    "bridge_concepts": [
+      "Mpemba index: overlap integral of protein conformational ensemble with slowest eigenmode of folding/misfolding Markov state model",
+      "Spectral gap of combined folding/misfolding transition matrix as aggregation kinetics predictor",
+      "Non-orthogonal eigenmode interference (non-normal Liouvillian dynamics) creating transient misfolding acceleration zones",
+      "Rough energy landscape diffusion coefficient (D_misfold ~ 1000x slower than D_fold) as physical basis for slow eigenmodes",
+      "Comparative Mpemba index: Aβ42 vs Aβ40, α-synuclein vs β-synuclein, tau vs MAP2, TDP-43 vs FUS"
+    ],
+    "strategy": "anomaly_hunting",
+    "confidence": 7,
+    "disjointness_estimate": "DISJOINT",
+    "disjointness_evidence": "Web search: zero papers connecting Mpemba effect to protein aggregation. Markov state models used in both fields but Mpemba eigenmode-overlap diagnostic framework absent from aggregation literature.",
+    "impact_potential": 7,
+    "impact_type": "paradigm",
+    "rationale": "The Mpemba framework reframes aggregation propensity as a spectral property of the folding/misfolding Markov operator, not a thermodynamic stability property. Explains why only ~30 of thousands of human proteins form pathological amyloids. Could become computational biomarker for aggregation screening.",
+    "unsolved_problem": "Why do only ~30 of thousands of human proteins form pathological amyloids when thermodynamic stability alone does not predict aggregation propensity?",
+    "web_verified": true
+  },
+  {
+    "title": "Anesthetic Lipid Raft Signaling Paradigm Explains Bacterial Sub-Lethal Antimicrobial Sensing",
+    "field_a": "Membrane biophysics / anesthesiology — revived lipid raft theory of anesthesia (PLD2 relocalization cascade)",
+    "field_c": "Bacterial membrane biology — functional membrane microdomain (FMM) mediated antimicrobial peptide detection",
+    "bridge_concepts": [
+      "PLD2 relocalization from GM1 domains upon raft disruption → FloT-KinC relocalization from FMMs upon AMP-mediated disruption",
+      "Phospholipase-mediated signaling lipid production as transduction step (PA in mammals, DAG/PA in bacteria)",
+      "GM1-palmitoylation anchoring of PLD2 → polyisoprenoid lipid anchoring of FloT in bacterial FMMs",
+      "KinC autophosphorylation upon release from FloT scaffold → Spo0A phosphorelay → sporulation/biofilm switch",
+      "B. subtilis FloT (YqfA) + zaragozic acid FMM disruption as experimental model"
+    ],
+    "strategy": "failed_paradigm_recycling",
+    "confidence": 7,
+    "disjointness_estimate": "DISJOINT",
+    "disjointness_evidence": "Web search: anesthesia PLD2/GM1 literature contains zero references to bacterial FMMs or flotillin. Bacterial FMM literature contains zero references to anesthetic mechanisms or PLD2 relocalization.",
+    "impact_potential": 7,
+    "impact_type": "translational",
+    "rationale": "The lipid raft theory of anesthesia (rejected then revived) provides the mechanistic template for how bacteria sense membrane-disrupting agents through domain disruption rather than direct damage. FMM integrity becomes a novel antibiotic adjuvant target.",
+    "unsolved_problem": "How do bacteria detect and mount anticipatory stress responses to sub-lethal concentrations of membrane-active antimicrobial peptides before membrane damage occurs?",
+    "web_verified": true
+  },
+  {
+    "title": "High-Entropy Alloy Mixing Thermodynamics Predicts Gut Microbiome Functional Synergy",
+    "field_a": "Materials science — high-entropy alloy (HEA) thermodynamics, Hume-Rothery rules, cocktail effect",
+    "field_c": "Gut microbial ecology — community-level function prediction, diversity-synergy relationship",
+    "bridge_concepts": [
+      "Configurational entropy: ΔS_config = -R Σ x_i ln(x_i) identical to Shannon diversity index — mathematical identity between alloy mixing entropy and species diversity",
+      "Hume-Rothery miscibility rules → microbial miscibility: atomic size mismatch δ < 15% → metabolic niche overlap threshold, electronegativity → competitive interaction strength, valency → metabolic output diversity",
+      "Mixing enthalpy ΔH_mix = Σ 4·H_ij·x_i·x_j → pairwise metabolic interaction matrix (facilitation vs inhibition)",
+      "Cocktail effect threshold: synergy when TΔS_config > |ΔH_mix| AND δ_metabolic in range [2%, 15%]",
+      "Phase diagram: single-phase solid solution = stable mixed community, multi-phase = guild-structured community with exclusion zones"
+    ],
+    "strategy": "serendipity",
+    "confidence": 6,
+    "disjointness_estimate": "DISJOINT",
+    "disjointness_evidence": "Web search: zero papers connecting HEA thermodynamics or Hume-Rothery rules to microbial community assembly. Ecology uses Lotka-Volterra models, not thermodynamic mixing formalism.",
+    "impact_potential": 6,
+    "impact_type": "conceptual_framework",
+    "rationale": "Both fields ask the same fundamental question — when does multi-component mixing produce emergent properties exceeding component averages? HEA theory provides quantitative criteria (entropic stabilization thresholds, mismatch parameters) that ecology lacks.",
+    "unsolved_problem": "Why do some diverse microbiome communities show functional synergy while others show only redundancy or competitive exclusion? Current metabolic models cannot predict community-level function from individual species data.",
+    "web_verified": true
+  },
+  {
+    "title": "Earthquake ETAS Self-Exciting Point Process Models Tumor Recurrence Dynamics",
+    "field_a": "Seismology — Epidemic-Type Aftershock Sequence (ETAS) model (Ogata 1988), self-exciting point process with Omori-law decay",
+    "field_c": "Clinical oncology — tumor dormancy exit and recurrence timing, disseminated tumor cell dynamics",
+    "bridge_concepts": [
+      "ETAS conditional intensity λ(t) = μ + Σ K·e^(α·m_i)/(t-t_i+c)^p → tumor: background awakening rate + paracrine-triggered cascading awakenings with power-law decay",
+      "Omori-law decay exponent p → temporal decay of paracrine awakening signals (VEGF, IL-6 microenvironmental half-life)",
+      "Gutenberg-Richter b-value → distribution of DTC awakening magnitudes (cells re-entering cycle per event)",
+      "Productivity parameter α → magnitude-dependent paracrine signaling (larger awakenings → more microenvironment remodeling → more triggered awakenings)",
+      "ETAS branching ratio n → subcritical (dormancy wins) vs supercritical (runaway recurrence) cascade threshold",
+      "Background rate μ → spontaneous dormancy exit rate (stochastic cell-cycle re-entry)"
+    ],
+    "strategy": "structural_isomorphism",
+    "confidence": 8,
+    "disjointness_estimate": "DISJOINT",
+    "disjointness_evidence": "Web search: ETAS model literature entirely in geophysics journals. Tumor dormancy literature entirely in oncology journals. Zero cross-citations. Oncology uses exponential/Weibull models, not self-exciting point processes.",
+    "impact_potential": 8,
+    "impact_type": "paradigm",
+    "rationale": "ETAS-based recurrence forecasting could personalize cancer surveillance. If micro-recurrence events (ctDNA spikes) follow self-exciting statistics, their timing and magnitude predict clinical recurrence probability — exactly as foreshocks inform earthquake probability in the ETAS framework.",
+    "unsolved_problem": "Why do some cancers recur years or decades after apparently successful treatment, and why is recurrence timing so unpredictable?",
+    "web_verified": true
+  },
+  {
+    "title": "Stochastic Resetting Optimization Predicts Optimal Antibiotic Pulsing for Persister Clearance",
+    "field_a": "Statistical physics — stochastic resetting theory (Evans & Majumdar 2011), optimal resetting rate for first-passage time minimization",
+    "field_c": "Infectious disease microbiology — antibiotic persistence, pulsed dosing optimization for persister bacteria",
+    "bridge_concepts": [
+      "Evans-Majumdar optimal resetting rate r* → optimal antibiotic dosing frequency: r* = f(a, μ, k) where a = persister wake-up rate, μ = growth rate, k = kill rate",
+      "First-passage to target (particle reaching boundary) → bacterial clearance (population reaching zero)",
+      "Resetting position (particle teleported to origin) → antibiotic dose killing susceptible cells, resetting population to persister subpopulation",
+      "Diffusion coefficient D → persister-to-active transition stochasticity (variance of wake-up timing)",
+      "Critical prediction: r_optimal scales as √(a·k) — geometric mean of wake-up and kill rates, NOT drug half-life based",
+      "Poisson resetting → periodic dosing mapping with Evans-Majumdar proof of optimal period existence"
+    ],
+    "strategy": "converging_vocabularies",
+    "confidence": 7,
+    "disjointness_estimate": "DISJOINT",
+    "disjointness_evidence": "Web search: stochastic resetting review cites animal foraging and protein-DNA binding, NOT persister bacteria. Bacterial persistence papers use first-passage population models but NOT Evans-Majumdar resetting optimization framework.",
+    "impact_potential": 8,
+    "impact_type": "translational",
+    "rationale": "Transforms empirical antibiotic dosing into mathematically optimal protocols. Species-specific optimal intervals calculable from three measurable parameters. Especially impactful for chronic/recurrent infections where persistence causes treatment failure (TB, UTI, biofilm infections).",
+    "unsolved_problem": "Why do empirical antibiotic dosing schedules work for some infections but fail for others? How should dosing intervals be determined from microbial biology rather than pharmacokinetic convenience?",
+    "web_verified": true
+  },
+  {
+    "title": "Soil Liquefaction Mechanics Explains the Osteoarthritis Cartilage Tipping Point",
+    "field_a": "Geotechnical engineering — soil liquefaction theory, cyclic stress ratio (CSR), pore water pressure buildup in fluid-saturated granular media",
+    "field_c": "Orthopedic biomechanics — osteoarthritis cartilage degeneration tipping point, catastrophic structural loss",
+    "bridge_concepts": [
+      "Cyclic Stress Ratio: CSR_cart = τ_cyclic / σ'_effective → critical CSR threshold depends on proteoglycan content (relative density analog) and permeability (drainage capacity)",
+      "Number of cycles to liquefaction N_liq → predicted walking steps before catastrophic cartilage failure (clinical biomarker)",
+      "Pore pressure ratio r_u = Δu / σ'_0 → interstitial fluid pressure buildup relative to collagen matrix stress; r_u → 1 = tipping point",
+      "Seed's liquefaction resistance curves (CSR vs N_liq at different soil densities) → cartilage resistance curves at different proteoglycan concentrations",
+      "Drained-to-undrained transition at critical loading frequency → cartilage becomes 'undrained' at frequencies that decrease with OA progression"
+    ],
+    "strategy": "scale_bridging",
+    "confidence": 6,
+    "disjointness_estimate": "DISJOINT",
+    "disjointness_evidence": "Web search: geotechnical liquefaction literature contains zero cartilage references. Orthopedic literature uses Mow biphasic theory but never references liquefaction criterion or cyclic stress ratio. The word 'liquefaction' absent from cartilage papers.",
+    "impact_potential": 6,
+    "impact_type": "translational",
+    "rationale": "Explains the puzzling OA tipping point as a phase transition equivalent to soil liquefaction. Predicts that MRI-measurable cartilage permeability combined with loading history can forecast when catastrophic failure will occur, enabling preventive intervention.",
+    "unsolved_problem": "Why does osteoarthritis show a tipping point — years of gradual degeneration followed by rapid catastrophic loss — and why can't we predict when the tipping point will occur?",
+    "web_verified": true
+  }
+]

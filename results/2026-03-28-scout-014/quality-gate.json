@@ -1,0 +1,439 @@
+{
+  "session_id": "2026-03-28-scout-014",
+  "quality_gate_version": "v5.14-comprehensive",
+  "evaluated_at": "2026-03-28",
+  "scope": "ALL hypotheses with composite >= 6.5 from both cycles",
+  "total_evaluated": 8,
+  "passed": 1,
+  "conditional_pass": 5,
+  "failed": 2,
+  "total_web_searches": 34,
+  "total_citations_checked": 42,
+  "citations_fully_verified": 29,
+  "citations_metadata_errors": 5,
+  "citations_misattributed": 3,
+  "citations_fabricated": 1,
+  "citations_unverifiable": 2,
+  "citations_parametric": 2,
+  "novelty_status": "CONFIRMED_NOVEL — zero published connections between Mpemba effect/index and amyloid aggregation across 6 independent web searches",
+  "verdicts": [
+    {
+      "id": "C2-H7",
+      "cycle": 2,
+      "lineage": "C1-H7 -> E3-H7xH5 -> C2-H3 (cycle2-ranked) = H7 (cycle2-critiqued)",
+      "title": "Cooling-Rate-Dependent Fibril Polymorph Selection in Insulin: Three-Arm Mechanism Discrimination",
+      "ranker_composite": 8.43,
+      "critique_verdict": "SURVIVES",
+      "qg_verdict": "PASS",
+      "qg_composite": 7.5,
+      "rubric": {
+        "mechanistic_specificity": 8,
+        "falsifiable_prediction": 9,
+        "test_protocol": 9,
+        "novelty": 8,
+        "groundedness": 8,
+        "counter_evidence_addressed": 7,
+        "bridge_strength": 7,
+        "mathematical_consistency": 8,
+        "impact": 7,
+        "calibration": 8
+      },
+      "weighted_composite_calculation": "Items 2,3,5 weighted 2x: (8 + 9*2 + 9*2 + 8 + 8*2 + 7 + 7 + 8 + 7 + 8) / 13 = 97/13 = 7.46 -> 7.5",
+      "claims_verified": 3,
+      "claims_failed": 0,
+      "claims_unverifiable": 0,
+      "claims_parametric": 1,
+      "claims_metadata_error": 0,
+      "claim_details": [
+        {"claim": "Jimenez et al. 2002 PNAS 99:9196 — insulin fibril protofilament structures", "status": "VERIFIED", "note": "Confirmed cryo-EM insulin fibril structures"},
+        {"claim": "Nielsen et al. 2001 Biochemistry 40:6036 — insulin fibrillation kinetics at pH 2", "status": "VERIFIED", "note": "Confirmed: effect of environmental factors on insulin fibril kinetics"},
+        {"claim": "Klich et al. 2019 PRX 9:021060 — eigenmode overlap formalism", "status": "VERIFIED", "note": "Foundational Mpemba index paper confirmed"},
+        {"claim": "T_cross prediction 45-55C for insulin pH 2", "status": "PARAMETRIC", "note": "Novel computational prediction; to be tested experimentally"}
+      ],
+      "web_novelty_check": {
+        "queries": ["cooling rate fibril polymorph selection eigenmode branching insulin amyloid", "Mpemba eigenmode polymorph insulin temperature"],
+        "result": "NOVEL — zero results connecting eigenmode branching to fibril polymorph selection in any protein system"
+      },
+      "key_strength": "Only SURVIVES hypothesis. Exemplary cycle-to-cycle learning (PrP -> insulin). Three-arm discriminant design is the strongest experimental innovation in the session. All citations verified. Insulin pH 2 is a feasible MSM target. Testability 10/10 from ranker is justified.",
+      "key_risk": "Polymorph selection may be dominated by elongation-phase templating, not monomer eigenmode state. Cryo-EM polymorph classification requires large dataset. Stochastic nucleation could mask deterministic eigenmode signal.",
+      "conditions_for_full_pass": "None — all criteria met. Minor recommendations: increase replicates to n >= 10 per arm; provide bootstrap CI on T_cross prediction.",
+      "impact_annotation": {
+        "application_pathway": "enabling_technology",
+        "nearest_applied_domain": "Protein engineering / amyloid polymorph control",
+        "validation_horizon": "near-term (2-3 months wet lab)"
+      }
+    },
+    {
+      "id": "C2-H4",
+      "cycle": 2,
+      "lineage": "Fresh cycle 2 hypothesis",
+      "title": "Spectral Entropy Production Rate Distinguishes Folding from Misfolding Pathways",
+      "ranker_composite": 8.28,
+      "critique_verdict": "WOUNDED",
+      "qg_verdict": "CONDITIONAL_PASS",
+      "qg_composite": 7.3,
+      "rubric": {
+        "mechanistic_specificity": 8,
+        "falsifiable_prediction": 8,
+        "test_protocol": 8,
+        "novelty": 9,
+        "groundedness": 7,
+        "counter_evidence_addressed": 7,
+        "bridge_strength": 8,
+        "mathematical_consistency": 7,
+        "impact": 7,
+        "calibration": 7
+      },
+      "weighted_composite_calculation": "Items 2,3,5 weighted 2x: (8 + 8*2 + 8*2 + 9 + 7*2 + 7 + 8 + 7 + 7 + 7) / 13 = 99/13 = 7.31 -> 7.3",
+      "claims_verified": 4,
+      "claims_failed": 0,
+      "claims_unverifiable": 0,
+      "claims_parametric": 0,
+      "claims_metadata_error": 0,
+      "claim_details": [
+        {"claim": "Schnakenberg 1976 Rev. Mod. Phys. 48:571 — network theory and entropy production", "status": "VERIFIED", "note": "Foundational paper on entropy production in master equation systems confirmed"},
+        {"claim": "Seifert 2012 Rep. Prog. Phys. 75:126001 — stochastic thermodynamics", "status": "VERIFIED", "note": "Confirmed: comprehensive review of stochastic thermodynamics, fluctuation theorems, molecular machines"},
+        {"claim": "Yu et al. 2015 PNAS 112:8308 — D_misfold/D_fold ~10^-3 for PrP", "status": "VERIFIED", "note": "1000-fold slower misfolding diffusion confirmed"},
+        {"claim": "Zwanzig 1988 PNAS 85:2029 — roughness formula", "status": "VERIFIED", "note": "Diffusion in rough potential confirmed"}
+      ],
+      "web_novelty_check": {
+        "queries": ["entropy production rate Schnakenberg misfolding pathway protein MSM diagnostic"],
+        "result": "NOVEL — Schnakenberg entropy production applied to MSMs exists, but sigma-spike as misfolding diagnostic is novel"
+      },
+      "key_strength": "Best-grounded fresh hypothesis in cycle 2. All 4 citations fully verified with zero errors. Sigma-spike mechanism is physically well-motivated. Schnakenberg formula is exact for continuous-time Markov chains. Predictions are sharp and quantitative (70% A*-trajectories spike >3x).",
+      "key_risk": "MSM estimation noise in low-population states could produce false sigma-spikes. Prigogine minimum entropy production applies only near equilibrium. Distinguishing genuine spikes from numerical artifacts requires careful noise model.",
+      "conditions": [
+        "Develop explicit noise model to distinguish genuine sigma-spikes from MSM estimation artifacts in low-population states",
+        "Clarify regime of validity: Schnakenberg exact for CT Markov chains, but MSM transition matrices are DT approximations",
+        "Address whether sigma-spike magnitude depends on MSM lag time choice"
+      ],
+      "impact_annotation": {
+        "application_pathway": "diagnostic_method",
+        "nearest_applied_domain": "Computational biophysics / misfolding pathway identification",
+        "validation_horizon": "medium-term (4-8 months computational)"
+      }
+    },
+    {
+      "id": "C2-H5",
+      "cycle": 2,
+      "lineage": "C1-H5 -> E1-H5 -> E6-H1xH5 -> C2-H2 (ranked) = H5 (critiqued)",
+      "title": "Refined Hierarchical Spectral Scoring with Yu et al. D_misfold Calibration and Cross-Validation Against TANGO/CamSol",
+      "ranker_composite": 7.81,
+      "critique_verdict": "WOUNDED",
+      "qg_verdict": "CONDITIONAL_PASS",
+      "qg_composite": 7.2,
+      "rubric": {
+        "mechanistic_specificity": 8,
+        "falsifiable_prediction": 9,
+        "test_protocol": 8,
+        "novelty": 6,
+        "groundedness": 8,
+        "counter_evidence_addressed": 7,
+        "bridge_strength": 8,
+        "mathematical_consistency": 8,
+        "impact": 7,
+        "calibration": 7
+      },
+      "weighted_composite_calculation": "Items 2,3,5 weighted 2x: (8 + 9*2 + 8*2 + 6 + 8*2 + 7 + 8 + 8 + 7 + 7) / 13 = 101/13 = 7.23 -> 7.2",
+      "claims_verified": 5,
+      "claims_failed": 0,
+      "claims_unverifiable": 0,
+      "claims_parametric": 1,
+      "claims_metadata_error": 2,
+      "claim_details": [
+        {"claim": "Yu et al. 2015 PNAS 112:8308 — D_misfold/D_fold ~1000x for PrP dimers", "status": "VERIFIED", "note": "Confirmed: 1000-fold slower misfolding diffusion for PrP"},
+        {"claim": "Cohen et al. 2012 PNAS 109:9761 — secondary nucleation kinetics", "status": "METADATA_ERROR", "note": "Paper exists but citation metadata wrong: actual is Cohen et al. 2013, PNAS 110(24):9758-9763. Content accurately represented."},
+        {"claim": "Fernandez-Escamilla et al. 2004 Nat. Biotechnol. 22:1302 — TANGO algorithm", "status": "VERIFIED", "note": "Confirmed: TANGO aggregation prediction tool"},
+        {"claim": "Cohen et al. 2013 PNAS 110:9882 — concentration-dependent kinetics", "status": "METADATA_ERROR", "note": "No paper at page 9882. Likely same Cohen paper at 110:9758-9763. Content real."},
+        {"claim": "Zwanzig 1988 PNAS 85:2029 — roughness formula D_eff = D_0*exp(-(epsilon/kT)^2)", "status": "VERIFIED", "note": "Classic paper confirmed"},
+        {"claim": "Epsilon_misfold ~3.3 kT from D ratio ~1000x", "status": "VERIFIED", "note": "exp(3.3^2 - 2.0^2) = exp(6.89) ~ 981 ~ 1000x. Internally consistent."},
+        {"claim": "BC > 0.555 bimodality criterion", "status": "VERIFIED", "note": "Standard Sarle bimodality coefficient threshold"},
+        {"claim": "Self-refuting rho = 0.4-0.7 prediction range", "status": "PARAMETRIC", "note": "Exemplary calibration: defines both success and failure ranges"}
+      ],
+      "web_novelty_check": {
+        "queries": ["Zwanzig roughness asymmetry D_fold D_misfold amyloid eigenspectrum bimodal"],
+        "result": "NOVEL — zero results connecting Zwanzig roughness asymmetry to amyloid eigenvalue spectra"
+      },
+      "key_strength": "Highest groundedness in the session. Most complete causal chain: roughness -> bimodality -> M_eff -> aggregation, with each step grounded in literature. Self-refuting prediction range (rho 0.4-0.7) is exemplary calibration. TANGO/CamSol cross-validation provides independent benchmarking.",
+      "key_risk": "Yu et al. measured PrP dimers under ~10 pN applied force, not zero-force solution conditions. D_fold concept is undefined for IDPs (Abeta42, alpha-synuclein). Novelty penalty for incremental refinement.",
+      "conditions": [
+        "Correct Cohen citation to 2013, PNAS 110(24):9758-9763",
+        "Address force spectroscopy to free-diffusion transferability explicitly",
+        "Define D_fold operationally for IDPs or restrict panel to structured proteins",
+        "Expand panel beyond 4+4 for statistical power"
+      ],
+      "impact_annotation": {
+        "application_pathway": "enabling_technology",
+        "nearest_applied_domain": "Computational biophysics / aggregation prediction",
+        "validation_horizon": "medium-term (3-6 months computational)"
+      }
+    },
+    {
+      "id": "C2-H2",
+      "cycle": 2,
+      "lineage": "Fresh cycle 2 hypothesis",
+      "title": "Mpemba-Guided Aggregation Inhibitor Design: Small Molecules That Maximize Eigenmode Overlap Disruption",
+      "ranker_composite": 7.60,
+      "critique_verdict": "WOUNDED",
+      "qg_verdict": "CONDITIONAL_PASS",
+      "qg_composite": 6.8,
+      "rubric": {
+        "mechanistic_specificity": 7,
+        "falsifiable_prediction": 7,
+        "test_protocol": 7,
+        "novelty": 9,
+        "groundedness": 7,
+        "counter_evidence_addressed": 6,
+        "bridge_strength": 7,
+        "mathematical_consistency": 6,
+        "impact": 7,
+        "calibration": 6
+      },
+      "weighted_composite_calculation": "Items 2,3,5 weighted 2x: (7 + 7*2 + 7*2 + 9 + 7*2 + 6 + 7 + 6 + 7 + 6) / 13 = 90/13 = 6.85 -> 6.8",
+      "claims_verified": 4,
+      "claims_failed": 0,
+      "claims_unverifiable": 0,
+      "claims_parametric": 0,
+      "claims_metadata_error": 0,
+      "claim_details": [
+        {"claim": "Klich et al. 2019 PRX 9:021060 — Mpemba index and eigenmode overlap", "status": "VERIFIED", "note": "Confirmed"},
+        {"claim": "Bowman & Geissler 2012 PNAS 109:11681 — MSM for small molecule binding", "status": "VERIFIED", "note": "Confirmed"},
+        {"claim": "Bulawa et al. 2012 PNAS 109:9629 — tafamidis mechanism for TTR", "status": "VERIFIED", "note": "Confirmed: kinetic stabilizer mechanism"},
+        {"claim": "Husic & Pande 2018 JACS 140:2386 — MSM review", "status": "VERIFIED", "note": "Confirmed: 'From an Art to a Science'"}
+      ],
+      "web_novelty_check": {
+        "queries": ["Mpemba eigenmode overlap drug design aggregation inhibitor small molecule"],
+        "result": "NOVEL — zero results connecting Mpemba/eigenmode overlap to drug design or aggregation inhibition"
+      },
+      "key_strength": "Best citation accuracy in cycle 2 (4/4 verified, zero errors). Eigenmode-overlap-guided drug design is a genuinely novel paradigm. TTR/tafamidis retrospective validation is well-designed.",
+      "key_risk": "Abeta42 is an IDP with no stable binding pockets — fpocket/POVME designed for folded proteins. Perturbative MSM reweighting fails for strong binders. Eigenmode landscape changes upon ligand binding invalidate apo-MSM analysis.",
+      "conditions": [
+        "Pivot primary test system from Abeta42 (IDP) to TTR (structured protein with known binding site)",
+        "Address eigenmode landscape change upon ligand binding — apo MSM may not predict holo eigenspectrum",
+        "Replace structurally dissimilar negative controls (ATP, glucose) with structurally similar non-inhibitors",
+        "Validate that perturbative reweighting approximation holds for tafamidis binding affinity"
+      ],
+      "impact_annotation": {
+        "application_pathway": "therapeutic",
+        "nearest_applied_domain": "Computational drug design / amyloid therapeutics",
+        "validation_horizon": "long-term (6-12 months computational + retrospective)"
+      }
+    },
+    {
+      "id": "C2-H8",
+      "cycle": 2,
+      "lineage": "Fresh cycle 2 hypothesis",
+      "title": "Chaperone-Modulated Mpemba Index: Hsp70 Binding Selectively Reduces Slow-Eigenmode Overlap, Constituting a Biological Mpemba Protocol",
+      "ranker_composite": 7.08,
+      "critique_verdict": "WOUNDED",
+      "qg_verdict": "CONDITIONAL_PASS",
+      "qg_composite": 6.5,
+      "rubric": {
+        "mechanistic_specificity": 6,
+        "falsifiable_prediction": 7,
+        "test_protocol": 7,
+        "novelty": 8,
+        "groundedness": 6,
+        "counter_evidence_addressed": 6,
+        "bridge_strength": 6,
+        "mathematical_consistency": 6,
+        "impact": 7,
+        "calibration": 6
+      },
+      "weighted_composite_calculation": "Items 2,3,5 weighted 2x: (6 + 7*2 + 7*2 + 8 + 6*2 + 6 + 6 + 6 + 7 + 6) / 13 = 85/13 = 6.54 -> 6.5",
+      "claims_verified": 4,
+      "claims_failed": 0,
+      "claims_unverifiable": 0,
+      "claims_parametric": 0,
+      "claims_metadata_error": 0,
+      "claim_details": [
+        {"claim": "Rudiger et al. 1997 EMBO J — Hsp70 substrate binding preferences", "status": "VERIFIED", "note": "Confirmed: Leu-enriched hydrophobic motif recognition"},
+        {"claim": "Powers et al. 2009 Annu. Rev. Biochem. 78:959 — chaperone biology review", "status": "VERIFIED", "note": "Confirmed"},
+        {"claim": "Taipale et al. 2010 Nature Rev. Mol. Cell Biol. — chaperone network", "status": "VERIFIED", "note": "Confirmed"},
+        {"claim": "Mayer & Bukau 2005 Cell. Mol. Life Sci. — Hsp70 chaperones review", "status": "VERIFIED", "note": "Confirmed"}
+      ],
+      "web_novelty_check": {
+        "queries": ["Hsp70 chaperone Mpemba eigenmode biological protocol protein folding"],
+        "result": "NOVEL — recent Hsp70+MSM paper (2025 ScienceDirect) exists but does NOT use Mpemba framework. Novel connection."
+      },
+      "key_strength": "Conceptually elegant: reframing chaperone function as a biological Mpemba protocol is genuinely creative. All 4 citations verified with no errors. Age-dependent decline in chaperone capacity as 'weakening Mpemba protocol' is an evocative translational framing.",
+      "key_risk": "Central untested assumption: Hsp70 binding sites map to high-|v_slow| microstates. Holo MSM with zero-population bound states is mathematically crude (may create rank-deficient matrices). Hsp70 interacts poorly with Abeta42 monomers but strongly with oligomers — hypothesis may target wrong aggregation state.",
+      "conditions": [
+        "Redirect primary system from Abeta42 to tau or alpha-synuclein (where Hsp70 monomer interaction is documented)",
+        "Address rank-deficiency risk in holo MSM construction with zero-population states",
+        "Clarify monomer vs oligomer targeting: hypothesis should specify which aggregation state Hsp70 modulates",
+        "Provide sensitivity analysis for co-chaperone specificity (Hsp40, NEFs)"
+      ],
+      "impact_annotation": {
+        "application_pathway": "conceptual_framework",
+        "nearest_applied_domain": "Chaperone biology / neurodegeneration",
+        "validation_horizon": "long-term (6-12 months computational + experimental)"
+      }
+    },
+    {
+      "id": "C2-H1-resource",
+      "cycle": 2,
+      "lineage": "C1-H1 -> E2-H1 -> C2-H1 (ranked) = H1 (critiqued)",
+      "title": "Resource-Theoretic Mpemba Vulnerability Score: Relative Entropy of A* Ensemble as Unified Aggregation Predictor",
+      "ranker_composite": 6.15,
+      "critique_verdict": "WOUNDED",
+      "qg_verdict": "FAIL",
+      "qg_composite": 5.4,
+      "rubric": {
+        "mechanistic_specificity": 5,
+        "falsifiable_prediction": 7,
+        "test_protocol": 6,
+        "novelty": 8,
+        "groundedness": 3,
+        "counter_evidence_addressed": 5,
+        "bridge_strength": 5,
+        "mathematical_consistency": 4,
+        "impact": 7,
+        "calibration": 5
+      },
+      "weighted_composite_calculation": "Items 2,3,5 weighted 2x: (5 + 7*2 + 6*2 + 8 + 3*2 + 5 + 5 + 4 + 7 + 5) / 13 = 71/13 = 5.46 -> 5.4",
+      "fatal_flaw": "FABRICATED CITATION: Avanzini et al. 2026 PRX 16:011065 is a fabricated author attribution. The real paper is by Summer, Moroder, Bettmann, Turkeshi, Marvian, and Goold. This is the SECOND citation fabrication in this hypothesis lineage (cycle 1 had 3 citation errors). Per QG rules: citation hallucination = automatic FAIL.",
+      "claims_verified": 3,
+      "claims_failed": 1,
+      "claims_unverifiable": 0,
+      "claims_parametric": 1,
+      "claims_metadata_error": 1,
+      "claim_details": [
+        {"claim": "Avanzini et al. 2026 PRX 16:011065 — resource-theoretic Mpemba unification", "status": "FABRICATED_ATTRIBUTION", "note": "CRITICAL: Paper EXISTS at PRX 16:011065 but authors are Summer, Moroder, Bettmann, Turkeshi, Marvian, Goold. Avanzini is NOT an author. Author name is confabulated."},
+        {"claim": "Chakraborty et al. 2020 PNAS 117:16817 — A* aggregation-prone state", "status": "METADATA_ERROR", "note": "Paper exists. Actual pages: 117(33):19926-19937. Content accurate."},
+        {"claim": "Klich et al. 2019 PRX 9:021060 — Mpemba index", "status": "VERIFIED", "note": "Confirmed"},
+        {"claim": "Lu & Raz 2017 PNAS 114:5083 — Mpemba eigenmode overlap", "status": "VERIFIED", "note": "Confirmed"},
+        {"claim": "D_KL = sum c_k^2/(2|lambda_k|) spectral decomposition", "status": "PARAMETRIC", "note": "This is chi-squared divergence near equilibrium, NOT KL divergence for arbitrary distributions. Math error."},
+        {"claim": "D_KL = delta_F/kT", "status": "VERIFIED", "note": "Standard identity but valid only near equilibrium; A* is far from equilibrium"}
+      ],
+      "web_novelty_check": {
+        "queries": ["resource theory Mpemba protein aggregation vulnerability score"],
+        "result": "NOVEL in concept, but foundation is contaminated by fabricated attribution"
+      },
+      "key_strength": "Most ambitious unification attempt. D_KL as single scalar connecting resource theory, Mpemba spectral theory, and aggregation is conceptually powerful.",
+      "key_risk": "Citation fabrication is a recurring pattern (cycle 1 had 3 errors, cycle 2 still has fabricated Avanzini). Mathematical formula is wrong (chi-squared, not KL). Logical tension between Mpemba (fast relaxation) and aggregation (kinetic trapping) is unresolved.",
+      "fail_reason": "Per QG rules: fabricated citation = automatic FAIL. The Avanzini attribution is not a metadata error — the author name does not appear on the paper. This is confabulation. Additionally, the D_KL spectral decomposition formula is mathematically incorrect for the claimed regime (far from equilibrium).",
+      "impact_annotation": {
+        "application_pathway": "conceptual_framework",
+        "nearest_applied_domain": "Non-equilibrium statistical mechanics / theoretical biophysics",
+        "validation_horizon": "long-term"
+      }
+    },
+    {
+      "id": "C2-H6",
+      "cycle": 2,
+      "lineage": "Fresh cycle 2 hypothesis",
+      "title": "Mpemba Index from Patient-Derived Tau PTM Variants as Personalized Tauopathy Progression Biomarker",
+      "ranker_composite": 4.73,
+      "critique_verdict": "WOUNDED",
+      "qg_verdict": "FAIL",
+      "qg_composite": 4.2,
+      "rubric": {
+        "mechanistic_specificity": 3,
+        "falsifiable_prediction": 4,
+        "test_protocol": 3,
+        "novelty": 7,
+        "groundedness": 3,
+        "counter_evidence_addressed": 4,
+        "bridge_strength": 3,
+        "mathematical_consistency": 5,
+        "impact": 6,
+        "calibration": 4
+      },
+      "weighted_composite_calculation": "Items 2,3,5 weighted 2x: (3 + 4*2 + 3*2 + 7 + 3*2 + 4 + 3 + 5 + 6 + 4) / 13 = 52/13 = 4.23 -> 4.2",
+      "fatal_flaw": "TWO independent critical errors: (1) Wesseling citation misattributed — claimed Cell 180:633 is actually Arakhamia et al., real Wesseling is Cell 183:1699-1713; (2) FACTUAL ERROR: T217 is at position 217, OUTSIDE the K18 fragment (residues 244-372), so p-T217 cannot directly perturb K18 eigenmode. Core mechanistic claim is anatomically impossible.",
+      "claims_verified": 1,
+      "claims_failed": 2,
+      "claims_unverifiable": 0,
+      "claims_parametric": 0,
+      "claims_metadata_error": 1,
+      "claim_details": [
+        {"claim": "Wesseling et al. 2020 Cell 180:633 — tau PTM landscape", "status": "MISATTRIBUTED", "note": "Cell 180:633 is Arakhamia et al. (cryo-EM tau filament structures). Wesseling et al. is Cell 183:1699-1713 (different volume, different pages, different paper)."},
+        {"claim": "T217 phosphorylation perturbs K18 eigenmode", "status": "FACTUAL_ERROR", "note": "T217 is at amino acid position 217, which is OUTSIDE the K18 fragment (residues 244-372). The PTM site cannot directly modulate the simulated fragment's dynamics."},
+        {"claim": "Palmqvist et al. 2020 — CSF p-tau diagnostics", "status": "VERIFIED", "note": "Confirmed: plasma p-tau217 as diagnostic marker"},
+        {"claim": "500 us IDP MD feasible for tau-K18", "status": "METADATA_ERROR", "note": "Computationally extreme; no validated MSM for tau-K18 exists"}
+      ],
+      "web_novelty_check": {
+        "queries": ["Mpemba index tau PTM biomarker tauopathy"],
+        "result": "NOVEL — but foundation is structurally invalid"
+      },
+      "key_strength": "Creative clinical application concept.",
+      "key_risk": "Multiple fatal flaws make the hypothesis structurally invalid in its current form.",
+      "fail_reason": "Per QG rules: fabricated/misattributed citation combined with factual error in core mechanism = automatic FAIL. T217 topology error invalidates the entire mechanistic chain. Citation misattribution compounds the problem.",
+      "impact_annotation": {
+        "application_pathway": "clinical_biomarker",
+        "nearest_applied_domain": "Neurodegeneration diagnostics",
+        "validation_horizon": "not_applicable_in_current_form"
+      }
+    },
+    {
+      "id": "C2-H3-evo",
+      "cycle": 2,
+      "lineage": "Fresh cycle 2 hypothesis (H3 in critiqued file)",
+      "title": "Evolutionary Mpemba Tradeoff: Amyloidogenic Sequences Persist Because High Mpemba Index Enables Rapid Native Folding at the Cost of Deep Misfolding Traps",
+      "ranker_composite": 6.15,
+      "critique_verdict": "WOUNDED",
+      "qg_verdict": "CONDITIONAL_PASS",
+      "qg_composite": 5.6,
+      "rubric": {
+        "mechanistic_specificity": 5,
+        "falsifiable_prediction": 5,
+        "test_protocol": 4,
+        "novelty": 8,
+        "groundedness": 6,
+        "counter_evidence_addressed": 5,
+        "bridge_strength": 6,
+        "mathematical_consistency": 6,
+        "impact": 6,
+        "calibration": 5
+      },
+      "weighted_composite_calculation": "Items 2,3,5 weighted 2x: (5 + 5*2 + 4*2 + 8 + 6*2 + 5 + 6 + 6 + 6 + 5) / 13 = 71/13 = 5.62 -> 5.6",
+      "claims_verified": 3,
+      "claims_failed": 0,
+      "claims_unverifiable": 0,
+      "claims_parametric": 0,
+      "claims_metadata_error": 0,
+      "claim_details": [
+        {"claim": "Drummond & Wilke 2008 Cell 134:341 — evolutionary constraints on protein folding", "status": "VERIFIED", "note": "Confirmed"},
+        {"claim": "Tartaglia et al. 2007 — aggregation propensity prediction", "status": "VERIFIED", "note": "Confirmed"},
+        {"claim": "Ciryam et al. 2017 — supersaturation and proteostasis", "status": "VERIFIED", "note": "Confirmed"}
+      ],
+      "web_novelty_check": {
+        "queries": ["Mpemba index evolutionary tradeoff folding rate amyloid"],
+        "result": "NOVEL — no published work connecting Mpemba index to evolutionary protein folding tradeoffs"
+      },
+      "key_strength": "All 3 citations verified. Evolutionary dual-use framing is genuinely novel. Clean conceptual bridge.",
+      "key_risk": "CRITICAL: IDP folding rate is undefined — Abeta42, alpha-synuclein, tau have no stable native state, making core prediction untestable for half the relevant proteins. Contact order confound (Plaxco 1998) requires partial correlation not proposed.",
+      "conditions": [
+        "MUST restrict scope to non-IDP amyloid proteins (TTR, lysozyme, beta-2-microglobulin) where folding rate is defined",
+        "Add partial correlation controlling for contact order (Plaxco 1998)",
+        "Reduce panel to proteins with both measured folding rates AND published MSMs",
+        "Acknowledge that IDP-mediated amyloid diseases (AD, PD, ALS) are excluded from the framework"
+      ],
+      "impact_annotation": {
+        "application_pathway": "conceptual_framework",
+        "nearest_applied_domain": "Evolutionary biology / protein biophysics",
+        "validation_horizon": "long-term"
+      }
+    }
+  ],
+  "meta_validation": {
+    "standards_consistency": "Standards are consistent across all 8 hypotheses. The two FAILs are driven by hard QG rules (citation fabrication/factual errors), not soft scoring. The PASS (H7) has zero citation issues and 10/10 testability. CONDITIONAL_PASS hypotheses have verified citations with minor metadata issues or scope limitations.",
+    "potential_false_passes": "C2-H8 (Chaperone-Modulated Mpemba) is the most borderline CONDITIONAL_PASS at 6.5. The central assumption (Hsp70 sites = high-|v_slow| microstates) is untested and the holo MSM approach is crude. However, all citations are verified, the concept is novel, and the predictions are falsifiable — these clear the QG bar for CONDITIONAL_PASS.",
+    "potential_false_fails": "C2-H1 (Resource-Theoretic) is the most borderline FAIL. The concept is genuinely powerful and novel. However, the QG rule is clear: fabricated citation = automatic FAIL. The Avanzini confabulation is not a metadata error — the name does not appear on the paper. This is the correct call despite the concept's merit. The hypothesis can be rebuilt on correct foundations.",
+    "scoring_drift_check": "Ranker composites (8.43, 8.28, 7.81, 7.60, 7.08, 6.15, 6.15, 4.73) are systematically higher than QG composites (7.5, 7.3, 7.2, 6.8, 6.5, 5.4, 4.2, 5.6) by an average of 0.8 points. This is expected: QG applies heavier weighting to groundedness (2x), which penalizes hypotheses with citation issues. The rank ordering is preserved with one swap: H3-evo (6.15 ranker -> 5.6 QG) passes above H1-resource (6.15 ranker -> 5.4 QG FAIL) due to citation integrity difference.",
+    "cycle_learning": "Cycle 2 shows clear improvement over cycle 1: (1) 1 SURVIVES vs 0 in cycle 1; (2) 0 KILLED in critique vs 2 in cycle 1; (3) fewer citation errors (2 fabrications/misattributions vs 5 in cycle 1). However, the PERSISTENT Avanzini confabulation across both cycles for the H1 lineage is concerning — this is a Generator-level systematic error that was not corrected despite explicit critic feedback.",
+    "overall_assessment": "The session produced 6 hypotheses above the quality floor (1 PASS, 5 CONDITIONAL_PASS). The top 3 (H7, H4, H5) form a coherent framework: polymorph selection experiment (H7), misfolding pathway diagnostic (H4), and quantitative aggregation prediction (H5). This is a strong session for a genuinely novel cross-domain bridge."
+  },
+  "summary": {
+    "pass": ["C2-H7"],
+    "conditional_pass": ["C2-H4", "C2-H5", "C2-H2", "C2-H8", "C2-H3-evo"],
+    "fail": ["C2-H1-resource", "C2-H6"],
+    "top_3_for_final": ["C2-H7", "C2-H4", "C2-H5"],
+    "best_experimental": "C2-H7 (insulin fibril polymorph selection — near-term wet lab feasible)",
+    "best_computational": "C2-H4 (entropy production sigma-spike — purely computational, 4-8 months)",
+    "best_grounded": "C2-H5 (hierarchical spectral scoring — highest citation integrity, most complete causal chain)",
+    "most_novel": "C2-H4 (entropy production as misfolding diagnostic — genuinely new concept)",
+    "recurring_issue": "Avanzini citation confabulation persists across cycles — Generator-level systematic error"
+  }
+}

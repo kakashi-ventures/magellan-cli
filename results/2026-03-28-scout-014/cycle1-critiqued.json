@@ -1,0 +1,181 @@
+{
+  "session_id": "2026-03-28-scout-014",
+  "cycle": 1,
+  "critique_version": 2,
+  "hypotheses": [
+    {
+      "id": "H1",
+      "title": "Mpemba Index of Protein Folding MSMs Predicts Amyloid Aggregation Propensity",
+      "verdict": "WOUNDED",
+      "revised_confidence": 5,
+      "revised_groundedness": 5,
+      "attacks": [
+        {"vector": "Novelty", "finding": "Zero papers apply Mpemba index to protein MSMs. Closest precedent: Chittari & Lu 2023 (hasty shortcuts in viral capsid assembly). Novelty holds.", "severity": "LOW"},
+        {"vector": "Mechanism", "finding": "Single-molecule MSM eigenspectrum governs conformational dynamics; amyloid aggregation is multi-molecule (secondary nucleation, Cohen et al. 2012). Gap between monomer properties and population-level nucleation kinetics is asserted, not derived.", "severity": "MEDIUM"},
+        {"vector": "Logic", "finding": "Reasonable extrapolation, not a logical fallacy. Untested assumption.", "severity": "LOW"},
+        {"vector": "Falsifiability", "finding": "PASSES. Mpemba(Abeta42)>=2, Spearman rho>0.7 across 4+ pairs are testable predictions.", "severity": "LOW"},
+        {"vector": "Triviality", "finding": "NOT trivial. Cross-field connection is non-obvious.", "severity": "LOW"},
+        {"vector": "Counter-Evidence", "finding": "No direct counter-evidence found. MSM literature uses MSMs for aggregation pathways but nobody computes Mpemba indices.", "severity": "LOW"},
+        {"vector": "Groundedness", "finding": "3/6 cited MSM sources wrong/mischaracterized: Rosenman 2013 not 2016 (REMD, not MSM), Robustelli 2018 is force field paper (not MSM), Eschmann 2015 in J.Phys.Chem.B (not J.Chem.Phys., EPR not MSM). Core references (Klich 2019, Jia 2020, Husic 2018) verified.", "severity": "HIGH"},
+        {"vector": "Hallucination-as-Novelty", "finding": "Genuine novelty from bridging two verified formalisms. Low hallucination risk.", "severity": "LOW"},
+        {"vector": "Claim-Level Fact Verification", "finding": "Robustelli 2018 mischaracterized as MSM (it's a force field paper). Rosenman wrong year and not an MSM. Eschmann wrong journal and not MSM construction. Test protocol depends on MSMs from wrongly cited sources.", "severity": "HIGH"}
+      ],
+      "survival_note": "Core concept genuinely novel and mathematically sound. Bridge is strongest in suite. Grounding weakened by 3 citation errors and the single-to-multi molecule gap. Mathematical framework correct even if specific citations wrong."
+    },
+    {
+      "id": "H2",
+      "title": "Spectral Gap Ratio of Combined Fold/Misfold MSMs Predicts Amyloid Nucleation Lag Time",
+      "verdict": "WOUNDED",
+      "revised_confidence": 4,
+      "revised_groundedness": 4,
+      "attacks": [
+        {"vector": "Novelty", "finding": "Zero results for spectral gap ratio as aggregation predictor. Novelty holds.", "severity": "LOW"},
+        {"vector": "Mechanism", "finding": "T_lag ~ 1/(1-R) is entirely ad hoc with no theoretical derivation. No first-principles argument connects single-molecule spectral gap ratio to multi-molecule nucleation lag time.", "severity": "HIGH"},
+        {"vector": "Logic", "finding": "Timescale analogy — correlation by construction between two timescales of same system. Not a mechanistic argument.", "severity": "MEDIUM"},
+        {"vector": "Falsifiability", "finding": "PASSES but weakly. Rank-ordering 4 proteins with Spearman rho>0.8 has 17% chance by random ordering. Not stringent.", "severity": "MEDIUM"},
+        {"vector": "Triviality", "finding": "Concept not trivial; but fitting monotonic function to 4 points is trivially achievable.", "severity": "MEDIUM"},
+        {"vector": "Counter-Evidence", "finding": "Cohen et al. 2012: secondary nucleation dominates Abeta42 proliferation — rate-limiting step is multi-molecule fibril-surface process, not single-molecule transition. MSM methodology sensitivity produces variable R values.", "severity": "HIGH"},
+        {"vector": "Groundedness", "finding": "Individual citations verified (Prinz 2011, Jia 2020, Arosio 2015, Nilsberth 2001). But T_lag~1/(1-R) is ungrounded postulate. Combined fold/misfold MSMs don't exist off-the-shelf.", "severity": "MEDIUM"},
+        {"vector": "Hallucination-as-Novelty", "finding": "Components real; functional form speculative. Curve-fitting risk.", "severity": "MEDIUM"},
+        {"vector": "Claim-Level Fact Verification", "finding": "Lag times approximately correct. E22G mutation verified. A2V claim oversimplified (protective heterozygous, accelerating homozygous). Cohen 2012 secondary nucleation is verified counter-evidence.", "severity": "MEDIUM"}
+      ],
+      "survival_note": "Novel concept, ad hoc functional form, single→multi molecule gap, trivially achievable statistical test. Concept worth exploring with theoretical derivation of the R-to-T_lag relationship."
+    },
+    {
+      "id": "H3",
+      "title": "Non-Normal Liouvillian Dynamics of Amyloidogenic MSMs Create Transient Misfolding Acceleration Zones",
+      "verdict": "KILLED",
+      "revised_confidence": 2,
+      "revised_groundedness": 3,
+      "attacks": [
+        {"vector": "Novelty", "finding": "Novel in domain but may be because mechanism is structurally impossible under standard methods.", "severity": "MEDIUM"},
+        {"vector": "Mechanism", "finding": "FATAL: Standard MSM tools (PyEMMA, MSMBuilder) enforce detailed balance → symmetric matrices → normal → Henrici delta(Q)=0 by construction. ANY standard MSM has zero non-normality. Hypothesis cannot detect what it claims.", "severity": "FATAL"},
+        {"vector": "Logic", "finding": "Confuses landscape topology (asymmetric funnel vs rough) with dynamical symmetry (detailed balance). Asymmetric landscape ≠ non-normal rate matrix.", "severity": "HIGH"},
+        {"vector": "Falsifiability", "finding": "Under standard methodology, delta(Q)≈0 for ALL proteins. Hypothesis is vacuously satisfied/unfalsifiable.", "severity": "FATAL"},
+        {"vector": "Triviality", "finding": "A physicist would immediately recognize detailed-balance systems are normal.", "severity": "MEDIUM"},
+        {"vector": "Counter-Evidence", "finding": "Web search confirmed standard MSM estimation enforces reversibility. Even unsymmetrized alternatives have known bias problems.", "severity": "HIGH"},
+        {"vector": "Groundedness", "finding": "Physics components verified (Teza 2025, Lapolla 2020, Henrici 1962). But the central claim (non-normality in standard protein MSMs) is structurally impossible. Real components assembled into impossible claim.", "severity": "FATAL"},
+        {"vector": "Hallucination-as-Novelty", "finding": "THIS IS hallucination-as-novelty. Appears novel because nobody has done it — because detailed balance prevents it.", "severity": "FATAL"},
+        {"vector": "Claim-Level Fact Verification", "finding": "||QQ^T-Q^TQ||>>0 for standard MSMs: STRUCTURALLY FALSE. Transient amplification: requires non-normality that doesn't exist. Circular reasoning.", "severity": "FATAL"}
+      ],
+      "survival_note": "KILLED. Non-normal dynamics is real physics but protein MSMs are normal by construction (detailed balance). Fails at fundamental methodological level."
+    },
+    {
+      "id": "H4",
+      "title": "Inverse Mpemba Protocol Suppresses Amyloid Fibril Formation by Exploiting Eigenmode Decoupling",
+      "verdict": "WOUNDED",
+      "revised_confidence": 3,
+      "revised_groundedness": 4,
+      "attacks": [
+        {"vector": "Novelty", "finding": "No work uses Mpemba eigenmode-overlap to design aggregation-suppressing cooling protocols. Novelty holds.", "severity": "LOW"},
+        {"vector": "Mechanism", "finding": "Depends on 'danger zone' at 45-55C. Kusumoto 1998 does NOT support this. At 60C Abeta42 is denatured — aggregation-prone state, not broadly sampled ensemble.", "severity": "HIGH"},
+        {"vector": "Logic", "finding": "Competing simpler explanation: rapid quench minimizes time at elevated temperature. Occam's razor favors simpler kinetic explanation.", "severity": "MEDIUM"},
+        {"vector": "Falsifiability", "finding": "PASSES. ThT fluorescence comparison is straightforward. But cannot distinguish eigenmode from simpler explanation without non-monotonic cooling-rate control.", "severity": "LOW"},
+        {"vector": "Triviality", "finding": "Prediction (rapid cooling → less aggregation) might be trivially expected from Arrhenius kinetics alone.", "severity": "MEDIUM"},
+        {"vector": "Counter-Evidence", "finding": "No evidence for non-monotonic Abeta42 nucleation temperature dependence. Literature shows monotonic behavior until denaturation.", "severity": "HIGH"},
+        {"vector": "Groundedness", "finding": "Kusumoto 1998 MISREPRESENTED: shows MONOTONIC Arrhenius elongation kinetics (4-40C), NOT non-monotonic nucleation maximum. The central claim is based on a mischaracterized source.", "severity": "HIGH"},
+        {"vector": "Hallucination-as-Novelty", "finding": "The 'danger zone at 45-55C' appears to be a fabricated parametric claim. No source supports this.", "severity": "HIGH"},
+        {"vector": "Claim-Level Fact Verification", "finding": "Kusumoto 1998 shows monotonic Arrhenius, not non-monotonic nucleation. 60C = denaturation, not conformational expansion. 45-55C danger zone: no evidence.", "severity": "HIGH"}
+      ],
+      "survival_note": "General eigenmode concept is creative but Abeta42 application built on misrepresented citation and fabricated temperature range. Severely wounded; could be rescued with correct T-ranges for different protein."
+    },
+    {
+      "id": "H5",
+      "title": "Rough Energy Landscape Diffusion Asymmetry Creates the Spectral Signature That the Mpemba Index Detects",
+      "verdict": "WOUNDED",
+      "revised_confidence": 4,
+      "revised_groundedness": 5,
+      "attacks": [
+        {"vector": "Novelty", "finding": "Zero results connecting Zwanzig roughness to Mpemba spectral structure. Novelty holds.", "severity": "LOW"},
+        {"vector": "Mechanism", "finding": "Zwanzig formula derived for 1D periodic potential; protein landscapes are 10^3-10^5 dimensional. Extrapolation not rigorous. Exponential sensitivity means huge uncertainty in D ratio.", "severity": "MEDIUM"},
+        {"vector": "Logic", "finding": "Physically motivated at each step. Not a logical fallacy.", "severity": "LOW"},
+        {"vector": "Falsifiability", "finding": "PASSES. Bimodality coefficient > 0.555 is specific and testable. Most falsifiable hypothesis.", "severity": "LOW"},
+        {"vector": "Triviality", "finding": "NOT trivial. Connection is non-obvious.", "severity": "LOW"},
+        {"vector": "Counter-Evidence", "finding": "Non-amyloidogenic proteins (myoglobin, cytochrome c) have roughness epsilon ~ 2-3 kT. Assumption that only amyloidogenic proteins have roughness asymmetry may be wrong.", "severity": "MEDIUM"},
+        {"vector": "Groundedness", "finding": "All citations verified (Zwanzig 1988, Bryngelson 1995, Jia 2020, Husic 2018). D_misfold/D_fold ratio not directly measured for any protein. Theoretical prediction.", "severity": "LOW"},
+        {"vector": "Hallucination-as-Novelty", "finding": "Zwanzig roughness exists independently. Low hallucination risk.", "severity": "LOW"},
+        {"vector": "Claim-Level Fact Verification", "finding": "Roughness values partially supported. D ratio plausible but unmeasured. Non-amyloidogenic roughness assumption unverified (myoglobin counter-example). Bimodal spectra: theoretical, not demonstrated.", "severity": "MEDIUM"}
+      ],
+      "survival_note": "Best citation accuracy. Most falsifiable predictions. Mechanistic backbone of suite. But 1D→high-dim extrapolation, unverified non-amyloidogenic roughness assumption, and no empirical bimodal spectra prevent SURVIVES."
+    },
+    {
+      "id": "H6",
+      "title": "Comparative Mpemba Index Across Protein Pairs Identifies a Universal Spectral Aggregation Vulnerability Threshold",
+      "verdict": "WOUNDED",
+      "revised_confidence": 3,
+      "revised_groundedness": 4,
+      "attacks": [
+        {"vector": "Novelty", "finding": "Novel — no Mpemba indices computed from protein MSMs. But proposing threshold M* before a single computation is premature.", "severity": "LOW"},
+        {"vector": "Mechanism", "finding": "Binary classifier for continuous, context-dependent phenomenon. Amyloid propensity depends on concentration, pH, ionic strength, surfaces — not captured by single-molecule MSM.", "severity": "HIGH"},
+        {"vector": "Logic", "finding": "AUROC>0.85 from 12 proteins has enormous CI. Claiming outperformance on 2-3 borderline cases is meaningless. 2/6 controls are actually amyloidogenic.", "severity": "HIGH"},
+        {"vector": "Falsifiability", "finding": "AUROC<0.70 with N=12 has ~17% false-positive rate from random classifier.", "severity": "MEDIUM"},
+        {"vector": "Triviality", "finding": "Concept not trivial; test trivially underpowered.", "severity": "MEDIUM"},
+        {"vector": "Counter-Evidence", "finding": "TANGO/CamSol validated on hundreds of proteins. Comparing with 12 is methodologically unfair.", "severity": "MEDIUM"},
+        {"vector": "Groundedness", "finding": "TANGO/Zyggregator/CamSol citations verified. Hashimoto 2001 wrong journal (Neuron, not Brain Research). Accuracy ~75-80% approximately correct.", "severity": "MEDIUM"},
+        {"vector": "Hallucination-as-Novelty", "finding": "Not hallucinatory. 'Universal threshold' from 6 pairs is overreach.", "severity": "MEDIUM"},
+        {"vector": "Claim-Level Fact Verification", "finding": "FUS classified 'less amyloidogenic': WRONG (forms ALS/FTD aggregates). TTR-WT 'less amyloidogenic': WRONG (ATTRwt in 25% of elderly). 2/6 controls corrupted → 4 clean pairs → meaningless AUROC.", "severity": "HIGH"}
+      ],
+      "survival_note": "Appealing concept (kinetic vs thermodynamic classifier). But 2/6 negative controls are actually positive, statistically underpowered, universal threshold from 6 pairs unjustified."
+    },
+    {
+      "id": "H7",
+      "title": "Temperature-History Dependence of Prion Strain Selection Is Explained by Mpemba Eigenmode Branching",
+      "verdict": "KILLED",
+      "revised_confidence": 2,
+      "revised_groundedness": 3,
+      "attacks": [
+        {"vector": "Novelty", "finding": "Phenomenon (T→different polymorphs) already well-known. Explanation (eigenmode branching) is novel but untestable without PrP MSM.", "severity": "MEDIUM"},
+        {"vector": "Mechanism", "finding": "FATAL: PrP misfolding involves massive alpha→beta transition beyond current MD. No PrP misfolding MSM exists or can be realistically built. Cannot compute eigenmodes.", "severity": "FATAL"},
+        {"vector": "Logic", "finding": "Strain selection depends on cofactors (lipids, RNA), host polymorphisms, species barriers — not just thermal history. Published evidence: competing populations under identical conditions (stochastic trapping, not deterministic eigenmode branching).", "severity": "HIGH"},
+        {"vector": "Falsifiability", "finding": "Computational test infeasible. Experimental test (cooling→polymorphs) already known. No new prediction beyond existing knowledge.", "severity": "FATAL"},
+        {"vector": "Triviality", "finding": "Prediction (different T histories → different polymorphs) already established.", "severity": "MEDIUM"},
+        {"vector": "Counter-Evidence", "finding": "T-dependent PrP polymorphism demonstrated without eigenmode theory. Competing populations under identical conditions suggests stochastic trapping.", "severity": "HIGH"},
+        {"vector": "Groundedness", "finding": "Literature citations verified. But 'PrP MSM with strain-specific eigenmodes' is fabricated — model doesn't exist.", "severity": "FATAL"},
+        {"vector": "Hallucination-as-Novelty", "finding": "Novel because untestable, not because genuinely unexplored. Unfalsifiable novelty.", "severity": "HIGH"},
+        {"vector": "Claim-Level Fact Verification", "finding": "80C: PrP denatures above 65C. Type1/Type2 mapping to cooling protocols: no evidence. Crossover temperature: cannot compute without nonexistent MSM.", "severity": "FATAL"}
+      ],
+      "survival_note": "KILLED. Phenomenon known, explanation untestable, no new predictions, 80C denatures PrP, PrP MSM infeasible."
+    }
+  ],
+  "critic_questions": [
+    {
+      "hypothesis_id": "H1",
+      "question": "Which specific published MSMs provide transition matrices for eigendecomposition for Abeta42, alpha-synuclein, and tau? Rosenman 2013 is REMD ensembles (not MSM), Robustelli 2018 is a force field paper, Eschmann 2015 is EPR/DNP."
+    },
+    {
+      "hypothesis_id": "H1/H2/H4/H6",
+      "question": "How does a single-molecule MSM eigenspectral property predict multi-molecule aggregation dominated by secondary nucleation (Cohen et al. 2012 PNAS)? Is there any theoretical framework bridging monomer conformational dynamics to nucleation lag time?"
+    },
+    {
+      "hypothesis_id": "H3",
+      "question": "How would you construct a non-reversible MSM preserving non-normality? Standard tools enforce detailed balance → symmetry → normality. What physical conditions (e.g., irreversible aggregation sink states) break detailed balance in protein MSMs?"
+    },
+    {
+      "hypothesis_id": "H4",
+      "question": "Kusumoto 1998 shows MONOTONIC Arrhenius kinetics for Abeta fibril elongation (4-40C), NOT non-monotonic nucleation. Provide correct citation for non-monotonic Abeta42 nucleation T-dependence, or reformulate without this assumption."
+    },
+    {
+      "hypothesis_id": "H5",
+      "question": "Are there published MSM eigenvalue spectra for amyloidogenic proteins showing bimodal distributions? Or is this entirely theoretical?"
+    },
+    {
+      "hypothesis_id": "H6",
+      "question": "FUS forms ALS/FTD aggregates; TTR-WT causes ATTRwt amyloidosis in ~25% of elderly. How can these serve as non-amyloidogenic controls? With 2/6 controls corrupted, is AUROC estimation meaningful?"
+    },
+    {
+      "hypothesis_id": "H7",
+      "question": "Is there any realistic path to constructing a PrP misfolding MSM capturing multiple strain basins within 5 years?"
+    }
+  ],
+  "summary": {
+    "survived": 0,
+    "wounded": 5,
+    "killed": 2,
+    "kill_rate": 0.286,
+    "total_web_searches": 18,
+    "citation_errors_found": 5,
+    "mischaracterizations_found": 2,
+    "fabricated_citations": 0,
+    "cross_hypothesis_weakness": "All 7 hypotheses share single-molecule MSM → multi-molecule aggregation gap. Amyloid nucleation is concentration-dependent secondary process (Cohen et al. 2012) beyond MSM scope."
+  }
+}

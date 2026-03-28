@@ -1,0 +1,403 @@
+{
+  "session_id": "2026-03-28-scout-014",
+  "session_number": 18,
+  "analysis_date": "2026-03-28",
+  "analyst_version": "v5.14",
+  "target": "Non-equilibrium statistical mechanics (Mpemba effect spectral theory) x Neurodegenerative protein biochemistry (amyloid aggregation selectivity)",
+  "strategy": "anomaly_hunting",
+  "strategy_is_exploration_slot": true,
+  "disjointness": 0.95,
+  "disjointness_class": "DISJOINT",
+
+  "pipeline_metrics": {
+    "hypotheses_generated": 15,
+    "killed_in_critique": 3,
+    "kill_rate": 0.20,
+    "survived_critique": 12,
+    "entered_qg": 8,
+    "qg_pass": 1,
+    "qg_conditional_pass": 5,
+    "qg_fail": 2,
+    "qg_pass_plus_cond": 6,
+    "qg_pass_plus_cond_rate": 0.75,
+    "qg_mean_composite": 6.97,
+    "evolver_cycle1": "RAN",
+    "evolver_cycle2": "SKIPPED",
+    "evolver_skip_reason": "top-3 composites (8.43, 8.28, 7.81) all >= 6.5 threshold",
+    "session_health": "PARTIAL",
+    "web_search_failures": 12
+  },
+
+  "strategy_performance": {
+    "strategy": "anomaly_hunting",
+    "session_count_primary": 1,
+    "first_primary_session": true,
+    "hypotheses_generated": 15,
+    "qg_pass": 1,
+    "qg_conditional_pass": 5,
+    "qg_fail": 2,
+    "qg_mean_composite": 6.97,
+    "session_health": "PARTIAL",
+    "disjointness_confirmed": true,
+    "cross_field_papers": 0,
+    "notes": "First primary session. DISJOINT at 0.95 confidence. PARTIAL health reflects the single-molecule MSM to multi-molecule amyloid kinetics bridging gap, not a strategy failure. The 1 PASS emerged from an Evolver system pivot (PrP to insulin) — the correct structural correction for a computationally infeasible IDP/prion system.",
+    "comparison_to_prior_strategy_debuts": {
+      "Swanson_ABC_bridging_S009": {"pass": 0, "cond": 3, "fail": 0, "qg_mean": 5.87, "health": "PARTIAL"},
+      "converging_vocabularies_S014": {"pass": 1, "cond": 6, "fail": 0, "qg_mean": 6.81, "health": "SUCCESS"},
+      "anomaly_hunting_S018": {"pass": 1, "cond": 5, "fail": 2, "qg_mean": 6.97, "health": "PARTIAL"}
+    },
+    "debut_rank": "Best strategy debut by QG mean composite (6.97) in pipeline history. Requires second primary session for reliable ranking vs other strategies.",
+    "performance_vs_all_strategies": {
+      "network_gap_analysis": {"sessions": 3, "avg_qg_pass_rate": 0.39, "avg_composite": 6.92},
+      "tool_repurposing": {"sessions": 2, "avg_qg_pass_rate": 0.67, "avg_composite": 7.27},
+      "structural_isomorphism": {"sessions": 1, "avg_qg_pass_rate": 0.50, "avg_composite": 7.28},
+      "converging_vocabularies": {"sessions": 2, "avg_qg_pass_rate": 0.815, "avg_composite": 7.34},
+      "contradiction_mining": {"sessions": 1, "avg_qg_pass_rate": 0.357, "avg_composite": 6.70},
+      "anomaly_hunting": {"sessions": 1, "avg_qg_pass_rate": 0.75, "avg_composite": 6.97, "note": "single session — insufficient for reliable ranking. Provisional: above Swanson_ABC and network_gap_analysis; below converging_vocabularies and tool_repurposing."}
+    }
+  },
+
+  "qg_verdicts": [
+    {
+      "id": "C2-H7",
+      "title": "Cooling-Rate-Dependent Fibril Polymorph Selection in Insulin: Three-Arm Mechanism Discrimination",
+      "verdict": "PASS",
+      "qg_composite": 7.5,
+      "ranker_composite": 8.43,
+      "lineage": "C1-H7 (prion, KILLED in critique) -> Evolver pivot to insulin -> E3-H7xH5 -> C2-H7",
+      "disciplinary_distance": 3.0,
+      "abstraction_level": 2.0,
+      "novelty_type": 3,
+      "key_strength": "Three-arm discriminant design distinguishing eigenmode mechanism from Arrhenius null. Perfect citation integrity (3/3 verified). Near-term wet-lab feasible (ThT + cryo-EM, 2-3 months). T_cross prediction 45-55C is unique falsifiable output.",
+      "key_risk": "Polymorph selection may be dominated by elongation-phase templating, not monomer eigenmode state.",
+      "why_this_one_passed": "Evolver pivot from PrP (computationally infeasible, massive conformational change) to insulin (tractable at pH 2, existing trajectory data, well-characterized fibrillation) was decisive. System replacement > mechanism refinement for this kill class."
+    },
+    {
+      "id": "C2-H4",
+      "title": "Spectral Entropy Production Rate Distinguishes Folding from Misfolding Pathways",
+      "verdict": "CONDITIONAL_PASS",
+      "qg_composite": 7.3,
+      "ranker_composite": 8.28,
+      "lineage": "Fresh cycle 2 hypothesis",
+      "disciplinary_distance": 3.0,
+      "abstraction_level": 3.0,
+      "novelty_type": 4,
+      "novelty_score": 9,
+      "key_strength": "All 4 citations verified, zero errors. Sigma-spike mechanism grounded by Schnakenberg 1976 + Yu 2015 D_misfold/D_fold measurement. Sharp 70%/80% threshold predictions.",
+      "conditions": ["Noise model for sigma-spike vs MSM estimation artifact distinction", "DT-to-CT conversion and lag-time dependence clarification", "Derivation for threshold predictions"]
+    },
+    {
+      "id": "C2-H5",
+      "title": "Refined Hierarchical Spectral Scoring with Yu et al. D_misfold Calibration",
+      "verdict": "CONDITIONAL_PASS",
+      "qg_composite": 7.2,
+      "ranker_composite": 7.81,
+      "lineage": "C1-H5 -> E1-H5 -> E6-H1xH5 -> C2-H5",
+      "groundedness": 8,
+      "key_strength": "Highest groundedness in session (8/10). Most complete causal chain: roughness -> bimodality -> M_eff -> aggregation. Self-refuting prediction range (rho 0.4-0.7) is exemplary calibration.",
+      "conditions": ["Correct Cohen citation to 2013, PNAS 110(24):9758-9763", "Address force spectroscopy to free-diffusion transferability", "Define D_fold for IDPs or restrict to structured proteins"]
+    },
+    {
+      "id": "C2-H2",
+      "title": "Mpemba-Guided Aggregation Inhibitor Design: Small Molecules That Maximize Eigenmode Overlap Disruption",
+      "verdict": "CONDITIONAL_PASS",
+      "qg_composite": 6.8,
+      "ranker_composite": 7.60,
+      "lineage": "Fresh cycle 2 hypothesis",
+      "key_strength": "Best citation accuracy in session (4/4 verified, zero errors). Eigenmode-overlap-guided drug design is a genuinely novel paradigm. TTR/tafamidis retrospective validation well-designed.",
+      "key_risk": "Abeta42 IDP has no stable pockets; eigenmode landscape changes upon ligand binding.",
+      "conditions": ["Pivot primary system from Abeta42 to TTR (structured protein, known binding site)", "Address eigenmode change upon ligand binding", "Replace dissimilar negative controls"]
+    },
+    {
+      "id": "C2-H8",
+      "title": "Chaperone-Modulated Mpemba Index: Hsp70 Binding Selectively Reduces Slow-Eigenmode Overlap",
+      "verdict": "CONDITIONAL_PASS",
+      "qg_composite": 6.5,
+      "ranker_composite": 7.08,
+      "lineage": "Fresh cycle 2 hypothesis",
+      "key_strength": "Conceptually elegant (Hsp70 as biological Mpemba protocol). All 4 citations verified. Age-dependent chaperone decline framing is creative.",
+      "key_risk": "Central assumption (Hsp70 binding sites map to high-|v_slow| microstates) untested. Hsp70 targets oligomers not monomers for Abeta42.",
+      "conditions": ["Redirect from Abeta42 to tau/alpha-synuclein", "Address holo MSM rank-deficiency", "Specify monomer vs oligomer targeting"]
+    },
+    {
+      "id": "C2-H3-evo",
+      "title": "Evolutionary Mpemba Tradeoff: Amyloidogenic Sequences Persist Because High Mpemba Index Enables Rapid Native Folding",
+      "verdict": "CONDITIONAL_PASS",
+      "qg_composite": 5.6,
+      "ranker_composite": 6.15,
+      "lineage": "Fresh cycle 2 hypothesis",
+      "key_strength": "All 3 citations verified. Evolutionary dual-use framing is genuinely novel.",
+      "key_risk": "CRITICAL: IDP folding rate is undefined — excludes half of amyloid-disease-relevant proteins. Contact order confound unaddressed.",
+      "conditions": ["Restrict scope to non-IDP amyloid proteins (TTR, lysozyme, beta-2-microglobulin)", "Add partial correlation controlling for contact order (Plaxco 1998)", "Acknowledge IDP disease exclusion explicitly"]
+    },
+    {
+      "id": "C2-H1-resource",
+      "title": "Resource-Theoretic Mpemba Vulnerability Score: Relative Entropy of A* Ensemble as Unified Aggregation Predictor",
+      "verdict": "FAIL",
+      "qg_composite": 5.4,
+      "ranker_composite": 6.15,
+      "kill_reason": "FABRICATED CITATION: 'Avanzini et al. 2026 PRX 16:011065' — paper exists but authors are Summer, Moroder, Bettmann, Turkeshi, Marvian, Goold. 'Avanzini' is not an author. Per QG rules: fabricated citation = automatic FAIL. Additionally, D_KL spectral formula is wrong (chi-squared divergence, not KL divergence).",
+      "recurrence_pattern": "Same hypothesis lineage had 3 citation errors in cycle 1. Avanzini confabulation persisted from cycle 1 despite explicit Critic flag. Generator-level systematic error not corrected by self-critique.",
+      "concept_merit": "HIGH — resource-theoretic KL divergence as Mpemba monotone is genuinely powerful. Could be rebuilt on correct foundations (Summer et al. 2026, arXiv 2507.16976)."
+    },
+    {
+      "id": "C2-H6",
+      "title": "Mpemba Index from Patient-Derived Tau PTM Variants as Personalized Tauopathy Progression Biomarker",
+      "verdict": "FAIL",
+      "qg_composite": 4.2,
+      "ranker_composite": 4.73,
+      "kill_reason": "TWO independent critical errors: (1) Anatomy error — T217 is at position 217, OUTSIDE the K18 fragment (residues 244-372), making the core mechanistic claim anatomically impossible; (2) Citation misattributed — Cell 180:633 is Arakhamia et al., not Wesseling.",
+      "concept_merit": "LOW in current form — anatomy error invalidates the entire mechanistic chain"
+    }
+  ],
+
+  "creativity_metrics": {
+    "avg_disciplinary_distance": 2.7,
+    "avg_abstraction_level": 2.3,
+    "avg_novelty_type": 3.3,
+    "pipeline_rank": {
+      "disciplinary_distance": "tied-2nd highest (S017 record: 3.0)",
+      "abstraction_level": "tied-highest (with S017 at 2.3)",
+      "novelty_type": "highest in pipeline history (surpasses S017 at 3.0)"
+    },
+    "best_hypothesis_by_novelty": {
+      "id": "C2-H4",
+      "novelty_score": 9,
+      "novelty_type": "new_framework",
+      "bridges": ["non-equilibrium statistical mechanics", "stochastic thermodynamics (Schnakenberg)", "protein MSM biophysics"]
+    },
+    "highest_paradigm_potential": {
+      "id": "C2-H1-resource",
+      "novelty_type": "paradigm_shift",
+      "verdict": "FAIL (citation hallucination)",
+      "note": "Concept is the most ambitious unification in session. Should be rebuilt with correct Summer et al. 2026 citation."
+    },
+    "cross_domain_bonus": {
+      "applied_to_all": true,
+      "rationale": "All 15 hypotheses bridge statistical mechanics/non-equilibrium physics AND protein biochemistry/amyloid disease. Zero cross-field citations confirmed by 6 independent web searches.",
+      "bonus_points": 0.5
+    }
+  },
+
+  "bridge_type_analysis": {
+    "bridge_type_introduced": "Physics anomaly formalism repurposed as protein conformational diagnostic",
+    "definition": "A physics anomaly (Mpemba effect) whose theoretical resolution uses spectral decomposition of a Markov operator is applied to protein folding MSMs, which independently use identical spectral decomposition. The bridge is not analogical — the mathematical objects (transition matrices, eigenmodes, eigenvalue spectra) are literally the same in both fields. Novelty is recognizing that the Mpemba index (overlap integral with slowest eigenmode) has a direct biological interpretation as aggregation propensity.",
+    "bridge_variants_and_performance": [
+      {
+        "variant": "Cooling-rate eigenmode branching -> fibril polymorph selection (insulin)",
+        "hypotheses": ["C2-H7"],
+        "verdict": "PASS (7.5)",
+        "performance": "HIGHEST PERFORMING — decisively improved by Evolver pivot to tractable system"
+      },
+      {
+        "variant": "Schnakenberg entropy production sigma-spike as misfolding classifier",
+        "hypotheses": ["C2-H4"],
+        "verdict": "CONDITIONAL_PASS (7.3)",
+        "performance": "PRODUCTIVE — highest novelty score in session (9/10)"
+      },
+      {
+        "variant": "Zwanzig roughness asymmetry -> bimodal eigenspectrum calibrated by Yu 2015",
+        "hypotheses": ["C2-H5"],
+        "verdict": "CONDITIONAL_PASS (7.2)",
+        "performance": "PRODUCTIVE — highest groundedness (8/10), most complete causal chain"
+      },
+      {
+        "variant": "Eigenmode-overlap-guided small molecule drug design",
+        "hypotheses": ["C2-H2"],
+        "verdict": "CONDITIONAL_PASS (6.8)",
+        "performance": "PRODUCTIVE if pivoted to TTR (structured protein with validated binding site)"
+      },
+      {
+        "variant": "Hsp70 as biological Mpemba protocol",
+        "hypotheses": ["C2-H8"],
+        "verdict": "CONDITIONAL_PASS (6.5)",
+        "performance": "BORDERLINE — creative framing but central assumption untested"
+      },
+      {
+        "variant": "Resource-theoretic KL divergence as Mpemba monotone",
+        "hypotheses": ["C2-H1-resource"],
+        "verdict": "FAIL (5.4)",
+        "performance": "CONCEPT VALID, KILLED BY CITATION HALLUCINATION"
+      },
+      {
+        "variant": "Non-normal Liouvillian dynamics in standard MSMs",
+        "hypotheses": ["H3 cycle 1"],
+        "verdict": "KILLED in critique",
+        "performance": "STRUCTURALLY IMPOSSIBLE — detailed balance enforced by tools eliminates non-normality by construction"
+      },
+      {
+        "variant": "Tau PTM Mpemba index biomarker (T217 + K18)",
+        "hypotheses": ["C2-H6"],
+        "verdict": "FAIL (4.2)",
+        "performance": "ANATOMY ERROR — T217 is outside K18 fragment"
+      }
+    ]
+  },
+
+  "kill_pattern_analysis": {
+    "kills_in_critique": [
+      {
+        "id": "H3_cycle1",
+        "pattern": "Mechanism impossible by mathematical construction",
+        "description": "Standard MSM tools (PyEMMA, MSMBuilder) enforce detailed balance -> symmetrize transition matrix -> normal matrix -> Henrici delta(Q)=0 by construction. Non-normality structurally impossible in reversible MSMs.",
+        "new_pattern": true,
+        "kill_pattern_id": "K14",
+        "prevention": "Before proposing a mathematical property that requires breaking a symmetry, verify the standard tool does NOT impose that symmetry. Rescue: specify non-equilibrium condition breaking detailed balance (Hsp70 ATPase cycling, irreversible aggregation sinks) and use non-symmetrized estimators (dtram, MBAR)."
+      },
+      {
+        "id": "H7_cycle1",
+        "pattern": "System computationally infeasible (PrP MSM)",
+        "description": "PrP C->Sc involves massive alpha->beta conformational change (~50 kDa). Beyond current MD capabilities. Cellular cofactors (lipids, RNA) absent from models. PrP strain selection cannot be reproduced without cofactors.",
+        "new_pattern": false,
+        "kill_pattern_id": "K16_confirmed",
+        "prevention": "Pivot to nearest tractable system sharing the key mechanistic property (fibril polymorphism). Insulin at pH 2, beta-2-microglobulin at pH 2.5 — both have existing trajectory data and tractable MSM construction."
+      }
+    ],
+    "kills_at_qg": [
+      {
+        "id": "C2-H1-resource",
+        "pattern": "Partial citation hallucination — correct venue/year, fabricated first author",
+        "description": "Journal (PRX), year (2026), volume correct; first author 'Avanzini' fabricated. Actual: Summer, Moroder, Bettmann, Turkeshi, Marvian, Goold. Same hypothesis lineage had 3 errors in cycle 1. Avanzini confabulation persisted despite explicit Critic flag.",
+        "new_pattern": true,
+        "kill_pattern_id": "K15",
+        "prevention": "For papers published <6 months, verify first author name via search. Venue and year are recalled reliably; author attribution for recent papers is hallucination-prone. Never cite a 2025-2026 paper without first-author web verification."
+      },
+      {
+        "id": "C2-H6",
+        "pattern": "Factual anatomy error + citation misattribution",
+        "description": "T217 is at position 217, OUTSIDE the K18 fragment (residues 244-372). Core mechanistic claim anatomically impossible. Additionally, Wesseling misattributed to Cell 180:633 (actually Arakhamia et al.).",
+        "new_pattern": false,
+        "kill_class": "factual_error + citation_misattribution",
+        "prevention": "For hypotheses specifying amino acid position interactions with protein fragments, verify that the residue position falls within the fragment range. Trivial coordinate check: does position X fall in range A-B? Required before generation."
+      }
+    ],
+    "shared_session_weakness": "All 15 hypotheses share the single-molecule MSM to multi-molecule aggregation gap. Amyloid nucleation is dominated by concentration-dependent secondary nucleation (Cohen et al. 2013 PNAS 110:9758). This structural weakness caps most hypotheses at CONDITIONAL_PASS. Solution: provide explicit quantitative translation — rate constant upper bound, flux inequality, or direct experimental handle — bridging the monomer eigenmode to population-level kinetics.",
+    "new_kill_patterns_this_session": 2,
+    "new_kill_patterns": ["K14: mechanism impossible by mathematical construction (detailed balance symmetry)", "K15: partial citation hallucination — correct venue/year, fabricated first author"]
+  },
+
+  "generator_pattern_analysis": {
+    "citation_hallucination_tracking": {
+      "cycle_1_errors": 5,
+      "cycle_1_error_types": ["wrong_year (Rosenman 2016 should be 2013)", "wrong_paper_type (Robustelli 2018 is force field not MSM)", "wrong_journal (Eschmann 2015 in J.Phys.Chem.B not J.Chem.Phys)"],
+      "cycle_1_fabrications": 0,
+      "cycle_2_metadata_errors": 5,
+      "cycle_2_misattributed": 3,
+      "cycle_2_fabricated": 1,
+      "cycle_2_unverifiable": 2,
+      "clean_hypotheses_cycle_2": ["C2-H2 (4/4 verified)", "C2-H4 (4/4 verified)", "C2-H8 (4/4 verified)"],
+      "contaminated_hypotheses_cycle_2": ["C2-H1-resource (Avanzini fabricated)", "C2-H5 (2 Cohen metadata errors)", "C2-H6 (Wesseling misattributed + T217 anatomy error)"],
+      "cross_session_pattern": "Citation hallucination error CLASS evolves each session but structural hallucination persists. S004: fabricated paper. S013: wrong journal. S014: opposite conclusion. S017: review substituted for primary. S018: correct venue, fabricated first author. LLMs recall venue and year reliably; author attribution for recent papers is systematically hallucination-prone."
+    },
+    "self_critique_effectiveness": {
+      "cycle_1_kills_caught_by_critique": 2,
+      "cycle_1_kills_total": 2,
+      "catch_rate": 1.0,
+      "cycle_2_kills_at_qg": 2,
+      "kills_caught_pre_qg": 0,
+      "finding": "Critic correctly identified all cycle 1 kills. However, Avanzini confabulation was flagged by Critic but persisted in cycle 2 — Generator did not correct it. Self-critique catches structural flaws but does not reliably correct persistent author confabulations where venue/year are plausible."
+    },
+    "cycle_learning_quality": {
+      "improvements_c1_to_c2": ["Zero kills in critique (vs 2 in cycle 1)", "3 clean-citation hypotheses (C2-H2, C2-H4, C2-H8)", "Evolver pivot from PrP to insulin (decisive)", "Sharper quantitative predictions (T_cross 45-55C, sigma-spike >3x, epsilon 2.8-3.8 kT)"],
+      "failures_c1_to_c2": ["Avanzini confabulation persisted despite Critic flag", "IDP system repeated (Abeta42 in C2-H8, tau-K18 in C2-H6)", "T217 anatomy check not performed (C2-H6)"],
+      "learning_score": "6.5/10 — good at structural corrections, poor at persistent citation confabulations and anatomy checks"
+    }
+  },
+
+  "impact_metrics": {
+    "scout_impact_potential": 7,
+    "impact_type": "paradigm",
+    "impact_breakdown": {
+      "translational_potential": 7,
+      "addressable_scope": 9,
+      "timeline_to_testability": 6
+    },
+    "impact_types_in_passing_hypotheses": ["enabling_technology (C2-H7)", "diagnostic_method (C2-H4)", "enabling_technology (C2-H5)", "therapeutic (C2-H2)", "conceptual_framework (C2-H8, C2-H3-evo)"],
+    "best_near_term": "C2-H7 (insulin fibril polymorph selection, 2-3 months wet lab, ThT + cryo-EM)",
+    "best_computational": "C2-H4 (entropy production sigma-spike, 4-8 months computational only)",
+    "highest_translational_if_conditions_met": "C2-H2 (eigenmode-guided drug design, requires TTR pivot)"
+  },
+
+  "deferred_targets_from_scout": {
+    "earthquake_etas_tumor_recurrence": {
+      "strategy": "structural_isomorphism",
+      "target_evaluator_composite": 7.75,
+      "disjointness": 0.90,
+      "impact_potential": 8,
+      "recommendation": "PROCEED — highest-priority deferred target. structural_isomorphism validated strategy. Testable with existing ctDNA datasets. ETAS self-exciting assumption is main biological risk."
+    },
+    "anesthetic_lipid_raft_bacterial_fmm": {
+      "strategy": "failed_paradigm_recycling",
+      "target_evaluator_composite": 7.0,
+      "target_evaluator_recommendation": "CAUTION",
+      "concerns": "FloT-KinC signal direction may be inverted (FMM disruption inactivates KinC). Cholesterol-dependent GM1 raft mechanism may not transfer to cholesterol-free bacterial membranes.",
+      "recommendation": "DEFER — resolve FloT-KinC directionality question before committing a session."
+    }
+  },
+
+  "recommendations": {
+    "for_future_anomaly_hunting_sessions": [
+      "Require explicit single-to-multi-molecule translation layer as a mandatory generation step. Provide quantitative bound: 'By [single-molecule property X], the rate constant k satisfies k <= C × [MSM spectral quantity]. This bound is tight when [physical condition]; loose when [multi-molecule process dominates].' Without this, all hypotheses cap at CONDITIONAL_PASS.",
+      "Pre-screen protein systems for MSM feasibility before generation: ONLY propose MSM hypotheses for proteins with existing validated trajectory data (insulin pH 2, TTR, beta-2-microglobulin, WW domain, NTL9). Flag Abeta42, tau-K18 monomer, alpha-synuclein monomer as IDP-infeasible.",
+      "Verify amino acid positions explicitly for any hypothesis specifying residue-level interactions within a protein fragment. Trivial check: does position X fall in fragment residues A-B?",
+      "For very recent papers (published <6 months), verify first author via search before citing.",
+      "Select anomaly formalisms that operate at POPULATION scale to avoid the monomer-to-population translation burden. Or pair with biology that also operates at single-molecule level (enzyme kinetics, single-cell gene expression)."
+    ],
+    "new_mandatory_generator_rules": [
+      {
+        "rule_number": 38,
+        "rule": "CITATION VERIFICATION FOR RECENT PAPERS: For any paper published or posted in the past 6 months (2025-2026), verify the first author name via explicit web search before citing. State 'First author: [NAME], verified via search.' Venue and year are recalled reliably; first author attribution for recent papers is systematically hallucination-prone. Do not cite without this verification step."
+      },
+      {
+        "rule_number": 39,
+        "rule": "SYMMETRY CONSTRAINT PRE-CHECK: Before proposing any mathematical property that requires breaking a symmetry constraint, verify that the standard tool does NOT impose that symmetry by construction. Confirmed cases: (1) Standard protein MSMs (PyEMMA, MSMBuilder) enforce detailed balance -> symmetric transition matrix -> normal matrix -> Henrici delta(Q)=0. Non-normality is structurally impossible without non-symmetrized estimators or a genuine non-equilibrium condition. (2) Equilibrium partition functions enforce time-reversal symmetry. If the symmetry is imposed by the tool, either specify the non-equilibrium condition that breaks it (Hsp70 ATPase cycling, irreversible aggregation sink states) or abandon the hypothesis."
+      }
+    ],
+    "for_scout": [
+      "anomaly_hunting needs a second primary session. Provisional ranking: above Swanson_ABC_bridging (5.87) and network_gap_analysis (6.92); below converging_vocabularies (7.34). Use as exploration slot in 2-3 sessions.",
+      "For next anomaly_hunting session: prefer a physics anomaly operating at POPULATION scale (stochastic resonance, noise-enhanced synchronization) OR pair with biology that operates at single-molecule scale (enzyme kinetics). Avoid monomer → population mismatches.",
+      "Top deferred target: ETAS × tumor recurrence (structural_isomorphism, target evaluator composite 7.75, impact 8) — highest-priority next session target.",
+      "Mpemba × amyloid remains viable for a future session. 1 PASS and 5 COND with zero prior literature. Re-enter deferred queue as 'bridge-revision candidate' (requires explicit monomer-to-population translation, restrict to structured proteins)."
+    ],
+    "for_orchestrator": [
+      "Update strategy_sessions_count for anomaly_hunting to 1 (first primary session complete).",
+      "Evolver skip rule working correctly — third consecutive skip after S013 and S017. Adaptive cycle logic functioning.",
+      "anomaly_hunting debut context: PARTIAL health (0 full PASS from 8 entering QG in cross-cycle combined assessment). This is the same health profile as Swanson_ABC debut (S009) and is expected for first exploration slot sessions.",
+      "The monomer-to-population bridging gap is a structural constraint of this target class, not a pipeline failure. If re-running Mpemba × amyloid in a future session, pre-load the Generator with the explicit single-to-multi-molecule translation requirement."
+    ]
+  },
+
+  "new_knowledge_for_meta_insights_md": {
+    "strategy_update": "anomaly_hunting: 1 primary session, 1 PASS + 5 COND, QG mean 6.97, PARTIAL health. Best strategy debut by composite in pipeline history. Core risk: anomaly physics formalisms often operate at single-molecule level while biology operates at population level — explicit quantitative translation layer required.",
+    "new_heuristic": "anomaly_hunting: select physics anomalies that operate at POPULATION scale, or pair with biology at single-molecule scale. The monomer-to-population bridging gap is the dominant CONDITIONAL cap for this strategy when anomaly physics is molecular.",
+    "new_kill_patterns": [
+      "K14: Mechanism impossible by mathematical construction — detailed balance enforcement in standard protein MSMs makes non-normality (Henrici delta(Q)) identically zero by construction. Pre-generation check: does the standard tool impose the symmetry you need to break?",
+      "K15: Partial citation hallucination — correct venue/year, fabricated first author. New sub-type of citation hallucination confirmed. LLMs recall venue and year reliably; author attribution for recent papers (<6 months) is not reliable. Rule: verify first author via search for all 2025-2026 citations."
+    ],
+    "new_bridge_type": {
+      "name": "Physics anomaly formalism as protein conformational diagnostic",
+      "performance": "1 PASS (7.5), 5 COND (5.6-7.3) from 8 evaluated. Mean 6.97. Best bridge variant: cooling-rate eigenmode branching -> fibril polymorph selection in tractable system (insulin). Worst: IDP systems (Abeta42, tau-K18) where MSM is infeasible.",
+      "guideline": "Restrict to structured proteins with existing MD trajectory data. Require explicit monomer-to-population translation step. Three-arm discriminant experimental design distinguishing eigenmode mechanism from simpler null (Arrhenius kinetics) is the highest-leverage QG improvement for this bridge type."
+    },
+    "persistent_generator_error_confirmed": "Citation hallucination persists across sessions but the error class evolves (S004: fabricated paper; S013: wrong journal; S014: wrong conclusion; S017: review for primary; S018: correct venue, fabricated first author). The structural problem is that parametric recall of author attribution for recent papers is unreliable. This cannot be resolved by SELF-CRITIQUE alone — mandatory web search verification for recent citations is required."
+  },
+
+  "metadata": {
+    "pipeline_sessions_analyzed": 18,
+    "total_hypotheses_in_history": 252,
+    "total_qg_passing_in_history": 92,
+    "analysis_inputs": [
+      "state/session.json",
+      "results/2026-03-28-scout-014/scout.json",
+      "results/2026-03-28-scout-014/target-evaluation.json",
+      "results/2026-03-28-scout-014/quality-gate.json",
+      "results/2026-03-28-scout-014/final.json",
+      "results/2026-03-28-scout-014/cycle1-ranked.json",
+      "results/2026-03-28-scout-014/cycle2-ranked.json",
+      "results/2026-03-28-scout-014/cycle1-critiqued.json",
+      "results/2026-03-28-scout-014/cycle2-critiqued.json",
+      "knowledge/discovery-log.json",
+      "knowledge/meta-insights.md"
+    ]
+  }
+}

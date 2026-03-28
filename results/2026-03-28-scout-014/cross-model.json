@@ -1,0 +1,68 @@
+{
+  "cross_model_validation": {
+    "status": "complete",
+    "note": "Both validations complete. GPT used gpt-5.4 (not pro) with web_search_preview, 3 parallel calls.",
+    "gpt_model": "gpt-5.4",
+    "gemini_model": "gemini-3.1-pro-preview",
+    "models_used": ["gemini", "openai"],
+    "models_pending": [],
+    "gpt_tools": ["web_search_preview", "code_interpreter"],
+    "gemini_tools": ["codeExecution", "googleSearch"],
+    "consensus": {
+      "C2-H3": {
+        "title": "Cooling-Rate-Dependent Fibril Polymorph Selection via Eigenmode Branching",
+        "qg_score": 7.1,
+        "gemini_confidence": 10,
+        "gemini_depth": "Formal isomorphism",
+        "gemini_novelty": null,
+        "gpt_confidence": 5,
+        "gpt_novelty": "NOVEL",
+        "agreement": "partial_agreement",
+        "combined_recommendation": "HIGH PRIORITY — both models confirm novelty. Gemini: formal isomorphism (10/10). GPT: novel but T_cross needs >=3-state model (5/10). Main risk: known polymorph determinants (pH, agitation, seeding) may dominate over cooling rate.",
+        "gemini_key_finding": "Time-dependent Markov chain cooling is the exact mathematical object of the classical adiabatic theorem — no analogy required. Novel Zero-Mode Quench protocol predicted.",
+        "gemini_novel_prediction": "Zero-Mode Quench Protocol: prepare protein at T_hot where c2(T_hot)=0, then instantaneous quench bypasses dominant aggregation kinetic trap",
+        "gpt_key_finding": "Novel confirmed. Counter-evidence: insulin already shows multiple polymorphs at fixed 65C; known determinants are pH/agitation/concentration/seeding, not cooling rate. T_cross logic needs >=3 effective states — two-state Boltzmann cannot support c2=c3 crossing.",
+        "gpt_counter_evidence_strength": "MODERATE"
+      },
+      "C2-H2": {
+        "title": "Measured D_misfold/D_fold Ratio of PrP Predicts Bimodal Eigenvalue Spectrum",
+        "qg_score": 7.3,
+        "gemini_confidence": 8,
+        "gemini_depth": "Structural correspondence",
+        "gemini_novelty": null,
+        "gpt_confidence": 4,
+        "gpt_novelty": "NOVEL",
+        "agreement": "agreement",
+        "combined_recommendation": "PROMISING — both models confirm novelty and arithmetic (epsilon=2.628 kT). GPT downgrades confidence more (4/10) due to no prior support for force-derived roughness → bimodal MSM eigenvalue spectra bridge. Non-amyloidogenic proteins also show rugged landscapes.",
+        "gemini_key_finding": "Zwanzig formula yields epsilon/kT = 2.628 (not 2.8-3.8 kT). Bimodal BC = 0.848 confirmed via FP simulation. Mapping is structural analogy, not formal identity (1D vs high-dimensional topology).",
+        "gemini_arithmetic_correction": "sqrt(ln(1000)) = 2.628 kT; hypothesis overstates range by ~0.17 kT at lower bound",
+        "gpt_key_finding": "Arithmetic confirmed (2.628 kT). No prior support for force-spectroscopy D ratio → bimodal MSM eigenspectra. Non-amyloidogenic proteins also show rugged landscapes with slow modes. Lag-time formula does not match modern amyloid kinetics literature.",
+        "gpt_counter_evidence_strength": "MODERATE to STRONG"
+      },
+      "C2-H1": {
+        "title": "A* State Population Is the Protein Mpemba Overlap Coefficient",
+        "qg_score": 6.4,
+        "gemini_confidence": 9,
+        "gemini_depth": "Metaphorical similarity",
+        "gemini_novelty": null,
+        "gpt_confidence": 4,
+        "gpt_novelty": "PARTIALLY_EXPLORED",
+        "agreement": "agreement",
+        "combined_recommendation": "NEEDS WORK — both models independently confirm Avanzini citation is fabricated. Both agree P_A* != c2 mathematically. GPT: KL divergence explicitly shown NOT to be a universal Mpemba monotone (Hayakawa). Reframe from identity to correlation.",
+        "gemini_key_finding": "Avanzini 2026 PRX 16:011065 independently confirmed as hallucination. P_A* (positive probability mass) != c2 (inner product, can be negative). D_KL = dF/kT verified but is a general Lyapunov function, not Mpemba-specific.",
+        "gemini_citation_verdict": "FABRICATED — Avanzini 2026 PRX does not exist",
+        "gpt_key_finding": "Avanzini citation independently confirmed unverifiable. Found 2025 arXiv preprint by Summer et al. (different authors). KL divergence not universal Mpemba monotone (Hayakawa slides). Aggregation kinetics shaped by nucleation mechanisms beyond monomer excited-state occupancy.",
+        "gpt_counter_evidence_strength": "MODERATE"
+      }
+    },
+    "gemini_cross_hypothesis_finding": "C2-H2 and C2-H3 form a compatible mathematical framework (rough FP landscape -> bimodal MSM eigenspectrum -> adiabatic eigenmode branching). C2-H1 is incoherent with this framework: c2 in a rugged landscape is a collective coordinate spanning all microstates, contradicting H1's claim that c2 is localized to the A* population.",
+    "files": {
+      "gpt_validation": "results/2026-03-28-scout-014/validation-gpt.md",
+      "gemini_validation": "results/2026-03-28-scout-014/validation-gemini.md",
+      "consensus": "results/2026-03-28-scout-014/cross-model-consensus.md",
+      "export_gpt": "results/2026-03-28-scout-014/export-gpt.md",
+      "export_gemini": "results/2026-03-28-scout-014/export-gemini.md"
+    },
+    "completed_at": "2026-03-28"
+  }
+}

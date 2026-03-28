@@ -1,0 +1,152 @@
+{
+  "session": "2026-03-28-scout-014",
+  "cycle": 2,
+  "phase": "quality_gate",
+  "evaluated_at": "2026-03-28",
+  "hypotheses_evaluated": 3,
+  "web_searches_performed": 19,
+  "citations_audited": 11,
+  "citations_verified": 7,
+  "citations_with_errors": 4,
+  "citation_hallucinations": 1,
+  "results": [
+    {
+      "id": "C2-H2",
+      "title": "Measured D_misfold/D_fold Ratio of PrP Predicts Bimodal Eigenvalue Spectrum via Zwanzig-Kramers Bridge",
+      "ranked_score": 7.65,
+      "adjusted_score": 7.2,
+      "verdict": "CONDITIONAL_PASS",
+      "rubric": {
+        "abc_structure": true,
+        "mechanism_specificity": true,
+        "falsifiable_prediction": true,
+        "counter_evidence": true,
+        "test_protocol": true,
+        "confidence_calibration": true,
+        "novelty_web_verified": true,
+        "groundedness": "CONDITIONAL",
+        "language_precision": true,
+        "per_claim_verification": "CONDITIONAL"
+      },
+      "citation_audit": {
+        "total_grounded": 4,
+        "verified": 2,
+        "errors": 2,
+        "hallucinated": 0,
+        "details": [
+          {"citation": "Yu et al. 2015, PNAS 112:8308", "status": "VERIFIED"},
+          {"citation": "Cohen et al. 2012, PNAS 109:9761", "status": "WRONG_DETAILS", "actual": "Cohen et al. 2013, PNAS 110:9758-9763", "note": "Wrong year, volume, and pages; paper exists and content correctly described"},
+          {"citation": "Fernandez-Escamilla et al. 2004, Nat Biotechnol 22:1302", "status": "VERIFIED"},
+          {"citation": "Cohen et al. 2013, PNAS 110:9882", "status": "WRONG_PAGES", "actual": "PNAS 110:9758-9763", "note": "Same paper as above, cited twice with different wrong details"}
+        ]
+      },
+      "conditions": [
+        "Correct Cohen citation to PNAS 110:9758-9763 (2013)",
+        "Acknowledge D_fold not well-defined for IDPs",
+        "Clarify the two Cohen citations refer to the same paper"
+      ],
+      "impact_annotation": {
+        "application_pathway": "enabling_technology",
+        "nearest_applied_domain": "computational biophysics / drug discovery screening",
+        "validation_horizon": "medium-term"
+      }
+    },
+    {
+      "id": "C2-H1",
+      "title": "A* State Population Is the Protein Mpemba Overlap Coefficient — A Quantitative Unification",
+      "ranked_score": 7.20,
+      "adjusted_score": 5.5,
+      "verdict": "FAIL",
+      "fail_reason": "CITATION HALLUCINATION: 'Avanzini et al. 2026, PRX 16:011065' — paper exists as Summer, Moroder, Bettmann, Turkeshi, Marvian, Goold (2026) PRX 16:011065. Author attribution fabricated. Combined with Chakraborty page number error (16817 vs actual 19926-19937), 2 of 4 GROUNDED citations have fabricated details.",
+      "rubric": {
+        "abc_structure": true,
+        "mechanism_specificity": true,
+        "falsifiable_prediction": true,
+        "counter_evidence": true,
+        "test_protocol": true,
+        "confidence_calibration": true,
+        "novelty_web_verified": true,
+        "groundedness": "FAIL",
+        "language_precision": true,
+        "per_claim_verification": "FAIL"
+      },
+      "citation_audit": {
+        "total_grounded": 4,
+        "verified": 2,
+        "errors": 1,
+        "hallucinated": 1,
+        "details": [
+          {"citation": "Avanzini et al. 2026, PRX 16:011065", "status": "AUTHOR_HALLUCINATION", "actual_authors": "Summer, Moroder, Bettmann, Turkeshi, Marvian, Goold", "note": "Paper exists at PRX 16:011065 but is NOT by Avanzini. Content correctly described."},
+          {"citation": "Chakraborty et al. 2020, PNAS 117:16817", "status": "WRONG_PAGES", "actual": "PNAS 117:19926-19937", "note": "Paper exists, content correct, pages fabricated"},
+          {"citation": "Klich et al. 2019, PRX 9:021060", "status": "VERIFIED"},
+          {"citation": "Lu & Raz 2017, PNAS 114:5083", "status": "VERIFIED"}
+        ]
+      },
+      "recovery_note": "Scientific connection is genuinely novel and interesting. A corrected version citing Summer et al. 2026 PRX 16:011065 and Chakraborty 2020 PNAS 117:19926 could potentially achieve CONDITIONAL_PASS."
+    },
+    {
+      "id": "C2-H3",
+      "title": "Cooling-Rate-Dependent Fibril Polymorph Selection in Abeta42 via Eigenmode Branching",
+      "ranked_score": 6.90,
+      "adjusted_score": 6.5,
+      "verdict": "CONDITIONAL_PASS",
+      "rubric": {
+        "abc_structure": true,
+        "mechanism_specificity": "CONDITIONAL",
+        "falsifiable_prediction": true,
+        "counter_evidence": true,
+        "test_protocol": true,
+        "confidence_calibration": true,
+        "novelty_web_verified": true,
+        "groundedness": "CONDITIONAL",
+        "language_precision": true,
+        "per_claim_verification": true
+      },
+      "citation_audit": {
+        "total_grounded": 3,
+        "verified": 3,
+        "errors": 0,
+        "hallucinated": 0,
+        "details": [
+          {"citation": "Gremer et al. 2017, Science 358:116", "status": "VERIFIED"},
+          {"citation": "Jia et al. 2020, PNAS 117:10322", "status": "VERIFIED"},
+          {"citation": "Klich et al. 2019, PRX 9:021060", "status": "VERIFIED"}
+        ]
+      },
+      "conditions": [
+        "Explicitly acknowledge no published evidence supports eigenmode-to-polymorph mapping",
+        "Reposition monomer-to-polymorph bridge as primary testable prediction not assumed mechanism",
+        "Address Critic Q4 by citing limited seeded aggregation conformational compatibility evidence"
+      ],
+      "impact_annotation": {
+        "application_pathway": "measurement_method",
+        "nearest_applied_domain": "structural biology / amyloid disease research",
+        "validation_horizon": "medium-term"
+      }
+    }
+  ],
+  "summary": {
+    "pass": 0,
+    "conditional_pass": 2,
+    "fail": 1,
+    "session_total_qg_survivors": 6,
+    "session_total_qg_pass": 0,
+    "session_total_qg_conditional_pass": 6,
+    "recommended_for_experimental_validation": "C2-H2",
+    "strongest_novel_connection": "C2-H1 (FAILED on citation quality but scientific connection most intellectually ambitious)",
+    "cleanest_citations": "C2-H3 (all 3 GROUNDED claims verified, zero errors)",
+    "recurring_issues": [
+      "Cohen secondary nucleation paper cited with wrong details across multiple hypotheses (cycle 1 and cycle 2)",
+      "Author attribution hallucination (Avanzini for Summer et al.) indicates parametric generation risk",
+      "Monomer-MSM-to-aggregation gap persists as fundamental shared weakness",
+      "No published evidence for Fiedler vector separation of native vs aggregation-prone MSM basins"
+    ]
+  },
+  "critic_questions_addressed": {
+    "Q1_psi2_separation": "NO published evidence found. Remains the single most important unverified assumption.",
+    "Q2_monomer_aggregation_gap": "Partially addressed by C2-H2 (Cohen k_n framework) but not resolved.",
+    "Q3_D_ratio_for_IDPs": "D_fold undefined for IDPs. Acknowledged in C2-H2 counter-evidence but insufficiently prominent.",
+    "Q4_monomer_polymorph_identity": "No direct evidence. Seeded aggregation shows conformational compatibility; de novo nucleation undemonstrated.",
+    "Q5_open_system_resource_theory": "Not addressed by any surviving hypothesis."
+  }
+}
