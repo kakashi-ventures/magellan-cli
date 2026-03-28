@@ -637,7 +637,7 @@ Final hypotheses are in {results_dir}/final.json (not in session.json).
 **You MUST run this command** after writing ingest.json. Do NOT skip it:
 
 ```bash
-cd /home/ameft/kva/magellan && node scripts/upload-session.mjs {results_dir}
+node scripts/upload-session.mjs {results_dir}
 ```
 
 The script checks for a contributor key in `.magellan/config.json`, constructs

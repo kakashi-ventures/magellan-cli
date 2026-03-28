@@ -2,4 +2,20 @@ node_modules/
 .env
 .env.local
 .magellan/
-state/session.json.backup
+.claude/settings.local.json
+
+# Session results (each user publishes their own via API)
+results/*
+!results/.gitkeep
+
+# Session state (ephemeral, per-session)
+state/*
+!state/.gitkeep
+
+# Knowledge (accumulated per-user meta-learning)
+knowledge/*
+!knowledge/.gitkeep
+
+# Validation results (user-specific evaluation outputs)
+validation/results/*
+!validation/results/.gitkeep

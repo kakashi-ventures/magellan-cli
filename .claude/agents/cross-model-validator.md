@@ -102,7 +102,7 @@ If BOTH keys are unset:
 ### Step 4: Install Dependencies and Run Validation
 
 ```bash
-cd /home/ameft/kva/magellan && npm install --silent 2>&1 | tail -1
+npm install --silent 2>&1 | tail -1
 ```
 
 Then run the validation script with `--env-file` to load API keys from `.env.local`.
@@ -115,7 +115,7 @@ any timeout cap, then poll for the output file to appear:
 
 ```bash
 # MUST use run_in_background: true — NO timeout cap
-cd /home/ameft/kva/magellan && node --env-file=.env.local scripts/validate-crossmodel.mjs \
+node --env-file=.env.local scripts/validate-crossmodel.mjs \
   --gpt-prompt "{results_dir}/export-gpt.md" \
   --gpt-out "{results_dir}/validation-gpt.md" \
   --gemini-prompt "{results_dir}/export-gemini.md" \

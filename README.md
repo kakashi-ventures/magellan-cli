@@ -18,7 +18,9 @@ sacrificing novelty or rigor.
 
 1. **[Claude Code](https://claude.com/product/claude-code)** — Anthropic's terminal-based AI tool. NOT the web chat or desktop app — the CLI version. Requires a Claude subscription (Pro minimum, Max/Team recommended for Opus access). [Install docs →](https://code.claude.com/docs/it/overview)
 
-2. **API keys for cross-model validation** _(optional)_ — For GPT-5.4 Pro and Gemini 3.1 Pro independent review. Create a `.env.local` file in the project root:
+2. **[Node.js](https://nodejs.org/) 20+** — Required for cross-model validation scripts and website upload. Run `npm install` after cloning to install dependencies.
+
+3. **API keys for cross-model validation** _(optional)_ — For GPT-5.4 Pro and Gemini 3.1 Pro independent review. Create a `.env.local` file in the project root:
    ```
    OPENAI_API_KEY=sk-...
    GEMINI_API_KEY=AI...
@@ -31,6 +33,7 @@ sacrificing novelty or rigor.
 ```bash
 git clone https://github.com/kakashi-ventures/magellan-cli.git
 cd magellan-cli
+npm install
 claude --enable-auto-mode
 ```
 
