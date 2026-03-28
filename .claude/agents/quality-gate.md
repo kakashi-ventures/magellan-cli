@@ -95,8 +95,17 @@ property is an automatic FAIL.
    - A hypothesis with a fabricated bridge component is FAIL regardless
      of other scores — a mechanism built on a false foundation is worthless
 
-4. **Output format**: Write to results/quality-gate.md. Each hypothesis
-   gets a per-check table with PASS/FAIL/evidence, then a final VERDICT
+4. **Output format**: Write TWO files:
+   a. `{results_dir}/quality-gate.md` — Each hypothesis gets a per-check
+      table with PASS/FAIL/evidence, then a final VERDICT
+   b. `{results_dir}/quality-gate.json` — Structured data with per-hypothesis
+      verdicts, dimension_scores, rubric_checks, composite scores, citation
+      audit summary, novelty assessment. Include a `summary` object:
+      `{ "total", "passed", "conditional_pass", "failed", "pass_ids",
+        "conditional_pass_ids", "fail_ids", "session_status" }`.
+      Session status: SUCCESS (≥2 PASS with Groundedness ≥5),
+      PARTIAL (1 PASS or all Groundedness <5), DEGRADED (0 PASS),
+      FAILED (pipeline error).
 
 5. **Update state**: Update state/session.json with quality_gate verdicts
    per hypothesis and health.passed_quality_gate count

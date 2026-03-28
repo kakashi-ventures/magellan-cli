@@ -81,6 +81,11 @@ State is split into a **slim coordination index** and **per-session results dire
 (both markdown and JSON) lives in `results/{session-id}/`.
 Agents receive data via dispatch prompts, never read state files directly.
 
+**Data flow for final.json (v5.15)**: Quality-gate agent writes `quality-gate.json`
+(authoritative verdicts + `summary.session_status`). Orchestrator CREATES `final.json`
+by reading `quality-gate.json` from disk — never from conversational memory.
+Context compression corrupts numerical values in long sessions.
+
 ### Orchestrator Support Files
 The orchestrator delegates operational code and reference schemas to external files
 (read on-demand to minimize startup context):

@@ -5,6 +5,27 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.15 — Fix Orchestrator final.json Reliability (28 marzo 2026)
+
+**Motivazione**: Sessione 015 ha rivelato che l'orchestrator riportava status e verdetti sbagliati. Il quality-gate.json conteneva 2 PASS + 4 CONDITIONAL_PASS correttamente, ma il final.json (e di conseguenza il session summary e lo status) diceva "4 CONDITIONAL_PASS, no full PASS".
+
+**Root cause**: `final.json` non era scritto da nessun agente esplicitamente. L'orchestrator lo ricostruiva dalla propria memoria di contesto (spesso compressa dopo ore di sessione), producendo dati corrotti: verdetti downgraded, compositi sbagliati, ipotesi mancanti.
+
+**Fix architetturale** (Opzione B — orchestrator crea da file):
+1. L'orchestrator ora CREA `final.json` leggendo `quality-gate.json` da disco (non da memoria)
+2. Il quality-gate agent ora scrive esplicitamente `quality-gate.json` con schema definito incluso `summary.session_status`
+3. L'orchestrator determina SESSION HEALTH da `quality-gate.json` su disco, non dalla propria memoria
+4. Aggiunto step di VERIFICATION post-enrichment: controlla che verdetti e compositi in final.json matchino quality-gate.json
+5. Warning espliciti nel prompt: "Context compression corrupts numerical values. Always read the JSON file."
+
+**File modificati**:
+- `discovery-orchestrator.md`: sezioni QUALITY GATE, SESSION HEALTH, Enrich final.json
+- `quality-gate.md`: constraint 4 (output format) — ora include quality-gate.json con schema esplicito
+
+**Evidence**: Session 015 final.json aveva 4 ipotesi (dovevano essere 6), tutte CONDITIONAL_PASS (dovevano essere 2 PASS + 4 CP), compositi sbagliati (7.6/7.5/7.0/6.7 vs reali 7.85/7.80/6.75/6.25/6.25/6.05).
+
+---
+
 ## v5.14 — Impact-Aware Prioritization (26 marzo 2026)
 
 **Motivazione**: MAGELLAN ottimizza per novità e rigore, ma l'impatto reale (traslazionale, sociale, economico) pesa solo 10% nel Ranker e è completamente assente dalla selezione target, dal Quality Gate, e dal meta-learning. Con risorse limitate, la pipeline dovrebbe preferire direzioni che producono scoperte ad alto impatto, non solo nuove.

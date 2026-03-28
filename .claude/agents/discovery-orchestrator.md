@@ -432,7 +432,21 @@ Update progress: `current_phase = "quality_gate"`.
 - Field A: [field_a], Field C: [field_c]
 - Results dir: `{results_dir}`
 
-After agent returns, read `{results_dir}/final.json`.
+After agent returns, **CREATE `{results_dir}/final.json`** from `{results_dir}/quality-gate.json`.
+Do NOT reconstruct from memory — you MUST read the file:
+
+```
+1. Read {results_dir}/quality-gate.json (the file, not your memory of what QG reported)
+2. Extract all hypotheses with verdict PASS or CONDITIONAL_PASS
+3. For each, read the evolution_parent_map from state/session.json to get parent IDs
+4. Write {results_dir}/final.json with this structure:
+   [{ "id": "E1", "parent": "H1", "title": "...", "verdict": "PASS", "composite": 7.85 }, ...]
+   Sort by composite descending. Verdicts and composites MUST match quality-gate.json exactly.
+```
+
+**CRITICAL**: Never write final.json from your conversational memory of what the QG agent
+reported. Context compression corrupts numerical values. Always read the JSON file.
+
 Update progress with timestamp from `date -u` command.
 
 ## POST-QUALITY-GATE: SESSION ANALYST
@@ -544,17 +558,21 @@ Report BOTH kill_rate and attrition_rate in session summary and state metadata.
 
 ## SESSION HEALTH (determine FIRST, write FIRST in session-summary.md)
 
-Classify session based on pipeline outcome:
-- **SUCCESS**: ≥2 hypotheses passed Quality Gate with Groundedness ≥5
-- **PARTIAL**: 1 hypothesis passed, or all have low Groundedness (<5)
-- **DEGRADED**: Pipeline completed, 0 passed Quality Gate
+**Read `{results_dir}/quality-gate.json` from disk** to determine session health.
+Use the `summary.session_status` field if present, otherwise classify manually:
+- **SUCCESS**: ≥2 hypotheses PASS with Groundedness ≥5
+- **PARTIAL**: 1 hypothesis PASS, or all have low Groundedness (<5)
+- **DEGRADED**: Pipeline completed, 0 PASS
 - **FAILED**: Pipeline could not complete (0 targets, all killed, agent failure)
+
+**CRITICAL**: Count PASS verdicts from `quality-gate.json`, NOT from your memory
+of what the quality-gate agent reported. Context compression corrupts counts.
 
 Update state/session.json:
 ```json
 {
   "status": "success|partial|degraded|failed",
-  "status_reason": "one sentence explanation"
+  "status_reason": "one sentence with exact counts: N PASS + M CONDITIONAL_PASS"
 }
 ```
 
@@ -567,11 +585,19 @@ Write {results_dir}/session-summary.md and {results_dir}/final-hypotheses.md.
 
 ### Enrich final.json with rubric details
 
-After writing session summary, read `{results_dir}/quality-gate.json` and `{results_dir}/final.json`.
+After writing session summary, re-read `{results_dir}/quality-gate.json` and `{results_dir}/final.json`
+**from disk** (not from memory — files may have been written hours ago and your context may be stale).
 For each hypothesis in `final.json`, merge the `rubric_details` (or `rubric`) object from the
 matching entry in `quality-gate.json` (match by `id` field — check `verdicts`, `results`, or `hypotheses` arrays).
 Also merge `claims_verified`, `claims_failed`, `claims_unverifiable`, `claims_parametric`, `key_strength`, `key_risk` if present.
 Write the enriched `final.json` back. This ensures downstream consumers get full rubric data without cross-referencing files.
+
+**VERIFICATION**: After writing enriched final.json, read it back and verify:
+- Number of hypotheses matches quality-gate.json passing count
+- Each verdict matches quality-gate.json exactly
+- Each composite matches quality-gate.json exactly
+If any mismatch, re-read quality-gate.json and rewrite final.json from scratch.
+
 If quality-gate.json is missing or has a different format, skip enrichment silently.
 
 ### Write Ingest Manifest

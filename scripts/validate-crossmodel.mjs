@@ -72,6 +72,25 @@ async function callOpenAI(promptFile, outputFile) {
   let codeRuns = 0;
   let codeOutputs = [];
 
+  // Helper: write partial output on error so 48 min of GPT work isn't lost
+  const writePartial = (error) => {
+    if (!text && !reasoningSummary) return; // nothing to save
+    let partial = `> **PARTIAL OUTPUT** — GPT-5.4 Pro crashed after ${Math.round((Date.now() - start) / 1000)}s\n`;
+    partial += `> Error: ${error}\n`;
+    partial += `> Web searches: ${searchCount}, Code executions: ${codeRuns}\n\n---\n\n`;
+    if (reasoningSummary) partial += `## GPT-5.4 Pro Reasoning Summary\n\n${reasoningSummary}\n\n---\n\n`;
+    if (text) partial += text;
+    if (codeOutputs.length > 0) {
+      partial += '\n\n---\n\n## Code Execution Outputs (partial)\n\n';
+      for (let i = 0; i < codeOutputs.length; i++) {
+        partial += `### Execution ${i + 1}\n\`\`\`\n${codeOutputs[i]}\n\`\`\`\n\n`;
+      }
+    }
+    writeFileSync(outputFile, partial);
+    process.stderr.write(`[OpenAI] Partial output saved to ${outputFile} (${partial.length} chars)\n`);
+  };
+
+  try {
   for await (const event of stream) {
     // Track reasoning phase
     if (event.type === 'response.reasoning_summary_part.added') {
@@ -145,6 +164,19 @@ async function callOpenAI(promptFile, outputFile) {
         }
       }
     }
+  }
+  } catch (streamError) {
+    process.stderr.write(`[OpenAI] Error: ${streamError.message}\n`);
+    writePartial(streamError.message);
+    return {
+      status: 'partial',
+      model: 'gpt-5.4-pro',
+      duration_s: Math.round((Date.now() - start) / 1000),
+      error: streamError.message,
+      web_searches: searchCount,
+      code_executions: codeRuns,
+      partial_output_saved: true,
+    };
   }
 
   const duration = Math.round((Date.now() - start) / 1000);

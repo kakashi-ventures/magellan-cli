@@ -567,6 +567,8 @@ Ogni sessione termina con uno status esplicito:
 
 Lo status è la prima riga del `session-summary.md`. Per sessioni FAILED: nessuna hypothesis card, solo causa e azione suggerita.
 
+**Data flow per final.json (v5.15)**: Il quality-gate agent scrive `quality-gate.json` con verdetti, compositi e `summary.session_status`. L'orchestratore poi CREA `final.json` leggendo `quality-gate.json` da disco — mai dalla propria memoria di contesto. Questo previene corruzione da context compression in sessioni lunghe (bug scoperto in S015: orchestratore riportava 4 CONDITIONAL_PASS quando il QG aveva 2 PASS + 4 CONDITIONAL_PASS). Post-enrichment, l'orchestratore verifica che verdetti e compositi in final.json matchino quality-gate.json.
+
 ---
 
 ## Principi di Prompt Engineering
