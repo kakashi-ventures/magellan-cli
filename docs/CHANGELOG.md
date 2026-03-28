@@ -5,6 +5,20 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.16 — CLI-Only Publishing (28 marzo 2026)
+
+**Motivazione**: Un contributor esterno ha lanciato `/discover` e a fine sessione l'orchestrator ha suggerito `cd ../magellan-web && npm run sync` per pubblicare i risultati. Quel workflow richiede accesso al repo `magellan-web`, disponibile solo al maintainer del progetto.
+
+**Root cause**: CLAUDE.md conteneva una sezione "Publishing results to the website" con il workflow `npm run sync`. Siccome CLAUDE.md è caricato come contesto di progetto per tutti gli agenti, l'orchestrator lo raccoglieva e lo suggeriva agli utenti.
+
+**Fix**: Rimossa la sezione sync da CLAUDE.md, sostituita con una nota sull'upload automatico via API (`scripts/upload-session.mjs`, già mandatory dal v5.7). Aggiunta sezione "Publishing Status" in `session-summary-format.md` con messaggi espliciti per upload riuscito/fallito/senza key. Il workflow sync resta documentato nel repo `magellan-web` per uso del maintainer.
+
+**File modificati**:
+- `CLAUDE.md`: sezione "Publishing results" — rimosso sync, aggiunto upload API
+- `prompts/session-summary-format.md`: aggiunta sezione "Publishing Status"
+
+---
+
 ## v5.15 — Fix Orchestrator final.json Reliability (28 marzo 2026)
 
 **Motivazione**: Sessione 015 ha rivelato che l'orchestrator riportava status e verdetti sbagliati. Il quality-gate.json conteneva 2 PASS + 4 CONDITIONAL_PASS correttamente, ma il final.json (e di conseguenza il session summary e lo status) diceva "4 CONDITIONAL_PASS, no full PASS".

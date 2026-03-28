@@ -27,17 +27,11 @@ You come back to find hypothesis cards in `results/{session-id}/`.
 claude --enable-auto-mode
 ```
 
-### Publishing results to the website
-After a session completes, publish to the MAGELLAN website (`../magellan-web/`):
-```bash
-cd ../magellan-web
-npm run sync                               # Auto-discovers new sessions, ingests, generates summaries
-git add . && git commit && git push        # Auto-deploys to Vercel
-```
-The sync script reads `results/{session-id}/ingest.json` manifests (written by the orchestrator),
-parses markdown, upserts to Postgres, and generates plain-language summaries for new hypotheses.
-Flags: `--force` (re-ingest all), `--no-summaries`, `--session <id>`.
-Website repo: https://github.com/kakashi-ventures/magellan-web
+### Publishing results
+Results are automatically uploaded to https://magellan-discover.ai via API
+at the end of each session (requires `/connect <key>` — see README).
+The upload script (`scripts/upload-session.mjs`) is run by the orchestrator
+and reads `ingest.json` from the results directory.
 
 ## Architecture
 

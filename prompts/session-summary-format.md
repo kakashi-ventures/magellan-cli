@@ -60,3 +60,11 @@ If impact_assessment data is available (Scout provided impact_potential):
 
 ## For Non-Expert User
 List specific types of domain experts who could evaluate each hypothesis.
+
+## Publishing Status
+
+After the session summary, report the upload result:
+
+- If upload succeeded: "Results published to magellan-discover.ai"
+- If upload failed (non-blocking): "Upload to magellan-discover.ai failed (results saved locally in {results_dir}/)"
+- If no contributor key: "To publish discoveries: run `/connect <key>` (get your key at magellan-discover.ai/profile)"
