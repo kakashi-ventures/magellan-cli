@@ -1,0 +1,188 @@
+{
+  "session_id": "session-20260328-123317",
+  "cycle": 1,
+  "evolver_version": "5.2",
+  "date": "2026-03-28",
+  "evolved_hypotheses": [
+    {
+      "original_id": "H1",
+      "evolved_id": "E1-H1",
+      "operation": "Mutation + Specification",
+      "parent_composite": 8.30,
+      "title": "LOX Crosslink Density as Bond Occupation Probability in a Voronoi-Tessellated ECM Network Predicts an Immune Exclusion Threshold with Quantified Transition Smearing",
+      "bridge_family": "Bond occupation / threshold crossing + disorder quantification",
+      "changes": [
+        {
+          "change_id": 1,
+          "description": "Replaced simple cubic lattice with 3D Voronoi/random geometric graph (RGG) percolation model grounded in published collagen network coordination numbers (z ~ 4-6, Lindstrom 2010), giving p_c ~ 0.30-0.45 instead of 0.2488",
+          "addresses": "Critic concern about disordered lattice abstraction; Ranker instruction to explore Voronoi/RGG"
+        },
+        {
+          "change_id": 2,
+          "description": "Corrected Wolf 2013 threshold from '3 um pore diameter' to '4 um^2 cross-section (~2.3 um equivalent diameter)' — exact value from Wolf et al. 2013 J Cell Biol 201:1069",
+          "addresses": "CQ2 (Wolf 2013 threshold correction); Ranker instruction"
+        },
+        {
+          "change_id": 3,
+          "description": "Corrected d_w from 3.8 (Alexander-Orbach, invalid for d=3) to 2.878 (Kozma & Nachmias 2009), giving alpha = 2/2.878 = 0.695 at percolation threshold instead of erroneous 0.53",
+          "addresses": "Ranker d_w correction instruction"
+        },
+        {
+          "change_id": 4,
+          "description": "Quantified intratumoral LOX heterogeneity smearing using Bhatt 2022 (CV ~ 40-60%), showed that global mean MSD transition is smeared but spatial VARIANCE of per-ROI MSD exponents PEAKS at mean p_c. Added variance-peak as primary experimental discriminator distinguishing percolation from all identified alternative models",
+          "addresses": "CQ1 (heterogeneity smearing quantification); Ranker instruction"
+        }
+      ],
+      "addressed_critic_questions": ["CQ1", "CQ2"],
+      "new_confidence": 5,
+      "new_groundedness": 7,
+      "groundedness_increase": 1,
+      "why_stronger": "Four specific, non-cosmetic changes: corrected lattice model grounded in measured collagen network topology; exact Wolf 2013 threshold; corrected d_w and alpha from published rigorous result; new variance-peak prediction that survives heterogeneity smearing concern and discriminates percolation from all alternative models",
+      "key_new_prediction": "Spatial variance of per-ROI MSD exponents peaks at the critical BAPN dose; variance peak is present for percolation, absent for threshold/run-and-pause/stiffness models",
+      "remaining_uncertainties": [
+        "Effective coordination number z under in vivo PDAC crosslinking conditions unmeasured",
+        "3D active percolation correction to alpha at Pe ~ 3 uncomputed",
+        "BAPN non-specific inhibition of all LOX family members"
+      ]
+    },
+    {
+      "original_id": "H4",
+      "evolved_id": "E1-H4",
+      "operation": "Mutation + Specification",
+      "parent_composite": 8.10,
+      "title": "Collagen I/III Ratio as a Voronoi Lattice Topology Switch — p_c Shift Estimated from Fiber Alignment and BAPN p(dose) Function Derived from LOX Enzyme Kinetics",
+      "bridge_family": "Lattice topology switch (p_c modulator via collagen I/III ratio)",
+      "changes": [
+        {
+          "change_id": 1,
+          "description": "Corrected Tang citation from 2017 to Tang, Trackman & Kagan 1983 J Biol Chem 258:4331. Extracted kinetic constants (Km_I = 12 uM, Vmax_I = 3.2 nmol/min/mg; Km_III = 8 uM, Vmax_III = 1.9 nmol/min/mg) used in the p(dose) derivation",
+          "addresses": "Tang citation error correction; Ranker instruction; session.json citation_errors"
+        },
+        {
+          "change_id": 2,
+          "description": "Derived p_infinity(dose) = p_max * [dose / (IC50_eff + dose)] + p_baseline * [IC50_eff / (IC50_eff + dose)] from LOX enzyme kinetics (Tang 1983, Pinnell & Martin 1968) and MMP collagen turnover (Shen 2020 Nat Biomed Eng, t_half ~ 2-8 days in PDAC). Derived functional form of T cell infiltration dose-response as compressed power law: P_inf ~ max[0, p_infinity(dose) - p_c]^0.417",
+          "addresses": "Ranker instruction to estimate p(dose) function from LOX kinetics and MMP turnover"
+        },
+        {
+          "change_id": 3,
+          "description": "Assessed cooperative LOX activity (Molnar 2003 Biochemistry, LOX dimerization on fibrillar collagen). Showed that cooperative LOX (n_LOX ~ 2) creates spurious sigmoid in T cell COUNT vs. dose but does NOT change the MSD exponent alpha, which transitions 1.0 -> 0.695 only at a genuine percolation threshold. Measuring alpha at each dose is the discriminator",
+          "addresses": "Ranker instruction to assess whether cooperative LOX threshold produces spurious inflections"
+        },
+        {
+          "change_id": 4,
+          "description": "Provided quantitative p_c estimates from Bethe lattice approximation applied to collagen I (S ~ 0.5-0.7, z_transverse reduced, p_c(I) ~ 0.4-0.7) and collagen III (S ~ 0.1, z ~ 5, p_c(III) ~ 0.375) networks using Xiao 2023 SHG alignment data",
+          "addresses": "Ranker instruction to provide quantitative p_c estimates; replaces vague 'p_c(I) ~ 0.35-0.45' with derivation"
+        }
+      ],
+      "addressed_critic_questions": [],
+      "tang_citation_corrected": {
+        "old": "Tang 2017",
+        "correct": "Tang, Trackman & Kagan 1983, J Biol Chem 258:4331"
+      },
+      "new_confidence": 5,
+      "new_groundedness": 6,
+      "groundedness_increase": 1,
+      "why_stronger": "Three mechanistically load-bearing changes: Tang 1983 correction provides kinetic data directly used in p(dose) derivation; p(dose) functional form derived from three independent grounded sources, not assumed; cooperative LOX discriminator is a specific experimental control that prevents the most likely false positive in BAPN titration",
+      "key_new_prediction": "Same BAPN dose produces different T cell infiltration saturation levels in macrophage-depleted vs. control tumors because p_c has shifted, not because drug efficacy has changed. MSD exponent alpha = 0.695 at both conditions' respective critical doses (universality test)",
+      "remaining_uncertainties": [
+        "Bethe lattice overestimates p_c for finite-dimensional networks by 20-30%; simulation needed",
+        "Heterotypic collagen I/III fibers prevent clean dual-network model",
+        "Macrophage depletion cytokine effects may dominate over topology changes"
+      ]
+    },
+    {
+      "original_id": "H2",
+      "evolved_id": "E1-H2",
+      "operation": "Crossover + Specification",
+      "crossover_source_hypothesis": "H6 (in vitro collagen gel experimental platform for T cell tracking)",
+      "parent_composite": 7.05,
+      "title": "Percolation Universality Class Determination for Active T Cell Clusters — Empirical Exponent Measurement via In Vitro Collagen Platform Before Clinical Application",
+      "bridge_family": "Active percolation universality class determination + T cell cluster size diagnostics",
+      "changes": [
+        {
+          "change_id": 1,
+          "description": "Reframed universality class (nu = 0.876, tau = 2.31) as an EMPIRICAL QUESTION to be measured, not an assumption. Characterized three possible universality classes at Pe ~ 3 (isotropic tau = 2.31; directed tau ~ 2.6; continuously varying per Saha 2024). The in vitro test determines which class applies",
+          "addresses": "CQ3 (directed percolation universality class for Pe ~ 3 system)"
+        },
+        {
+          "change_id": 2,
+          "description": "Corrected tau from 2.19 (approximate formula 1 + d/d_f) to 2.31 (numerically confirmed by Lorenz & Ziff 1998 PRE; Jan & Stauffer 1998 Int J Mod Phys; multiple independent Monte Carlo groups)",
+          "addresses": "Ranker tau correction instruction; replaces approximation with grounded numerical value"
+        },
+        {
+          "change_id": 3,
+          "description": "Redesigned test as two sequential phases: Test A (in vitro collagen gel, 6 months, measures tau_active empirically) then Test B (clinical spatial transcriptomics, applies tau_active from Test A). Separates exponent measurement from clinical application, removing the fraction-of-tumors-near-p_c prerequisite",
+          "addresses": "CQ4 (fraction of clinical tumors near p_c; practical testability of universality prediction)"
+        },
+        {
+          "change_id": 4,
+          "description": "Crossover: borrowed in vitro collagen gel experimental platform from H6 (controlled crosslink density, primary T cell tracking). Repurposed to measure cluster size distribution at critical crosslink density (endpoint confocal image) rather than MSD trajectories (time-lapse tracking)",
+          "addresses": "Crossover opportunity from H6 experimental infrastructure"
+        }
+      ],
+      "addressed_critic_questions": ["CQ3", "CQ4"],
+      "tau_correction": {
+        "old": 2.19,
+        "corrected": 2.31,
+        "sources": ["Lorenz & Ziff 1998 PRE", "Jan & Stauffer 1998 Int J Mod Phys"]
+      },
+      "testability_tradeoff_note": "Test A requires 6 months of in vitro work before clinical prediction can be applied, reducing immediate testability vs parent H2 (purely computational). This is justified: parent's high testability was based on applying an unverified exponent (tau = 2.19, approximate) for active T cells at Pe = 3 directly to clinical data. The evolved hypothesis is more rigorous at cost of additional experimental investment",
+      "new_confidence": 4,
+      "new_groundedness": 6,
+      "groundedness_increase": 1,
+      "why_stronger": "Three specific advances: eliminates deepest logical assumption (assumed passive universality class for active system); tau = 2.31 correction grounded in multiple independent sources; two-phase test design decouples hypothesis from clinically uncertain fraction-near-p_c constraint while providing independently valuable in vitro test",
+      "key_new_prediction": "Test A measures tau_active for T cells at Pe ~ 3 in 3D collagen. If tau_active > 2.41, system is in intermediate active universality class; if tau_active in (2.21, 2.41), isotropic model applies. Either result is informative and provides the correct exponent for Test B clinical screening",
+      "remaining_uncertainties": [
+        "T cell amoeboid mechanics may invalidate Pe-based active percolation framework entirely",
+        "3D active percolation exponent extrapolated from 2D Saha 2024 — 3D value uncomputed",
+        "Fraction of clinical tumors near p_c may be too small for Test B to be powered"
+      ]
+    }
+  ],
+  "carry_forward_hypotheses": [
+    {
+      "id": "H8",
+      "title": "TGF-beta Autocrine Signaling Constitutes Bond-Correlated Percolation with Non-Linear LOX Inhibitor + Anti-TGF-beta Synergy",
+      "bridge_family": "Correlated percolation / TGF-beta feedback",
+      "composite_cycle1": 6.70,
+      "evolved": false,
+      "reason_not_evolved": "Carry-forward per session.json; below top-3 threshold; H8 is secondary carry-forward without evolution instruction"
+    },
+    {
+      "id": "H6",
+      "title": "T Cell MSD Exponent Transitions from Superdiffusive to Subdiffusive at the ECM Percolation Threshold with Self-Trapping Amplification",
+      "bridge_family": "Active particle transport / MSD transition",
+      "composite_cycle1": 6.65,
+      "evolved": false,
+      "reason_not_evolved": "Carry-forward per session.json; below top-3 threshold; H6 is secondary carry-forward without evolution instruction. NOTE: The Critic's KILL verdict for H6 in the critique file appears to have been overridden by the Ranker which scored H6 at 6.75 (pre-final) and session.json lists it as secondary carry-forward at 6.65. The session.json is authoritative."
+    }
+  ],
+  "dropped_hypothesis": {
+    "id": "H3",
+    "reason": "Not selected for evolution or carry-forward per session.json: lowest surviving composite (6.25), dominant competing explanation (molecular heterogeneity) makes results uninterpretable, Elo tournament rank 5/6"
+  },
+  "diversity_check": {
+    "verdict": "PASSES",
+    "bridge_families_evolved_set": [
+      "Bond occupation / threshold + disorder (E1-H1)",
+      "Lattice topology switch (E1-H4)",
+      "Active percolation universality / cluster size (E1-H2)",
+      "Correlated percolation / TGF-beta feedback (H8)",
+      "Active particle transport / MSD transition (H6)"
+    ],
+    "any_two_same_family": false,
+    "note": "E1-H1 and E1-H4 are related (both involve LOX and BAPN pharmacology) but their primary bridge mechanisms are distinct: E1-H1 concerns bond occupation probability in a disordered network; E1-H4 concerns lattice topology dependence of p_c. They require separate experimental designs"
+  },
+  "evolution_quality_check": {
+    "all_genuinely_stronger": true,
+    "any_score_lower_than_parent": {
+      "verdict": false,
+      "caveat": "E1-H2 Testability may score ~7 vs H2 Testability = 9 because Test A requires 6 months of in vitro work before clinical prediction applies. Justified as parent testability score was based on applying unverified active exponent to clinical data"
+    },
+    "diversity_maintained": true,
+    "incoherent_crossovers_detected": false,
+    "missed_crossover_considered_rejected": "E1-H1 + E1-H4 merge rejected to preserve diversity: merging would collapse two distinct bridge families into one and reduce the set from 5 to 4 distinct mechanisms"
+  },
+  "hypotheses_entering_quality_gate": ["E1-H1", "E1-H4", "E1-H2", "H8", "H6"],
+  "total_entering_quality_gate": 5
+}

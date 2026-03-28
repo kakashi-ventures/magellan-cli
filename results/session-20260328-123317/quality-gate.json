@@ -1,0 +1,303 @@
+{
+  "session_id": "session-20260328-123317",
+  "validated_at": "2026-03-28T19:30:00Z",
+  "phase": "quality_gate",
+  "cycle": 1,
+  "validator_version": "v5.4",
+  "hypotheses_entering": 6,
+  "web_searches_performed": 28,
+  "citation_audit": {
+    "total_citations_audited": 17,
+    "fully_verified": 15,
+    "unverifiable": 2,
+    "hallucinated": 0,
+    "factual_errors": 1,
+    "clean_rate": 0.88,
+    "note": "15 of 17 citations verified. 2 unverifiable (Orgel 2011, Weiss 1976) with correct underlying claims. 1 factual error: 3D DP exponents confused with 1D values in E3/E4."
+  },
+  "novelty_assessment": {
+    "connection_novel": true,
+    "papers_found_percolation_tcell": 0,
+    "adjacent_work": [
+      "Ashworth 2015 PMID 25881025: percolation + collagen scaffold + fibroblast invasion (different system)",
+      "Wang et al. 2025 Cell: percolation + complement protein coating (different system)"
+    ],
+    "searches_performed": 3,
+    "counter_evidence_searches": 2,
+    "counter_evidence_found": "None. Field treats immune exclusion as continuous/gradual process."
+  },
+  "global_findings": {
+    "directed_percolation_exponent_error": {
+      "description": "E3 and E4 cite 1D directed percolation exponents (nu_perp=1.10, nu_parallel=1.73) as 3D values. Correct 3D values: nu_perp=0.584, nu_parallel=1.11",
+      "source": "Hinrichsen 2000 Adv Phys 49:815-958; Wikipedia DP article verified",
+      "affected_hypotheses": ["E3", "E4"],
+      "severity": "significant_but_not_fatal"
+    }
+  },
+  "exponent_verification": {
+    "nu_3D_isotropic": {"claimed": 0.88, "verified": "0.876 (Xu et al. 2014)", "status": "CORRECT"},
+    "beta_3D_isotropic": {"claimed": 0.41, "verified": "0.405-0.418", "status": "CORRECT"},
+    "gamma_3D_isotropic": {"claimed": 1.79, "verified": "~1.43 (modern precision)", "status": "OLDER_ESTIMATE"},
+    "p_c_simple_cubic": {"claimed": 0.2488, "verified": "0.24881182", "status": "CORRECT"},
+    "d_w_3D": {"claimed": 3.8, "verified": "3.8 (Alexander-Orbach)", "status": "CORRECT"},
+    "nu_perp_3D_DP": {"claimed": 1.10, "verified": "0.584 (d=3); 1.097 (d=1)", "status": "WRONG_DIMENSION"},
+    "nu_par_3D_DP": {"claimed": 1.73, "verified": "1.11 (d=3); 1.734 (d=1)", "status": "WRONG_DIMENSION"}
+  },
+  "hypotheses": [
+    {
+      "id": "E1",
+      "parent_id": "H1",
+      "title": "LOX-Mediated Collagen Crosslink Density as Bond Occupation Probability -- Corrected Pore Geometry and Heterogeneity-Smeared Transition",
+      "verdict": "PASS",
+      "composite": 7.85,
+      "dimension_scores": {
+        "testability": 8,
+        "groundedness": 7,
+        "mechanistic_specificity": 8,
+        "novelty": 8,
+        "cross_domain_creativity": 9,
+        "impact": 7
+      },
+      "rubric_checks": {
+        "abc_structure": "PASS",
+        "mechanism_specificity": "PASS",
+        "falsifiable_prediction": "PASS",
+        "counter_evidence": "PASS",
+        "test_protocol": "PASS",
+        "confidence_calibration": "PASS",
+        "novelty_web_verified": "PASS",
+        "groundedness": "PASS",
+        "language_precision": "PASS",
+        "per_claim_verification": "PASS"
+      },
+      "grounded_claims_verified": 7,
+      "grounded_claims_total": 7,
+      "citation_hallucinations": 0,
+      "factual_errors": 0,
+      "unverifiable_claims": 0,
+      "fail_triggers": [],
+      "impact_annotation": {
+        "application_pathway": "drug_target",
+        "nearest_applied_domain": "immuno-oncology",
+        "validation_horizon": "near-term"
+      },
+      "key_strength": "Corrected pore geometry, quantified heterogeneity smearing, actionable test protocol with independent calibration",
+      "key_weakness": "gamma=1.79 from older estimates (minor, core predictions use beta and nu)"
+    },
+    {
+      "id": "E2",
+      "parent_id": "H4",
+      "title": "BAPN Percolation Titration -- Corrected LOX Inhibitor Citation and Quantified p(dose) Mapping Function",
+      "verdict": "PASS",
+      "composite": 7.80,
+      "dimension_scores": {
+        "testability": 8,
+        "groundedness": 7,
+        "mechanistic_specificity": 8,
+        "novelty": 8,
+        "cross_domain_creativity": 8,
+        "impact": 8
+      },
+      "rubric_checks": {
+        "abc_structure": "PASS",
+        "mechanism_specificity": "PASS",
+        "falsifiable_prediction": "PASS",
+        "counter_evidence": "PASS",
+        "test_protocol": "PASS",
+        "confidence_calibration": "PASS",
+        "novelty_web_verified": "PASS",
+        "groundedness": "PASS",
+        "language_precision": "PASS",
+        "per_claim_verification": "PASS"
+      },
+      "grounded_claims_verified": 4,
+      "grounded_claims_total": 4,
+      "citation_hallucinations": 0,
+      "factual_errors": 0,
+      "unverifiable_claims": 0,
+      "fail_triggers": [],
+      "impact_annotation": {
+        "application_pathway": "drug_target",
+        "nearest_applied_domain": "clinical immuno-oncology",
+        "validation_horizon": "near-term"
+      },
+      "key_strength": "Corrected Tang 1983 citation, p(dose) derived from enzyme kinetics, in vitro calibration step",
+      "key_weakness": "Parametric K_I cellular estimate (50-200 uM vs 6 uM purified)"
+    },
+    {
+      "id": "E3",
+      "parent_id": "H2",
+      "title": "Exponent-Agnostic Universality Class Measurement -- From Assumed nu=0.88 to Measured Critical Exponent via Active-Particle Crossover",
+      "verdict": "CONDITIONAL_PASS",
+      "composite": 6.25,
+      "dimension_scores": {
+        "testability": 6,
+        "groundedness": 4,
+        "mechanistic_specificity": 5,
+        "novelty": 8,
+        "cross_domain_creativity": 9,
+        "impact": 7
+      },
+      "rubric_checks": {
+        "abc_structure": "PASS",
+        "mechanism_specificity": "PARTIAL",
+        "falsifiable_prediction": "PASS",
+        "counter_evidence": "PARTIAL",
+        "test_protocol": "PASS",
+        "confidence_calibration": "PASS",
+        "novelty_web_verified": "PASS",
+        "groundedness": "FAIL",
+        "language_precision": "FAIL",
+        "per_claim_verification": "FAIL"
+      },
+      "grounded_claims_verified": 4,
+      "grounded_claims_total": 5,
+      "citation_hallucinations": 0,
+      "factual_errors": 1,
+      "unverifiable_claims": 0,
+      "fail_triggers": ["3D DP exponents wrong: 1D values (nu_perp=1.10) cited as 3D"],
+      "impact_annotation": {
+        "application_pathway": "measurement_method",
+        "nearest_applied_domain": "biophysics / quantitative tumor pathology",
+        "validation_horizon": "medium-term"
+      },
+      "key_strength": "Novel measure-first-classify-after approach; microfluidic Pe-control design",
+      "key_weakness": "3D directed percolation exponents wrong (1D values cited as 3D)"
+    },
+    {
+      "id": "E4",
+      "parent_id": "H8",
+      "title": "CXCL9/10 Gradient Steepness as Pe-Based Percolation Phase Diagram Classifier",
+      "verdict": "CONDITIONAL_PASS",
+      "composite": 6.05,
+      "dimension_scores": {
+        "testability": 7,
+        "groundedness": 4,
+        "mechanistic_specificity": 5,
+        "novelty": 7,
+        "cross_domain_creativity": 8,
+        "impact": 6
+      },
+      "rubric_checks": {
+        "abc_structure": "PASS",
+        "mechanism_specificity": "PARTIAL",
+        "falsifiable_prediction": "PASS",
+        "counter_evidence": "PARTIAL",
+        "test_protocol": "PASS",
+        "confidence_calibration": "PASS",
+        "novelty_web_verified": "PASS",
+        "groundedness": "FAIL",
+        "language_precision": "FAIL",
+        "per_claim_verification": "FAIL"
+      },
+      "grounded_claims_verified": 2,
+      "grounded_claims_total": 3,
+      "citation_hallucinations": 0,
+      "factual_errors": 1,
+      "unverifiable_claims": 0,
+      "fail_triggers": ["3D DP exponents wrong (same as E3)"],
+      "impact_annotation": {
+        "application_pathway": "diagnostic",
+        "nearest_applied_domain": "clinical pathology / immuno-oncology",
+        "validation_horizon": "near-term"
+      },
+      "key_strength": "Clinically accessible GAS metric; retrospective study design (3-6 months)",
+      "key_weakness": "DP exponent error propagates into effect size estimates"
+    },
+    {
+      "id": "E5",
+      "parent_id": "H6",
+      "title": "MMP/LOX Ratio as a Percolation Clock -- Separating Dynamic Percolation Windows from Salmon 2012 Fiber Alignment",
+      "verdict": "CONDITIONAL_PASS",
+      "composite": 6.25,
+      "dimension_scores": {
+        "testability": 6,
+        "groundedness": 5,
+        "mechanistic_specificity": 6,
+        "novelty": 7,
+        "cross_domain_creativity": 8,
+        "impact": 6
+      },
+      "rubric_checks": {
+        "abc_structure": "PASS",
+        "mechanism_specificity": "PASS",
+        "falsifiable_prediction": "PASS",
+        "counter_evidence": "PASS",
+        "test_protocol": "PASS",
+        "confidence_calibration": "PASS",
+        "novelty_web_verified": "PASS",
+        "groundedness": "PARTIAL",
+        "language_precision": "PASS",
+        "per_claim_verification": "PARTIAL"
+      },
+      "grounded_claims_verified": 4,
+      "grounded_claims_total": 5,
+      "citation_hallucinations": 0,
+      "factual_errors": 0,
+      "unverifiable_claims": 1,
+      "fail_triggers": [],
+      "impact_annotation": {
+        "application_pathway": "therapy",
+        "nearest_applied_domain": "tumor microenvironment engineering",
+        "validation_horizon": "medium-term"
+      },
+      "key_strength": "Explicit Salmon 2012 discriminator; partial correlation methodology",
+      "key_weakness": "Orgel 2011 unverifiable; timescale mismatch"
+    },
+    {
+      "id": "E6",
+      "parent_id": "H3",
+      "title": "Velocity Autocorrelation Signature Distinguishes Percolation Subdiffusion from T Cell Run-and-Pause",
+      "verdict": "CONDITIONAL_PASS",
+      "composite": 6.75,
+      "dimension_scores": {
+        "testability": 7,
+        "groundedness": 6,
+        "mechanistic_specificity": 7,
+        "novelty": 7,
+        "cross_domain_creativity": 8,
+        "impact": 5
+      },
+      "rubric_checks": {
+        "abc_structure": "PASS",
+        "mechanism_specificity": "PASS",
+        "falsifiable_prediction": "PASS",
+        "counter_evidence": "PASS",
+        "test_protocol": "PASS",
+        "confidence_calibration": "PASS",
+        "novelty_web_verified": "PASS",
+        "groundedness": "PASS",
+        "language_precision": "PASS",
+        "per_claim_verification": "PASS"
+      },
+      "grounded_claims_verified": 5,
+      "grounded_claims_total": 6,
+      "citation_hallucinations": 0,
+      "factual_errors": 0,
+      "unverifiable_claims": 1,
+      "fail_triggers": [],
+      "impact_annotation": {
+        "application_pathway": "measurement_method",
+        "nearest_applied_domain": "biophysics of cell migration",
+        "validation_horizon": "near-term"
+      },
+      "key_strength": "Clean binary VACF diagnostic; passive bead control; 5x separability gap",
+      "key_weakness": "Weiss 1976 unverifiable; technical demands of high-frame-rate tracking"
+    }
+  ],
+  "summary": {
+    "total": 6,
+    "passed": 2,
+    "conditional_pass": 4,
+    "failed": 0,
+    "pass_ids": ["E1", "E2"],
+    "pass_composites": [7.85, 7.80],
+    "conditional_pass_ids": ["E3", "E4", "E5", "E6"],
+    "conditional_pass_composites": [6.25, 6.05, 6.25, 6.75],
+    "fail_ids": [],
+    "qg_ranked": ["E1", "E2", "E6", "E3", "E5", "E4"],
+    "mean_composite_passing": 7.825,
+    "mean_composite_all": 6.825,
+    "session_status": "SUCCESS"
+  }
+}

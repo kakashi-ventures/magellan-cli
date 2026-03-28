@@ -1,0 +1,338 @@
+{
+  "session_id": "session-20260328-123317",
+  "pipeline_session_number": 15,
+  "meta_insights_session_number": 19,
+  "date": "2026-03-28",
+  "target": "Percolation Threshold Theory x T Cell Infiltration in Solid Tumors",
+  "strategy": "structural_isomorphism",
+  "disjointness": "DISJOINT",
+  "disjointness_score": 0.90,
+  "impact_potential_scout": 9,
+
+  "pipeline_metrics": {
+    "hypotheses_generated": 8,
+    "killed_in_critique": 2,
+    "kill_rate": 0.25,
+    "survived_critique": 6,
+    "entered_evolution": 6,
+    "evolved_count": 6,
+    "entered_qg": 6,
+    "qg_pass": 2,
+    "qg_conditional_pass": 4,
+    "qg_fail": 0,
+    "qg_pass_rate": 0.333,
+    "qg_pass_plus_cond_rate": 1.00,
+    "qg_mean_composite_all": 6.83,
+    "qg_mean_composite_pass_only": 7.83,
+    "qg_web_searches": 28,
+    "citation_hallucinations": 0,
+    "unverifiable_citations": 2,
+    "factual_errors": 1,
+    "cycle_decision": "early_complete",
+    "cycles_run": 1,
+    "session_health": "SUCCESS",
+    "ees": 7.2,
+    "ips": 8.3
+  },
+
+  "strategy_performance": {
+    "structural_isomorphism": {
+      "targets_produced": 1,
+      "hypotheses_survived_critique": 6,
+      "avg_composite_qg": 6.83,
+      "qg_pass": 2,
+      "qg_cond": 4,
+      "qg_fail": 0,
+      "qg_pass_plus_cond_rate": 1.00,
+      "session_health": "SUCCESS"
+    }
+  },
+
+  "cumulative_strategy_performance": {
+    "structural_isomorphism": {
+      "primary_sessions": ["session-20260311-011", "session-20260328-123317"],
+      "total_hypotheses_generated": 16,
+      "total_qg_pass": 4,
+      "total_qg_cond": 6,
+      "total_qg_fail": 0,
+      "combined_pass_plus_cond_rate": 0.625,
+      "combined_avg_composite": 6.94,
+      "citation_hallucinations_total": 0,
+      "factual_errors_total": 1
+    }
+  },
+
+  "qg_results": {
+    "E1": {
+      "title": "LOX-Mediated Collagen Crosslink Density as Bond Occupation Probability -- Corrected Pore Geometry and Heterogeneity-Smeared Transition",
+      "parent_id": "H1",
+      "verdict": "PASS",
+      "composite": 7.85,
+      "application_pathway": "drug_target",
+      "domain": "immuno-oncology / ECM-targeted cancer therapy",
+      "validation_horizon": "near-term",
+      "citation_hallucinations": 0,
+      "factual_errors": 0
+    },
+    "E2": {
+      "title": "BAPN Percolation Titration -- Corrected LOX Inhibitor Citation and Quantified p(dose) Mapping Function",
+      "parent_id": "H4",
+      "verdict": "PASS",
+      "composite": 7.80,
+      "application_pathway": "drug_target",
+      "domain": "clinical immuno-oncology / combination therapy dosing",
+      "validation_horizon": "near-term",
+      "citation_hallucinations": 0,
+      "factual_errors": 0
+    },
+    "E6": {
+      "title": "Velocity Autocorrelation Signature Distinguishes Percolation Subdiffusion from T Cell Run-and-Pause",
+      "parent_id": "H3",
+      "verdict": "CONDITIONAL_PASS",
+      "composite": 6.75,
+      "application_pathway": "measurement_method",
+      "domain": "biophysics of cell migration",
+      "validation_horizon": "near-term",
+      "citation_hallucinations": 0,
+      "unverifiable_citations": 1,
+      "factual_errors": 0,
+      "conditions": ["Verify Weiss 1976 VACF claim", "Passive bead control must precede biological experiment"]
+    },
+    "E3": {
+      "title": "Exponent-Agnostic Universality Class Measurement via Active-Particle Crossover",
+      "parent_id": "H2",
+      "verdict": "CONDITIONAL_PASS",
+      "composite": 6.25,
+      "application_pathway": "measurement_method",
+      "domain": "biophysics / quantitative tumor pathology",
+      "validation_horizon": "medium-term",
+      "citation_hallucinations": 0,
+      "factual_errors": 1,
+      "factual_error_description": "3D directed percolation exponents cited as 1D values (nu_perp=1.097, nu_parallel=1.734 are d=1; correct d=3: nu_perp=0.584, nu_parallel=1.11)",
+      "conditions": ["Correct 3D DP exponents throughout", "Re-derive effect sizes with correct d=3 values"]
+    },
+    "E5": {
+      "title": "MMP/LOX Ratio as a Percolation Clock -- Separating Dynamic Percolation from Fiber Alignment",
+      "parent_id": "H6",
+      "verdict": "CONDITIONAL_PASS",
+      "composite": 6.25,
+      "application_pathway": "therapy",
+      "domain": "tumor microenvironment engineering",
+      "validation_horizon": "medium-term",
+      "citation_hallucinations": 0,
+      "unverifiable_citations": 1,
+      "factual_errors": 0,
+      "conditions": ["Verify Orgel 2011 crosslink-MMP resistance claim", "Measure crosslinked collagen degradation timescale specifically"]
+    },
+    "E4": {
+      "title": "CXCL9/10 Gradient Anisotropy Score as Pe-Based Percolation Phase Classifier",
+      "parent_id": "H8",
+      "verdict": "CONDITIONAL_PASS",
+      "composite": 6.05,
+      "application_pathway": "diagnostic",
+      "domain": "clinical pathology / immuno-oncology",
+      "validation_horizon": "near-term",
+      "citation_hallucinations": 0,
+      "factual_errors": 1,
+      "factual_error_description": "Same DP exponent dimensional confusion as E3",
+      "conditions": ["Correct DP exponents", "Re-derive GAS effect size from correct d=3 values"]
+    }
+  },
+
+  "kill_analysis": {
+    "H5": {
+      "kill_reason": "Quantitative insufficiency",
+      "kill_category": "predicted_effect_below_noise_floor",
+      "pattern_family": "energy_scale_mismatch_generalized",
+      "detail": "Predicted finite-size correction Delta_p_c ~ 0.0016 (0.6%) is 2-3 orders of magnitude below intratumoral heterogeneity variance (10-50%). Hypothesis's own math proved the effect is undetectable.",
+      "new_pattern": false,
+      "prevention_rule": "Rule 15 (Uniqueness test): compute predicted_effect / biological_noise_floor; if < 0.1, do not propose"
+    },
+    "H7": {
+      "kill_reason": "Biology contradiction",
+      "kill_category": "mechanism_contradicts_established_biology",
+      "pattern_family": "mechanism_fabrication_extended",
+      "detail": "Backbone fraction mapped to exhausted T cells. T cell exhaustion is driven by chronic antigen stimulation (Wherry 2011), not physical confinement. Predicted direction of correlation is likely reversed.",
+      "new_pattern": true,
+      "new_pattern_name": "mathematical_topology_mapped_to_wrong_biological_state",
+      "prevention_rule": "For structural_isomorphism, each mathematical element must be mapped to a biological entity AND the causal mechanism connecting topology to biological state must be verified in literature"
+    }
+  },
+
+  "bridge_type_analysis": {
+    "static_bond_percolation_LOX_crosslink_density": {
+      "type": "physical_law_mathematical_structure",
+      "hypotheses": ["E1", "E2"],
+      "qg_verdicts": ["PASS", "PASS"],
+      "avg_composite": 7.825,
+      "performance_rating": "high"
+    },
+    "universality_class_discriminative_measurement": {
+      "type": "mathematical_framework_transfer",
+      "hypotheses": ["E3"],
+      "qg_verdicts": ["CONDITIONAL_PASS"],
+      "avg_composite": 6.25,
+      "performance_rating": "medium",
+      "limiting_factor": "dp_exponent_dimensional_confusion"
+    },
+    "vacf_percolation_fingerprint": {
+      "type": "mathematical_measurement_tool_transfer",
+      "hypotheses": ["E6"],
+      "qg_verdicts": ["CONDITIONAL_PASS"],
+      "avg_composite": 6.75,
+      "performance_rating": "medium_high"
+    },
+    "correlated_percolation_biological_spatial_correlation": {
+      "type": "physical_law_with_biological_extension",
+      "hypotheses": ["E4"],
+      "qg_verdicts": ["CONDITIONAL_PASS"],
+      "avg_composite": 6.05,
+      "performance_rating": "medium",
+      "novelty": "new_bridge_type"
+    },
+    "dynamic_percolation_mmp_lox_ratio": {
+      "type": "dynamic_temporal_bridge",
+      "hypotheses": ["E5"],
+      "qg_verdicts": ["CONDITIONAL_PASS"],
+      "avg_composite": 6.25,
+      "performance_rating": "medium"
+    }
+  },
+
+  "creativity_metrics": {
+    "per_hypothesis": {
+      "E1": {"disciplinary_distance": 3, "abstraction_level": 2, "novelty_type": 3},
+      "E2": {"disciplinary_distance": 3, "abstraction_level": 2, "novelty_type": 3},
+      "E6": {"disciplinary_distance": 3, "abstraction_level": 3, "novelty_type": 3},
+      "E3": {"disciplinary_distance": 3, "abstraction_level": 3, "novelty_type": 3},
+      "E5": {"disciplinary_distance": 3, "abstraction_level": 2, "novelty_type": 2},
+      "E4": {"disciplinary_distance": 3, "abstraction_level": 2, "novelty_type": 2}
+    },
+    "session_averages": {
+      "disciplinary_distance": 3.0,
+      "abstraction_level": 2.33,
+      "novelty_type": 2.67
+    },
+    "trend_position": {
+      "note": "S017(3.0) -> S018(2.7) -> S019(2.75) for disciplinary distance — high and stable",
+      "corrective_action_needed": false
+    }
+  },
+
+  "impact_metrics": {
+    "session_distribution": {
+      "drug_target": 2,
+      "measurement_method": 2,
+      "therapy": 1,
+      "diagnostic": 1
+    },
+    "impact_quality_correlation": "positive",
+    "ips": 8.3,
+    "ees": 7.2,
+    "convergence_signals": [
+      {
+        "type": "clinical_trial",
+        "identifier": "NCT05753722",
+        "description": "PRTH-101 Anti-DDR1 + Pembrolizumab Phase 1 (270 patients) — directly tests anti-collagen receptor + checkpoint blockade"
+      },
+      {
+        "type": "patent",
+        "identifier": "WO2024003558A1",
+        "description": "LOX inhibitor prodrugs for immunotherapy combination (ICR)"
+      },
+      {
+        "type": "publication",
+        "identifier": "Fusilier 2026 Science Immunology",
+        "description": "Independent confirmation of collagen I/III topology switch — published same month"
+      }
+    ]
+  },
+
+  "evolver_effectiveness": {
+    "quality_check_passed": true,
+    "all_stronger_than_parents": true,
+    "diversity_passes": true,
+    "incoherent_crossovers": 0,
+    "all_critic_questions_addressed": true,
+    "highest_value_operation": {
+      "operation": "Mutation on lowest-ranked parent H3",
+      "result": "E6 gained +0.50 composite vs H3 Ranker score via reframing subdiffusion fingerprint as VACF diagnostic",
+      "lesson": "Mutation/mechanism-reframing on low-ranked parents outperforms specification on high-ranked parents"
+    }
+  },
+
+  "new_insights": [
+    {
+      "insight_id": "S015-I1",
+      "title": "Active particle Pe check mandatory for cell biology percolation",
+      "rule_number": 16,
+      "action": "For any percolation hypothesis where the walker is a biological cell, estimate Pe = v * L_p / D. If Pe > 1, standard isotropic universality class may not apply. Propose two-exponent measurement protocol.",
+      "target": "Generator"
+    },
+    {
+      "insight_id": "S015-I2",
+      "title": "Correlated percolation as natural extension of structural isomorphism to biology",
+      "action": "When generating structural_isomorphism hypotheses in biological systems, enumerate spatial autocorrelation fields in Field C. For each, apply Weinrib 1984 perturbation theory to calculate p_c shift. Generates one additional synergy-prediction hypothesis per correlation field.",
+      "target": "Generator"
+    },
+    {
+      "insight_id": "S015-I3",
+      "title": "Measure-not-assume evolution operation confirmed for third time",
+      "action": "Evolver should systematically convert 'predict constant X' hypotheses to 'design experiment that measures X empirically.' Valid across strategies: S011 (biphasic parameters), S017 (GEV shape parameter), S019 (universality class exponents).",
+      "target": "Evolver"
+    },
+    {
+      "insight_id": "S015-I4",
+      "title": "Citation Rule 38 extended to 1990-2015 era",
+      "action": "All citations from 1990-2015 should be flagged for venue/PMID verification in SELF-CRITIQUE. Parametric memory is unreliable for this era's citation metadata (wrong journal, wrong page numbers).",
+      "target": "Generator",
+      "extends_rule": 38
+    },
+    {
+      "insight_id": "S015-I5",
+      "title": "Mathematical topology mapped to biological state requires causal mechanism verification",
+      "action": "For structural_isomorphism, each mathematical element (backbone, dangling end, cluster) must be mapped to a biological entity AND the causal mechanism connecting topology to biological state must be verified in literature. H7's kill was elegant topology with biologically wrong causal chain.",
+      "target": "Generator"
+    },
+    {
+      "insight_id": "S015-I6",
+      "title": "Table row lookup is a recurring generator error — explicit row identification required",
+      "action": "When citing any parameter from a table organized by dimension, subpopulation, or system class, include explicit row label in citation: 'd=3 row: nu_perp = 0.584 (Hinrichsen 2000, Table 2)'. Auditable trail for SELF-CRITIQUE.",
+      "target": "Generator",
+      "extends_rule": 17
+    }
+  ],
+
+  "session_meta_insights": [
+    "structural_isomorphism second confirmation: 2 PASS, 0 FAIL, 100% PASS+COND, zero hallucinations — consistent with S011",
+    "Classical physics literature (pre-1994 textbooks) = near-zero hallucination risk; risk displaced to recent biology papers",
+    "CONDITIONAL_PASS ceiling caused by sparse Field C numerical parameters (tumor ECM percolation not tabulated) — structural property of novel targets, not pipeline failure",
+    "IPS 8.3 validates LOX-collagen-T cell axis; percolation framework interpretation remains MAGELLAN-original contribution",
+    "Early-complete correctly triggered; CONDITIONAL conditions are experimental, not knowledge-based",
+    "Lowest-ranked parent (H3 → E6) produced third-highest QG score via mechanism mutation — confirms S016 pattern",
+    "DP exponent dimensional confusion (d=1 cited as d=3) is a new sub-type of factual error: correct table, wrong row",
+    "Convergence signals (NCT05753722, WO2024003558A1, Fusilier 2026) validate clinical relevance without validating percolation framework specifically"
+  ],
+
+  "deferred_queue_updates": {
+    "removed": ["Percolation Threshold Theory x T Cell Infiltration in Solid Tumors (T1)"],
+    "added": [
+      {
+        "id": "T3",
+        "title": "Classical Nucleation Theory x Ferroptosis LIP Dynamics",
+        "strategy": "scale_bridging",
+        "priority": "HIGH",
+        "disjointness_confidence": 0.97,
+        "cross_field_papers": 0,
+        "key_anomaly": "LIP does not expand during GPX4-inhibition ferroptosis (Srivastava 2025) -- paradox CNT stochastic analysis could explain"
+      },
+      {
+        "id": "T5",
+        "title": "Griffith Fracture Mechanics x Bacterial Cell Wall Failure Under beta-Lactam Stress",
+        "strategy": "structural_isomorphism",
+        "priority": "HIGH",
+        "note": "Would be 3rd primary structural_isomorphism session"
+      }
+    ]
+  }
+}

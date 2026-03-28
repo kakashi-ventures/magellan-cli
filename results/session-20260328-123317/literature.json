@@ -1,0 +1,855 @@
+{
+  "session_id": "session-20260328-123317",
+  "generated_at": "2026-03-28",
+  "mcp_status": "UNAVAILABLE",
+  "fallback_used": true,
+  "fallback_method": "WebSearch + WebFetch",
+  "retrieval_summary": {
+    "web_searches": 28,
+    "full_text_fetches": 14,
+    "papers_retrieved": 16,
+    "structured_db_queries": 0,
+    "note": "T1/T2 run: 14 searches, 6 fetches, 8 papers. T5/T6 run: 14 searches, 8 fetches (5 successful), 9 papers."
+  },
+  "targets": [
+    {
+      "id": "T1",
+      "title": "Percolation Threshold Theory x T Cell Infiltration in Solid Tumors",
+      "field_a": "Statistical mechanics — bond percolation theory",
+      "field_c": "Tumor immunology — ECM-mediated immune exclusion",
+      "disjointness_status": "PARTIALLY_EXPLORED",
+      "disjointness_confidence": 0.85,
+      "disjointness_notes": "Session 015 deep retrieval found Ashworth 2015 (Adv Healthcare Mater) applies percolation analysis to collagen scaffolds for cell invasion — constitutes prior art at conceptual level. However, no paper applies percolation CRITICAL PHENOMENA (diverging ξ, universality class, critical exponents) to T cell infiltration in tumor ECM. Upgraded from DISJOINT to PARTIALLY_EXPLORED.",
+      "cross_field_papers_count": 1,
+      "cross_field_papers": [
+        {
+          "title": "Cell Invasion in Collagen Scaffold Architectures Characterized by Percolation Theory",
+          "authors": "Ashworth et al.",
+          "year": 2015,
+          "doi": "10.1002/adhm.201500197",
+          "pmid": "25881025",
+          "relevance": "Applies percolation theory to characterize collagen scaffold pore connectivity for connective tissue cell invasion. Uses percolation as a structural measurement tool (percolation diameter). Does NOT apply percolation critical phenomena (exponents, scaling, universality) and does NOT study immune cells or tumor tissue.",
+          "file": "results/session-20260328-123317/papers/ashworth2015-percolation-collagen-cell-invasion.md",
+          "what_remains_novel": "Full percolation physics (p_c as immune exclusion threshold; xi ~ |p-p_c|^(-0.876); universality class; finite-size scaling) applied to T cell infiltration in tumor ECM — not established by Ashworth"
+        }
+      ],
+      "adjacent_papers": [
+        {
+          "title": "Tumor proliferation and diffusion on percolation clusters",
+          "authors": "Jiang et al.",
+          "year": 2016,
+          "doi": "10.1007/s10867-016-9427-2",
+          "pmid": "27678112",
+          "relevance": "Applies percolation theory to TUMOR CELL migration through ECM — not immune cells. Establishes percolation-tumor biology connection but wrong cellular agent.",
+          "file": "results/session-20260328-123317/papers/jiang2016-percolation-tumor-proliferation-diffusion.md"
+        },
+        {
+          "title": "A percolation phase transition controls complement protein coating of surfaces",
+          "authors": "Wang et al.",
+          "year": 2025,
+          "doi": "10.1016/j.cell.2025.05.026",
+          "pmid": "40516526",
+          "relevance": "Percolation governs COMPLEMENT (innate immunity) activation. Establishes percolation-immunity bridge but for complement not T cells.",
+          "file": "results/session-20260328-123317/papers/wang2025-percolation-complement-immune-surfaces.md"
+        },
+        {
+          "title": "Site-Percolation Transition of Run-and-Tumble Particles",
+          "authors": "Saha SK, Banerjee A, Mohanty PK",
+          "year": 2024,
+          "doi": "10.1039/d4sm00838c",
+          "pmid": "39575656",
+          "relevance": "Active particle percolation in 2D: re-entrant phase behavior, continuously varying critical exponents. Key physics paper for T-cell (active particle) corrections to standard percolation. No biological application.",
+          "file": "results/session-20260328-123317/papers/saha2024-run-tumble-percolation-transition.md"
+        },
+        {
+          "title": "Macrophages Restrict Tumor Immune Infiltration by Controlling Collagen Topography",
+          "authors": "Fusilier Z et al.",
+          "year": 2025,
+          "doi": "10.1126/sciimmunol.adw8291",
+          "pmid": "41860994",
+          "relevance": "Collagen TOPOLOGY (network connectivity) rather than density controls T cell infiltration via Tcf4-Collagen3 axis. Most relevant recent Field C paper. Does not invoke percolation theory.",
+          "file": "results/session-20260328-123317/papers/fusilier2025-macrophage-collagen-topography-Tcell.md"
+        }
+      ],
+      "field_a_key_papers": [
+        {
+          "title": "A percolation phase transition controls complement protein coating of surfaces",
+          "authors": "Wang et al.",
+          "year": 2025,
+          "doi": "10.1016/j.cell.2025.05.026",
+          "pmid": "40516526",
+          "note": "2025 Cell paper: percolation + immune system (complement). Breakthrough demonstrating feasibility of percolation-immunology bridge."
+        },
+        {
+          "title": "Percolation of collagen stress in a random network model of the alveolar wall",
+          "authors": "Unknown",
+          "year": 2021,
+          "url": "https://www.nature.com/articles/s41598-021-95911-w",
+          "note": "Percolation applied to collagen fiber networks in tissue. Relevant to ECM collagen connectivity as percolation substrate."
+        },
+        {
+          "title": "Assembly of Collagen Matrices as a Phase Transition Revealed by Structural and Rheologic Studies",
+          "authors": "Unknown",
+          "year": 2003,
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1302703/",
+          "note": "Collagen gelation as a percolation phase transition. Establishes collagen crosslink network follows percolation theory during assembly."
+        },
+        {
+          "title": "Signal percolation within a bacterial community",
+          "authors": "Unknown",
+          "year": 2018,
+          "pmid": "30056004",
+          "note": "Percolation theory applied to biological signaling through heterogeneous communities."
+        }
+      ],
+      "field_c_key_papers": [
+        {
+          "title": "Tumor stiffening reversion through collagen crosslinking inhibition improves T cell migration and anti-PD-1 treatment",
+          "authors": "Nicolas-Boluda et al.",
+          "year": 2021,
+          "doi": "10.7554/eLife.58688",
+          "file": "results/session-20260328-123317/papers/nicolas-boluda2021-lox-collagen-tcell-migration.md",
+          "note": "KEY Field C paper: LOX/collagen crosslinking directly controls T cell infiltration. No percolation framework used."
+        },
+        {
+          "title": "Collagen density regulates the activity of tumor-infiltrating T cells",
+          "authors": "Kuczek et al.",
+          "year": 2019,
+          "doi": "10.1186/s40425-019-0556-6",
+          "file": "results/session-20260328-123317/papers/kuczek2019-collagen-density-T-cell-activity.md",
+          "note": "Collagen density threshold controls T cell cytotoxic function. Mentions threshold behavior without quantitative percolation model."
+        },
+        {
+          "title": "Lysyl oxidases: linking structures and immunity in the tumor microenvironment",
+          "authors": "Unknown",
+          "year": 2020,
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7000489/",
+          "note": "Review of LOX function linking ECM structure and tumor immunity."
+        },
+        {
+          "title": "T-cell infiltration and its regulatory mechanisms in cancers: insights at single-cell resolution",
+          "authors": "Unknown",
+          "year": 2024,
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10835979/",
+          "note": "Comprehensive single-cell resolution review of T cell infiltration mechanisms."
+        }
+      ],
+      "additional_field_c_papers": [
+        {
+          "title": "Macrophages Restrict Tumor Immune Infiltration by Controlling Collagen Topography",
+          "authors": "Fusilier Z et al.",
+          "year": 2025,
+          "doi": "10.1126/sciimmunol.adw8291",
+          "note": "KEY NEW 2025 paper: collagen TOPOLOGY controls T cell infiltration via Tcf4-Collagen3 axis. Collagen I (aligned) = excluded; Collagen III (intermingled) = permissive. Exactly the connectivity variable percolation theory describes.",
+          "file": "results/session-20260328-123317/papers/fusilier2025-macrophage-collagen-topography-Tcell.md"
+        },
+        {
+          "title": "Collagen Fiber Structure Guides 3D Motility of Cytotoxic T Lymphocytes",
+          "authors": "Pruitt HC, Xu W et al.",
+          "year": 2019,
+          "doi": "10.1016/j.matbio.2019.02.003",
+          "note": "Quantitative MSD of CD8+ T cells in aligned vs. unaligned 3 mg/mL collagen. Anisotropic MSD; MLCK-dependent. Provides MSD framework for testing percolation subdiffusion prediction.",
+          "file": "results/session-20260328-123317/papers/pruitt2019-collagen-fiber-CTL-motility.md"
+        },
+        {
+          "title": "Desmoplastic Stroma Restricts T Cell Extravasation and Mediates Immune Exclusion",
+          "authors": "Xiao Z et al.",
+          "year": 2023,
+          "doi": "10.1038/s41467-023-40850-5",
+          "note": "FAP+ CAF depletion collapses stroma, restores T cell access. Direct evidence that stroma forms a discrete BARRIER (consistent with percolation threshold, not a gradient).",
+          "file": "results/session-20260328-123317/papers/xiao2023-desmoplastic-stroma-Tcell-exclusion-NatComm.md"
+        }
+      ],
+      "additional_field_a_papers": [
+        {
+          "title": "Site-Percolation Transition of Run-and-Tumble Particles",
+          "authors": "Saha SK, Banerjee A, Mohanty PK",
+          "year": 2024,
+          "doi": "10.1039/d4sm00838c",
+          "pmid": "39575656",
+          "note": "Active particle percolation in 2D. Re-entrant phase behavior. Critical exponents vary continuously but scaling function universal. 3D extension for fibrous ECM not yet done.",
+          "file": "results/session-20260328-123317/papers/saha2024-run-tumble-percolation-transition.md"
+        },
+        {
+          "title": "Active Brownian Particles Moving in a Random Lorentz Gas",
+          "authors": "Zeitz M, Wolff K, Stark H",
+          "year": 2017,
+          "doi": "10.1140/epje/i2017-11510-0",
+          "note": "Active particles near percolation density: subdiffusion (alpha~0.66); self-trapping paradox at high activity. 2026 perspective review identifies 3D extension as open question.",
+          "file": "results/session-20260328-123317/papers/zeitz2017-active-brownian-lorentz-gas.md"
+        },
+        {
+          "title": "Bond and Site Percolation in Three Dimensions",
+          "authors": "Wang J, Zhou Z, Zhang W, Garoni TM, Deng Y",
+          "year": 2013,
+          "doi": "10.1103/PhysRevE.87.052107",
+          "note": "Benchmark 3D critical exponents: p_c=0.2488, nu=0.876, beta=0.417. Monte Carlo L=512.",
+          "file": "results/session-20260328-123317/papers/wang2013-3Dbond-percolation-critical-exponents.md"
+        }
+      ],
+      "bridge_validation": {
+        "lox_collagen_crosslinking_controls_T_cell_exclusion": "CONFIRMED — Nicolas-Boluda 2021 eLife, Kuczek 2019",
+        "percolation_applied_to_tumor_biology": "CONFIRMED — Jiang 2016 (tumor cells); Wang 2025 (complement)",
+        "percolation_applied_to_ECM_network": "CONFIRMED — collagen gelation papers (2003); pore size percolation papers; Ashworth 2015",
+        "collagen_TOPOLOGY_controls_T_cell_infiltration": "CONFIRMED — Fusilier 2025 Science Immunology (strongest recent evidence)",
+        "lox_crosslink_density_as_bond_occupation_probability": "NOT EXPLORED — gap",
+        "T_cell_exclusion_as_percolation_phase_transition": "NOT EXPLORED — gap",
+        "percolation_threshold_predicts_immunotherapy_response": "NOT EXPLORED — gap",
+        "active_particle_corrections_needed": "CONFIRMED — Saha 2024, Zeitz 2017: T cells as active particles will have shifted p_c and modified exponents"
+      },
+      "key_numbers_for_generator": {
+        "3D_bond_percolation_pc": 0.2488,
+        "nu_3D": 0.876,
+        "subdiffusion_exponent_at_pc_3D": 0.696,
+        "T_cell_speed_stiff_mPDAC_um_per_min": 1,
+        "T_cell_speed_after_LOX_inhibition_um_per_min": 5,
+        "collagen_density_healthy_mg_ml": 1,
+        "collagen_density_tumor_mg_ml": 4,
+        "normal_pore_size_um": "10-50",
+        "tumor_pore_size_um": "1-10",
+        "T_cell_nucleus_diameter_um": 8,
+        "CD8_fold_increase_with_BAPN": "3-4x"
+      },
+      "gap_analysis": [
+        "No paper applies bond percolation model to T cell migration through collagen ECM",
+        "LOX crosslink density has never been formally mapped to bond occupation probability p",
+        "The threshold in stiffness at which T cells stop moving (Kuczek 2019) has not been modeled as percolation critical point p_c",
+        "Clinically observed hot/cold tumor binary classification not connected to percolation phase transition",
+        "Non-linear improvement from LOX inhibition unexplained — could indicate crossing p_c",
+        "Spatial correlation length xi of T cell density fluctuations not measured as function of ECM crosslinking",
+        "T cell MSD anomalous diffusion exponent alpha not measured near the exclusion threshold",
+        "Universality of critical exponents across tumor types not tested",
+        "Finite-size scaling of immune phenotype with tumor/biopsy size not tested",
+        "Active particle percolation in 3D fibrous ECM not studied (only 2D lattice models)"
+      ],
+      "most_promising_directions": [
+        "Continuous BAPN dose-response in KPC tumors: measure T cell infiltration and pore connectivity — prediction: sharp threshold (not linear) at p_c",
+        "Spatial correlation analysis of multiplex IHC data: compute xi vs LOX activity — prediction: xi ~ |LOX-LOX_c|^(-0.876)",
+        "Live 2-photon MSD measurement at varying BAPN doses — prediction: MSD ~ t^0.696 at critical stiffness",
+        "Cross-tumor universality test: same nu = 0.876 in PDAC, breast, NSCLC, prostate",
+        "Finite-size scaling: biopsy size dependence of hot/cold classification accuracy"
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "Acoustic Filter-Bank Theory x Plant Bioacoustics",
+      "field_a": "Acoustic engineering — matched-filter detection, parallel filter-bank theory",
+      "field_c": "Plant biology — mechanosensitive channel biology, ultrasonic emission",
+      "disjointness_status": "DISJOINT",
+      "disjointness_confidence": 0.88,
+      "cross_field_papers_count": 0,
+      "cross_field_papers": [],
+      "adjacent_papers": [
+        {
+          "title": "Arabidopsis Leaf Trichomes as Acoustic Antennae",
+          "authors": "Liu et al.",
+          "year": 2017,
+          "doi": "10.1016/j.bpj.2017.07.035",
+          "pmid": "29117529",
+          "relevance": "Trichomes as mechanical resonators tuned to insect frequency — frequency-selective behavior described in mechanical language only, no filter-bank theory.",
+          "file": "results/session-20260328-123317/papers/liu2017-arabidopsis-trichomes-acoustic-antennae.md"
+        },
+        {
+          "title": "Ensembles of the leaf trichomes of Arabidopsis thaliana selectively vibrate in the frequency range of its primary insect herbivore",
+          "authors": "Yin et al.",
+          "year": 2021,
+          "doi": "10.1016/j.eml.2021.101377",
+          "relevance": "Ensemble shows frequency bands of responsiveness with defined band gaps — structurally identical to filter-bank behavior but not named as such.",
+          "file": "results/session-20260328-123317/papers/yin2021-trichome-ensemble-frequency-selectivity.md"
+        }
+      ],
+      "field_a_key_papers": [
+        {
+          "title": "Cochlear filter bank models (general)",
+          "note": "Mammalian cochlea modeled as parallel filter bank of ~3500 channels. No application to plants."
+        }
+      ],
+      "field_c_key_papers": [
+        {
+          "title": "Arabidopsis Leaf Trichomes as Acoustic Antennae",
+          "authors": "Liu et al.",
+          "year": 2017,
+          "doi": "10.1016/j.bpj.2017.07.035",
+          "file": "results/session-20260328-123317/papers/liu2017-arabidopsis-trichomes-acoustic-antennae.md"
+        },
+        {
+          "title": "Ensembles of the leaf trichomes of Arabidopsis thaliana selectively vibrate in the frequency range of its primary insect herbivore",
+          "authors": "Yin et al.",
+          "year": 2021,
+          "doi": "10.1016/j.eml.2021.101377",
+          "file": "results/session-20260328-123317/papers/yin2021-trichome-ensemble-frequency-selectivity.md"
+        },
+        {
+          "title": "Acoustic radiation force on a long cylinder, and potential sound transduction by tomato trichomes",
+          "authors": "Peng et al.",
+          "year": 2022,
+          "doi": "10.1016/j.bpj.2022.08.038",
+          "pmid": "36045574",
+          "file": "results/session-20260328-123317/papers/peng2022-tomato-trichome-acoustic-radiation-force.md"
+        },
+        {
+          "title": "Cellular transduction of mechanical oscillations in plants by the plasma-membrane mechanosensitive channel MSL10",
+          "authors": "Basu & Haswell",
+          "year": 2020,
+          "doi": "10.1073/pnas.1919402118",
+          "file": "results/session-20260328-123317/papers/msl10-pnas2020-mechanical-oscillations-plants.md"
+        },
+        {
+          "title": "MSL10 is a high-sensitivity mechanosensor in the tactile sense of the Venus flytrap",
+          "authors": "Unknown",
+          "year": 2025,
+          "url": "https://www.nature.com/articles/s41467-025-63419-w",
+          "note": "2025 Nature Comms: MSL10 as high-sensitivity mechanosensor in fast-acting carnivorous plant."
+        },
+        {
+          "title": "Open structure and gating of the Arabidopsis mechanosensitive ion channel MSL10",
+          "authors": "Unknown",
+          "year": 2023,
+          "url": "https://www.nature.com/articles/s41467-023-42117-5",
+          "note": "Cryo-EM structure of MSL10. Heptameric open conformation."
+        },
+        {
+          "title": "An Acoustic Communication Model in Plants",
+          "authors": "Merdan & Akan",
+          "year": 2025,
+          "url": "https://arxiv.org/abs/2512.01096",
+          "note": "First end-to-end acoustic communication framework for plants. Biologically-motivated, not filter-bank engineering approach."
+        },
+        {
+          "title": "Is plant acoustic communication fact or fiction?",
+          "authors": "Son et al.",
+          "year": 2024,
+          "url": "https://nph.onlinelibrary.wiley.com/doi/10.1111/nph.19648",
+          "note": "Critical review questioning adequacy of controls in plant acoustic studies. Important counterpoint."
+        }
+      ],
+      "bridge_validation": {
+        "trichomes_resonate_at_herbivore_frequencies": "CONFIRMED — Liu 2017, Yin 2021",
+        "trichome_ensemble_covers_frequency_range_with_band_gaps": "CONFIRMED — Yin 2021",
+        "acoustic_radiation_force_on_trichome_cylinders_can_gate_ion_channels": "CONFIRMED (theoretical model) — Peng 2022",
+        "MSL10_channel_is_frequency_selective_low_pass": "CONFIRMED — Basu & Haswell 2020",
+        "trichome_array_formally_analyzed_as_filter_bank": "NOT EXPLORED — gap",
+        "MSL_MCA_channel_gating_frequency_characterized_above_10_Hz": "NOT EXPLORED — gap",
+        "different_trichome_sizes_couple_to_different_MSL_MCA_subtypes": "NOT EXPLORED — gap",
+        "matched_filter_theory_applied_to_plant_acoustic_detection": "NOT EXPLORED — gap"
+      },
+      "gap_analysis": [
+        "No paper formalizes trichome ensemble as parallel filter bank with center frequencies, bandwidths, Q-factors",
+        "MSL10 characterized only at sub-10 Hz; gating response in kHz range (matching trichome resonance) never measured",
+        "No paper tests whether different trichome size classes selectively activate different MSL/MCA channel subtypes",
+        "Matched-filter hypothesis (trichome length distribution statistically matched to herbivore acoustic emission spectrum) never tested",
+        "Frequency downconversion mechanism from kHz trichome resonance to Hz-range MSL10 activity not characterized",
+        "Signal-to-noise analysis for trichome filter bank vs wind background noise not performed"
+      ],
+      "most_promising_directions": [
+        "Patch-clamp or GCaMP imaging of MSL/MCA channel activity in trichomes during kHz frequency stimulation (completely absent from literature)",
+        "Formal Q-factor and center-frequency analysis of trichome size distribution vs herbivore acoustic emission power spectrum across ecotypes",
+        "Test: do trichome mutants (short/sparse trichomes) show shifted frequency sensitivity for herbivore detection compared to wild-type?"
+      ],
+      "key_contradiction": "MSL10 characterized at sub-10 Hz (wind) vs trichome resonance at 6-200 kHz (insect). 3 orders-of-magnitude frequency gap between documented channel response and documented trichome resonance remains unresolved. Generator should address this in hypothesis."
+    }
+  ],
+  "papers_retrieved": [
+    {
+      "filename": "nicolas-boluda2021-lox-collagen-tcell-migration.md",
+      "title": "Tumor stiffening reversion through collagen crosslinking inhibition improves T cell migration and anti-PD-1 treatment",
+      "authors": "Nicolas-Boluda et al.",
+      "year": 2021,
+      "doi": "10.7554/eLife.58688",
+      "target": "T1",
+      "field": "C"
+    },
+    {
+      "filename": "jiang2016-percolation-tumor-proliferation-diffusion.md",
+      "title": "Tumor proliferation and diffusion on percolation clusters",
+      "authors": "Jiang et al.",
+      "year": 2016,
+      "doi": "10.1007/s10867-016-9427-2",
+      "target": "T1",
+      "field": "A-applied"
+    },
+    {
+      "filename": "wang2025-percolation-complement-immune-surfaces.md",
+      "title": "A percolation phase transition controls complement protein coating of surfaces",
+      "authors": "Wang et al.",
+      "year": 2025,
+      "doi": "10.1016/j.cell.2025.05.026",
+      "target": "T1",
+      "field": "A-bridge"
+    },
+    {
+      "filename": "kuczek2019-collagen-density-T-cell-activity.md",
+      "title": "Collagen density regulates the activity of tumor-infiltrating T cells",
+      "authors": "Kuczek et al.",
+      "year": 2019,
+      "doi": "10.1186/s40425-019-0556-6",
+      "target": "T1",
+      "field": "C"
+    },
+    {
+      "filename": "liu2017-arabidopsis-trichomes-acoustic-antennae.md",
+      "title": "Arabidopsis Leaf Trichomes as Acoustic Antennae",
+      "authors": "Liu et al.",
+      "year": 2017,
+      "doi": "10.1016/j.bpj.2017.07.035",
+      "target": "T2",
+      "field": "C-bridge"
+    },
+    {
+      "filename": "yin2021-trichome-ensemble-frequency-selectivity.md",
+      "title": "Ensembles of the leaf trichomes of Arabidopsis thaliana selectively vibrate in the frequency range of its primary insect herbivore",
+      "authors": "Yin et al.",
+      "year": 2021,
+      "doi": "10.1016/j.eml.2021.101377",
+      "target": "T2",
+      "field": "C-bridge"
+    },
+    {
+      "filename": "peng2022-tomato-trichome-acoustic-radiation-force.md",
+      "title": "Acoustic radiation force on a long cylinder, and potential sound transduction by tomato trichomes",
+      "authors": "Peng et al.",
+      "year": 2022,
+      "doi": "10.1016/j.bpj.2022.08.038",
+      "target": "T2",
+      "field": "C-bridge"
+    },
+    {
+      "filename": "msl10-pnas2020-mechanical-oscillations-plants.md",
+      "title": "Cellular transduction of mechanical oscillations in plants by the plasma-membrane mechanosensitive channel MSL10",
+      "authors": "Basu & Haswell",
+      "year": 2020,
+      "doi": "10.1073/pnas.1919402118",
+      "target": "T2",
+      "field": "C"
+    },
+    {
+      "filename": "hoeltje1998-bacterial-cell-mechanics-review.md",
+      "title": "Bacterial Cell Mechanics",
+      "authors": "Rojas ER, et al.",
+      "year": 2018,
+      "doi": "10.1042/BST20170346",
+      "target": "T5",
+      "field": "C"
+    },
+    {
+      "filename": "auer2012-critical-hole-size-lysis-gram-positive.md",
+      "title": "Critical cell wall hole size for lysis in Gram-positive bacteria",
+      "authors": "Auer GK, Weibel DB",
+      "year": 2013,
+      "doi": "10.1098/rsif.2012.0892",
+      "target": "T5",
+      "field": "C-bridge"
+    },
+    {
+      "filename": "yao2019-mechanics-dynamics-bacterial-cell-lysis.md",
+      "title": "Mechanics and Dynamics of Bacterial Cell Lysis",
+      "authors": "Yao Z, et al.",
+      "year": 2019,
+      "doi": "10.1016/j.bpj.2019.04.040",
+      "target": "T5",
+      "field": "C"
+    },
+    {
+      "filename": "zhou2018-fracture-mechanics-staphylococcus-daughter-cell.md",
+      "title": "Fracture mechanics modeling of popping event during daughter cell separation",
+      "authors": "Zhou X, et al.",
+      "year": 2018,
+      "doi": "10.1007/s10237-018-1019-6",
+      "target": "T5",
+      "field": "cross-field"
+    },
+    {
+      "filename": "bardetti2026-nonlinear-stress-softening-cell-wall.md",
+      "title": "Non-linear stress-softening of peptidoglycan mediates bacterial cell shape homeostasis",
+      "authors": "Bardetti P, Barber F, Fitzmaurice D, Rojas ER",
+      "year": 2026,
+      "doi": "10.1016/j.cub.2026.00082",
+      "target": "T5",
+      "field": "C"
+    },
+    {
+      "filename": "moysidou2024-gut-microbiome-bioelectronic-EIS.md",
+      "title": "Modelling Human Gut-Microbiome Interactions in a 3D Bioelectronic Platform",
+      "authors": "Moysidou CM, et al.",
+      "year": 2024,
+      "doi": "10.1002/smsc.202300349",
+      "target": "T6",
+      "field": "cross-field"
+    },
+    {
+      "filename": "fleckenstein2019-gut-bacteria-extracellular-electron-transfer.md",
+      "title": "Bacterial Extracellular Electron Transfer Occurs in Mammalian Gut",
+      "authors": "Fleckenstein JM, et al.",
+      "year": 2019,
+      "doi": "10.1021/acs.analchem.9b03176",
+      "target": "T6",
+      "field": "C-bridge"
+    },
+    {
+      "filename": "electroactive-ecosystem-gut-microbiome-2025.md",
+      "title": "Electroactive ecosystem insights from corrosion microbiomes inform gut microbiome modulation",
+      "authors": "Xu Y, et al.",
+      "year": 2025,
+      "doi": "not retrieved",
+      "target": "T6",
+      "field": "C"
+    },
+    {
+      "filename": "listeria2025-EIS-biosensor-pathogen-detection.md",
+      "title": "Electrochemical Impedance Spectroscopy-Based Biosensors for Label-Free Detection of Pathogens",
+      "authors": "Various",
+      "year": 2025,
+      "doi": "10.3390/bios15070443",
+      "target": "T6",
+      "field": "A"
+    },
+    {
+      "filename": "xu2025-lysosomal-iron-ferroptosis-cancer.md",
+      "title": "Activation of lysosomal iron triggers ferroptosis in cancer",
+      "authors": "Xu et al.",
+      "year": 2025,
+      "doi": "10.1038/s41586-025-08974-4",
+      "pmid": "40335696",
+      "target": "T3",
+      "field": "C"
+    },
+    {
+      "filename": "srivastava2025-labile-iron-pool-ferroptosis.md",
+      "title": "Labile iron pool dynamics do not drive ferroptosis potentiation in colorectal cancer cells",
+      "authors": "Srivastava et al.",
+      "year": 2025,
+      "pmid": "40631145",
+      "target": "T3",
+      "field": "C-anomaly"
+    },
+    {
+      "filename": "harrison2023-ferritin-iron-sequestration-model.md",
+      "title": "Modeling the iron storage protein ferritin reveals how residual ferrihydrite iron determines initial ferritin iron sequestration kinetics",
+      "authors": "Harrison et al.",
+      "year": 2023,
+      "doi": "10.1371/journal.pone.0281401",
+      "target": "T3",
+      "field": "C-A-bridge"
+    },
+    {
+      "filename": "veeckmans2024-ferroptosis-guide-biological-rust.md",
+      "title": "A guide to ferroptosis, the biological rust of cellular membranes",
+      "authors": "Veeckmans et al.",
+      "year": 2024,
+      "doi": "10.1111/febs.16993",
+      "target": "T3",
+      "field": "C"
+    },
+    {
+      "filename": "lieleg2015-biofilm-viscoelasticity-antimicrobial.md",
+      "title": "Viscoelasticity of biofilms and their recalcitrance to mechanical and chemical challenges",
+      "authors": "Lieleg et al.",
+      "year": 2015,
+      "doi": "10.1093/femsre/fuu009",
+      "target": "T4",
+      "field": "cross-field"
+    },
+    {
+      "filename": "gloag2025-biofilm-structure-antibiotic-tolerance.md",
+      "title": "Biofilm structure as a key factor in antibiotic tolerance: insights from Bacillus subtilis model systems",
+      "authors": "Gloag et al.",
+      "year": 2025,
+      "doi": "10.1038/s41522-025-00864-x",
+      "target": "T4",
+      "field": "cross-field"
+    },
+    {
+      "filename": "williamson2024-biofilm-creep-compliance-ultrasound.md",
+      "title": "Effect of biofilm physical characteristics on their susceptibility to antibiotics: impacts of low-frequency ultrasound",
+      "authors": "Williamson et al.",
+      "year": 2024,
+      "doi": "10.1038/s41522-024-00544-2",
+      "pmid": "39160204",
+      "target": "T4",
+      "field": "cross-field"
+    },
+    {
+      "filename": "wu2024-biofilm-alginate-viscoelastic-antibiotic.md",
+      "title": "Alginate exopolymer significantly modulates the viscoelastic properties and resilience of bacterial biofilms",
+      "authors": "Wu et al.",
+      "year": 2025,
+      "doi": "10.1038/s41522-025-00718-6",
+      "pmid": "40490445",
+      "target": "T4",
+      "field": "cross-field"
+    }
+  ],
+  "t5_disjointness": {
+    "id": "T5",
+    "title": "Griffith Fracture Mechanics x Bacterial Cell Wall Failure Under β-Lactam Stress",
+    "field_a": "Materials science — Griffith fracture mechanics, stress intensity factors",
+    "field_c": "Microbiology — peptidoglycan mechanics, β-lactam mechanism of action",
+    "disjointness_status": "PARTIALLY_EXPLORED",
+    "disjointness_confidence": 0.90,
+    "scout_estimate": "DISJOINT",
+    "scout_confidence_estimate": 0.85,
+    "cross_field_papers_count": 1,
+    "cross_field_papers": [
+      {
+        "title": "Fracture mechanics modeling of popping event during daughter cell separation",
+        "authors": "Zhou et al. (MIT)",
+        "year": 2018,
+        "doi": "10.1007/s10237-018-1019-6",
+        "relevance": "ONLY paper applying fracture mechanics energy release rate G to bacterial PG. Uses FE analysis. Addresses NORMAL DIVISION, not beta-lactam lysis. Does not apply Griffith criterion G >= G_c for catastrophic failure.",
+        "file": "results/session-20260328-123317/papers/zhou2018-fracture-mechanics-staphylococcus-daughter-cell.md"
+      }
+    ],
+    "bridge_validation": {
+      "PG_as_pressurized_vessel": "CONFIRMED — standard biophysics",
+      "turgor_drives_lysis": "CONFIRMED — Yao 2019",
+      "beta_lactam_crosslink_loss_weakens_PG": "CONFIRMED — multiple papers",
+      "energy_threshold_for_lysis": "PARTIAL — Gibbs free energy for MEMBRANE (Auer 2013), not PG fracture mechanics",
+      "fracture_mechanics_applied_to_bacterial_PG": "PARTIAL — energy release rate G for NORMAL DIVISION only (Zhou 2018)",
+      "Griffith_criterion_for_PG_lysis_threshold": "NOT FOUND",
+      "K_IC_of_PG_mesh_vs_crosslink_density": "NOT FOUND",
+      "crosslink_defects_as_Griffith_cracks": "NOT FOUND",
+      "MIC_predicted_from_PG_fracture_toughness": "NOT FOUND"
+    },
+    "gap_analysis": [
+      "Griffith criterion G >= G_c has never been applied to PG layer under beta-lactam crosslink loss",
+      "Fracture toughness K_IC of PG mesh as function of crosslink density never measured or calculated",
+      "PG crosslink defect clusters never modeled as Griffith cracks in pressurized shell",
+      "Stress intensity factor K_I at crack tips from clustered crosslink voids never calculated",
+      "Lysis threshold predicted from fracture mechanics + crosslink loss rate kinetics not in literature",
+      "Whether lytic vs tolerant outcomes reflect subcritical vs supercritical crack growth not explored"
+    ],
+    "recommendation": "PROCEED as novel — Zhou 2018 confirms feasibility of fracture mechanics for bacterial PG, while confirming the T5 specific application (Griffith criterion for beta-lactam lysis) is genuinely unexplored"
+  },
+  "t6_disjointness": {
+    "id": "T6",
+    "title": "Electrochemical Impedance Spectroscopy x Gut Microbiome Metabolic State",
+    "field_a": "Electrochemistry — EIS, equivalent circuit modeling",
+    "field_c": "Gut microbiology — microbiome metabolic activity, dysbiosis detection",
+    "disjointness_status": "PARTIALLY_EXPLORED",
+    "disjointness_confidence": 0.88,
+    "scout_estimate": "DISJOINT",
+    "cross_field_papers_count": 2,
+    "cross_field_papers": [
+      {
+        "title": "Modelling Human Gut-Microbiome Interactions in a 3D Bioelectronic Platform",
+        "authors": "Moysidou et al.",
+        "year": 2024,
+        "doi": "10.1002/smsc.202300349",
+        "relevance": "EIS in gut microbiome context — BUT measures EPITHELIAL BARRIER INTEGRITY (tight junction resistance), not gut microbiome metabolic state. Uses simple Randles circuit for epithelial response.",
+        "file": "results/session-20260328-123317/papers/moysidou2024-gut-microbiome-bioelectronic-EIS.md"
+      },
+      {
+        "title": "Bacterial Extracellular Electron Transfer Occurs in Mammalian Gut",
+        "authors": "Fleckenstein et al.",
+        "year": 2019,
+        "doi": "10.1021/acs.analchem.9b03176",
+        "relevance": "Proves gut bacteria are electrochemically active in vivo; EET correlates with metabolic rate. Uses CV, not EIS. KEY ENABLING PAPER for T6 bridge.",
+        "file": "results/session-20260328-123317/papers/fleckenstein2019-gut-bacteria-extracellular-electron-transfer.md"
+      }
+    ],
+    "bridge_validation": {
+      "EIS_applied_to_microorganisms_generally": "CONFIRMED — extensive literature",
+      "EIS_for_gut_epithelial_barrier": "CONFIRMED — Moysidou 2024",
+      "gut_bacteria_electrochemically_active_in_vivo": "CONFIRMED — Fleckenstein 2019",
+      "EIS_for_individual_gut_metabolite_detection": "CONFIRMED — SCFA impedimetric sensors",
+      "EIS_biofilm_metabolic_state_non_gut": "CONFIRMED — Nano Letters 2024 (negative capacitance)",
+      "EIS_community_metabolic_fingerprint_gut_dysbiosis": "NOT FOUND",
+      "Randles_parameters_as_dysbiosis_markers": "NOT FOUND",
+      "EIS_distinguishing_healthy_vs_dysbiotic_community": "NOT FOUND",
+      "in_vivo_gut_EIS_with_equivalent_circuit_interpretation": "NOT FOUND"
+    },
+    "gap_analysis": [
+      "EIS frequency sweep as metabolic fingerprint of WHOLE GUT MICROBIOME community metabolic state not found in any paper",
+      "Randles circuit parameters (Rct, Cdl, Warburg W) as community-level metabolic activity markers not characterized",
+      "EIS distinguishing healthy vs dysbiotic gut microbiome not demonstrated",
+      "Despite EET confirmed in vivo (Fleckenstein 2019), no one has developed EIS equivalent circuit model linking Rct to gut microbiome metabolic state",
+      "Ingestible EIS capsule performing full frequency sweep across GI segments not yet developed"
+    ],
+    "recommendation": "PROCEED as novel — partial exploration (gut EET confirmed, EIS used in gut context for barrier, EIS encodes metabolic state in biofilm) strengthens feasibility but the core bridge (community metabolic fingerprint) is genuinely unexplored"
+  },
+  "t3_disjointness": {
+    "id": "T3",
+    "title": "Classical Nucleation Theory x Ferroptosis LIP Dynamics",
+    "field_a": "Physics — classical nucleation theory, heterogeneous nucleation kinetics",
+    "field_c": "Cell death biology — ferroptosis, labile iron pool regulation",
+    "disjointness_status": "DISJOINT",
+    "disjointness_confidence": 0.97,
+    "scout_estimate": "DISJOINT",
+    "cross_field_papers_count": 0,
+    "cross_field_papers": [],
+    "adjacent_papers": [
+      {
+        "title": "Modeling the iron storage protein ferritin reveals how residual ferrihydrite iron determines initial ferritin iron sequestration kinetics",
+        "authors": "Harrison et al.",
+        "year": 2023,
+        "doi": "10.1371/journal.pone.0281401",
+        "pmid": "PMC9901743",
+        "relevance": "Ferritin iron core formation modeled kinetically — but uses empirical rate laws, NOT CNT. Explicitly states nucleation mechanism unknown. No connection to ferroptosis or LIP.",
+        "file": "results/session-20260328-123317/papers/harrison2023-ferritin-iron-sequestration-model.md"
+      },
+      {
+        "title": "Activation of lysosomal iron triggers ferroptosis in cancer",
+        "authors": "Xu et al.",
+        "year": 2025,
+        "doi": "10.1038/s41586-025-08974-4",
+        "pmid": "40335696",
+        "relevance": "2025 Nature paper on lysosomal iron mechanism. No nucleation or CNT content. Confirms iron threshold question open.",
+        "file": "results/session-20260328-123317/papers/xu2025-lysosomal-iron-ferroptosis-cancer.md"
+      },
+      {
+        "title": "Labile iron pool dynamics do not drive ferroptosis potentiation in colorectal cancer cells",
+        "authors": "Srivastava et al.",
+        "year": 2025,
+        "pmid": "40631145",
+        "relevance": "KEY ANOMALY: LIP did not expand during ferroptosis induction — contradicts standard model. Exactly the puzzle CNT stochastic threshold analysis could address.",
+        "file": "results/session-20260328-123317/papers/srivastava2025-labile-iron-pool-ferroptosis.md"
+      }
+    ],
+    "field_a_key_papers": [
+      {
+        "title": "Observation of the Assembly of the Nascent Mineral Core at the Nucleation Site of Human Mitochondrial Ferritin",
+        "authors": "JACS 2025",
+        "year": 2025,
+        "doi": "10.1021/jacs.5c01337",
+        "note": "Two-step nucleation in ferritin iron core assembly. Relevant CNT extension in the biological context adjacent to the bridge."
+      },
+      {
+        "title": "Classical and Nonclassical Nucleation and Growth Mechanisms for Nanoparticle Formation",
+        "authors": "Annual Reviews",
+        "year": 2021,
+        "url": "https://www.annualreviews.org/content/journals/10.1146/annurev-physchem-082720-100947",
+        "note": "Review of CNT and nonclassical alternatives. Framework for the bridge hypothesis."
+      }
+    ],
+    "field_c_key_papers": [
+      {
+        "title": "Activation of lysosomal iron triggers ferroptosis in cancer",
+        "authors": "Xu et al.",
+        "year": 2025,
+        "doi": "10.1038/s41586-025-08974-4",
+        "pmid": "40335696",
+        "file": "results/session-20260328-123317/papers/xu2025-lysosomal-iron-ferroptosis-cancer.md"
+      },
+      {
+        "title": "A guide to ferroptosis, the biological rust of cellular membranes",
+        "authors": "Veeckmans et al.",
+        "year": 2024,
+        "doi": "10.1111/febs.16993",
+        "note": "2024 FEBS review: LIP threshold explicitly identified as open problem.",
+        "file": "results/session-20260328-123317/papers/veeckmans2024-ferroptosis-guide-biological-rust.md"
+      },
+      {
+        "title": "Labile iron pool dynamics do not drive ferroptosis potentiation in colorectal cancer cells",
+        "authors": "Srivastava et al.",
+        "year": 2025,
+        "pmid": "40631145",
+        "file": "results/session-20260328-123317/papers/srivastava2025-labile-iron-pool-ferroptosis.md"
+      }
+    ],
+    "bridge_validation": {
+      "ferritin_forms_ferrihydrite_core_via_nucleation": "CONFIRMED — structural biology papers",
+      "ferritinophagy_releases_iron_to_lysosomes": "CONFIRMED — multiple reviews",
+      "lysosomal_iron_triggers_ferroptosis": "CONFIRMED — Xu et al. 2025, Nature",
+      "LIP_threshold_for_ferroptosis_is_an_open_question": "CONFIRMED — Veeckmans 2024, Srivastava 2025",
+      "CNT_applied_to_ferritin_ferrihydrite_nucleation": "NOT FOUND",
+      "ferrihydrite_dissolution_modeled_as_reverse_nucleation": "NOT FOUND",
+      "CNT_critical_nucleus_size_linked_to_LIP_overflow": "NOT FOUND",
+      "stochastic_first_passage_time_for_ferroptosis_threshold": "NOT FOUND",
+      "ferritin_particle_size_predicts_ferroptosis_susceptibility": "NOT FOUND"
+    },
+    "key_anomaly": "Srivastava 2025 (PMID 40631145): LIP does not expand during GPX4 inhibition-initiated ferroptosis in colorectal cancer cells — challenges standard model. CNT stochastic analysis could explain: localized nucleation events in individual lysosomes, not bulk LIP changes, trigger Fenton chemistry.",
+    "gap_analysis": [
+      "Zero papers found applying CNT to ferrihydrite dissolution or LIP overflow threshold",
+      "Ferritin iron sequestration model (Harrison 2023) explicitly avoids CNT due to unknown nucleation mechanism — gap",
+      "Reverse heterogeneous nucleation of ferrihydrite has no physical chemistry framework",
+      "Stochastic first-passage time analysis of lysosomal iron release not in any paper",
+      "Cell-type variation in ferroptosis susceptibility not explained by ferrihydrite particle size (CNT-derived Kelvin equation prediction untested)",
+      "LIP threshold paradox (Srivastava 2025) has no mechanistic resolution in current literature"
+    ],
+    "recommendation": "PROCEED — DISJOINT with confidence 0.97. The Srivastava 2025 LIP paradox is a specific, resolvable puzzle that makes this bridge scientifically actionable, not merely speculative."
+  },
+  "t4_disjointness": {
+    "id": "T4",
+    "title": "Linear Viscoelastic Creep Theory x Biofilm Antibiotic Tolerance",
+    "field_a": "Materials science — linear viscoelastic theory, Maxwell/Kelvin-Voigt models, creep compliance",
+    "field_c": "Microbiology — biofilm antibiotic tolerance, persister formation, EPS matrix",
+    "disjointness_status": "PARTIALLY_EXPLORED",
+    "disjointness_confidence": 0.90,
+    "scout_estimate": "DISJOINT",
+    "scout_note": "Scout noted 'biofilm rheology subfield exists' — this was correct. Specific bridge absent as Scout suspected.",
+    "cross_field_papers_count": 6,
+    "cross_field_papers": [
+      {
+        "title": "Viscoelasticity of biofilms and their recalcitrance to mechanical and chemical challenges",
+        "authors": "Lieleg et al.",
+        "year": 2015,
+        "doi": "10.1093/femsre/fuu009",
+        "pmid_pmc": "PMC4398279",
+        "relevance": "Maxwell elements in parallel quantitatively linked to chlorhexidine penetration. Closest to bridge but uses Maxwell relaxation elements, not J(t) formalism. No G'/G'' crossover for MIC prediction.",
+        "file": "results/session-20260328-123317/papers/lieleg2015-biofilm-viscoelasticity-antimicrobial.md"
+      },
+      {
+        "title": "Effect of biofilm physical characteristics on their susceptibility to antibiotics: impacts of low-frequency ultrasound",
+        "authors": "Williamson et al.",
+        "year": 2024,
+        "doi": "10.1038/s41522-024-00544-2",
+        "pmid": "39160204",
+        "relevance": "Creep compliance J(t) formula explicitly used. Power-law exponent alpha classifies elastic vs viscous. Correlates compliance with tobramycin diffusion. No formal constitutive model linking J(t) to drug diffusion rate.",
+        "file": "results/session-20260328-123317/papers/williamson2024-biofilm-creep-compliance-ultrasound.md"
+      },
+      {
+        "title": "Biofilm structure as a key factor in antibiotic tolerance: insights from Bacillus subtilis model systems",
+        "authors": "Gloag et al.",
+        "year": 2025,
+        "doi": "10.1038/s41522-025-00864-x",
+        "relevance": "Direct correlation between G'/G'' and daptomycin tolerance (3-log difference). No formal creep theory or MIC prediction model.",
+        "file": "results/session-20260328-123317/papers/gloag2025-biofilm-structure-antibiotic-tolerance.md"
+      },
+      {
+        "title": "Alginate exopolymer significantly modulates the viscoelastic properties and resilience of bacterial biofilms",
+        "authors": "Wu et al.",
+        "year": 2025,
+        "doi": "10.1038/s41522-025-00718-6",
+        "pmid": "40490445",
+        "relevance": "Alginate EPS modulates G'/G''; mesh size connects EPS composition to drug penetration. No J(t) formalism.",
+        "file": "results/session-20260328-123317/papers/wu2024-biofilm-alginate-viscoelastic-antibiotic.md"
+      },
+      {
+        "title": "N-Acetyl-Cysteine Increases Activity of Gold Nanoparticles Against Pseudomonas aeruginosa Biofilms",
+        "authors": "Piktel et al.",
+        "year": 2022,
+        "pmid": "35281576",
+        "relevance": "Creep compliance decreases with nanoparticle + NAC treatment; synergistic tobramycin effect. No formal J(t) model."
+      },
+      {
+        "title": "Repurposing DNase I and alginate lyase to degrade biofilm matrix combined with antibiotics",
+        "authors": "Wang et al.",
+        "year": 2024,
+        "pmid": "38402083",
+        "relevance": "Correlation between elasticity/viscosity reduction and treatment efficacy in mucoid P. aeruginosa biofilms."
+      }
+    ],
+    "bridge_validation": {
+      "biofilms_are_viscoelastic_materials": "CONFIRMED — extensive literature",
+      "Maxwell_Kelvin_Voigt_models_describe_biofilm_mechanics": "CONFIRMED — Lieleg 2015, Shaw 2004",
+      "creep_compliance_measurable_in_biofilms": "CONFIRMED — Williamson 2024, Shaw 2004",
+      "viscoelastic_parameters_correlate_with_antimicrobial_penetration": "CONFIRMED — Lieleg 2015, Williamson 2024",
+      "G_prime_G_double_prime_correlates_with_antibiotic_tolerance": "CONFIRMED — Gloag 2025",
+      "J_t_as_governing_equation_for_drug_penetration_kinetics": "NOT FOUND",
+      "G_prime_G_double_prime_crossover_as_MIC_threshold": "NOT FOUND",
+      "retardation_spectrum_predicts_antibiotic_penetration_timescales": "NOT FOUND",
+      "Maxwell_relaxation_time_predicts_persister_cell_distribution": "NOT FOUND",
+      "MBEC_derived_from_creep_compliance_parameters": "NOT FOUND"
+    },
+    "key_contradiction": "Beyond-matrix vs. matrix-centric models (2025): 'Beyond the matrix' paper argues metabolic adaptation is primary tolerance mechanism in CF biofilms — contradicts Lieleg 2015, Gloag 2025, Wu 2025 treating viscoelastic barrier as primary. This contradiction is itself an opportunity: the Generator can propose that creep compliance predicts WHICH mechanism dominates in a given biofilm.",
+    "gap_analysis": [
+      "J(t) = J_0 + J_1(1-exp(-t/tau)) + t/eta never used as governing equation for antibiotic concentration profile in biofilm",
+      "G'/G'' crossover frequency as quantitative MIC/MBEC predictor absent from all literature",
+      "Retardation spectrum H(tau) not applied to predict distribution of antibiotic penetration timescales",
+      "Creep compliance parameters (J_0, J_1, tau, eta) not used to derive pharmacokinetic model for biofilm drug penetration",
+      "Maxwell relaxation time constants not linked to persister cell formation or spatial distribution",
+      "G'/G'' crossover as percolation transition in EPS network for antibiotic accessibility not explored"
+    ],
+    "recommendation": "PROCEED — PARTIALLY EXPLORED at hard end. The empirical correlation substrate exists; the mathematical formalism (formal creep constitutive law applied to drug transport; gel point as MIC threshold) is absent. Hypothesis should be clearly framed as formalizing and quantifying the existing empirical observations, not as introducing a completely new connection."
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "session_id": "session-20260328-123317",
+  "target": "Percolation Threshold Theory x T Cell Infiltration in Solid Tumors",
+  "field_a": "Statistical mechanics -- bond percolation theory",
+  "field_c": "Tumor immunology -- ECM-mediated immune exclusion",
+  "strategy": "structural_isomorphism",
+  "disjointness": "DISJOINT",
+  "validated_at": "2026-03-28T13:16:12Z",
+  "hypotheses": [
+    {
+      "id": "E1-H1",
+      "title": "Voronoi Tessellation of Tumor ECM Recovers 3D Percolation Universality Class, with LOX Crosslink Density Mapping to Bond Occupation Probability via a Calibrated Pore-Area Threshold of 4 um^2",
+      "verdict": "CONDITIONAL_PASS",
+      "composite_score": 7.5,
+      "confidence": 6,
+      "groundedness": 7,
+      "rubric_details": {
+        "structure": 8,
+        "mechanism_specificity": 8,
+        "falsifiable_prediction": 8,
+        "counter_evidence": 7,
+        "test_protocol": 7,
+        "confidence_calibration": 7,
+        "novelty": 9,
+        "groundedness": 7,
+        "language_precision": 8,
+        "per_claim_verification": 7
+      },
+      "claims_verified": 5,
+      "claims_failed": 0,
+      "claims_unverifiable": 2,
+      "claims_parametric": 2,
+      "key_strength": "Core mapping (LOX crosslinks -> bond occupation) grounded in verified biochemistry (UniProt P28300, Nicolas-Boluda 2021). Harris criterion analysis rigorously bounds transition smearing.",
+      "key_risk": "Voronoi coordination number z~6-8 unverified for tumor ECM. Lattice abstraction of disordered fiber network may break down.",
+      "conditions_for_pass": ["Correct tau to 2.19 in all references", "Provide literature citation for Voronoi z~6-8"],
+      "impact": {
+        "pathway": "therapy + measurement method",
+        "domain": "Immuno-oncology / tumor microenvironment engineering",
+        "horizon": "near-term"
+      }
+    },
+    {
+      "id": "E2-H2",
+      "title": "Measuring (Not Assuming) the Active-Percolation Universality Class in Tumor ECM: A Two-Exponent Test Using MSD Walk Dimension and Cluster Size Power Law",
+      "verdict": "CONDITIONAL_PASS",
+      "composite_score": 6.7,
+      "confidence": 5,
+      "groundedness": 6,
+      "rubric_details": {
+        "structure": 8,
+        "mechanism_specificity": 7,
+        "falsifiable_prediction": 9,
+        "counter_evidence": 7,
+        "test_protocol": 7,
+        "confidence_calibration": 7,
+        "novelty": 9,
+        "groundedness": 5,
+        "language_precision": 7,
+        "per_claim_verification": 5
+      },
+      "claims_verified": 2,
+      "claims_failed": 1,
+      "claims_unverifiable": 1,
+      "claims_parametric": 2,
+      "key_strength": "Strongest falsifiability. Proposes MEASURING universality class rather than assuming it. Two-exponent test over-constrains the model.",
+      "key_risk": "d_w = 2.878 unverifiable. tau = 2.31 in markdown is wrong (should be 2.189 for 3D).",
+      "conditions_for_pass": ["Correct tau to 2.189 for 3D isotropic percolation", "Verify or flag d_w = 2.878 as uncertain"],
+      "impact": {
+        "pathway": "measurement_method",
+        "domain": "Biophysics / quantitative immunology",
+        "horizon": "near-term"
+      }
+    },
+    {
+      "id": "E4-H8",
+      "title": "TGF-beta Signaling Range of 40-60 um Produces a Quantified p_c Shift of +0.035 to +0.075 via Correlated Percolation, Making LOX + Anti-TGF-beta Synergy a Calculable Prediction",
+      "verdict": "CONDITIONAL_PASS",
+      "composite_score": 7.6,
+      "confidence": 5,
+      "groundedness": 7,
+      "rubric_details": {
+        "structure": 8,
+        "mechanism_specificity": 8,
+        "falsifiable_prediction": 8,
+        "counter_evidence": 8,
+        "test_protocol": 8,
+        "confidence_calibration": 7,
+        "novelty": 9,
+        "groundedness": 7,
+        "language_precision": 8,
+        "per_claim_verification": 8
+      },
+      "claims_verified": 7,
+      "claims_failed": 0,
+      "claims_unverifiable": 0,
+      "claims_parametric": 2,
+      "key_strength": "Best-grounded hypothesis. All major citations verified. Weinrib-Halperin framework correctly applied. Combination therapy prediction clinically actionable.",
+      "key_risk": "Quantitative p_c shift (0.035-0.075) from perturbation theory needs simulation verification.",
+      "conditions_for_pass": ["Simulation-based p_c shift estimate", "Power analysis for different effect sizes"],
+      "impact": {
+        "pathway": "therapy",
+        "domain": "Immuno-oncology / combination therapy design",
+        "horizon": "medium-term"
+      }
+    },
+    {
+      "id": "E3-H4",
+      "title": "Michaelis-Menten LOX Kinetics and MMP Turnover Half-Life Jointly Determine the p(BAPN dose) Mapping, Placing the Percolation Therapeutic Window at 0.3-0.8 mg/mL BAPN -- 4-10x Below Current Clinical Trial Doses",
+      "verdict": "CONDITIONAL_PASS",
+      "composite_score": 7.0,
+      "confidence": 5,
+      "groundedness": 6,
+      "rubric_details": {
+        "structure": 8,
+        "mechanism_specificity": 8,
+        "falsifiable_prediction": 8,
+        "counter_evidence": 7,
+        "test_protocol": 8,
+        "confidence_calibration": 7,
+        "novelty": 9,
+        "groundedness": 6,
+        "language_precision": 7,
+        "per_claim_verification": 6
+      },
+      "claims_verified": 4,
+      "claims_failed": 1,
+      "claims_unverifiable": 0,
+      "claims_parametric": 2,
+      "key_strength": "Most translationally actionable. Specific dose prediction testable in mouse dose-response experiment.",
+      "key_risk": "IC50 = 80 uM should be Ki = 6 uM (Tang 1983). Dose calculation needs re-derivation with irreversible inhibition kinetics.",
+      "conditions_for_pass": ["Replace IC50 = 80 uM with Ki = 6 uM", "Re-derive p(dose) with irreversible inhibition kinetics", "Update therapeutic window prediction"],
+      "impact": {
+        "pathway": "therapy",
+        "domain": "Clinical oncology / immuno-oncology drug development",
+        "horizon": "medium-term"
+      }
+    }
+  ]
+}
