@@ -5,6 +5,7 @@ model: opus
 effort: max
 tools: Read, Write, WebSearch, WebFetch
 skills: hypothesis-validation, literature-retrieval
+permissionMode: bypassPermissions
 disallowedTools: Agent
 hooks:
   stop:

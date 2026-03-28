@@ -5,6 +5,7 @@ model: sonnet
 effort: high
 tools: Read, Write, Bash, WebSearch, WebFetch
 skills: discovery-engine, literature-retrieval, domain-life-sciences
+permissionMode: bypassPermissions
 disallowedTools: Agent
 ---
 

@@ -5,6 +5,7 @@ model: opus
 effort: max
 tools: Read, Write
 skills: discovery-engine, domain-life-sciences, domain-physics-math
+permissionMode: bypassPermissions
 disallowedTools: WebSearch, WebFetch, Bash, Agent
 hooks:
   stop:

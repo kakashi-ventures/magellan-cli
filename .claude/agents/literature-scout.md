@@ -6,6 +6,7 @@ effort: high
 tools: Read, Write, WebSearch, WebFetch
 skills: literature-retrieval, domain-life-sciences, domain-physics-math
 memory: project
+permissionMode: bypassPermissions
 disallowedTools: Agent
 ---
 
