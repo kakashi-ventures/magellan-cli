@@ -89,7 +89,8 @@ learn to explore better over time based on its own results.
    → Recommendation: "Indirect molecular bridges via X survive 2x more than direct Y"
 
 4. **Disjointness correlation**: Do DISJOINT pairs actually produce better results?
-   - Compare DISJOINT vs PARTIALLY_EXPLORED vs WELL_EXPLORED outcomes
+   - Compare DISJOINT vs PARTIALLY_EXPLORED vs NEWLY_OPENED_PARTIALLY_EXPLORED vs WELL_EXPLORED outcomes
+   - NEWLY_OPENED = landmark paper < 6 months old, specific bridge <= 2 PubMed papers
    → Recommendation: confirms or revises the "DISJOINT is best" assumption
 
 5. **Temporal trends**: Is the pipeline improving over sessions?
@@ -179,6 +180,7 @@ learn to explore better over time based on its own results.
 | Disjointness | Targets | Survived | Rate |
 |---|---|---|---|
 | DISJOINT | N | N | X% |
+| NEWLY_OPENED_PARTIALLY_EXPLORED | N | N | X% |
 | PARTIALLY_EXPLORED | N | N | X% |
 
 **Recommendation for Scout**: [confirms/revises DISJOINT preference]

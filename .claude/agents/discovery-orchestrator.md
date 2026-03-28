@@ -214,8 +214,8 @@ state/session.json. Narrow 5-6 candidates to 3 using these criteria
 (in priority order):
 
 1. **Exclude WELL_EXPLORED** — remove any candidate classified as WELL_EXPLORED
-2. **Prefer DISJOINT over PARTIALLY_EXPLORED** — if 3+ DISJOINT candidates
-   exist with score >= 5, use only DISJOINT
+2. **Prefer DISJOINT over PARTIALLY_EXPLORED** — if 3+ DISJOINT or
+   NEWLY_OPENED_PARTIALLY_EXPLORED candidates exist with score >= 5, use only those
 3. **Bridge validation** — exclude candidates where Literature Scout flagged
    bridges as factually incorrect
 4. **Scout confidence** — among remaining, select top 3 by Scout confidence score
@@ -255,14 +255,21 @@ After agent returns, read state/session.json:
 **DISJOINTNESS PRIORITY (hard constraint):**
 - Read disjointness_status for each target from {results_dir}/scout.json
   (or from scout_targets in state if scout.json unavailable)
-- IF any target is DISJOINT AND has target_quality_score >= 5:
-  → ONLY consider DISJOINT targets for selection
-  → Select TOP DISJOINT target by target_quality_score (break ties with impact_potential
+- Treat NEWLY_OPENED_PARTIALLY_EXPLORED as equivalent to DISJOINT for selection
+  purposes (S015-S016 data: 100% QG pass+cond rate when specific bridge has <= 2
+  PubMed papers). A landmark paper < 6 months old that defines a new subfield
+  creates effectively DISJOINT mechanism gaps within the subfield.
+- IF any target is DISJOINT or NEWLY_OPENED_PARTIALLY_EXPLORED AND has
+  target_quality_score >= 5:
+  → ONLY consider DISJOINT and NEWLY_OPENED_PARTIALLY_EXPLORED targets for selection
+  → Select TOP target by target_quality_score (break ties with impact_potential
     from Target Evaluator's informational axis, then Scout confidence)
-  → Log in dispatch-log: "DISJOINTNESS_PRIORITY applied: excluded PARTIALLY_EXPLORED targets in favor of DISJOINT"
-- ELSE (no DISJOINT target scores >= 5, or all targets are the same disjointness):
+  → Log in dispatch-log: "DISJOINTNESS_PRIORITY applied: excluded PARTIALLY_EXPLORED targets in favor of DISJOINT/NEWLY_OPENED"
+- ELSE (no DISJOINT/NEWLY_OPENED target scores >= 5, or all targets are the same disjointness):
   → Select TOP target by target_quality_score, breaking ties with Scout confidence
-- Rationale: 9 sessions of data show DISJOINT targets produce 84% pass+cond rate vs 30% for PARTIALLY_EXPLORED. This is the strongest predictor of session quality.
+- Rationale: 14 sessions of data show DISJOINT targets produce 84% pass+cond rate
+  vs 30% for traditional PARTIALLY_EXPLORED. NEWLY_OPENED_PARTIALLY_EXPLORED (S015-S016)
+  achieved 100% — the key variable is bridge-level novelty, not field-level overlap.
 
 ### INTERACTIVE MODE PAUSE (if --interactive flag was set in dispatch)
 If the dispatch prompt includes "INTERACTIVE MODE", pause here and present the evaluated targets to the user:

@@ -48,10 +48,31 @@ disjointness assessment, and gap analysis.
 
 2. **Disjointness verification (mandatory)**: Before finalizing, verify
    the proposed connection is genuinely underexplored. Classify as:
-   - DISJOINT: No substantial cross-field literature found
-   - PARTIALLY EXPLORED: Some connections noted but mechanism gaps remain
+   - DISJOINT: Zero papers apply the specific bridge mechanism from Field A to Field C
+   - PARTIALLY_EXPLORED: At least one paper applies a related framework or
+     uses one of the fields' tools in a near-miss context
+   - NEWLY_OPENED_PARTIALLY_EXPLORED: A landmark paper (< 6 months old) defined
+     a new subfield — specific mechanism gaps within it are effectively DISJOINT.
+     Criteria: (a) landmark paper < 6 months old, OR (b) specific bridge query
+     (Field A entity + Field C measurement) returns <= 2 PubMed papers
    - WELL-EXPLORED: Multiple reviews/papers already link these fields
-   Record the assessment in output and state — this assessment feeds directly into the Generator's strategy selection and the Ranker's novelty scoring
+   Record the assessment in output and state — this assessment feeds directly
+   into the Generator's strategy selection and the Ranker's novelty scoring.
+
+   **Common over-estimation patterns** (Scout estimates DISJOINT but reality
+   is PARTIALLY_EXPLORED — check for these before confirming DISJOINT):
+   a. Framework applied to related phenomenon, not the proposed one
+      (e.g., fracture mechanics used for normal cell division, not the proposed lysis use)
+   b. Tool used in target context but for a different purpose
+      (e.g., EIS in gut microbiome for barrier integrity, not metabolic fingerprinting)
+   c. Enabling biology proven but the measurement/predictive framework absent
+      (e.g., EET confirmed in vivo but no EIS diagnostic framework exists)
+
+   **PARTIALLY_EXPLORED does NOT invalidate novelty**: If existing work is
+   (a) for a different biological context, (b) a different mathematical formalism
+   within the same tool class, or (c) establishes biology but not the
+   diagnostic/predictive framework — the target is still novel enough to proceed.
+   The gap analysis MUST articulate exactly what existing papers DON'T do
 
 3. **Full-text retrieval**: Use WebFetch to retrieve full text for the
    top 5-10 papers per field. Save to the **session-scoped papers directory**
@@ -213,7 +234,7 @@ Verify your output:
 - [Paper title]: {results_dir}/papers/[filename] — [why selected]
 
 ## Disjointness Assessment
-- Status: [DISJOINT | PARTIALLY EXPLORED | WELL-EXPLORED]
+- Status: [DISJOINT | PARTIALLY_EXPLORED | NEWLY_OPENED_PARTIALLY_EXPLORED | WELL-EXPLORED]
 - Evidence: [what searches revealed about existing cross-field work]
 - Implication: [what this means for hypothesis novelty]
 
