@@ -216,6 +216,9 @@ const payload = {
     strategy: ingest.strategy,
     disjointness: ingest.disjointness,
     pipelineStats: ingest.pipeline_stats,
+    outputLicense: ingest.output_license || null,
+    outputLicenseReason: ingest.output_license_reason || null,
+    attribution: ingest.attribution || null,
     startedAt: ingest.started_at,
     completedAt: ingest.completed_at
   },

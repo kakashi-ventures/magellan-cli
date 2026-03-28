@@ -283,6 +283,12 @@ the evolution history of the pipeline.
 
 ## License
 
-MIT — Copyright (c) 2026 Alberto Trivero / Kakashi Venture Accelerator
+**Software:** [Apache License 2.0](LICENSE) — Copyright 2026 Alberto Trivero / Kakashi Venture Accelerator
+
+**Discovery outputs:** Dual-track licensing based on mode of operation:
+- Autonomous (`/discover` pure) → [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) (public domain, voluntary citation requested)
+- Guided (`/discover A × B`, `--context`, `--papers`, `--interactive`) → [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) (attribution required)
+
+See [DISCOVERY_LICENSE.md](DISCOVERY_LICENSE.md) for full details on output licensing and attribution.
 
 Built where science meets AI. [kakashi.ventures](https://kakashi.ventures)

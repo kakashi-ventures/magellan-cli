@@ -5,6 +5,36 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.17 — Licensing & Attribution Framework (28 marzo 2026)
+
+**Motivazione**: Preparazione al lancio pubblico. Il repository era sotto licenza MIT senza protezione sull'attribuzione (chiunque poteva forkare e rimuovere il credit) e senza licenza sugli output (ipotesi scientifiche). Serviva un framework chiaro sia per il software che per le scoperte.
+
+**Decisioni**:
+1. **Software: MIT → Apache 2.0** — Il file NOTICE (obbligatorio in ogni redistribuzione) garantisce che "Alberto Trivero / Kakashi Venture Accelerator" sopravviva a fork e rebrand. Patent grant esplicito protegge da patent trolling sull'architettura multi-agente. Zero costo di adozione rispetto a MIT.
+
+2. **Output: dual-track CC0/CC-BY 4.0** — Le scoperte autonome (`/discover` puro) sono CC0 (pubblico dominio con richiesta volontaria di citazione), onesto sul fatto che il copyright su contenuti AI-generati è incerto. Le scoperte guidate (`/discover A × B`, `--context`, `--papers`, `--interactive`) sono CC-BY 4.0, riconoscendo la direzione creativa del contributore.
+
+3. **Metadata pipeline** — `output_license`, `output_license_reason`, e `attribution` sono ora tracciati in `session.json`, portati in `ingest.json`, e inviati all'API del sito.
+
+**File creati**:
+- `NOTICE`: attribuzione Apache 2.0 (obbligatorio in redistribuzioni)
+- `DISCOVERY_LICENSE.md`: dual-track licensing per gli output
+- `CONTRIBUTING.md`: guida per contributori (scoperte + codice)
+
+**File modificati**:
+- `LICENSE`: MIT → Apache 2.0
+- `package.json`: `"license": "Apache-2.0"`
+- `prompts/ingest-schema.json`: campi `output_license`, `output_license_reason`, `attribution`
+- `.claude/commands/discover.md`: determinazione licenza basata su mode/flags
+- `scripts/init-session.sh`: campi licenza in session.json iniziale
+- `.claude/agents/discovery-orchestrator.md`: istruzioni per popolare licenza in ingest.json
+- `scripts/upload-session.mjs`: `outputLicense` e `attribution` nel payload API
+- `prompts/session-summary-format.md`: licenza e attribuzione nel summary + footer ipotesi
+- `README.md`: sezione License aggiornata
+- `CLAUDE.md`: sezione Licensing aggiunta
+
+---
+
 ## v5.16 — CLI-Only Publishing (28 marzo 2026)
 
 **Motivazione**: Un contributor esterno ha lanciato `/discover` e a fine sessione l'orchestrator ha suggerito `cd ../magellan-web && npm run sync` per pubblicare i risultati. Quel workflow richiede accesso al repo `magellan-web`, disponibile solo al maintainer del progetto.

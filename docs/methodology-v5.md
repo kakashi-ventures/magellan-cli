@@ -718,6 +718,16 @@ Il comando `/connect <mgln_key>` collega la CLI al profilo dell'utente sul [sito
 
 Questo crea un modello di **contributor-owned discovery**: ogni utente usa i propri token Claude per generare scoperte, e queste scoperte sono pubblicamente sue — con profilo, statistiche, e posizione nel leaderboard.
 
+### Licensing delle scoperte (v5.17)
+
+Il software è sotto **Apache License 2.0** (con file NOTICE obbligatorio per attribuzione). Gli output (ipotesi scientifiche) hanno un **dual-track licensing** basato sulla modalità:
+
+- **Scoperte autonome** (`/discover` puro, senza flag): **CC0 1.0** (pubblico dominio). Nessun input creativo umano nella selezione dei target → il copyright su contenuti AI-generati è incerto nella maggior parte delle giurisdizioni. CC0 è la scelta onesta. Richiesta volontaria di citazione, basata sulle norme di attribuzione scientifica.
+
+- **Scoperte guidate** (`/discover A × B`, `--context`, `--papers`, `--interactive`): **CC-BY 4.0**. L'utente fornisce direzione creativa (selezione campi, contesto dominio, curazione papers, approvazione target), rafforzando il claim di copyright. L'attribuzione è obbligatoria: contributore come primo autore, MAGELLAN come strumento.
+
+La licenza è determinata automaticamente all'inizializzazione della sessione e tracciata in `session.json` → `ingest.json` → payload API del sito. Vedi `DISCOVERY_LICENSE.md` per i dettagli completi.
+
 ### Cosa rende possibile l'autonomia totale (marzo 2026)
 
 1. **Scout con 10 strategie**: Non sceglie a caso — ha euristiche strutturate (inclusi isomorfismo strutturale e serendipity) per identificare dove la conoscenza non collegata ha la probabilità più alta di nascondersi

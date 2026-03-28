@@ -30,16 +30,29 @@ Remove parsed flags from $ARGUMENTS, then determine mode from remaining text:
 - Starts with "solve" or "problem" → **PROBLEM MODE**
 - Single specific topic → **OPEN MODE**
 
+### Determine Output License
+
+Based on mode and flags, determine the discovery output license:
+- **SCOUT MODE** with NO `--context`, NO `--papers`, NO `--interactive` → `output_license=CC0-1.0`, `contributor_role=runner`, `license_reason=autonomous`
+- **TARGETED/OPEN/PROBLEM MODE** (any flags) → `output_license=CC-BY-4.0`, `contributor_role=director`, `license_reason=guided_target`
+- Any mode + `--context` → `output_license=CC-BY-4.0`, `contributor_role=domain_expert`, `license_reason=guided_context`
+- Any mode + `--papers` → `output_license=CC-BY-4.0`, `contributor_role=director`, `license_reason=guided_papers`
+- Any mode + `--interactive` → `output_license=CC-BY-4.0`, `contributor_role=director`, `license_reason=guided_interactive`
+
+(If multiple flags apply, use the first matching guided reason from the list above.)
+
 ## Step 2: Initialize
 
-Read contributor config if available, then create session state:
+Run the init script with the determined mode, then update session.json with license metadata:
 ```bash
-CONTRIBUTOR_KEY=$(cat .magellan/config.json 2>/dev/null | grep -o '"contributor_key":"[^"]*"' | cut -d'"' -f4)
-mkdir -p state
-cat > state/session.json << EOF
-{"phase":"init","cycle":0,"scout_targets":[],"hypotheses":{},"final":[],"metadata":{"total_hypotheses_generated":0,"contributor_key":"${CONTRIBUTOR_KEY:-null}"}}
-EOF
+bash scripts/init-session.sh <MODE> <NEXT_NUM>
 ```
+Where `<MODE>` is `scout`, `targeted`, `open`, or `problem`, and `<NEXT_NUM>` is the next session number.
+
+After init, update `state/session.json` metadata with the license fields determined in Step 1 by reading the file, adding these fields to the `metadata` object, and writing it back:
+- `metadata.output_license`: `CC0-1.0` or `CC-BY-4.0`
+- `metadata.output_license_reason`: `autonomous`, `guided_target`, `guided_context`, `guided_papers`, or `guided_interactive`
+- `metadata.contributor_role`: `runner`, `director`, or `domain_expert`
 
 ## Step 3: Launch Orchestrator
 

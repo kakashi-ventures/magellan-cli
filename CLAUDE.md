@@ -115,6 +115,14 @@ Link your CLI to your MAGELLAN web profile so discoveries are attributed to you:
 5. All subsequent `/discover` sessions embed the key in results
 6. When results are seeded to the website, sessions are auto-attributed to your profile
 
+## Licensing
+
+**Software:** Apache License 2.0 (see `LICENSE` and `NOTICE`).
+**Discovery outputs:** Dual-track — CC0 1.0 for autonomous `/discover` (public domain),
+CC-BY 4.0 for guided modes (`/discover A × B`, `--context`, `--papers`, `--interactive`).
+See `DISCOVERY_LICENSE.md` for full details. License metadata is tracked in
+`session.json` (`metadata.output_license`) and carried into `ingest.json` for the website.
+
 ## Quality Rules
 Every hypothesis MUST have: specific mechanism, falsifiable prediction,
 literature-verified novelty, counter-evidence, test protocol, calibrated
