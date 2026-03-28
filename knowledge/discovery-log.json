@@ -1933,5 +1933,206 @@
       "clinical_trials": 1,
       "patents": 1
     }
+  },
+  {
+    "date": "2026-03-28",
+    "session_id": "2026-03-28-scout-014",
+    "mode": "scout",
+    "targets": [
+      {
+        "field_a": "Non-equilibrium statistical mechanics \u2014 Mpemba effect spectral theory",
+        "field_c": "Neurodegenerative protein biochemistry \u2014 amyloid aggregation selectivity",
+        "bridge_concepts": [
+          "Mpemba index eigenmode overlap",
+          "spectral gap of folding/misfolding MSM",
+          "non-normal Liouvillian dynamics",
+          "D_misfold 1000x slower as slow eigenmode basis"
+        ],
+        "strategy": "anomaly_hunting",
+        "disjointness": "DISJOINT",
+        "outcome": "success",
+        "impact_potential": 7,
+        "impact_type": "paradigm"
+      },
+      {
+        "field_a": "Membrane biophysics / anesthesiology \u2014 PLD2 relocalization cascade",
+        "field_c": "Bacterial membrane biology \u2014 FMM-mediated AMP detection",
+        "bridge_concepts": [
+          "PLD2 relocalization from GM1 rafts",
+          "FloT-KinC relocalization from bacterial FMMs",
+          "phospholipase signaling lipid production",
+          "Spo0A phosphorelay"
+        ],
+        "strategy": "failed_paradigm_recycling",
+        "disjointness": "DISJOINT",
+        "outcome": "not_explored_this_session",
+        "impact_potential": 7,
+        "impact_type": "translational"
+      },
+      {
+        "field_a": "Materials science \u2014 HEA thermodynamics, Hume-Rothery rules",
+        "field_c": "Gut microbial ecology \u2014 diversity-synergy prediction",
+        "bridge_concepts": [
+          "configurational entropy = Shannon diversity",
+          "Hume-Rothery miscibility rules",
+          "mixing enthalpy pairwise interaction matrix",
+          "cocktail effect threshold"
+        ],
+        "strategy": "serendipity",
+        "disjointness": "DISJOINT",
+        "outcome": "not_explored_this_session",
+        "impact_potential": 6,
+        "impact_type": "conceptual_framework"
+      },
+      {
+        "field_a": "Seismology \u2014 ETAS model (Ogata 1988)",
+        "field_c": "Clinical oncology \u2014 tumor dormancy and recurrence timing",
+        "bridge_concepts": [
+          "ETAS conditional intensity",
+          "Omori-law decay of paracrine signaling",
+          "branching ratio subcritical vs supercritical",
+          "ctDNA as foreshock analog"
+        ],
+        "strategy": "structural_isomorphism",
+        "disjointness": "DISJOINT",
+        "outcome": "not_explored_this_session",
+        "impact_potential": 8,
+        "impact_type": "paradigm"
+      },
+      {
+        "field_a": "Statistical physics \u2014 stochastic resetting theory (Evans & Majumdar 2011)",
+        "field_c": "Infectious disease microbiology \u2014 antibiotic persister clearance",
+        "bridge_concepts": [
+          "Evans-Majumdar optimal resetting rate r*",
+          "dosing as population reset",
+          "r_optimal ~ sqrt(a*k)",
+          "first-passage to extinction"
+        ],
+        "strategy": "converging_vocabularies",
+        "disjointness": "DISJOINT",
+        "outcome": "not_explored_this_session",
+        "impact_potential": 8,
+        "impact_type": "translational"
+      },
+      {
+        "field_a": "Geotechnical engineering \u2014 soil liquefaction theory",
+        "field_c": "Orthopedic biomechanics \u2014 OA cartilage tipping point",
+        "bridge_concepts": [
+          "cyclic stress ratio CSR",
+          "pore pressure ratio r_u",
+          "N_liq cycles to failure",
+          "Seed liquefaction resistance curves"
+        ],
+        "strategy": "scale_bridging",
+        "disjointness": "DISJOINT",
+        "outcome": "not_explored_this_session",
+        "impact_potential": 6,
+        "impact_type": "translational"
+      }
+    ],
+    "productive_bridges": [
+      "Mpemba eigenmode overlap coefficients controlled by cooling rate \u2192 differential monomer flux to distinct polymorph precursor basins (C2-H7, PASS)",
+      "Schnakenberg entropy production rate sigma(t) along MSM trajectories as misfolding pathway diagnostic (C2-H4, CONDITIONAL_PASS)",
+      "Zwanzig roughness asymmetry D_misfold/D_fold calibrated by Yu 2015 \u2192 bimodal MSM eigenspectrum \u2192 M_eff aggregation prediction (C2-H5, CONDITIONAL_PASS)",
+      "Eigenmode-overlap disruption by small molecules as aggregation inhibitor design criterion (C2-H2, CONDITIONAL_PASS)",
+      "Hsp70 binding sites as biological Mpemba protocol \u2014 selective slow-eigenmode overlap reduction (C2-H8, CONDITIONAL_PASS)"
+    ],
+    "killed_hypotheses": [
+      {
+        "title": "Resource-Theoretic Mpemba Vulnerability Score (C2-H1)",
+        "kill_reason": "FABRICATED CITATION: Avanzini et al. 2026 PRX 16:011065 is confabulated author attribution (real authors: Summer, Moroder, Bettmann, Turkeshi, Marvian, Goold). Recurring across both cycles. Also: D_KL spectral decomposition formula is chi-squared not KL divergence."
+      },
+      {
+        "title": "Patient-Derived Tau PTM Variants as Tauopathy Biomarker (C2-H6)",
+        "kill_reason": "TWO fatal errors: (1) Wesseling citation misattributed (Cell 180:633 is Arakhamia); (2) T217 is at position 217 OUTSIDE K18 fragment (residues 244-372) \u2014 core mechanistic claim is anatomically impossible."
+      }
+    ],
+    "surviving_hypotheses": [
+      {
+        "id": "C2-H7",
+        "title": "Cooling-Rate-Dependent Fibril Polymorph Selection in Insulin",
+        "verdict": "PASS",
+        "qg_composite": 7.5,
+        "groundedness": 8
+      },
+      {
+        "id": "C2-H4",
+        "title": "Spectral Entropy Production Rate Distinguishes Folding from Misfolding",
+        "verdict": "CONDITIONAL_PASS",
+        "qg_composite": 7.3,
+        "groundedness": 7
+      },
+      {
+        "id": "C2-H5",
+        "title": "Refined Hierarchical Spectral Scoring with D_misfold Calibration",
+        "verdict": "CONDITIONAL_PASS",
+        "qg_composite": 7.2,
+        "groundedness": 8
+      },
+      {
+        "id": "C2-H2",
+        "title": "Mpemba-Guided Aggregation Inhibitor Design",
+        "verdict": "CONDITIONAL_PASS",
+        "qg_composite": 6.8,
+        "groundedness": 7
+      },
+      {
+        "id": "C2-H8",
+        "title": "Chaperone as Biological Mpemba Protocol",
+        "verdict": "CONDITIONAL_PASS",
+        "qg_composite": 6.5,
+        "groundedness": 6
+      },
+      {
+        "id": "C2-H3-evo",
+        "title": "Evolutionary Mpemba Tradeoff",
+        "verdict": "CONDITIONAL_PASS",
+        "qg_composite": 5.6,
+        "groundedness": 6
+      }
+    ],
+    "key_papers": [
+      "Klich et al. 2019 PRX 9:021060 \u2014 Mpemba index eigenmode overlap formalism",
+      "Lu & Raz 2017 PNAS 114:5083 \u2014 Mpemba eigenmode overlap theory",
+      "Yu et al. 2015 PNAS 112:8308 \u2014 D_misfold/D_fold ~10^-3 for PrP",
+      "Zwanzig 1988 PNAS 85:2029 \u2014 roughness formula",
+      "Teza 2025 Physics Reports \u2014 Mpemba effect review (comprehensive)",
+      "Schnakenberg 1976 Rev. Mod. Phys. 48:571 \u2014 entropy production in Markov systems",
+      "Anand et al. 2025 PNAS 122:e2416191122 \u2014 cross-species PrP landscape (convergence signal)"
+    ],
+    "lessons_learned": [
+      "anomaly_hunting strategy debut: QG mean 6.97 (best debut by composite), 75% pass+cond rate. Requires second primary session for reliable ranking.",
+      "Mathematical isomorphism bridge (Markov eigendecomposition shared by Mpemba theory and protein MSM): zero PubMed co-occurrence confirmed. High-yield bridge type.",
+      "Kill pattern: fabricated citations recur across cycles (Avanzini confabulation in H1 lineage). Generator claim-level verification must be stricter.",
+      "Kill pattern: IDP MSM infeasibility. Hypotheses proposing MSM for IDPs (Abeta42, tau-K18) fail computationally.",
+      "Kill pattern: detailed-balance MSM eliminates non-normality \u2014 hypothesis untestable with existing tools.",
+      "Success pattern: experimental anchor in measured datum (Yu 2015 D_misfold/D_fold) produces resilient hypotheses.",
+      "Success pattern: three-arm mechanism-discriminating designs produce highest QG scores.",
+      "Convergence Scanner found 17 partial confirmations, 1 clinical trial, 2 grants, 2 patents \u2014 strong independent validation for C2-H7.",
+      "Cross-model: Gemini confirmed formal isomorphism for C2-H7 (10/10), structural correspondence for C2-H5 (8/10). GPT pending.",
+      "Dataset Evidence Miner: 19 claims checked, 12 confirmed (63%), 0 contradicted. Aggregate score 7.5.",
+      "Session used 6 distinct strategies across 6 Scout candidates \u2014 maximum diversity."
+    ],
+    "strategy_performance": {
+      "strategy": "anomaly_hunting",
+      "sessions_primary": 1,
+      "qg_pass_rate": 0.75,
+      "qg_mean_composite": 6.97,
+      "debut_rank": "Best by QG mean composite"
+    },
+    "bridge_type_performance": {
+      "mathematical_isomorphism": {
+        "survival_rate": 0.75,
+        "avg_groundedness": 7.0,
+        "note": "Shared Markov eigendecomposition formalism. High yield when both fields independently derived same math."
+      }
+    },
+    "computational_validation_summary": {
+      "bridge_validity": "VALID",
+      "warnings": [
+        "IDP MSM construction is aspirational, not routine",
+        "Detailed-balance MSM enforce time-reversibility \u2014 non-normal Liouvillian requires augmented MSM"
+      ]
+    }
   }
 ]

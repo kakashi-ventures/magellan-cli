@@ -1,716 +1,1012 @@
 {
-  "session_id": "2026-03-27-scout-013",
+  "session_id": "2026-03-28-scout-014",
   "mode": "scout",
   "phase": "complete",
-  "cycle": 1,
+  "cycle": 2,
   "status": "success",
-  "status_reason": "3 hypotheses passed Quality Gate (1 PASS + 2 CONDITIONAL_PASS); early-complete after cycle 1 (top-3 composites all >= 7.0)",
-  "completed_at": "2026-03-27T01:09:33Z",
-  "results_dir": "results/2026-03-27-scout-013",
+  "status_reason": "Pipeline complete. 1 PASS + 5 CONDITIONAL_PASS. Cross-model validation complete: Gemini (C2-H3 formal isomorphism 10/10, C2-H2 structural correspondence 8/10, C2-H1 metaphorical similarity) + GPT-5.4 (C2-H3 NOVEL 5/10, C2-H2 NOVEL 4/10, C2-H1 PARTIALLY_EXPLORED 4/10). Both models confirm Avanzini citation fabrication.",
+  "results_dir": "results/2026-03-28-scout-014",
   "selected_target": {
-    "id": 1,
-    "field_a": "Extreme value statistics (GEV distributions, tail index analysis)",
-    "field_c": "Proteome-wide thermal stability distributions",
+    "field_a": "Non-equilibrium statistical mechanics \u2014 Mpemba effect spectral theory",
+    "field_c": "Neurodegenerative protein biochemistry \u2014 amyloid aggregation selectivity",
     "bridge_concepts": [
-      "GEV distribution fitting",
-      "return level estimation",
-      "tail index classification",
-      "peaks-over-threshold",
-      "Fisher-Tippett-Gnedenko theorem"
+      "Mpemba index: overlap integral of protein conformational ensemble with slowest eigenmode of folding/misfolding MSM",
+      "Spectral gap of combined folding/misfolding transition matrix as aggregation kinetics predictor",
+      "Non-normal Liouvillian dynamics creating transient misfolding acceleration zones",
+      "Rough energy landscape diffusion coefficient (D_misfold vs D_fold) as physical basis for slow eigenmodes",
+      "Comparative Mpemba index: amyloidogenic vs non-amyloidogenic protein pairs"
     ],
-    "strategy": "converging_vocabularies",
+    "strategy": "anomaly_hunting",
     "disjointness_status": "DISJOINT",
-    "disjointness_confidence": 0.97,
     "impact_potential": 7,
-    "impact_type": "enabling_technology",
-    "te_composite": 8.25,
-    "te_recommendation": "PROCEED",
-    "selection_rationale": "Highest TE composite (8.25), maximum frontier expansion (10/10 local-optima), highest disjointness confidence (0.97), opens statistics x systems biology domain type never explored in 16 sessions"
+    "impact_type": "paradigm"
   },
-  "disjointness_status": "all_disjoint",
-  "literature_context": {
-    "completed": true,
-    "timestamp": "2026-03-27",
-    "retrieval_method": "Semantic Scholar MCP (cross-field: zero results confirming disjointness) + WebSearch (field-specific validation searches)",
-    "papers_retrieved": 7,
-    "papers_dir": "results/2026-03-27-scout-013/papers/",
-    "output_files": [
-      "results/2026-03-27-scout-013/literature-landscape.md",
-      "results/2026-03-27-scout-013/literature.json"
-    ],
-    "disjointness_verdicts": [
-      {
-        "id": 1,
-        "title": "Extreme Value Theory x Proteome Thermal Vulnerability Mapping",
-        "verdict": "DISJOINT",
-        "confidence": 0.97
-      },
-      {
-        "id": 2,
-        "title": "Reservoir Computing Theory x Gut Microbiome Community Dynamics",
-        "verdict": "DISJOINT",
-        "confidence": 0.93
-      },
-      {
-        "id": 3,
-        "title": "Granular Jamming Transition Physics x Chromatin Compaction During Confined Migration",
-        "verdict": "DISJOINT",
-        "confidence": 0.91
-      },
-      {
-        "id": 4,
-        "title": "ML-Augmented Acoustic Emission Classification x Plant Xylem Cavitation Mode Identification",
-        "verdict": "DISJOINT_AT_BRIDGE_LEVEL",
-        "confidence": 0.88
-      },
-      {
-        "id": 5,
-        "title": "Classical Nucleation Theory x Ferroptosis Ferritin Iron Pool Dynamics",
-        "verdict": "DISJOINT",
-        "confidence": 0.96
-      }
-    ],
-    "all_candidates_eligible": true
-  },
-  "scout_targets": [
-    {
-      "id": 1,
-      "title": "Extreme Value Theory x Proteome Thermal Vulnerability Mapping",
-      "field_a": "Extreme value statistics (GEV distributions, tail index analysis)",
-      "field_c": "Proteome-wide thermal stability distributions",
-      "bridge_concepts": [
-        "GEV distribution fitting",
-        "return level estimation",
-        "tail index classification",
-        "peaks-over-threshold",
-        "Fisher-Tippett-Gnedenko theorem"
-      ],
-      "strategy": "converging_vocabularies",
-      "confidence": 0.85,
-      "impact_potential": 7,
-      "impact_type": "enabling_technology",
-      "estimated_disjointness": "DISJOINT",
-      "verified_disjointness": "DISJOINT",
-      "disjointness_confidence": 0.97,
-      "web_verified": true
-    },
-    {
-      "id": 2,
-      "title": "Reservoir Computing Theory x Gut Microbiome Community Dynamics",
-      "field_a": "Reservoir computing (echo state networks, liquid state machines)",
-      "field_c": "Gut microbiome temporal dynamics and resilience",
-      "bridge_concepts": [
-        "echo state property on interaction matrix",
-        "memory capacity from time series",
-        "Lyapunov exponent as health indicator",
-        "spectral radius of interaction matrix",
-        "input separability via mutual information"
-      ],
-      "strategy": "serendipity",
-      "confidence": 0.72,
-      "impact_potential": 7,
-      "impact_type": "paradigm",
-      "estimated_disjointness": "LIKELY_DISJOINT",
-      "verified_disjointness": "DISJOINT",
-      "disjointness_confidence": 0.93,
-      "web_verified": true
-    },
-    {
-      "id": 3,
-      "title": "Granular Jamming Transition Physics x Chromatin Compaction During Confined Migration",
-      "field_a": "Granular jamming physics (jamming transition, force chains, marginally jammed states)",
-      "field_c": "Chromatin compaction mechanics during cancer cell constriction migration",
-      "bridge_concepts": [
-        "jamming transition phi_J",
-        "coordination number Z_c isostatic condition",
-        "force chains in jammed chromatin",
-        "power-law elastic modulus scaling near jamming",
-        "Gardner transition for irreversible rearrangements"
-      ],
-      "strategy": "structural_isomorphism",
-      "confidence": 0.88,
-      "impact_potential": 7,
-      "impact_type": "paradigm",
-      "estimated_disjointness": "DISJOINT",
-      "verified_disjointness": "DISJOINT",
-      "disjointness_confidence": 0.91,
-      "web_verified": true
-    },
-    {
-      "id": 4,
-      "title": "ML-Augmented Acoustic Emission Classification x Plant Xylem Cavitation Mode Identification",
-      "field_a": "ML-enhanced AE analysis (CWT + CNN) for composite failure mode classification",
-      "field_c": "Plant xylem cavitation and embolism during drought stress",
-      "bridge_concepts": [
-        "CWT scalogram generation",
-        "CNN architecture transfer via domain adaptation",
-        "wavelet packet decomposition energy fingerprint",
-        "AE source characterization feature space (ASTM E1930)",
-        "Felicity ratio for cavitation reversibility"
-      ],
-      "strategy": "tool_transfer",
-      "confidence": 0.78,
-      "impact_potential": 6,
-      "impact_type": "enabling_technology",
-      "estimated_disjointness": "DISJOINT_AT_BRIDGE_LEVEL",
-      "verified_disjointness": "DISJOINT_AT_BRIDGE_LEVEL",
-      "disjointness_confidence": 0.88,
-      "web_verified": true
-    },
-    {
-      "id": 5,
-      "title": "Classical Nucleation Theory x Ferroptosis Ferritin Iron Pool Dynamics",
-      "field_a": "Classical nucleation theory (nucleation kinetics, critical radius, supersaturation)",
-      "field_c": "Intracellular iron pool dynamics during ferroptosis",
-      "bridge_concepts": [
-        "CNT nucleation rate equation J = A*exp(-DG*/kT)",
-        "critical nucleus radius r* pH-dependent",
-        "Ostwald ripening kinetics (LSW theory)",
-        "ferrihydrite surface energy gamma",
-        "mineral dissolution rate law"
-      ],
-      "strategy": "tool_transfer",
-      "confidence": 0.88,
-      "impact_potential": 8,
-      "impact_type": "translational",
-      "estimated_disjointness": "DISJOINT",
-      "verified_disjointness": "DISJOINT",
-      "disjointness_confidence": 0.96,
-      "web_verified": true,
-      "key_anomaly": "LIP does NOT expand during ferroptosis despite ferritinophagy"
-    }
-  ],
-  "hypotheses": {
-    "cycle1": {
-      "raw": [
-        "C1-H1: GEV Tail Index Classifies Thermal Adaptation Strategies Across the Tree of Life",
-        "C1-H2: Complex-Minimum Tm Return Levels Predict Process-Specific Thermal Failure Temperatures",
-        "C1-H3: POT Analysis Reveals IDPs as the Functional Architecture of Thermal Vulnerability",
-        "C1-H4: Censored GEV Estimation Recovers the Invisible Proteome and Quantifies Systematic Bias",
-        "C1-H5: The Extremal Index Encodes Proteome Modularity and Chaperone Buffering Capacity",
-        "C1-H6: FTG Universality Guarantees Weibull-Domain Convergence for All Proteome Tm Distributions",
-        "C1-H7: GPD Scale Parameter Predicts Evolutionary Rate in the Thermally Vulnerable Subproteome"
-      ],
-      "critiqued": [
-        {
-          "id": "C1-H1",
-          "title": "GEV Tail Index (xi) as Phylogenomic Signature of Thermal Adaptation Strategy",
-          "verdict": "SURVIVES",
-          "original_confidence": 6,
-          "revised_confidence": 5,
-          "key_attack": "Effect size unknown; only 1-2 thermophiles in 13-species dataset may under-power xi-OGT regression",
-          "citation_issues": "none"
-        },
-        {
-          "id": "C1-H2",
-          "title": "Complex-Minimum Tm via POT Identifies Thermal Bottleneck Complexes",
-          "verdict": "WOUNDED",
-          "original_confidence": 7,
-          "revised_confidence": 5,
-          "key_attack": "Citation conflation (Mateus 2020 MSB cited as Science 367:eaaz5268; correct: Tan 2018 Science 359:1170). In-complex stabilization makes lysate Tm_min a poor proxy for functional failure.",
-          "citation_issues": "Mateus et al. 2020, Science 367:eaaz5268 is FABRICATED \u2014 finding from Tan et al. 2018, Science 359:1170-1177"
-        },
-        {
-          "id": "C1-H3",
-          "title": "Censored GEV Recovers the Invisible 20% Below TPP Measurement Window",
-          "verdict": "WOUNDED",
-          "original_confidence": 5,
-          "revised_confidence": 4,
-          "key_attack": "Multi-modal tail (IDPs vs. marginally stable proteins) would defeat unimodal GEV extrapolation. Cold denaturation creates non-random censoring. +/-3% accuracy claim is speculative.",
-          "citation_issues": "none"
-        },
-        {
-          "id": "C1-H4",
-          "title": "Non-Stationary GEV with Drug Concentration as Covariate",
-          "verdict": "KILLED",
-          "original_confidence": 4,
-          "revised_confidence": 2,
-          "key_attack": "Three independent kill signals: (1) 3-5 drug concentrations grossly insufficient for non-stationary GEV trend detection, (2) cascade mechanism unsupported and dominant drug effect (target stabilization) is opposite to predicted destabilization, (3) >50% claims speculative or contradicted.",
-          "citation_issues": "none"
-        },
-        {
-          "id": "C1-H5",
-          "title": "Pathway-Level Block Maxima: Translation Initiation as Universal Thermal Death Bottleneck",
-          "verdict": "WOUNDED",
-          "original_confidence": 5,
-          "revised_confidence": 3,
-          "key_attack": "Biological prediction partially pre-empted by Bresson 2024 Molecular Cell (eIF4F is a thermo-sensing node). eIF4A is heat-resistant (contradicts low-Tm assumption). Single-bottleneck framework conflicts with multi-factorial thermal death models.",
-          "citation_issues": "none"
-        },
-        {
-          "id": "C1-H6",
-          "title": "Extremal Index Quantifies Thermal Cooperativity",
-          "verdict": "KILLED",
-          "original_confidence": 5,
-          "revised_confidence": 2,
-          "key_attack": "Extremal index theta is defined for sequential/temporal data. Cross-sectional Tm data sorted by value creates tautological clustering. Spatial extensions require pre-defined spatial structure that Tm data lacks. Same citation conflation as H2.",
-          "citation_issues": "Mateus et al. 2020, Science 367:eaaz5268 is FABRICATED \u2014 finding from Tan et al. 2018, Science 359:1170-1177"
-        },
-        {
-          "id": "C1-H7",
-          "title": "POT Functional Enrichment: Thermal Disposability Design Principle",
-          "verdict": "WOUNDED",
-          "original_confidence": 6,
-          "revised_confidence": 4,
-          "key_attack": "Kinase low-Tm claim is unverified and potentially self-contradicted (CDK2 ~55C > proteome median). Protein size confound (large proteins have lower Tm; kinases are large) could explain any enrichment without invoking 'thermal disposability'.",
-          "citation_issues": "none"
-        }
-      ],
-      "critic_questions": [
-        {
-          "hypothesis_id": "C1-H2/H6",
-          "question": "Citation 'Mateus et al. 2020, Science 367:eaaz5268' does not exist. The TPCA >350 complexes finding is from Tan et al. 2018, Science 359:1170-1177. Please correct."
-        },
-        {
-          "hypothesis_id": "C1-H5",
-          "question": "What are the specific Tm values for eIF4E, eIF4A, eIF2alpha, and eIF4G in the Meltome Atlas? Bresson et al. 2024 (Molecular Cell) shows eIF4A is heat-resistant. Can you look up actual Tm values?"
-        },
-        {
-          "hypothesis_id": "C1-H7",
-          "question": "The hypothesis claims kinases have low Tm but CDK2 Tm ~55C would be above the proteome median. What is the actual distribution of kinase Tm values in the Meltome Atlas? Does GO:0004672 enrich in the lower or upper tail?"
-        },
-        {
-          "hypothesis_id": "C1-H3",
-          "question": "Is there evidence that the sub-30C proteome contains distinct subpopulations (IDPs vs. marginally stable folded proteins)? This determines whether censored GEV (unimodal assumption) is appropriate."
-        },
-        {
-          "hypothesis_id": "C1-H1",
-          "question": "Is there any prior data on the SHAPE of Tm distributions (not just mean/SD) across species? Even qualitative descriptions (unimodal vs. bimodal, skewness) would help calibrate xi effect size."
-        }
-      ],
-      "ranked": [
-        {
-          "id": "C1-H1",
-          "title": "GEV Tail Index (xi) as Phylogenomic Signature of Thermal Adaptation Strategy",
-          "rank": 1,
-          "scores": {
-            "novelty": 9,
-            "mechanistic_specificity": 8,
-            "cross_field_distance": 8,
-            "testability": 9,
-            "impact_paradigm": 7,
-            "impact_translational": 4,
-            "groundedness": 7
-          },
-          "weighted_avg": 7.95,
-          "cross_domain_bonus": 0.5,
-          "composite": 8.45,
-          "elo_wins": 3,
-          "elo_win_rate": 0.75,
-          "selected_for_quality_gate": true
-        },
-        {
-          "id": "C1-H2",
-          "title": "Complex-Minimum Tm via POT Identifies Thermal Bottleneck Complexes",
-          "rank": 2,
-          "scores": {
-            "novelty": 8,
-            "mechanistic_specificity": 8,
-            "cross_field_distance": 8,
-            "testability": 9,
-            "impact_paradigm": 7,
-            "impact_translational": 6,
-            "groundedness": 6
-          },
-          "weighted_avg": 7.65,
-          "cross_domain_bonus": 0.5,
-          "composite": 8.15,
-          "elo_wins": 4,
-          "elo_win_rate": 1.0,
-          "selected_for_quality_gate": true
-        },
-        {
-          "id": "C1-H3",
-          "title": "Censored GEV Recovers the Invisible 20% Below TPP Measurement Window",
-          "rank": 3,
-          "scores": {
-            "novelty": 8,
-            "mechanistic_specificity": 6,
-            "cross_field_distance": 9,
-            "testability": 7,
-            "impact_paradigm": 5,
-            "impact_translational": 4,
-            "groundedness": 5
-          },
-          "weighted_avg": 6.55,
-          "cross_domain_bonus": 0.5,
-          "composite": 7.05,
-          "elo_wins": 2,
-          "elo_win_rate": 0.5,
-          "selected_for_quality_gate": true
-        },
-        {
-          "id": "C1-H7",
-          "title": "POT Functional Enrichment: Thermal Disposability Design Principle",
-          "rank": 4,
-          "scores": {
-            "novelty": 7,
-            "mechanistic_specificity": 6,
-            "cross_field_distance": 8,
-            "testability": 8,
-            "impact_paradigm": 5,
-            "impact_translational": 5,
-            "groundedness": 5
-          },
-          "weighted_avg": 6.5,
-          "cross_domain_bonus": 0.5,
-          "composite": 7.0,
-          "elo_wins": 1,
-          "elo_win_rate": 0.25,
-          "selected_for_quality_gate": true
-        },
-        {
-          "id": "C1-H5",
-          "title": "Pathway-Level Block Maxima: Translation Initiation as Universal Thermal Death Bottleneck",
-          "rank": 5,
-          "scores": {
-            "novelty": 5,
-            "mechanistic_specificity": 5,
-            "cross_field_distance": 8,
-            "testability": 8,
-            "impact_paradigm": 6,
-            "impact_translational": 5,
-            "groundedness": 4
-          },
-          "weighted_avg": 5.75,
-          "cross_domain_bonus": 0.5,
-          "composite": 6.25,
-          "elo_wins": 0,
-          "elo_win_rate": 0.0,
-          "selected_for_quality_gate": false
-        }
-      ],
-      "quality_gate": [
-        {
-          "id": "C1-H1",
-          "title": "GEV Tail Index (xi) as Phylogenomic Signature of Thermal Adaptation Strategy",
-          "verdict": "PASS",
-          "confidence": 5,
-          "novelty_verified": true,
-          "citations_verified": true,
-          "mechanism_plausible": true,
-          "key_strength": "Genuinely novel connection, theorem-backed mathematics, all citations verified, testable with existing data",
-          "key_weakness": "n=13 species with phylogenetic confounding; bimodal distributions (E. coli) may complicate GEV fitting",
-          "web_searches_performed": 8,
-          "citation_errors": "none",
-          "impact_annotation": {
-            "application_pathway": "measurement method",
-            "nearest_applied_domain": "comparative/evolutionary genomics",
-            "validation_horizon": "near-term"
-          }
-        },
-        {
-          "id": "C1-H2",
-          "title": "Complex-Minimum Tm Return Levels Predict Process-Specific Thermal Failure Temperatures",
-          "verdict": "CONDITIONAL_PASS",
-          "confidence": 5,
-          "novelty_verified": true,
-          "citations_verified": true,
-          "mechanism_plausible": true,
-          "key_strength": "Best mechanistic specification; novel application of return levels to process failure prediction",
-          "key_weakness": "TPCA attribution error (Mateus 2020 -> Tan 2018); chaperone buffering may invalidate +-2C window",
-          "conditions": "Correct TPCA attribution to Tan 2018; quantify chaperone buffering correction",
-          "web_searches_performed": 6,
-          "citation_errors": "soft attribution error (TPCA finding attributed to review instead of primary source)",
-          "impact_annotation": {
-            "application_pathway": "measurement method",
-            "nearest_applied_domain": "thermal physiology / hyperthermia research",
-            "validation_horizon": "near-term"
-          }
-        },
-        {
-          "id": "C1-H3",
-          "title": "Censored GEV Recovers the Invisible 20% Below TPP Measurement Window",
-          "verdict": "FAIL",
-          "confidence": 4,
-          "novelty_verified": true,
-          "citations_verified": true,
-          "mechanism_plausible": false,
-          "key_strength": "Genuinely novel methodological transfer; addresses real problem (20% unmeasured)",
-          "key_weakness": "MECHANISM IMPLAUSIBLE: censored GEV assumes all censored proteins have defined Tm, but IDPs lack cooperative unfolding transition",
-          "fail_reason": "MECHANISM IMPLAUSIBLE: Core censoring assumption violated -- IDPs in the censored population have no defined Tm, making the censored likelihood misspecified",
-          "web_searches_performed": 5,
-          "citation_errors": "none"
-        },
-        {
-          "id": "C1-H7",
-          "title": "GPD Scale Parameter Predicts Evolutionary Rate in the Thermally Vulnerable Subproteome",
-          "verdict": "CONDITIONAL_PASS",
-          "confidence": 4,
-          "novelty_verified": true,
-          "citations_verified": true,
-          "mechanism_plausible": true,
-          "key_strength": "Novel sigma-dN/dS prediction connecting thermal vulnerability to evolutionary constraint",
-          "key_weakness": "Drummond citation error (PNAS not Cell); enrichment component has prior art (Leuenberger 2017); dN/dS confounders may swamp signal",
-          "conditions": "Correct Drummond citation; distinguish novel component (sigma-dN/dS) from prior art (GO enrichment); control for expression-level confounders",
-          "web_searches_performed": 6,
-          "citation_errors": "journal attribution error (Drummond 2005 cited as Cell, actual journal is PNAS)",
-          "impact_annotation": {
-            "application_pathway": "enabling_technology",
-            "nearest_applied_domain": "molecular evolution / comparative proteomics",
-            "validation_horizon": "near-term"
-          }
-        }
-      ]
-    }
-  },
+  "_selected_target_schema": "When populated by Orchestrator: {field_a, field_c, bridge_concepts, strategy, disjointness_status, impact_potential, impact_type}",
+  "disjointness_status": "DISJOINT",
   "metadata": {
-    "start_time": "2026-03-26T23:01:17Z",
+    "start_time": "2026-03-28T00:13:58Z",
     "model": "opus-4.6",
     "contributor_key": "none",
-    "total_hypotheses_generated": 7,
-    "kill_rate": 0.29,
+    "total_hypotheses_generated": 15,
+    "kill_rate": 0.0,
     "fallback_used": false,
     "literature_unavailable": false,
     "generation_degraded": false,
-    "web_search_failures": 27,
+    "web_search_failures": 17,
     "retries_needed": 0,
-    "cycle_decision": "early_complete",
-    "evolver_skipped": false,
+    "cycle_decision": "standard",
+    "evolver_skipped": true,
     "literature_reinforcement": false
-  },
-  "target_evaluation": {
-    "completed": true,
-    "timestamp": "2026-03-27",
-    "evaluated_targets": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "target_quality_scores": [
-      {
-        "id": 1,
-        "title": "Extreme Value Theory x Proteome Thermal Vulnerability Mapping",
-        "popularity": 9,
-        "vagueness": 7,
-        "structural_impossibility": 7,
-        "local_optima": 10,
-        "composite": 8.25,
-        "recommendation": "PROCEED"
-      },
-      {
-        "id": 2,
-        "title": "Reservoir Computing Theory x Gut Microbiome Community Dynamics",
-        "popularity": 6,
-        "vagueness": 7,
-        "structural_impossibility": 5,
-        "local_optima": 8,
-        "composite": 6.5,
-        "recommendation": "PROCEED"
-      },
-      {
-        "id": 3,
-        "title": "Granular Jamming Transition Physics x Chromatin Compaction During Confined Migration",
-        "popularity": 7,
-        "vagueness": 8,
-        "structural_impossibility": 5,
-        "local_optima": 7,
-        "composite": 6.75,
-        "recommendation": "PROCEED"
-      },
-      {
-        "id": 4,
-        "title": "ML-Augmented Acoustic Emission Classification x Plant Xylem Cavitation Mode Identification",
-        "popularity": 6,
-        "vagueness": 8,
-        "structural_impossibility": 7,
-        "local_optima": 8,
-        "composite": 7.25,
-        "recommendation": "PROCEED"
-      },
-      {
-        "id": 5,
-        "title": "Classical Nucleation Theory x Ferroptosis Ferritin Iron Pool Dynamics",
-        "popularity": 8,
-        "vagueness": 9,
-        "structural_impossibility": 7,
-        "local_optima": 5,
-        "composite": 7.25,
-        "recommendation": "PROCEED"
-      }
-    ],
-    "impact_potential_scores": [
-      {
-        "id": 1,
-        "impact_potential": 7,
-        "impact_type": "enabling_technology",
-        "rationale": "Thermal death prediction; drug target prioritization; climate adaptation biology; cross-species tail analysis"
-      },
-      {
-        "id": 2,
-        "impact_potential": 7,
-        "impact_type": "paradigm",
-        "rationale": "Microbiome resilience diagnostics; dysbiosis prediction via Lyapunov exponent; intervention design via input engineering"
-      },
-      {
-        "id": 3,
-        "impact_potential": 7,
-        "impact_type": "paradigm",
-        "rationale": "Nuclear mechanics during metastasis; mechanical biomarker for metastatic potential; HDAC inhibitors as jamming modulators"
-      },
-      {
-        "id": 4,
-        "impact_potential": 6,
-        "impact_type": "enabling_technology",
-        "rationale": "Agricultural drought vulnerability assessment; forest mortality prediction; non-destructive plant health monitoring"
-      },
-      {
-        "id": 5,
-        "impact_potential": 8,
-        "impact_type": "translational",
-        "rationale": "Ferroptosis modulators for cancer/neurodegeneration; iron pool dynamics prediction; tissue-specific vulnerability via pH/supersaturation"
-      }
-    ],
-    "recommended_primary": 1,
-    "recommended_primary_title": "Extreme Value Theory x Proteome Thermal Vulnerability Mapping",
-    "recommended_primary_rationale": "Highest composite (8.25), maximum frontier expansion (10/10 local-optima), highest disjointness confidence (0.97), immediately testable on existing data, converging_vocabularies has strong track record (S014: 87.5% PASS+COND)",
-    "strongest_alternative": 5,
-    "strongest_alternative_title": "Classical Nucleation Theory x Ferroptosis Ferritin Iron Pool Dynamics",
-    "strongest_alternative_rationale": "Highest mechanistic specificity (9/10), highest impact (8/10), compelling anomaly (LIP non-expansion), but ferroptosis field recurrence (3rd session) is a concern",
-    "output_file": "results/2026-03-27-scout-013/target-evaluation.md"
-  },
-  "computational_readiness": {
-    "completed": true,
-    "timestamp": "2026-03-27",
-    "overall_verdict": "HIGH",
-    "checks_passed": "9/10",
-    "blocker_detected": false,
-    "checks_detail": {
-      "pubmed_cooccurrence": "DISJOINT \u2014 0 papers on EVT x Tm-distributions bridge; 7 EVT+proteomics papers all in MS scoring domain",
-      "kegg_pathway": "CONNECTED \u2014 hsa04141 confirmed; STRING HSP90/HSP70 scores 0.939-0.999",
-      "dataset_existence": "VERIFIED \u2014 Meltome Atlas PXD011929: 13,000 human proteins, 77 datasets, publicly downloadable",
-      "gev_sample_size": "PLAUSIBLE \u2014 70-130 blocks (typical-Meltome) >> 50 minimum",
-      "pot_tail_exceedances": "PLAUSIBLE \u2014 700-1300 at 90th pct; 70-130 at 99th pct >> 50 minimum",
-      "gev_shape_reliability": "PLAUSIBLE \u2014 SE(xi)=0.029-0.035 at n=5000-7000; distinguishes Weibull/Gumbel/Frechet",
-      "return_level_mapping": "PLAUSIBLE \u2014 23% proteome below 42C; paper confirms 10% precipitation at 44C",
-      "weibull_domain": "PLAUSIBLE \u2014 Tm bounded 30-90C empirically; no eukaryote proteins >90C",
-      "independence_assumption": "MARGINAL \u2014 complex co-melting r=0.75-0.83; standard corrections available (cluster-maxima, extremal index)",
-      "string_scores": "VERIFIED \u2014 all HSP90/HSP70 pairs >0.93; highest confidence"
-    },
-    "key_concerns": [
-      "Independence violation: protein complex co-aggregation confirmed (350+ human complexes, r=0.75-0.83 within complexes). Use cluster-maxima (min Tm per complex) to restore approximate independence. Generator should explicitly frame EVT at complex level.",
-      "Left-censoring: Meltome Atlas Tm<30C proteins unobservable (most thermally vulnerable tail). Use censored GEV likelihood or confine POT to observable 30-45C range. Should be stated as methodological contribution.",
-      "Nonmelters (~15-25% body fluids, minimal in cell lines): affects upper-tail analysis only; lower-tail / vulnerability analysis unaffected."
-    ],
-    "data_confirmed": {
-      "primary_dataset": "Meltome Atlas",
-      "accession": "PRIDE PXD011929",
-      "human_proteins": 13000,
-      "species_count": 13,
-      "tm_range_celsius": "30-90",
-      "access": "public",
-      "url": "https://www.ebi.ac.uk/pride/archive/projects/PXD011929"
-    },
-    "disjointness_reconfirmed": true,
-    "disjointness_confidence": 0.97,
-    "blast_gumbel_distinction": "BLAST/Karlin-Altschul applies EVT to alignment score maxima; not related to Tm distribution analysis; not a novelty threat",
-    "quantitative_validation": {
-      "sample_size_adequate": true,
-      "pot_exceedances_adequate": true,
-      "xi_estimation_reliable": true,
-      "return_level_biologically_mapped": true,
-      "weibull_domain_confirmed": true
-    },
-    "recommendation": "Proceed to generation with HIGH confidence. Generator should apply EVT to complex-minimum Tm (thermal bottleneck), focus on lower tail / thermally vulnerable subset (POT), specify Weibull domain (xi<0) as testable prediction, and use 13-species Meltome Atlas for tail index vs. OGT correlation as primary validation.",
-    "output_file": "results/2026-03-27-scout-013/computational-validation.md"
   },
   "progress": {
     "phases_completed": [
       "scout",
       "literature_verification",
-      "target_evaluation",
       "target_selection",
+      "target_selection_final",
+      "target_evaluation",
       "computational_validation",
       "generation",
       "critique",
       "ranking",
       "evolution",
       "quality_gate",
-      "cross_model_validation",
-      "convergence_scanning",
+      "cycle2_generation",
+      "cycle2_critique",
+      "cycle2_ranking",
+      "quality_gate",
+      "session_report",
       "dataset_evidence_mining",
-      "session_analyst"
+      "cross_model_validation"
     ],
     "current_phase": "complete"
   },
+  "session_meta_insights": [
+    "anomaly_hunting strategy (first primary session): DISJOINT target quality 8.25, produced 3 CONDITIONAL_PASS (0 full PASS). QG mean 6.97. Comparable to structural_isomorphism in pass+cond rate.",
+    "Mathematical isomorphism bridge (Markov eigendecomposition shared by Mpemba and amyloid MSM formalisms): zero PubMed co-occurrence confirmed. High-yield bridge type when both fields independently derived same formalism.",
+    "Kill pattern: fabricated citations recurred (Avanzini 2026 unverifiable; Kusumoto 1998 wrong conclusion). Generator claim-level citation verification must be stricter.",
+    "Kill pattern: IDP MSM infeasibility. Hypotheses proposing MSM construction for intrinsically disordered proteins (Abeta42 monomer, tau-K18) fail computationally. Restrict MSM hypotheses to partially-folded or folded proteins.",
+    "Kill pattern: detailed-balance MSM eliminates non-normality. Standard PyEMMA/MSMBuilder construction enforces detailed balance; non-normal Liouvillian hypothesis is untestable with any existing published MSM tool.",
+    "Success pattern: experimental anchor in measured datum (Yu et al. 2015 D_misfold/D_fold = 10^-3 for PrP under force) produces resilient hypotheses.",
+    "Success pattern: three-arm mechanism-discriminating experimental designs produce qualitatively different outputs per arm. QG flagged this as best-design feature in session.",
+    "Creativity metrics: disciplinary distance 3.0/3.0 (statistical physics x protein biochemistry). Abstraction level 2.3/3.0. Novelty type 3.0/4.0 (new framework connecting two bodies of theory).",
+    "Post-QG validation (cross-model, convergence, dataset evidence) PENDING at session report time."
+  ],
+  "scout_targets": [
+    {
+      "title": "Mpemba Spectral Relaxation Theory Predicts Amyloid Aggregation Vulnerability",
+      "field_a": "Non-equilibrium statistical mechanics \u2014 Mpemba effect spectral theory",
+      "field_c": "Neurodegenerative protein biochemistry \u2014 amyloid aggregation selectivity",
+      "bridge_concepts": [
+        "Mpemba index eigenmode overlap",
+        "spectral gap of folding/misfolding MSM",
+        "non-normal Liouvillian dynamics",
+        "rough landscape D_misfold 1000x slower"
+      ],
+      "strategy": "anomaly_hunting",
+      "confidence": 7,
+      "impact_potential": 7,
+      "impact_type": "paradigm"
+    },
+    {
+      "title": "Anesthetic Lipid Raft Signaling Paradigm Explains Bacterial Sub-Lethal Antimicrobial Sensing",
+      "field_a": "Membrane biophysics / anesthesiology \u2014 PLD2 relocalization cascade",
+      "field_c": "Bacterial membrane biology \u2014 FMM-mediated AMP detection",
+      "bridge_concepts": [
+        "PLD2 relocalization from GM1 rafts",
+        "FloT-KinC relocalization from bacterial FMMs",
+        "phospholipase signaling lipid production",
+        "Spo0A phosphorelay activation"
+      ],
+      "strategy": "failed_paradigm_recycling",
+      "confidence": 7,
+      "impact_potential": 7,
+      "impact_type": "translational"
+    },
+    {
+      "title": "High-Entropy Alloy Mixing Thermodynamics Predicts Gut Microbiome Functional Synergy",
+      "field_a": "Materials science \u2014 HEA thermodynamics, Hume-Rothery rules",
+      "field_c": "Gut microbial ecology \u2014 diversity-synergy prediction",
+      "bridge_concepts": [
+        "configurational entropy = Shannon diversity",
+        "Hume-Rothery miscibility rules",
+        "mixing enthalpy as pairwise interaction matrix",
+        "cocktail effect threshold"
+      ],
+      "strategy": "serendipity",
+      "confidence": 6,
+      "impact_potential": 6,
+      "impact_type": "conceptual_framework"
+    },
+    {
+      "title": "Earthquake ETAS Self-Exciting Point Process Models Tumor Recurrence Dynamics",
+      "field_a": "Seismology \u2014 ETAS model (Ogata 1988)",
+      "field_c": "Clinical oncology \u2014 tumor dormancy and recurrence timing",
+      "bridge_concepts": [
+        "ETAS conditional intensity",
+        "Omori-law decay of paracrine signaling",
+        "branching ratio subcritical vs supercritical",
+        "ctDNA spikes as foreshock analogs"
+      ],
+      "strategy": "structural_isomorphism",
+      "confidence": 8,
+      "impact_potential": 8,
+      "impact_type": "paradigm"
+    },
+    {
+      "title": "Stochastic Resetting Optimization Predicts Optimal Antibiotic Pulsing for Persister Clearance",
+      "field_a": "Statistical physics \u2014 stochastic resetting theory (Evans & Majumdar 2011)",
+      "field_c": "Infectious disease microbiology \u2014 antibiotic persister clearance",
+      "bridge_concepts": [
+        "Evans-Majumdar optimal resetting rate r*",
+        "dosing as population reset event",
+        "r_optimal ~ sqrt(a*k)",
+        "first-passage to bacterial extinction"
+      ],
+      "strategy": "converging_vocabularies",
+      "confidence": 7,
+      "impact_potential": 8,
+      "impact_type": "translational"
+    },
+    {
+      "title": "Soil Liquefaction Mechanics Explains the Osteoarthritis Cartilage Tipping Point",
+      "field_a": "Geotechnical engineering \u2014 soil liquefaction theory",
+      "field_c": "Orthopedic biomechanics \u2014 OA cartilage tipping point",
+      "bridge_concepts": [
+        "cyclic stress ratio CSR",
+        "pore pressure ratio r_u",
+        "N_liq cycles to failure",
+        "Seed liquefaction resistance curves",
+        "drained-undrained transition"
+      ],
+      "strategy": "scale_bridging",
+      "confidence": 6,
+      "impact_potential": 6,
+      "impact_type": "translational"
+    }
+  ],
+  "target_quality_scores": [
+    {
+      "target": "Earthquake ETAS Self-Exciting Point Process Models \u00d7 Tumor Recurrence Dynamics",
+      "anti_popularity_bias": 7,
+      "anti_vagueness": 8,
+      "structural_impossibility": 7,
+      "anti_local_optima": 9,
+      "composite": 7.75,
+      "recommendation": "PROCEED"
+    },
+    {
+      "target": "Stochastic Resetting Optimization \u00d7 Optimal Antibiotic Pulsing for Persister Clearance",
+      "anti_popularity_bias": 4,
+      "anti_vagueness": 6,
+      "structural_impossibility": 6,
+      "anti_local_optima": 4,
+      "composite": 5.0,
+      "recommendation": "PROCEED"
+    },
+    {
+      "target": "Mpemba Spectral Relaxation Theory \u00d7 Amyloid Aggregation Vulnerability",
+      "anti_popularity_bias": 9,
+      "anti_vagueness": 7,
+      "structural_impossibility": 8,
+      "anti_local_optima": 9,
+      "composite": 8.25,
+      "recommendation": "PROCEED"
+    }
+  ],
+  "impact_potential_scores": [
+    {
+      "target": "Earthquake ETAS Self-Exciting Point Process Models \u00d7 Tumor Recurrence Dynamics",
+      "translational_potential": 8,
+      "addressable_scope": 9,
+      "timeline_to_testability": 8,
+      "impact_composite": 8
+    },
+    {
+      "target": "Stochastic Resetting Optimization \u00d7 Optimal Antibiotic Pulsing for Persister Clearance",
+      "translational_potential": 9,
+      "addressable_scope": 8,
+      "timeline_to_testability": 8,
+      "impact_composite": 8
+    },
+    {
+      "target": "Mpemba Spectral Relaxation Theory \u00d7 Amyloid Aggregation Vulnerability",
+      "translational_potential": 7,
+      "addressable_scope": 9,
+      "timeline_to_testability": 6,
+      "impact_composite": 7
+    }
+  ],
+  "literature_context": {
+    "retrieved_at": "2026-03-28",
+    "retrieval_method": "WebSearch primary (Semantic Scholar MCP rate-limited; PubMed MCP partial)",
+    "papers_retrieved": [
+      "klich2019-mpemba-index-anomalous-relaxation.md",
+      "teza2025-speedups-nonequilibrium-mpemba-review.md",
+      "jia2020-amyloid-assembly-misregistered-kinetic-traps.md",
+      "pavel2020-mechanism-general-anesthesia-PLD2-GM1.md",
+      "schneider2015-flotillin-KinC-FMM-bacillus.md",
+      "garcia-fernandez2017-FMM-MRSA-antibiotic-resistance.md",
+      "cantor2024-HEA-thermodynamics-review.md",
+      "ogata1988-ETAS-epidemic-aftershock-seismicity.md",
+      "avanzini2019-cancer-recurrence-branching-process.md",
+      "evans2011-diffusion-stochastic-resetting.md",
+      "singh2023-pulse-dosing-persister-bacteria.md",
+      "mow1980-biphasic-cartilage-boulanger2004-liquefaction.md"
+    ],
+    "candidate_disjointness": {
+      "candidate_1_mpemba_amyloid": {
+        "status": "DISJOINT",
+        "confidence": 0.95,
+        "cross_field_papers": 0
+      },
+      "candidate_2_pld2_fmm": {
+        "status": "PARTIALLY_EXPLORED",
+        "confidence": 0.8,
+        "cross_field_papers": 0
+      },
+      "candidate_3_hea_microbiome": {
+        "status": "DISJOINT",
+        "confidence": 0.95,
+        "cross_field_papers": 0
+      },
+      "candidate_4_etas_dormancy": {
+        "status": "DISJOINT",
+        "confidence": 0.9,
+        "cross_field_papers": 0
+      },
+      "candidate_5_resetting_persisters": {
+        "status": "DISJOINT",
+        "confidence": 0.92,
+        "cross_field_papers": 0
+      },
+      "candidate_6_liquefaction_oa": {
+        "status": "DISJOINT",
+        "confidence": 0.93,
+        "cross_field_papers": 0
+      }
+    },
+    "selected_target_disjointness": "DISJOINT",
+    "selected_target_bridge_validity": "VALID \u2014 Mpemba index (Klich 2019 PRX) and amyloid MSM (Jia 2020 PNAS) share identical Markov chain eigenspectrum formalism; no cross-field papers found through 2024 (confirmed by Teza 2025 comprehensive review)",
+    "all_bridges_valid": true,
+    "disjointness_hard_constraint_satisfied": true
+  },
+  "computational_readiness": {
+    "level": "HIGH",
+    "checks_passed": 8,
+    "checks_total": 9,
+    "disjunction_confirmed": true,
+    "mathematical_foundation_exists": true,
+    "foundation_paper": "PNAS 2017 PMID:28461467 \u2014 Markovian Mpemba effect eigenmode overlap",
+    "key_concerns": [
+      "PNAS 2017 provides math framework \u2014 cite and differentiate protein MSM application",
+      "D_misfold/D_fold is inferred (plausible at ~3.3 kT roughness), not directly measured",
+      "Aggregation MSMs require new combined folding+misfolding construction",
+      "Mpemba condition requires specific eigenmode computation, not simple kinetic argument",
+      "Non-normal Liouvillian: specify irreversible aggregation regime"
+    ],
+    "generator_advisories": [
+      "Cite PNAS 2017 (PMID 28461467) as mathematical backbone",
+      "Primary prediction: native A\u03b242 aggregates faster than stressed variant via low slow-eigenmode overlap",
+      "Present D ratio as 'order-of-magnitude or greater', not exact 1000x",
+      "Use A\u03b242 as primary test case \u2014 best published MSM data"
+    ],
+    "completed_at": "2026-03-28"
+  },
   "health": {
-    "scout_targets_found": 5,
-    "hypotheses_generated": 7,
+    "scout_targets_found": 6,
+    "hypotheses_generated": 15,
     "survived_critique": 5,
-    "passed_quality_gate": 3,
+    "passed_quality_gate": 6,
     "fallback_used": false,
     "retries_needed": 0,
     "web_search_failures": 0,
-    "impact_potential_score": 4.0
-  },
-  "dataset_evidence": {
-    "completed": true,
-    "timestamp": "2026-03-27",
-    "hypotheses_processed": [
-      "C1-H1",
-      "C1-H2",
-      "C1-H7"
-    ],
-    "total_claims": 15,
-    "confirmed": 13,
-    "supported": 2,
-    "no_data": 0,
-    "contradicted": 0,
-    "evidence_scores": {
-      "C1-H1": 9.0,
-      "C1-H2": 10.0,
-      "C1-H7": 9.33
+    "impact_potential_score": null,
+    "top_score": 8.45,
+    "cycle2_critique": {
+      "evaluated": 8,
+      "killed": 3,
+      "conditional": 5,
+      "pass": 0,
+      "survived": 5,
+      "kill_rate": 0.375,
+      "kills": [
+        "C2-H3",
+        "C2-H6",
+        "C2-H8"
+      ],
+      "survivors": [
+        "C2-H1",
+        "C2-H2",
+        "C2-H4",
+        "C2-H5",
+        "C2-H7"
+      ],
+      "top3_recommended": [
+        "C2-H7",
+        "C2-H5",
+        "C2-H4"
+      ],
+      "key_findings": [
+        "C2-H3 KILLED: evolutionary folding-aggregation tradeoff is established; Mpemba framing adds label not mechanism; IDP category error; Tartaglia citation fabricated (JMB 372:229 does not exist)",
+        "C2-H6 KILLED: tau-K18 IDP MSM computationally prohibitive (500 us MD); single-site phosphorylation below MSM noise floor; clinical extrapolation spans 15+ orders of magnitude",
+        "C2-H8 KILLED: biological mechanism (Hsp70 binds APRs) established since 1997; Mpemba framing is metaphorical rebranding not mechanistic insight",
+        "Monomer-to-aggregation gap remains Achilles heel across surviving hypotheses",
+        "C2-H7 emerges as strongest hypothesis (8.45 composite) \u2014 clean citations, three-arm mechanism discriminant, immediate experimental executability",
+        "All top-4 cycle 2 hypotheses exceed 7.0 threshold \u2014 strongest cycle 2 cohort in session"
+      ]
     },
-    "overall_evidence_score": 9.47,
-    "apis_queried": [
-      "UniProt",
-      "PDB",
-      "HumanProteinAtlas",
-      "STRING",
-      "KEGG"
+    "quality_gate_results": {
+      "cycle": 2,
+      "total_evaluated": 3,
+      "pass": 0,
+      "conditional_pass": 3,
+      "fail": 0,
+      "results": [
+        {
+          "id": "C2-H2",
+          "composite": 7.3,
+          "verdict": "CONDITIONAL_PASS"
+        },
+        {
+          "id": "C2-H3",
+          "composite": 7.0,
+          "verdict": "CONDITIONAL_PASS"
+        },
+        {
+          "id": "C2-H1",
+          "composite": 6.6,
+          "verdict": "CONDITIONAL_PASS"
+        }
+      ],
+      "recommended_for_experimental_validation": "C2-H3"
+    },
+    "ranked_hypotheses": [
+      {
+        "id": "H5",
+        "title": "Rough Energy Landscape Diffusion Asymmetry (D_fold >> D_misfold) Creates Mpemba-Detectable Spectral Signature",
+        "composite": 7.5,
+        "verdict": "SURVIVES",
+        "rank": 1
+      },
+      {
+        "id": "H4",
+        "title": "Inverse Mpemba Protocol Suppresses Fibril Formation by Exploiting Eigenmode Decoupling",
+        "composite": 6.7,
+        "verdict": "WOUNDED",
+        "rank": 2
+      },
+      {
+        "id": "H1",
+        "title": "Mpemba Index of Protein Folding MSMs Predicts Amyloid Aggregation Propensity",
+        "composite": 6.7,
+        "verdict": "WOUNDED",
+        "rank": 3
+      },
+      {
+        "id": "H7",
+        "title": "Mpemba Eigenmode Branching Explains Prion Strain Selection",
+        "composite": 6.25,
+        "verdict": "WOUNDED",
+        "rank": 4
+      }
     ],
-    "key_finding": "All molecular biology substrates confirmed. CDK2 structural evidence (pLDDT=88.44, 498 PDB structures, STRING 0.999 with CCNA2/p27) independently validates QG mandatory correction to H7. HSPA8 chaperone function confirms complex formation/dissociation mechanism underlying H2 chaperone-buffering caveat.",
-    "output_files": [
-      "results/2026-03-27-scout-013/dataset-evidence.json",
-      "results/2026-03-27-scout-013/dataset-evidence-report.md"
+    "critic_questions": [
+      {
+        "hypothesis_id": "C2-H1",
+        "question": "Has ANY published MSM analysis shown that psi_2 (the Fiedler vector / second eigenvector) separates native-like from aggregation-prone conformations in Ab42 or any IDP? If the answer is no, this must be acknowledged as the single most important unverified assumption in the hypothesis."
+      },
+      {
+        "hypothesis_id": "C2-H1",
+        "question": "The monomer-to-aggregation gap remains unbridged. Can the hypothesis be explicitly reformulated to predict MISFOLDING PROPENSITY (single-molecule property) rather than AGGREGATION RATE (multi-molecule property)?"
+      },
+      {
+        "hypothesis_id": "C2-H2",
+        "question": "The D_misfold/D_fold ratio was measured for PrP DIMERS using single-molecule force spectroscopy. PrP has a well-defined native fold; Ab42 and alpha-synuclein are IDPs. What is the expected D ratio for an IDP that has no native folding funnel? Is D_fold even defined for an IDP?"
+      },
+      {
+        "hypothesis_id": "C2-H3",
+        "question": "Provide evidence that monomer A* conformational states determine fibril polymorph identity. Chakraborty 2020 shows A* predicts aggregation RATE, not polymorph IDENTITY. Without this evidence, the eigenmode-branching mechanism is unfounded."
+      },
+      {
+        "hypothesis_id": "C2-H5",
+        "question": "The resource-theoretic framework requires Markovian closed-system dynamics. Protein folding in cells is an open system with ATP-dependent chaperones. Can the framework be extended to open systems, or must it be restricted to in vitro conditions?"
+      },
+      {
+        "hypothesis_id": "ALL",
+        "question": "The monomer-to-aggregation gap remains the Achilles heel of the entire hypothesis family. Secondary nucleation (Cohen 2013) dominates Ab42 proliferation and is not captured by single-molecule MSM eigenspectra. Can cycle 2 survivors explicitly address this by restricting claims to monomer misfolding propensity rather than aggregation rate?"
+      }
     ]
   },
-  "cross_model_validation": {
-    "status": "completed",
-    "completed_at": "2026-03-27T22:56:00Z",
-    "gpt_model": "gpt-5.4",
-    "gemini_model": "gemini-3.1-pro-preview (prior run)",
-    "models_used": [
-      "openai",
-      "gemini"
+  "hypotheses": {
+    "cycle1": {
+      "ranked": [
+        {
+          "id": "H5",
+          "title": "Rough Energy Landscape Diffusion Asymmetry (D_fold >> D_misfold) Creates Mpemba-Detectable Spectral Signature",
+          "composite": 7.5,
+          "pre_bonus_composite": 7.0,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 8,
+            "mechanistic_specificity": 7,
+            "cross_field_distance": 7,
+            "testability": 7,
+            "impact_paradigm": 6,
+            "impact_translational": 4,
+            "groundedness": 7
+          },
+          "verdict": "SURVIVES",
+          "critic_verdict": "SURVIVES",
+          "revised_confidence": 5,
+          "evolution_priority": 1,
+          "evolution_notes": "Mechanistic foundation for full framework."
+        },
+        {
+          "id": "H4",
+          "title": "Inverse Mpemba Protocol Suppresses Fibril Formation by Exploiting Eigenmode Decoupling",
+          "composite": 6.7,
+          "pre_bonus_composite": 6.2,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 7,
+            "mechanistic_specificity": 5,
+            "cross_field_distance": 8,
+            "testability": 8,
+            "impact_paradigm": 5,
+            "impact_translational": 7,
+            "groundedness": 4
+          },
+          "verdict": "WOUNDED",
+          "critic_verdict": "WOUNDED",
+          "revised_confidence": 4,
+          "evolution_priority": 2,
+          "evolution_notes": "Most testable hypothesis."
+        },
+        {
+          "id": "H1",
+          "title": "Mpemba Index of Protein Folding MSMs Predicts Amyloid Aggregation Propensity",
+          "composite": 6.7,
+          "pre_bonus_composite": 6.2,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 9,
+            "mechanistic_specificity": 6,
+            "cross_field_distance": 8,
+            "testability": 5,
+            "impact_paradigm": 7,
+            "impact_translational": 5,
+            "groundedness": 4
+          },
+          "verdict": "WOUNDED",
+          "critic_verdict": "WOUNDED",
+          "revised_confidence": 5,
+          "evolution_priority": 3,
+          "evolution_notes": "Highest novelty; penalized by fabricated MSM citations."
+        },
+        {
+          "id": "H7",
+          "title": "Mpemba Eigenmode Branching Explains Prion Strain Selection",
+          "composite": 6.25,
+          "pre_bonus_composite": 5.75,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 9,
+            "mechanistic_specificity": 5,
+            "cross_field_distance": 9,
+            "testability": 3,
+            "impact_paradigm": 8,
+            "impact_translational": 5,
+            "groundedness": 4
+          },
+          "verdict": "WOUNDED",
+          "critic_verdict": "WOUNDED",
+          "revised_confidence": 3,
+          "evolution_priority": 4,
+          "evolution_notes": "Lowest composite but maximum diversity value."
+        }
+      ],
+      "evolved": [
+        {
+          "id": "E-H5",
+          "parent_id": "H5",
+          "operation": "Specification + partial Crossover with H4",
+          "title": "Zwanzig Roughness Asymmetry Produces Directly Measurable Bimodal Eigenspectrum in Abeta42 MSMs",
+          "estimated_groundedness": 0.85,
+          "timeline_months": "3-4",
+          "quality_gate_verdict": "CONDITIONAL_PASS",
+          "quality_gate_adjusted_score": 7.0
+        },
+        {
+          "id": "E-H4",
+          "parent_id": "H4",
+          "operation": "Mutation + Specification",
+          "title": "Eigenmode-Overlap Bypassing via Controlled Quench Protocol Suppresses Abeta42 Fibril Formation",
+          "estimated_groundedness": 0.7,
+          "timeline_months": "2",
+          "quality_gate_verdict": "CONDITIONAL_PASS",
+          "quality_gate_adjusted_score": 6.5
+        },
+        {
+          "id": "E-H1",
+          "parent_id": "H1",
+          "operation": "Mutation (3 citation errors corrected) + Specification",
+          "title": "Mpemba Index from Prospectively Constructed Abeta42 MSMs Predicts Amyloid Aggregation Propensity",
+          "estimated_groundedness": 0.85,
+          "timeline_months": "5-7",
+          "quality_gate_verdict": "CONDITIONAL_PASS",
+          "quality_gate_adjusted_score": 6.5
+        },
+        {
+          "id": "E-H7",
+          "parent_id": "H7",
+          "operation": "Generalization (PrP to Abeta42) + Mutation",
+          "title": "Eigenmode Branching in Abeta42 Conformational Space Determines Fibril Polymorph Identity",
+          "estimated_groundedness": 0.8,
+          "timeline_months": "12-18",
+          "quality_gate_verdict": "CONDITIONAL_PASS",
+          "quality_gate_adjusted_score": 6.0
+        }
+      ],
+      "quality_gate_completed": true,
+      "quality_gate_summary": "4/4 CONDITIONAL PASS. No full PASS and no FAIL. Strongest: E-H5 (7.0 adjusted). Most testable: E-H4 (near-term wet lab)."
+    },
+    "cycle2": {
+      "raw": [
+        {
+          "id": "C2-H1",
+          "title": "Resource-Theoretic Mpemba Vulnerability Score: Relative Entropy of A* Ensemble as Unified Aggregation Predictor",
+          "confidence": 6,
+          "groundedness": "MEDIUM",
+          "bridge_mechanism": "resource_theoretic_KL_divergence_A_star",
+          "builds_on": [
+            "E6-H1xH5",
+            "E1-H5"
+          ],
+          "technique": "resource_theory_extension"
+        },
+        {
+          "id": "C2-H2",
+          "title": "Mpemba-Guided Aggregation Inhibitor Design: Small Molecules That Maximize Eigenmode Overlap Disruption",
+          "confidence": 5,
+          "groundedness": "MEDIUM",
+          "bridge_mechanism": "eigenmode_overlap_drug_design",
+          "builds_on": [],
+          "technique": "drug_design_application"
+        },
+        {
+          "id": "C2-H4",
+          "title": "Spectral Entropy Production Rate Distinguishes Folding from Misfolding Pathways in Non-Equilibrium Protein Dynamics",
+          "confidence": 5,
+          "groundedness": "HIGH",
+          "bridge_mechanism": "schnakenberg_entropy_production_spike",
+          "builds_on": [],
+          "technique": "stochastic_thermodynamics_application"
+        },
+        {
+          "id": "C2-H5",
+          "title": "Refined Hierarchical Spectral Scoring with Yu et al. D_misfold Calibration and Cross-Validation Against TANGO/CamSol",
+          "confidence": 6,
+          "groundedness": "HIGH",
+          "bridge_mechanism": "calibrated_three_level_hierarchy",
+          "builds_on": [
+            "E6-H1xH5"
+          ],
+          "technique": "experimental_calibration_refinement"
+        },
+        {
+          "id": "C2-H7",
+          "title": "Cooling-Rate-Dependent Fibril Polymorph Selection in Insulin: Refined T_cross Prediction with Three-Arm Mechanism Discrimination",
+          "confidence": 5,
+          "groundedness": "HIGH",
+          "bridge_mechanism": "eigenmode_branching_T_cross_polymorph_insulin",
+          "builds_on": [
+            "E3-H7xH5"
+          ],
+          "technique": "experimental_design_refinement"
+        }
+      ],
+      "critiqued": [
+        {
+          "id": "C2-H1",
+          "verdict": "WOUNDED",
+          "revised_confidence": 5,
+          "critic_concerns": [
+            "D_KL = delta_F/kT identity overextended to non-equilibrium A* states",
+            "Chakraborty page numbers wrong (16817 vs 19926)",
+            "A* state identification algorithm-dependent"
+          ]
+        },
+        {
+          "id": "C2-H2",
+          "verdict": "WOUNDED",
+          "revised_confidence": 3,
+          "critic_concerns": [
+            "IDP Abeta42 high-|v_slow| states likely lack binding pockets",
+            "Boltzmann reweighting diverges for strong binders (Kd < 10 uM)",
+            "EGCG reference compound is PAINS (promiscuous)",
+            "Bowman 2012 mischaracterized as ensemble docking"
+          ]
+        },
+        {
+          "id": "C2-H4",
+          "verdict": "WOUNDED",
+          "revised_confidence": 4,
+          "critic_concerns": [
+            "Signal-to-noise: global sigma(t) may obscure misfolding-specific spike",
+            "Prigogine near-equilibrium regime assumption not justified from common 400K quench",
+            "MSM lag time sets resolution floor for spike detection"
+          ]
+        },
+        {
+          "id": "C2-H5",
+          "verdict": "SURVIVES",
+          "revised_confidence": 6,
+          "critic_concerns": [
+            "Cohen et al. citation persistent error (2012/109:9761 vs 2013/110:9758) \u2014 uncorrected from cycle 1",
+            "Yu et al. measured PrP dimers under force, not Abeta42 in solution \u2014 transfer assumption unverified"
+          ]
+        },
+        {
+          "id": "C2-H7",
+          "verdict": "SURVIVES",
+          "revised_confidence": 5,
+          "critic_concerns": [
+            "Insulin fibril polymorphism may be inherently stochastic \u2014 deterministic eigenmode prediction could fail",
+            "Dense eigenvalue spectrum may not resolve v_2 vs v_3 clearly",
+            "Insulin B-chain MSM may not capture full hormone behavior"
+          ]
+        }
+      ],
+      "ranked": [
+        {
+          "rank": 1,
+          "id": "E6-H1xH5",
+          "source": "cycle1_evolved",
+          "title": "Hierarchical Spectral Scoring (3-level causal chain)",
+          "composite": 8.4,
+          "pre_bonus_composite": 7.9,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 8,
+            "mechanistic_specificity": 9,
+            "cross_field_distance": 8,
+            "testability": 8,
+            "impact_paradigm": 9,
+            "impact_translational": 5,
+            "groundedness": 7
+          },
+          "selected_for_evolution": true,
+          "evolution_priority": 1,
+          "diversity_note": "E1-H5 dropped for >80% overlap; E6 retained as comprehensive synthesis"
+        },
+        {
+          "rank": 2,
+          "id": "E2-H1",
+          "source": "cycle1_evolved",
+          "title": "Mpemba Index Predicts Aggregation Propensity (Citations Corrected)",
+          "composite": 8.0,
+          "pre_bonus_composite": 7.5,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 8,
+            "mechanistic_specificity": 7,
+            "cross_field_distance": 7,
+            "testability": 8,
+            "impact_paradigm": 7,
+            "impact_translational": 5,
+            "groundedness": 8
+          },
+          "selected_for_evolution": true,
+          "evolution_priority": 3
+        },
+        {
+          "rank": 2,
+          "id": "E3-H7xH5",
+          "source": "cycle1_evolved",
+          "title": "Cooling-Rate Fibril Polymorph Selection in Insulin via Eigenmode Branching",
+          "composite": 8.0,
+          "pre_bonus_composite": 7.5,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 8,
+            "mechanistic_specificity": 8,
+            "cross_field_distance": 7,
+            "testability": 8,
+            "impact_paradigm": 7,
+            "impact_translational": 5,
+            "groundedness": 7
+          },
+          "selected_for_evolution": true,
+          "evolution_priority": 4
+        },
+        {
+          "rank": 4,
+          "id": "E5-H4",
+          "source": "cycle1_evolved",
+          "title": "Inverse Mpemba Cooling Protocol Suppresses Fibril Formation",
+          "composite": 7.8,
+          "pre_bonus_composite": 7.3,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 7,
+            "mechanistic_specificity": 8,
+            "cross_field_distance": 7,
+            "testability": 8,
+            "impact_paradigm": 6,
+            "impact_translational": 6,
+            "groundedness": 7
+          },
+          "selected_for_evolution": true,
+          "evolution_priority": 2,
+          "elo_rank": 1,
+          "elo_note": "Wins all 5 Elo matches \u2014 FIRST to test experimentally"
+        },
+        {
+          "rank": 5,
+          "id": "E4-H3",
+          "source": "cycle1_evolved",
+          "title": "Non-Equilibrium MSMs Reveal Non-Normal Dynamics under Hsp70 Driving",
+          "composite": 7.7,
+          "pre_bonus_composite": 7.2,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 8,
+            "mechanistic_specificity": 8,
+            "cross_field_distance": 8,
+            "testability": 7,
+            "impact_paradigm": 7,
+            "impact_translational": 5,
+            "groundedness": 6
+          },
+          "selected_for_evolution": true,
+          "evolution_priority": 5,
+          "diversity_note": "Promoted from rank 6 to replace E1-H5"
+        },
+        {
+          "rank": 6,
+          "id": "E1-H5",
+          "source": "cycle1_evolved",
+          "title": "Rough Landscape Diffusion Asymmetry Creates Spectral Signature (Sharpened)",
+          "composite": 8.4,
+          "pre_bonus_composite": 7.9,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 8,
+            "mechanistic_specificity": 9,
+            "cross_field_distance": 7,
+            "testability": 8,
+            "impact_paradigm": 7,
+            "impact_translational": 5,
+            "groundedness": 8
+          },
+          "selected_for_evolution": false,
+          "diversity_note": "Rank-1 composite but excluded from evolution selection due to >80% overlap with E6-H1xH5"
+        },
+        {
+          "rank": 7,
+          "id": "C2-H1",
+          "source": "cycle2",
+          "title": "A* State Population Is the Protein Mpemba Overlap Coefficient",
+          "composite": 7.1,
+          "pre_bonus_composite": 6.6,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 7,
+            "mechanistic_specificity": 7,
+            "cross_field_distance": 7,
+            "testability": 7,
+            "impact_paradigm": 6,
+            "impact_translational": 4,
+            "groundedness": 6
+          },
+          "selected_for_evolution": false
+        },
+        {
+          "rank": 8,
+          "id": "C2-H2",
+          "source": "cycle2",
+          "title": "Measured D Ratio of PrP Predicts Bimodal Eigenspectrum",
+          "composite": 6.95,
+          "pre_bonus_composite": 6.45,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 6,
+            "mechanistic_specificity": 8,
+            "cross_field_distance": 6,
+            "testability": 6,
+            "impact_paradigm": 5,
+            "impact_translational": 4,
+            "groundedness": 7
+          },
+          "selected_for_evolution": false
+        },
+        {
+          "rank": 9,
+          "id": "C2-H5",
+          "source": "cycle2",
+          "title": "Resource-Theoretic Mpemba Monotone (therapeutic claims dropped)",
+          "composite": 6.7,
+          "pre_bonus_composite": 6.2,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 8,
+            "mechanistic_specificity": 6,
+            "cross_field_distance": 9,
+            "testability": 5,
+            "impact_paradigm": 7,
+            "impact_translational": 3,
+            "groundedness": 5
+          },
+          "selected_for_evolution": false
+        },
+        {
+          "rank": 10,
+          "id": "C2-H4",
+          "source": "cycle2",
+          "title": "Non-Reversible MSMs Reveal Non-Normal Dynamics",
+          "composite": 6.45,
+          "pre_bonus_composite": 5.95,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 7,
+            "mechanistic_specificity": 6,
+            "cross_field_distance": 7,
+            "testability": 6,
+            "impact_paradigm": 6,
+            "impact_translational": 3,
+            "groundedness": 5
+          },
+          "selected_for_evolution": false
+        },
+        {
+          "rank": 11,
+          "id": "C2-H3",
+          "source": "cycle2",
+          "title": "Cooling-Rate Polymorph Selection in Abeta42 (IDP-limited)",
+          "composite": 5.8,
+          "pre_bonus_composite": 5.3,
+          "cross_domain_bonus": 0.5,
+          "scores": {
+            "novelty": 6,
+            "mechanistic_specificity": 5,
+            "cross_field_distance": 6,
+            "testability": 5,
+            "impact_paradigm": 6,
+            "impact_translational": 4,
+            "groundedness": 5
+          },
+          "selected_for_evolution": false
+        }
+      ],
+      "ranking_summary": {
+        "total_scored": 11,
+        "cycle1_evolved": 6,
+        "cycle2_survivors": 5,
+        "selected_for_evolution": [
+          "E6-H1xH5",
+          "E5-H4",
+          "E2-H1",
+          "E3-H7xH5",
+          "E4-H3"
+        ],
+        "top_score": 8.4,
+        "elo_top": "E5-H4 (5/5 wins) \u2014 first experimental test",
+        "key_finding": "All cycle-1 evolved > all cycle-2 survivors. Iterated evolution outperformed new generation.",
+        "diversity_action": "E1-H5 dropped (>80% overlap with E6); E4-H3 promoted"
+      }
+    }
+  },
+  "scout_top_3": [
+    {
+      "rank": 1,
+      "title": "Earthquake ETAS Self-Exciting Point Process Models Tumor Recurrence Dynamics",
+      "field_a": "Seismology \u2014 ETAS model (Ogata 1988)",
+      "field_c": "Clinical oncology \u2014 tumor dormancy and recurrence timing",
+      "bridge_concepts": [
+        "ETAS conditional intensity",
+        "Omori-law decay of paracrine signaling",
+        "branching ratio subcritical vs supercritical",
+        "ctDNA spikes as foreshock analogs"
+      ],
+      "strategy": "structural_isomorphism",
+      "confidence": 8,
+      "impact_potential": 8,
+      "impact_type": "paradigm",
+      "disjointness_status": "DISJOINT",
+      "composite_score": 57.6
+    },
+    {
+      "rank": 2,
+      "title": "Mpemba Spectral Relaxation Theory Predicts Amyloid Aggregation Vulnerability",
+      "field_a": "Non-equilibrium statistical mechanics \u2014 Mpemba effect spectral theory",
+      "field_c": "Neurodegenerative protein biochemistry \u2014 amyloid aggregation selectivity",
+      "bridge_concepts": [
+        "Mpemba index eigenmode overlap",
+        "spectral gap of folding/misfolding MSM",
+        "non-normal Liouvillian dynamics",
+        "rough landscape D_misfold 1000x slower"
+      ],
+      "strategy": "anomaly_hunting",
+      "confidence": 7,
+      "impact_potential": 7,
+      "impact_type": "paradigm",
+      "disjointness_status": "DISJOINT",
+      "composite_score": 46.55
+    },
+    {
+      "rank": 3,
+      "title": "Anesthetic Lipid Raft Signaling Paradigm Explains Bacterial Sub-Lethal Antimicrobial Sensing",
+      "field_a": "Membrane biophysics / anesthesiology \u2014 PLD2 relocalization cascade",
+      "field_c": "Bacterial membrane biology \u2014 FMM-mediated AMP detection",
+      "bridge_concepts": [
+        "PLD2 relocalization from GM1 rafts",
+        "FloT-KinC relocalization from bacterial FMMs",
+        "phospholipase signaling lipid production",
+        "Spo0A phosphorelay activation"
+      ],
+      "strategy": "failed_paradigm_recycling",
+      "confidence": 7,
+      "impact_potential": 7,
+      "impact_type": "translational",
+      "disjointness_status": "DISJOINT",
+      "composite_score": 45.57
+    }
+  ],
+  "empirical_evidence_scores": {
+    "generated": "2026-03-28",
+    "method": "Database queries via HPA, KEGG, GWAS Catalog, UniProt, PDB",
+    "apis_unavailable": [
+      "ChEMBL"
     ],
-    "gpt_web_searches": 25,
-    "gpt_code_executions": 13,
-    "gpt_duration_s": 604,
-    "consensus_summary": {
-      "C1-H1": {
-        "combined_recommendation": "PROMISING \u2014 pursue with corrections",
-        "gpt_confidence": 4,
-        "gemini_confidence": 7
+    "per_hypothesis": {
+      "C2-H2": {
+        "title": "Measured D_misfold/D_fold Ratio of PrP Predicts Bimodal Eigenvalue Spectrum via Zwanzig-Kramers Bridge",
+        "ees": 9.1,
+        "claims_confirmed": 7,
+        "claims_supported": 2,
+        "claims_no_data": 0,
+        "claims_contradicted": 0,
+        "total_claims": 9,
+        "key_confirmations": [
+          "PRNP P04156 confirmed (UniProt)",
+          "70 PDB structures for PRNP",
+          "227 PDB structures for APP/Abeta42",
+          "165 PDB structures for SNCA",
+          "PRNP in KEGG hsa05020 (Prion disease)"
+        ]
       },
-      "C1-H2": {
-        "combined_recommendation": "NEEDS WORK \u2014 correctable with formula fix",
-        "gpt_confidence": 5,
-        "gemini_confidence": 2
+      "C2-H3": {
+        "title": "Cooling-Rate-Dependent Fibril Polymorph Selection via Eigenmode Branching",
+        "ees": 9.0,
+        "claims_confirmed": 3,
+        "claims_supported": 1,
+        "claims_no_data": 0,
+        "claims_contradicted": 0,
+        "total_claims": 4,
+        "key_confirmations": [
+          "367 PDB structures for insulin (largest in session)",
+          "INS P01308 confirmed (UniProt)",
+          "INS in 31 KEGG pathways"
+        ]
       },
-      "C1-H7": {
-        "combined_recommendation": "UNLIKELY in current form \u2014 redesign required",
-        "gpt_confidence": 2,
-        "gemini_confidence": 4
+      "C2-H1": {
+        "title": "A* State Population Is the Protein Mpemba Overlap Coefficient \u2014 A Quantitative Unification",
+        "ees": 4.3,
+        "claims_confirmed": 2,
+        "claims_supported": 1,
+        "claims_no_data": 3,
+        "claims_contradicted": 0,
+        "total_claims": 6,
+        "key_confirmations": [
+          "227 APP/Abeta42 PDB structures",
+          "165 SNCA PDB structures"
+        ],
+        "no_data_notes": "GWAS API retrieval limitations and ChEMBL unavailability account for NO_DATA \u2014 not genuine contradictions"
       }
     },
-    "files": {
-      "gpt_validation": "results/2026-03-27-scout-013/validation-gpt.md",
-      "gemini_validation": "results/2026-03-27-scout-013/validation-gemini.md",
-      "consensus": "results/2026-03-27-scout-013/cross-model-report.md",
-      "structured_data": "results/2026-03-27-scout-013/cross-model.json"
-    }
+    "aggregate_ees": 7.5,
+    "contradictions_found": 0,
+    "note": "EES is an empirical supplement to QG composite, not a replacement. C2-H1 lower EES reflects abstract mathematical claims not directly queryable against databases, not lower scientific quality."
   }
 }
