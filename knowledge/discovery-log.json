@@ -2134,5 +2134,222 @@
         "Detailed-balance MSM enforce time-reversibility \u2014 non-normal Liouvillian requires augmented MSM"
       ]
     }
+  },
+  {
+    "date": "2026-03-28",
+    "session_id": "session-20260328-123317",
+    "mode": "scout",
+    "status": "partial",
+    "session_number": 15,
+    "creativity_constraint": "bridge physical sciences and life sciences",
+    "targets": [
+      {
+        "field_a": "Statistical mechanics \u2014 bond percolation theory",
+        "field_c": "Tumor immunology \u2014 ECM-mediated immune exclusion",
+        "bridge_concepts": [
+          "LOX crosslink density as bond occupation probability p",
+          "Percolation threshold p_c as immune exclusion threshold",
+          "Correlation length xi predicts T cell cluster size",
+          "Universality class exponents testable across tumor types"
+        ],
+        "strategy": "structural_isomorphism",
+        "disjointness": "DISJOINT",
+        "disjointness_confidence": 0.85,
+        "impact_potential": 9,
+        "outcome": "partial"
+      }
+    ],
+    "pipeline_stats": {
+      "hypotheses_generated": 8,
+      "survived_critique": 6,
+      "kill_rate": 0.25,
+      "evolved": 5,
+      "passed_quality_gate": 4,
+      "qg_pass": 3,
+      "qg_conditional_pass": 1,
+      "qg_fail": 1,
+      "cycles_run": 1,
+      "early_complete": true,
+      "early_complete_reason": "top-3 ranker composites all >= 7.0 (8.30, 8.10, 7.05)"
+    },
+    "productive_bridges": [
+      "Voronoi network bond percolation with Wolf pore threshold",
+      "Active-particle universality class two-exponent measurement",
+      "Michaelis-Menten LOX kinetics pharmacokinetic dose mapping",
+      "TGF-beta correlation length correlated percolation p_c shift"
+    ],
+    "surviving_hypotheses": [
+      {
+        "id": "E1-H1",
+        "title": "Voronoi Tessellation ECM Percolation with LOX Bond Occupation",
+        "qg_composite": 8.25,
+        "verdict": "PASS"
+      },
+      {
+        "id": "E2-H2",
+        "title": "Two-Exponent Active-Percolation Universality Class Test",
+        "qg_composite": 7.45,
+        "verdict": "PASS"
+      },
+      {
+        "id": "E3-H4",
+        "title": "Michaelis-Menten LOX Kinetics BAPN Therapeutic Window",
+        "qg_composite": 7.2,
+        "verdict": "PASS"
+      },
+      {
+        "id": "E4-H8",
+        "title": "TGF-beta Correlated Percolation p_c Shift Synergy Prediction",
+        "qg_composite": 7.2,
+        "verdict": "CONDITIONAL_PASS"
+      }
+    ],
+    "killed_hypotheses": [
+      {
+        "id": "H5",
+        "title": "Finite-Size Biopsy Scaling",
+        "kill_reason": "Quantitative insufficiency: predicted 0.6% finite-size shift is 2-3 orders of magnitude smaller than intratumoral heterogeneity"
+      },
+      {
+        "id": "H7",
+        "title": "Backbone Fraction Predicts Functional T Cell Ratio",
+        "kill_reason": "Mechanism contradicts Wherry 2011: T cell exhaustion is driven by chronic antigen stimulation, not physical confinement"
+      },
+      {
+        "id": "E5-H6",
+        "title": "MT1-MMP Circadian Dynamic Percolation Window",
+        "kill_reason": "QG FAIL: fabricated protein property \u2014 MT1-MMP surface half-life is ~15-30 min (rapid endocytosis), not 18-24 hr as claimed"
+      }
+    ],
+    "key_literature": [
+      "Ashworth 2015 (PMID 25881025) \u2014 prior art at scaffold level, not tumor immunology",
+      "Nicolas-Boluda 2021 eLife \u2014 LOX inhibition restores T cell infiltration",
+      "Wolf 2013 J Cell Biol \u2014 4 um^2 T cell squeeze threshold",
+      "Fusilier 2025 Science Immunology \u2014 collagen topology controls T cell infiltration",
+      "Saha 2024 Soft Matter \u2014 active particle percolation transition in 2D"
+    ],
+    "novelty_status": "GENUINELY_NOVEL",
+    "novelty_note": "Zero published papers apply percolation critical phenomena to T cell immune exclusion in tumors",
+    "empirical_validation": {
+      "empirical_evidence_score": 7.7,
+      "convergence_strong": 3,
+      "convergence_moderate": 2,
+      "dataset_confirmed_claims": 12,
+      "dataset_total_claims": 20
+    },
+    "impact_assessment": {
+      "impact_potential_score": 8.3,
+      "scout_impact": 9,
+      "impact_type": "translational",
+      "application": "LOX inhibitor dosing optimization + ECM percolation biomarker"
+    },
+    "strategy_performance": {
+      "structural_isomorphism": {
+        "targets_produced": 1,
+        "hypotheses_survived_qg": 4,
+        "avg_qg_composite": 7.53
+      }
+    },
+    "computational_validation_summary": {
+      "checks_passed": 9,
+      "checks_total": 11,
+      "readiness": "HIGH",
+      "key_concerns": [
+        "Active particle correction mandatory (Pe~3)",
+        "KEGG API unavailable"
+      ]
+    },
+    "lessons_learned": [
+      "Percolation x tumor immunology is genuinely DISJOINT despite Ashworth 2015 prior art at scaffold level",
+      "Active particle corrections (Pe~3) are mandatory \u2014 passive p_c = 0.2488 is wrong for T cells",
+      "d_w = 2.878 (measured) not 3.8 (Alexander-Orbach) \u2014 common textbook error",
+      "Fabricated protein property (MT1-MMP half-life) caught by QG claim verification \u2014 validates pipeline",
+      "Structural isomorphism strategy at high impact (9/10) produces strong results (4/5 pass QG)"
+    ],
+    "results_dir": "results/session-20260328-123317"
+  },
+  {
+    "date": "2026-03-28",
+    "session_id": "session-20260328-123317",
+    "session_number": 15,
+    "mode": "scout",
+    "targets": [
+      {
+        "field_a": "Statistical mechanics \u2014 bond percolation theory",
+        "field_c": "Tumor immunology \u2014 ECM-mediated immune exclusion",
+        "bridge_concepts": [
+          "LOX collagen crosslink density as bond occupation probability p",
+          "Percolation threshold p_c as immune exclusion threshold (active p_c ~ 0.21-0.24)",
+          "Correlation length xi ~ |p - p_c|^(-0.88) predicts T cell clustering scale",
+          "Anomalous diffusion exponent alpha = 0.53 at criticality",
+          "Universality class critical exponents testable across tumor types"
+        ],
+        "strategy": "structural_isomorphism",
+        "disjointness": "DISJOINT",
+        "outcome": "success"
+      }
+    ],
+    "productive_bridges": [
+      "LOX crosslink density = bond occupation probability (PASS)",
+      "BAPN dose-response as percolation control knob (PASS)",
+      "VACF negative dip as percolation diagnostic (COND)",
+      "Universality class measurement via exponent crossover (COND)",
+      "Dynamic percolation from MMP/LOX kinetics (COND)",
+      "Gradient anisotropy score as Pe classifier (COND)"
+    ],
+    "killed_hypotheses": [
+      {
+        "title": "Finite-Size Scaling in Biopsy Dimensions",
+        "kill_reason": "Predicted 0.6% shift is 2-3 orders of magnitude smaller than intratumoral heterogeneity"
+      },
+      {
+        "title": "Backbone Fraction = Functional vs Trapped T Cells",
+        "kill_reason": "Contradicts T cell exhaustion biology (Wherry 2011): exhaustion is antigen-driven, not confinement-driven"
+      }
+    ],
+    "surviving_hypotheses": [
+      "E1: LOX Crosslink Density as Percolation Control Parameter (PASS, 7.85)",
+      "E2: BAPN Dose-Response as Percolation Phase Transition (PASS, 7.80)",
+      "E6: VACF Percolation Fingerprint (CONDITIONAL_PASS, 6.75)",
+      "E3: Universality Class Measurement (CONDITIONAL_PASS, 6.25)",
+      "E5: MMP/LOX Dynamic Percolation Clock (CONDITIONAL_PASS, 6.25)",
+      "E4: Gradient Anisotropy Score as Pe Classifier (CONDITIONAL_PASS, 6.05)"
+    ],
+    "strategy_performance": {
+      "structural_isomorphism": {
+        "targets_produced": 1,
+        "hypotheses_generated": 8,
+        "hypotheses_survived_critique": 6,
+        "qg_pass": 2,
+        "qg_conditional": 4,
+        "qg_fail": 0,
+        "pass_rate": 0.33,
+        "pass_cond_rate": 1.0,
+        "avg_composite": 6.83
+      }
+    },
+    "bridge_type_performance": {
+      "structural_isomorphism_percolation": {
+        "used": 6,
+        "survived": 6,
+        "pass": 2,
+        "survival_rate": 1.0
+      }
+    },
+    "computational_validation_summary": {
+      "checks_run": 11,
+      "checks_passed": 9,
+      "implausible_flags": [
+        "KEGG API unavailable",
+        "Active p_c 3D extrapolation (not computed, estimated)"
+      ]
+    },
+    "impact_assessment": {
+      "impact_potential": 9,
+      "impact_type": "translational",
+      "impact_potential_score": 8.3,
+      "convergence_signals": 8
+    },
+    "notes": "Early-complete from cycle 1 (top-3 composites 8.30, 8.10, 7.05 all >= 7.0). Zero citation hallucinations. Global novelty confirmed (0 papers bridging percolation + T cell infiltration). 1 factual error: 3D directed percolation exponents confused with 1D values in E3/E4."
   }
 ]
