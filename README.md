@@ -10,7 +10,7 @@ Come back to find testable hypothesis cards, then validate cross-model.
 Optimized for cross-disciplinary life sciences discovery (retrieval tools,
 scoring weights, hypothesis format); other domains are supported but
 scores reflect infrastructure asymmetry, not hypothesis quality.
-Impact-aware prioritization (v5.14) steers the pipeline toward high-impact
+Impact-aware prioritization steers the pipeline toward high-impact
 directions via tiebreakers, decomposed scoring, and meta-learning — without
 sacrificing novelty or rigor.
 
@@ -91,7 +91,7 @@ Typical runtime: 20-55 minutes. Check progress with `/status`.
 
 ## After Discovery: Cross-Model Validation
 
-**Automatic (v5.6+)**: If `OPENAI_API_KEY` and/or `GEMINI_API_KEY` are set in `.env.local`,
+**Automatic**: If `OPENAI_API_KEY` and/or `GEMINI_API_KEY` are set in `.env.local`,
 the pipeline automatically calls GPT-5.4 Pro (with web search + code interpreter)
 and Gemini 3.1 Pro (with code execution + Google Search grounding) for
 independent validation and generates a consensus report.

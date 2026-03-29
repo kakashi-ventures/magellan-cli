@@ -44,10 +44,10 @@ Il modello ABC resta la struttura portante dell'output: ogni ipotesi MAGELLAN ha
 
 ---
 
-## Architettura: 15 agenti, 3 fasi (v5.13)
+## Architettura: 15 agenti, 3 fasi
 
 ```
-FASE 1 — ESPLORAZIONE (Sequential Narrowing — v5.8)
+FASE 1 — ESPLORAZIONE (Sequential Narrowing)
 ┌──────────────┐
 │    Scout      │  Phase 0a: genera 5-6 candidati
 │  [Opus]       │
@@ -98,12 +98,25 @@ FASE 2 — GENERAZIONE & CRITICA (2 cicli)
 
 FASE 3 — VALIDAZIONE FINALE + META-LEARNING
 ┌──────────────────┐   ┌──────────────────┐
-│  Quality Gate     │   │ Session Analyst   │  ← v5.5
+│  Quality Gate     │   │ Session Analyst   │
 │    [Opus]         │──▶│   [Sonnet]        │
 │ 10-point rubric   │   │ meta-learning     │
 │ + web grounding   │   │ → meta-insights   │
 └──────────┬───────┘   └──────────┬───────┘
            └──────────┬───────────┘
+                      ▼
+┌──────────────────────────┐
+│  Cross-Model Validator    │  GPT-5.4 Pro + Gemini 3.1 Pro
+│    [Sonnet]               │  consensus report
+└──────────┬───────────────┘
+           ▼
+┌──────────────────────┐   ┌───────────────────────┐
+│  Convergence Scanner  │   │ Dataset Evidence Miner │
+│    [Sonnet]           │   │    [Sonnet]            │
+│ ClinicalTrials, NIH   │   │ HPA, GWAS, ChEMBL,    │
+│ Reporter, brevetti    │   │ UniProt, PDB           │
+└──────────┬───────────┘   └──────────┬────────────┘
+           └──────────┬───────────────┘
                       ▼
     Session Health → results/{session-id}/*.md + state/session.json
                    + knowledge/meta-insights.md
@@ -223,7 +236,7 @@ La conoscenza parametrica è **il motore generativo** — è dove risiedono le c
 7. **Ranker**: Scoring su 6 dimensioni inclusa **Groundedness** (20%), diversity check, Elo tournament sanity check
 8. **Evolver**: Opera sulle ipotesi top con **diversity constraint**
 9. **Session Analyst**: Post-Quality-Gate, analizza strategy performance, kill patterns, bridge type survival rates, disjointness correlation. Produce `knowledge/meta-insights.md` per le sessioni successive
-10. **Cross-Model Validator** (v5.6): Post-Session-Analyst. Genera prompt di validazione adattati alle ipotesi specifiche, poi chiama le API di OpenAI (GPT-5.4 Pro, reasoning high) e Google (Gemini 3.1 Pro, thinking HIGH) in parallelo tramite `scripts/validate-crossmodel.mjs`. Produce un consensus report che identifica convergenze e divergenze tra i modelli. Se le API key non sono configurate, genera solo i file di export per validazione manuale. **Non-blocking**: fallimenti non cambiano lo status della sessione
+10. **Cross-Model Validator**: Post-Session-Analyst. Genera prompt di validazione adattati alle ipotesi specifiche, poi chiama le API di OpenAI (GPT-5.4 Pro, reasoning high) e Google (Gemini 3.1 Pro, thinking HIGH) in parallelo tramite `scripts/validate-crossmodel.mjs`. Produce un consensus report che identifica convergenze e divergenze tra i modelli. Se le API key non sono configurate, genera solo i file di export per validazione manuale. **Non-blocking**: fallimenti non cambiano lo status della sessione
 11. **Knowledge Persistence**: A fine sessione, l'Orchestrator aggiorna `knowledge/discovery-log.json` con coppie esplorate, bridge produttivi, ipotesi sopravvissute e uccise, e metriche di strategy performance
 
 ---
@@ -273,8 +286,8 @@ Questo previene che il pipeline sprechi cicli su connessioni che non sono genuin
 6. **Failed Paradigm Recycling** — Idee abbandonate in un campo che potrebbero funzionare altrove
 7. **Swanson ABC Bridging** — Identificazione sistematica di letterature disgiunte con concetti intermedi condivisi. Metodo fondazionale della Literature-Based Discovery (Swanson 1986). Il Literature Scout cerca sistematicamente "B terms" che compaiono in entrambi i campi A e C senza che A e C si citino reciprocamente
 8. **Contradiction Mining** — Ricerca attiva di contraddizioni nella letteratura come fonti di ipotesi. Ispirata da ContraCrow di FutureHouse. Se due paper in campi diversi affermano cose mutuamente esclusive, la risoluzione della contraddizione spesso rivela una connessione non banale
-9. **Structural Isomorphism Discovery** (v5.8) — Cerca campi che condividono la STESSA struttura formale (equazioni matematiche, topologia di network, vincoli information-theoretic, dinamiche di transizione di fase) ma con substrati fisici COMPLETAMENTE diversi. Il bridge concept è l'OGGETTO MATEMATICO stesso, non una molecola o un pathway. Questa strategia è domain-agnostic — funziona per qualsiasi campo scientifico. Esempio: teoria della percolazione connette epidemiologia e frattura dei materiali
-10. **Serendipity Through Random Encounter** (v5.8) — Invece di cercare con scopo definito, esposizione a conoscenza inattesa: (1) scegliere un dominio MAI esplorato in sessioni precedenti, (2) cercare la scoperta più SORPRENDENTE recente in quel dominio, (3) chiedersi "quale campo DISTANTE sarebbe più trasformato se sapesse di questa scoperta?". La connessione deve attraversare almeno 2 confini disciplinari. Mima la serendipità di sfogliare una biblioteca fisica
+9. **Structural Isomorphism Discovery** — Cerca campi che condividono la STESSA struttura formale (equazioni matematiche, topologia di network, vincoli information-theoretic, dinamiche di transizione di fase) ma con substrati fisici COMPLETAMENTE diversi. Il bridge concept è l'OGGETTO MATEMATICO stesso, non una molecola o un pathway. Questa strategia è domain-agnostic — funziona per qualsiasi campo scientifico. Esempio: teoria della percolazione connette epidemiologia e frattura dei materiali
+10. **Serendipity Through Random Encounter** — Invece di cercare con scopo definito, esposizione a conoscenza inattesa: (1) scegliere un dominio MAI esplorato in sessioni precedenti, (2) cercare la scoperta più SORPRENDENTE recente in quel dominio, (3) chiedersi "quale campo DISTANTE sarebbe più trasformato se sapesse di questa scoperta?". La connessione deve attraversare almeno 2 confini disciplinari. Mima la serendipità di sfogliare una biblioteca fisica
 
 ### Bridge concepts obbligatori
 
@@ -284,9 +297,9 @@ I bridge concepts sono **obbligatori per ogni target**, non solo per la strategi
 
 Dei 3 target selezionati, almeno 2 devono usare strategie diverse e almeno 1 deve usare una strategia non utilizzata nelle ultime 2 sessioni (verificato tramite discovery-log). Questo previene il path-lock strategico: le strategie meno usate non sono necessariamente peggiori — sono meno esplorate.
 
-**Exploration slot** (v5.8): Almeno 1 dei 3 target DEVE usare una strategia con meno di 2 sessioni di dati primari. Questo impedisce al pipeline di convergere sempre sulla strategia con il miglior QG pass rate (es. network_gap_analysis al 39%) a scapito di strategie più creative ma meno testate.
+**Exploration slot**: Almeno 1 dei 3 target DEVE usare una strategia con meno di 2 sessioni di dati primari. Questo impedisce al pipeline di convergere sempre sulla strategia con il miglior QG pass rate (es. network_gap_analysis al 39%) a scapito di strategie più creative ma meno testate.
 
-### Rotating creativity constraint (v5.8)
+### Rotating creativity constraint
 
 L'Orchestratore assegna allo Scout un vincolo creativo diverso ad ogni sessione (rotazione mod 5): ponte cross-disciplina, ponte matematico/formale, gap temporale >50 anni, tool transfer, unsolved problem. Questo forza lo Scout a esplorare territori che altrimenti eviterebbe, impedendo la convergenza verso zone "safe".
 
@@ -322,7 +335,7 @@ Il Critic è genuinamente adversariale. Il suo obiettivo è distruggere le ipote
 
 Un kill rate dello 0% è un red flag. Se il Critic passa tutte le ipotesi, deve ri-esaminarle chiedendosi "Sto essendo troppo generoso?". Un kill rate sano è 30-50%; sotto il 15% indica pressione adversariale insufficiente.
 
-La v5.1 estende questo in una META-CRITIQUE completa: dopo tutti gli attacchi, il Critic (1) calibra il proprio kill rate, (2) per ogni SURVIVES scrive la ragione più forte per cui avrebbe dovuto essere ucciso, (3) verifica di aver eseguito web search per ogni ipotesi. Inoltre, quando un meccanismo è troppo vago, il Critic scrive **critic_questions** nello state JSON, che l'Orchestratore inoltra al Generator nel ciclo 2 — feedback bidirezionale indiretto.
+Il sistema include una META-CRITIQUE completa: dopo tutti gli attacchi, il Critic (1) calibra il proprio kill rate, (2) per ogni SURVIVES scrive la ragione più forte per cui avrebbe dovuto essere ucciso, (3) verifica di aver eseguito web search per ogni ipotesi. Inoltre, quando un meccanismo è troppo vago, il Critic scrive **critic_questions** nello state JSON, che l'Orchestratore inoltra al Generator nel ciclo 2 — feedback bidirezionale indiretto.
 
 L'attack vector #8 affronta un rischio documentato dallo studio Science/AAAS: la novelty AI-generated crolla dopo test sperimentali (da 5.38 a 3.41 su 10). Le ipotesi possono sembrare nuove solo perché sono sbagliate. L'hallucination-as-novelty check complementa il Groundedness scoring (che misura il supporto evidenziale complessivo) con un check specifico sulla relazione inversa novelty↔correttezza.
 
@@ -342,11 +355,11 @@ L'attack vector #8 affronta un rischio documentato dallo studio Science/AAAS: la
 
 Composito = media pesata. I pesi delle 6 dimensioni sono **canonici e immutabili** — evidenziati in grassetto nella definizione dell'agente per evitare drift tra cicli.
 
-### Cross-domain creativity bonus (v5.8)
+### Cross-domain creativity bonus
 
 Dopo il calcolo del composito pesato, si applica un bonus di **+0.5** al punteggio composito per ipotesi che attraversano 2+ confini disciplinari (es. materials science → neuroscience, topology → developmental biology, information theory → genetics). Il bonus compensa la penalizzazione sistematica dell'infrastruttura bio-centrica: le ipotesi non-biomediche ricevono scores strutturalmente più bassi su Testability e Groundedness perché PubMed/KEGG/STRING sono bio-specifici, non perché le ipotesi siano più deboli. I pesi delle dimensioni individuali restano immutabili; il bonus opera sul composito finale.
 
-### Impact-aware prioritization (v5.14)
+### Impact-aware prioritization
 
 Impact decomposto in due sotto-dimensioni (peso totale invariato al 10%):
 - **Paradigm impact (5%)**: Quanto cambia la comprensione se vera? (apre un nuovo campo = 10)
@@ -362,7 +375,7 @@ L'impatto entra nella pipeline come **segnale parallelo**, mai come sostituto de
 
 **Impact Potential Score (IPS)**: score composito calcolato dall'Orchestrator dopo EES:
 - `IPS = scout_impact_potential × 0.4 + (convergence_signal_count / 3 × 10) × 0.6`
-- Convergence signals = clinical trials + grants + patents trovati dal Convergence Scanner (v5.13)
+- Convergence signals = clinical trials + grants + patents trovati dal Convergence Scanner
 - Se Convergence Scanner non ha girato: `IPS = scout_impact_potential` (fallback)
 - Riportato in ingest.json e session summary accanto a QG composite e EES
 
@@ -406,7 +419,7 @@ Il pipeline presenta tre bias non indipendenti che favoriscono le life sciences:
 | **Scoring** | Testability (20%) + Groundedness (20%) + Mechanistic Specificity (20%) = **60% del peso** favorisce scienze sperimentali con database strutturati | Ipotesi in fisica/matematica pura ricevono scores strutturalmente più bassi su 3 delle 6 dimensioni |
 | **Format** | Template ipotesi, esempi few-shot (Generator, Critic, Ranker, Evolver) usano linguaggio molecolare/pathway | Il Generator tende a produrre ipotesi formulate in termini di meccanismi biologici anche quando il target è cross-domain |
 
-Questi bias non sono difetti da correggere — sono conseguenze naturali dell'infrastruttura disponibile e del fatto che le life sciences sono il dominio con più opportunità di discovery latente. I pesi delle 6 dimensioni del Ranker restano **canonici e immutabili**, ma un bonus cross-domain di +0.5 (v5.8) compensa parzialmente il bias infrastrutturale per ipotesi che attraversano 2+ confini disciplinari (vedi sezione "Cross-domain creativity bonus" sopra).
+Questi bias non sono difetti da correggere — sono conseguenze naturali dell'infrastruttura disponibile e del fatto che le life sciences sono il dominio con più opportunità di discovery latente. I pesi delle 6 dimensioni del Ranker restano **canonici e immutabili**, ma un bonus cross-domain di +0.5 compensa parzialmente il bias infrastrutturale per ipotesi che attraversano 2+ confini disciplinari (vedi sezione "Cross-domain creativity bonus" sopra).
 
 ### Guida all'interpretazione degli scores
 
@@ -414,7 +427,7 @@ Gli scores di ipotesi non-bio **non sono direttamente comparabili** con quelli b
 
 - Un'ipotesi in fisica teorica con score composito 5.5 può essere qualitativamente equivalente a un'ipotesi biomedica con score 7.0
 - Il gap è principalmente su Testability (mancanza di dataset pubblici per validazione rapida), Groundedness (nessun MCP server per retrieval strutturato), e Mechanistic Specificity (meccanismi formali vs. molecolari)
-- Le dimensioni Novelty, Cross-field Distance e Impact (v5.14: decomposta in Paradigm + Translational) sono relativamente domain-agnostiche
+- Le dimensioni Novelty, Cross-field Distance e Impact (decomposta in Paradigm + Translational) sono relativamente domain-agnostiche
 
 Le ipotesi cross-domain con componente bio (es. "topological defects in active matter ↔ stem cell niche organization") beneficiano parzialmente dell'infrastruttura di retrieval e ottengono scores intermedi.
 
@@ -428,7 +441,7 @@ Per supportare altri domini con qualità comparabile servirebbero:
 - **Pesi adattivi per dominio** — Profili di scoring domain-specific (es. ridurre peso Testability per matematica, aumentare Formal Rigor)
 - **Few-shot multi-dominio** — Esempi nel Generator/Critic/Ranker che coprono diversi stili di ipotesi
 
-Queste estensioni non sono pianificate per v5.4. L'architettura le supporterebbe senza modifiche strutturali al pipeline.
+Queste estensioni non sono attualmente pianificate. L'architettura le supporterebbe senza modifiche strutturali al pipeline.
 
 ---
 
@@ -567,7 +580,7 @@ Ogni sessione termina con uno status esplicito:
 
 Lo status è la prima riga del `session-summary.md`. Per sessioni FAILED: nessuna hypothesis card, solo causa e azione suggerita.
 
-**Data flow per final.json (v5.15)**: Il quality-gate agent scrive `quality-gate.json` con verdetti, compositi e `summary.session_status`. L'orchestratore poi CREA `final.json` leggendo `quality-gate.json` da disco — mai dalla propria memoria di contesto. Questo previene corruzione da context compression in sessioni lunghe (bug scoperto in S015: orchestratore riportava 4 CONDITIONAL_PASS quando il QG aveva 2 PASS + 4 CONDITIONAL_PASS). Post-enrichment, l'orchestratore verifica che verdetti e compositi in final.json matchino quality-gate.json.
+**Data flow per final.json**: Il quality-gate agent scrive `quality-gate.json` con verdetti, compositi e `summary.session_status`. L'orchestratore poi CREA `final.json` leggendo `quality-gate.json` da disco — mai dalla propria memoria di contesto. Questo previene corruzione da context compression in sessioni lunghe (bug scoperto in S015: orchestratore riportava 4 CONDITIONAL_PASS quando il QG aveva 2 PASS + 4 CONDITIONAL_PASS). Post-enrichment, l'orchestratore verifica che verdetti e compositi in final.json matchino quality-gate.json.
 
 ---
 
@@ -659,17 +672,17 @@ L'evidenza mostra che:
 
 | Agente | Modello | Razionale |
 |---|---|---|
-| Scout, Generator, Critic, Quality Gate, Orchestrator | Claude Opus 4.6 | Ragionamento profondo, creatività cross-disciplinare, valutazione adversariale |
-| Literature Scout, Ranker, Evolver | Claude Sonnet 4.6 | Task strutturati e search-intensive, riduzione costi ~30% |
+| Scout, Target Evaluator, Generator, Critic, Quality Gate, Holdout Evaluator, Orchestrator | Claude Opus 4.6 | Ragionamento profondo, creatività cross-disciplinare, valutazione adversariale |
+| Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator, Convergence Scanner, Dataset Evidence Miner | Claude Sonnet 4.6 | Task strutturati e search-intensive, riduzione costi ~30% |
 
-### Modelli esterni (validazione cross-model automatica, v5.6)
+### Modelli esterni (validazione cross-model automatica)
 
 | Fase | Modello | API | Razionale |
 |---|---|---|---|
 | Empirical validation | GPT-5.4 Pro | OpenAI Responses API, `reasoning.effort: "high"`, `web_search_preview` (high), `code_interpreter` | Il più fattuale di OpenAI (33% meno errori vs 5.2), novelty verification grounded via web search, arithmetic verification via code, citation checking, experimental design |
 | Structural analysis | Gemini 3.1 Pro | Google GenAI SDK, `thinkingLevel: HIGH`, `codeExecution`, `googleSearch` | ARC-AGI-2 leader, strutture formali, mappature matematiche con verifica computazionale, predizioni quantitative, grounding letterario |
 
-La validazione cross-model è ora **automatica** (v5.6, tool upgrade v5.12): il Cross-Model Validator genera i prompt, chiama entrambe le API in parallelo via `scripts/validate-crossmodel.mjs` con tool attivi (GPT: web search + code interpreter; Gemini: code execution + Google Search grounding), e produce un consensus report. GPT verifica novelty contro la letteratura corrente via web search e controlla aritmetica via code interpreter. Gemini verifica mapping formali computazionalmente via code execution. Richiede `OPENAI_API_KEY` e/o `GEMINI_API_KEY`. Se assenti, genera solo i file di export per validazione manuale (`/export gpt|gemini`).
+La validazione cross-model è **automatica**: il Cross-Model Validator genera i prompt, chiama entrambe le API in parallelo via `scripts/validate-crossmodel.mjs` con tool attivi (GPT: web search + code interpreter; Gemini: code execution + Google Search grounding), e produce un consensus report. GPT verifica novelty contro la letteratura corrente via web search e controlla aritmetica via code interpreter. Gemini verifica mapping formali computazionalmente via code execution. Richiede `OPENAI_API_KEY` e/o `GEMINI_API_KEY`. Se assenti, genera solo i file di export per validazione manuale (`/export gpt|gemini`).
 
 ### Benchmark di riferimento (marzo 2026)
 - **Claude Opus 4.6** (feb 2026): GPQA Diamond 91.3%, ARC-AGI-2 68.8%, HLE 53.1% con tools. Time horizon METR: 14h30m. Context: 200K (1M beta)
@@ -718,7 +731,7 @@ Il comando `/connect <mgln_key>` collega la CLI al profilo dell'utente sul [sito
 
 Questo crea un modello di **contributor-owned discovery**: ogni utente usa i propri token Claude per generare scoperte, e queste scoperte sono pubblicamente sue — con profilo, statistiche, e posizione nel leaderboard.
 
-### Licensing delle scoperte (v5.17)
+### Licensing delle scoperte
 
 Il software è sotto **Apache License 2.0** (con file NOTICE obbligatorio per attribuzione). Gli output (ipotesi scientifiche) hanno un **dual-track licensing** basato sulla modalità:
 
@@ -757,12 +770,12 @@ La licenza è determinata automaticamente all'inizializzazione della sessione e 
 | Pipeline si ferma prematuramente | Media-bassa | Stop hook blocca la terminazione se phase ≠ "complete"/"failed". PostCompact ripristina stato e istruisce la continuazione |
 | WebSearch/WebFetch non disponibili | Bassa | PostToolUseFailure hook traccia i fallimenti. MCP servers come canale alternativo. Scout passa a modo parametric-only dopo 3+ fallimenti |
 | Output silenziosamente vuoto | **Eliminato** | Session Health Classification: ogni sessione termina con SUCCESS/PARTIAL/DEGRADED/FAILED. Lo status è la prima riga del session-summary.md |
-| Orchestratore esegue fasi inline (bypass agenti) | **Eliminato (v5)** | WebSearch/WebFetch rimossi dall'orchestratore, maxTurns=200 (circuit breaker only; sub-agent maxTurns rimossi in v5.11 — stop hooks validano output), direttiva anti-inlining, dispatch log con verifica post-sessione |
-| Ranked output thin (senza scoring dettagliato) | **Eliminato (v5)** | `ranker-stop-gate.py` blocca output < 3KB, formato tabella per-ipotesi obbligatorio |
+| Orchestratore esegue fasi inline (bypass agenti) | **Eliminato** | WebSearch/WebFetch rimossi dall'orchestratore, maxTurns=200 (circuit breaker only; sub-agent senza limiti turni — stop hooks validano output), direttiva anti-inlining, dispatch log con verifica post-sessione |
+| Ranked output thin (senza scoring dettagliato) | **Eliminato** | `ranker-stop-gate.py` blocca output < 3KB, formato tabella per-ipotesi obbligatorio |
 | Literature Scout non salva paper | **Mitigato** | `literature-scout-stop-gate.py` degrada a warning se MCP/web non disponibili; blocca solo se manca il file di output principale |
 | Plan mode blocca pipeline autonomo | **Eliminato** | `/discover` chiama ExitPlanMode automaticamente prima di lanciare l'Orchestratore |
 | Hook schema invalido causa errori silenziosi | **Eliminato** | Tutti gli hook aggiornati allo schema Claude Code corrente (`"approve"/"block"` non `"allow"`, stdin per PostToolUse, campo `"verdict"` per conteggio kill) |
-| Orchestratore si ferma prima del Quality Gate | **Mitigato (v5.11)** | maxTurns=200 (circuit breaker), sub-agent senza limiti turni, Context Efficiency Protocol. Stop hook (`orchestrator-stop-gate.py`) blocca terminazione prematura. State Contract documenta valori terminali esatti (`status: "success"`, `phase: "complete"`). maxTurns rimosso dai sub-agent — stop hooks validano la qualità dell'output, non il conteggio turni |
+| Orchestratore si ferma prima del Quality Gate | **Mitigato** | maxTurns=200 (circuit breaker), sub-agent senza limiti turni, Context Efficiency Protocol. Stop hook (`orchestrator-stop-gate.py`) blocca terminazione prematura. State Contract documenta valori terminali esatti (`status: "success"`, `phase: "complete"`). La qualità dell'output è validata dagli stop hooks, non dal conteggio turni |
 | File di sessioni diverse si sovrascrivono | **Eliminato** | Ogni sessione scrive in `results/{session-id}/` |
 
 
@@ -782,7 +795,7 @@ L'obiettivo non è che ogni ipotesi sia corretta — è che il sistema produca u
 
 ---
 
-## Validazione empirica (v5.13)
+## Validazione empirica
 
 ### Il conflitto validazione vs. efficacia
 

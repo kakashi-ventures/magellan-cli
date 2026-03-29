@@ -57,7 +57,7 @@ Fifteen agents. Orchestrator dispatches to all — never executes phases inline.
 
 **Model selection principle**: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate, Holdout Evaluator). Sonnet for structured, search-intensive tasks (Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator, Convergence Scanner, Dataset Evidence Miner). Effort levels are pinned per agent (Opus: max, Sonnet: high) to guarantee quality regardless of the user's session-level effort setting.
 
-## State Management (v5.7 — Unified Results Directory)
+## State Management
 
 State is split into a **slim coordination index** and **per-session results directories**:
 - `state/session.json` — Slim index (~3KB): phase, cycle, status, selected_target,
@@ -75,7 +75,7 @@ State is split into a **slim coordination index** and **per-session results dire
 (both markdown and JSON) lives in `results/{session-id}/`.
 Agents receive data via dispatch prompts, never read state files directly.
 
-**Data flow for final.json (v5.15)**: Quality-gate agent writes `quality-gate.json`
+**Data flow for final.json**: Quality-gate agent writes `quality-gate.json`
 (authoritative verdicts + `summary.session_status`). Orchestrator CREATES `final.json`
 by reading `quality-gate.json` from disk — never from conversational memory.
 Context compression corrupts numerical values in long sessions.
@@ -142,7 +142,7 @@ confidence, groundedness assessment.
   scoring weights (60% on Testability + Groundedness + Mechanistic Specificity),
   and hypothesis format are structurally optimized for life sciences.
   Other domains are supported but scores reflect infrastructure asymmetry.
-- **Impact-aware prioritization** (v5.14) — Impact enters as a parallel signal,
+- **Impact-aware prioritization** — Impact enters as a parallel signal,
   never replacing quality scoring. Scout adds impact_potential per target;
   Target Evaluator scores it as a 5th informational axis (not in composite);
   Orchestrator uses it as tiebreaker within the DISJOINT pool; Ranker decomposes
@@ -197,7 +197,7 @@ confidence, groundedness assessment.
 - **Disjointness hard constraint** — If DISJOINT targets with score >= 5
   exist, orchestrator NEVER selects PARTIALLY_EXPLORED. Based on 9 sessions:
   DISJOINT 84% pass+cond rate vs PARTIALLY_EXPLORED 30%.
-- **Cross-model validation** (v5.6, tools v5.12) — After Quality Gate, surviving
+- **Cross-model validation** — After Quality Gate, surviving
   hypotheses are automatically sent to GPT-5.4 Pro (empirical validation with
   web search + code interpreter) and Gemini 3.1 Pro (structural analysis with
   code execution + Google Search grounding) via their APIs. GPT verifies novelty
@@ -206,7 +206,7 @@ confidence, groundedness assessment.
   agree/diverge. Requires `OPENAI_API_KEY` and/or `GEMINI_API_KEY`
   (stored in `.env.local` — agents must source this file before checking);
   falls back to export file generation if keys are absent. Non-blocking.
-- **Empirical validation layer** (v5.13) — Two post-QG agents provide evidence
+- **Empirical validation layer** — Two post-QG agents provide evidence
   from sources the pipeline never consults: Convergence Scanner searches
   ClinicalTrials.gov, NIH Reporter, and patents for independent convergence
   signals. Dataset Evidence Miner queries HPA, GWAS Catalog, ChEMBL, UniProt,
@@ -215,7 +215,7 @@ confidence, groundedness assessment.
   composite score (not replacing it). Distinction from Computational Validator:
   CV operates on bridge concepts pre-generation; DEM operates on specific
   hypothesis claims post-generation.
-- **Holdout validation framework** (v5.13) — Separate from production pipeline.
+- **Holdout validation framework** — Separate from production pipeline.
   Tests MAGELLAN against known post-cutoff discoveries via `/validate-holdout`.
   Pipeline runs normally on `[Field A] × [Field C]`, then Holdout Evaluator
   checks: (1) contamination — did the pipeline find the answer paper?
@@ -229,7 +229,7 @@ confidence, groundedness assessment.
 - **Hook schema** — All hooks use correct Claude Code schema (`"approve"/"block"`,
   stdin for PostToolUse, `"verdict"` field for kill detection).
 - **MCP-first retrieval** — Semantic Scholar + PubMed MCP tools mandatory before WebSearch.
-- **Unified results directory** (v5.7) — session.json is a ~3KB coordination index.
+- **Unified results directory** — session.json is a ~3KB coordination index.
   Per-phase JSON data and markdown outputs colocate in `results/{session-id}/`.
   Prevents state bloat and reduces context consumption by agents.
 
