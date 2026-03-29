@@ -80,6 +80,6 @@ List specific types of domain experts who could evaluate each hypothesis.
 
 After the session summary, report the upload result:
 
-- If upload succeeded: "Results published to magellan-discover.ai"
+- If upload succeeded: "Results published to magellan-discover.ai — [View session](https://www.magellan-discover.ai/sessions/{session_id}) | [Your profile](https://www.magellan-discover.ai/profile)"
 - If upload failed (non-blocking): "Upload to magellan-discover.ai failed (results saved locally in {results_dir}/)"
 - If no contributor key: "To publish discoveries: run `/connect <key>` (get your key at magellan-discover.ai/profile)"

@@ -44,6 +44,7 @@
     "convergence_translational_signals": "N (count of clinical trials + grants + patents with hits)",
     "impact_potential_score": "N.N (IPS: scout 0.4 + convergence 0.6)"
   },
+  "session_url": "${URL to view session on magellan-discover.ai — set by upload script from API response or constructed as https://www.magellan-discover.ai/sessions/{session_id}}",
   "files": {
     "_comment": "Array of all files produced in this session's results directory. List every .json and .md file. Enables the website to know exactly what data is available without filename guessing.",
     "_example": ["ingest.json", "scout.json", "literature.json", "computational.json", "cycle1-raw.json", "cycle1-critiqued.json", "cycle1-ranked.json", "cycle1-evolved.json", "quality-gate.json", "final.json", "cross-model.json", "session-summary.md", "quality-gate.md", "final-hypotheses.md"]

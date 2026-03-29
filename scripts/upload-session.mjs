@@ -244,9 +244,13 @@ try {
   const data = await res.json();
 
   if (res.status === 201) {
+    const sessionUrl = data.url || `https://www.magellan-discover.ai/sessions/${ingest.session_id}`;
     console.log('Published to magellan-discover.ai: ' + (data.message || `${hypotheses.length} hypotheses`));
+    console.log('View results: ' + sessionUrl);
+    console.log('Your profile: https://www.magellan-discover.ai/profile');
     ingest.uploaded = true;
     ingest.uploadedAt = new Date().toISOString();
+    ingest.session_url = sessionUrl;
     fs.writeFileSync(path.join(dir, 'ingest.json'), JSON.stringify(ingest, null, 2));
   } else {
     console.log('Upload warning (' + res.status + '): ' + (data.error || 'Unknown error'));
