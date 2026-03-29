@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: MAGELLAN Website
+    url: https://magellan-discover.ai
+    about: Browse published discoveries and leaderboard
+  - name: General Questions
+    url: mailto:hello@magellan-discover.ai
+    about: For questions not suited for a GitHub issue

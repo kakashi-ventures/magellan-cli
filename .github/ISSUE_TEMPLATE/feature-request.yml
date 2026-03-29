@@ -1,0 +1,32 @@
+name: Feature Request
+description: Suggest an improvement to MAGELLAN
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which area does this relate to?
+      options:
+        - Agent improvements (prompts, strategies, quality)
+        - New retrieval tools (MCP integrations, databases, APIs)
+        - Meta-learning (session analysis, strategy optimization)
+        - Scoring / ranking methodology
+        - New discovery modes
+        - CLI / developer experience
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe what you'd like to see and why.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any other approaches you've thought about?

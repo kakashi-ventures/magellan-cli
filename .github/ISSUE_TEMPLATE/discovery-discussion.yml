@@ -1,0 +1,22 @@
+name: Discovery Discussion
+description: Discuss a hypothesis, session result, or methodology question
+labels: ["discovery"]
+body:
+  - type: textarea
+    id: topic
+    attributes:
+      label: Topic
+      description: What hypothesis, result, or methodology aspect do you want to discuss?
+    validations:
+      required: true
+  - type: input
+    id: session
+    attributes:
+      label: Session link (optional)
+      description: Link to the session on magellan-discover.ai, if applicable.
+      placeholder: https://magellan-discover.ai/sessions/...
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Background, references, related literature, etc.

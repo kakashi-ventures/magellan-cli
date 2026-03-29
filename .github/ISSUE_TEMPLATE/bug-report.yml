@@ -1,0 +1,44 @@
+name: Bug Report
+description: Report a bug in the MAGELLAN pipeline
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the pipeline is affected?
+      options:
+        - Pipeline (orchestrator, flow control)
+        - Scout (target selection)
+        - Generator (hypothesis creation)
+        - Critic (adversarial review)
+        - Ranker / Evolver (scoring, evolution)
+        - Quality Gate (final validation)
+        - Literature Scout / Computational Validator (retrieval)
+        - Cross-Model Validator (GPT/Gemini validation)
+        - Convergence Scanner / Dataset Evidence Miner (empirical)
+        - Session Analyst (meta-learning)
+        - CLI commands (/discover, /status, etc.)
+        - Scripts (upload, hooks, validation)
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug clearly.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Session ID, error messages, Claude Code version, OS, etc.

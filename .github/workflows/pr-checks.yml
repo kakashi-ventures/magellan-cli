@@ -1,0 +1,123 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  secret-scan:
+    name: secret-scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check diff for secrets
+        run: |
+          set -euo pipefail
+          DIFF=$(git diff origin/main...HEAD -- . ':!.github/workflows/pr-checks.yml' || true)
+
+          FOUND=0
+
+          # OpenAI API keys (sk-proj-... or sk-... with sufficient length)
+          if echo "$DIFF" | grep -P '^\+.*sk-[A-Za-z0-9_-]{20,}' | grep -v '^+++' | head -5; then
+            echo "::error::Possible OpenAI API key detected in diff"
+            FOUND=1
+          fi
+
+          # Google API keys
+          if echo "$DIFF" | grep -P '^\+.*AIza[A-Za-z0-9_-]{30,}' | grep -v '^+++' | head -5; then
+            echo "::error::Possible Google API key detected in diff"
+            FOUND=1
+          fi
+
+          # MAGELLAN contributor keys
+          if echo "$DIFF" | grep -P '^\+.*mgln_[a-f0-9]{16,}' | grep -v '^+++' | head -5; then
+            echo "::error::Possible MAGELLAN contributor key detected in diff"
+            FOUND=1
+          fi
+
+          # GitHub tokens
+          if echo "$DIFF" | grep -P '^\+.*(ghp_|gho_|github_pat_)[A-Za-z0-9_]{16,}' | grep -v '^+++' | head -5; then
+            echo "::error::Possible GitHub token detected in diff"
+            FOUND=1
+          fi
+
+          # .env files being added
+          if git diff origin/main...HEAD --name-only --diff-filter=A | grep -E '^\.env'; then
+            echo "::error::.env file being added to repository"
+            FOUND=1
+          fi
+
+          if [ "$FOUND" -eq 1 ]; then
+            echo "::error::Secret scan failed. Remove secrets before merging."
+            exit 1
+          fi
+
+          echo "No secrets detected."
+
+  critical-files:
+    name: critical-files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify essential files exist
+        run: |
+          set -euo pipefail
+          MISSING=0
+
+          # Core project files
+          for f in \
+            CLAUDE.md \
+            README.md \
+            LICENSE \
+            NOTICE \
+            CONTRIBUTING.md \
+            DISCOVERY_LICENSE.md \
+            .gitignore \
+            package.json; do
+            if [ ! -f "$f" ]; then
+              echo "::error::Critical file missing: $f"
+              MISSING=1
+            fi
+          done
+
+          # All 15 agents
+          for agent in \
+            scout \
+            target-evaluator \
+            literature-scout \
+            computational-validator \
+            generator \
+            critic \
+            ranker \
+            evolver \
+            quality-gate \
+            session-analyst \
+            cross-model-validator \
+            convergence-scanner \
+            dataset-evidence-miner \
+            holdout-evaluator \
+            discovery-orchestrator; do
+            if [ ! -f ".claude/agents/${agent}.md" ]; then
+              echo "::error::Agent file missing: .claude/agents/${agent}.md"
+              MISSING=1
+            fi
+          done
+
+          # Verify .gitignore still contains security entries
+          for pattern in '.env' '.env.local' '.magellan/'; do
+            if ! grep -qF "$pattern" .gitignore; then
+              echo "::error::.gitignore missing security entry: $pattern"
+              MISSING=1
+            fi
+          done
+
+          if [ "$MISSING" -eq 1 ]; then
+            echo "::error::Critical files check failed."
+            exit 1
+          fi
+
+          echo "All critical files present."
