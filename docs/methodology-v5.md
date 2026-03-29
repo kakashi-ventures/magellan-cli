@@ -1,6 +1,8 @@
 # MAGELLAN — Methodology
 ### Multi-Agent Generative Exploration of Latent Links Across kNowledge
 
+**Repository**: [github.com/kakashi-ventures/magellan-cli](https://github.com/kakashi-ventures/magellan-cli) | **Website**: [magellan-discover.ai](https://magellan-discover.ai)
+
 ## Principio guida
 
 MAGELLAN è un **esperimento sulla capacità dei sistemi agentici AI moderni di fare scoperte scientifiche autonome**. L'ipotesi di fondo: una buona architettura multi-agente con modelli frontier (marzo 2026) è in grado di trovare connessioni reali tra corpi di conoscenza esistenti che gli umani non hanno ancora collegato — operando in totale autonomia, senza input di dominio da parte dell'utente.
@@ -337,7 +339,7 @@ Un kill rate dello 0% è un red flag. Se il Critic passa tutte le ipotesi, deve 
 
 Il sistema include una META-CRITIQUE completa: dopo tutti gli attacchi, il Critic (1) calibra il proprio kill rate, (2) per ogni SURVIVES scrive la ragione più forte per cui avrebbe dovuto essere ucciso, (3) verifica di aver eseguito web search per ogni ipotesi. Inoltre, quando un meccanismo è troppo vago, il Critic scrive **critic_questions** nello state JSON, che l'Orchestratore inoltra al Generator nel ciclo 2 — feedback bidirezionale indiretto.
 
-L'attack vector #8 affronta un rischio documentato dallo studio Science/AAAS: la novelty AI-generated crolla dopo test sperimentali (da 5.38 a 3.41 su 10). Le ipotesi possono sembrare nuove solo perché sono sbagliate. L'hallucination-as-novelty check complementa il Groundedness scoring (che misura il supporto evidenziale complessivo) con un check specifico sulla relazione inversa novelty↔correttezza.
+L'attack vector #8 affronta un rischio documentato da Si et al. (2025, "The Ideation-Execution Gap", ICLR 2026): la novelty AI-generated crolla dopo test sperimentali (da 5.38 a 3.41 su 10). Le ipotesi possono sembrare nuove solo perché sono sbagliate. L'hallucination-as-novelty check complementa il Groundedness scoring (che misura il supporto evidenziale complessivo) con un check specifico sulla relazione inversa novelty↔correttezza.
 
 ---
 
@@ -387,7 +389,7 @@ Il Ranker DEVE produrre una tabella per-dimensione per **ogni** ipotesi con gius
 
 ### Diversity check
 
-Dopo il ranking, il Ranker esamina le top-5 ipotesi. Per ogni coppia valuta: condividono lo stesso bridge mechanism? (ridondante) Connettono gli stessi subcampi? (convergente) Fanno lo stesso tipo di predizione? (monotono) Se 3+ delle top-5 sono concettualmente simili, la più alta rimane e la successiva ipotesi dissimile viene promossa. Questo previene il problema documentato da Si et al. (2024) dove le idee LLM-generated saturano in diversità. Il diversity constraint opera anche nell'Evolver — doppio livello di protezione.
+Dopo il ranking, il Ranker esamina le top-5 ipotesi. Per ogni coppia valuta: condividono lo stesso bridge mechanism? (ridondante) Connettono gli stessi subcampi? (convergente) Fanno lo stesso tipo di predizione? (monotono) Se 3+ delle top-5 sono concettualmente simili, la più alta rimane e la successiva ipotesi dissimile viene promossa. Questo previene il problema documentato da Si et al. (2024, ICLR 2025) dove le idee LLM-generated saturano in diversità. Il diversity constraint opera anche nell'Evolver — doppio livello di protezione.
 
 ### Elo tournament sanity check
 
@@ -627,7 +629,7 @@ I prompt degli agenti seguono le best practice 2026 per i modelli frontier. Le s
 | **SciAgents** (MIT) | Ontologist + Scientists + Critic su KG (33K+ nodi) | Cross-disciplinary via graph path sampling | Open source |
 | **Kosmos** (FutureHouse) | World model + agenti specializzati | 12h esecuzione, 42K righe codice, 1500 paper | Open source |
 | **AI Scientist v2** (Sakana) | Ideation + Tree Search + Paper Gen | Primo paper AI accettato a ICLR 2025 peer review | Open source |
-| **POPPER** (Stanford) | Falsification-based con controllo errore Type-I | Comparabile a scienziati umani a 10x velocità | Open source |
+| **POPPER** (Huang et al., Stanford/Harvard, ICML 2025; [arXiv:2502.09858](https://arxiv.org/abs/2502.09858)) | Falsification-based con controllo errore Type-I | Comparabile a scienziati umani a 10x velocità | Open source |
 | **Virtual Lab** (Nature 2025) | PI agent + scientist agents | 92 nanobody progettati, 2 con binding migliorato | Pubblicato |
 | **Aletheia** (DeepMind) | Generator-Verifier-Reviser su Gemini Deep Think | 4 problemi Erdős risolti, ma 68.5% errori su 700 problemi aperti | Interno |
 
@@ -636,21 +638,21 @@ I prompt degli agenti seguono le best practice 2026 per i modelli frontier. Le s
 **Differenziatori unici**:
 - **Selezione autonoma del target** (Scout): Quasi tutti gli altri sistemi richiedono obiettivi di ricerca umani. MAGELLAN è tra i pochissimi a decidere autonomamente *cosa esplorare*
 - **Groundedness scoring formale** (20%): Non presente come dimensione esplicita in altri sistemi
-- **Hallucination-as-novelty check**: Affronta esplicitamente il rischio documentato dallo studio Science/AAAS che la novelty AI-generated crolla dopo test sperimentali
-- **Diversity constraint a doppio livello**: Sia nel Ranker che nell'Evolver, mitiga la saturazione documentata da Si et al. (2024)
+- **Hallucination-as-novelty check**: Affronta esplicitamente il rischio documentato da Si et al. (2025) che la novelty AI-generated crolla dopo test sperimentali
+- **Diversity constraint a doppio livello**: Sia nel Ranker che nell'Evolver, mitiga la saturazione documentata da Si et al. (2024, "Can LLMs Generate Novel Research Ideas?", ICLR 2025; [arXiv:2409.04109](https://arxiv.org/abs/2409.04109))
 - **Hook-based autonomy hardening**: Quality gates deterministici via SubagentStop hooks
 
 **Gap noti rispetto allo stato dell'arte**:
 - **Nessun Knowledge Graph persistente**: SciAgents dimostra che KG path sampling tra 33K+ nodi trova connessioni che il solo parametric+web search manca. La Structured Relationship Map del Generator è un proto-KG on-the-fly, ma non è persistente né queryable
-- **Scoring lineare vs Elo tournament**: Google usa ranking comparativo a coppie che correla meglio con valutazioni esperte
-- **Nessuna validazione computazionale**: Virtual Lab e MARS eseguono simulazioni; MAGELLAN si ferma alla validazione letteraria
+- **Elo come diagnostica, non come ranking primario**: Google AI Co-Scientist usa Elo tournament come metodo di ranking principale, con correlazione superiore a valutazioni esperte. MAGELLAN lo usa come sanity check diagnostico (15 confronti pairwise sulle top-6), ma il ranking primario resta il composito lineare a 6 dimensioni
+- **Nessuna simulazione scientifica in silico**: Virtual Lab e MARS eseguono simulazioni wet-lab (molecular dynamics, protein folding). MAGELLAN valida computazionalmente tramite query API (KEGG, STRING, HPA, GWAS Catalog, ChEMBL, UniProt, PDB) e calcoli back-of-envelope, ma non esegue simulazioni scientifiche vere e proprie
 
 ### Evidenze empiriche chiave
 
 - **FrontierScience Benchmark** (OpenAI, dic 2025): Gap di 52 punti tra task strutturati (77%) e ricerca aperta (25%) — valida la necessità di architetture multi-agente per task open-ended
-- **MOOSE-Chem** (ICLR 2025): I LLM codificano "associazioni di conoscenza scientifica latenti non ancora riconosciute dagli umani" — validazione diretta della tesi UPK di MAGELLAN
-- **TruthHypo** (IJCAI 2025): I LLM lottano con la generazione di ipotesi veritiere senza supporto di grounding — validazione del paradigma parametric+retrieval
-- **Studio Science/AAAS**: Novelty AI-generated crolla dopo test sperimentali (5.38→3.41); la novelty umana cala meno (4.60→3.97). L'AI tende a embellire claim di novelty che non sopravvivono ai test
+- **MOOSE-Chem** (Yang et al., ICLR 2025; [arXiv:2410.07076](https://arxiv.org/abs/2410.07076)): I LLM codificano "associazioni di conoscenza scientifica latenti non ancora riconosciute dagli umani" — validazione diretta della tesi UPK di MAGELLAN
+- **TruthHypo** (Xiong et al., IJCAI 2025; [arXiv:2505.14599](https://arxiv.org/abs/2505.14599)): I LLM lottano con la generazione di ipotesi veritiere senza supporto di grounding — validazione del paradigma parametric+retrieval
+- **Ideation-Execution Gap** (Si et al., ICLR 2026; [arXiv:2506.20803](https://arxiv.org/abs/2506.20803)): Novelty AI-generated crolla dopo test sperimentali (5.38→3.41); la novelty umana cala meno (4.60→3.97). L'AI tende a embellire claim di novelty che non sopravvivono ai test
 
 ### Scoperte validate da sistemi AI simili
 
@@ -685,9 +687,9 @@ L'evidenza mostra che:
 La validazione cross-model è **automatica**: il Cross-Model Validator genera i prompt, chiama entrambe le API in parallelo via `scripts/validate-crossmodel.mjs` con tool attivi (GPT: web search + code interpreter; Gemini: code execution + Google Search grounding), e produce un consensus report. GPT verifica novelty contro la letteratura corrente via web search e controlla aritmetica via code interpreter. Gemini verifica mapping formali computazionalmente via code execution. Richiede `OPENAI_API_KEY` e/o `GEMINI_API_KEY`. Se assenti, genera solo i file di export per validazione manuale (`/export gpt|gemini`).
 
 ### Benchmark di riferimento (marzo 2026)
-- **Claude Opus 4.6** (feb 2026): GPQA Diamond 91.3%, ARC-AGI-2 68.8%, HLE 53.1% con tools. Time horizon METR: 14h30m. Context: 200K (1M beta)
-- **GPT-5.4 / 5.4 Pro** (5 marzo 2026): ARC-AGI-2 73.3% (standard), 83.3% (Pro). SWE-bench ~80%. Context: fino a 1M token. 33% fewer false claims vs GPT-5.2
-- **Gemini 3.1 Pro** (feb 2026): GPQA Diamond 94.3%, ARC-AGI-2 77.1%. Deep Think per strutture matematiche
+- **Claude Opus 4.6** (feb 2026): GPQA Diamond 91.3%, ARC-AGI-2 68.8%, HLE 53.1% con tools. Time horizon METR: 14h30m. Context: 200K (1M beta). Fonte: [Anthropic announcement](https://www.anthropic.com/news/claude-opus-4-6), [System Card](https://www.anthropic.com/claude-opus-4-6-system-card)
+- **GPT-5.4 / 5.4 Pro** (5 marzo 2026): ARC-AGI-2 73.3% (standard), 83.3% (Pro). SWE-bench ~80%. Context: fino a 1M token. 33% fewer false claims vs GPT-5.2. Fonte: [OpenAI announcement](https://openai.com/index/introducing-gpt-5-4/)
+- **Gemini 3.1 Pro** (feb 2026): GPQA Diamond 94.3%, ARC-AGI-2 77.1%. Deep Think per strutture matematiche. Fonte: [Google announcement](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-pro/)
 
 ---
 
@@ -706,12 +708,14 @@ La validazione cross-model è **automatica**: il Cross-Model Validator genera i 
 | `/validate [hypothesis]` | Deep Validation | Verifica approfondita post-discovery |
 | `/evolve` | Evolution | Altro ciclo evolutivo sulle ipotesi correnti |
 | `/export [gpt\|gemini\|both]` | Export | Formatta per validazione cross-model |
+| `/status` | Status | Progresso del pipeline durante l'esecuzione |
+| `/validate-holdout` | Holdout Validation | Verifica di rediscovery contro scoperte note post-cutoff |
 
 ### Filosofia dell'autonomia
 
 **`/discover` senza argomenti è la modalità primaria.** L'intero progetto esiste per rispondere alla domanda: "Può un sistema agentico AI trovare autonomamente connessioni scientifiche reali?"
 
-Questo differenzia MAGELLAN da Google AI Co-Scientist (che opera con scientist-in-the-loop) e da FutureHouse Kosmos (che riceve obiettivi di ricerca umani). MAGELLAN è più ambizioso: lo Scout deve decidere autonomamente *cosa è interessante* — una capacità che Demis Hassabis (2026) ritiene sia ancora 5-10 anni lontana per l'AI.
+Questo differenzia MAGELLAN da Google AI Co-Scientist (che opera con scientist-in-the-loop) e da FutureHouse Kosmos (che riceve obiettivi di ricerca umani). MAGELLAN è più ambizioso: lo Scout deve decidere autonomamente *cosa è interessante* — una capacità che Demis Hassabis ritiene sia ancora 5-10 anni lontana per l'AI (Lex Fridman Podcast #475, luglio 2025: "in the next maybe five to ten years we'll have systems capable of not only solving an important problem in science but coming up with it in the first place").
 
 Le modalità targeted/open/problem esistono come alternative per testing e debugging, non come uso primario.
 
@@ -759,7 +763,7 @@ La licenza è determinata automaticamente all'inizializzazione della sessione e 
 |---|---|---|
 | Scout gravita verso topic popolari (non genuinely underexplored) | Alta | Strategie 7 (Swanson ABC) e 8 (Contradiction Mining) forzano esplorazione non-ovvia. Literature Scout verifica che i target non siano già pubblicati. Discovery-log previene ri-esplorazioni |
 | Hallucination cascade (errori si accumulano tra agenti) | Media | Critic con web search obbligatorio. Groundedness scoring. Hallucination-as-novelty check. Cross-model validation con GPT-5.4 |
-| Novelty illusoria (sembra nuova perché è sbagliata) | Media | Attack vector #8 del Critic. Studio Science/AAAS: novelty AI crolla da 5.38 a 3.41 dopo test. La triangolazione cross-model riduce il rischio |
+| Novelty illusoria (sembra nuova perché è sbagliata) | Media | Attack vector #8 del Critic. Si et al. (2025): novelty AI crolla da 5.38 a 3.41 dopo test. La triangolazione cross-model riduce il rischio |
 | Convergenza delle ipotesi | Media | Diversity check nel Ranker + diversity constraint nell'Evolver — doppio livello |
 | Context drift su run lunghi | Media-bassa | State in JSON, non in contesto conversazionale. Ogni agente rilegge lo stato. PreCompact/PostCompact hooks per backup/restore |
 | Ipotesi "triviali" travestite da novel | Media | Triviality Kill nel Critic. Web search novelty check. Cross-model validation |

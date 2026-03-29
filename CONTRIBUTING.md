@@ -104,4 +104,4 @@ the output licensing terms described in [DISCOVERY_LICENSE.md](DISCOVERY_LICENSE
 ## Questions
 
 - Open an issue on [GitHub](https://github.com/kakashi-ventures/magellan-cli/issues)
-- Contact: alberto@kakashi.ventures
+- Contact: hello@magellan-discover.ai

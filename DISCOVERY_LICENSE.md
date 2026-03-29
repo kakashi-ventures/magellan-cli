@@ -109,4 +109,4 @@ They have not been experimentally validated. Users are responsible for:
 
 ## Questions
 
-For licensing questions, contact: alberto@kakashi.ventures
+For licensing questions, contact: hello@magellan-discover.ai
