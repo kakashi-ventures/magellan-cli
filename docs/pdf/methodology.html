@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MAGELLAN — Methodology v5</title>
+<style>
+/* ── FONTS ── */
+@font-face { font-family: 'Instrument Serif'; font-weight: 400; src: url('fonts/instrument-serif-v5-latin-regular.woff2') format('woff2'), url('fonts/instrument-serif-v5-latin-regular.ttf') format('truetype'); }
+@font-face { font-family: 'Source Serif 4'; font-weight: 400; src: url('fonts/source-serif-4-v14-latin-regular.woff2') format('woff2'), url('fonts/source-serif-4-v14-latin-regular.ttf') format('truetype'); }
+@font-face { font-family: 'Source Serif 4'; font-weight: 600; src: url('fonts/source-serif-4-v14-latin-600.woff2') format('woff2'), url('fonts/source-serif-4-v14-latin-600.ttf') format('truetype'); }
+@font-face { font-family: 'Source Serif 4'; font-weight: 700; src: url('fonts/source-serif-4-v14-latin-700.woff2') format('woff2'), url('fonts/source-serif-4-v14-latin-700.ttf') format('truetype'); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 400; src: url('fonts/jetbrains-mono-v24-latin-regular.woff2') format('woff2'), url('fonts/jetbrains-mono-v24-latin-regular.ttf') format('truetype'); }
+@font-face { font-family: 'JetBrains Mono'; font-weight: 700; src: url('fonts/jetbrains-mono-v24-latin-700.woff2') format('woff2'), url('fonts/jetbrains-mono-v24-latin-700.ttf') format('truetype'); }
+@font-face { font-family: 'Caveat'; font-weight: 400; src: url('fonts/caveat-v23-latin-regular.woff2') format('woff2'), url('fonts/caveat-v23-latin-regular.ttf') format('truetype'); }
+
+/* ── COLORS — "The Cartographer's Evidence" ── */
+:root {
+  --abyssal: #0A0E17; --bathyal: #111827; --shelf: #1A2233;
+  --vellum: #E8DCC8; --aged-paper: #9B8E7B; --faded-ink: #5C5347;
+  --grid-line: #2A3344; --sextant-gold: #C8A45E; --phosphor-green: #3EAA6D;
+  --amber-signal: #D4914A; --cinnabar: #C54B3E; --lapis: #4A7BC7;
+}
+
+/* ── PAGE ── */
+@page {
+  size: A4;
+  margin: 28mm 22mm 24mm 22mm;
+  background: var(--abyssal);
+  @top-left {
+    content: string(section-title);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7pt;
+    color: var(--aged-paper);
+    letter-spacing: 0.05em;
+  }
+  @top-right {
+    content: counter(page);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.5pt;
+    color: var(--sextant-gold);
+  }
+  @bottom-center {
+    content: "MAGELLAN  ·  Methodology v5";
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 6.5pt;
+    color: var(--faded-ink);
+    letter-spacing: 0.08em;
+  }
+}
+@page:first {
+  margin: 0;
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-center { content: none; }
+}
+@page toc {
+  @top-left { content: none; }
+}
+
+/* ── BASE ── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 10pt; }
+body { font-family: 'Source Serif 4', Georgia, serif; color: var(--vellum); background: var(--abyssal); line-height: 1.55; }
+
+/* ── COVER ── */
+.cover { width: 210mm; height: 297mm; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: var(--abyssal); page-break-after: always; position: relative; }
+.cover::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.04; }
+.cover .compass-rose { width: 80px; height: 80px; margin-bottom: 32px; }
+.cover .title { font-family: 'Instrument Serif', serif; font-size: 36pt; color: var(--sextant-gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+.cover .subtitle { font-family: 'Source Serif 4', serif; font-size: 11pt; color: var(--aged-paper); max-width: 380px; line-height: 1.5; margin-bottom: 36px; }
+.cover .bridge-line { width: 200px; height: 2px; background: linear-gradient(90deg, var(--lapis), var(--sextant-gold), var(--phosphor-green)); margin-bottom: 36px; }
+.cover .meta { font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; color: var(--faded-ink); letter-spacing: 0.05em; line-height: 1.8; }
+.cover .meta .fecit { font-family: 'Caveat', cursive; font-size: 12pt; color: var(--sextant-gold); }
+.cover .meta a { color: var(--aged-paper); text-decoration: none; }
+.cover .version { font-family: 'JetBrains Mono', monospace; font-size: 7pt; color: var(--faded-ink); letter-spacing: 0.1em; margin-top: 48px; }
+.cover .tagline { font-family: 'JetBrains Mono', monospace; font-size: 6.5pt; color: var(--faded-ink); opacity: 0.6; letter-spacing: 0.08em; margin-top: 8px; }
+
+/* ── TOC ── */
+.toc { page-break-after: always; padding: 18mm 8mm 0; }
+.toc h2 { font-family: 'Instrument Serif', serif; font-size: 20pt; color: var(--sextant-gold); letter-spacing: 0.08em; margin-bottom: 24px; border-bottom: 2px solid var(--sextant-gold); padding-bottom: 8px; }
+.toc ul { list-style: none; }
+.toc li { margin-bottom: 6px; line-height: 1.6; }
+.toc li .num { font-family: 'JetBrains Mono', monospace; font-size: 8pt; color: var(--sextant-gold); display: inline-block; width: 24px; }
+.toc li a { font-family: 'Instrument Serif', serif; font-size: 10.5pt; color: var(--vellum); text-decoration: none; }
+.toc li a::after { content: leader('. ') target-counter(attr(href), page); font-family: 'JetBrains Mono', monospace; font-size: 8pt; color: var(--aged-paper); }
+.toc li.sub { padding-left: 24px; }
+.toc li.sub .num { font-size: 7pt; color: var(--aged-paper); }
+.toc li.sub a { font-size: 9.5pt; color: var(--aged-paper); }
+
+/* ── HEADINGS ── */
+h2 { font-family: 'Instrument Serif', serif; font-size: 18pt; color: var(--vellum); letter-spacing: 0.06em; border-bottom: 2px solid var(--sextant-gold); padding-bottom: 6px; margin-top: 28px; margin-bottom: 14px; string-set: section-title content(); prince-bookmark-level: 1; }
+h3 { font-family: 'Instrument Serif', serif; font-size: 12.5pt; color: var(--vellum); margin-top: 18px; margin-bottom: 8px; prince-bookmark-level: 2; }
+h4 { font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; color: var(--aged-paper); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 14px; margin-bottom: 6px; prince-bookmark-level: 3; }
+
+/* ── TEXT ── */
+p { margin-bottom: 8px; orphans: 3; widows: 3; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+a { color: var(--lapis); text-decoration: none; }
+code { font-family: 'JetBrains Mono', monospace; font-size: 0.88em; background: var(--bathyal); border: 1px solid var(--grid-line); border-radius: 2px; padding: 1px 4px; }
+hr { border: none; height: 1px; background: var(--grid-line); margin: 20px 0; }
+
+/* ── TABLES ── */
+table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: 8.5pt; line-height: 1.45; }
+thead th { font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; text-transform: uppercase; letter-spacing: 0.08em; color: var(--aged-paper); background: var(--shelf); padding: 6px 8px; text-align: left; border-bottom: 2px solid var(--sextant-gold); }
+tbody td { padding: 5px 8px; border-bottom: 1px solid var(--grid-line); vertical-align: top; }
+tbody tr:nth-child(even) { background: rgba(17, 24, 39, 0.5); }
+.badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 7pt; padding: 1px 6px; border-radius: 2px; }
+.badge-opus { background: rgba(200,164,94,0.15); color: var(--sextant-gold); border: 1px solid rgba(200,164,94,0.3); }
+.badge-sonnet { background: rgba(74,123,199,0.15); color: var(--lapis); border: 1px solid rgba(74,123,199,0.3); }
+.badge-max { background: rgba(200,164,94,0.1); color: var(--sextant-gold); border: 1px solid rgba(200,164,94,0.2); font-size: 6.5pt; }
+.badge-high { background: rgba(74,123,199,0.1); color: var(--lapis); border: 1px solid rgba(74,123,199,0.2); font-size: 6.5pt; }
+.badge-high-prob { background: rgba(197,75,62,0.15); color: var(--cinnabar); border: 1px solid rgba(197,75,62,0.3); }
+.badge-medium-prob { background: rgba(212,145,74,0.15); color: var(--amber-signal); border: 1px solid rgba(212,145,74,0.3); }
+.badge-low-prob { background: rgba(62,170,109,0.15); color: var(--phosphor-green); border: 1px solid rgba(62,170,109,0.3); }
+.badge-eliminated { background: rgba(62,170,109,0.15); color: var(--phosphor-green); border: 1px solid rgba(62,170,109,0.3); text-transform: uppercase; font-size: 6pt; }
+.badge-mitigated { background: rgba(74,123,199,0.15); color: var(--lapis); border: 1px solid rgba(74,123,199,0.3); text-transform: uppercase; font-size: 6pt; }
+.weight-col { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--sextant-gold); text-align: center; }
+.cell-yes { color: var(--phosphor-green); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 8pt; }
+.cell-no { color: var(--faded-ink); font-family: 'JetBrains Mono', monospace; font-size: 8pt; }
+.cell-new { color: var(--sextant-gold); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 8pt; }
+
+/* ── PIPELINE DIAGRAM ── */
+.pipeline { margin: 16px 0 20px; }
+.phase-header { font-family: 'JetBrains Mono', monospace; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sextant-gold); background: var(--shelf); padding: 5px 10px; border: 1px solid var(--grid-line); border-radius: 2px 2px 0 0; }
+.phase-body { border: 1px solid var(--grid-line); border-top: none; border-radius: 0 0 2px 2px; padding: 12px; background: var(--bathyal); margin-bottom: 12px; }
+.agent-row { display: table; width: 100%; border-spacing: 6px 0; margin-bottom: 8px; }
+.agent-box { display: table-cell; width: 50%; background: var(--abyssal); border: 1px solid var(--grid-line); border-radius: 2px; padding: 8px 10px; vertical-align: top; }
+.agent-row-single .agent-box { display: block; width: 100%; }
+.agent-box .agent-name { font-family: 'JetBrains Mono', monospace; font-size: 8pt; font-weight: 700; color: var(--vellum); margin-bottom: 3px; }
+.agent-box .agent-detail { font-family: 'Source Serif 4', serif; font-size: 7.5pt; color: var(--aged-paper); line-height: 1.35; }
+.flow-arrow { text-align: center; color: var(--sextant-gold); font-size: 14pt; margin: 4px 0; line-height: 1; }
+.flow-note { font-family: 'JetBrains Mono', monospace; font-size: 7pt; color: var(--aged-paper); text-align: center; margin: 2px 0 4px; }
+.crosscut-bar { background: var(--shelf); border: 1px solid var(--grid-line); border-radius: 2px; padding: 8px 10px; margin-top: 4px; }
+.crosscut-bar .crosscut-title { font-family: 'JetBrains Mono', monospace; font-size: 7pt; text-transform: uppercase; letter-spacing: 0.08em; color: var(--amber-signal); margin-bottom: 4px; }
+.crosscut-bar .crosscut-items { font-family: 'Source Serif 4', serif; font-size: 7.5pt; color: var(--aged-paper); line-height: 1.4; }
+
+/* ── NUMBERED LISTS ── */
+.numbered-list { list-style: none; padding: 0; margin: 12px 0 16px; counter-reset: item; }
+.numbered-list li { counter-increment: item; padding: 8px 0; border-bottom: 1px solid var(--grid-line); line-height: 1.5; }
+.numbered-list li:last-child { border-bottom: none; }
+.numbered-list li::before { content: counter(item); font-family: 'JetBrains Mono', monospace; font-size: 14pt; font-weight: 700; display: inline-block; width: 32px; vertical-align: top; margin-right: 8px; }
+.numbered-list.strategies li::before { color: var(--sextant-gold); }
+.numbered-list.attacks li::before { color: var(--cinnabar); }
+.numbered-list li .item-title { font-weight: 600; }
+.numbered-list li .item-desc { color: var(--aged-paper); font-size: 9pt; }
+
+/* ── CODE ── */
+pre { font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; line-height: 1.5; background: var(--bathyal); border: 1px solid var(--grid-line); border-radius: 2px; padding: 10px 12px; margin: 10px 0 14px; white-space: pre-wrap; word-wrap: break-word; }
+pre .key { color: var(--sextant-gold); } pre .str { color: var(--phosphor-green); } pre .num { color: var(--lapis); } pre .null { color: var(--aged-paper); }
+
+/* ── CALLOUT BOXES ── */
+.callout { border-left: 3px solid; padding: 10px 14px; margin: 12px 0; border-radius: 0 2px 2px 0; font-size: 9pt; }
+.callout-gold { border-left-color: var(--sextant-gold); background: rgba(200,164,94,0.05); }
+.callout-green { border-left-color: var(--phosphor-green); background: rgba(62,170,109,0.05); }
+.callout-lapis { border-left-color: var(--lapis); background: rgba(74,123,199,0.05); }
+.callout-amber { border-left-color: var(--amber-signal); background: rgba(212,145,74,0.05); }
+
+/* ── FORMULA ── */
+.formula { font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; background: var(--bathyal); border: 1px solid var(--grid-line); border-radius: 2px; padding: 8px 14px; margin: 10px 0; text-align: center; }
+.formula .var { font-style: italic; color: var(--lapis); } .formula .op { color: var(--sextant-gold); }
+
+/* ── COMPARISON TABLE (vs GPT) ── */
+.compare-table td:first-child { font-weight: 600; color: var(--aged-paper); white-space: nowrap; }
+.compare-table td:nth-child(2) { color: var(--faded-ink); }
+.compare-table td:nth-child(3) { color: var(--vellum); }
+
+/* ── MISC ── */
+.cite { font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; color: var(--lapis); }
+ul { padding-left: 18px; margin: 6px 0 10px; }
+ul li { margin-bottom: 4px; line-height: 1.45; }
+ul li::marker { color: var(--sextant-gold); }
+.break-before { page-break-before: always; }
+h2 { page-break-after: avoid; }
+tr { page-break-inside: avoid; }
+.text-gold { color: var(--sextant-gold); } .text-green { color: var(--phosphor-green); } .text-amber { color: var(--amber-signal); } .text-cinnabar { color: var(--cinnabar); } .text-lapis { color: var(--lapis); } .text-aged { color: var(--aged-paper); } .text-faded { color: var(--faded-ink); }
+.mono { font-family: 'JetBrains Mono', monospace; } .small { font-size: 8pt; }
+</style>
+</head>
+<body>
+
+<!-- ══════ COVER ══════ -->
+<div class="cover">
+  <svg class="compass-rose" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M37 11L28 22L26 20Z" fill="#C8A45E" opacity="0.45"/><path d="M37 37L26 28L28 26Z" fill="#C8A45E" opacity="0.45"/>
+    <path d="M11 37L20 26L22 28Z" fill="#C8A45E" opacity="0.45"/><path d="M11 11L22 20L20 22Z" fill="#C8A45E" opacity="0.45"/>
+    <path d="M44 24L28 27L24 24L28 21Z" fill="#C8A45E"/><path d="M24 44L21 28L24 24L27 28Z" fill="#C8A45E"/>
+    <path d="M4 24L20 21L24 24L20 27Z" fill="#C8A45E"/><path d="M21.5 3L21 20L24 24L27 20L26.5 3L24 8Z" fill="#C8A45E"/>
+    <circle cx="24" cy="24" r="4.5" fill="#0A0E17"/><circle cx="24" cy="24" r="3" fill="#C8A45E"/><circle cx="24" cy="24" r="1.5" fill="#0A0E17"/>
+  </svg>
+  <div class="title">MAGELLAN</div>
+  <div class="subtitle">Multi-Agent Generative Exploration of Latent Links Across kNowledge</div>
+  <div class="bridge-line"></div>
+  <div class="meta"><span class="fecit">Fecit</span> Alberto Trivero · Kakashi Venture Accelerator · <span style="letter-spacing:0.15em">MMXXVI</span></div>
+  <div class="meta" style="margin-top:8px;"><a href="https://magellan-discover.ai">magellan-discover.ai</a> · <a href="https://github.com/kakashi-ventures/magellan-cli">GitHub</a></div>
+  <div class="version">Methodology v5 · March 2026</div>
+  <div class="tagline">Hypotheses, not discoveries.</div>
+</div>
+
+<!-- ══════ TOC ══════ -->
+<div class="toc" style="page: toc;">
+  <h2>Contents</h2>
+  <ul>
+    <li><span class="num">1</span><a href="#experiment">The Experiment</a></li>
+    <li><span class="num">2</span><a href="#swanson">Undiscovered Public Knowledge</a></li>
+    <li><span class="num">3</span><a href="#architecture">Architecture: 15 Agents, 3 Phases</a></li>
+    <li><span class="num">4</span><a href="#hybrid">The Hybrid Paradigm</a></li>
+    <li><span class="num">5</span><a href="#scout">The Scout: 10 Strategies</a></li>
+    <li><span class="num">6</span><a href="#critic">The Critic: 9 Attack Vectors</a></li>
+    <li><span class="num">7</span><a href="#ranker">The Ranker: 6 Dimensions</a></li>
+    <li><span class="num">8</span><a href="#vs-gpt">MAGELLAN vs "Just Ask GPT"</a></li>
+    <li><span class="num">9</span><a href="#domain">Why Life Sciences</a></li>
+    <li><span class="num">10</span><a href="#robustness">Operational Robustness</a></li>
+    <li><span class="num">11</span><a href="#sota">The Competitive Landscape</a></li>
+    <li><span class="num">12</span><a href="#models">Multi-Model Strategy</a></li>
+    <li><span class="num">13</span><a href="#usage">Usage Modes</a></li>
+    <li><span class="num">14</span><a href="#autonomy">What Makes Full Autonomy Possible</a></li>
+    <li><span class="num">15</span><a href="#principles">Design Principles</a></li>
+    <li><span class="num">16</span><a href="#failures">Failure Modes and Mitigations</a></li>
+    <li><span class="num">17</span><a href="#validation">Empirical Validation</a></li>
+  </ul>
+</div>
+
+<!-- ══════ 1. THE EXPERIMENT ══════ -->
+<section id="experiment">
+  <h2>The Experiment</h2>
+
+  <div class="callout callout-gold">
+    <p><strong>What if the next scientific breakthrough is already published — just scattered across papers that no single researcher reads together?</strong></p>
+  </div>
+
+  <p>MAGELLAN is an <strong>experiment in whether modern agentic AI systems can make autonomous scientific discoveries</strong>. The core hypothesis: a well-designed multi-agent architecture running frontier models (March 2026) can find real connections between existing bodies of knowledge that humans have not yet linked — operating in full autonomy, with zero domain input from the user.</p>
+
+  <p>It is not a tool for researchers. It is a capability test. The user runs <code>/discover</code>, leaves the room, and comes back to find testable scientific hypotheses. These are then cross-model validated by GPT-5.4 and Gemini 3.1, and ideally submitted to domain experts for evaluation.</p>
+
+  <p>Built for Claude Code with Opus 4.6 (deep reasoning) and Sonnet 4.6 (structured tasks), the system deploys 15 specialized AI agents that read across disciplinary boundaries, identify where established knowledge in one field connects to another through an unexplored bridge, and generate testable hypotheses about what that connection means. Then it <strong>attacks its own ideas</strong> — adversarially, rigorously — and presents only the survivors.</p>
+
+  <h3>An honest framing</h3>
+  <p>We don't know yet if it works. We believe multi-agent AI can find connections humans miss — but every hypothesis here needs testing by real scientists. We're not claiming discoveries. We're claiming a system that generates hypotheses worth investigating.</p>
+  <p>The confidence scores are intentionally moderate. The kill rate is intentionally high (70–86%). Every claim is tagged as <span class="badge badge-low-prob">GROUNDED</span>, <span class="badge badge-medium-prob">PARAMETRIC</span>, or <span class="badge badge-high-prob">SPECULATIVE</span>. We label our uncertainty because that's what makes this credible.</p>
+</section>
+
+<!-- ══════ 2. UNDISCOVERED PUBLIC KNOWLEDGE ══════ -->
+<section id="swanson">
+  <h2>Conceptual Foundation: Swanson's Undiscovered Public Knowledge</h2>
+
+  <p>At its core, MAGELLAN is a machine for finding <strong>Undiscovered Public Knowledge (UPK)</strong> — a concept formulated by Don R. Swanson in 1986.</p>
+
+  <h3>The concept</h3>
+  <p>Swanson observed that the scientific literature contains logical connections that no one has made yet — not because the information is secret, but because it resides in <strong>disjoint literatures</strong>: bodies of knowledge that never cite each other. The foundational example: the literature on magnesium (vasodilatory effects, platelet anti-aggregation) and the literature on migraine (vasoconstriction, platelet aggregation) contained all the premises to hypothesize that magnesium could treat migraine. No one had made the connection because the two fields did not talk to each other. Swanson made it in 1988, and subsequent clinical trials confirmed the hypothesis.</p>
+  <p>Swanson formalized this as the <strong>ABC model</strong>: Field A and Field C do not cite each other, but they share an intermediate concept B (the <em>bridge term</em>) that appears in both. Discovery consists of identifying B and constructing the inference A→B→C.</p>
+  <p>Today there are over <strong>100 million published papers</strong>. The fragments are everywhere. The connections between them — the ones that lead to new mechanisms, new treatments, new understanding — go unnoticed for years, sometimes decades.</p>
+
+  <h3>From bibliometrics to parametric knowledge</h3>
+  <p>Swanson's original method was <strong>bibliometric</strong>: co-occurrence analysis of MeSH terms, citation graphs, frequency matrices. This approach is <strong>superseded by 2026 frontier models</strong>. The UPK problem exists because no human researcher can read both literatures. An LLM trained on millions of papers has already <em>absorbed</em> both. The problem is no longer detecting citation disjunction — it is <strong>eliciting the latent connections</strong> from the model's parametric knowledge.</p>
+  <p>The evidence confirms this: none of the AI-driven breakthroughs of 2025–2026 (GPT-5 + Ginkgo, Google AI Co-Scientist, Aletheia) used bibliometric analysis. All of them use parametric knowledge + multi-agent architecture + debate/evolution.</p>
+
+  <h3>How MAGELLAN inherits the concept and supersedes the method</h3>
+  <table class="compare-table">
+    <thead><tr><th>Swanson (1986)</th><th>MAGELLAN (2026)</th></tr></thead>
+    <tbody>
+      <tr><td>UPK exists between disjoint literatures</td><td>Same problem, same motivation</td></tr>
+      <tr><td>Shared concept B between A and C</td><td><strong>Mandatory bridge concepts</strong> in every Scout target</td></tr>
+      <tr><td>Bibliometric analysis (MeSH, citations)</td><td><strong>Parametric knowledge</strong> of the LLM as universal reader</td></tr>
+      <tr><td>Statistical co-occurrences</td><td><strong>Elicitation</strong>: Structured Relationship Map, facet recombination, adversarial probing</td></tr>
+      <tr><td>Manual database search</td><td><strong>Automated retrieval</strong>: MCP servers + disjunction verification</td></tr>
+      <tr><td>One A–C pair per study, months of work</td><td><strong>10 parallel strategies</strong>, 2 evolutionary cycles, 15–45 minutes</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══════ 3. ARCHITECTURE ══════ -->
+<section id="architecture" class="break-before">
+  <h2>Architecture: 15 Agents, 3 Phases</h2>
+
+  <div class="pipeline">
+    <div class="phase-header">Phase 1 — Exploration (Sequential Narrowing)</div>
+    <div class="phase-body">
+      <div class="agent-row agent-row-single"><div class="agent-box">
+        <div class="agent-name">Scout <span class="badge badge-opus">Opus</span></div>
+        <div class="agent-detail">10 strategies + diversification + exploration slot + creativity constraint</div>
+      </div></div>
+      <div class="flow-arrow">▼</div>
+      <div class="agent-row agent-row-single"><div class="agent-box">
+        <div class="agent-name">Literature Scout <span class="badge badge-sonnet">Sonnet</span></div>
+        <div class="agent-detail">Verifies disjointness for ALL candidates · MCP servers + WebSearch · Bridge validation</div>
+      </div></div>
+      <div class="flow-arrow">▼</div>
+      <div class="flow-note">Orchestrator narrows 5–6 → 3 (DISJOINT priority + strategy diversity)</div>
+      <div class="flow-arrow">▼</div>
+      <div class="agent-row">
+        <div class="agent-box"><div class="agent-name">Target Evaluator <span class="badge badge-opus">Opus</span></div><div class="agent-detail">4 adversarial attack axes</div></div>
+        <div class="agent-box"><div class="agent-name">Computational Validator <span class="badge badge-sonnet">Sonnet</span></div><div class="agent-detail">KEGG · STRING · PubMed co-occurrence</div></div>
+      </div>
+    </div>
+    <div class="phase-header">Phase 2 — Generation &amp; Critique (2 Cycles)</div>
+    <div class="phase-body">
+      <div class="agent-row">
+        <div class="agent-box"><div class="agent-name">Generator <span class="badge badge-opus">Opus</span></div><div class="agent-detail">Parametric + literature context + computational validation + bisociation</div></div>
+        <div class="agent-box"><div class="agent-name">Critic <span class="badge badge-opus">Opus</span></div><div class="agent-detail">9 attack vectors + web search + META-CRITIQUE</div></div>
+      </div>
+      <div class="flow-arrow">▼</div>
+      <div class="agent-row">
+        <div class="agent-box"><div class="agent-name">Ranker <span class="badge badge-sonnet">Sonnet</span></div><div class="agent-detail">6 dimensions + Groundedness + Elo sanity check</div></div>
+        <div class="agent-box"><div class="agent-name">Evolver <span class="badge badge-sonnet">Sonnet</span></div><div class="agent-detail">Genetic operations + diversity constraint</div></div>
+      </div>
+      <div class="flow-note" style="color:var(--sextant-gold)">↻ Cycle 2 feedback loop</div>
+    </div>
+    <div class="phase-header">Phase 3 — Final Validation + Meta-Learning</div>
+    <div class="phase-body">
+      <div class="agent-row">
+        <div class="agent-box"><div class="agent-name">Quality Gate <span class="badge badge-opus">Opus</span></div><div class="agent-detail">10-point rubric + web grounding + META-VALIDATION</div></div>
+        <div class="agent-box"><div class="agent-name">Session Analyst <span class="badge badge-sonnet">Sonnet</span></div><div class="agent-detail">Meta-learning → strategy optimization</div></div>
+      </div>
+      <div class="flow-arrow">▼</div>
+      <div class="agent-row agent-row-single"><div class="agent-box">
+        <div class="agent-name">Cross-Model Validator <span class="badge badge-sonnet">Sonnet</span></div>
+        <div class="agent-detail">GPT-5.4 Pro (web search + code interpreter) + Gemini 3.1 Pro (code execution + Google Search) → consensus report</div>
+      </div></div>
+      <div class="flow-arrow">▼</div>
+      <div class="agent-row">
+        <div class="agent-box"><div class="agent-name">Convergence Scanner <span class="badge badge-sonnet">Sonnet</span></div><div class="agent-detail">ClinicalTrials · NIH Reporter · Patents</div></div>
+        <div class="agent-box"><div class="agent-name">Dataset Evidence Miner <span class="badge badge-sonnet">Sonnet</span></div><div class="agent-detail">HPA · GWAS · ChEMBL · UniProt · PDB</div></div>
+      </div>
+    </div>
+    <div class="crosscut-bar">
+      <div class="crosscut-title">Cross-Cutting Layer — Guards &amp; Hooks</div>
+      <div class="crosscut-items">Post-phase guards (retry → fallback → abort) · Blocking quality gates per agent · Anti-premature-termination · Dispatch logging · State backup on context compaction</div>
+    </div>
+  </div>
+
+  <h3>The 15 Agents</h3>
+  <table>
+    <thead><tr><th>Agent</th><th>Model</th><th>Effort</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Scout</strong></td><td><span class="badge badge-opus">Opus</span></td><td><span class="badge badge-max">max</span></td><td>Identifies WHERE to look: 10 strategies, mandatory bridge concepts, strategy diversification, rotating creativity constraint</td></tr>
+      <tr><td><strong>Target Evaluator</strong></td><td><span class="badge badge-opus">Opus</span></td><td><span class="badge badge-max">max</span></td><td>Adversarial challenge on 4 axes: popularity bias, vagueness, structural impossibility, local-optima</td></tr>
+      <tr><td><strong>Literature Scout</strong></td><td><span class="badge badge-sonnet">Sonnet</span></td><td><span class="badge badge-high">high</span></td><td>Structured retrieval via Semantic Scholar + PubMed MCP servers, full-text paper retrieval, disjunction verification</td></tr>
+      <tr><td><strong>Computational Validator</strong></td><td><span class="badge badge-sonnet">Sonnet</span></td><td><span class="badge badge-high">high</span></td><td>Programmatic bridge verification: KEGG pathways, STRING protein interactions, PubMed co-occurrence, back-of-envelope physics</td></tr>
+      <tr><td><strong>Generator</strong></td><td><span class="badge badge-opus">Opus</span></td><td><span class="badge badge-max">max</span></td><td>Builds on-the-fly knowledge graph per field, generates 6–8 hypotheses with specific mechanisms, runs SELF-CRITIQUE</td></tr>
+      <tr><td><strong>Critic</strong></td><td><span class="badge badge-opus">Opus</span></td><td><span class="badge badge-max">max</span></td><td>9 adversarial attack vectors including claim-level fact verification. META-CRITIQUE reflection</td></tr>
+      <tr><td><strong>Ranker</strong></td><td><span class="badge badge-sonnet">Sonnet</span></td><td><span class="badge badge-high">high</span></td><td>6-dimension weighted scoring + diversity check + Elo tournament sanity check</td></tr>
+      <tr><td><strong>Evolver</strong></td><td><span class="badge badge-sonnet">Sonnet</span></td><td><span class="badge badge-high">high</span></td><td>Evolutionary operations (crossover, mutation, refinement) with diversity constraint. Conditionally skippable</td></tr>
+      <tr><td><strong>Quality Gate</strong></td><td><span class="badge badge-opus">Opus</span></td><td><span class="badge badge-max">max</span></td><td>10-point rubric with per-claim grounding verification. META-VALIDATION reflection</td></tr>
+      <tr><td><strong>Session Analyst</strong></td><td><span class="badge badge-sonnet">Sonnet</span></td><td><span class="badge badge-high">high</span></td><td>Post-pipeline meta-learning: strategy performance, kill patterns, bridge type survival rates</td></tr>
+      <tr><td><strong>Cross-Model Validator</strong></td><td><span class="badge badge-sonnet">Sonnet</span></td><td><span class="badge badge-high">high</span></td><td>Sends hypotheses to GPT-5.4 Pro and Gemini 3.1 Pro for genuinely independent assessment</td></tr>
+      <tr><td><strong>Convergence Scanner</strong></td><td><span class="badge badge-sonnet">Sonnet</span></td><td><span class="badge badge-high">high</span></td><td>Searches ClinicalTrials.gov, NIH Reporter, and patents for independent convergence signals</td></tr>
+      <tr><td><strong>Dataset Evidence Miner</strong></td><td><span class="badge badge-sonnet">Sonnet</span></td><td><span class="badge badge-high">high</span></td><td>Verifies molecular claims against Human Protein Atlas, GWAS Catalog, ChEMBL, UniProt, PDB</td></tr>
+      <tr><td><strong>Holdout Evaluator</strong></td><td><span class="badge badge-opus">Opus</span></td><td><span class="badge badge-max">max</span></td><td>Validation framework: compares output against known post-cutoff discoveries. Contamination + similarity check</td></tr>
+      <tr><td><strong>Orchestrator</strong></td><td><span class="badge badge-opus">Opus</span></td><td><span class="badge badge-max">max</span></td><td>Pure dispatcher: no web access, cannot execute phases inline. Guard logic, adaptive cycles, session health</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Opus for deep, creative reasoning; Sonnet for structured, search-intensive tasks.</strong> Effort levels are pinned per agent to guarantee quality regardless of user settings. Each phase is dispatched to a specialized sub-agent — the Orchestrator can only coordinate, never execute — ensuring tool isolation, fresh context, and full auditability.</p>
+
+  <h3>Self-review before output</h3>
+  <p>Six agents have reflection loops before producing final output: the Generator verifies its own mechanism specificity (SELF-CRITIQUE), the Critic calibrates its kill rate (META-CRITIQUE), the Scout checks bridge specificity (TARGET QUALITY CHECK), the Quality Gate verifies confidence in its PASS verdicts (META-VALIDATION), and both the Literature Scout and Evolver verify output completeness.</p>
+
+  <h3>Adaptive cycles</h3>
+  <p>The pipeline adapts to output quality: if cycle 1 produces top-3 scores ≥ 7.0, it completes early (skip cycle 2). If survival drops below 30%, it extends to cycle 3. If top-3 ≥ 6.5 with good diversity after cycle 2, it skips the Evolver. Better models produce higher-quality output earlier — the system doesn't waste compute on unnecessary refinement.</p>
+</section>
+
+<!-- ══════ 4. HYBRID PARADIGM ══════ -->
+<section id="hybrid" class="break-before">
+  <h2>The Hybrid Paradigm: Parametric Generation + Retrieval Validation</h2>
+
+  <p>Frontier models (Opus 4.6, GPT-5.2, Gemini 3.1 Pro) score 91–94% on GPQA Diamond — PhD-level questions in biology, physics, and chemistry. This is a 55-point jump from GPT-4 (39%, 2023). Parametric knowledge has improved enormously. However: open factual recall reaches only 55%, hallucination rates range 22–48%, and open research scores only 25.3%. Peer-reviewed literature behind paywalls is largely absent from training data.</p>
+
+  <div class="callout callout-gold">
+    <p>Parametric knowledge is <strong>the generative engine</strong> — it is where the non-obvious cross-disciplinary connections reside. But every factual claim is verified through retrieval. Neither approach alone is sufficient — parametric knowledge finds connections, retrieval keeps them honest.</p>
+  </div>
+
+  <p>The flow through the pipeline:</p>
+  <ol class="numbered-list strategies" style="counter-reset: item 0">
+    <li><span class="item-title">Scout (parametric)</span> <span class="item-desc">— Identifies WHERE to look using 10 strategies. Produces mandatory bridge concepts. Generates 5–6 candidates. Consults meta-insights from prior sessions</span></li>
+    <li><span class="item-title">Literature Scout (verification)</span> <span class="item-desc">— Verifies disjointness for ALL candidates using MCP servers (Semantic Scholar, PubMed) as mandatory first step, WebSearch as fallback. Retrieves full text for top 5–10 papers</span></li>
+    <li><span class="item-title">Target Evaluator (adversarial)</span> <span class="item-desc">— Challenges 3 filtered targets on 4 axes: popularity bias, vagueness, structural impossibility, local-optima</span></li>
+    <li><span class="item-title">Computational Validator</span> <span class="item-desc">— KEGG pathway cross-check, STRING protein interactions, PubMed co-occurrence counts, back-of-envelope physics. Catches impossible mechanisms early</span></li>
+    <li><span class="item-title">Generator (parametric + context)</span> <span class="item-desc">— Builds an on-the-fly parametric Knowledge Graph for each field, then generates hypotheses using deep reasoning + full papers + computational signals</span></li>
+    <li><span class="item-title">Critic (adversarial + web)</span> <span class="item-desc">— 9 attack vectors: web-searches EVERY [GROUNDED] claim individually. Citation hallucination = automatic KILL</span></li>
+    <li><span class="item-title">Ranker</span> <span class="item-desc">— 6-dimension weighted scoring including Groundedness (20%), diversity check, Elo tournament sanity check</span></li>
+    <li><span class="item-title">Cross-Model Validator</span> <span class="item-desc">— GPT-5.4 Pro (web search + code interpreter) and Gemini 3.1 Pro (code execution + Google Search grounding) provide genuinely independent assessment</span></li>
+  </ol>
+</section>
+
+<!-- ══════ 5. THE SCOUT ══════ -->
+<section id="scout" class="break-before">
+  <h2>The Scout: 10 Strategies</h2>
+  <p>How the Scout decides where to look. Each session must use at least 2 different strategies, with at least 1 from a strategy with fewer than 2 prior sessions of data (the <strong>exploration slot</strong>).</p>
+
+  <ol class="numbered-list strategies">
+    <li><span class="item-title">Recent Breakthrough Radiation</span> <span class="item-desc">— Traces implications of recent discoveries into non-obvious distant fields. What does this finding change about something nobody has thought to connect?</span></li>
+    <li><span class="item-title">Anomaly Hunting</span> <span class="item-desc">— Targets reproducible but unexplained phenomena — reliable observations that resist explanation under current paradigms</span></li>
+    <li><span class="item-title">Converging Vocabularies</span> <span class="item-desc">— Finds fields developing similar mathematical frameworks or conceptual language independently, suggesting hidden shared structure</span></li>
+    <li><span class="item-title">Tool Transfer Opportunities</span> <span class="item-desc">— Identifies analytical tools, methods, or instruments from one field that could solve open problems in an unrelated domain</span></li>
+    <li><span class="item-title">Scale Bridging Gaps</span> <span class="item-desc">— Connects phenomena well-understood at one scale (molecular, cellular, organismal, ecological) to adjacent scales where the same logic hasn't been applied</span></li>
+    <li><span class="item-title">Failed Paradigm Recycling</span> <span class="item-desc">— Revisits ideas abandoned in their original field — they may work in a completely different context where the original failure conditions don't apply</span></li>
+    <li><span class="item-title">Swanson ABC Bridging</span> <span class="item-desc">— Systematic identification of literatures with shared intermediate concepts (B) but no direct citations between them (A and C). The classic discovery method, operationalized</span></li>
+    <li><span class="item-title">Contradiction Mining</span> <span class="item-desc">— Active search for contradictions between fields as sources of novel hypotheses. If two papers make mutually exclusive claims, resolving the contradiction often reveals a non-trivial connection. Inspired by FutureHouse's ContraCrow</span></li>
+    <li><span class="item-title">Structural Isomorphism Discovery</span> <span class="item-desc">— Fields sharing identical mathematical structure (equations, network topology, information-theoretic constraints) but completely different physical substrates. The bridge IS the math itself. Domain-agnostic. Example: percolation theory connects epidemiology and fracture mechanics</span></li>
+    <li><span class="item-title">Serendipity Through Random Encounter</span> <span class="item-desc">— Deliberate exposure to unexpected knowledge: pick a domain NEVER explored before, find its most surprising discovery, ask "which distant field would be most transformed?" Must cross 2+ disciplinary boundaries</span></li>
+  </ol>
+
+  <p><strong>Bridge concepts are mandatory for every target</strong>, not just for the Swanson strategy. Even for Anomaly Hunting or Scale Bridging, the Scout must articulate the concrete connection mechanism. A <strong>rotating creativity constraint</strong> (mod 5 per session) forces exploration of diverse territory: cross-discipline bridge, mathematical bridge, temporal gap >50 years, tool transfer, or unsolved problem.</p>
+
+  <p>Before each session, the Scout consults meta-insights from prior sessions to avoid re-exploration, reuse productive bridges, and prioritize strategies with higher survival rates. The system learns which approaches are most fruitful.</p>
+</section>
+
+<!-- ══════ 6. THE CRITIC ══════ -->
+<section id="critic" class="break-before">
+  <h2>The Critic: 9 Attack Vectors</h2>
+  <div class="callout callout-amber">
+    <p>The Critic is genuinely adversarial. Its objective is to <strong>destroy weak hypotheses</strong> — killing 50–70% is normal and healthy. A 0% kill rate is a red flag.</p>
+  </div>
+
+  <ol class="numbered-list attacks">
+    <li><span class="item-title">Novelty Kill</span> <span class="item-desc">— WebSearch to verify whether the connection is already published or well-studied</span></li>
+    <li><span class="item-title">Mechanism Kill</span> <span class="item-desc">— Physical/chemical/biological plausibility: energy scales, time constants, concentrations</span></li>
+    <li><span class="item-title">Logic Kill</span> <span class="item-desc">— Correlation passed off as causation, analogy confused with structural relationship, post-hoc reasoning</span></li>
+    <li><span class="item-title">Falsifiability Kill</span> <span class="item-desc">— If it cannot be proven false with a specific experiment → KILL</span></li>
+    <li><span class="item-title">Triviality Kill</span> <span class="item-desc">— Would a PhD student in each field say "obviously"?</span></li>
+    <li><span class="item-title">Counter-Evidence Search</span> <span class="item-desc">— Dedicated WebSearch for contradictions and mechanism failures in published literature</span></li>
+    <li><span class="item-title">Groundedness Attack</span> <span class="item-desc">— Distinguishes literature-grounded claims from parametric knowledge from pure speculation. If &gt;50% of core claims are unverifiable → significant downgrade</span></li>
+    <li><span class="item-title">Hallucination-as-Novelty Check</span> <span class="item-desc">— "Does it appear new because genuinely unexplored, or because it is wrong in non-obvious ways?" Directly targets the finding that AI novelty scores collapse from 5.38 → 3.41 after experimental validation <span class="cite">(Si et al., ICLR 2026)</span></span></li>
+    <li><span class="item-title">Claim-Level Fact Verification</span> <span class="item-desc">— Web-searches EVERY individual [GROUNDED] claim: author+year+journal, directionality, protein properties. Citation hallucination or fabricated data = automatic KILL</span></li>
+  </ol>
+
+  <p>After all attacks, the Critic runs a <strong>META-CRITIQUE</strong>: (1) calibrates its own kill rate, (2) for each hypothesis that SURVIVES, writes the strongest reason it should have been killed, (3) verifies web search completeness. When a mechanism is too vague, the Critic writes specific questions that the Orchestrator forwards to the Generator in cycle 2 — creating an indirect feedback loop.</p>
+</section>
+
+<!-- ══════ 7. THE RANKER ══════ -->
+<section id="ranker" class="break-before">
+  <h2>The Ranker: 6 Dimensions</h2>
+  <table>
+    <thead><tr><th>Dimension</th><th>Weight</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Novelty</strong></td><td class="weight-col">20%</td><td>Is the connection unexplored? Verified via web search</td></tr>
+      <tr><td><strong>Mechanistic Specificity</strong></td><td class="weight-col">20%</td><td>How concrete is the proposed mechanism? Specific proteins, pathways, and predictions</td></tr>
+      <tr><td><strong>Cross-field Distance</strong></td><td class="weight-col">10%</td><td>How far apart are the connected fields? Higher distance = more surprising connection</td></tr>
+      <tr><td><strong>Testability</strong></td><td class="weight-col">20%</td><td>Can this be verified with existing methods, organisms, and equipment?</td></tr>
+      <tr><td><strong>Impact: Paradigm</strong></td><td class="weight-col">5%</td><td>If true, how much does it change understanding?</td></tr>
+      <tr><td><strong>Impact: Translational</strong></td><td class="weight-col">5%</td><td>If validated, how directly does it suggest a real-world application?</td></tr>
+      <tr><td><strong>Groundedness</strong></td><td class="weight-col">20%</td><td>Are the hypothesis components supported by retrievable published evidence?</td></tr>
+    </tbody>
+  </table>
+
+  <p>A <strong>+0.5 cross-domain creativity bonus</strong> is applied for hypotheses crossing 2+ disciplinary boundaries, compensating for the systematic penalization from bio-centric infrastructure. An <strong>Elo tournament</strong> (15 pairwise comparisons among top-6) cross-checks the linear ranking — inspired by Google AI Co-Scientist, which found superior correlation with expert evaluations. A <strong>diversity check</strong> prevents convergence: if 3+ of the top-5 share the same bridge mechanism, the duplicates are demoted.</p>
+
+  <p>Impact enters the pipeline as a parallel signal, never as a substitute for quality. The <strong>Impact Potential Score (IPS)</strong> combines the Scout's estimate (40%) with the Convergence Scanner's translational signals (60%).</p>
+</section>
+
+<!-- ══════ 8. VS "JUST ASK GPT" ══════ -->
+<section id="vs-gpt" class="break-before">
+  <h2>MAGELLAN vs "Just Ask GPT"</h2>
+  <p>The architecture decisions that make MAGELLAN different from prompting a single model:</p>
+  <table class="compare-table">
+    <thead><tr><th>Dimension</th><th>Single LLM</th><th>MAGELLAN</th></tr></thead>
+    <tbody>
+      <tr><td>Discovery strategy</td><td>None</td><td>10 autonomous strategies with diversity constraints and exploration slots</td></tr>
+      <tr><td>Literature validation</td><td>None</td><td>Per-claim fact-checking via PubMed, KEGG, STRING + MCP servers</td></tr>
+      <tr><td>Quality control</td><td>None</td><td>9 adversarial attack vectors + 10-point quality gate rubric</td></tr>
+      <tr><td>Cross-model validation</td><td>None</td><td>Independent assessment by GPT-5.4 Pro + Gemini 3.1 Pro</td></tr>
+      <tr><td>Transparency</td><td>Black-box output</td><td>Every claim tagged GROUNDED / PARAMETRIC / SPECULATIVE with sources</td></tr>
+      <tr><td>Kill rate</td><td>0%</td><td>70–86%</td></tr>
+      <tr><td>Self-critique</td><td>None</td><td>6 reflection loops, hallucination-as-novelty detection</td></tr>
+      <tr><td>Evolution</td><td>Single pass</td><td>Adaptive 1–3 cycles with genetic recombination and diversity enforcement</td></tr>
+    </tbody>
+  </table>
+  <div class="callout callout-amber">
+    <p>Most AI systems optimize for output volume. MAGELLAN optimizes for rigorous filtering. The high kill rate isn't a bug — it's what happens when you take validation seriously. We'd rather show you 3 defensible ideas than 20 fluent hallucinations.</p>
+  </div>
+</section>
+
+<!-- ══════ 9. WHY LIFE SCIENCES ══════ -->
+<section id="domain">
+  <h2>Why Life Sciences as Primary Domain</h2>
+  <p>MAGELLAN is structurally optimized for cross-disciplinary discovery in the life sciences. This is not an arbitrary choice — three factors converge:</p>
+  <ul>
+    <li><strong>Structural fragmentation</strong> — The life sciences have the highest density of latent "missing links." Sub-disciplines like the microbiome, chronobiology, epigenetics, immunology, and neuroscience operate with largely disjoint literatures despite shared molecular mechanisms. This is exactly the terrain of Swanson's UPK</li>
+    <li><strong>Available retrieval infrastructure</strong> — PubMed (38M+ articles with structured abstracts), KEGG (metabolic and signaling pathways), STRING (protein interactions) provide structured grounding and programmatic queries. No comparable equivalent exists for theoretical physics or mathematics</li>
+    <li><strong>Rapid falsifiability</strong> — Cross-disciplinary biomedical hypotheses are testable with wet-lab experiments or computational analyses on existing datasets (GEO, TCGA, UK Biobank). Physics or math hypotheses often require years of formal development</li>
+  </ul>
+
+  <h3>Score interpretation guide</h3>
+  <p>Non-bio hypothesis scores are <strong>not directly comparable</strong> with bio scores. A theoretical physics hypothesis scoring 5.5 may be qualitatively equivalent to a biomedical hypothesis scoring 7.0 — the gap is primarily in Testability (no public datasets for rapid validation), Groundedness (no MCP server for structured retrieval), and Mechanistic Specificity (formal vs. molecular mechanisms). The cross-domain creativity bonus (+0.5) partially compensates.</p>
+</section>
+
+<!-- ══════ 10. ROBUSTNESS ══════ -->
+<section id="robustness" class="break-before">
+  <h2>Operational Robustness</h2>
+  <p>The pipeline must operate without human supervision. Robustness operates on three levels:</p>
+
+  <h3>1. Guard logic</h3>
+  <p>Conditional blocks after every phase that verify output. The flow is always: <strong>verify → retry → fallback → abort</strong>. If the Scout produces 0 targets, it retries with lower thresholds, then falls back to hardcoded parametric targets. If the Generator produces too few hypotheses, a blocking gate forces re-execution. If the Critic kills everything, the system regenerates with different mechanisms and more conservative claims — failing the session explicitly if it happens twice.</p>
+
+  <h3>2. Per-agent quality gates</h3>
+  <p>Each agent has a dedicated quality gate that blocks insufficient output. The Ranker's gate requires at least 3KB of detailed scoring (preventing thin output without proper justification). The Literature Scout degrades gracefully if retrieval services are unavailable. The Critic's gate is warn-only — it can legitimately kill everything. A master gate prevents premature pipeline termination and verifies that all required agents were dispatched.</p>
+
+  <h3>3. Session health classification</h3>
+  <p>Every session terminates with an explicit status:</p>
+  <ul>
+    <li><strong class="text-green">SUCCESS</strong>: ≥2 hypotheses passed Quality Gate with Groundedness ≥5</li>
+    <li><strong class="text-amber">PARTIAL</strong>: 1 hypothesis passed, or all have low Groundedness</li>
+    <li><strong class="text-amber">DEGRADED</strong>: Pipeline completed, 0 pass Quality Gate (cards presented with warning)</li>
+    <li><strong class="text-cinnabar">FAILED</strong>: Pipeline non-completable (0 targets, all killed, agent error)</li>
+  </ul>
+  <p>State is maintained in structured JSON — a slim coordination index (~3KB) separate from per-session results. Each agent re-reads state at dispatch, making the pipeline resilient to context compaction in long runs.</p>
+</section>
+
+<!-- ══════ 11. COMPETITIVE LANDSCAPE ══════ -->
+<section id="sota" class="break-before">
+  <h2>The Competitive Landscape</h2>
+  <p>Over $2 billion has been raised in AI scientific discovery since 2024. Google, FutureHouse, Sakana AI, and others are deploying multi-agent systems that generate and validate hypotheses. MAGELLAN operates in this landscape — here's an honest comparison.</p>
+
+  <table>
+    <thead><tr><th>System</th><th>Architecture</th><th>Key Achievement</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Google AI Co-Scientist</strong></td><td>6 agents on Gemini 2.0, Elo tournament</td><td>3 experimentally validated discoveries (AML, liver fibrosis, bacterial gene transfer)</td><td><span class="badge badge-eliminated">validated</span></td></tr>
+      <tr><td><strong>FutureHouse / Kosmos</strong></td><td>World model + specialized agents</td><td>Novel dAMD treatment. 79.4% accuracy, 1500 papers/run</td><td>$70M raised</td></tr>
+      <tr><td><strong>AI Scientist v2</strong> (Sakana)</td><td>Ideation + Tree Search + Paper Gen</td><td>First AI paper accepted at ICLR 2025 peer review</td><td>$379M, open source</td></tr>
+      <tr><td><strong>BenevolentAI</strong></td><td>KG with 350M+ relationships</td><td>Baricitinib for COVID-19 in 48h (confirmed: 38% mortality reduction)</td><td>Acquired 2025</td></tr>
+      <tr><td><strong>POPPER</strong> (Stanford/Harvard)</td><td>Falsification-based, Type-I error control</td><td>Comparable to human scientists at 10x speed</td><td>Open source</td></tr>
+      <tr><td><strong>Virtual Lab</strong></td><td>PI agent + scientist agents</td><td>92 nanobodies designed, 2 with improved binding</td><td><span class="badge badge-eliminated">published</span></td></tr>
+      <tr><td><strong>Aletheia</strong> (DeepMind)</td><td>Gen-Verifier-Reviser on Gemini Deep Think</td><td>4 open Erdős problems solved autonomously</td><td>Internal</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Where MAGELLAN differs</h3>
+  <ul>
+    <li><strong>Autonomous target selection</strong> — Nearly all other systems require a human to define the research question. MAGELLAN's Scout autonomously decides <em>what to explore</em>, using 10 formalized discovery strategies that no other system implements as an explicit repertoire</li>
+    <li><strong>Cross-model validation, not self-review</strong> — Most systems use same-model critique. MAGELLAN sends hypotheses to competing LLMs from different providers for genuinely independent assessment</li>
+    <li><strong>Formal Groundedness scoring (20%)</strong> — Not present as an explicit dimension in other systems. Prevents fluent hallucinations from scoring high</li>
+    <li><strong>Open source and contributor-owned</strong> — Most competitors are proprietary or enterprise-only. Anyone with a Claude subscription can run discoveries, attributed to their profile</li>
+  </ul>
+
+  <h3>What others do better</h3>
+  <ul>
+    <li><strong>Experimental validation</strong>: Google and FutureHouse have wet-lab confirmed discoveries. MAGELLAN generates testable hypotheses with protocols but has no pathway to physical validation</li>
+    <li><strong>Proprietary data</strong>: BenevolentAI's 350M+ relationship KG finds things public APIs miss. MAGELLAN uses only public sources</li>
+    <li><strong>Formal verification</strong>: DeepMind's systems can mathematically prove discoveries correct. MAGELLAN's quality rubric is rigorous but not formally verifiable</li>
+  </ul>
+</section>
+
+<!-- ══════ 12. MULTI-MODEL STRATEGY ══════ -->
+<section id="models" class="break-before">
+  <h2>Multi-Model Strategy</h2>
+  <h3>Internal models (MAGELLAN pipeline)</h3>
+  <table>
+    <thead><tr><th>Agent Group</th><th>Model</th><th>Rationale</th></tr></thead>
+    <tbody>
+      <tr><td>Scout, Target Evaluator, Generator, Critic, Quality Gate, Holdout Evaluator, Orchestrator</td><td><span class="badge badge-opus">Opus 4.6</span></td><td>Deep reasoning, cross-disciplinary creativity, adversarial evaluation</td></tr>
+      <tr><td>Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator, Convergence Scanner, Dataset Evidence Miner</td><td><span class="badge badge-sonnet">Sonnet 4.6</span></td><td>Structured, search-intensive tasks; ~30% cost reduction</td></tr>
+    </tbody>
+  </table>
+
+  <h3>External models (automatic cross-model validation)</h3>
+  <p>Survivors are independently assessed by two external models with active tools — not just text review:</p>
+  <ul>
+    <li><strong>GPT-5.4 Pro</strong> (OpenAI Responses API): reasoning=high, web search, code interpreter. Verifies novelty against current literature via web search, checks arithmetic computationally. 33% fewer factual errors vs GPT-5.2</li>
+    <li><strong>Gemini 3.1 Pro</strong> (Google GenAI SDK): thinkingLevel=HIGH, code execution, Google Search grounding. Verifies formal mappings computationally. ARC-AGI-2 leader (77.1%) for mathematical structures</li>
+  </ul>
+  <p>Cross-model validation is automatic: the pipeline generates tailored prompts, calls both APIs in parallel, and produces a consensus report. Where models agree, confidence increases. Where they diverge, the divergence flags areas needing deeper investigation.</p>
+
+  <h3>Reference benchmarks (March 2026)</h3>
+  <ul>
+    <li><strong>Claude Opus 4.6</strong>: GPQA Diamond 91.3%, ARC-AGI-2 68.8%, HLE 53.1%. Time horizon METR: 14h30m. Context: 200K (1M beta)</li>
+    <li><strong>GPT-5.4 Pro</strong>: ARC-AGI-2 83.3%. SWE-bench ~80%. Context: up to 1M tokens</li>
+    <li><strong>Gemini 3.1 Pro</strong>: GPQA Diamond 94.3%, ARC-AGI-2 77.1%. Deep Think for mathematical structures</li>
+  </ul>
+</section>
+
+<!-- ══════ 13. USAGE MODES ══════ -->
+<section id="usage" class="break-before">
+  <h2>Usage Modes</h2>
+  <table>
+    <thead><tr><th>Command</th><th>Mode</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>/discover</code></td><td><strong>Scout Mode</strong></td><td>The Scout autonomously identifies targets — zero human input</td></tr>
+      <tr><td><code>/discover [A] × [C]</code></td><td>Targeted</td><td>Focused exploration on a specific area</td></tr>
+      <tr><td><code>/discover [topic]</code></td><td>Open</td><td>Exploration from a single domain</td></tr>
+      <tr><td><code>/discover solve: [problem]</code></td><td>Problem-driven</td><td>Cross-domain insight for a specific problem</td></tr>
+      <tr><td><code>/discover --context "..."</code></td><td>Context-enriched</td><td>Injects domain expertise into Scout and Generator</td></tr>
+      <tr><td><code>/discover --papers DOI,...</code></td><td>Paper-seeded</td><td>Provides seed papers to the Literature Scout</td></tr>
+      <tr><td><code>/discover --interactive</code></td><td>Interactive</td><td>Pauses after Scout for target approval</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Philosophy of autonomy</h3>
+  <div class="callout callout-gold">
+    <p><code>/discover</code> with no arguments is the primary mode. The entire project exists to answer: "Can an agentic AI system autonomously find real scientific connections?"</p>
+  </div>
+  <p>This differentiates MAGELLAN from Google AI Co-Scientist (scientist-in-the-loop) and FutureHouse Kosmos (human-defined objectives). MAGELLAN is more ambitious: the Scout must autonomously decide <em>what is interesting</em> — a capability Demis Hassabis believes is still 5–10 years away for AI (Lex Fridman Podcast #475, July 2025: "in the next maybe five to ten years we'll have systems capable of not only solving an important problem in science but coming up with it in the first place").</p>
+
+  <h3>Modes for domain scientists</h3>
+  <p>The <code>--context</code>, <code>--papers</code>, and <code>--interactive</code> flags are designed for scientists with domain expertise who want to <strong>direct</strong> discovery without <strong>controlling</strong> it. A ferroptosis researcher can write <code>--context "I study ferroptosis in hepatocytes"</code> and the Scout uses this expertise to inform target selection — without restricting itself exclusively to that domain. The value of serendipity is preserved: the Scout might find connections the scientist would never have sought.</p>
+
+  <h3>Discovery licensing</h3>
+  <ul>
+    <li><strong>Autonomous discoveries</strong> (pure <code>/discover</code>): <strong>CC0 1.0</strong> (public domain). No human creative input in target selection → copyright on AI-generated content is uncertain. CC0 is the honest choice</li>
+    <li><strong>Guided discoveries</strong> (<code>/discover A × B</code>, <code>--context</code>, <code>--papers</code>, <code>--interactive</code>): <strong>CC-BY 4.0</strong>. The user provides creative direction, strengthening the copyright claim. Attribution mandatory</li>
+  </ul>
+</section>
+
+<!-- ══════ 14. WHAT MAKES FULL AUTONOMY POSSIBLE ══════ -->
+<section id="autonomy" class="break-before">
+  <h2>What Makes Full Autonomy Possible (March 2026)</h2>
+  <p>Running a fully autonomous scientific discovery pipeline would not have been feasible 18 months ago. Seven capabilities converge in March 2026:</p>
+  <ol class="numbered-list strategies">
+    <li><span class="item-title">Scout with 10 formalized strategies</span> <span class="item-desc">— It does not choose randomly. Structural isomorphism, bisociation, serendipity, and 7 other strategies are elicitation mechanisms designed to surface where unlinked knowledge is most likely hiding</span></li>
+    <li><span class="item-title">Parallel Literature Scout</span> <span class="item-desc">— Real-time verification that targets are not already explored, providing literature context to enrich generation. MCP servers (Semantic Scholar, PubMed) enable structured retrieval independent of generic web search</span></li>
+    <li><span class="item-title">Opus 4.6 time horizon: 14h30m (METR)</span> <span class="item-desc">— Sustained autonomy at this level is a new capability. No pre-2026 model could operate coherently over these durations</span></li>
+    <li><span class="item-title">GPT-5.4 as external validator</span> <span class="item-desc">— 33% fewer factual errors vs GPT-5.2, with web search and code interpreter for exhaustive literature grounding. Reduces the risk of Claude validating its own hallucinations</span></li>
+    <li><span class="item-title">Auto Mode</span> <span class="item-desc">— Eliminates permission interruptions, allowing the pipeline to flow without intervention across 15–45 minute sessions</span></li>
+    <li><span class="item-title">JSON-based state management</span> <span class="item-desc">— Survives context compaction, maintaining coherence over long runs. Each agent re-reads state at dispatch</span></li>
+    <li><span class="item-title">Growing with AI</span> <span class="item-desc">— The architecture is designed so that as models improve, every stage becomes more powerful: deeper reasoning → deeper connections, fewer hallucinations → higher groundedness, broader knowledge → more diverse targets. Every model improvement is a MAGELLAN improvement</span></li>
+  </ol>
+</section>
+
+<!-- ══════ 15. DESIGN PRINCIPLES ══════ -->
+<section id="principles">
+  <h2>Design Principles</h2>
+  <ul>
+    <li><strong>Parametric + Retrieval</strong> — Frontier LLMs generate cross-domain connections from internal knowledge. PubMed, KEGG, STRING, and Semantic Scholar validate every factual claim. Neither approach alone is sufficient</li>
+    <li><strong>Groundedness scoring (20% weight)</strong> — Prevents fluent hallucinations from scoring high. Every [GROUNDED] claim is verified against real papers. The 22–48% hallucination rate in frontier models makes this essential</li>
+    <li><strong>Mandatory agent dispatch</strong> — The Orchestrator cannot execute phases inline. Each phase is dispatched to a specialized agent with defined tool access and fresh context. This prevents monolithic LLM behavior</li>
+    <li><strong>Cross-model validation</strong> — Survivors are independently assessed by competing LLMs from different providers. Cross-model consensus increases confidence; disagreement flags areas for investigation</li>
+    <li><strong>Session-to-session meta-learning</strong> — Strategy performance, kill patterns, and bridge survival rates are tracked across sessions. The Scout reads this before each session to focus on what works</li>
+    <li><strong>Radical transparency</strong> — Every claim is tagged GROUNDED, PARAMETRIC, or SPECULATIVE. We publish kill rates, confidence scores, counter-evidence, and cross-model assessments. We show what the system rejects. If it can't survive scrutiny, it shouldn't be published</li>
+  </ul>
+</section>
+
+<!-- ══════ 16. FAILURE MODES ══════ -->
+<section id="failures" class="break-before">
+  <h2>Failure Modes and Mitigations</h2>
+  <table>
+    <thead><tr><th>Failure Mode</th><th>Prob.</th><th>Mitigation</th></tr></thead>
+    <tbody>
+      <tr><td>Scout gravitates toward popular topics</td><td><span class="badge badge-high-prob">High</span></td><td>Strategies 7–8 force non-obvious exploration. Literature Scout verifies novelty. Discovery-log prevents re-exploration</td></tr>
+      <tr><td>Hallucination cascade</td><td><span class="badge badge-medium-prob">Med</span></td><td>Critic with mandatory web search per claim. Groundedness scoring (20%). Cross-model validation with GPT-5.4</td></tr>
+      <tr><td>Illusory novelty (appears new because wrong)</td><td><span class="badge badge-medium-prob">Med</span></td><td>Critic attack vector #8 directly targets Si et al. finding: AI novelty drops from 5.38→3.41 after testing</td></tr>
+      <tr><td>Hypothesis convergence</td><td><span class="badge badge-medium-prob">Med</span></td><td>Double-layer: diversity check in Ranker + diversity constraint in Evolver</td></tr>
+      <tr><td>Context drift on long runs</td><td><span class="badge badge-medium-prob">Med-Low</span></td><td>State in JSON, not conversational context. Each agent re-reads state. Backup/restore on compaction</td></tr>
+      <tr><td>Trivial hypotheses disguised as novel</td><td><span class="badge badge-medium-prob">Med</span></td><td>Triviality Kill + web novelty check + cross-model validation</td></tr>
+      <tr><td>Scout produces 0 targets</td><td><span class="badge badge-medium-prob">Med</span></td><td>Post-Scout guard: retry → fallback to hardcoded parametric targets</td></tr>
+      <tr><td>Critic kills all hypotheses</td><td><span class="badge badge-medium-prob">Med</span></td><td>Regenerate with different mechanisms → re-critique → FAILED if fails twice</td></tr>
+      <tr><td>WebSearch/WebFetch unavailable</td><td><span class="badge badge-low-prob">Low</span></td><td>MCP servers as alternative. Parametric-only mode after 3+ failures</td></tr>
+      <tr><td>Silently empty output</td><td><span class="badge badge-eliminated">Eliminated</span></td><td>Session Health Classification: every session ends with explicit SUCCESS/PARTIAL/DEGRADED/FAILED</td></tr>
+      <tr><td>Orchestrator executes inline</td><td><span class="badge badge-eliminated">Eliminated</span></td><td>WebSearch/WebFetch removed from Orchestrator. Dispatch log verification</td></tr>
+      <tr><td>Pipeline terminates prematurely</td><td><span class="badge badge-mitigated">Mitigated</span></td><td>Master stop hook blocks if pipeline not complete. Sub-agents have no turn limit</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══════ 17. EMPIRICAL VALIDATION ══════ -->
+<section id="validation" class="break-before">
+  <h2>Empirical Validation</h2>
+
+  <h3>The validation vs. effectiveness conflict</h3>
+  <p>Formally validating that MAGELLAN works would require "blinding" the system (no web search, parametric only), but maximum effectiveness requires every tool. The solution: completely separate the two objectives.</p>
+
+  <h3>Track 1: Production pipeline enrichment</h3>
+  <p>Two post-Quality-Gate agents consult sources <strong>never used by the main pipeline</strong>:</p>
+  <ul>
+    <li><strong>Convergence Scanner</strong>: Searches ClinicalTrials.gov (active trials), NIH Reporter (funded grants), and patents for independent convergence signals. Finding that someone else is already pursuing a related mechanism increases confidence</li>
+    <li><strong>Dataset Evidence Miner</strong>: Verifies specific molecular claims against 5+ bioinformatics databases — Human Protein Atlas (tissue expression), GWAS Catalog (genetic associations), ChEMBL (compound-target), UniProt (protein function), PDB/AlphaFold (structure)</li>
+  </ul>
+  <div class="formula"><span class="var">EES</span> <span class="op">=</span> <span class="var">dataset_score</span> <span class="op">×</span> 0.55 <span class="op">+</span> <span class="var">convergence_score</span> <span class="op">×</span> 0.45</div>
+  <p>The Empirical Evidence Score runs parallel to the composite — it measures independent empirical evidence, not reasoning quality.</p>
+
+  <h3>Track 2: Holdout Validation Framework</h3>
+  <div class="callout callout-amber">
+    <p><strong>The retrodiction paradox:</strong> The Quality Gate searches the web with no temporal filter. If a post-cutoff paper confirms the mechanism, the QG kills it as "not novel" — the opposite of the desired outcome for validation.</p>
+  </div>
+  <p><strong>Solution:</strong> Curate cross-disciplinary discoveries published after May 2025 (Claude's training cutoff). Give MAGELLAN only <code>[Field A] × [Field C]</code> in targeted mode. The pipeline runs normally — no handicap. Afterward, the Holdout Evaluator checks:</p>
+  <ul>
+    <li><strong>Contamination</strong>: Was the "answer" paper found by any agent? (grep DOI/PMID/title across all outputs)</li>
+    <li><strong>Mechanism similarity</strong>: How close did MAGELLAN's hypotheses get to the known mechanism?</li>
+  </ul>
+  <p>Verdicts: <strong class="text-green">GENUINE_REDISCOVERY</strong> (uncontaminated + strong match), <strong class="text-amber">PARTIAL_REDISCOVERY</strong>, <strong class="text-lapis">ADJACENT_DISCOVERY</strong>, <strong class="text-cinnabar">CONTAMINATED</strong>, <strong class="text-faded">MISSED</strong>. This is more rigorous than blinding because it tests the REAL system and objectively measures contamination.</p>
+
+  <h3>Overlap analysis</h3>
+  <table>
+    <thead><tr><th>Source</th><th>Main Pipeline?</th><th>Conv. Scanner?</th><th>Evidence Miner?</th></tr></thead>
+    <tbody>
+      <tr><td>Web (Google)</td><td class="cell-yes">Yes</td><td>Only patents/grants</td><td class="cell-no">No</td></tr>
+      <tr><td>PubMed MCP</td><td class="cell-yes">Yes</td><td class="cell-yes">Yes</td><td class="cell-no">No</td></tr>
+      <tr><td>STRING/KEGG</td><td class="cell-yes">Yes</td><td class="cell-no">No</td><td>Only NEW claims</td></tr>
+      <tr><td>ClinicalTrials.gov</td><td class="cell-no">No</td><td class="cell-new">Yes</td><td class="cell-no">No</td></tr>
+      <tr><td>NIH Reporter</td><td class="cell-no">No</td><td class="cell-new">Yes</td><td class="cell-no">No</td></tr>
+      <tr><td>Patents</td><td class="cell-no">No</td><td class="cell-new">Yes</td><td class="cell-no">No</td></tr>
+      <tr><td>HPA / GWAS / ChEMBL / UniProt / PDB</td><td class="cell-no">No</td><td class="cell-no">No</td><td class="cell-new">Yes</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+  <p class="text-aged small" style="text-align:center; margin-top:20px;">For the complete pipeline evolution history with motivations and evidence, see the <a href="https://github.com/kakashi-ventures/magellan-cli">open-source repository</a></p>
+</section>
+
+</body>
+</html>

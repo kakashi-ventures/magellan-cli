@@ -19,3 +19,6 @@ knowledge/*
 # Validation results (user-specific evaluation outputs)
 validation/results/*
 !validation/results/.gitkeep
+
+# PDF generation fonts (download via build script)
+docs/pdf/fonts/
