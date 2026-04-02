@@ -475,7 +475,7 @@ Update progress: `current_phase = "cross_model_validation"`.
 
 **DISPATCH to `cross-model-validator` agent via Agent tool.** Include in dispatch:
 - Final hypotheses: {results_dir}/final.json
-- Prompt templates: prompts/validation-prompt-gpt.md, prompts/gemini-deep-think.md
+- Prompt templates: prompts/validation-prompt-gpt.md, prompts/validation-prompt-gemini.md
 - Results dir: `{results_dir}`
 
 After agent returns, read `{results_dir}/cross-model.json` for validation status.

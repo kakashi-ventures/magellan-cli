@@ -45,7 +45,7 @@ If `{results_dir}/final.json` is empty or missing, write a note and exit.
 
 Read prompt templates:
 - `prompts/validation-prompt-gpt.md` — GPT validation structure
-- `prompts/gemini-deep-think.md` — Gemini structural analysis format
+- `prompts/validation-prompt-gemini.md` — Gemini structural analysis format
 
 For each passing hypothesis, create a self-contained prompt that includes:
 - Context: what this is (AI-generated hypothesis, request for validation)

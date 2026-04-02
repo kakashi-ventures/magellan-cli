@@ -615,7 +615,7 @@ Agent prompts follow 2026 best practices for frontier models. Choices are empiri
 ### Prompts for external models
 
 - **GPT-5.4** (`prompts/validation-prompt-gpt.md`): Output contract (mandatory sections per hypothesis), completeness checklist, empty-result recovery, explicit citation grounding, Plan→Retrieve→Synthesize research flow.
-- **Gemini 3.1 Pro** (`prompts/gemini-deep-think.md`): Behavioral constraints up front, 1 complete few-shot example, context-first (hypothesis cards at top, task at bottom), strict grounding ("If you cannot write the formal mapping, do not claim one exists").
+- **Gemini 3.1 Pro** (`prompts/validation-prompt-gemini.md`): Behavioral constraints up front, 1 complete few-shot example, context-first (hypothesis cards at top, task at bottom), strict grounding ("If you cannot write the formal mapping, do not claim one exists").
 
 ---
 

@@ -208,7 +208,7 @@ Evidenza dalla sessione 2026-03-24: GPT ha trovato un errore aritmetico di quatt
 
 ### Aggiornamenti prompt
 - `prompts/validation-prompt-gpt.md` — Istruzioni esplicite per usare web search e code execution
-- `prompts/gemini-deep-think.md` — Istruzioni per verifica computazionale dei mapping e sezione COMPUTATIONAL CHECK nell'output format
+- `prompts/validation-prompt-gemini.md` — Istruzioni per verifica computazionale dei mapping e sezione COMPUTATIONAL CHECK nell'output format
 
 ### Costo stimato incrementale
 - Web search (GPT): ~$0.01-0.05 per sessione (search_context_size: high)
