@@ -205,7 +205,7 @@ CLAUDE.md                                    ← Project instructions for Claude
     domain-life-sciences/SKILL.md            ← Bio/med domain knowledge
     domain-physics-math/SKILL.md             ← Physics/math domain knowledge
 prompts/
-  gpt-validation.md                          ← GPT-5.4 validation prompt
+  validation-prompt-gpt.md                    ← GPT-5.4 validation prompt
   gemini-deep-think.md                       ← Gemini mathematical structure prompt
   orchestration-guide.md                     ← Cross-model validation step-by-step
   session-summary-format.md                  ← Session summary formatting per status type

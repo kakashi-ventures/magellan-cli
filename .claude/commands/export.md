@@ -33,7 +33,7 @@ MAGELLAN, the pipeline, scoring systems, or prior sessions. Structure:
 Do NOT use pipeline jargon (composite score, Quality Gate, groundedness %).
 Instead explain in plain language what these mean.
 
-Do NOT use the generic template from `prompts/gpt-validation.md` verbatim —
+Do NOT use the generic template from `prompts/validation-prompt-gpt.md` verbatim —
 adapt it to the specific hypothesis being exported.
 
 At the end, tell the user:

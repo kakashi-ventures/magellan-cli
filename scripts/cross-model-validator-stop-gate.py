@@ -33,6 +33,14 @@ try:
     if os.path.exists(validation_gemini):
         validations.append(f"Gemini ({os.path.getsize(validation_gemini)}B)")
 
+    # Detect wrong-named files (legacy naming: gpt-validation.md instead of validation-gpt.md)
+    wrong_gpt = os.path.join(results_dir, "gpt-validation.md")
+    wrong_gemini = os.path.join(results_dir, "gemini-validation.md")
+    if os.path.exists(wrong_gpt) and not os.path.exists(validation_gpt):
+        warnings.append("Found gpt-validation.md (wrong name) without validation-gpt.md")
+    if os.path.exists(wrong_gemini) and not os.path.exists(validation_gemini):
+        warnings.append("Found gemini-validation.md (wrong name) without validation-gemini.md")
+
     has_consensus = os.path.exists(consensus)
 
     # Check state was updated

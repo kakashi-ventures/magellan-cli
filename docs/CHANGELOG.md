@@ -207,7 +207,7 @@ Evidenza dalla sessione 2026-03-24: GPT ha trovato un errore aritmetico di quatt
 - Return JSON include tool usage stats (web_searches, code_executions, grounding_sources)
 
 ### Aggiornamenti prompt
-- `prompts/gpt-validation.md` — Istruzioni esplicite per usare web search e code execution
+- `prompts/validation-prompt-gpt.md` — Istruzioni esplicite per usare web search e code execution
 - `prompts/gemini-deep-think.md` — Istruzioni per verifica computazionale dei mapping e sezione COMPUTATIONAL CHECK nell'output format
 
 ### Costo stimato incrementale

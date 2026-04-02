@@ -44,7 +44,7 @@ If `{results_dir}/final.json` is empty or missing, write a note and exit.
 ### Step 2: Generate Export Prompts
 
 Read prompt templates:
-- `prompts/gpt-validation.md` — GPT validation structure
+- `prompts/validation-prompt-gpt.md` — GPT validation structure
 - `prompts/gemini-deep-think.md` — Gemini structural analysis format
 
 For each passing hypothesis, create a self-contained prompt that includes:

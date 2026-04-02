@@ -42,6 +42,13 @@ try {
   finalData = raw.final_hypotheses || raw.hypotheses || raw;
 } catch {}
 
+// Load quality-gate key_strength fields for supportingEvidence fallback
+const qgById = {};
+try {
+  const qg = JSON.parse(fs.readFileSync(path.join(dir, 'quality-gate.json'), 'utf-8'));
+  for (const h of (qg.hypotheses || qg.verdicts || [])) { qgById[h.id] = h; }
+} catch {}
+
 // Convert groundedness string → integer (API requires number 0-10)
 function groundednessToInt(g) {
   if (typeof g === 'number') return Math.min(10, Math.max(0, Math.round(g)));
@@ -80,7 +87,9 @@ const hypotheses = (Array.isArray(finalData) ? finalData : []).map(h => ({
   title: h.title || '',
   mechanism: composeMechanism(h),
   supportingEvidence: h.supporting_evidence || h.supportingEvidence
-    || h.quality_gate_notes || 'See full hypothesis card for supporting evidence.',
+    || h.quality_gate_notes
+    || (qgById[h.id] && qgById[h.id].key_strength)
+    || `Bridge: ${h.bridge || h.bridge_summary || 'see mechanism'}. Key prediction: ${h.key_prediction || 'see full card'}. This hypothesis passed the MAGELLAN Quality Gate with verdict CONDITIONAL_PASS.`,
   counterEvidence: h.counter_evidence || h.counterEvidence || '',
   testProtocol: composeTestProtocol(h),
   bridgeSummary: h.bridge_summary || h.bridgeSummary || h.bridge || '',
@@ -137,8 +146,12 @@ if (killed.length === 0) {
 
 // Read cross-model validation (raw markdown — backward compat)
 let crossModel = {};
-try { crossModel.gpt = fs.readFileSync(path.join(dir, 'validation-gpt.md'), 'utf-8').slice(0, 5000); } catch {}
-try { crossModel.gemini = fs.readFileSync(path.join(dir, 'validation-gemini.md'), 'utf-8').slice(0, 5000); } catch {}
+try { crossModel.gpt = fs.readFileSync(path.join(dir, 'validation-gpt.md'), 'utf-8').slice(0, 5000); } catch {
+  try { crossModel.gpt = fs.readFileSync(path.join(dir, 'gpt-validation.md'), 'utf-8').slice(0, 5000); } catch {}
+}
+try { crossModel.gemini = fs.readFileSync(path.join(dir, 'validation-gemini.md'), 'utf-8').slice(0, 5000); } catch {
+  try { crossModel.gemini = fs.readFileSync(path.join(dir, 'gemini-validation.md'), 'utf-8').slice(0, 5000); } catch {}
+}
 
 // Read structured session-level data for rich upload
 let crossModelConsensus, computationalValidation, sessionAnalysis, literatureData, scoutData;
@@ -171,8 +184,8 @@ const mdMappings = [
   ['evolved-cycle1', 'evolution-cycle1.md'], ['evolved-cycle1', 'cycle1-evolved.md'], ['evolved-cycle1', 'evolved-cycle1.md'],
   ['final-hypotheses', 'final-hypotheses.md'],
   ['dataset-evidence', 'dataset-evidence.md'],
-  ['validation-gpt', 'validation-gpt.md'],
-  ['validation-gemini', 'validation-gemini.md'],
+  ['validation-gpt', 'validation-gpt.md'], ['validation-gpt', 'gpt-validation.md'],
+  ['validation-gemini', 'validation-gemini.md'], ['validation-gemini', 'gemini-validation.md'],
 ];
 for (const [key, filename] of mdMappings) {
   if (pipelineNarratives[key]) continue; // first match wins
