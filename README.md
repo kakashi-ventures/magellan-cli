@@ -6,6 +6,9 @@ Can a multi-agent system autonomously find real scientific connections
 that humans haven't made yet? This project tests that question.
 
 No domain expertise required from the user. Type `/discover`, walk away.
+Built entirely on [Claude Code](https://claude.com/product/claude-code) —
+15 agents, 7 slash commands, deterministic hooks, and 2 MCP servers,
+all configured via `.claude/` and executed through Claude Code's Agent tool.
 Come back to find testable hypothesis cards, then validate cross-model.
 Optimized for cross-disciplinary life sciences discovery (retrieval tools,
 scoring weights, hypothesis format); other domains are supported but
@@ -13,6 +16,23 @@ scores reflect infrastructure asymmetry, not hypothesis quality.
 Impact-aware prioritization steers the pipeline toward high-impact
 directions via tiebreakers, decomposed scoring, and meta-learning — without
 sacrificing novelty or rigor.
+
+## Evidence Pack
+
+If you want the current proof state rather than the architecture first, start here:
+
+- [Public Fact Sheet](docs/evidence/public-fact-sheet.md) — canonical outward-facing numbers and messaging defaults
+- [Benchmark Pack v1](docs/evidence/benchmark-v1.md) — formal holdout status, grounding status, and public-dataset reproduction
+- [Verification Assets](verification/README.md) — reviewer packets and reproducible proof assets
+
+Current repo snapshot from `results/**/ingest.json`:
+
+- 20 session manifests
+- 247 generated hypotheses
+- 83 survivor hypotheses reaching the public path
+- 66.4% rejected before publication
+
+This is a capability project with mixed evidence, not a solved AI-scientist claim.
 
 ## Prerequisites
 
@@ -194,9 +214,14 @@ prompts/
 docs/
   methodology-v5.md                          ← Full methodology with evidence
   CHANGELOG.md                               ← Pipeline evolution history
+  evidence/
+    public-fact-sheet.md                     ← Canonical public numbers + messaging defaults
+    benchmark-v1.md                          ← Credibility pack: holdout, grounding, reproduction
+    media-brief.md                           ← Credibility-first launch framing
 scripts/                                     ← Hook scripts + orchestrator support scripts
   init-session.sh                            ← Session initialization (state + results dir)
   upload-session.mjs                         ← Website upload (ingest → API)
+  build-evidence-index.mjs                   ← Recompute public metrics from repo artifacts
 state/                                       ← Coordination state (machine-readable)
   session.json                               ← Slim coordination index (~3KB)
   dispatch-log.json                          ← Agent dispatch log with timestamps
@@ -233,6 +258,14 @@ results/                                     ← All session outputs (markdown +
 knowledge/                                   ← Persistent data across sessions
   discovery-log.json                         ← Explored pairs, productive bridges, kill reasons
   meta-insights.md                           ← Cumulative meta-learning insights
+validation/
+  holdout-discoveries.json                   ← Curated post-cutoff holdout targets
+  results/                                   ← Holdout and retrospective validation reports
+verification/
+  README.md                                  ← Index of reviewer packets and proof assets
+  gev-meltome/                               ← Public-dataset reproduction on Meltome Atlas
+  pyocyanin-gpx4/                            ← Fast wet-lab reviewer packet
+  omv-cargo-sorting/                         ← Tool-transfer reviewer packet
 ```
 
 ## Architecture

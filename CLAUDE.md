@@ -5,6 +5,22 @@ whether a multi-agent system with frontier models (March 2026) can find real
 connections between existing bodies of knowledge that humans haven't
 linked yet — with zero human input on what to explore.
 
+## Platform: Claude Code
+
+MAGELLAN is a Claude Code application. The entire pipeline — agents, commands,
+skills, hooks, MCP servers — runs within Claude Code's infrastructure.
+
+- **Dispatch model**: Only the `discovery-orchestrator` has Agent tool access.
+  It dispatches 14 sub-agents sequentially. Sub-agents communicate exclusively
+  via files in `results/{session-id}/`, never via shared memory or direct messaging.
+- **Quality enforcement**: SubagentStop hooks (`scripts/*-stop-gate.py`) validate
+  every agent's output before allowing completion. Hook schema: `exit 2` = block,
+  `exit 0` = approve. These are deterministic — not advisory like CLAUDE.md rules.
+- **Required env**: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` (set in `.claude/settings.json`).
+- **Config locations**: agents in `.claude/agents/`, commands in `.claude/commands/`,
+  skills in `.claude/skills/`, hooks + permissions in `.claude/settings.json`,
+  MCP servers in `.mcp.json`.
+
 ## How to Run
 
 ### Primary mode (fully autonomous — this is the point)
