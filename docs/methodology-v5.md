@@ -339,7 +339,7 @@ A 0% kill rate is a red flag. If the Critic passes every hypothesis, it must re-
 
 The system includes a full META-CRITIQUE: after all attacks, the Critic (1) calibrates its own kill rate, (2) for each SURVIVES writes the strongest reason it should have been killed, (3) verifies that it ran web search for every hypothesis. Additionally, when a mechanism is too vague, the Critic writes **critic_questions** in the state JSON, which the Orchestrator forwards to the Generator in cycle 2 — indirect bidirectional feedback.
 
-Attack vector #8 addresses a documented risk from Si et al. (2025, "The Ideation-Execution Gap", ICLR 2026): AI-generated novelty collapses after experimental testing (from 5.38 to 3.41 out of 10). Hypotheses can appear new only because they are wrong. The hallucination-as-novelty check complements Groundedness scoring (which measures overall evidential support) with a targeted check on the inverse relationship between novelty and correctness.
+Attack vector #8 addresses a documented risk from Si & Hashimoto (2025, "The Ideation-Execution Gap", arXiv:2506.20803): AI-generated ideas show sharp overall quality degradation after experimental testing (from 5.4 to 3.4 out of 10, vs. 4.6 to 4.0 for human ideas). Hypotheses can appear new only because they are wrong. The hallucination-as-novelty check complements Groundedness scoring (which measures overall evidential support) with a targeted check on the inverse relationship between novelty and correctness.
 
 ---
 
@@ -628,10 +628,10 @@ Agent prompts follow 2026 best practices for frontier models. Choices are empiri
 | **Google AI Co-Scientist** | 6 agents on Gemini 2.0, Elo tournament ranking | 3 experimentally validated discoveries (KIRA6/AML, hepatic fibrosis, cf-PICIs) | DOE partnership, 17 National Labs |
 | **SciAgents** (MIT) | Ontologist + Scientists + Critic on KG (33K+ nodes) | Cross-disciplinary via graph path sampling | Open source |
 | **Kosmos** (FutureHouse) | World model + specialized agents | 12h execution, 42K lines of code, 1500 papers | Open source |
-| **AI Scientist v2** (Sakana) | Ideation + Tree Search + Paper Gen | First AI paper accepted at ICLR 2025 peer review | Open source |
+| **AI Scientist v2** (Sakana) | Ideation + Tree Search + Paper Gen | AI paper accepted at ICLR 2025 workshop (withdrawn per pre-registered protocol); methodology published in Nature (March 2026) | Open source |
 | **POPPER** (Huang et al., Stanford/Harvard, ICML 2025; [arXiv:2502.09858](https://arxiv.org/abs/2502.09858)) | Falsification-based with Type-I error control | Comparable to human scientists at 10x speed | Open source |
 | **Virtual Lab** (Nature 2025) | PI agent + scientist agents | 92 nanobodies designed, 2 with improved binding | Published |
-| **Aletheia** (DeepMind) | Generator-Verifier-Reviser on Gemini Deep Think | 4 Erdős problems solved, but 68.5% errors on 700 open problems | Internal |
+| **Aletheia** (DeepMind) | Generator-Verifier-Reviser on Gemini Deep Think | 4 Erdős problems solved, but 68.5% errors on 200 evaluable responses (from 700 attempted) | Internal |
 
 ### How MAGELLAN differentiates itself
 
@@ -652,7 +652,7 @@ Agent prompts follow 2026 best practices for frontier models. Choices are empiri
 - **FrontierScience Benchmark** (OpenAI, Dec 2025): 52-point gap between structured tasks (77%) and open research (25%) — validates the need for multi-agent architectures on open-ended tasks
 - **MOOSE-Chem** (Yang et al., ICLR 2025; [arXiv:2410.07076](https://arxiv.org/abs/2410.07076)): LLMs encode "latent scientific knowledge associations not yet recognized by humans" — direct validation of MAGELLAN's UPK thesis
 - **TruthHypo** (Xiong et al., IJCAI 2025; [arXiv:2505.14599](https://arxiv.org/abs/2505.14599)): LLMs struggle with truthful hypothesis generation without grounding support — validates the parametric+retrieval paradigm
-- **Ideation-Execution Gap** (Si et al., ICLR 2026; [arXiv:2506.20803](https://arxiv.org/abs/2506.20803)): AI-generated novelty collapses after experimental testing (5.38→3.41); human novelty declines less (4.60→3.97). AI tends to embellish novelty claims that do not survive testing
+- **Ideation-Execution Gap** (Si & Hashimoto, 2025; [arXiv:2506.20803](https://arxiv.org/abs/2506.20803)): AI-generated ideas show sharp overall quality degradation after experimental testing (5.4→3.4); human ideas decline less (4.6→4.0). Note: the original Si et al. ICLR 2025 study found LLM ideas score *higher* on novelty during blind review (5.6 vs 4.8); it is the execution follow-up that reveals the gap
 
 ### Discoveries validated by similar AI systems
 
@@ -763,7 +763,7 @@ The license is determined automatically at session initialization and tracked in
 |---|---|---|
 | Scout gravitates toward popular topics (not genuinely underexplored) | High | Strategies 7 (Swanson ABC) and 8 (Contradiction Mining) force non-obvious exploration. Literature Scout verifies targets are not already published. Discovery-log prevents re-exploration |
 | Hallucination cascade (errors accumulate across agents) | Medium | Critic with mandatory web search. Groundedness scoring. Hallucination-as-novelty check. Cross-model validation with GPT-5.4 |
-| Illusory novelty (appears new because it is wrong) | Medium | Critic attack vector #8. Si et al. (2025): AI novelty drops from 5.38 to 3.41 after testing. Cross-model triangulation reduces the risk |
+| Illusory novelty (appears new because it is wrong) | Medium | Critic attack vector #8. Si & Hashimoto (2025): AI overall quality drops from 5.4 to 3.4 after testing. Cross-model triangulation reduces the risk |
 | Hypothesis convergence | Medium | Diversity check in the Ranker + diversity constraint in the Evolver — double layer |
 | Context drift on long runs | Medium-low | State in JSON, not in conversational context. Each agent re-reads state. PreCompact/PostCompact hooks for backup/restore |
 | "Trivial" hypotheses disguised as novel | Medium | Triviality Kill in the Critic. Web search novelty check. Cross-model validation |
