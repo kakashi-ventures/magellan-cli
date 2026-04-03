@@ -147,7 +147,7 @@ The pipeline proceeds through three phases: \emph{Exploration} (target identific
 
 \begin{table}[t]
 \centering
-\caption{Agent architecture. Model assignment follows a clear principle: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate, Holdout Evaluator, Orchestrator); Sonnet for structured, search-intensive tasks (all others). Effort levels are pinned per agent (Opus: max; Sonnet: high) to guarantee quality regardless of the user's session-level effort setting.}
+\caption{Agent architecture. ``Opus'' = Claude Opus~4.6 (\texttt{claude-opus-4-6}, max effort); ``Sonnet'' = Claude Sonnet~4.6 (\texttt{claude-sonnet-4-6}, high effort). Model assignment principle: Opus for deep cross-disciplinary reasoning; Sonnet for structured, search-intensive tasks. See Section~\ref{sec:implementation} for full version details.}
 \label{tab:agents}
 \small
 \begin{tabular}{@{}llp{7.5cm}@{}}
@@ -172,6 +172,17 @@ Orchestrator & Opus & Pure dispatcher: guard logic, adaptive cycles, session hea
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Implementation}
+\label{sec:implementation}
+
+MAGELLAN runs entirely within \textbf{Claude Code} (Anthropic's agentic CLI), which provides the agent dispatch infrastructure, tool access control, and hook-based quality enforcement. The 22 sessions reported in this paper were conducted using Claude Code versions 2.1.75 through 2.1.90 (January--April 2026).
+
+\paragraph{Model versions.} Throughout this paper, ``Opus'' refers to \textbf{Claude Opus~4.6} (\texttt{claude-opus-4-6}, 1M token context window, knowledge cutoff May 2025) and ``Sonnet'' refers to \textbf{Claude Sonnet~4.6} (\texttt{claude-sonnet-4-6}, 200K token context window). Opus agents are configured at \emph{maximum} effort (the highest reasoning investment); Sonnet agents at \emph{high} effort (the maximum for Sonnet). These effort levels are pinned per agent in the configuration, overriding any session-level setting, to ensure reproducible quality. Cross-model validation uses \textbf{GPT-5.4~Pro} (OpenAI Responses API, March 2026) and \textbf{Gemini~3.1~Pro} (Google GenAI SDK, March 2026) via their respective APIs.
+
+\paragraph{Reproducibility note.} LLM outputs are non-deterministic: re-running the same \texttt{/discover} session with identical parameters produces different hypotheses. The evaluation in this paper reports results from specific sessions, not averaged across replications. The system's reproducibility claim is at the \emph{architectural} level (the pipeline, agents, and prompts are fully open-source and can be re-executed), not at the \emph{output} level. Temperature and sampling parameters are controlled by Claude Code's effort settings and are not independently configurable by the user.
+
+\paragraph{Infrastructure.} Agent dispatch uses Claude Code's experimental agent teams feature (\texttt{CLAUDE\_CODE\_EXPERIMENTAL\_AGENT\_TEAMS=1}). Sub-agents communicate exclusively via files in \texttt{results/\{session-id\}/}, never via shared memory or direct messaging. Quality enforcement is implemented through SubagentStop hooks---deterministic Python scripts that validate every agent's output before allowing completion (exit code 2 = block, exit code 0 = approve). External data retrieval uses Model Context Protocol (MCP) servers for Semantic Scholar and PubMed, with web search as fallback. Approximate cost per session is \$2--5 in API usage, with session duration of 15--45 minutes depending on adaptive cycle decisions.
 
 \subsection{Overview: Pipeline Flow}
 \label{sec:pipeline-overview}
