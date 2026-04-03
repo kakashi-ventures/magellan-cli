@@ -173,10 +173,12 @@ Orchestrator & Opus & Pure dispatcher: guard logic, adaptive cycles, session hea
 \end{tabular}
 \end{table}
 
-\subsection{Implementation}
+\subsection{Implementation: Claude Code as Foundation}
 \label{sec:implementation}
 
-MAGELLAN runs entirely within \textbf{Claude Code} (Anthropic's agentic CLI), which provides the agent dispatch infrastructure, tool access control, and hook-based quality enforcement. The 22 sessions reported in this paper were conducted using Claude Code versions 2.1.75 through 2.1.90 (January--April 2026).
+MAGELLAN is not a standalone application---it is built entirely on \textbf{Claude Code} (Anthropic's agentic coding CLI), which serves as both the execution platform and the architectural foundation. Claude Code provides the capabilities that make a 15-agent adversarial pipeline possible without custom infrastructure: agent dispatch and lifecycle management (spawning sub-agents with per-agent model and effort configuration), tool access control (restricting which tools each agent can use---e.g., removing web search from the Orchestrator), hook-based quality enforcement (SubagentStop hooks that deterministically validate outputs before completion), Model Context Protocol (MCP) integration for structured data retrieval, persistent file-based state management, and slash commands for user interaction (\texttt{/discover}, \texttt{/validate}, \texttt{/status}).
+
+The choice of Claude Code was motivated by two factors: (1)~it is the only agentic platform (as of March 2026) that supports hierarchical multi-agent dispatch with per-agent model selection, tool restriction, and deterministic output validation hooks, and (2)~it enables the entire system---agents, prompts, hooks, and configuration---to be version-controlled and open-sourced as a single repository. The 22 sessions reported in this paper were conducted using Claude Code versions 2.1.75 through 2.1.90 (January--April 2026). Future work includes evaluating a port to OpenAI Codex CLI to test whether the architectural principles (adversarial multi-agent dispatch, parametric generation with retrieval validation) transfer across LLM platforms.
 
 \paragraph{Model versions.} Throughout this paper, ``Opus'' refers to \textbf{Claude Opus~4.6} (\texttt{claude-opus-4-6}, 1M token context window, knowledge cutoff May 2025) and ``Sonnet'' refers to \textbf{Claude Sonnet~4.6} (\texttt{claude-sonnet-4-6}, 200K token context window). Opus agents are configured at \emph{maximum} effort (the highest reasoning investment); Sonnet agents at \emph{high} effort (the maximum for Sonnet). These effort levels are pinned per agent in the configuration, overriding any session-level setting, to ensure reproducible quality. Cross-model validation uses \textbf{GPT-5.4~Pro} (OpenAI Responses API, March 2026) and \textbf{Gemini~3.1~Pro} (Google GenAI SDK, March 2026) via their respective APIs.
 
