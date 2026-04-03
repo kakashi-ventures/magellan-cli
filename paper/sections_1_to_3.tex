@@ -1,0 +1,382 @@
+%----------------------------------------------------------------------
+\section{Introduction}
+\label{sec:introduction}
+%----------------------------------------------------------------------
+
+In 1986, Don Swanson articulated a problem that remains central to scientific progress: the literature contains logical connections that no researcher has made---not because the evidence is missing, but because it resides in \emph{disjoint literatures} that never cite each other~\citep{swanson1986}. Swanson's canonical example linked dietary fish oil to Raynaud's disease through eleven intermediate concepts scattered across the hematology and nutrition literatures. Both fields were individually well-studied; neither community cited the other. He termed this phenomenon \emph{Undiscovered Public Knowledge} (UPK) and formalized it as the ABC model: Field~A and Field~C share an intermediate concept~B (the \emph{bridge term}) that appears in both, but A and C lack mutual citation. Discovery consists of identifying B and constructing the inference $\mathrm{A} \to \mathrm{B} \to \mathrm{C}$.
+
+Four decades later, the problem has intensified by orders of magnitude. PubMed indexes over 36 million articles, with approximately 1.5 million added per year. The average biomedical researcher reads roughly 250 papers annually~\citep{tenopir2009}. A tumor immunologist is unlikely to encounter percolation theory from statistical physics; a plant biologist measuring statolith sedimentation is unlikely to recognize that the Cram\'{e}r-Rao bound from estimation theory applies to their system. The connections exist in the published record but remain undiscovered---victims of disciplinary silos that grow deeper as the literature grows larger. Swanson's insight was prescient: the rate of knowledge production has outpaced the rate of knowledge integration, and the gap is widening.
+
+Swanson's original method for finding UPK was \emph{bibliometric}: co-occurrence analysis of MeSH terms, citation graph traversal, and frequency matrices. Systems like Arrowsmith~\citep{smalheiser2009}, BITOLA~\citep{hristovski2006}, and subsequent Literature-Based Discovery (LBD) tools refined this approach over three decades. These methods remain valuable for structured, high-throughput identification of candidate bridge terms. However, they are fundamentally limited to connections that leave statistical traces in the citation graph---they cannot discover structural isomorphisms, mathematical analogies, or physical-law constraints that cross disciplinary boundaries without shared terminology.
+
+\subsection{Large Language Models as Universal Readers}
+
+Large language models (LLMs) offer a qualitatively different approach. Models trained on broad scientific corpora have, in a meaningful sense, ``read'' the literatures of multiple fields simultaneously. Frontier models (March 2026) score 91--94\% on GPQA Diamond---PhD-level questions spanning biology, physics, and chemistry~\citep{rein2023}---a 55-point improvement over GPT-4's 39\% in 2023. This represents not merely improved question-answering but a demonstrated capacity for deep cross-disciplinary reasoning. The UPK problem exists because no individual researcher can read both literatures; an LLM has absorbed both.
+
+This observation suggests a paradigm shift: the problem is no longer \emph{detecting citation disjunction} (bibliometric methods) but \emph{eliciting latent connections} from a model that already contains the knowledge of both fields. The evidence supports this reframing: none of the AI-driven scientific breakthroughs of 2025--2026---including GPT-5's collaboration with Ginkgo Bioworks on cell-free protein synthesis~\citep{ginkgo2026}, Google AI Co-Scientist's experimentally validated discoveries~\citep{gottweis2025}, and DeepMind Aletheia's solutions to open Erd\H{o}s problems~\citep{deepmind2025aletheia}---used bibliometric analysis. All employed parametric knowledge combined with multi-agent architecture and debate or evolution.
+
+\subsection{The Hallucination Problem}
+
+However, LLMs also hallucinate, confabulate citations, and produce fluent nonsense~\citep{ji2023}. On open factual recall (AA-Omniscience benchmark), the best frontier model reaches only 55\% accuracy. Hallucination rates range from 22\% to 48\% depending on model and benchmark. On the FrontierScience-Research benchmark (open research tasks), GPT-5.2 achieves only 25.3\%---a 52-point gap below its 77\% on structured tasks~\citep{openai2025frontier}. These numbers make clear that the challenge in AI-driven scientific discovery is not \emph{generation} but \emph{filtration}: separating genuine cross-disciplinary insights from plausible-sounding artifacts.
+
+This problem is compounded by a subtler failure mode. Si et al.~\citep{si2025} found that LLM-generated research ideas score \emph{higher} on novelty than human ideas during blind expert review (5.6 vs.\ 4.8 on a 10-point scale). However, a follow-up study executing these ideas experimentally~\citep{si2025execution} revealed that overall quality drops sharply after testing: LLM ideas fell from 5.4 to 3.4, while human ideas declined less (4.6 to 4.0). The implication is that LLM-generated ``novelty'' may partly be an artifact of incorrect parametric knowledge---ideas that \emph{appear} new because they are \emph{wrong} in non-obvious ways. Any system that claims to generate scientific hypotheses must confront this head-on.
+
+\subsection{The MAGELLAN Approach}
+
+MAGELLAN (\textbf{M}ulti-\textbf{A}gent \textbf{G}enerative \textbf{E}xploration of \textbf{L}atent \textbf{L}inks \textbf{A}cross k\textbf{N}owledge) addresses these challenges through three design principles:
+
+\paragraph{Parametric generation + retrieval validation.} The LLM's parametric knowledge is the \emph{generative engine}---the source of non-obvious cross-disciplinary connections. But every factual claim is verified through external retrieval (PubMed, Semantic Scholar, KEGG, STRING, and web search). Neither parametric-only (hallucination risk) nor retrieval-only (misses novel connections) suffices; the combination is essential. MOOSE-Chem~\citep{yang2024moosechem} provides independent evidence for this paradigm, demonstrating that LLMs encode ``latent scientific knowledge associations not yet recognized by humans.'' TruthHypo~\citep{xiong2025} provides the complementary evidence: LLMs struggle with truthful hypothesis generation without grounding support.
+
+\paragraph{Adversarial multi-agent architecture.} Rather than trusting a single model's output, MAGELLAN sets 15 specialized agents against each other. A Generator proposes hypotheses; a Critic attacks them with 9 adversarial vectors including claim-level fact verification; a Quality Gate applies a 10-point rubric and rejects approximately 60\% of candidates; independent external models (GPT-5.4~Pro, Gemini~3.1~Pro) attempt to break what survives. The design principle is that \emph{being wrong less often} matters more than being creative more often.
+
+\paragraph{Autonomous target selection.} Unlike most comparable systems, which require a scientist-in-the-loop to frame the research question, MAGELLAN's Scout agent autonomously decides \emph{where} to look---which pairs of fields to connect, through which bridge mechanisms. This is a more ambitious capability claim than hypothesis generation alone: the system must identify not just answers but questions.
+
+\subsection{Contributions}
+
+Our contributions are:
+\begin{enumerate}
+    \item An open-source, 15-agent system for fully autonomous cross-disciplinary hypothesis generation, combining parametric generation with adversarial retrieval validation and cross-model verification. The system is released under Apache~2.0; all discovery outputs from autonomous mode are released as CC0 (public domain).
+
+    \item Quantitative evaluation over 22 sessions (273 hypotheses generated, 102 surviving the full adversarial pipeline at a 37\% survival rate), with detailed analysis of strategy performance, bridge type survival rates, and the effect of citation disjointness on hypothesis quality.
+
+    \item Two computational verifications on public data demonstrating that the system generates specific, testable, falsifiable hypotheses: (a)~applying extreme value theory to the Meltome Atlas (48,000 proteins, 13 species)---the first such application, revealing universal Weibull-domain behavior but failing to confirm the predicted correlation with growth temperature due to measurement censoring; and (b)~deriving the Cram\'{e}r-Rao bound for plant gravitropic sensing from published statolith parameters---confirmed, showing plants operate 1--6$\times$ above the fundamental physical limit, the first application of statistical estimation theory to plant gravitropism.
+
+    \item A meta-learning framework that accumulates strategy performance data, bridge type survival rates, and kill pattern analysis across sessions, enabling the system to improve its target selection over time.
+\end{enumerate}
+
+
+%----------------------------------------------------------------------
+\section{Related Work}
+\label{sec:related-work}
+%----------------------------------------------------------------------
+
+Scientific hypothesis generation by AI systems has a history extending from Swanson's bibliometric methods through knowledge-graph-based approaches to the current generation of LLM-powered multi-agent systems. We organize the landscape by approach, summarize each system's capabilities and limitations, and position MAGELLAN relative to the state of the art.
+
+\subsection{Bibliometric and Literature-Based Discovery}
+
+Swanson's foundational work~\citep{swanson1986,swanson1988} demonstrated that co-occurrence analysis of MeSH terms and citation graphs could identify previously unlinked literatures. His fish oil--Ray\-naud's disease and magnesium--migraine predictions were subsequently confirmed by clinical trials, establishing that Undiscovered Public Knowledge is a real and actionable phenomenon.
+
+Subsequent systems---Arrowsmith~\citep{smalheiser2009}, BITOLA~\citep{hristovski2006}, and more recent automated LBD tools---refined the bibliometric approach with improved statistical methods and larger corpora. These systems remain valuable for high-throughput screening of candidate bridge terms within structured bibliographic databases. However, they are inherently limited to connections that leave statistical traces in the citation graph: shared MeSH terms, co-cited references, or overlapping author networks. Structural isomorphisms (e.g., percolation theory connecting epidemiology and fracture mechanics), mathematical analogies (e.g., the Cram\'{e}r-Rao bound applying to both neural sensory coding and plant gravitropism), and physical-law constraints (e.g., the thermodynamic uncertainty relation bounding bacterial cell-size control) cross disciplinary boundaries without shared terminology and are invisible to bibliometric methods.
+
+\subsection{Knowledge-Graph-Based Approaches}
+
+SciAgents~\citep{ghafarollahi2024} represents the most developed KG-based approach, employing an Ontologist, multiple Scientist agents, and a Critic operating over a persistent knowledge graph of 33,000+ nodes. The system discovers cross-disciplinary connections by sampling paths through the graph, grounding hypotheses in explicit ontological relationships. The persistent KG provides structural advantages: multi-hop reasoning across accumulated knowledge and explicit relationship typing. However, the approach requires substantial upfront investment in graph construction and maintenance, and the quality of discoveries is bounded by the coverage and currency of the graph.
+
+\subsection{LLM-Powered Multi-Agent Systems}
+
+The 2025--2026 period has seen a proliferation of multi-agent systems for scientific discovery, each making different architectural choices along the axes of autonomy, validation rigor, and openness.
+
+\paragraph{Google AI Co-Scientist.} Gottweis et al.~\citep{gottweis2025} demonstrated multi-agent scientific reasoning with six agents on Gemini~2.0 using Elo-based tournament ranking. The system produced three experimentally validated discoveries: KIRA6 for acute myeloid leukemia, vorinostat for hepatic fibrosis (published in \emph{Advanced Science}), and cf-PICIs for bacterial gene transfer (published in \emph{Cell}, confirming a decade of human research). A partnership with the U.S. Department of Energy extended the system to 17 National Laboratories. Critically, AI Co-Scientist requires a scientist-in-the-loop to frame the research question---the system generates hypotheses \emph{within} a human-defined problem space but does not autonomously identify which problems to investigate.
+
+\paragraph{FutureHouse / Kosmos.} FutureHouse raised \$70M and developed Kosmos~\citep{mitchener2025}, a system achieving 79.4\% overall accuracy on structured agentic tasks with 12-hour execution runs generating up to 42,000 lines of code and processing 1,500 papers. However, accuracy on novel synthesis and interpretation tasks drops to 57.9\%, and the developers note that the system ``often goes down rabbit holes.'' Kosmos is partially open-source. Like AI Co-Scientist, it receives human-defined research objectives rather than autonomously selecting targets.
+
+\paragraph{Sakana AI Scientist v2.} Lu et al.~\citep{lu2024} demonstrated end-to-end paper generation including ideation, experimentation, and writing, producing an AI-authored paper accepted at an ICLR 2025 workshop (subsequently withdrawn per a pre-registered protocol). The broader methodology was later published in \emph{Nature} (March 2026). The system focuses on machine learning research---generating and executing experiments within ML---rather than cross-disciplinary hypothesis generation in the natural sciences. Its primary contribution is demonstrating that AI systems can produce publishable research artifacts, albeit within a narrow domain.
+
+\paragraph{POPPER.} Huang et al.~\citep{huang2025popper} implemented falsification-based hypothesis refinement with Type-I error control comparable to human scientists at 10$\times$ speed. POPPER's emphasis on falsification aligns with MAGELLAN's adversarial pipeline, but POPPER operates within a given hypothesis space rather than autonomously identifying cross-disciplinary targets. The system provides strong evidence that LLM-based agents can maintain statistical rigor in hypothesis evaluation.
+
+\paragraph{Virtual Lab.} The Virtual Lab system~\citep{swanson2024virtuallab} employs a principal investigator agent coordinating multiple scientist agents to design nanobodies, producing 92 candidates of which 2 showed improved binding affinity in wet-lab validation. This represents one of the few systems with experimental validation of AI-generated molecular designs. However, Virtual Lab operates within protein engineering rather than cross-disciplinary hypothesis generation, and the PI agent receives the research objective from a human user.
+
+\paragraph{MOOSE-Chem.} Yang et al.~\citep{yang2024moosechem} demonstrated that LLMs encode ``latent scientific knowledge associations not yet recognized by humans,'' providing direct empirical support for the UPK thesis applied to language models. MOOSE-Chem focuses on chemistry and uses inspiration papers to guide hypothesis generation, requiring human curation of seed literature.
+
+\paragraph{TruthHypo.} Xiong et al.~\citep{xiong2025} showed that LLMs struggle with truthful hypothesis generation without grounding support, finding significant rates of factually incorrect claims in ungrounded hypotheses. This work validates the parametric-generation + retrieval-validation paradigm: parametric knowledge is necessary for creative cross-disciplinary connections, but retrieval is necessary for factual accuracy.
+
+\paragraph{Aletheia.} DeepMind's Aletheia system~\citep{deepmind2025aletheia} employs a Generator-Verifier-Reviser architecture on Gemini Deep Think, solving 4 open Erd\H{o}s problems and 6 of 10 FirstProof challenge problems autonomously. However, of 200 evaluable solution candidates (filtered from 700 open problems attempted), the system produces errors in 68.5\% of cases, underscoring the difficulty of reliable autonomous reasoning even for frontier models. Aletheia is not open-source and focuses on pure mathematics rather than cross-disciplinary natural science.
+
+\subsection{Comparison}
+
+Table~\ref{tab:comparison} summarizes the landscape along six axes that we consider critical for evaluating scientific discovery systems: target autonomy (does the system choose what to investigate?), validation methodology, openness, whether results have been published, the primary knowledge source, and the domain of operation.
+
+\begin{table*}[t]
+\centering
+\caption{Comparison of AI scientific discovery systems (as of March 2026). ``Target Autonomy'' indicates whether the system autonomously selects research targets or requires human-defined objectives. ``Validation'' describes the primary method for filtering or verifying hypotheses. ``Open'' indicates source code availability. ``Published Results'' indicates whether generated hypotheses or discoveries have been made publicly available with sufficient detail for independent evaluation.}
+\label{tab:comparison}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lccccl@{}}
+\toprule
+\textbf{System} & \textbf{Target Autonomy} & \textbf{Validation} & \textbf{Open} & \textbf{Published Results} & \textbf{Domain} \\
+\midrule
+Swanson / Arrowsmith & Manual & Bibliometric & Yes & Yes & Biomedicine \\
+SciAgents & Manual & KG paths + Critic & Yes & Partial & Cross-domain \\
+Google AI Co-Scientist & Human-in-loop & Elo tournament & No & 3 validated & Biomedicine \\
+FutureHouse / Kosmos & Human-defined & Multi-agent & Partial & Partial & Biomedicine \\
+Sakana AI Scientist v2 & Semi-auto (ML) & Peer review sim. & Yes & Yes (ML) & Machine Learning \\
+POPPER & Human-defined & Falsification & Yes & Yes & General \\
+Virtual Lab & Human-defined & Wet-lab testing & Partial & Yes (nanobodies) & Protein eng. \\
+MOOSE-Chem & Human-curated & Inspiration papers & Yes & Yes & Chemistry \\
+TruthHypo & Human-defined & Grounding check & Yes & Yes & General \\
+Aletheia & Semi-auto (math) & Verifier-Reviser & No & Partial (4 proofs) & Mathematics \\
+\midrule
+\textbf{MAGELLAN} & \textbf{Fully autonomous} & \textbf{Adversarial + cross-model} & \textbf{Yes} & \textbf{Yes (273 hyps.)} & \textbf{Life sciences} \\
+\bottomrule
+\end{tabular}
+}% end resizebox
+\end{table*}
+
+Several observations emerge from this comparison. First, MAGELLAN is among the very few systems that autonomously selects research targets. Demis Hassabis has stated that systems capable of ``not only solving an important problem in science but coming up with it in the first place'' are 5--10 years away (Lex Fridman Podcast \#475, July 2025). MAGELLAN's Scout represents an early attempt at this capability, with the caveat that selecting \emph{promising} cross-disciplinary targets is easier than selecting \emph{important} ones---a distinction we do not claim to have resolved.
+
+Second, MAGELLAN's adversarial validation pipeline (9 Critic attack vectors, 10-point Quality Gate rubric, cross-model validation by GPT-5.4~Pro and Gemini~3.1~Pro) is among the most elaborate, though Google AI Co-Scientist's Elo tournament and POPPER's falsification framework are comparably rigorous within their respective scopes.
+
+Third, most systems are either proprietary (Google AI Co-Scientist, Aletheia) or publish results selectively. MAGELLAN publishes all hypotheses, methodology, and code under Apache~2.0~/ CC0, enabling independent evaluation and reproduction.
+
+\paragraph{Known gaps relative to the state of the art.} MAGELLAN lacks a persistent knowledge graph (cf.\ SciAgents' 33,000+ node KG), does not run in silico scientific simulations (cf.\ Virtual Lab's molecular dynamics), uses Elo tournament ranking only as a diagnostic sanity check rather than as the primary ranking method (cf.\ AI Co-Scientist), and has no experimentally validated discoveries (cf.\ AI Co-Scientist's three lab-confirmed results, Virtual Lab's two validated nanobodies). We consider the absence of experimental validation the most significant limitation and discuss it further in Section~\ref{sec:discussion}.
+
+
+%----------------------------------------------------------------------
+\section{System Architecture}
+\label{sec:architecture}
+%----------------------------------------------------------------------
+
+MAGELLAN comprises 15 specialized agents coordinated by an Orchestrator that functions as a pure dispatcher (Table~\ref{tab:agents}). The Orchestrator has no web search capability and cannot execute pipeline phases inline---it must delegate every phase to the appropriate sub-agent. This architectural constraint, enforced by removing web search tools from the Orchestrator's tool set, prevents the coordinator from taking shortcuts that would bypass the adversarial validation pipeline. A dispatch log (\texttt{state/dispatch-log.json}) records every agent invocation with timestamps for post-session audit.
+
+The pipeline proceeds through three phases: \emph{Exploration} (target identification and validation), \emph{Generation \& Critique} (hypothesis creation, adversarial evaluation, ranking, and evolution over 1--3 adaptive cycles), and \emph{Final Validation \& Meta-Learning} (quality gate, cross-model validation, empirical evidence mining, and session analysis). We describe each phase and its constituent agents in the subsections below.
+
+\begin{table}[t]
+\centering
+\caption{Agent architecture. Model assignment follows a clear principle: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate, Holdout Evaluator, Orchestrator); Sonnet for structured, search-intensive tasks (all others). Effort levels are pinned per agent (Opus: max; Sonnet: high) to guarantee quality regardless of the user's session-level effort setting.}
+\label{tab:agents}
+\small
+\begin{tabular}{@{}llp{7.5cm}@{}}
+\toprule
+\textbf{Agent} & \textbf{Model} & \textbf{Role} \\
+\midrule
+Scout & Opus & Target selection via 10 strategies; bridge concepts; strategy diversification; exploration slot; rotating creativity constraint; TARGET QUALITY CHECK reflection \\
+Target Evaluator & Opus & Adversarial challenge on 4 axes: popularity bias, vagueness, structural impossibility, local optima \\
+Literature Scout & Sonnet & MCP-first retrieval (Semantic Scholar, PubMed); full-text papers; disjointness verification; RETRIEVAL QUALITY CHECK reflection \\
+Comp.\ Validator & Sonnet & Programmatic bridge verification: KEGG pathways, STRING interactions, PubMed co-occurrence, back-of-envelope physics \\
+Generator & Opus & Hypotheses from parametric knowledge + literature context + computational validation; Structured Relationship Map; bisociation; SELF-CRITIQUE \\
+Critic & Opus & 9 adversarial attack vectors including claim-level fact verification; META-CRITIQUE reflection; writes \texttt{critic\_questions} for cycle~2 \\
+Ranker & Sonnet & 6-dimension weighted scoring; per-hypothesis table; diversity check; Elo tournament sanity check; cross-domain creativity bonus \\
+Evolver & Sonnet & Genetic operations with diversity constraint; EVOLUTION QUALITY CHECK reflection; conditionally skippable \\
+Quality Gate & Opus & 10-point rubric; web novelty check; per-claim grounding verification; META-VALIDATION reflection \\
+Session Analyst & Sonnet & Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis $\to$ persistent knowledge base \\
+Cross-Model Val.\ & Sonnet & Dispatches to GPT-5.4 Pro + Gemini 3.1 Pro APIs for independent validation; generates consensus report \\
+Convergence Scan.\ & Sonnet & Searches ClinicalTrials.gov, NIH Reporter, patents for independent convergence signals \\
+Dataset Evidence & Sonnet & Queries HPA, GWAS Catalog, ChEMBL, UniProt, PDB to verify specific molecular claims \\
+Holdout Eval.\ & Opus & Compares output against known post-cutoff discoveries; contamination check + mechanism similarity scoring \\
+Orchestrator & Opus & Pure dispatcher: guard logic, adaptive cycles, session health, meta-learning (no WebSearch/WebFetch) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Overview: Pipeline Flow}
+\label{sec:pipeline-overview}
+
+The pipeline proceeds as follows. In \textbf{Phase~1 (Exploration)}, the Scout generates 5--6 candidate cross-field targets using 10 strategies (Section~\ref{sec:scout}). The Literature Scout verifies disjointness for all candidates and retrieves domain-specific literature. The Orchestrator narrows to 3 candidates, prioritizing citation-disjoint targets. The Target Evaluator adversarially challenges the 3 targets. The Orchestrator selects 1 target (subject to the disjointness hard constraint) and dispatches the Computational Validator for programmatic bridge verification.
+
+In \textbf{Phase~2 (Generation \& Critique)}, the Generator produces 6--8 hypotheses per cycle using parametric knowledge, literature context, and computational validation signals (Section~\ref{sec:generation}). The Critic attacks each hypothesis with 9 adversarial vectors (Section~\ref{sec:adversarial}). The Ranker scores survivors across 6 dimensions (Section~\ref{sec:scoring}). The Evolver applies genetic operations with a diversity constraint. This cycle repeats 1--3 times depending on adaptive quality thresholds (Section~\ref{sec:adaptive}).
+
+In \textbf{Phase~3 (Final Validation)}, the Quality Gate applies a 10-point rubric with per-claim grounding verification. Surviving hypotheses are independently validated by GPT-5.4~Pro and Gemini~3.1~Pro. The Convergence Scanner and Dataset Evidence Miner search sources never consulted by the main pipeline (ClinicalTrials.gov, NIH Reporter, patents, HPA, GWAS Catalog, ChEMBL, UniProt, PDB) for independent evidence. The Session Analyst extracts meta-learning signals for future sessions.
+
+\subsection{Autonomous Target Selection (Scout)}
+\label{sec:scout}
+
+The Scout is the agent that distinguishes MAGELLAN from systems requiring human-defined research objectives. Operating on Opus at maximum effort, it identifies promising cross-field bridges through 10 strategies:
+
+\begin{enumerate}
+    \item \textbf{Recent Breakthrough Radiation} --- Identifies implications of recent discoveries for non-obvious fields. In our evaluation, this strategy produced the lowest Quality Gate pass rate (13\%, 1 session), suggesting that trending topics yield less novel connections.
+
+    \item \textbf{Anomaly Hunting} --- Searches for reproducible but unexplained phenomena as hypothesis sources. First primary test (Session~018: Mpemba spectral relaxation $\times$ amyloid aggregation) produced 75\% QG pass+conditional rate with mean composite 6.97.
+
+    \item \textbf{Converging Vocabularies} --- Identifies fields that independently developed the same mathematical vocabulary or framework without mutual awareness. Highest pass rate in evaluation: 87.5\% (Session~014: stochastic thermodynamics $\times$ bacterial cell-size control) and 75\% (Session~017: extreme value theory $\times$ thermal proteomics).
+
+    \item \textbf{Tool Transfer Opportunities} --- Identifies mature analytical or experimental tools in Field~A that address unmet measurement needs in Field~C. Combined pass rate across 2 sessions: ${\sim}67\%$; Session~013 achieved 100\% pass+conditional with mean composite 8.31---the highest of any session.
+
+    \item \textbf{Scale Bridging Gaps} --- Identifies phenomena understood at one scale but absent at adjacent scales. One primary session (Session~005), 29\% QG pass rate.
+
+    \item \textbf{Failed Paradigm Recycling} --- Identifies ideas abandoned in one field that might succeed in a different context.
+
+    \item \textbf{Swanson ABC Bridging} --- Systematic identification of disjoint literatures with shared intermediate concepts, directly implementing Swanson's original method. First primary test was confounded by a partially explored target; requires re-testing with verified disjoint targets.
+
+    \item \textbf{Contradiction Mining} --- Active search for contradictions in the literature as hypothesis sources, inspired by FutureHouse's ContraCrow. When two papers in different fields make mutually exclusive claims, resolving the contradiction often reveals a non-trivial connection. Session~012 achieved 35.7\% conditional pass rate.
+
+    \item \textbf{Structural Isomorphism Discovery} --- Seeks fields sharing the same formal mathematical structure (equations, network topology, phase transition dynamics) with completely different physical substrates. The bridge concept is the mathematical object itself. Two primary sessions (Sessions~011 and~019) achieved 62.5\% combined pass+conditional rate.
+
+    \item \textbf{Serendipity Through Random Encounter} --- Picks a domain never explored in previous sessions, finds the most surprising recent discovery, and asks which distant field would be most transformed by knowing about it. The connection must cross at least 2 disciplinary boundaries. Mimics the serendipity of browsing a physical library.
+\end{enumerate}
+
+\paragraph{Mandatory bridge concepts.} Bridge concepts are required for every target, not only for the Swanson strategy. Even for Anomaly Hunting or Scale Bridging, the Scout must articulate a specific connection mechanism---molecules, pathways, mathematical structures, or physical principles. This forces structured reasoning and gives the Generator a richer starting point than a bare pair of fields.
+
+\paragraph{Strategy diversification and exploration slot.} Of the 3 selected targets, at least 2 must use different strategies, and at least 1 must use a strategy not employed in the last 2 sessions (verified against the persistent discovery log). This prevents strategic path-lock. Additionally, at least 1 target must use a strategy with fewer than 2 sessions of primary data (the \emph{exploration slot}), preventing the system from always converging on the strategy with the best historical pass rate at the expense of more creative but less tested strategies.
+
+\paragraph{Rotating creativity constraint.} The Orchestrator assigns the Scout a different creativity constraint each session on a modular rotation of 5: cross-discipline bridge, mathematical/formal bridge, temporal gap exceeding 50 years, tool transfer, and unsolved problem. This forces exploration of territory the Scout would otherwise avoid.
+
+\paragraph{TARGET QUALITY CHECK reflection.} Before producing final output, the Scout performs a self-review: verifying bridge specificity, strategic diversity across the 3 targets, and non-obviousness. This reflection is one of six such loops in the system (Table~\ref{tab:reflections}).
+
+\begin{table}[t]
+\centering
+\caption{Reflection loops across the pipeline. Each agent performs a structured self-review before producing final output. External evaluation (SubagentStop hooks, Ranker minimum-size gates) prevents reflection from degenerating into self-congratulation.}
+\label{tab:reflections}
+\small
+\begin{tabular}{@{}llp{6cm}@{}}
+\toprule
+\textbf{Agent} & \textbf{Reflection Name} & \textbf{What It Verifies} \\
+\midrule
+Generator & SELF-CRITIQUE & Mechanism specificity, bridge duplication, parametric error sources, claim-level grounding \\
+Critic & META-CRITIQUE & Kill rate calibration, strongest reason to kill each survivor, web search completeness \\
+Scout & TARGET QUALITY CHECK & Bridge specificity, strategic diversity, non-obviousness \\
+Quality Gate & META-VALIDATION & Confidence in PASS verdicts, web search completeness, impact of unverifiable claims \\
+Literature Scout & RETRIEVAL QUALITY CHECK & MCP completeness, paper count per field, gap analysis specificity \\
+Evolver & EVOLUTION QUALITY CHECK & Genuine improvement over parent, bridge duplication, crossover coherence \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Hypothesis Generation}
+\label{sec:generation}
+
+The Generator operates on Opus at maximum effort, producing 6--8 hypotheses per cycle from three information sources: (1)~parametric knowledge of both fields, (2)~literature context from the Literature Scout (including full-text papers for the top 5--10 papers per field), and (3)~computational validation signals from the Computational Validator (KEGG pathway cross-checks, STRING interaction scores, PubMed co-occurrence, and back-of-envelope physics calculations).
+
+\paragraph{The parametric-generation paradigm.} The most creative connections in MAGELLAN's output come from parametric reasoning---structural isomorphisms, bisociations, and multi-level abstractions that the model identifies from its training data. Web search validates these connections; it does not create them. This is a deliberate architectural choice: the Scout's 10 strategies are \emph{elicitation mechanisms} for parametric knowledge, not search tools. The distinction matters because the most valuable UPK connections---the ones that Swanson originally identified---are precisely those that cannot be found by searching either literature in isolation.
+
+\paragraph{Structured Relationship Map.} Before generating hypotheses, the Generator builds an on-the-fly parametric knowledge graph for each field: listing 5--10 key relationships (X activates Y, W inhibits X, Y is analogous to V), searching for shared nodes between the two fields, identifying analogous relationships ($\mathrm{A} \to \mathrm{B}$ in Field~A mirrors $\mathrm{P} \to \mathrm{Q}$ in Field~C), and finding inverse relationships and missing links. This leverages the knowledge graph concept without external KG infrastructure: the LLM is the knowledge graph reasoner.
+
+\paragraph{SELF-CRITIQUE loop.} After generating hypotheses, the Generator performs a self-review: verifying mechanism specificity, checking for bridge duplication across hypotheses, identifying potential parametric error sources, and verifying each claim tagged as grounded. Claims are tagged as \textsc{[Grounded]} (literature-supported), \textsc{[Parametric]} (from model knowledge, requires verification), or \textsc{[Speculative]} (flagged as uncertain). The SELF-CRITIQUE verifies that \textsc{[Grounded]} tags are justified---this is the first of three claim-level verification steps (Generator, Critic, Quality Gate).
+
+\paragraph{Bidirectional feedback.} The Critic can write specific questions in the state JSON when a mechanism is too vague to attack properly. The Orchestrator forwards these \texttt{critic\_questions} to the Generator in cycle~2, enabling indirect bidirectional feedback that preserves the centralized dispatch pattern.
+
+\subsection{Adversarial Validation Pipeline}
+\label{sec:adversarial}
+
+The adversarial pipeline comprises the Critic, Quality Gate, and Cross-Model Validator. Together, these agents eliminate approximately 63\% of generated hypotheses (the overall survival rate across 22 sessions is 37\%).
+
+\subsubsection{The Critic: 9 Attack Vectors}
+
+The Critic operates on Opus at maximum effort. Its objective is genuinely adversarial: destroying weak hypotheses. A kill rate of 30--50\% is considered healthy; below 15\% indicates insufficient adversarial pressure; a 0\% kill rate triggers mandatory re-examination. The 9 attack vectors are:
+
+\begin{enumerate}
+    \item \textbf{Novelty Kill} --- Web search to verify whether the connection is already published. If the exact hypothesis (not merely the field pair) has been studied, the hypothesis is killed.
+
+    \item \textbf{Mechanism Kill} --- Physical, chemical, or biological plausibility: energy scales, time constants, concentrations, compartment topology. This vector has produced the largest category of kills in our evaluation (15\% of all kills are energy-scale mismatches; an additional 10\% are quantitative impossibilities).
+
+    \item \textbf{Logic Kill} --- Correlation passed off as causation, analogy confused with structural relationship, post-hoc reasoning.
+
+    \item \textbf{Falsifiability Kill} --- If the hypothesis cannot be proven false, it is killed.
+
+    \item \textbf{Triviality Kill} --- Would a PhD student in each field say ``obviously''?
+
+    \item \textbf{Counter-Evidence Search} --- Mandatory web search for contradictions and failures of the proposed mechanism.
+
+    \item \textbf{Groundedness Attack} --- For every factual claim: is it from the literature (grounded), from parametric knowledge (verify with web search), or pure speculation (flag)? If $>$50\% of claims are unverifiable, the hypothesis receives a significant downgrade.
+
+    \item \textbf{Hallucination-as-Novelty Check} --- For hypotheses with high novelty scores: ``Does it appear new because it is genuinely unexplored, or because it is wrong in non-obvious ways?'' The Critic verifies via web search that the bridge mechanism exists independently of the hypothesis. If the novelty depends entirely on an unverifiable factual claim, the ``novelty'' is likely an artifact of incorrect parametric knowledge. This attack vector directly addresses the ideation-execution gap documented by Si et al.~\citep{si2025}.
+
+    \item \textbf{Claim-Level Fact Verification} --- Web search for \emph{every individual} grounded claim. Verifies citation specificity (author, year, journal), directionality of effects, cellular compartment, protein properties. Citation hallucination or fabricated protein properties trigger automatic failure. This is the most critical attack vector: in our evaluation, citation-related errors account for approximately 6\% of all kills (citation hallucination, citation misuse, partial citation hallucination).
+\end{enumerate}
+
+\paragraph{META-CRITIQUE.} After completing all attacks, the Critic performs a self-review: (1)~calibrating its kill rate (is it too generous?), (2)~for each surviving hypothesis, writing the strongest reason it should have been killed, and (3)~verifying that web search was conducted for every hypothesis.
+
+\subsubsection{Quality Gate: 10-Point Rubric}
+
+The Quality Gate operates on Opus at maximum effort and applies a 10-point rubric covering mechanistic specificity, falsifiability, novelty, groundedness, internal consistency, and practical testability. Critically, the Quality Gate \emph{individually verifies every claim tagged as grounded}---the third and final claim-level verification step after the Generator's SELF-CRITIQUE and the Critic's fact verification. Citation hallucination or fabricated protein properties at this stage result in automatic failure, regardless of the hypothesis's other qualities.
+
+The Quality Gate rejects approximately 60\% of hypotheses that reach it. Its META\-VA\-LI\-DA\-TION reflection verifies confidence in PASS verdicts, web search completeness, and the impact of any remaining unverifiable claims on the overall verdict.
+
+Verdicts are PASS, CONDITIONAL\_PASS (promising but with identified weaknesses), or FAIL. The authoritative verdicts are written to \texttt{quality-gate.json}; the Orchestrator creates \texttt{final.json} by reading this file from disk---never from conversational memory, which can be corrupted by context compression in long sessions (a bug discovered in Session~015).
+
+\subsubsection{Cross-Model Validation}
+
+After the Quality Gate, surviving hypotheses are automatically dispatched to two external frontier models via their APIs:
+
+\begin{itemize}
+    \item \textbf{GPT-5.4 Pro} (OpenAI Responses API, reasoning effort: high, with web search and code interpreter) --- Verifies novelty against current literature via web search. Checks arithmetic and quantitative claims computationally via code interpreter. Validates citations.
+
+    \item \textbf{Gemini 3.1 Pro} (Google GenAI SDK, thinking level: HIGH, with code execution and Google Search grounding) --- Verifies formal structural mappings computationally via code execution. Checks mathematical derivations. Validates literature claims via Google Search grounding.
+\end{itemize}
+
+The Cross-Model Validator generates hypothesis-specific prompts, calls both APIs in parallel, and produces a consensus report identifying where the three models (Claude, GPT, Gemini) agree and diverge. This multi-model triangulation reduces the risk of a single model validating its own hallucinations---a concern when Claude generates hypotheses and Claude-based agents evaluate them.
+
+Cross-model validation is non-blocking: API failures or missing keys do not change the session status. When API keys are absent, the system generates export files for manual validation.
+
+\subsection{Scoring}
+\label{sec:scoring}
+
+The Ranker evaluates each hypothesis across 6 dimensions with fixed, canonical weights (Table~\ref{tab:scoring}). These weights are immutable---bolded in the agent definition to prevent drift between cycles.
+
+\begin{table}[t]
+\centering
+\caption{Scoring dimensions and weights. The weights are canonical and immutable. The 60\% combined weight on Testability, Groundedness, and Mechanistic Specificity reflects the system's structural optimization for life sciences, where these dimensions are most reliably assessable.}
+\label{tab:scoring}
+\small
+\begin{tabular}{@{}lcp{6.5cm}@{}}
+\toprule
+\textbf{Dimension} & \textbf{Weight} & \textbf{Description} \\
+\midrule
+Novelty & 15\% & Is the connection unexplored? Requires web search verification, not self-assessment. \\
+Mechanistic Specificity & 20\% & How concrete is the proposed mechanism? Named molecules, quantified parameters, and specified pathways score higher than vague analogies. \\
+Testability & 20\% & Can the hypothesis be verified with existing methods or public data? Includes assessment of required resources and timeline. \\
+Groundedness & 20\% & Are the hypothesis components supported by retrievable evidence? Integer 1--10. Prevents fluent hallucinations from scoring high. \\
+Internal Consistency & 15\% & Are the claims internally coherent? Are quantitative predictions consistent with stated parameters? \\
+Impact & 10\% & Decomposed into Paradigm (5\%) and Translational (5\%). Paradigm: how much does it change understanding if true? Translational: how directly does it suggest a real-world application? \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Design rationale.} The 60\% combined weight on Testability (20\%), Groundedness (20\%), and Mechanistic Specificity (20\%) is deliberate. These three dimensions are the primary defense against the hallucination problem: a hypothesis can be creative and novel but must also be specific enough to test, grounded enough to believe, and mechanistically concrete enough to falsify. Novelty (15\%) and Internal Consistency (15\%) provide the remaining quality signal. Impact (10\%) enters as a parallel signal---important for prioritization but never a substitute for quality.
+
+\paragraph{Groundedness as anti-hallucination measure.} The Groundedness dimension (20\% weight) was introduced specifically to prevent the failure mode where fluent, creative hypotheses with fabricated factual claims score highly on other dimensions. Every hypothesis receives an integer Groundedness score from 1 to 10, where 10 indicates all mechanism components are supported by retrievable literature and 1 indicates pure speculation. This score is assessed independently by the Ranker and verified by the Quality Gate.
+
+\paragraph{Cross-domain creativity bonus.} After the weighted composite calculation, a +0.5 bonus is applied to hypotheses crossing 2 or more disciplinary boundaries (e.g., materials science $\to$ neuroscience, topology $\to$ developmental biology). This compensates for the systematic penalization from bio-centric retrieval infrastructure: non-biomedical hypotheses receive structurally lower scores on Testability and Groundedness because PubMed, KEGG, and STRING are bio-specific---not because the hypotheses are weaker. The bonus operates on the final composite; individual dimension weights remain immutable.
+
+\paragraph{Impact-aware prioritization.} Impact is decomposed into two sub-dimensions: Paradigm impact (5\%, ``opens a new field'' = 10) and Translational impact (5\%, ``drug target or diagnostic'' = 10, ``purely academic'' = 1). An Impact Potential Score (IPS) is computed from the Scout's initial estimate (40\% weight) and the Convergence Scanner's translational signals (60\% weight): $\mathrm{IPS} = 0.4 \times \mathrm{scout\_estimate} + 0.6 \times (\mathrm{convergence\_signals}/3) \times 10$. The IPS is reported alongside the QG composite and Empirical Evidence Score but does not replace either.
+
+\paragraph{Diversity check.} After ranking, the Ranker examines the top-5 hypotheses for conceptual similarity: shared bridge mechanisms (redundant), same subfields (convergent), or same prediction type (monotonous). If 3 or more of the top-5 are conceptually similar, the highest-ranked is retained and the next dissimilar hypothesis is promoted. This addresses the diversity saturation problem documented by Si et al.~\citep{si2024}: LLM-generated ideas tend to cluster around a narrow region of the hypothesis space.
+
+\paragraph{Elo tournament sanity check.} After the linear ranking, the Ranker runs pairwise comparisons among the top-6 hypotheses (15 comparisons): ``Which of these two would a researcher want to test first, and why?'' The resulting Elo ranking is compared against the linear composite ranking. Discrepancies are diagnostic signals indicating implicit dimensions captured by direct comparison but missed by the 6-dimension weighted average. This is inspired by Google AI Co-Scientist~\citep{gottweis2025}, which uses Elo tournament as its primary ranking method. In MAGELLAN, it serves as a sanity check rather than the primary output, as we found the linear composite to be more transparent and auditable.
+
+\subsection{Adaptive Cycles and Meta-Learning}
+\label{sec:adaptive}
+
+\subsubsection{Adaptive Cycle Control}
+
+The Orchestrator has three decision points that adapt the pipeline to output quality, preventing both wasted compute on high-quality output and insufficient processing of low-quality output:
+
+\begin{enumerate}
+    \item \textbf{Groundedness reinforcement} (after cycle~1 critique): If most hypotheses have low or speculative Groundedness, the Literature Scout is re-dispatched with targeted searches on the specific mechanisms that lack grounding. This additional literature feeds the Generator in cycle~2.
+
+    \item \textbf{Adaptive cycle decision} (after cycle~1 ranking):
+    \begin{itemize}
+        \item Top-3 composite $\geq 7.0$ AND diversity passed $\to$ \emph{early complete}: skip cycle~2, proceed to Quality Gate.
+        \item Survival rate $< 30\%$ OR top-3 composite $< 4.0$ $\to$ \emph{extended}: require cycle~2, consider cycle~3.
+        \item Otherwise $\to$ \emph{standard}: normal cycle~2.
+    \end{itemize}
+
+    \item \textbf{Conditional Evolver skip} (cycle~2, after ranking): If top-3 composite $\geq 6.5$, diversity is passed, and no hypotheses share bridges $\to$ skip the Evolver and proceed to the Quality Gate.
+\end{enumerate}
+
+This adaptivity has a scaling property: a more capable model produces higher-quality output earlier in the pipeline, and the adaptive thresholds allow the system to terminate sooner without sacrificing quality.
+
+\subsubsection{Meta-Learning Across Sessions}
+
+The Session Analyst extracts three categories of meta-learning signals after each session:
+
+\paragraph{Strategy performance.} Which of the 10 Scout strategies produced hypotheses that survived the adversarial pipeline? Over 22 sessions, converging vocabularies achieved the highest pass rate (87.5\% in Session~014, 75\% in Session~017), followed by tool repurposing (100\% pass+conditional in Session~013 with mean composite 8.31). Recent breakthrough radiation underperformed at 13\%, suggesting trending topics yield less novel connections. These signals are written to \texttt{knowledge/\allowbreak{}meta-insights.md} and consulted by the Scout in future sessions.
+
+\paragraph{Bridge type survival.} Which types of mechanistic bridges survive adversarial evaluation? Computational and analytical tool transfers within life sciences showed the highest performance (3 PASS, 1 CONDITIONAL from 4 hypotheses in Session~013, mean composite 8.31). Physical law constraints (e.g., thermodynamic uncertainty relation as a hard bound on biological observables) showed 100\% pass+conditional (7/7 in Session~014). Conversely, direct electromagnetic field effects (0/8 across Sessions~001 and~004) and quantum entanglement bridges (0/3 in Session~004) were universally killed due to energy-scale mismatches and decoherence at biological scales.
+
+\paragraph{Kill pattern analysis.} What are the recurring reasons for hypothesis failure? The dominant kill categories are: energy-scale mismatch (15\% of all kills), quantitative impossibility including diffusion physics and force-below-threshold (14\%), mechanism fabrication including wrong compartment or topology (9\%), and substrate or condition mismatch (9\%). These patterns inform both the Generator (which receives ``avoid'' guidelines) and the Scout (which deprioritizes target types that consistently produce killed hypotheses).
+
+\subsubsection{Disjointness Hard Constraint}
+
+A critical finding from our evaluation is the strong correlation between citation disjointness and hypothesis quality. Targets where the two fields have zero cross-field citation (classified as DISJOINT by the Literature Scout) achieved an 84\% pass+conditional rate across 14 targets in 13 sessions. Partially explored targets (some existing cross-field literature) achieved only 30\% conditional-only rate (1 session, with 0\% outright PASS). Based on this evidence, the Orchestrator enforces a hard constraint: if DISJOINT targets with Target Evaluator score $\geq 5$ exist, the system \emph{never} selects a PARTIALLY\_EXPLORED target.
+
+An important nuance emerged from Sessions~015--016: partially explored \emph{fields} can contain disjoint \emph{bridges}. When a specific bridge (a particular measurement or mechanism) has $\leq 2$ PubMed papers despite the fields being broadly overlapping, the target is classified as NEWLY\_\allowbreak{}OPENED\_\allowbreak{}PARTIALLY\_\allowbreak{}EXPLORED and treated as functionally disjoint for hypothesis generation. Three such sessions achieved 100\% QG pass+conditional rates.
+
+\subsection{State Management}
+\label{sec:state}
+
+State is split into a \textbf{slim coordination index} and \textbf{per-session results directories}:
+
+\begin{itemize}
+    \item \texttt{state/session.json} --- Approximately 3~KB containing only coordination state: current phase, cycle number, status, selected target, health counters, and progress timeline. This file \emph{never} contains hypothesis content.
+
+    \item \texttt{results/\{session-id\}/} --- All session outputs: human-readable markdown (\texttt{*.md}) and structured phase data (\texttt{*.json}) in the same directory. Phase JSON files contain lightweight metadata (IDs, titles, scores, verdicts). Full hypothesis text lives in the markdown files.
+
+    \item \texttt{state/dispatch-log.json} --- Records every agent dispatch with timestamps, used for post-session verification that all required agents were invoked.
+\end{itemize}
+
+\paragraph{Design rationale.} Agents receive the data they need via dispatch prompts from the Orches\-trator---they never read state files directly. This design prevents two problems: (1)~state bloat, where hypothesis content accumulates in a single file and consumes increasing context in later pipeline phases; and (2)~stale reads, where an agent reads state that has been partially updated. The Orchestrator reads authoritative outputs from disk (e.g., \texttt{quality-gate.json} for final verdicts) rather than from conversational memory, which can be corrupted by context compression in long sessions.
+
+\paragraph{Robustness mechanisms.} The pipeline must operate without human supervision. Three layers of robustness ensure this. \emph{Guard logic in the Orchestrator}: conditional blocks after every phase verify output quality; the flow is always verify $\to$ retry $\to$ fallback $\to$ abort. \emph{Blocking SubagentStop hooks}: per-agent hooks that block execution (exit code~2) when output is insufficient---e.g., the Scout hook blocks on 0 targets, the Generator hook blocks on $<3$ hypotheses, and the Ranker hook blocks on output $<3$~KB (preventing thin scoring without detailed justifications). \emph{Session health classification}: every session terminates with an explicit status (SUCCESS, PARTIAL, DEGRADED, or FAILED) as the first line of the session summary, eliminating the possibility of silently empty output.
+
+\paragraph{Prompt engineering.} Agent prompts follow a GOAL / CONSTRAINTS / STRATEGIES structure: the goal is immutable, constraints are hard requirements, and strategies are advisory. This design scales with model capability: a more capable model finds better reasoning paths given goals and constraints, while the constraints maintain a quality floor regardless of model. Opus agents receive general instructions (``general instructions often produce better reasoning than prescriptive plans''); Sonnet agents receive more explicit step sequences. Few-shot examples are provided for the Generator (2 examples: strong and weak), Critic (1 complete attack), Ranker (1 scoring table), and Evolver (1 evolutionary operation).

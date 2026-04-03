@@ -1,0 +1,221 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{natbib}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{enumitem}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    citecolor=blue!60!black,
+    urlcolor=blue!60!black
+}
+
+\title{MAGELLAN: Autonomous Cross-Disciplinary Scientific Hypothesis Generation\\via Adversarial Multi-Agent Systems}
+
+\author{
+Alberto Trivero\\
+Kakashi Venture Accelerator\\
+Torino, Italy\\
+\texttt{alberto@kakashi.ventures}\\
+\url{https://magellan-discover.ai}
+}
+
+\date{April 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present MAGELLAN, an open-source multi-agent system that autonomously generates cross-disciplinary scientific hypotheses by connecting fields that lack mutual citation. Building on Swanson's ``Undiscovered Public Knowledge'' principle (1986), MAGELLAN replaces bibliometric methods with frontier large language models that have absorbed the literature of multiple disciplines. The system comprises 15 specialized agents: a Scout that autonomously identifies promising cross-field bridges using 10 formalized strategies, a Generator that creates hypotheses from parametric knowledge, and an adversarial pipeline (Critic with 9 attack vectors, Quality Gate with ${\sim}60\%$ rejection rate, independent validation by GPT-5.4~Pro and Gemini~3.1~Pro) that systematically eliminates weak candidates.
+
+Over 22 sessions, MAGELLAN generated 273 hypotheses, of which 102 (37\%) survived the full adversarial pipeline. We computationally verify two representative hypotheses on public data: (1)~applying extreme value theory to the Meltome Atlas (48{,}000 proteins, 13 species)---the first such application, revealing universal Weibull-domain behavior but failing to confirm the predicted correlation with growth temperature due to measurement censoring; (2)~deriving the Cram\'{e}r-Rao bound for plant gravitropic sensing from published statolith parameters---confirmed, showing plants operate 1--6$\times$ above the fundamental physical limit, the first application of statistical estimation theory to plant gravitropism. Meta-learning across sessions reveals that mathematical constraints transfer more reliably than analogies, and fully disjoint field pairs produce substantially better hypotheses (84\% vs.\ 30\% survival).
+
+Unlike proprietary systems (Google AI Co-Scientist, FutureHouse), MAGELLAN is fully open-source (Apache~2.0), fully autonomous in target selection, and publishes all results as CC0 public domain. Code, hypotheses, methodology, and computational verifications are publicly available.
+\end{abstract}
+
+% ======================================================================
+% SECTIONS 1-3: Introduction, Related Work, Architecture
+% ======================================================================
+\input{sections_1_to_3}
+
+% ======================================================================
+% SECTIONS 4-7: Evaluation, Case Studies, Discussion, Conclusion
+% ======================================================================
+\input{sections_4_to_7}
+
+% ======================================================================
+% REFERENCES
+% ======================================================================
+\bibliographystyle{plainnat}
+
+\begin{thebibliography}{30}
+
+\bibitem[Swanson(1986)]{swanson1986}
+Swanson, D.R. (1986).
+Undiscovered public knowledge.
+\emph{The Library Quarterly}, 56(2), 103--118.
+
+\bibitem[Swanson(1988)]{swanson1988}
+Swanson, D.R. (1988).
+Migraine and magnesium: eleven neglected connections.
+\emph{Perspectives in Biology and Medicine}, 31(4), 526--557.
+
+\bibitem[Tenopir et~al.(2009)]{tenopir2009}
+Tenopir, C. et~al. (2009).
+Electronic journals and changes in scholarly article seeking and reading patterns.
+\emph{Aslib Proceedings}, 61(1), 5--32.
+
+\bibitem[Rein et~al.(2023)]{rein2023}
+Rein, D. et~al. (2023).
+GPQA: A graduate-level Google-proof Q\&A benchmark.
+\emph{arXiv preprint arXiv:2311.12022}.
+
+\bibitem[Ginkgo Bioworks(2026)]{ginkgo2026}
+Ginkgo Bioworks (2026).
+Cell-free protein synthesis optimization via GPT-5 collaboration.
+\emph{Ginkgo Technical Report}.
+
+\bibitem[Gottweis et~al.(2025)]{gottweis2025}
+Gottweis, J. et~al. (2025).
+Towards an AI co-scientist.
+\emph{Google DeepMind Technical Report}.
+
+\bibitem[DeepMind(2025)]{deepmind2025aletheia}
+DeepMind (2025).
+Aletheia: Solving open mathematical problems with AI.
+\emph{Google DeepMind Technical Report}.
+
+\bibitem[Ji et~al.(2023)]{ji2023}
+Ji, Z. et~al. (2023).
+Survey of hallucination in natural language generation.
+\emph{ACM Computing Surveys}, 55(12), 1--38.
+
+\bibitem[OpenAI(2025)]{openai2025frontier}
+OpenAI (2025).
+FrontierScience-Research benchmark results.
+\emph{OpenAI Technical Report}.
+
+\bibitem[Si et~al.(2025a)]{si2025}
+Si, C. et~al. (2025).
+Can LLMs generate novel research ideas? A large-scale human study with 100+ NLP researchers.
+\emph{ICLR 2025}.
+
+\bibitem[Si \& Hashimoto(2025)]{si2025execution}
+Si, C. \& Hashimoto, T. (2025).
+The ideation-execution gap: Execution outcomes of LLM-generated versus human research ideas.
+\emph{arXiv preprint arXiv:2506.20803}.
+
+\bibitem[Smalheiser \& Swanson(2009)]{smalheiser2009}
+Smalheiser, N.R. \& Swanson, D.R. (2009).
+Arrowsmith: A computer tool for literature-based discovery.
+In \emph{Bentham Science Publishers}.
+
+\bibitem[Hristovski et~al.(2006)]{hristovski2006}
+Hristovski, D. et~al. (2006).
+Using literature-based discovery to identify disease candidate genes.
+\emph{International Journal of Medical Informatics}, 75(12), 879--889.
+
+\bibitem[Ghafarollahi \& Buehler(2024)]{ghafarollahi2024}
+Ghafarollahi, A. \& Buehler, M.J. (2024).
+SciAgents: Automating scientific discovery through multi-agent intelligent graph reasoning.
+\emph{arXiv preprint arXiv:2409.05556}.
+
+\bibitem[Mitchener et~al.(2025)]{mitchener2025}
+Mitchener, L. et~al. (2025).
+Kosmos: An AI scientist for autonomous discovery.
+\emph{arXiv preprint arXiv:2511.02824}.
+
+\bibitem[Lu et~al.(2024)]{lu2024}
+Lu, C. et~al. (2024).
+The AI Scientist: Towards fully automated open-ended scientific discovery.
+\emph{ICLR 2025}.
+
+\bibitem[Huang et~al.(2025)]{huang2025popper}
+Huang, K., Jin, Y., Li, R., Li, M.Y., Cand\`{e}s, E. \& Leskovec, J. (2025).
+Automated hypothesis validation with agentic sequential falsifications.
+\emph{International Conference on Machine Learning (ICML 2025)}.
+arXiv:2502.09858.
+
+\bibitem[Swanson et~al.(2024)]{swanson2024virtuallab}
+Swanson, K. et~al. (2024).
+Virtual Lab: AI agents design new SARS-CoV-2 nanobodies with experimental validation.
+\emph{arXiv preprint arXiv:2407.00510}.
+
+\bibitem[Yang et~al.(2024b)]{yang2024moosechem}
+Yang, B. et~al. (2024).
+MOOSE-Chem: Large language models for rediscovering unseen chemistry scientific hypotheses.
+\emph{ICLR 2025}.
+
+\bibitem[Xiong et~al.(2025)]{xiong2025}
+Xiong, R. et~al. (2025).
+TruthHypo: Truthful hypothesis generation with LLMs.
+\emph{IJCAI 2025}.
+
+\bibitem[Jarz\k{a}b et~al.(2020)]{jarzab2020}
+Jarz\k{a}b, A. et~al. (2020).
+Meltome atlas---thermal proteome stability across the tree of life.
+\emph{Nature Methods}, 17, 495--503.
+
+\bibitem[B\'{e}rut et~al.(2018)]{berut2018}
+B\'{e}rut, A. et~al. (2018).
+Gravisensors in plant cells behave like an active granular liquid.
+\emph{PNAS}, 115(20), 5123--5128.
+
+\bibitem[Chauvet et~al.(2016)]{chauvet2016}
+Chauvet, H. et~al. (2016).
+Inclination not force is sensed by plants during shoot gravitropism.
+\emph{Scientific Reports}, 6, 35431.
+
+\bibitem[Berg \& Purcell(1977)]{berg1977}
+Berg, H.C. \& Purcell, E.M. (1977).
+Physics of chemoreception.
+\emph{Biophysical Journal}, 20(2), 193--219.
+
+\bibitem[Kawamoto \& Morita(2022)]{kawamoto2022}
+Kawamoto, N. \& Morita, M.T. (2022).
+Gravity sensing and responses in the coordination of the shoot gravitropic setpoint angle.
+\emph{New Phytologist}, 236, 1445--1460.
+
+\bibitem[Fisher \& Tippett(1928)]{fisher1928}
+Fisher, R.A. \& Tippett, L.H.C. (1928).
+Limiting forms of the frequency distribution of the largest or smallest member of a sample.
+\emph{Mathematical Proceedings of the Cambridge Philosophical Society}, 24(2), 180--190.
+
+\bibitem[Gnedenko(1943)]{gnedenko1943}
+Gnedenko, B.V. (1943).
+Sur la distribution limit\'{e}e du terme maximum d'une s\'{e}rie al\'{e}atoire.
+\emph{Annals of Mathematics}, 44(3), 423--453.
+
+\bibitem[Barato \& Seifert(2015)]{barato2015}
+Barato, A.C. \& Seifert, U. (2015).
+Thermodynamic uncertainty relation for biomolecular processes.
+\emph{Physical Review Letters}, 114(15), 158101.
+
+\bibitem[Grippin et~al.(2025)]{grippin2025}
+Grippin, A.J., Marconi, C., Copling, S. et~al. (2025).
+mRNA vaccines sensitize tumors to immune checkpoint blockade.
+\emph{Nature}, 647(8089), 488--497.
+
+\bibitem[DeCasien et~al.(2026)]{decasien2026}
+DeCasien, A.R., Aronoff, J.E., Mallott, E.K. et~al. (2026).
+Gut microbiota from large-brained primates upregulate brain oxidative phosphorylation genes.
+\emph{Proceedings of the National Academy of Sciences}, 123(2), e2426232122.
+
+\bibitem[Cosgrove et~al.(2025)]{cosgrove2025}
+Cosgrove, B.D., Bounds, L.R., Taylor, C.K. et~al. (2025).
+Mechanoenhancers: genomic regulatory elements activated by extracellular matrix stiffness.
+\emph{Science}, 390(6778), eadl1988.
+
+\end{thebibliography}
+
+\end{document}

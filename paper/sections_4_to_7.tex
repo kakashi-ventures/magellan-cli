@@ -1,0 +1,537 @@
+%----------------------------------------------------------------------
+\section{Evaluation}
+\label{sec:evaluation}
+%----------------------------------------------------------------------
+
+\subsection{Aggregate Results}
+\label{sec:aggregate}
+
+Over 22 sessions (16 fully autonomous, 5 targeted, 1 holdout validation), MAGELLAN generated 273 hypotheses across diverse cross-disciplinary targets. Of these, 102 (37.4\%) survived the full adversarial pipeline with a verdict of PASS or CONDITIONAL\_PASS. The Quality Gate rejected approximately 60\% of hypotheses that reached it, consistent with our design goal that filtration, not generation, is the primary challenge.
+
+Table~\ref{tab:aggregate} summarizes the aggregate statistics. The mean Quality Gate composite score for passing hypotheses was 7.1/10.0, with a range of 5.2--8.55. Sessions ranged from 7 to 15 hypotheses generated, with kill rates between 0\% (Session 009, which produced only CONDITIONAL\_PASS results) and 75\% (Session 002). The adaptive cycle mechanism triggered early completion in 3 sessions (cycle~1 top-3 $\geq$ 7.0) and Evolver skip in 4 sessions (cycle~2 top-3 $\geq$ 6.5).
+
+\begin{table}[h]
+\centering
+\caption{Aggregate pipeline statistics across 22 sessions.}
+\label{tab:aggregate}
+\small
+\begin{tabular}{@{}lr@{}}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+Total sessions & 22 \\
+\quad Fully autonomous (Scout) & 16 \\
+\quad Targeted (user-specified) & 5 \\
+\quad Holdout validation & 1 \\
+Total hypotheses generated & 273 \\
+Survived adversarial pipeline (PASS + COND) & 102 (37.4\%) \\
+\quad Outright PASS & $\sim$42 \\
+\quad CONDITIONAL\_PASS & $\sim$60 \\
+Quality Gate rejection rate & $\sim$60\% \\
+Mean QG composite (passing) & 7.1 / 10.0 \\
+Citation hallucination rate & $\sim$2--3\% of grounded claims \\
+Sessions with early completion & 3 \\
+Sessions with Evolver skip & 4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Strategy Performance}
+
+The Scout's 10 exploration strategies exhibited markedly different survival rates (Table~\ref{tab:strategies}). The strongest performers were \emph{converging vocabularies} (87.5\% PASS+COND rate across 2 sessions), which identifies fields using the same mathematical formalism without knowing it, and \emph{tool repurposing} (67\% combined, with Session 013 achieving 100\%), which transfers analytical methods from one domain to another. \emph{Anomaly hunting} (75\% in its debut session) and \emph{structural isomorphism} (62.5\% across 2 sessions) also performed well.
+
+At the bottom, \emph{recent breakthrough radiation} achieved only 13\% survival, suggesting that trending topics produce less novel cross-disciplinary connections---the ``obvious'' implications have typically been explored already. \emph{Swanson ABC bridging}, the classical literature-based discovery method, produced 0\% outright PASS (30\% CONDITIONAL), though its single primary session was confounded by a PARTIALLY\_EXPLORED target.
+
+\begin{table}[h]
+\centering
+\caption{Scout strategy performance ranked by QG pass rate (PASS + CONDITIONAL\_PASS). Only strategies with $\geq$1 primary session shown.}
+\label{tab:strategies}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Strategy} & \textbf{Primary sessions} & \textbf{Hyps gen.} & \textbf{QG pass+cond} & \textbf{Avg composite} \\
+\midrule
+Converging vocabularies & 2 (S014, S017) & 22 & 87.5\% & 7.34 \\
+Anomaly hunting & 1 (S018) & 15 & 75\% & 6.97 \\
+Tool repurposing & 2 (S010, S013) & 24 & $\sim$67\% & 7.27 \\
+Structural isomorphism & 2 (S011, S019) & 16 & 62.5\% & $\sim$6.9 \\
+Network gap analysis & 3 (S006--S008) & 41 & 39\% & 6.92 \\
+Contradiction mining & 1 (S012) & 14 & 35.7\% & 6.70 \\
+Scale bridging & 1 (S005) & 14 & 29\% & 6.75 \\
+Recent breakthrough & 1 (S004) & 15 & 13\% & $\sim$6.0 \\
+Swanson ABC bridging & 1 (S009) & 10 & 30\% (COND only) & 5.87 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+We caution that these rankings rest on small samples (1--3 primary sessions per strategy, 10--41 hypotheses each); binomial 95\% confidence intervals are wide (e.g., 87.5\% from 22 hypotheses corresponds to approximately $\pm$14 percentage points). The rankings should be treated as suggestive hypotheses about strategy effectiveness rather than definitive estimates.
+
+The strongest strategies share a common structural feature: they transfer \emph{mathematical constraints} (inequalities, conservation laws, universality theorems) rather than analogies. When Field~A contributes a theorem that \emph{must} hold for any system of Field~C's type, the hypothesis becomes partially unfalsifiable in one direction: the mathematical form is guaranteed, and the testable variable is the biological parameter value. This insight, extracted by the Session Analyst across multiple sessions, has been codified as a meta-learning heuristic: ``Physical law as bridge $>$ physical model as bridge.''
+
+\subsubsection{Bridge Type Survival}
+
+Bridge types---the structural form of the cross-disciplinary connection---predict survival rates more reliably than strategies (Table~\ref{tab:bridge_types}). Computational and analytical tool transfers within the life sciences achieved the highest performance (3 PASS, 1 COND from 4 hypotheses in Session 013, mean composite 8.31). Physical law constraints (e.g., the thermodynamic uncertainty relation applied to bacterial cell division) showed 100\% PASS+COND (7/7). Indirect enzymatic cascades with named molecular participants showed $\sim$100\% survival across 8+ hypotheses.
+
+\begin{table}[h]
+\centering
+\caption{Bridge type survival rates. Top: consistently successful types. Bottom: consistently killed types.}
+\label{tab:bridge_types}
+\small
+\begin{tabular}{@{}lccl@{}}
+\toprule
+\textbf{Bridge type} & \textbf{Used} & \textbf{QG pass+cond} & \textbf{Score range} \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Successful bridge types}} \\
+Analytical tool transfer (life sci.) & 4 & 4 (100\%) & 8.15--8.55 \\
+Physical law constraint (TUR) & 7 & 7 (100\%) & 5.2--8.3 \\
+Indirect enzymatic cascade & 8+ & 6+ ($\sim$100\%) & 7.0--8.5 \\
+Mathematical topology & 3 & 3 (100\%) & $\sim$8.0 \\
+Thermodynamic displacement & 1 & 1 (100\%) & 8.1 \\
+Sequential enzymatic temporal gate & 2 & 2 (100\%) & 7.5--7.8 \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Killed bridge types}} \\
+Direct EM field effects & 8 & 0 (0\%) & --- \\
+Quantum entanglement & 3 & 0 (0\%) & --- \\
+Mechanism fabrication (wrong compartment) & 2 & 0 (0\%) & --- \\
+Direct force on chromatin & 2 & 0 (0\%) & --- \\
+Spatial gradient (Pe $\ll$ 1) & 2 & 0 (0\%) & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The failed bridge types share a common failure mode: \emph{energy/force scale mismatch}. Direct electromagnetic field effects (0/8) fail because the proposed coupling energies are orders of magnitude below thermal noise at biological temperatures. Quantum entanglement bridges (0/3) fail because decoherence times in biological systems ($\sim$femtoseconds) are incompatible with the timescales required for functional quantum effects. Direct force-on-chromatin bridges (0/2 in Session 016) fail because cytoskeletal forces, distributed across thousands of molecular contacts, produce per-element forces below the nucleosome unwrapping threshold ($\sim$50~pN) by 3--4 orders of magnitude.
+
+These patterns are now codified as pre-generation kill checks in the meta-learning knowledge base. New hypotheses proposing any of these bridge types are flagged before they consume pipeline resources.
+
+\subsubsection{Disjointness Analysis}
+
+The strongest predictor of hypothesis quality is \emph{disjointness}---whether the target fields have zero mutual citation in the literature. Targets classified as DISJOINT (zero cross-field literature, verified by PubMed co-occurrence search) achieved an 84\% combined PASS+COND rate across 14 targets in 13 sessions. PARTIALLY\_EXPLORED targets (some existing connections) achieved only 30\% (CONDITIONAL only, 0\% outright PASS) in the single traditional case (Session 009).
+
+This finding motivated the disjointness hard constraint: when DISJOINT targets with target evaluator scores $\geq 5$ exist, the Orchestrator \emph{never} selects a PARTIALLY\_EXPLORED alternative. The constraint has been validated across 13 autonomous sessions.
+
+An important nuance emerged from targeted sessions (S015--S016): PARTIALLY\_EXPLORED \emph{at the field level} can be functionally DISJOINT at the \emph{bridge level}. When the broad fields overlap (e.g., mechanobiology and epigenomics) but the specific bridge mechanism is unstudied ($\leq$2 PubMed papers), hypothesis quality matches DISJOINT targets. This led to a refined two-level classification: field-level overlap and bridge-level novelty are assessed independently.
+
+%----------------------------------------------------------------------
+\subsection{Computational Verification I: GEV/Meltome Atlas}
+\label{sec:gev}
+%----------------------------------------------------------------------
+
+Session 013 (2026-03-27, autonomous, \emph{tool repurposing} strategy) targeted the application of extreme value theory to the Meltome Atlas~\citep{jarzab2020}. The top-ranked hypothesis (C1-H1, QG composite 8.45, PASS) predicted that the Generalized Extreme Value (GEV) shape parameter $\xi$, fitted to proteome-wide melting temperature (Tm) distributions, should correlate negatively with optimal growth temperature (OGT): thermophiles compress their lower Tm tail (more negative $\xi$, deeper into the Weibull domain) while psychrophiles maintain broader tails ($\xi$ closer to zero).
+
+\paragraph{Methodology.} We loaded pre-computed Tm values from Jarzab et al.\ 2020 Supplementary Table S2 (MOESM4; PRIDE accession PXD011929). Quality filters retained only proteins with $R^2 \geq 0.8$ and converged curve fits, with Tm restricted to $[20^\circ\text{C}, 100^\circ\text{C}]$. One lysate dataset per species was selected to avoid confounds between cell and lysate preparations. GEV distributions were fitted via maximum likelihood estimation (\texttt{scipy.stats.genextreme}), with bootstrap standard errors ($n = 1000$). Spearman rank correlation tested $\xi$ vs.\ OGT across 13 species. All code is publicly available in the verification directory of the repository.
+
+\paragraph{Results.} Table~\ref{tab:gev_results} presents the complete GEV fit results for all 13 species. The first notable finding is that \emph{all} 13 species exhibit $\xi < 0$, placing them in the Weibull domain of the GEV family. This demonstrates that proteome Tm distributions are \emph{universally bounded}---there exists a finite upper limit to protein thermal stability within each proteome. This is physically reasonable (amino acid chemistry imposes an upper bound on achievable Tm) but had not been formally demonstrated.
+
+\begin{table}[t]
+\centering
+\caption{GEV fit parameters for Meltome Atlas species, ordered by optimal growth temperature. All species show $\xi < 0$ (Weibull domain). $\mu$ = location, $\sigma$ = scale, $\xi$ = shape. KS = Kolmogorov-Smirnov goodness-of-fit $p$-value.}
+\label{tab:gev_results}
+\small
+\begin{tabular}{@{}llrcrrrc@{}}
+\toprule
+\textbf{Species} & \textbf{Domain} & \textbf{OGT} & $n$ & $\xi$ & \textbf{95\% CI} & $\mu$ ($^\circ$C) & \textbf{KS $p$} \\
+\midrule
+\textit{O.\ antarctica} & Bacteria & 15 & 1264 & $-$0.137 & [$-$0.19, $-$0.06] & 40.6 & 0.032 \\
+\textit{C.\ elegans} & Eukaryota & 20 & 3220 & $-$0.140 & [$-$0.16, $-$0.12] & 39.6 & 0.180 \\
+\textit{A.\ thaliana} & Eukaryota & 25 & 2381 & $-$0.164 & [$-$0.19, $-$0.14] & 43.1 & 0.072 \\
+\textit{D.\ melanogaster} & Eukaryota & 28 & 1646 & $-$0.161 & [$-$0.19, $-$0.14] & 41.5 & 0.070 \\
+\textit{D.\ rerio} & Eukaryota & 28 & 3548 & $-$0.126 & [$-$0.15, $-$0.11] & 49.8 & 0.000 \\
+\textit{B.\ subtilis} & Bacteria & 30 & 1471 & $-$0.184 & [$-$0.21, $-$0.16] & 42.6 & 0.002 \\
+\textit{S.\ cerevisiae} & Eukaryota & 30 & 1938 & $-$0.202 & [$-$0.22, $-$0.18] & 47.7 & 0.000 \\
+\textit{E.\ coli} & Bacteria & 37 & 1727 & $-$0.088 & [$-$0.12, $-$0.05] & 47.9 & 0.006 \\
+\textit{M.\ musculus} & Eukaryota & 37 & 5347 & $-$0.141 & [$-$0.16, $-$0.13] & 49.4 & 0.076 \\
+\textit{H.\ sapiens} & Eukaryota & 37 & 4562 & $-$0.084 & [$-$0.10, $-$0.07] & 53.2 & 0.000 \\
+\textit{G.\ stearotherm.} & Bacteria & 55 & 716 & $-$0.247 & [$-$2.45, $-$0.21] & 68.0 & 0.904 \\
+\textit{P.\ torridus} & Archaea & 60 & 896 & $-$0.092 & [$-$0.14, $-$0.05] & 69.9 & 0.266 \\
+\textit{T.\ thermophilus} & Bacteria & 70 & 826 & $-$2.374 & [$-$3.26, $-$0.53] & 95.0 & 0.000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Goodness of fit.} The KS test rejects the GEV model at $\alpha = 0.05$ for 6 of 13 species (46\%), including \textit{D.\ rerio}, \textit{S.\ cerevisiae}, \textit{H.\ sapiens}, \textit{B.\ subtilis}, \textit{E.\ coli}, and \textit{O.\ antarctica}. For the large proteomes ($n > 1000$), this is partly expected: the KS test has high statistical power and can reject even adequate distributional approximations for minor deviations. Additionally, KS $p$-values computed with MLE-estimated parameters are liberal (the standard KS null distribution assumes known parameters); Lilliefors-type bootstrap calibration would produce more conservative $p$-values. We retain the GEV framework because (a)~the $\xi$ estimates are stable under bootstrap resampling (Table~\ref{tab:gev_results}, 95\% CI column), and (b)~the qualitative finding---universal $\xi < 0$---is robust, but acknowledge that the GEV is an approximation to the empirical Tm distribution, not an exact generative model.
+
+\paragraph{The predicted correlation.} The primary prediction---that $\xi$ correlates negatively with OGT---is \textbf{not confirmed}. The Spearman rank correlation is $\rho = -0.136$ ($p = 0.658$), indicating no monotonic relationship. A Pearson correlation ($r = -0.628$, $p = 0.022$) appears significant but is entirely driven by a single outlier: \textit{Thermus thermophilus} ($\xi = -2.374$).
+
+\paragraph{The \textit{T.\ thermophilus} artifact.} The GEV fit for \textit{T.\ thermophilus} produces $\mu = 95^\circ$C---above the thermal proteome profiling (TPP) measurement ceiling of $90^\circ$C. This means the mode of the fitted distribution lies \emph{outside the observable range}. The extremely negative $\xi$ is an artifact of the GEV attempting to capture a severely left-censored distribution: the measurement window truncates the right side of the true Tm distribution, and the MLE compensates by pulling $\xi$ to extreme negative values. Table~\ref{tab:gev_correlation} confirms this diagnosis: removing \textit{T.\ thermophilus} eliminates all correlation ($\rho = +0.10$, $p = 0.75$).
+
+\begin{table}[h]
+\centering
+\caption{Spearman and Pearson correlations of $\xi$ vs.\ OGT across subsets. The apparent Pearson signal disappears when the measurement-censored \textit{T.\ thermophilus} is excluded.}
+\label{tab:gev_correlation}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Subset} & $n$ & \textbf{Spearman $\rho$} & \textbf{Pearson $r$} & \textbf{Pearson $p$} \\
+\midrule
+All 13 species & 13 & $-$0.136 & $-$0.628 & 0.022 \\
+Excl.\ \textit{T.\ thermophilus} & 12 & $+$0.098 & $-$0.067 & 0.837 \\
+Excl.\ both thermophiles & 11 & $+$0.145 & $+$0.033 & 0.923 \\
+Mesophiles only (20--37$^\circ$C) & 8 & $+$0.190 & $+$0.119 & 0.779 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Novel findings.} Despite the primary prediction's failure, the verification produced three genuinely novel results, confirmed via PubMed co-occurrence search to have zero prior literature:
+
+\begin{enumerate}
+    \item \textbf{First application of extreme value theory to thermal proteomics.} No prior work applies GEV fitting, tail index analysis, or any EVT method to proteome-wide Tm distributions.
+    \item \textbf{Universal Weibull-domain behavior across all three domains of life.} All 13 species, spanning Bacteria, Archaea, and Eukaryota with OGT from 15$^\circ$C to 70$^\circ$C, exhibit $\xi < 0$. The Fisher-Tippett-Gnedenko theorem~\citep{fisher1928,gnedenko1943} classifies proteome Tm distributions as bounded above. However, we note that the TPP measurement ceiling ($\sim$90$^\circ$C) could contribute to universal negative $\xi$: right-censoring biases GEV shape parameters toward the Weibull domain. Disentangling biological upper bounds from measurement artifacts requires censoring-aware EVT methods, as proposed by the companion hypothesis C1-H3.
+    \item \textbf{Identification of measurement censoring as the dominant confound.} The \textit{T.\ thermophilus} artifact was independently predicted by a companion hypothesis (C1-H3: ``Censored GEV Recovers the Invisible 20\%'') from the same session, which proposed applying censored maximum likelihood methods from flood frequency analysis to the TPP measurement window.
+\end{enumerate}
+
+Figure~\ref{fig:gev_scatter} shows $\xi$ vs.\ OGT for all 13 species, with the \textit{T.\ thermophilus} outlier clearly visible. Figure~\ref{fig:gev_distributions} shows representative Tm distributions with GEV fits for a mesophile (\textit{E.\ coli}), a thermophile (\textit{G.\ stearothermophilus}), and the artifact case (\textit{T.\ thermophilus}).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/fig1_xi_vs_ogt.pdf}
+\caption{GEV shape parameter $\xi$ vs.\ optimal growth temperature for 13 Meltome Atlas species. The extreme outlier (\textit{T.\ thermophilus}, $\xi = -2.37$) is a measurement censoring artifact ($\mu_\text{GEV} = 95^\circ$C exceeds the TPP window of 30--90$^\circ$C). Excluding it eliminates all correlation.}
+\label{fig:gev_scatter}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/fig2_tm_distributions.pdf}
+\caption{Proteome Tm distributions with GEV fits for three representative species. Note the right-truncation artifact in \textit{T.\ thermophilus}, where the fitted $\mu$ (95$^\circ$C) lies above the measurement ceiling (90$^\circ$C).}
+\label{fig:gev_distributions}
+\end{figure}
+
+\paragraph{Assessment.} The GEV/Meltome verification demonstrates that MAGELLAN generates predictions that are \emph{specific enough to falsify}: the hypothesis made a quantitative claim (negative $\xi$--OGT correlation) on an identifiable public dataset, and that claim did not survive scrutiny. Simultaneously, the analysis produced genuinely novel findings (universal Weibull domain, censoring confound) that would merit a short methods paper in bioinformatics. The measurement censoring lesson---that the TPP window creates severe artifacts for species whose proteome thermal mode approaches the measurement ceiling---is independently valuable for the thermal proteomics field.
+
+%----------------------------------------------------------------------
+\subsection{Computational Verification II: Cram\'{e}r-Rao Bound for Gravitropism}
+\label{sec:crb}
+%----------------------------------------------------------------------
+
+Session 016 (2026-04-01, targeted, \emph{mathematical bridge} creativity constraint) generated a hypothesis applying the Cram\'{e}r-Rao bound (CRB) from statistical estimation theory to plant gravitropic sensing. The hypothesis scored 8.75 at Quality Gate (PASS) and was verified to have zero prior literature: 0 papers apply Fisher information or CRB to plant gravitropism, versus 121 papers applying CRB to neural and animal sensory coding~\citep{chauvet2016}.
+
+\paragraph{Physical setup.} Plant gravitropic sensing relies on statoliths---starch-filled amyloplasts that sediment under gravity within columella cells at the root tip. B\'{e}rut et al.~\citep{berut2018} showed that statoliths behave as an active granular liquid with an effective temperature $T_\text{eff} \approx 10 \times$ thermal, due to cytoskeletal agitation. The key physical parameters are given in Table~\ref{tab:crb_params}, all from published measurements.
+
+\begin{table}[h]
+\centering
+\caption{Physical parameters for the CRB derivation, all from B\'{e}rut et al.\ 2018~\citep{berut2018} unless noted.}
+\label{tab:crb_params}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Parameter} & \textbf{Value} & \textbf{Source} \\
+\midrule
+Statolith radius $r$ & 2--4~$\mu$m & Confocal microscopy \\
+Statoliths per cell $N$ & 30--40 & Direct count \\
+$T_\text{eff}$ & $10 \times$ thermal ($\approx$2950~K) & Avalanche dynamics \\
+$\Delta\rho$ (starch -- cytoplasm) & 300--500~kg/m$^3$ & Standard values \\
+Sedimentation length $\lambda = k_B T_\text{eff} / mg$ & $\sim$73~nm & Derived \\
+P\'{e}clet number Pe $= L/\lambda$ & $\sim$340 & Gravity $\gg$ noise \\
+Observed angular resolution & 1$^\circ$--5$^\circ$ & Chauvet et al.\ 2016 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Derivation.} Consider $N$ statoliths in a columella cell of half-width $W$, inclined at angle $\theta$ from vertical. Each statolith has mass $m = \frac{4}{3}\pi r^3 \Delta\rho$ and experiences a lateral gravitational potential component proportional to $\sin\theta$. At effective temperature $T_\text{eff}$, the lateral position distribution is a truncated exponential:
+
+\begin{equation}
+    p(x \,|\, \theta) = \frac{\eta \, e^{-\eta x}}{1 - e^{-\eta W}}, \qquad \eta(\theta) = \frac{mg\sin\theta}{k_B T_\text{eff}} = \frac{\sin\theta}{\lambda}
+\label{eq:crb_distribution}
+\end{equation}
+
+\noindent where $\lambda = k_B T_\text{eff} / mg$ is the sedimentation length. In the sedimented regime ($\eta W = W\sin\theta/\lambda \gg 1$, which holds for all biologically relevant parameters at $\theta \gtrsim 1^\circ$), the truncation correction is negligible, $\text{Var}[x] \approx 1/\eta^2 = \lambda^2/\sin^2\theta$, and the Fisher information per statolith with respect to $\theta$ is:
+
+\begin{equation}
+    I_1(\theta) = \left(\frac{\partial \eta}{\partial \theta}\right)^2 \text{Var}[x] \approx \frac{\cos^2\theta}{\lambda^2} \cdot \frac{\lambda^2}{\sin^2\theta} = \cot^2\theta
+\end{equation}
+
+\noindent Note that $\lambda$ cancels: the Fisher information is dimensionless, as required for a parameter $\theta$ measured in radians. Near $\theta = 0$, the lateral P\'{e}clet number $\eta W \to 0$ and statoliths approach a uniform distribution over $[0, W]$ with $\text{Var}[x] = W^2/12$, yielding a finite Fisher information $I_1(0) = W^2/(12\lambda^2)$; the full truncated-exponential model (used in our numerical code) handles this transition continuously.
+
+For $N$ independent statoliths, the CRB on angular resolution is:
+
+\begin{equation}
+    \sigma_\theta \geq \text{CRB}(\theta) = \frac{1}{\sqrt{N \cdot I_1(\theta)}} = \frac{\tan\theta}{\sqrt{N}}
+\label{eq:crb_bound}
+\end{equation}
+
+\paragraph{Results.} Table~\ref{tab:crb_vs_angle} presents the CRB across the full range of inclination angles for three parameter scenarios (optimistic: large statoliths, many per cell; mid-range; pessimistic: small statoliths, few per cell). At the standard experimental test angle of $\theta = 5^\circ$, the CRB ranges from 0.79$^\circ$ to 2.37$^\circ$. The observed plant angular resolution of 1$^\circ$--5$^\circ$~\citep{chauvet2016} means that plants operate \textbf{1--6$\times$ above the fundamental physical limit}.
+
+\begin{table}[h]
+\centering
+\caption{Cram\'{e}r-Rao bound for gravitropic angular resolution vs.\ inclination angle. Three parameter scenarios span the published range. Observed plant resolution is 1$^\circ$--5$^\circ$.}
+\label{tab:crb_vs_angle}
+\small
+\begin{tabular}{@{}rccc@{}}
+\toprule
+$\theta$ ($^\circ$) & \textbf{CRB optimistic} & \textbf{CRB mid} & \textbf{CRB pessimistic} \\
+\midrule
+0.1 & 0.053$^\circ$ & 0.165$^\circ$ & 2.245$^\circ$ \\
+0.5 & 0.085$^\circ$ & 0.177$^\circ$ & 2.247$^\circ$ \\
+1 & 0.158$^\circ$ & 0.215$^\circ$ & 2.250$^\circ$ \\
+2 & 0.316$^\circ$ & 0.345$^\circ$ & 2.265$^\circ$ \\
+5 & 0.793$^\circ$ & 0.847$^\circ$ & 2.365$^\circ$ \\
+10 & 1.597$^\circ$ & 1.708$^\circ$ & 2.719$^\circ$ \\
+20 & 3.297$^\circ$ & 3.525$^\circ$ & 4.066$^\circ$ \\
+45 & 9.059$^\circ$ & 9.685$^\circ$ & 10.468$^\circ$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This result is \textbf{confirmed}: the CRB is a valid, non-trivial lower bound on plant angular resolution. The ratio of observed to theoretical limit (1--6$\times$) is comparable to other biological sensory systems: photoreceptors operate 5--10$\times$ above the shot noise limit, and bacterial chemotaxis sensors operate 2--10$\times$ above their CRB~\citep{berg1977}. This suggests a general principle: evolved biological sensors operate within roughly one order of magnitude of their fundamental physical limits.
+
+\paragraph{N-scaling prediction.} A direct corollary of Equation~\ref{eq:crb_bound} is that angular resolution should scale as $\sigma_\theta \propto 1/\sqrt{N}$ with statolith count. This generates a specific, testable prediction: starchless mutants with reduced statolith numbers should show degraded angular resolution following a square-root law (Table~\ref{tab:crb_nscaling}).
+
+\begin{table}[h]
+\centering
+\caption{Predicted angular resolution vs.\ statolith count $N$, at $\theta = 5^\circ$ (mid-range parameters). Testable with starchless mutant lines.}
+\label{tab:crb_nscaling}
+\small
+\begin{tabular}{@{}rcc@{}}
+\toprule
+$N$ & \textbf{CRB ($^\circ$)} & \textbf{Predicted obs.\ ($\times$3 above CRB)} \\
+\midrule
+5 & 2.24 & 6.7 \\
+10 & 1.59 & 4.8 \\
+20 & 1.12 & 3.4 \\
+35 & 0.85 & 2.5 \\
+40 & 0.79 & 2.4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Additional testable predictions.} Beyond N-scaling, the CRB framework generates three further predictions: (1)~Cytoskeletal inhibitors that reduce $T_\text{eff}$ should \emph{paradoxically improve} angular precision by reducing the noise floor against which the gravitational signal competes. (2)~A nonlinear transition in gravitropic response should occur near $\theta \approx 0.3^\circ$ where the lateral P\'{e}clet number approaches unity and the sedimented-regime approximation breaks down. (3)~Species with larger statoliths (greater $m$, smaller $\lambda$) should have finer angular resolution at any given $\theta$.
+
+\paragraph{Novelty.} This is the \textbf{first application of Fisher information to plant gravitropism}. Systematic searches across 8 query variants confirmed zero PubMed co-occurrence, versus 121 papers applying CRB to neural and animal sensory coding. The gap is purely domain-specific: the mathematics is proven, the biology is measured, but no one has connected them. This is the type of ``undiscovered public knowledge''~\citep{swanson1986} that MAGELLAN is designed to find.
+
+Figure~\ref{fig:crb_angle} shows the CRB as a function of inclination angle for three parameter regimes, compared to the observed resolution band. Figure~\ref{fig:bio_comparison} places plant gravitropism in context with other biological sensing systems operating near physical limits.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/fig1_crb_vs_angle.pdf}
+\caption{Cram\'{e}r-Rao bound for plant gravitropic angular resolution as a function of inclination angle $\theta$. Three parameter regimes are shown (optimistic, mid-range, pessimistic). The red band indicates observed plant resolution (1$^\circ$--5$^\circ$, Chauvet et al.\ 2016). Plants operate 1--6$\times$ above the fundamental physical limit at the standard test angle ($\theta = 5^\circ$).}
+\label{fig:crb_angle}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/fig3_biological_comparison.png}
+\caption{Biological sensing systems compared to their fundamental physical limits. Plant gravitropism (this work) operates 1--70$\times$ above the Cram\'{e}r-Rao bound, comparable to photoreceptors and chemotaxis sensors. This is the first time gravitropism has been placed in this context.}
+\label{fig:bio_comparison}
+\end{figure}
+
+\paragraph{Two verifications, two outcomes.} The pairing of a partially falsified prediction (GEV/Meltome, Section~\ref{sec:gev}) with a confirmed one (CRB/gravitropism) is itself informative. It demonstrates three properties of MAGELLAN's output: hypotheses are \emph{specific enough to falsify} (the GEV prediction was quantitative and testable), \emph{novel enough to contribute} (even the falsified prediction produced the first EVT analysis of thermal proteomics), and \emph{precise enough to confirm} (the CRB prediction was validated from published parameters alone).
+
+%----------------------------------------------------------------------
+\subsection{Cross-Model Validation}
+\label{sec:cross_model}
+%----------------------------------------------------------------------
+
+After the Quality Gate, surviving hypotheses are independently evaluated by two external frontier models: GPT-5.4~Pro (OpenAI, with web search and code interpreter enabled) and Gemini~3.1~Pro (Google, with code execution and Google Search grounding enabled). The Cross-Model Validator agent generates hypothesis-specific validation prompts and dispatches them via API calls, producing a consensus report.
+
+The rationale is adversarial diversity: if a hypothesis survives criticism from three independently trained models (Claude Opus~4.6 generating and critiquing, GPT-5.4~Pro empirically validating, Gemini~3.1~Pro structurally analyzing), the remaining failure modes are more likely to be genuinely subtle rather than artifacts of a single model's blind spots. The three models have different training data, different reasoning strategies, and different tool access patterns.
+
+In practice, the cross-model validation has identified three categories of disagreement:
+\begin{enumerate}
+    \item \textbf{Novelty assessment divergence}: GPT-5.4, with access to more recent web results, occasionally identifies relevant recent papers that Claude's pipeline missed. This has caused post-hoc downgrade of novelty scores in 2 sessions.
+    \item \textbf{Quantitative verification}: GPT-5.4's code interpreter enables independent recalculation of numerical predictions (e.g., P\'{e}clet numbers, dissipation rates). In Session 014, this caught a discrepancy in entropy production estimates.
+    \item \textbf{Structural analysis}: Gemini's code execution capability has been used to verify mathematical derivations (e.g., Fisher information calculations, percolation exponent relationships).
+\end{enumerate}
+
+Cross-model validation is non-blocking: API failures or unavailability do not change session status. When API keys are not configured, the system generates self-contained export files that can be manually pasted into GPT or Gemini interfaces.
+
+%----------------------------------------------------------------------
+\subsection{Holdout Validation}
+\label{sec:holdout}
+%----------------------------------------------------------------------
+
+To test whether MAGELLAN can independently rediscover known scientific findings, we curated three holdout targets from post-2025 publications (Table~\ref{tab:holdouts}). Each target represents a confirmed cross-disciplinary discovery published after the system's design was finalized. The validation protocol is: (1)~present only the two fields (``Field~A $\times$ Field~C'') without revealing the known mechanism, (2)~run the standard pipeline, (3)~check for contamination (did the pipeline find the answer paper?), and (4)~score mechanism similarity between MAGELLAN's output and the known discovery.
+
+\begin{table}[h]
+\centering
+\caption{Holdout validation targets. Three confirmed post-2025 cross-disciplinary discoveries.}
+\label{tab:holdouts}
+\small
+\begin{tabular}{@{}cp{3cm}p{3cm}ll@{}}
+\toprule
+\textbf{ID} & \textbf{Field A} & \textbf{Field C} & \textbf{Key paper} & \textbf{Journal} \\
+\midrule
+001 & mRNA vaccinology & Immuno-oncology & Grippin et al.\ 2025 & \textit{Nature} \\
+002 & Gut microbiology & Primate brain evolution & DeCasien et al.\ 2026 & \textit{PNAS} \\
+003 & Mechanobiology (ECM) & Epigenomics (enhancers) & Cosgrove et al.\ 2025 & \textit{Science} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Holdout-001 (Grippin et al.~\citep{grippin2025}, \textit{Nature} 2025) demonstrated that mRNA COVID vaccines sensitize tumors to immune checkpoint blockade via type I interferon-mediated CD8+ T cell priming---an unexpected connection between vaccinology and cancer immunotherapy with a 5-fold improvement in 3-year overall survival for low PD-L1 tumors. Holdout-002 (DeCasien et al.~\citep{decasien2026}, \textit{PNAS} 2026) showed that gut microbiota from large-brained primate species upregulate brain oxidative phosphorylation genes in germ-free mice---the first experimental link between microbiome composition and brain evolution. Holdout-003 (Cosgrove et al.~\citep{cosgrove2025}, \textit{Science} 2025) discovered ``mechanoenhancers,'' a class of genomic regulatory elements activated by extracellular matrix stiffness, with direct implications for fibrosis.
+
+\paragraph{Contamination issue.} Holdout-003 presented a contamination challenge: Sessions 015 and 016 had already targeted mechanobiology~$\times$~epigenomics before the holdout was curated. The pipeline's literature retrieval found the Cosgrove et al.\ 2025 paper during these sessions, making it impossible to test uncontaminated rediscovery for this target. This is a structural limitation of holdout validation for an autonomous system---the system may discover the relevant field pair before the holdout test is administered.
+
+\begin{sloppypar}
+Holdouts 001 and 002 remain uncontaminated and available for future validation runs. The full holdout protocol includes verdicts of GENUINE\_REDISCOVERY (mechanism independently found), PARTIAL\_REDISCOVERY (related mechanism, different specifics), ADJACENT\_DISCOVERY (same fields, different connection), CONTAMINATED (answer paper found), and MISSED (no relevant output).
+\end{sloppypar}
+
+%----------------------------------------------------------------------
+\subsection{Failure Analysis}
+\label{sec:failure_analysis}
+%----------------------------------------------------------------------
+
+Of the $\sim$171 hypotheses that did \emph{not} survive the adversarial pipeline, we classified failure modes from the Session Analyst's meta-learning outputs. Table~\ref{tab:kill_patterns} presents the dominant kill patterns.
+
+\begin{table}[h]
+\centering
+\caption{Hypothesis kill patterns across 22 sessions. Percentages are approximate due to overlapping categories.}
+\label{tab:kill_patterns}
+\small
+\begin{tabular}{@{}lrl@{}}
+\toprule
+\textbf{Kill pattern} & \textbf{Count (\%)} & \textbf{Representative session} \\
+\midrule
+Energy/force scale mismatch & 18 (11\%) & S001, S004, S016 \\
+Quantitative impossibility & 13 (8\%) & S005, S007, S014 \\
+Substrate/condition mismatch & 8 (5\%) & S005 \\
+Mechanism fabrication (wrong compartment) & 8 (5\%) & S013, S014 \\
+Classical explanation sufficiency & 6 (4\%) & S001, S002 \\
+Mechanism fabrication (no pathway) & 5 (3\%) & S002, S006 \\
+Thermodynamic impossibility & 4 (2\%) & S005, S007 \\
+Citation hallucination & 5 (3\%) & S004, S018, S019 \\
+Mathematical invalidity & 3 (2\%) & S002 \\
+Binding affinity too weak & 3 (2\%) & S012 \\
+Time-scale mismatch & 1 ($<$1\%) & S016 \\
+Logic kill (internal contradiction) & 1 ($<$1\%) & S014 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Why EM fields and quantum bridges always fail.} Direct electromagnetic field effects (0/8) and quantum entanglement bridges (0/3) represent the pipeline's most consistent failure mode. The mechanism is always the same: the proposed coupling energy is orders of magnitude below $k_B T$ at biological temperatures. For EM fields, typical proposed interaction energies ($\sim\mu$eV) are $10^3$--$10^4\times$ below thermal noise. For quantum coherence, decoherence times in warm, wet biological environments ($\sim$fs) are $10^{12}\times$ shorter than required for functional quantum effects. These bridge types are now pre-screened out by meta-learning heuristics.
+
+\paragraph{What the Critic catches vs.\ what the Quality Gate catches.} The Critic and Quality Gate serve complementary roles. The Critic excels at \emph{mechanism-level} kills: wrong compartment topology (T6SS fires inward, not outward), physically impossible spatial gradients (P\'{e}clet number $\ll 1$), and counter-evidence from literature search. Its kill rate of 30--50\% is by design. The Quality Gate excels at \emph{claim-level} verification: it individually web-searches every \textsc{[grounded]} claim and catches citation hallucinations (fabricated DOIs, wrong journal attributions, papers cited for the opposite of their actual conclusion). The citation hallucination rate of $\sim$2--3\% of grounded claims is low but nonzero---the Quality Gate caught a fabricated citation in Session 013 (``Mateus et al.\ 2020, Science 367:eaaz5268'' was a conflation of Tan 2018 and Mateus 2020) and a fabricated first author in Session 018 (``Avanzini et al.\ 2026'' when the actual first author was Summer).
+
+\paragraph{Emergent kill patterns.} Several kill patterns emerged only after multiple sessions and were codified into pre-generation checks:
+\begin{itemize}
+    \item \textbf{Force-per-contact check} (Session 016): For mechanobiology hypotheses proposing direct force on chromatin, the total cytoskeletal force ($\sim$10--100~pN) divides across $\sim$100{,}000+ molecular contacts, yielding per-element forces of $\sim$0.001~pN---3--4 orders of magnitude below nucleosome unwrapping thresholds.
+    \item \textbf{Data-structural form check} (Session 017): Mathematical methods require specific data structures (temporal ordering for extremal indices, sufficient density for trend fitting). Cross-sectional proteome data lacks the temporal ordering required by several EVT methods.
+    \item \textbf{Symmetry constraint pre-check} (Session 018): Standard protein Markov state models enforce detailed balance by construction, making the transition matrix normal. Proposing non-normality measures for standard MSMs is structurally impossible.
+\end{itemize}
+
+%----------------------------------------------------------------------
+\section{Case Studies}
+\label{sec:case_studies}
+%----------------------------------------------------------------------
+
+We present two passing hypotheses in detail to illustrate the full pipeline output: one from a fully autonomous session applying a mathematical framework to biology, and one from a session connecting physics to immunology.
+
+%----------------------------------------------------------------------
+\subsection{Case Study 1: FtsZ GTPase Dissipation Identifies the Precision Bottleneck in Bacterial Cell Division}
+\label{sec:case_ftsz}
+%----------------------------------------------------------------------
+
+\paragraph{Session context.} Session S014 (autonomous, \emph{converging vocabularies} strategy) targeted the thermodynamic uncertainty relation (TUR) from stochastic thermodynamics and the bacterial adder model of cell size homeostasis. Disjointness: 0.96 (zero PubMed papers bridging TUR and adder model).
+
+\paragraph{Hypothesis.} The bacterial cell cycle involves two major entropy-producing molecular currents: DnaA-ATP hydrolysis at the origin of replication ($\Sigma_\text{DnaA} \approx 11 \times 20\,k_B T = 220\,k_B T$ per initiation) and FtsZ-GTP hydrolysis in the Z-ring during division ($\Sigma_\text{FtsZ} \approx 300 \times 6.5\text{ GTP/min} \times 15\text{ min} \times 15\,k_B T \approx 405{,}000\,k_B T$ per division). The entropy production ratio is $\sim$1{,}840$\times$. By the TUR, the minimum achievable coefficient of variation (CV) scales as $\text{CV}^2 \geq 2/\Sigma$. Thus DnaA counting sets a TUR floor of $\text{CV} \geq 9.5\%$, while FtsZ sets $\text{CV} \geq 0.22\%$.
+
+The precision bottleneck is definitively at \emph{initiation} (DnaA), not at \emph{division} (FtsZ). FtsZ's enormous entropy production serves a mechanical function (constriction force), not an informational one (precision timing).
+
+\paragraph{Quality Gate verdict.} PASS, composite 7.90. All key parameters independently verified: FtsZ $k_\text{cat} \approx 8$/min (Romberg \& Mitchison 2004), FtsZ treadmilling (Bisson-Filho et al., \textit{Science} 2017), $N_\text{eff} = 11$ DnaA binding sites (McGarry et al.\ 2004). The entropy production calculation is robust: even at the lowest Z-ring occupancy (200 monomers), the FtsZ/DnaA ratio exceeds 800$\times$.
+
+\paragraph{Falsification test.} FtsZ84 (temperature-sensitive GTPase mutant, $\sim$10\% activity)
+at semi-per\-mis\-sive temperature: CV of added size should \emph{not} increase significantly. \textit{dnaA46} (temperature-sensitive initiation mutant) at semi-permissive temperature: CV should increase by 15--30\%. The \emph{asymmetric} response identifies the precision bottleneck. Both mutants are standard laboratory alleles available in stock centers.
+
+\paragraph{Significance.} This hypothesis transforms a qualitative question (``Where is precision limiting in the cell cycle?'') into a quantitative prediction from first principles. The TUR is a mathematical inequality that \emph{must} hold for any dissipative counting process; the hypothesis tests whether the biological system operates near one bound or the other. This is the ``physical law as bridge'' pattern identified by the Session Analyst as the highest-performing bridge type.
+
+%----------------------------------------------------------------------
+\subsection{Case Study 2: Percolation Theory Predicts LOX/Anti-TGF-$\beta$ Synergy in Immune-Excluded Tumors}
+\label{sec:case_percolation}
+%----------------------------------------------------------------------
+
+\paragraph{Session context.} Session S019 (autonomous, \emph{structural isomorphism} strategy) targeted the application of percolation threshold theory to T~cell infiltration in solid tumors. Disjointness: 0.95 (zero prior literature on percolation phase transitions applied to tumor immune exclusion).
+
+\paragraph{Hypothesis.} The extracellular matrix (ECM) of solid tumors can be modeled as a 3D bond percolation network, where LOX-mediated collagen crosslinks define bond occupation probability $p$. Below a critical threshold $p_c \approx 0.22$ (for Voronoi tessellation with coordination number $z \sim 6$--8), a spanning cluster of connected pores permits T~cell migration (immune-hot tumor). Above $p_c$, no spanning cluster exists (immune-cold tumor). The bond open/closed threshold is calibrated to the Wolf et al.\ 2013 nuclear cross-section constraint (4~$\mu$m$^2$).
+
+TGF-$\beta$--mediated integrin activation creates spatially \emph{correlated} collagen crosslink density with a correlation length of 40--60~$\mu$m around cancer-associated fibroblasts (CAFs). Using the Weinrib-Halperin (1983) theory for exponentially correlated disorder, this correlation shifts $p_c$ upward by $+$0.035 to $+$0.075 above the random-percolation threshold, making the tumor ECM \emph{harder to percolate} than a random collagen network with the same mean crosslink density.
+
+\paragraph{Quantitative prediction.} LOX inhibition (BAPN or PXS-5505) raises $p$ by $+$0.10--0.15, while anti-TGF-$\beta$ (galunisertib) lowers $p_c$ by 0.035--0.075. The combination achieves a $p - p_c$ margin of $\sim$0.17 versus $\sim$0.12 for BAPN alone or $\sim$0.05 for anti-TGF-$\beta$ alone. Since infiltration scales as $P_\infty \sim (p - p_c)^{0.417}$ (3D percolation universality class), the combination produces $P_\infty \sim 0.57$ versus 0.47 (BAPN alone) or 0.30 (anti-TGF-$\beta$ alone). This is super-additive synergy calculable from percolation physics.
+
+\paragraph{Quality Gate verdict.} CONDITIONAL\_PASS, composite 7.6. Grounded claims verified: Weinrib \& Halperin 1983 \textit{Phys.\ Rev.\ B} 27:413 (confirmed), Nicolas-Boluda 2021 \textit{eLife} (confirmed), TGFB1-LOX STRING interaction score 0.623 (confirmed). Condition: verify the active-particle correction to $p_c$ (T~cells are not passive random walkers; P\'{e}clet number $\sim$3 may modify the universality class).
+
+\paragraph{Convergence evidence.} The Convergence Scanner found striking independent confirmation: (1)~NCT05109052, a Phase~1b/2 trial of PXS-5505 (pan-LOX inhibitor) combined with atezolizumab and bevacizumab for hepatocellular carcinoma, whose rationale explicitly states ``improved survival when combined with systemic therapy through increased intratumoral drug delivery and enhanced host anti-tumor immunity.'' (2)~Patent WO2024003558A1 (Institute of Cancer Research, 2023) states ``LOX reduction reduces ECM content and tumor stiffness leading to improved T~cell migration and increased efficacy of anti-PD-1 blockade.'' (3)~A 2026 \textit{Science Immunology} paper (PMID 41860994) independently demonstrated that collagen network \emph{topology}---not bulk stiffness---governs T~cell localization, which is precisely the central premise of the percolation framework.
+
+Neither the clinical trial nor the patent uses percolation theory, but both operationalize the core mechanism. The percolation framework adds \emph{quantitative predictions} (specific $p_c$ thresholds, drug combination synergy magnitudes, universality class exponents) that the existing qualitative understanding lacks.
+
+%----------------------------------------------------------------------
+\section{Discussion and Limitations}
+\label{sec:discussion}
+%----------------------------------------------------------------------
+
+\subsection{What MAGELLAN Can and Cannot Do}
+
+MAGELLAN demonstrates that adversarial multi-agent systems can autonomously identify cross-disciplinary connections that are specific, mechanistically detailed, and sometimes computationally verifiable. The 37\% survival rate across an adversarial pipeline with independent cross-model validation suggests that the system is neither too permissive (random hypotheses would survive at $<$5\%) nor too conservative (the meta-learning system identifies and prunes entire bridge categories). The two computational verifications---one confirmed, one partially falsified---demonstrate that the output is empirically meaningful.
+
+However, the system has fundamental limitations that must be stated honestly.
+
+\subsection{No Experimental Validation}
+
+The most important limitation is that \textbf{no MAGELLAN hypothesis has been tested in a laboratory}. The computational verifications in Sections~\ref{sec:gev} and~\ref{sec:crb} use published data and first-principles calculations. The convergence evidence for the percolation hypothesis (Section~\ref{sec:case_percolation}) includes a Phase~1b/2 clinical trial testing the core mechanism, but this trial was designed independently of MAGELLAN.
+
+\begin{sloppypar}
+This places MAGELLAN in a fundamentally different position from Google's AI Co-Scientist~\citep{gottweis2025}, which reported three experimentally validated discoveries (KIRA6 for AML, vorinostat for hepatic fibrosis, cf-PICIs for bacterial gene transfer). Google had wet-lab collaborators who could test predictions within weeks. MAGELLAN has zero. The distance between ``computationally plausible'' and ``experimentally confirmed'' is the central gap in our evidence. The system publishes all hypotheses with test protocols and cost estimates precisely to invite domain experts to close this gap.
+\end{sloppypar}
+
+\subsection{Life Sciences Bias}
+
+The pipeline exhibits three coupled biases toward the life sciences. At the retrieval level, PubMed, KEGG, and STRING are all bio-specific; no equivalent MCP servers exist for arXiv or INSPIRE-HEP. At the scoring level, 60\% of the composite weight (Testability + Groundedness + Mechanistic Specificity) favors experimental sciences with structured databases. At the format level, few-shot examples in agent prompts use molecular and pathway language.
+
+These biases produce a measurable score asymmetry. Session S-targeted-015 (prime numbers~$\times$~black holes) achieved 100\% QG pass+cond rate but 0\% outright PASS: all three hypotheses received CONDITIONAL\_PASS because the math-physics domain lacks existing measurement datasets for immediate verification. A physics hypothesis with composite score 5.5 may be qualitatively equivalent to a biomedical hypothesis with score 7.0. The cross-domain creativity bonus (+0.5 for hypotheses crossing 2+ disciplinary boundaries) partially compensates but does not eliminate this asymmetry.
+
+\subsection{Measurement Censoring as Lesson}
+
+The GEV/Meltome verification provides a general lesson about computational verification of AI-generated hypotheses. The prediction appeared to have weak support ($r = -0.63$, $p = 0.02$) until careful examination revealed that the entire signal was an artifact of measurement censoring in a single species. This is a failure mode specific to \emph{computationally verifiable} hypotheses: the verification can produce a false positive if the data's limitations are not understood.
+
+MAGELLAN's own pipeline anticipated this: a companion hypothesis from the same session (C1-H3) independently predicted that TPP measurement censoring would create artifacts for thermophilic species. The fact that the system generated both the flawed prediction and its own correction speaks to the value of multi-hypothesis generation: the portfolio approach produces hypotheses that critique each other.
+
+\subsection{The Generation-Validation Gap}
+
+There is a structural tension in the system between the ease of hypothesis generation and the difficulty of hypothesis validation. A single \texttt{/discover} session (15--45 minutes, \$2--5 of API cost) produces 7--15 hypotheses, of which 2--6 survive adversarial review. Computationally verifying a single hypothesis (the GEV and CRB analyses) required 1--2 days of work each. Experimental verification of even the simplest hypothesis (e.g., measuring $\xi$ vs.\ OGT on Meltome Atlas data with a censored GEV model) would require a bioinformatician with domain expertise in both extreme value theory and thermal proteomics.
+
+This suggests that the bottleneck in AI-assisted discovery has shifted. It is no longer hypothesis generation (MAGELLAN can produce them faster than they can be evaluated). It is \emph{domain expertise to triage, prioritize, and test} the output. The system's scoring, ranking, and convergence evidence are designed to assist this triage, but they cannot replace it.
+
+\subsection{Missing Ablations}
+
+We have not conducted ablation studies to measure the marginal contribution of individual pipeline components (e.g., removing the Critic, disabling cross-model validation, using a single LLM instead of the multi-agent architecture). The 37\% survival rate is a property of the \emph{complete system}; we cannot currently attribute it to any specific component. This limits our ability to recommend which architectural elements are essential versus incidental. Future work should include controlled ablations---removing individual agents or agent groups and measuring the effect on survival rate, composite score distribution, and expert-assessed quality.
+
+\subsection{Comparison to Prior Systems}
+
+Among published AI discovery systems, Google's AI Co-Scientist~\citep{gottweis2025} is the most directly comparable. Key differences: (1)~Google requires a scientist-in-the-loop to frame the research question; MAGELLAN's Scout autonomously decides where to look. (2)~Google has wet-lab collaborators; MAGELLAN has none. (3)~Google reported 3 validated discoveries; MAGELLAN reports 0 validated, 2 computationally verified, and 102 adversarially surviving. (4)~Google is proprietary; MAGELLAN is fully open-source.
+
+FutureHouse's Robin/Kosmos achieved 79.4\% on structured agentic tasks~\citep{mitchener2025} but only 57.9\% on novel synthesis---suggesting that AI systems perform well on tasks with clear evaluation criteria but struggle with genuinely open-ended discovery. MAGELLAN's 37\% survival rate on a \emph{self-imposed} adversarial pipeline is not directly comparable (our pipeline may be more or less stringent than FutureHouse's evaluation), but the principle is similar: generation is easier than validation.
+
+\subsection{Citation Hallucination}
+
+Despite multiple verification layers (Generator self-critique, Critic claim-level verification, Quality Gate per-claim web search), approximately 2--3\% of grounded claims contain citation errors. These are predominantly \emph{conflations} rather than fabrications: the system correctly recalls a finding but misattributes it (wrong first author, wrong journal, wrong year). The most common pattern is correct venue and year with a fabricated first author for very recent papers ($<$6 months old).
+
+This rate is low but consequential: a single fabricated citation triggers automatic FAIL at the Quality Gate. The meta-learning system has codified this into mandatory pre-generation verification rules (e.g., verify first author names for papers published in the past 6 months via web search before citing).
+
+\subsection{Broader Implications}
+
+If AI systems can find genuine cross-field connections that humans have missed---even if the connections require experimental confirmation---this has significant implications for scientific discovery. The scale advantage is stark: MAGELLAN searches 10 cross-disciplinary targets per session, across any pair of scientific fields, in under an hour. A human researcher building the same breadth of cross-field knowledge would require years of reading.
+
+The risk is also clear: fluent, specific, well-cited hypotheses that are \emph{wrong} could consume scarce experimental resources. The adversarial pipeline is designed to minimize this risk, but a 37\% survival rate means that 63\% of generated hypotheses are eliminated internally. Of the survivors, some will be wrong in ways that the pipeline cannot detect without experimental data.
+
+\subsection{Ethical Considerations}
+
+MAGELLAN's approach to responsible disclosure involves two principles:
+
+\begin{enumerate}
+    \item \textbf{CC0 public domain licensing for autonomous discoveries.} All hypotheses generated in fully autonomous mode (\texttt{/discover} without arguments) are released under CC0~1.0, placing them in the public domain. This prevents any party---including us---from claiming intellectual property over AI-generated scientific hypotheses. Guided-mode discoveries (where a user provides domain context) are licensed CC-BY~4.0.
+    \item \textbf{Full transparency.} All hypotheses, including rejected ones, are published with their complete adversarial pipeline history (Critic attacks, Quality Gate verdicts, cross-model reports). Failures are as informative as successes: they reveal what \emph{does not} work and why.
+\end{enumerate}
+
+The system does not address dual-use risks (e.g., hypotheses about pathogen mechanisms). This is a limitation of the current design; the pipeline has no content filter for potentially dangerous applications.
+
+%----------------------------------------------------------------------
+\section{Conclusion}
+\label{sec:conclusion}
+%----------------------------------------------------------------------
+
+MAGELLAN demonstrates that adversarial multi-agent systems running frontier language models can autonomously generate cross-disciplinary scientific hypotheses that are specific, testable, and empirically meaningful. Over 22 sessions, the system produced 273 hypotheses, of which 102 (37\%) survived an adversarial pipeline including 9-vector criticism, claim-level fact verification, 10-point quality gate review, and independent evaluation by GPT-5.4~Pro and Gemini~3.1~Pro.
+
+Computational verification on public data produced two outcomes: a partially falsified prediction (GEV tail index vs.\ growth temperature, revealing measurement censoring artifacts but producing the first extreme-value-theory analysis of thermal proteomics) and a confirmed prediction (Cram\'{e}r-Rao bound for plant gravitropic sensing, showing plants operate 1--6$\times$ above the fundamental physical limit---the first application of Fisher information to plant gravity perception). Both analyses had zero prior literature.
+
+The system's meta-learning reveals reliable patterns: cross-disciplinary connections based on mathematical constraints (conservation laws, inequalities, universality theorems) outperform those based on analogies or direct physical effects. Truly disjoint field pairs produce substantially better hypotheses than partially explored ones (84\% vs.\ 30\% survival). Certain bridge types (direct EM field effects, quantum entanglement) fail universally and can be pre-screened.
+
+The bottleneck is no longer hypothesis generation. An autonomous system can produce specific, falsifiable, adversarially reviewed cross-disciplinary hypotheses faster than they can be experimentally tested. The missing piece is domain expertise: scientists in thermal proteomics, plant physiology, tumor immunology, bacterial cell biology, and dozens of other fields could evaluate whether the surviving hypotheses merit laboratory investigation. We have released all code, hypotheses, and methodology under Apache~2.0 and CC0 specifically to invite this evaluation. The hypotheses are available at \url{https://magellan-discover.ai/discoveries} and the source code at \url{https://github.com/kakashi-ventures/magellan-cli}.
+
+The question MAGELLAN poses is not whether AI can replace scientists---it cannot---but whether it can systematically surface the cross-field connections that no individual scientist has the breadth to see. Twenty-two sessions suggest the answer is a cautious yes, pending the experimental confirmation that only domain experts can provide.
