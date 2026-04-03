@@ -12,7 +12,7 @@ Over these 22 sessions, MAGELLAN generated 273 hypotheses.\footnote{All statisti
 
 Table~\ref{tab:aggregate} summarizes the aggregate statistics. The mean Quality Gate composite score for passing hypotheses was 7.1/10.0, with a range of 5.2--8.55. Sessions ranged from 7 to 15 hypotheses generated, with kill rates between 0\% (Session 009, which produced only CONDITIONAL\_PASS results) and 75\% (Session 002). The adaptive cycle mechanism triggered early completion in 3 sessions (cycle~1 top-3 $\geq$ 7.0) and Evolver skip in 4 sessions (cycle~2 top-3 $\geq$ 6.5).
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \caption{Aggregate pipeline statistics across 22 sessions.}
 \label{tab:aggregate}
@@ -44,7 +44,7 @@ The Scout's 10 exploration strategies exhibited markedly different survival rate
 
 At the bottom, \emph{recent breakthrough radiation} achieved only 13\% survival, suggesting that trending topics produce less novel cross-disciplinary connections---the ``obvious'' implications have typically been explored already. \emph{Swanson ABC bridging}, the classical literature-based discovery method, produced 0\% outright PASS (30\% CONDITIONAL), though its single primary session was confounded by a PARTIALLY\_EXPLORED target.
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \caption{Scout strategy performance ranked by QG pass rate (PASS + CONDITIONAL\_PASS). Only strategies with $\geq$1 primary session shown.}
 \label{tab:strategies}
@@ -76,7 +76,7 @@ This insight, extracted by the Session Analyst across multiple sessions, has bee
 
 Bridge types---the structural form of the cross-disciplinary connection---predict survival rates more reliably than strategies (Table~\ref{tab:bridge_types}). Computational and analytical tool transfers within the life sciences achieved the highest performance (3 PASS, 1 COND from 4 hypotheses in Session 013, mean composite 8.31). Physical law constraints (e.g., the thermodynamic uncertainty relation applied to bacterial cell division) showed 100\% PASS+COND (7/7). Indirect enzymatic cascades with named molecular participants showed $\sim$100\% survival across 8+ hypotheses.
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \caption{Bridge type survival rates. Top: consistently successful types. Bottom: consistently killed types.}
 \label{tab:bridge_types}
@@ -123,7 +123,7 @@ Before presenting the computational verifications, we distinguish four levels of
 \begin{enumerate}
     \item \textbf{Adversarial survival.} The hypothesis passed the full pipeline (Critic, Quality Gate, cross-model validation). This establishes internal consistency, mechanistic plausibility, and novelty---but not empirical truth. All 102 surviving hypotheses are at this level.
     \item \textbf{Statistical analysis on public data.} A quantitative prediction is tested against existing datasets. The GEV/Meltome analysis (Section~\ref{sec:gev}) is at this level: the primary prediction was falsified, though novel findings emerged.
-    \item \textbf{Mathematical derivation from published parameters.} A bound or prediction is derived from first principles using independently measured physical parameters. The CRB/gravitropism result (Section~\ref{sec:crb}) is at this level: the derivation \emph{is} the result---it is a mathematical consequence of published measurements, not a statistical hypothesis. What requires experimental testing are the \emph{predictions} that follow from the bound (N-scaling, cytoskeletal inhibitor paradox), not the bound itself.
+    \item \textbf{Mathematical derivation from published parameters.} A bound or prediction is derived from first principles using independently measured physical parameters. The CRB/gravitropism result (Section~\ref{sec:crb}) is at this level: the derivation \emph{is} the result---a mathematical consequence of published measurements, not a statistical hypothesis. What requires experimental testing are the \emph{predictions} that follow from the bound (N-scaling, cytoskeletal inhibitor paradox), not the bound itself.
     \item \textbf{Independent convergence evidence.} External sources---clinical trials, patents, independent publications---confirm the core mechanism without knowledge of the hypothesis. The percolation/immune exclusion hypothesis (Section~\ref{sec:case_percolation}) has convergence evidence at this level from three independent sources.
     \item \textbf{Experimental validation.} Direct laboratory testing of the hypothesis. No MAGELLAN hypothesis has reached this level.
 \end{enumerate}
@@ -173,7 +173,7 @@ Session 013 (2026-03-27, autonomous, \emph{tool repurposing} strategy) targeted 
 
 \paragraph{The \textit{T.\ thermophilus} artifact.} The GEV fit for \textit{T.\ thermophilus} produces $\mu = 95^\circ$C---above the thermal proteome profiling (TPP) measurement ceiling of $90^\circ$C. This means the mode of the fitted distribution lies \emph{outside the observable range}. The extremely negative $\xi$ is an artifact of the GEV attempting to capture a severely left-censored distribution: the measurement window truncates the right side of the true Tm distribution, and the MLE compensates by pulling $\xi$ to extreme negative values. Table~\ref{tab:gev_correlation} confirms this diagnosis: removing \textit{T.\ thermophilus} eliminates all correlation ($\rho = +0.10$, $p = 0.75$).
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \caption{Spearman and Pearson correlations of $\xi$ vs.\ OGT across subsets. The apparent Pearson signal disappears when the measurement-censored \textit{T.\ thermophilus} is excluded.}
 \label{tab:gev_correlation}
@@ -202,14 +202,14 @@ This generated three novel findings:
 
 Figure~\ref{fig:gev_scatter} shows $\xi$ vs.\ OGT for all 13 species, with the \textit{T.\ thermophilus} outlier clearly visible. Figure~\ref{fig:gev_distributions} shows representative Tm distributions with GEV fits for a mesophile (\textit{E.\ coli}), a thermophile (\textit{G.\ stearothermophilus}), and the artifact case (\textit{T.\ thermophilus}).
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.7\textwidth]{figures/fig1_xi_vs_ogt.pdf}
 \caption{GEV shape parameter $\xi$ vs.\ optimal growth temperature for 13 Meltome Atlas species. The extreme outlier (\textit{T.\ thermophilus}, $\xi = -2.37$) is a measurement censoring artifact ($\mu_\text{GEV} = 95^\circ$C exceeds the TPP window of 30--90$^\circ$C). Excluding it eliminates all correlation.}
 \label{fig:gev_scatter}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.7\textwidth]{figures/fig2_tm_distributions.pdf}
 \caption{Proteome Tm distributions with GEV fits for three representative species. Note the right-truncation artifact in \textit{T.\ thermophilus}, where the fitted $\mu$ (95$^\circ$C) lies above the measurement ceiling (90$^\circ$C).}
@@ -227,7 +227,7 @@ Session 016 (2026-04-01, targeted, \emph{mathematical bridge} creativity constra
 
 \paragraph{Physical setup.} Plant gravitropic sensing relies on statoliths---starch-filled amyloplasts that sediment under gravity within columella cells at the root tip. B\'{e}rut et al.~\citep{berut2018} showed that statoliths behave as an active granular liquid with an effective temperature $T_\text{eff} \approx 10 \times$ thermal, due to cytoskeletal agitation. The key physical parameters are given in Table~\ref{tab:crb_params}, all from published measurements.
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \caption{Physical parameters for the CRB derivation, all from B\'{e}rut et al.\ 2018~\citep{berut2018} unless noted.}
 \label{tab:crb_params}
@@ -274,7 +274,7 @@ For $N$ independent statoliths, the CRB on angular resolution is:
 
 \paragraph{Results.} Table~\ref{tab:crb_vs_angle} presents the CRB across the full range of inclination angles for three parameter scenarios (optimistic: large statoliths, many per cell; mid-range; pessimistic: small statoliths, few per cell). At the standard experimental test angle of $\theta = 5^\circ$, the CRB ranges from 0.79$^\circ$ to 2.37$^\circ$. The observed plant angular resolution of 1$^\circ$--5$^\circ$~\citep{chauvet2016} means that plants operate \textbf{1--6$\times$ above the fundamental physical limit}.
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \caption{Cram\'{e}r-Rao bound for gravitropic angular resolution vs.\ inclination angle. Three parameter scenarios span the published range. Observed plant resolution is 1$^\circ$--5$^\circ$.}
 \label{tab:crb_vs_angle}
@@ -299,7 +299,7 @@ This result is \textbf{confirmed}: the CRB is a valid, non-trivial lower bound o
 
 \paragraph{N-scaling prediction.} A direct corollary of Equation~\ref{eq:crb_bound} is that angular resolution should scale as $\sigma_\theta \propto 1/\sqrt{N}$ with statolith count. This generates a specific, testable prediction: starchless mutants with reduced statolith numbers should show degraded angular resolution following a square-root law (Table~\ref{tab:crb_nscaling}).
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \caption{Predicted angular resolution vs.\ statolith count $N$, at $\theta = 5^\circ$ (mid-range parameters). Testable with starchless mutant lines.}
 \label{tab:crb_nscaling}
@@ -323,14 +323,14 @@ $N$ & \textbf{CRB ($^\circ$)} & \textbf{Predicted obs.\ ($\times$3 above CRB)} \
 
 Figure~\ref{fig:crb_angle} shows the CRB as a function of inclination angle for three parameter regimes, compared to the observed resolution band. Figure~\ref{fig:bio_comparison} places plant gravitropism in context with other biological sensing systems operating near physical limits.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.7\textwidth]{figures/fig1_crb_vs_angle.pdf}
 \caption{Cram\'{e}r-Rao bound for plant gravitropic angular resolution as a function of inclination angle $\theta$. Three parameter regimes are shown (optimistic, mid-range, pessimistic). The red band indicates observed plant resolution (1$^\circ$--5$^\circ$, Chauvet et al.\ 2016). Plants operate 1--6$\times$ above the fundamental physical limit at the standard test angle ($\theta = 5^\circ$).}
 \label{fig:crb_angle}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.7\textwidth]{figures/fig3_biological_comparison.png}
 \caption{Biological sensing systems compared to their fundamental physical limits. Plant gravitropism (this work) operates 1--70$\times$ above the Cram\'{e}r-Rao bound, comparable to photoreceptors and chemotaxis sensors. This is the first time gravitropism has been placed in this context.}
@@ -366,7 +366,7 @@ Cross-model validation is non-blocking: API failures or unavailability do not ch
 
 To test whether MAGELLAN can independently rediscover known scientific findings, we curated three holdout targets from post-2025 publications (Table~\ref{tab:holdouts}). Each target represents a confirmed cross-disciplinary discovery published after the system's design was finalized. The validation protocol is: (1)~present only the two fields (``Field~A $\times$ Field~C'') without revealing the known mechanism, (2)~run the standard pipeline, (3)~check for contamination (did the pipeline find the answer paper?), and (4)~score mechanism similarity between MAGELLAN's output and the known discovery.
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \caption{Holdout validation targets. Three confirmed post-2025 cross-disciplinary discoveries.}
 \label{tab:holdouts}
@@ -397,7 +397,7 @@ Holdouts 001 and 002 remain uncontaminated and available for future validation r
 
 Of the $\sim$171 hypotheses that did \emph{not} survive the adversarial pipeline, we classified failure modes from the Session Analyst's meta-learning outputs. Table~\ref{tab:kill_patterns} presents the dominant kill patterns.
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \caption{Hypothesis kill patterns across 22 sessions. Percentages are approximate due to overlapping categories.}
 \label{tab:kill_patterns}
