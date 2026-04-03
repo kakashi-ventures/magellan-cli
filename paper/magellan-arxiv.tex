@@ -31,7 +31,7 @@ Torino, Italy\\
 \url{https://magellan-discover.ai}
 }
 
-\date{April 2026}
+\date{}
 
 \raggedbottom
 
@@ -57,11 +57,17 @@ Unlike proprietary systems (Google AI Co-Scientist, FutureHouse), MAGELLAN is fu
 \input{sections_4_to_7}
 
 % ======================================================================
+% ACKNOWLEDGMENTS
+% ======================================================================
+
+\section*{Acknowledgments}
+
+This work was conducted without external funding. The MAGELLAN pipeline runs on Claude Code (Anthropic) and uses APIs from OpenAI (GPT-5.4~Pro) and Google (Gemini~3.1~Pro) for cross-model validation. The author thanks the open-source and scientific communities whose published data (Meltome Atlas, PRIDE, PubMed) made the computational verifications possible. Claude Code was used as both the execution platform and a collaborative tool during paper preparation.
+
+% ======================================================================
 % REFERENCES
 % ======================================================================
-\bibliographystyle{plainnat}
-
-\begin{thebibliography}{30}
+\begin{thebibliography}{40}
 
 \bibitem[Swanson(1986)]{swanson1986}
 Swanson, D.R. (1986).
@@ -121,12 +127,12 @@ The ideation-execution gap: Execution outcomes of LLM-generated versus human res
 \bibitem[Si et~al.(2024)]{si2024}
 Si, C. et~al. (2024).
 Can LLMs generate diverse ideas? Measuring and improving idea diversity in LLM-generated scientific research ideas.
-\emph{arXiv preprint}.
+\emph{arXiv preprint arXiv:2410.13185}.
 
-\bibitem[Smalheiser \& Swanson(2009)]{smalheiser2009}
-Smalheiser, N.R. \& Swanson, D.R. (2009).
-Arrowsmith: A computer tool for literature-based discovery.
-In \emph{Bentham Science Publishers}.
+\bibitem[Smalheiser(2009)]{smalheiser2009}
+Smalheiser, N.R. (2009).
+Literature-based discovery: Beyond the ABCs.
+\emph{Journal of the American Society for Information Science and Technology}, 63(2), 218--224.
 
 \bibitem[Hristovski et~al.(2006)]{hristovski2006}
 Hristovski, D. et~al. (2006).
@@ -149,7 +155,7 @@ The AI Scientist: Towards fully automated open-ended scientific discovery.
 \emph{ICLR 2025}.
 
 \bibitem[Huang et~al.(2025)]{huang2025popper}
-Huang, K., Jin, Y., Li, R., Li, M.Y., Cand\`{e}s, E. \& Leskovec, J. (2025).
+Huang, K. et~al. (2025).
 Automated hypothesis validation with agentic sequential falsifications.
 \emph{International Conference on Machine Learning (ICML 2025)}.
 arXiv:2502.09858.
@@ -172,7 +178,8 @@ TruthHypo: Truthful hypothesis generation with LLMs.
 \bibitem[Jarz\k{a}b et~al.(2020)]{jarzab2020}
 Jarz\k{a}b, A. et~al. (2020).
 Meltome atlas---thermal proteome stability across the tree of life.
-\emph{Nature Methods}, 17, 495--503.
+\emph{Nature Methods}, 17(5), 495--503.
+doi:10.1038/s41592-020-0801-4.
 
 \bibitem[B\'{e}rut et~al.(2018)]{berut2018}
 B\'{e}rut, A. et~al. (2018).
@@ -213,16 +220,49 @@ Thermodynamic uncertainty relation for biomolecular processes.
 Grippin, A.J., Marconi, C., Copling, S. et~al. (2025).
 mRNA vaccines sensitize tumors to immune checkpoint blockade.
 \emph{Nature}, 647(8089), 488--497.
+doi:10.1038/s41586-025-08795-1.
 
 \bibitem[DeCasien et~al.(2026)]{decasien2026}
 DeCasien, A.R., Aronoff, J.E., Mallott, E.K. et~al. (2026).
 Gut microbiota from large-brained primates upregulate brain oxidative phosphorylation genes.
 \emph{Proceedings of the National Academy of Sciences}, 123(2), e2426232122.
+doi:10.1073/pnas.2426232122.
 
 \bibitem[Cosgrove et~al.(2025)]{cosgrove2025}
 Cosgrove, B.D., Bounds, L.R., Taylor, C.K. et~al. (2025).
 Mechanoenhancers: genomic regulatory elements activated by extracellular matrix stiffness.
 \emph{Science}, 390(6778), eadl1988.
+doi:10.1126/science.adl1988.
+
+\bibitem[Romberg \& Mitchison(2004)]{romberg2004}
+Romberg, L. \& Mitchison, T.J. (2004).
+Assembly dynamics of the bacterial cell division protein FtsZ: Poised at the edge of stability.
+\emph{Biochemistry}, 43(1), 282--288.
+
+\bibitem[Bisson-Filho et~al.(2017)]{bissonfilho2017}
+Bisson-Filho, A.W. et~al. (2017).
+Treadmilling by FtsZ filaments drives peptidoglycan synthesis and bacterial cell division.
+\emph{Science}, 355(6326), 739--743.
+
+\bibitem[McGarry et~al.(2004)]{mcgarry2004}
+McGarry, K.C. et~al. (2004).
+Two discriminatory binding sites in the \textit{Escherichia coli} replication origin are required for DNA strand opening by initiator DnaA-ATP.
+\emph{Proceedings of the National Academy of Sciences}, 101(9), 2811--2816.
+
+\bibitem[Wolf et~al.(2013)]{wolf2013}
+Wolf, K. et~al. (2013).
+Physical limits of cell migration: Control by ECM space and nuclear deformation and tuning by proteolysis and traction force.
+\emph{Journal of Cell Biology}, 201(7), 1069--1084.
+
+\bibitem[Nicolas-Boluda et~al.(2021)]{nicolasboluda2021}
+Nicolas-Boluda, A. et~al. (2021).
+Tumor stiffening reversion through collagen crosslinking inhibition improves T cell migration and anti-PD-1 treatment.
+\emph{eLife}, 10, e58688.
+
+\bibitem[Weinrib \& Halperin(1983)]{weinrib1983}
+Weinrib, A. \& Halperin, B.I. (1983).
+Critical phenomena in systems with long-range-correlated quenched disorder.
+\emph{Physical Review B}, 27(1), 413--427.
 
 \bibitem[DeepMind(2025b)]{deepmind2025alphaevolve}
 DeepMind (2025).
@@ -242,7 +282,7 @@ A survey of AI scientists: Toward a six-stage scientific research paradigm.
 \bibitem[Phan et~al.(2025)]{phan2025hle}
 Phan, L. et~al. (2025).
 Humanity's Last Exam.
-\emph{Nature}.
+\emph{Nature}, 638, 1092--1097.
 
 \bibitem[Majumder et~al.(2024)]{majumder2024discoverybench}
 Majumder, B.P. et~al. (2024).
