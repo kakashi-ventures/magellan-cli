@@ -94,6 +94,8 @@ The 2025--2026 period has seen a proliferation of multi-agent systems for scient
 
 \subsection{Comparison}
 
+Viewed collectively, the systems above reveal a consistent pattern: the field has made rapid progress on hypothesis \emph{generation} and \emph{evaluation within defined problem spaces}, but two capabilities remain largely unaddressed. First, \textbf{autonomous target selection}---deciding \emph{what} to investigate without human guidance---is absent from nearly every system. Google AI Co-Scientist, POPPER, Virtual Lab, MOOSE-Chem, and Agent Laboratory all require a scientist to frame the research question. Second, \textbf{cross-disciplinary connections that cross terminological boundaries}---structural isomorphisms, mathematical analogies, physical-law constraints---are invisible to both bibliometric methods and keyword-based retrieval. No published system systematically searches for these. MAGELLAN is designed to address both gaps simultaneously: the Scout autonomously identifies cross-field targets, and the parametric-generation paradigm elicits connections that share no common vocabulary between fields.
+
 Table~\ref{tab:comparison} summarizes the landscape along six axes that we consider critical for evaluating scientific discovery systems: target autonomy (does the system choose what to investigate?), validation methodology, openness, whether results have been published, the primary knowledge source, and the domain of operation.
 
 \begin{table*}[t]
@@ -139,7 +141,7 @@ Third, most systems are either proprietary (Google AI Co-Scientist, Aletheia) or
 \label{sec:architecture}
 %----------------------------------------------------------------------
 
-MAGELLAN comprises 15 specialized agents coordinated by an Orchestrator that functions as a pure dispatcher (Table~\ref{tab:agents}). The Orchestrator has no web search capability and cannot execute pipeline phases inline---it must delegate every phase to the appropriate sub-agent. This architectural constraint, enforced by removing web search tools from the Orchestrator's tool set, prevents the coordinator from taking shortcuts that would bypass the adversarial validation pipeline. A dispatch log (\texttt{state/dispatch-log.json}) records every agent invocation with timestamps for post-session audit.
+MAGELLAN comprises 15 specialized agents coordinated by an Orchestrator that functions as a pure dispatcher (Table~\ref{tab:agents}). The Orchestrator has no web search capability and cannot execute pipeline phases inline---it must delegate every phase to the appropriate sub-agent. This is a deliberate architectural constraint, not a limitation: early prototypes allowed the Orchestrator to reason about hypotheses directly, which led to it rationalizing weak hypotheses rather than subjecting them to adversarial review. Removing web search tools from the Orchestrator enforces separation of concerns---coordination logic cannot contaminate evaluation logic. A dispatch log (\texttt{state/dispatch-log.json}) records every agent invocation with timestamps for post-session audit.
 
 The pipeline proceeds through three phases: \emph{Exploration} (target identification and validation), \emph{Generation \& Critique} (hypothesis creation, adversarial evaluation, ranking, and evolution over 1--3 adaptive cycles), and \emph{Final Validation \& Meta-Learning} (quality gate, cross-model validation, empirical evidence mining, and session analysis). We describe each phase and its constituent agents in the subsections below.
 
@@ -183,7 +185,7 @@ In \textbf{Phase~3 (Final Validation)}, the Quality Gate applies a 10-point rubr
 \subsection{Autonomous Target Selection (Scout)}
 \label{sec:scout}
 
-The Scout is the agent that distinguishes MAGELLAN from systems requiring human-defined research objectives. Operating on Opus at maximum effort, it identifies promising cross-field bridges through 10 strategies:
+The Scout is the agent that distinguishes MAGELLAN from systems requiring human-defined research objectives. Operating on Opus at maximum effort, it identifies promising cross-field bridges through 10 formalized strategies. These strategies were not designed a priori; they emerged from iterating on what produces high-quality targets. The first sessions used only 3 strategies (Swanson ABC, Structural Isomorphism, Tool Transfer); the remaining 7 were added as the Session Analyst identified underexplored modes of cross-disciplinary connection. The current set spans a spectrum from structured bibliometric methods (strategy~7) through creative elicitation (strategy~10):
 
 \begin{enumerate}
     \item \textbf{Recent Breakthrough Radiation} --- Identifies implications of recent discoveries for non-obvious fields. In our evaluation, this strategy produced the lowest Quality Gate pass rate (13\%, 1 session), suggesting that trending topics yield less novel connections.
@@ -254,7 +256,7 @@ The adversarial pipeline comprises the Critic, Quality Gate, and Cross-Model Val
 
 \subsubsection{The Critic: 9 Attack Vectors}
 
-The Critic operates on Opus at maximum effort. Its objective is genuinely adversarial: destroying weak hypotheses. A kill rate of 30--50\% is considered healthy; below 15\% indicates insufficient adversarial pressure; a 0\% kill rate triggers mandatory re-examination. The 9 attack vectors are:
+The Critic operates on Opus at maximum effort. Its objective is genuinely adversarial: destroying weak hypotheses, not improving them. A kill rate of 30--50\% is considered healthy; below 15\% indicates insufficient adversarial pressure; a 0\% kill rate triggers mandatory re-examination. The 9 attack vectors evolved incrementally: the first 6 were present from session~1; Hallucination-as-Novelty (vector~8) was added after the Si et al.\ findings on the ideation-execution gap, and Claim-Level Fact Verification (vector~9) was added after Session~004 revealed that citation hallucinations could survive mechanism-level attacks. The current vectors are:
 
 \begin{enumerate}
     \item \textbf{Novelty Kill} --- Web search to verify whether the connection is already published. If the exact hypothesis (not merely the field pair) has been studied, the hypothesis is killed.
