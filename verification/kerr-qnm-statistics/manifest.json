@@ -1,0 +1,24 @@
+{
+  "slug": "kerr-qnm-statistics",
+  "session_id": "2026-04-01-targeted-015",
+  "hypothesis_title_match": "Kerr",
+  "title": "Kerr QNM Level Spacing Statistics",
+  "verdict": "INTERMEDIATE",
+  "verdict_detail": "Data falls between GUE and Poisson. Clear level repulsion rules out pure Poisson. W increases monotonically with spin, crossing GUE at a/M~0.9 -- not near-extremal as H3 predicted. GUE-like statistics appear at moderate spin, a novel computational observation not found in prior literature.",
+  "verified_at": "2026-04-07",
+  "data_source": "qnm package (Stein 2019, JOSS 4:1683) -- Leaver continued fraction method, s=-2 gravitational perturbations",
+  "script_path": "verification/kerr-qnm-statistics/analyze_kerr_qnm.py",
+  "report_file": "results/KERR_QNM_STATISTICS_REPORT.md",
+  "report_json": "results/KERR_QNM_STATISTICS_REPORT.json",
+  "figures": [
+    {"key": "fig1_schwarzschild_control", "file": "results/fig1_schwarzschild_control.png", "caption": "Schwarzschild (a/M=0) P(s) vs GUE/GOE/Poisson reference distributions"},
+    {"key": "fig2_kerr998_global", "file": "results/fig2_kerr998_global.png", "caption": "Kerr a/M=0.998 P(s) with global unfolding"},
+    {"key": "fig3_pair_correlation_998", "file": "results/fig3_pair_correlation_998.png", "caption": "Pair correlation R2(r) vs GUE sine kernel at a/M=0.998"},
+    {"key": "fig4_kerr998_sequence", "file": "results/fig4_kerr998_sequence.png", "caption": "Kerr a/M=0.998 P(s) with sequence-level normalization"},
+    {"key": "fig5_kerr998_corotating", "file": "results/fig5_kerr998_corotating.png", "caption": "Corotating modes only (m>0) at a/M=0.998"},
+    {"key": "fig6_spin_scan", "file": "results/fig6_spin_scan.png", "caption": "Wigner ratio W and mean spacing ratio <r> vs spin parameter -- key figure showing GUE crossing at moderate spin", "featured": true},
+    {"key": "fig7_kerr09_global", "file": "results/fig7_kerr09_global.png", "caption": "Kerr a/M=0.9 P(s) global unfolding -- best GUE match"},
+    {"key": "fig8_kerr09_sequence", "file": "results/fig8_kerr09_sequence.png", "caption": "Kerr a/M=0.9 P(s) sequence-level normalization"},
+    {"key": "fig9_pair_correlation_09", "file": "results/fig9_pair_correlation_09.png", "caption": "Pair correlation R2(r) vs GUE sine kernel at a/M=0.9", "featured": true}
+  ]
+}

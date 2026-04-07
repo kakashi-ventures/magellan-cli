@@ -241,10 +241,12 @@ validation/
   holdout-discoveries.json                   ← Curated post-cutoff holdout targets
   results/                                   ← Holdout and retrospective validation reports
 verification/
-  README.md                                  ← Index of reviewer packets and proof assets
-  gev-meltome/                               ← Public-dataset reproduction on Meltome Atlas
-  pyocyanin-gpx4/                            ← Fast wet-lab reviewer packet
-  omv-cargo-sorting/                         ← Tool-transfer reviewer packet
+  {slug}/                                    ← One directory per computational verification
+    manifest.json                            ← Links verification to website DB (required)
+    analyze_{slug}.py                        ← Reproducible analysis script
+    results/
+      {SLUG}_REPORT.md                       ← Full verification report (markdown)
+      fig1_*.png ... figN_*.png              ← Figures (PNG for web)
 ```
 
 ## Architecture

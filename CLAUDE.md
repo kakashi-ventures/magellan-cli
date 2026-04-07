@@ -239,8 +239,22 @@ confidence, groundedness assessment.
   GENUINE_REDISCOVERY, PARTIAL_REDISCOVERY, ADJACENT_DISCOVERY, CONTAMINATED,
   MISSED. Curated holdouts in `validation/holdout-discoveries.json`.
 
+### Post-pipeline verification
+- **Computational verification** -- Post-hoc verification of hypotheses via
+  Python scripts on published datasets. Each verification lives in
+  `verification/{slug}/` with `manifest.json`, analysis script, and `results/`.
+- **Manifest required** -- `manifest.json` links the verification to the website
+  DB. Required: `slug`, `session_id`, `hypothesis_title_match`, `title`,
+  `verdict` (CONFIRMED/PARTIALLY_CONFIRMED/INCONCLUSIVE/INTERMEDIATE/REFUTED),
+  `verdict_detail`, `verified_at`, `report_file`, `figures` (array with
+  `{key, file, caption, featured?}`). Mark 1-2 figures `"featured": true`
+  for the hypothesis page preview.
+- **Website sync** -- `npm run sync:verifications` in magellan-web/ reads
+  manifests, uploads figures to Vercel Blob, upserts DB records. Pages:
+  `/verifications` (index), `/verifications/[slug]` (full report).
+
 ### Operational
-- **Session-scoped results** — Each session writes to `results/{session-id}/`.
+- **Session-scoped results** -- Each session writes to `results/{session-id}/`.
 - **Plan mode auto-exit** — `/discover` automatically exits plan mode.
 - **Hook schema** — All hooks use correct Claude Code schema (`"approve"/"block"`,
   stdin for PostToolUse, `"verdict"` field for kill detection).

@@ -1,0 +1,17 @@
+{
+  "slug": "gev-meltome",
+  "session_id": "2026-03-27-scout-013",
+  "hypothesis_title_match": "GEV",
+  "title": "GEV Tail Index Analysis of the Meltome Atlas",
+  "verdict": "INCONCLUSIVE",
+  "verdict_detail": "No significant Spearman rank correlation detected (rho=-0.136, p=0.658) across 13 species. Pearson r=-0.628 (p=0.022) suggests a linear trend driven by extremes. Possible explanations: measurement censoring, phylogenetic confounds, or effect too weak to detect with 13 species.",
+  "verified_at": "2026-04-02",
+  "data_source": "Jarzab et al. 2020, Nature Methods 17:495-503 (PRIDE: PXD011929)",
+  "script_path": "verification/gev-meltome/analyze_gev_meltome.py",
+  "report_file": "results/GEV_MELTOME_REPORT.md",
+  "figures": [
+    {"key": "fig1_xi_vs_ogt", "file": "results/fig1_xi_vs_ogt.png", "caption": "GEV shape parameter (xi) vs optimal growth temperature across 13 species", "featured": true},
+    {"key": "fig2_tm_distributions", "file": "results/fig2_tm_distributions.png", "caption": "Tm distribution fits: GEV vs normal for representative species", "featured": true},
+    {"key": "fig3_xi_by_domain", "file": "results/fig3_xi_by_domain.png", "caption": "GEV shape parameter grouped by taxonomic domain"}
+  ]
+}

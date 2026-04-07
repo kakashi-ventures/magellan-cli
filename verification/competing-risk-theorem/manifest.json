@@ -1,0 +1,21 @@
+{
+  "slug": "competing-risk-theorem",
+  "session_id": "2026-04-05-scout-017",
+  "hypothesis_title_match": "Competing",
+  "title": "Competing Risk Theorem for Protein Design",
+  "verdict": "PARTIALLY_CONFIRMED",
+  "verdict_detail": "Original broad claim falsified (GPT-5.4 found valid counterexample: global stabilization). Ceteris-paribus version proven analytically and validated with Monte Carlo (N=10,000). Gap formula confirmed across 100 random parameter combinations (max error 1.44e-15).",
+  "composite_score": 8.25,
+  "verified_at": "2026-04-05",
+  "data_source": "Analytical proof + Monte Carlo simulation (N=10,000); realistic protein failure mode parameters from literature",
+  "script_path": "verification/competing-risk-theorem/analyze_competing_risk.py",
+  "report_file": "results/COMPETING_RISK_THEOREM_REPORT.md",
+  "figures": [
+    {"key": "fig1_modification_scenarios", "file": "results/fig1_modification_scenarios.png", "caption": "Three modification scenarios: ceteris paribus, global, and mixed"},
+    {"key": "fig2_protein_cif_curves", "file": "results/fig2_protein_cif_curves.png", "caption": "Protein CIF curves before and after protease resistance engineering", "featured": true},
+    {"key": "fig3_failure_redistribution", "file": "results/fig3_failure_redistribution.png", "caption": "Failure mode probability redistribution after engineering"},
+    {"key": "fig4_gap_ratio_heatmap", "file": "results/fig4_gap_ratio_heatmap.png", "caption": "Gap ratio heatmap: reduction fraction vs dominance ratio", "featured": true},
+    {"key": "fig5_monte_carlo_validation", "file": "results/fig5_monte_carlo_validation.png", "caption": "Monte Carlo validation (N=10,000) vs theoretical CIF curves"},
+    {"key": "fig6_practical_significance", "file": "results/fig6_practical_significance.png", "caption": "Practical significance analysis with protein failure mode markers"}
+  ]
+}

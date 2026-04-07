@@ -1,0 +1,22 @@
+{
+  "slug": "arrhenius-decomposition",
+  "session_id": "2026-04-05-scout-017",
+  "hypothesis_title_match": "Nelson-Aalen",
+  "title": "Nelson-Aalen Cumulative Hazard Decomposition for Accelerated Stability Studies",
+  "verdict": "CONFIRMED",
+  "verdict_detail": "7/7 checks passed. Jensen's Inequality confirmed analytically and numerically. Single-Ea Arrhenius overestimates shelf-life by 1.77-2.29x for real proteins. Nelson-Aalen decomposition reduces bias from 1.93x to 1.10x.",
+  "composite_score": 7.45,
+  "verified_at": "2026-04-05",
+  "data_source": "Literature Ea values: Sanchez-Ruiz 1992, Wakankar & Borchardt 2006; ICH Q5C standard",
+  "script_path": "verification/arrhenius-decomposition/analyze_arrhenius_decomposition.py",
+  "report_file": "results/ARRHENIUS_DECOMPOSITION_REPORT.md",
+  "figures": [
+    {"key": "fig1_arrhenius_two_mode", "file": "results/fig1_arrhenius_two_mode.png", "caption": "Two-mode Arrhenius plot showing divergence between single-Ea fit and true rate at low temperature", "featured": true},
+    {"key": "fig2_heatmap_modes_vs_spread", "file": "results/fig2_heatmap_modes_vs_spread.png", "caption": "Overestimation heatmap: number of modes vs Ea spread"},
+    {"key": "fig3_calibration_sets", "file": "results/fig3_calibration_sets.png", "caption": "Calibration temperature set effect on bias"},
+    {"key": "fig4_degradation_timecourses", "file": "results/fig4_degradation_timecourses.png", "caption": "Degradation time courses for 5-mode pharmaceutical protein"},
+    {"key": "fig5_pharma_arrhenius", "file": "results/fig5_pharma_arrhenius.png", "caption": "5-mode pharmaceutical Arrhenius plot with decomposed vs single-Ea fits"},
+    {"key": "fig6_nelson_aalen_curves", "file": "results/fig6_nelson_aalen_curves.png", "caption": "Nelson-Aalen cumulative hazard curves: total vs decomposed"},
+    {"key": "fig7_danger_zone", "file": "results/fig7_danger_zone.png", "caption": "Danger zone: Ea ratio vs overestimation factor with real protein markers", "featured": true}
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "slug": "crb-gravitropism",
+  "session_id": "2026-04-01-scout-016",
+  "hypothesis_title_match": "CRB Landscape",
+  "title": "Cramer-Rao Bound for Plant Gravitropic Sensing",
+  "verdict": "CONFIRMED",
+  "verdict_detail": "The CRB (0.79-2.36 deg) is a valid, non-trivial lower bound on plant angular resolution (1.0-5.0 deg). Plants operate 1x-6x above the fundamental physical limit -- comparable to photoreceptors (5-10x above shot noise). First application of statistical estimation theory to plant gravitropism.",
+  "composite_score": 8.75,
+  "verified_at": "2026-04-02",
+  "data_source": "Berut et al. 2018, PNAS 115:5123; Chauvet et al. 2016, Sci. Rep. 6:35431",
+  "script_path": "verification/crb-gravitropism/analyze_crb_gravitropism.py",
+  "report_file": "results/CRB_GRAVITROPISM_REPORT.md",
+  "figures": [
+    {"key": "fig1_crb_vs_angle", "file": "results/fig1_crb_vs_angle.png", "caption": "CRB angular resolution vs tilt angle for optimistic/mid/pessimistic parameters", "featured": true},
+    {"key": "fig2_N_scaling", "file": "results/fig2_N_scaling.png", "caption": "N-scaling: resolution improves as 1/sqrt(N)"},
+    {"key": "fig3_biological_comparison", "file": "results/fig3_biological_comparison.png", "caption": "Biological comparison: plants vs photoreceptors vs chemotaxis", "featured": true}
+  ]
+}

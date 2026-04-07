@@ -5,6 +5,37 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.19 — Computational Verification Integration (7 aprile 2026)
+
+**Motivazione**: Le verifiche computazionali manuali (5 analisi su dati pubblicati) erano visibili solo nella cartella `verification/` del repo CLI, ma assenti dal sito web. Gap significativo: sono la prova piu' forte che le ipotesi MAGELLAN hanno valore scientifico reale.
+
+**Decisioni**:
+1. **Manifest-driven verification**: ogni `verification/{slug}/` richiede un `manifest.json` con verdetto, figure, session_id. Questo collega la verifica al DB del sito.
+2. **Website integration**: nuovo modello `ComputationalVerification` in Prisma, pagine dedicate (`/verifications`, `/verifications/[slug]`), banner prominente sulla pagina ipotesi, badge "VERIFIED" sulle card, conteggio nella credibility strip homepage.
+3. **Figure su Vercel Blob**: le figure PNG vengono caricate su Blob durante sync, i riferimenti nel markdown vengono riscritti con URL Blob.
+4. **MarkdownRenderer esteso**: aggiunto supporto per `![alt](url)` per renderizzare figure inline nei report.
+
+**File modificati (CLI)**:
+- `verification/*/manifest.json` (5 nuovi): metadati strutturati per sync
+- `CLAUDE.md`: sezione "Post-pipeline verification"
+- `README.md`: struttura directory aggiornata
+
+**File modificati (magellan-web)**:
+- `prisma/schema.prisma`: modello ComputationalVerification + relazioni
+- `scripts/sync-verifications.ts` (nuovo): sync manifests -> Blob + DB
+- `app/verifications/page.tsx` (nuovo): pagina indice verifiche
+- `app/verifications/[slug]/page.tsx` (nuovo): report completo
+- `components/computational-verification.tsx` (nuovo): banner ipotesi
+- `components/hypothesis-card.tsx`: badge VERIFIED
+- `components/markdown-renderer.tsx`: supporto immagini
+- `components/cluster-group.tsx`, `discoveries-view.tsx`: propagazione verificationCount
+- `components/mobile-nav.tsx`, `app/layout.tsx`: link navigazione
+- `lib/db/queries.ts`: 6 query aggiornate, 2 nuove
+- `app/page.tsx`: credibility strip
+- `app/discoveries/[slug]/page.tsx`: banner verifica
+
+---
+
 ## v5.18 — Post-QG Pipeline Fixes (7 aprile 2026)
 
 **Motivazione**: La sessione 2026-04-03-open-015 (leiomyosarcoma) ha rivelato che il session summary veniva scritto PRIMA del completamento degli agenti post-QG (cross-model, convergence, DEM), producendo output incompleto ("Cross-Model Validation: Not performed"). Inoltre final.json mancava dei campi testo (`mechanism`, `supporting_evidence`, `test_protocol`) richiesti dallo script upload, causando errori 400 in fase di pubblicazione. Infine, le correzioni aritmetiche e le citazioni errate trovate dalla cross-model validation non venivano integrate nel deliverable finale.
