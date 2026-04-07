@@ -15,6 +15,20 @@ CONTRIBUTOR_KEY=$(cat .magellan/config.json 2>/dev/null | grep -o '"contributor_
 SESSION_ID="$(date +%Y-%m-%d)-${MODE}-$(printf '%03d' "$NEXT_NUM")"
 mkdir -p "results/${SESSION_ID}/papers" knowledge state
 
+# Preserve previous session state before overwriting (v5.18)
+# If session.json exists with a different session_id and an incomplete phase,
+# copy it to that session's results dir so it can be resumed later.
+if [ -f "state/session.json" ]; then
+    PREV_ID=$(grep -o '"session_id": *"[^"]*"' state/session.json | head -1 | cut -d'"' -f4)
+    PREV_PHASE=$(grep -o '"phase": *"[^"]*"' state/session.json | head -1 | cut -d'"' -f4)
+    if [ -n "$PREV_ID" ] && [ "$PREV_ID" != "$SESSION_ID" ] && [ "$PREV_PHASE" != "complete" ] && [ "$PREV_PHASE" != "failed" ]; then
+        PREV_DIR="results/${PREV_ID}"
+        if [ -d "$PREV_DIR" ] && [ ! -f "$PREV_DIR/session-state.json" ]; then
+            cp state/session.json "$PREV_DIR/session-state.json"
+        fi
+    fi
+fi
+
 cat > state/session.json << EOF
 {
   "session_id": "${SESSION_ID}",
@@ -29,6 +43,7 @@ cat > state/session.json << EOF
   "disjointness_status": null,
   "metadata": {
     "start_time": "",
+    "last_updated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
     "model": "opus-4.6",
     "contributor_key": "${CONTRIBUTOR_KEY:-null}",
     "output_license": "",

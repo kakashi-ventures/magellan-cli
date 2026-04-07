@@ -50,6 +50,29 @@ If cross_model_validation.status == "manual_export_only":
   3. "Hypotheses where 2+ models agree on high novelty + confidence are your best candidates"
 - "To enable automatic validation in future sessions, set OPENAI_API_KEY and/or GEMINI_API_KEY."
 
+## Convergence Scanning Results (v5.16)
+
+If convergence scanning was performed, include a per-hypothesis table:
+
+| Hypothesis | Verdict | Score | Key Signal |
+|---|---|---|---|
+| [ID] | CONVERGENT_STRONG | 8/10 | [key finding] |
+
+Highlight any clinical trials found (these are the strongest convergence signals).
+Include the Empirical Evidence Score (EES).
+
+## Dataset Evidence Mining Results (v5.16)
+
+If dataset evidence mining was performed, include aggregate counts:
+- Total claims verified: N (confirmed: N, supported: N, contradicted: N)
+- Aggregate evidence score: X.X/10
+
+Highlight key findings (strongest confirmation, any contradictions, key STRING scores).
+
+If the DEM produced `suggested_followups`, include them under:
+### Suggested Computational Follow-Ups
+[List the follow-up queries from dataset-evidence.json, one per line]
+
 ## Impact Assessment (v5.14)
 
 If impact_assessment data is available (Scout provided impact_potential):

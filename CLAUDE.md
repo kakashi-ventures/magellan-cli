@@ -67,7 +67,7 @@ Fifteen agents. Orchestrator dispatches to all — never executes phases inline.
 | **Session Analyst** | Sonnet | high | Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis, creativity metrics (disciplinary distance, abstraction level, novelty type) → knowledge/meta-insights.md |
 | **Cross-Model Validator** | Sonnet | high | Calls GPT-5.4 Pro (web search + code interpreter) + Gemini 3.1 Pro (code execution + Google Search grounding) APIs for independent hypothesis validation. Generates consensus report |
 | **Convergence Scanner** | Sonnet | high | Post-QG: searches ClinicalTrials.gov, NIH Reporter, patents for independent convergence signals. Finds partial mechanism confirmations from sources not consulted by pipeline |
-| **Dataset Evidence Miner** | Sonnet | high | Post-QG: queries bioinformatics databases (HPA, GWAS Catalog, ChEMBL, UniProt, PDB) to verify specific molecular claims in passing hypotheses |
+| **Dataset Evidence Miner** | Sonnet | high | Post-QG: queries bioinformatics databases (HPA, GWAS Catalog, ChEMBL, UniProt, PDB) to verify specific molecular claims in passing hypotheses. Suggests computational follow-up queries |
 | **Holdout Evaluator** | Opus | max | Validation framework: compares MAGELLAN output against known post-cutoff discoveries. Contamination check + mechanism similarity scoring |
 | **Orchestrator** | Opus | max | Pure dispatcher: guard logic, adaptive cycles, session health, meta-learning metrics, disjointness hard constraint, rotating creativity constraint. No WebSearch/WebFetch |
 
@@ -248,6 +248,28 @@ confidence, groundedness assessment.
 - **Unified results directory** — session.json is a ~3KB coordination index.
   Per-phase JSON data and markdown outputs colocate in `results/{session-id}/`.
   Prevents state bloat and reduces context consumption by agents.
+- **Post-QG-then-summary ordering** — Session summary and ingest.json are written
+  AFTER all post-QG agents complete (cross-model, convergence, DEM). This ensures
+  summaries include EES, IPS, cross-model highlights, and convergence signals.
+  final-hypotheses.md is written before post-QG agents (it doesn't need their data).
+- **Post-QG Amendments** — After cross-model validation, the orchestrator appends
+  an errata section to final-hypotheses.md with arithmetic corrections, citation
+  fixes, and counter-evidence discovered by GPT/Gemini. Does not change QG scores.
+- **final.json text enrichment** — The orchestrator extracts mechanism,
+  supporting_evidence, and test_protocol text from final-hypotheses.md into
+  final.json. The upload script requires these fields (>= 200, >= 50, >= 100 chars).
+- **DEM follow-up suggestions** — The Dataset Evidence Miner appends
+  "Suggested Computational Follow-Ups" with specific, actionable database queries
+  a researcher could run to further validate hypotheses without wet-lab work.
+- **Session concurrency safety** — `state/session.json` is a singleton shared across
+  conversations. Three mechanisms prevent conflicts: (1) **Staleness check**: the stop
+  hook considers sessions stale after 30 min without `metadata.last_updated` update,
+  approving instead of blocking unrelated conversations. (2) **Per-session backup**:
+  the orchestrator copies state to `results/{session-id}/session-state.json` on every
+  phase transition; `init-session.sh` also preserves the previous session's state before
+  overwriting. (3) **Resume support**: the orchestrator detects "resume session X" prompts,
+  restores state from the per-session backup, and continues from the interrupted phase.
+  `/status` shows interrupted sessions that can be resumed.
 
 ## Documentation Rules
 When modifying the pipeline (agents, hooks, skills, commands), update:

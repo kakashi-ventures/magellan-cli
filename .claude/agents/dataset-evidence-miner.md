@@ -166,7 +166,15 @@ Write `{results_dir}/dataset-evidence.json`:
       "supported": 4,
       "no_data": 3,
       "contradicted": 1
-    }
+    },
+    "suggested_followups": [
+      {
+        "hypothesis": "C2-H1",
+        "query": "Query TCGA LMS survival data stratified by CALD1 expression via cBioPortal",
+        "database": "cBioPortal/TCGA",
+        "rationale": "Could partially validate prognostic prediction without wet-lab work"
+      }
+    ]
   }
 }
 ```
@@ -213,4 +221,21 @@ this hypothesis. Highlight any contradictions or surprising confirmations.]
 1. [Most significant confirmation or contradiction]
 2. [Claims that could not be verified — potential targets for wet-lab validation]
 3. [Any patterns across hypotheses]
+
+## Suggested Computational Follow-Ups
+[For each hypothesis, suggest 1-2 additional database queries or analyses that
+could partially validate or refute the hypothesis RIGHT NOW, without wet-lab work.
+These are queries the DEM did not perform but that a researcher could execute.
+Only suggest queries where the relevant data plausibly exists.]
+
+Examples of good suggestions:
+- "Query TCGA survival data for LMS patients stratified by CALD1 expression (cBioPortal)"
+- "Check GEO for columella-specific single-cell RNA-seq datasets with PIN3 expression data"
+- "Search ChEMBL for additional MEK inhibitor IC50 data on LMS cell lines (SK-LMS-1, MES-SA)"
+- "Query ClinVar for pathogenic variants in DES (desmin) associated with myopathy phenotypes"
+
+Examples of bad suggestions (too vague or not computationally actionable):
+- "Do more research on caldesmon" (not a specific query)
+- "Run a clinical trial" (not computational)
+- "Check if the mechanism is correct" (not a database query)
 ```

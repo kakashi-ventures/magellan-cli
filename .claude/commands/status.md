@@ -71,3 +71,23 @@ Display the output to the user. If phase is "complete", also mention
 that `/export gpt` or `/export gemini` is the recommended next step.
 If status is "failed" or "degraded", explain what happened and suggest
 running `/discover` again.
+
+Also scan for interrupted sessions that can be resumed:
+```bash
+for f in results/*/session-state.json; do
+  [ -f "$f" ] || continue
+  python3 -c "
+import json, sys
+d = json.load(open('$f'))
+phase = d.get('phase', '')
+status = d.get('status', '')
+if phase not in ('complete', 'failed') and status == 'running':
+    sid = d.get('session_id', '?')
+    cp = d.get('progress', {}).get('current_phase', phase)
+    lu = d.get('metadata', {}).get('last_updated', '?')
+    print(f'  {sid}: interrupted at {cp} (last update: {lu})')
+" 2>/dev/null
+done
+```
+If any interrupted sessions are found, show them under "--- Interrupted Sessions ---"
+and tell the user they can resume with: "Ask Claude to resume session {session-id}".

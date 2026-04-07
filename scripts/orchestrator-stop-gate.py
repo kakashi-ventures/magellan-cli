@@ -1,7 +1,30 @@
 #!/usr/bin/env python3
 """Stop hook for orchestrator. Blocks premature termination if pipeline is incomplete.
-Also validates kill rate and dispatch log on completion."""
+Also validates kill rate and dispatch log on completion.
+v5.18: Staleness check — if session hasn't been updated in >30 min, consider it
+abandoned by another conversation and approve (don't block unrelated work)."""
 import sys, json, os
+from datetime import datetime, timezone, timedelta
+
+STALE_THRESHOLD_MINUTES = 30
+
+def is_session_stale(d):
+    """Check if the session state is stale (not updated recently)."""
+    last = d.get("metadata", {}).get("last_updated", "")
+    if not last:
+        # Fallback: check progress timestamps
+        progress = d.get("progress", {})
+        timestamps = [v for k, v in progress.items()
+                      if isinstance(v, str) and "T" in v and v.endswith("Z")]
+        last = max(timestamps) if timestamps else ""
+    if not last:
+        return False  # No timestamp = can't determine, assume active
+    try:
+        last_dt = datetime.fromisoformat(last.replace("Z", "+00:00"))
+        age = datetime.now(timezone.utc) - last_dt
+        return age > timedelta(minutes=STALE_THRESHOLD_MINUTES)
+    except (ValueError, TypeError):
+        return False
 
 try:
     state_path = "state/session.json"
@@ -15,8 +38,18 @@ try:
             print(json.dumps({"decision": "approve"}))
             sys.exit(0)
 
+        # Allow stop if session is stale (abandoned by another conversation)
+        if phase not in ("complete", "failed") and status not in ("success", "partial", "degraded", "failed", "interrupted"):
+            if is_session_stale(d):
+                sid = d.get("session_id", "unknown")
+                print(json.dumps({
+                    "decision": "approve",
+                    "feedback": f"Session {sid} is stale (no update in >{STALE_THRESHOLD_MINUTES}min). Approving stop — session likely belongs to another conversation."
+                }))
+                sys.exit(0)
+
         # Allow stop if pipeline completed or explicitly failed
-        if phase in ("complete", "failed") or status in ("success", "partial", "degraded", "failed"):
+        if phase in ("complete", "failed") or status in ("success", "partial", "degraded", "failed", "interrupted"):
             warnings = []
 
             # Validate kill rate matches formula (v5.7: read from results dir)

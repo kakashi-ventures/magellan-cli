@@ -811,7 +811,7 @@ Two new post-Quality-Gate agents, NON-BLOCKING, that consult sources never used 
 
 **Convergence Scanner**: Searches for independent convergence signals on ClinicalTrials.gov (active trials), NIH Reporter (funded grants), and patents. Also finds partial sub-mechanism confirmations using different queries than the Quality Gate. CONSTRAINT: must read `quality-gate.md` to avoid counting papers already found as "new evidence."
 
-**Dataset Evidence Miner**: Verifies specific molecular claims via `scripts/query-biodata.py` against 5+ bioinformatics APIs: Human Protein Atlas (tissue expression), GWAS Catalog (genetic associations), ChEMBL (compound-target), UniProt (protein function), PDB/AlphaFold (structure). DISTINCTION from Computational Validator: CV operates on bridge concepts pre-generation; DEM operates on claims post-generation.
+**Dataset Evidence Miner**: Verifies specific molecular claims via `scripts/query-biodata.py` against 5+ bioinformatics APIs: Human Protein Atlas (tissue expression), GWAS Catalog (genetic associations), ChEMBL (compound-target), UniProt (protein function), PDB/AlphaFold (structure). DISTINCTION from Computational Validator: CV operates on bridge concepts pre-generation; DEM operates on claims post-generation. Additionally, the DEM now produces "Suggested Computational Follow-Ups" -- specific, actionable database queries a researcher could execute to further validate hypotheses without wet-lab work (e.g., "query TCGA survival data stratified by CALD1 expression").
 
 **Empirical Evidence Score (EES)**: A parallel score alongside the composite. `EES = dataset_score × 0.55 + convergence_score × 0.45`. It does not replace the composite — it measures a different axis (empirical evidence vs. reasoning quality).
 

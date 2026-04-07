@@ -5,6 +5,35 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.18 — Post-QG Pipeline Fixes (7 aprile 2026)
+
+**Motivazione**: La sessione 2026-04-03-open-015 (leiomyosarcoma) ha rivelato che il session summary veniva scritto PRIMA del completamento degli agenti post-QG (cross-model, convergence, DEM), producendo output incompleto ("Cross-Model Validation: Not performed"). Inoltre final.json mancava dei campi testo (`mechanism`, `supporting_evidence`, `test_protocol`) richiesti dallo script upload, causando errori 400 in fase di pubblicazione. Infine, le correzioni aritmetiche e le citazioni errate trovate dalla cross-model validation non venivano integrate nel deliverable finale.
+
+**Decisioni**:
+1. **Fix ordinamento orchestratore**: session-summary.md e ingest.json ora vengono scritti DOPO che tutti gli agenti post-QG hanno completato (o fallito). final-hypotheses.md viene scritto prima (non richiede dati post-QG).
+
+2. **Fix enrichment final.json**: il passo "Enrich final.json" ora estrae anche `mechanism`, `supporting_evidence`, `test_protocol`, `bridge_summary`, `novelty_status` dal markdown delle ipotesi e dal quality-gate.json. Include verifiche di lunghezza minima (mechanism >= 200, evidence >= 50, test >= 100 caratteri).
+
+3. **Post-QG Amendments**: dopo la cross-model validation, l'orchestratore aggiunge una sezione "## Post-QG Amendments" a final-hypotheses.md con discrepanze aritmetiche, correzioni citazioni, e counter-evidence trovate da GPT/Gemini. Non modifica i punteggi QG (canonici).
+
+4. **DEM follow-up suggestions**: il Dataset Evidence Miner ora include una sezione "Suggested Computational Follow-Ups" con query database specifiche e azionabili che un ricercatore potrebbe eseguire per validare ulteriormente le ipotesi senza lavoro di laboratorio.
+
+5. **Session concurrency safety**: `state/session.json` e' un singleton condiviso da tutte le conversazioni Claude Code. Se una sessione viene interrotta (rate limit, crash, cambio conversazione), lo stop hook bloccava TUTTE le conversazioni successive. Tre meccanismi risolvono il problema:
+   - **Staleness check**: lo stop hook controlla `metadata.last_updated`: se >30 minuti, la sessione e' considerata abbandonata e lo stop hook approva invece di bloccare.
+   - **Per-session state backup**: l'orchestratore copia `state/session.json` in `results/{session-id}/session-state.json` a ogni transizione di fase. `init-session.sh` preserva lo stato della sessione precedente prima di sovrascrivere.
+   - **Resume support**: l'orchestratore rileva prompt "Resume session X", ripristina lo stato dal backup per-sessione, e riprende dalla fase interrotta. `/status` mostra le sessioni interrotte recuperabili.
+
+**File modificati**:
+- `.claude/agents/discovery-orchestrator.md`: riordinamento fasi, enrichment esteso, Post-QG Amendments, last_updated, session-state backup, resume detection
+- `.claude/agents/dataset-evidence-miner.md`: sezione follow-up suggestions
+- `.claude/commands/status.md`: mostra sessioni interrotte recuperabili
+- `prompts/session-summary-format.md`: sezioni convergence/DEM nel template summary
+- `scripts/orchestrator-stop-gate.py`: staleness check con threshold 30 min + fallback su progress timestamps
+- `scripts/init-session.sh`: campo `last_updated` nello state iniziale + preservazione stato sessione precedente
+- `CLAUDE.md`: design principles operativi aggiornati
+
+---
+
 ## v5.17 — Licensing & Attribution Framework (28 marzo 2026)
 
 **Motivazione**: Preparazione al lancio pubblico. Il repository era sotto licenza MIT senza protezione sull'attribuzione (chiunque poteva forkare e rimuovere il credit) e senza licenza sugli output (ipotesi scientifiche). Serviva un framework chiaro sia per il software che per le scoperte.

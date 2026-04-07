@@ -93,7 +93,7 @@ const hypotheses = (Array.isArray(finalData) ? finalData : []).map(h => ({
   counterEvidence: h.counter_evidence || h.counterEvidence || '',
   testProtocol: composeTestProtocol(h),
   bridgeSummary: h.bridge_summary || h.bridgeSummary || h.bridge || '',
-  compositeScore: h.composite_score || h.compositeScore || 5,
+  compositeScore: h.composite_score || h.compositeScore || h.composite || 5,
   confidence: h.confidence || 5,
   groundedness: groundednessToInt(h.groundedness),
   qualityGate: h.verdict || h.quality_gate || h.qualityGate || 'CONDITIONAL_PASS',

@@ -17,23 +17,6 @@ Impact-aware prioritization steers the pipeline toward high-impact
 directions via tiebreakers, decomposed scoring, and meta-learning — without
 sacrificing novelty or rigor.
 
-## Evidence Pack
-
-If you want the current proof state rather than the architecture first, start here:
-
-- [Public Fact Sheet](docs/evidence/public-fact-sheet.md) — canonical outward-facing numbers and messaging defaults
-- [Benchmark Pack v1](docs/evidence/benchmark-v1.md) — formal holdout status, grounding status, and public-dataset reproduction
-- [Verification Assets](verification/README.md) — reviewer packets and reproducible proof assets
-
-Current repo snapshot from `results/**/ingest.json`:
-
-- 20 session manifests
-- 247 generated hypotheses
-- 83 survivor hypotheses reaching the public path
-- 66.4% rejected before publication
-
-This is a capability project with mixed evidence, not a solved AI-scientist claim.
-
 ## Prerequisites
 
 1. **[Claude Code](https://claude.com/product/claude-code)** — Anthropic's terminal-based AI tool. NOT the web chat or desktop app — the CLI version. Requires a Claude subscription (Pro minimum, Max/Team recommended for Opus access). [Install docs →](https://code.claude.com/docs/it/overview)
@@ -102,8 +85,9 @@ Phase 7:  Cross-Model Validation — GPT-5.4 Pro (web search + code interpreter)
           Gemini 3.1 Pro (code execution + Google Search grounding) → consensus report
           (automatic if API keys set, export files only otherwise)
 Phase 7b: Convergence Scanner — ClinicalTrials.gov, NIH Reporter, patents (non-blocking)
-          Dataset Evidence Miner — HPA, GWAS, ChEMBL, UniProt, PDB queries (non-blocking)
-Phase 8:  Session summary → results/{session-id}/
+          Dataset Evidence Miner — HPA, GWAS, ChEMBL, UniProt, PDB queries + follow-up suggestions (non-blocking)
+Phase 8:  Post-QG Amendments → arithmetic/citation corrections appended to final-hypotheses.md
+          Session summary (written AFTER post-QG agents) → results/{session-id}/
 Phase 9:  Knowledge persistence → knowledge/discovery-log.json + strategy metrics
 ```
 
@@ -214,14 +198,9 @@ prompts/
 docs/
   methodology-v5.md                          ← Full methodology with evidence
   CHANGELOG.md                               ← Pipeline evolution history
-  evidence/
-    public-fact-sheet.md                     ← Canonical public numbers + messaging defaults
-    benchmark-v1.md                          ← Credibility pack: holdout, grounding, reproduction
-    media-brief.md                           ← Credibility-first launch framing
 scripts/                                     ← Hook scripts + orchestrator support scripts
   init-session.sh                            ← Session initialization (state + results dir)
   upload-session.mjs                         ← Website upload (ingest → API)
-  build-evidence-index.mjs                   ← Recompute public metrics from repo artifacts
 state/                                       ← Coordination state (machine-readable)
   session.json                               ← Slim coordination index (~3KB)
   dispatch-log.json                          ← Agent dispatch log with timestamps
@@ -284,7 +263,7 @@ verification/
 - **Session Analyst** [Sonnet, high] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
 - **Cross-Model Validator** [Sonnet, high] — Calls GPT-5.4 Pro (web search + code interpreter) + Gemini 3.1 Pro (code execution + Google Search grounding) APIs for independent validation → consensus report (requires API keys; falls back to export files)
 - **Convergence Scanner** [Sonnet, high] — Post-QG: searches ClinicalTrials.gov, NIH Reporter, patents for independent convergence signals + partial mechanism confirmations from non-pipeline sources
-- **Dataset Evidence Miner** [Sonnet, high] — Post-QG: queries HPA, GWAS Catalog, ChEMBL, UniProt, PDB via `scripts/query-biodata.py` to verify specific molecular claims in passing hypotheses
+- **Dataset Evidence Miner** [Sonnet, high] — Post-QG: queries HPA, GWAS Catalog, ChEMBL, UniProt, PDB via `scripts/query-biodata.py` to verify specific molecular claims in passing hypotheses. Suggests computational follow-up queries
 - **Holdout Evaluator** [Opus, max] — Validation framework: compares MAGELLAN output against known post-cutoff discoveries with contamination check + mechanism similarity scoring
 - **Orchestrator** [Opus, max, 200 turns circuit breaker] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health, meta-learning metrics
 
