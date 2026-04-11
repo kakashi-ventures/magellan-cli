@@ -1,0 +1,86 @@
+{
+  "_comment": "Schema for Knowledge Objects (KOs) in the epistemic graph. Each KO represents a discrete epistemic unit produced by a MAGELLAN agent.",
+  "ko": {
+    "id": "KO-MAG-{SESSION}-{CLASS_INITIAL}-{SEQ}",
+    "koc": "{entity}|{domain}|{class}|{epoch}|{depth}|{author}|{variant}",
+    "class": "QUESTION|HYPOTHESIS|OBSERVATION|EVIDENCE|EVALUATION|DECISION|CONSTRAINT|NARRATIVE|PLAN",
+    "regime": "working|event|canonical|tacit",
+    "content": "Full text content of the knowledge object",
+    "summary": "One-line summary for context injection (max 200 chars)",
+    "scores": {
+      "K": "0.0-1.0 — master epistemic score (computed by KGE cycle)",
+      "confidence": "0.0-1.0 — epistemic confidence in the claim",
+      "freshness": "0.0-1.0 — temporal freshness (1.0 = just created)",
+      "urgency": "0.0-1.0 — for QUESTION class only (inverse decay: grows over time)",
+      "contradiction": "0.0-1.0 — accumulated contradiction pressure from CONTRADICTS edges"
+    },
+    "meta": {
+      "session_id": "e.g. 2026-04-08-autonomous-022",
+      "cycle": "integer — generation cycle within session",
+      "agent": "scout|generator|critic|ranker|evolver|quality-gate|cross-model-validator|convergence-scanner|dataset-evidence-miner|session-analyst|literature-scout|computational-validator|target-evaluator",
+      "model": "claude-opus-4-6|claude-sonnet-4-6",
+      "created_at": "ISO 8601 timestamp",
+      "updated_at": "ISO 8601 timestamp (last KGE cycle touch)",
+      "quality_gate_score": "float or null — QG composite if applicable",
+      "survival_status": "survived|killed|pending|evolved|archived",
+      "evolution_count": "integer — times this KO has been evolved",
+      "source_ko_id": "string or null — parent KO if evolved/superseded from another"
+    }
+  },
+  "koc_axes": {
+    "entity": "Research target (mechanism, pathway, phenomenon). e.g. thermal-proteome-evt",
+    "domain": "Scientific discipline pair. e.g. stat-physics×proteomics",
+    "class": "One of 9 epistemic classes (see class field)",
+    "epoch": "Session ID + cycle. e.g. S22-C2",
+    "depth": "observation|mechanism|theory — scientific abstraction level",
+    "author": "Agent ID that produced this KO. e.g. generator-01",
+    "variant": "v{N}-{status} — evolution tracking. e.g. v1-original, v3-evolved"
+  },
+  "edge": {
+    "id": "E-{SOURCE_ID}-{TYPE}-{TARGET_ID}",
+    "type": "SUPPORTS|CONTRADICTS|BASED_ON|SUPERSEDES|IMPLEMENTS|BLOCKS|REFINES|ENABLES|PRECEDES|DERIVES_FROM|CONVERGES_WITH|ANALOGOUS_TO",
+    "source": "KO id",
+    "target": "KO id",
+    "coeff": "float — signed coefficient from edge vocabulary",
+    "created_at": "ISO 8601 timestamp",
+    "created_by": "agent ID or 'kge-cycle'",
+    "evidence": "optional string — why this edge exists"
+  },
+  "edge_coefficients": {
+    "SUPPORTS": 1.0,
+    "CONTRADICTS": -0.6,
+    "BASED_ON": 0.8,
+    "SUPERSEDES": 0.6,
+    "IMPLEMENTS": 0.7,
+    "BLOCKS": -0.4,
+    "REFINES": 0.5,
+    "ENABLES": 0.4,
+    "PRECEDES": 0.3,
+    "DERIVES_FROM": 0.5,
+    "CONVERGES_WITH": 0.9,
+    "ANALOGOUS_TO": 0.3
+  },
+  "class_parameters": {
+    "QUESTION":    {"seed_K": 0.30, "decay": "inverse",      "half_life_days": null},
+    "HYPOTHESIS":  {"seed_K": 0.30, "decay": "exponential",  "half_life_days": 120},
+    "OBSERVATION": {"seed_K": 0.40, "decay": "exponential",  "half_life_days": 180},
+    "EVIDENCE":    {"seed_K": 0.80, "decay": "exponential",  "half_life_days": 730},
+    "EVALUATION":  {"seed_K": 0.55, "decay": "exponential",  "half_life_days": 120},
+    "DECISION":    {"seed_K": 1.00, "decay": "none",         "half_life_days": null},
+    "CONSTRAINT":  {"seed_K": 0.90, "decay": "none",         "half_life_days": null},
+    "NARRATIVE":   {"seed_K": 0.70, "decay": "none",         "half_life_days": null},
+    "PLAN":        {"seed_K": 0.65, "decay": "exponential",  "half_life_days": 90}
+  },
+  "memory_zones": {
+    "core":       {"K_min": 0.40, "K_max": 1.00},
+    "working":    {"K_min": 0.15, "K_max": 0.40},
+    "peripheral": {"K_min": 0.05, "K_max": 0.15},
+    "dormant":    {"K_min": 0.00, "K_max": 0.05}
+  },
+  "regimes": {
+    "working":   {"gravity_multiplier": 0.0, "description": "Intra-session scratch — excluded from global gravity"},
+    "event":     {"gravity_multiplier": 1.0, "description": "Session-bound findings — baseline multiplier"},
+    "canonical": {"gravity_multiplier": 1.6, "description": "Validated scientific knowledge — stronger gravity"},
+    "tacit":     {"gravity_multiplier": 0.8, "description": "Emergent meta-patterns detected across ≥5 sessions"}
+  }
+}

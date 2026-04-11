@@ -1,0 +1,73 @@
+{
+  "_comment": "Configuration for OIDA × MAGELLAN epistemic infrastructure. Read by scripts/epistemic/*.py at runtime.",
+  "agent_rho": {
+    "_comment": "ρ value per agent — weight toward epistemic (1.0) vs action (0.0) salience.",
+    "scout": 0.90,
+    "convergence-scanner": 0.90,
+    "session-analyst": 0.85,
+    "critic": 0.80,
+    "evolver": 0.60,
+    "generator": 0.55,
+    "ranker": 0.45,
+    "quality-gate": 0.35,
+    "cross-model-validator": 0.25,
+    "dataset-evidence-miner": 0.20,
+    "orchestrator": 0.15
+  },
+  "agent_context_limits": {
+    "_comment": "Max KOs injected per agent dispatch.",
+    "scout": 20,
+    "generator": 15,
+    "critic": 12,
+    "evolver": 12,
+    "quality-gate": 8,
+    "ranker": 10,
+    "cross-model-validator": 8,
+    "dataset-evidence-miner": 8,
+    "convergence-scanner": 15,
+    "session-analyst": 15,
+    "orchestrator": 7
+  },
+  "agent_regimes": {
+    "_comment": "Which regimes each agent can see.",
+    "scout":                 ["canonical", "event", "tacit"],
+    "generator":             ["canonical", "event"],
+    "critic":                ["canonical", "event"],
+    "evolver":               ["canonical", "event"],
+    "quality-gate":          ["event"],
+    "ranker":                ["canonical", "event"],
+    "cross-model-validator": ["event"],
+    "dataset-evidence-miner":["event"],
+    "convergence-scanner":   ["canonical", "event", "tacit"],
+    "session-analyst":       ["canonical", "event", "tacit"],
+    "orchestrator":          ["canonical", "event"]
+  },
+  "consolidation": {
+    "weights": {
+      "cross_session_survival": 0.30,
+      "independent_confirmation": 0.25,
+      "relational_centrality": 0.25,
+      "methodological_stability": 0.20
+    },
+    "promotion_threshold": 0.70,
+    "min_sessions_for_tacit": 5
+  },
+  "kge_cycle": {
+    "propagation_damping": 0.15,
+    "max_delta_per_cycle": 0.10,
+    "convergence_threshold": 0.001,
+    "max_iterations": 50
+  },
+  "question_urgency": {
+    "age_denominator": 20,
+    "age_weight": 0.30,
+    "blocking_weight": 0.20,
+    "salience_weight": 0.50
+  },
+  "pruning": {
+    "working_ttl_hours": 72,
+    "archival_age_days": 180,
+    "archival_k_threshold": 0.15,
+    "dormant_k_threshold": 0.05
+  }
+}

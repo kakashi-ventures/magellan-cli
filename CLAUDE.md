@@ -105,6 +105,27 @@ The orchestrator delegates operational code and reference schemas to external fi
 - `prompts/ingest-schema.json` — Schema for the ingest manifest
 - `prompts/knowledge-schema.json` — Schema for discovery-log entries
 
+### Epistemic Infrastructure (OIDA × MAGELLAN)
+Persistent knowledge graph with class-specific decay, dual-salience retrieval,
+and dialectic tension detection. See `docs/epistemic-infrastructure.md` for full spec.
+
+**Components** (`scripts/epistemic/`):
+- `config.py` — Constants: decay rates, edge coefficients, agent ρ values, regime multipliers
+- `store.py` — JSON-based graph storage (KOs + edges in `knowledge/graph/`)
+- `kge.py` — Knowledge Graph Engine cycle: K-score decay, edge propagation, zone classification
+- `ingest.py` — Converts agent outputs (results/{session-id}/*.json) → KOs + edges
+- `salience.py` — Dual-salience (epistemic + action) per agent ρ routing
+- `dialectic.py` — Tension field detection: unresolved questions, contradictions, convergence
+- `context.py` — Agent context injection: salience-filtered KO briefings per agent
+- `regime.py` — Lifecycle: working→event→canonical promotion, consolidation scoring, archival
+
+**Schemas**: `prompts/ko-schema.json` (KO structure), `prompts/epistemic-config.json` (runtime config)
+
+**CLI**:
+- `python3 scripts/ingest-kos.py <results-dir>` — Ingest session into KO graph
+- `python3 scripts/kge-cycle.py [--converge]` — Run KGE cycle
+- `python3 scripts/inject-context.py <agent-id>` — Generate agent context briefing
+
 ## Commands
 - `/discover` — Full autonomous (Scout finds targets)
 - `/discover [A] × [C]` — Targeted discovery
@@ -193,6 +214,25 @@ confidence, groundedness assessment.
   diversity constraint. Prevents hypothesis convergence.
 - **Elo tournament sanity check** — Ranker runs pairwise comparisons on top-6
   as diagnostic against the linear composite ranking.
+
+### Epistemic infrastructure
+- **Cross-session knowledge graph (OIDA integration)** — Persistent KO graph in
+  `knowledge/graph/` accumulates across sessions. 9 epistemic classes (QUESTION,
+  HYPOTHESIS, OBSERVATION, EVIDENCE, EVALUATION, DECISION, CONSTRAINT, NARRATIVE,
+  PLAN) with class-specific decay (exponential/inverse/none), 12 edge types with
+  signed coefficients, and 4 knowledge regimes (working/event/canonical/tacit).
+  KGE cycle updates K-scores via decay + edge propagation + regime gravity.
+- **Dual-salience agent routing** — Each agent has a ρ value (0.15–0.90) weighting
+  epistemic vs action salience. Scout (ρ=0.90) sees high-urgency questions and
+  surprises; Quality Gate (ρ=0.35) sees stable evidence and evaluations.
+  Context injection replaces raw text with structured KO briefings (~55% token reduction).
+- **Dialectic Engine** — Detects persistent tension fields: unresolved questions
+  (QUESTION urgency grows via inverse decay), active contradictions (CONTRADICTS edges),
+  evidence conflicts, convergence candidates, constraint violations. Tensions are
+  routed to recommended agents before they encounter them in text.
+- **Regime promotion** — KOs start in working (session scratch), promote to event
+  (session-bound), then canonical (C(KO) >= 0.70 consolidation score) or tacit
+  (statistical pattern across >= 5 sessions). Stale KOs archive after 180 days.
 
 ### Meta-learning
 - **Target evaluation** — Adversarial challenge of Scout targets before pipeline

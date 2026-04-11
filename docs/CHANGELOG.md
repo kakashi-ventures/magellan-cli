@@ -5,6 +5,46 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v6.0 — Epistemic Infrastructure / OIDA Integration (11 aprile 2026)
+
+**Motivazione**: La struttura epistemica di MAGELLAN (distinzione ipotesi/evidenza, critica strutturata, tracking convergenza) viveva solo nel flusso di esecuzione del pipeline e svaniva tra le sessioni. L'integrazione con OIDA la rende computazionalmente persistente, abilitando memoria epistemica cross-sessione, filtraggio del contesto per salienza, e infrastruttura avversariale nativa.
+
+**Tre capacita' nuove**:
+1. **Memoria epistemica cross-sessione** — Il knowledge graph accumula KO attraverso le sessioni. Una domanda irrisolta dalla Sessione 3 sale di priorita' alla Sessione 15. Un pattern rilevato nelle Sessioni 7, 11, 14 diventa insight canonico.
+2. **Ottimizzazione inferenza** — Gli agenti ricevono KO filtrati per salienza epistemica, non contesto grezzo. Riduzione stimata ~55% dei token per agente mantenendo o migliorando la qualita'.
+3. **Infrastruttura avversariale persistente** — Il lavoro del Critic diventa edge CONTRADICTS persistenti. Il Dialectic Engine rileva tensioni prima che gli agenti le incontrino nel testo.
+
+**Architettura**:
+- **9 classi epistemiche**: QUESTION (decay inverso — urgenza cresce), HYPOTHESIS (half-life 120d), OBSERVATION (180d), EVIDENCE (730d), EVALUATION (120d), DECISION (no decay), CONSTRAINT (no decay), NARRATIVE (no decay), PLAN (90d)
+- **12 tipi di edge**: SUPPORTS (+1.0), CONTRADICTS (-0.6), BASED_ON (+0.8), SUPERSEDES (+0.6), IMPLEMENTS (+0.7), BLOCKS (-0.4), REFINES (+0.5), ENABLES (+0.4), PRECEDES (+0.3), DERIVES_FROM (+0.5), CONVERGES_WITH (+0.9, nuovo), ANALOGOUS_TO (+0.3, nuovo)
+- **4 regimi**: working (scratch sessione, gravity 0.0), event (output sessione, 1.0), canonical (conoscenza validata, 1.6), tacit (meta-pattern emergenti, 0.8)
+- **Routing agente via rho**: Scout (0.90, epistemico puro) → Orchestrator (0.15, azione pura). Ogni agente riceve KO filtrati per regime e ordinati per salienza duale.
+- **Dialectic Engine**: 5 tipi di tensione — domande irrisolte, contraddizioni attive, conflitti evidenziali, candidati convergenza, violazioni constraint
+- **Promozione regime**: working→event (fine sessione), event→canonical (consolidation score >= 0.70), event→tacit (pattern statistico su >= 5 sessioni), archival (K < 0.15 dopo 180 giorni)
+
+**File creati**:
+- `scripts/epistemic/` — Package Python: `config.py`, `store.py`, `kge.py`, `ingest.py`, `salience.py`, `dialectic.py`, `context.py`, `regime.py`
+- `scripts/kge-cycle.py` — CLI per ciclo KGE
+- `scripts/ingest-kos.py` — CLI per ingestion risultati sessione
+- `scripts/inject-context.py` — CLI per context injection agenti
+- `prompts/ko-schema.json` — Schema Knowledge Objects + edges
+- `prompts/epistemic-config.json` — Configurazione runtime (rho, limiti KO, regimi, parametri KGE)
+- `knowledge/graph/.gitkeep` — Storage grafo KO (runtime)
+- `docs/epistemic-infrastructure.md` — Specifica architettura completa
+
+**File modificati**:
+- `CLAUDE.md`: sezioni "Epistemic Infrastructure" e "Epistemic infrastructure" design principles
+- `.gitignore`: aggiunto `knowledge/graph/` con `.gitkeep`
+
+**Decisioni di design** (vedi `docs/epistemic-infrastructure.md` Appendix B):
+- Half-life calibrati per scoperta scientifica (non organizzativa)
+- Urgenza QUESTION accelerata (/20 vs /30) — le domande scientifiche si compongono piu' velocemente
+- Soglia canonicalization piu' alta (0.70 vs 0.65) — la scienza richiede piu' conferme
+- CONVERGES_WITH (+0.9) quasi massimale — convergenza indipendente e' evidenza forte
+- ANALOGOUS_TO (+0.3) debole — l'analogia suggerisce, non dimostra
+
+---
+
 ## v5.19 — Computational Verification Integration (7 aprile 2026)
 
 **Motivazione**: Le verifiche computazionali manuali (5 analisi su dati pubblicati) erano visibili solo nella cartella `verification/` del repo CLI, ma assenti dal sito web. Gap significativo: sono la prova piu' forte che le ipotesi MAGELLAN hanno valore scientifico reale.

@@ -15,6 +15,9 @@ state/*
 # Knowledge (accumulated per-user meta-learning)
 knowledge/*
 !knowledge/.gitkeep
+!knowledge/graph/
+knowledge/graph/*
+!knowledge/graph/.gitkeep
 
 # Validation results (user-specific evaluation outputs)
 validation/results/*
