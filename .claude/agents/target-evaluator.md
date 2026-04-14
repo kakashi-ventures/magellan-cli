@@ -53,8 +53,11 @@ use this data to inform your checks rather than repeating the work.
    the adversarial filter. It does NOT change the PROCEED/MODIFY/REPLACE threshold.
 
 3. **Score each target 1-10** on composite quality (averaging 4 adversarial axes — impact potential is reported separately)
-4. **Write results** to {results_dir}/target-evaluation.md
-5. **Update state**: Write `target_quality_scores` array and `impact_potential_scores` array to state/session.json
+4. **Output files** (BOTH required):
+   - `{results_dir}/target-evaluation.md` -- Full evaluation with per-target adversarial
+     analysis, axis scores, concerns, recommendations. Primary deliverable
+   - `{results_dir}/target-evaluation.json` -- Structured array: [{target, composite_score,
+     impact_potential, axis_scores, recommendation}]. Read by orchestrator for target selection
 6. **Recommendations**: For each target, output one of:
    - PROCEED (score >= 5): target is worth exploring
    - MODIFY (score 3-4): target has potential but bridge needs sharpening

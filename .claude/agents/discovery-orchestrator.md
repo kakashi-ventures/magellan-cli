@@ -79,6 +79,21 @@ After each agent returns, apply this pattern:
 Phase-specific thresholds: Scout ≥3 targets, Generator ≥3 hypotheses, Critique ≥1 survivor.
 Computational Validation is WARN-ONLY (never blocks).
 
+4. **Verify artifacts**: After each agent returns, check that BOTH the phase JSON file
+   AND the markdown report exist in {results_dir}/. Required pairs:
+   - Scout: `scout.json` + `scout-targets.md`
+   - Target Evaluator: `target-evaluation.json` + `target-evaluation.md`
+   - Generator: `cycle{N}-raw.json` + `raw-hypotheses-cycle{N}.md`
+   - Critic: `cycle{N}-critiqued.json` + `critiqued-cycle{N}.md`
+   - Ranker: `cycle{N}-ranked.json` + `ranked-cycle{N}.md`
+   - Quality Gate: `quality-gate.json` + `quality-gate.md`
+   - Cross-Model Validator: `cross-model.json` + `cross-model-consensus.md`
+   The markdown is the PRIMARY deliverable (detailed text). The JSON is structured
+   metadata for pipeline routing. If markdown is missing, RE-DISPATCH the agent with:
+   "Your JSON output exists at {results_dir}/{file}.json but the markdown report is
+   missing. Read the JSON and write {results_dir}/{file}.md with full detailed content."
+   Do NOT fabricate markdown from JSON yourself -- the agent produces the rich content.
+
 ## MEMORY
 Read knowledge/discovery-log.json for past session data.
 After completing, update knowledge/discovery-log.json.
@@ -453,10 +468,18 @@ Update progress: `current_phase = "cross_model_validation"`.
 
 After agent returns, read `{results_dir}/cross-model.json` for validation status.
 - If `status = "completed"`: include consensus highlights in session summary
-- If `status = "manual_export_only"`: note that export files are ready for manual validation
+- If `status = "manual_export_only"` or `status = "partial"`:
+  Check if actual validation result files exist (`validation-gpt.md`, `validation-gemini.md`).
+  If they exist (agent may have written them after updating cross-model.json), read them
+  and update cross-model.json status to "completed".
+  If they don't exist: log that API validation did not complete. Do NOT mark
+  `cross_model_validation` in progress.phases_completed -- use `cross_model_export_only` instead.
 - If agent failed: log error, continue to session summary (non-blocking)
 
-This phase is NON-BLOCKING — failures do not affect session health status.
+This phase is NON-BLOCKING -- failures do not affect session health status.
+However, the agent MUST fully return before the orchestrator proceeds. Do NOT
+dispatch the agent with `run_in_background`. Wait for the agent to return,
+then verify its output files.
 
 ## POST-CROSS-MODEL: CONVERGENCE SCANNING (v5.13)
 
@@ -578,7 +601,41 @@ For each hypothesis in `final.json`, merge from quality-gate.json (match by `id`
 
 **Verify** after writing: hypothesis count, verdicts, composites match QG; all text fields meet length minimums. Rewrite from QG if mismatch.
 
-## SESSION SUMMARY (AFTER post-QG agents — not before)
+## DELIVERABLES VERIFICATION (before session summary)
+
+Before writing the session summary, verify ALL required artifacts exist.
+Run this check via Bash:
+
+```bash
+for f in scout.json scout-targets.md literature.json literature-landscape.md \
+         target-evaluation.json target-evaluation.md \
+         computational.json computational-validation.md \
+         cycle1-raw.json raw-hypotheses-cycle1.md \
+         cycle1-critiqued.json critiqued-cycle1.md \
+         cycle1-ranked.json ranked-cycle1.md \
+         quality-gate.json quality-gate.md final.json final-hypotheses.md; do
+  [ -f "{results_dir}/$f" ] || echo "MISSING: $f"
+done
+```
+
+For each MISSING markdown file where the corresponding JSON exists, RE-DISPATCH
+the original agent to write the markdown. Include in dispatch:
+"Your JSON output exists at {results_dir}/{file}.json but the markdown report
+is missing. Read the JSON and write {results_dir}/{file}.md with full detailed
+content matching what you would have written during the original phase."
+
+The markdown is the PRIMARY deliverable -- it contains the detailed mechanisms,
+evidence, analysis, and justifications. The JSON is thin metadata for pipeline
+routing. Do NOT fabricate markdown from JSON yourself -- the rich content must
+come from the specialized agent.
+
+If cycle 2 ran, also check cycle2 variants of the above files.
+
+Log all missing files and fallback generation actions to dispatch-log.json.
+
+**Do NOT set `phase: "complete"` until this verification passes.**
+
+## SESSION SUMMARY (AFTER post-QG agents -- not before)
 
 **IMPORTANT**: Do NOT write session-summary.md or ingest.json until ALL post-QG
 agents (cross-model, convergence, DEM) have completed or failed. The session
@@ -663,9 +720,22 @@ it prints a tip and exits cleanly.
 
 ## KNOWLEDGE PERSISTENCE (after session summary)
 
+Two files to update:
+
+### 1. discovery-log.json
 Update `knowledge/discovery-log.json` for cumulative learning across sessions:
 Read `prompts/knowledge-schema.json` for the entry format, then append this session's data
 to `knowledge/discovery-log.json`. Include strategy_performance, bridge_type_performance,
 and computational_validation_summary from session analyst output ({results_dir}/meta-insights.json).
+
+### 2. meta-insights.md (cumulative -- read by Scout and Generator)
+Read `{results_dir}/meta-insights.json` and UPDATE `knowledge/meta-insights.md` with
+this session's insights. Append new strategy performance data, bridge type survival
+rates, and kill pattern observations. Do NOT overwrite existing content -- merge new
+data with existing. If `knowledge/meta-insights.md` does not exist, create it from
+the session analyst output.
+
+**Both files are required.** Future sessions read these for meta-learning.
+Skipping either means this session's insights are lost.
 
 Present session summary to user.

@@ -86,9 +86,10 @@ Phase 7:  Cross-Model Validation — GPT-5.4 Pro (web search + code interpreter)
           (automatic if API keys set, export files only otherwise)
 Phase 7b: Convergence Scanner — ClinicalTrials.gov, NIH Reporter, patents (non-blocking)
           Dataset Evidence Miner — HPA, GWAS, ChEMBL, UniProt, PDB queries + follow-up suggestions (non-blocking)
-Phase 8:  Post-QG Amendments → arithmetic/citation corrections appended to final-hypotheses.md
-          Session summary (written AFTER post-QG agents) → results/{session-id}/
-Phase 9:  Knowledge persistence → knowledge/discovery-log.json + strategy metrics
+Phase 8:  Deliverables verification → check all JSON + markdown artifacts exist
+          Post-QG Amendments → arithmetic/citation corrections appended to final-hypotheses.md
+          Session summary (written AFTER post-QG agents + verification) → results/{session-id}/
+Phase 9:  Knowledge persistence → knowledge/discovery-log.json + knowledge/meta-insights.md
 ```
 
 Typical runtime: 20-55 minutes. Check progress with `/status`.

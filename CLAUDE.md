@@ -201,8 +201,9 @@ confidence, groundedness assessment.
   PubMed co-occurrence, physics checks) catches quantitatively impossible
   mechanisms before the Critic.
 - **Session analysis** — Post-pipeline extraction of strategy performance, kill
-  patterns, bridge type survival rates → `knowledge/meta-insights.md`.
-  Scout and Generator read this in future sessions.
+  patterns, bridge type survival rates. Orchestrator persists to BOTH
+  `knowledge/discovery-log.json` (structured) and `knowledge/meta-insights.md`
+  (cumulative prose). Scout and Generator read both in future sessions.
 - **Strategy diversification** — Scout must use at least 2 different strategies
   across 3 targets, with at least 1 not used in the last 2 sessions.
   At least 1 target must use a strategy with < 2 sessions of primary data
@@ -266,6 +267,19 @@ confidence, groundedness assessment.
   AFTER all post-QG agents complete (cross-model, convergence, DEM). This ensures
   summaries include EES, IPS, cross-model highlights, and convergence signals.
   final-hypotheses.md is written before post-QG agents (it doesn't need their data).
+- **Deliverables verification gate** — Before writing session summary, the orchestrator
+  runs a file-existence check on all required JSON + markdown artifact pairs. If a
+  markdown report is missing, the orchestrator re-dispatches the original agent to
+  write it (markdown is the primary deliverable, JSON is thin routing metadata).
+  `phase: "complete"` cannot be set until verification passes.
+- **Artifact verification in Guard Protocol** — After each agent dispatch, the
+  orchestrator verifies both the phase JSON and corresponding markdown report exist.
+  If markdown is missing, re-dispatches the agent. Catches agents that write
+  structured data but skip the detailed human-readable output.
+- **Cross-model completion enforcement** — If cross-model-validator returns
+  `manual_export_only`, the orchestrator checks for actual validation files before
+  marking the phase complete. Uses `cross_model_export_only` in phases_completed
+  if validation files are absent (not `cross_model_validation`).
 - **Post-QG Amendments** — After cross-model validation, the orchestrator appends
   an errata section to final-hypotheses.md with arithmetic corrections, citation
   fixes, and counter-evidence discovered by GPT/Gemini. Does not change QG scores.

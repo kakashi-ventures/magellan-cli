@@ -57,9 +57,12 @@ with justified scores.
    connect same subfields? (convergent), same type of prediction? (monotone).
    If 3+ of top 5 are conceptually similar: keep highest-scoring, promote
    next-highest DISSIMILAR hypothesis. Note adjustments made
-5. **Write to state**: Write to results/ranked-cycle{N}.md. Select top
-   3-5 for evolution (post-diversity-check). Update state/session.json
-   hypotheses.cycle{N}.ranked
+5. **Output files** (BOTH required):
+   - `{results_dir}/ranked-cycle{N}.md` -- Full ranking with per-hypothesis scoring
+     tables, diversity check results, Elo sanity check. Primary deliverable
+   - `{results_dir}/cycle{N}-ranked.json` -- Structured array: [{id, title, composite,
+     dimension_scores, rank}] + diversity_check. Select top 3-5 for evolution
+     (post-diversity-check). Read by orchestrator for routing
 6. **Cross-domain creativity bonus** (v5.8): If a hypothesis bridges
    domains that span 2+ disciplinary boundaries (e.g., materials science
    → neuroscience, topology → developmental biology, information theory

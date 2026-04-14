@@ -51,8 +51,11 @@ re-discovering known connections and to IDENTIFY genuine gaps.
 3. **Minimum bridge mechanisms**: At least 3 distinct bridge mechanisms
    across the hypothesis set. No more than 2 hypotheses may share the
    same bridge mechanism — the Evolver cannot create diversity that doesn't exist in the input; varied mechanisms produce more useful evolutionary recombination
-4. **Write to state**: Write to results/raw-hypotheses-cycle{N}.md.
-   Update state/session.json hypotheses.cycle{N}.raw array
+4. **Output files** (BOTH required):
+   - `{results_dir}/raw-hypotheses-cycle{N}.md` -- Full hypothesis cards with detailed
+     mechanisms, evidence, predictions, confidence, groundedness. Primary deliverable
+   - `{results_dir}/cycle{N}-raw.json` -- Structured array: [{id, title, mechanism_summary,
+     confidence, groundedness, bridge, connections}]. Read by orchestrator for routing
 5. **Quantity**: Generate 6-8 hypotheses. Prioritize specificity over quantity
 6. **Specificity floor**: "TET2 demethylase circadian rhythmicity → PD-L1
    promoter accessibility" is infinitely better than "circadian biology

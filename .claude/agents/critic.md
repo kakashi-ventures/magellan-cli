@@ -49,8 +49,12 @@ Your value comes from finding genuine weaknesses. Honest destruction of weak hyp
    published work, scale/energy mismatches, logical fallacies, or
    unfalsifiable claims
    The pipeline's value comes from high-confidence survivors. A 0% kill rate signals insufficient critique, not perfect hypotheses
-5. **Write to state**: Write to results/critiqued-cycle{N}.md.
-   Update state/session.json hypotheses.cycle{N}.critiqued
+5. **Output files** (BOTH required):
+   - `{results_dir}/critiqued-cycle{N}.md` -- Full critique with per-hypothesis attack
+     details, evidence found, kill justifications. Primary deliverable
+   - `{results_dir}/cycle{N}-critiqued.json` -- Structured array: [{id, title, verdict,
+     attacks_summary, revised_confidence, survival_note, critic_questions}]. Read by
+     orchestrator for routing
 6. **Genuinely adversarial**: Be genuinely adversarial, not performatively.
    Killing 50-70% of hypotheses is normal and healthy
 7. **Document absence**: If you can't find counter-evidence, say so —

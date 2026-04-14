@@ -5,6 +5,38 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.20 — Deliverables Verification Gate (12 aprile 2026)
+
+**Motivazione**: La sessione 2026-04-10-scout-018 (reservoir computing x gut microbiome) ha completato il core pipeline con successo (2 PASS + 3 CONDITIONAL_PASS), ma l'orchestratore ha dichiarato `phase: "complete"` con diversi deliverables mancanti: 5 report markdown (raw-hypotheses, critiqued, ranked, target-evaluation, cross-model-consensus), cross-model validation incompleta, `knowledge/meta-insights.md` non aggiornato, upload 400.
+
+**Causa radice**: La v5.18 ha ristrutturato la State Management dell'orchestratore, passando dalla lettura di `state/session.json hypotheses.cycle{N}` alla lettura di `{results_dir}/cycle{N}-*.json`. Ma le constraint degli agenti (generator, critic, ranker, target-evaluator) non sono state aggiornate -- dicevano ancora `"Write to state: Write to results/X.md. Update state/session.json hypotheses.cycle{N}"`. Gli agenti, vedendo che la parte session.json dell'istruzione era obsoleta (v5.18: "NEVER put hypothesis content into session.json"), hanno inferito di scrivere solo i JSON files che l'orchestratore legge, saltando i markdown. Confermato dal confronto: S017 (pre-v5.18) aveva 15 file markdown, S018 (post-v5.18, prima sessione dopo il commit) ne aveva 8.
+
+**Decisioni**:
+1. **Fix constraint agenti** (generator, critic, ranker, target-evaluator): la vecchia istruzione `"Write to state"` che conflava markdown e session.json e' stata sostituita con `"Output files (BOTH required)"` che separa chiaramente: (a) markdown come primary deliverable (testo dettagliato) e (b) JSON come metadata strutturato per il routing. Rimosso il riferimento obsoleto a `state/session.json hypotheses.*`.
+
+2. **Guard Protocol: artifact verification** (orchestrator): dopo ogni dispatch, l'orchestratore verifica che esistano SIA il JSON SIA il markdown. Se il markdown manca, ri-dispatcha l'agente originale per scriverlo (non genera un fallback dal JSON -- il markdown e' il deliverable ricco, il JSON e' metadata leggero).
+
+3. **Deliverables verification gate** (orchestrator): nuova sezione prima del session summary. Esegue un check di esistenza su tutti i file richiesti. Markdown mancanti triggerano un re-dispatch dell'agente. `phase: "complete"` non puo' essere impostato finche' la verifica non passa.
+
+4. **Cross-model completion enforcement** (orchestrator): se cross-model-validator restituisce `manual_export_only`, l'orchestratore controlla i file di validazione effettivi. Usa `cross_model_export_only` in phases_completed se assenti. Divieto esplicito di `run_in_background` per agenti post-QG.
+
+5. **Knowledge persistence duale** (orchestrator): richiede l'aggiornamento di ENTRAMBI `knowledge/discovery-log.json` e `knowledge/meta-insights.md`.
+
+**File modificati**:
+- `.claude/agents/generator.md`: constraint #4 riscritta (output files separati)
+- `.claude/agents/critic.md`: constraint #5 riscritta (output files separati)
+- `.claude/agents/ranker.md`: constraint #5 riscritta (output files separati)
+- `.claude/agents/target-evaluator.md`: constraints #4-5 unite e riscritte (output files separati)
+- `.claude/agents/discovery-orchestrator.md`: 4 modifiche (Guard Protocol, cross-model, deliverables verification, knowledge persistence)
+- `CLAUDE.md`: sezioni Operational e Meta-learning aggiornate
+- `docs/methodology-v5.md`: nuova sezione 3 (deliverables verification gate) + knowledge persistence
+- `README.md`: phase list aggiornata
+- `docs/CHANGELOG.md`: questa entry
+
+**Evidenza**: S017 (pre-v5.18, 5 aprile): 15 markdown. S018 (post-v5.18, 10 aprile): 8 markdown. Le definizioni degli agenti non erano state modificate tra le due sessioni -- solo l'orchestratore. Il mismatch tra le istruzioni degli agenti e le aspettative dell'orchestratore e' la causa.
+
+---
+
 ## v5.19 — Computational Verification Integration (7 aprile 2026)
 
 **Motivazione**: Le verifiche computazionali manuali (5 analisi su dati pubblicati) erano visibili solo nella cartella `verification/` del repo CLI, ma assenti dal sito web. Gap significativo: sono la prova piu' forte che le ipotesi MAGELLAN hanno valore scientifico reale.

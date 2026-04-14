@@ -239,7 +239,7 @@ Parametric knowledge is **the generative engine** — it is where the non-obviou
 8. **Evolver**: Operates on top hypotheses with a **diversity constraint**
 9. **Session Analyst**: Post-Quality-Gate, analyzes strategy performance, kill patterns, bridge type survival rates, disjointness correlation. Produces `knowledge/meta-insights.md` for subsequent sessions
 10. **Cross-Model Validator**: Post-Session-Analyst. Generates validation prompts tailored to specific hypotheses, then calls the OpenAI (GPT-5.4 Pro, reasoning high) and Google (Gemini 3.1 Pro, thinking HIGH) APIs in parallel via `scripts/validate-crossmodel.mjs`. Produces a consensus report identifying convergences and divergences between models. If API keys are not configured, generates only export files for manual validation. **Non-blocking**: failures do not change session status
-11. **Knowledge Persistence**: At session end, the Orchestrator updates `knowledge/discovery-log.json` with explored pairs, productive bridges, surviving and killed hypotheses, and strategy performance metrics
+11. **Knowledge Persistence**: At session end, the Orchestrator updates both `knowledge/discovery-log.json` (structured: explored pairs, productive bridges, surviving and killed hypotheses, strategy performance metrics) and `knowledge/meta-insights.md` (cumulative prose: strategy performance trends, bridge type survival rates, kill pattern observations). Both files are required -- skipping either means the session's insights are lost to future sessions
 
 ---
 
@@ -571,7 +571,17 @@ Additional hooks:
 - `PreCompact`: Backs up state before context compaction
 - `PostCompact`: Restores from backup if state is corrupted after compaction
 
-### 3. Session health classification
+### 3. Deliverables verification gate (v5.20)
+
+Before writing the session summary, the Orchestrator runs a file-existence check on all required artifact pairs (JSON + markdown) in `results/{session-id}/`. If a markdown report is missing but its JSON counterpart exists, the Orchestrator re-dispatches the original agent to write the markdown. The markdown is the primary deliverable (detailed mechanisms, evidence, analysis); the JSON is thin metadata for pipeline routing. Re-dispatch, not fabrication, ensures the rich content comes from the specialized agent.
+
+The Guard Protocol (applied after every agent dispatch) now includes artifact verification: both the phase JSON and corresponding markdown must exist. Required markdown per phase: `scout-targets.md`, `target-evaluation.md`, `raw-hypotheses-cycle{N}.md`, `critiqued-cycle{N}.md`, `ranked-cycle{N}.md`, `quality-gate.md`, `cross-model-consensus.md`.
+
+Cross-model validation receives special handling: if the agent returns `manual_export_only`, the Orchestrator checks whether actual validation files (`validation-gpt.md`, `validation-gemini.md`) exist before marking the phase complete. If absent, `phases_completed` records `cross_model_export_only` instead of `cross_model_validation`.
+
+`phase: "complete"` cannot be set until the verification gate passes. This was introduced after session S018, where 5 markdown reports were missing, cross-model validation was marked complete despite not finishing, and the upload script failed with a 400 due to missing files.
+
+### 4. Session health classification
 
 Every session terminates with an explicit status:
 
