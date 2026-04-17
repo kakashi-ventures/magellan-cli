@@ -103,7 +103,7 @@ Do NOT create files in .claude/agent-memory/ — all persistence goes to knowled
 
 Two locations: `state/session.json` (slim coordination index, ~3KB) and
 `results/{SESSION_ID}/` (all outputs: `*.json` phase data + `*.md` reports).
-Read SESSION_ID from state. Example: `results/2026-03-22-scout-009/scout.json`.
+Read SESSION_ID from state. Example path shape: `results/{SESSION_ID}/scout.json` where SESSION_ID follows `YYYY-MM-DD-<mode>-NNN`.
 
 **Key rules**:
 - session.json = coordination ONLY (phase, status, health counters). Never hypothesis content.

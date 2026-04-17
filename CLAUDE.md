@@ -73,6 +73,8 @@ Fifteen agents. Orchestrator dispatches to all — never executes phases inline.
 
 **Model selection principle**: Opus for deep cross-disciplinary reasoning (Scout, Target Evaluator, Generator, Critic, Quality Gate, Holdout Evaluator). Sonnet for structured, search-intensive tasks (Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator, Convergence Scanner, Dataset Evidence Miner). Effort levels are pinned per agent (Opus: max, Sonnet: high) to guarantee quality regardless of the user's session-level effort setting.
 
+**Model alias resolution**: Agent frontmatter uses `model: opus` and `model: sonnet` aliases. These resolve to the current-latest models at dispatch time (Opus 4.7 and Sonnet 4.6 as of April 2026). The pipeline has been empirically validated on Opus 4.7 via end-to-end session testing: full 14-agent dispatch preserved, tool usage abundant, PASS + CONDITIONAL_PASS outcomes. The behavioral shifts noted in the Opus 4.7 migration guide (fewer subagents spawned by default, fewer tool calls by default) do not materialize in this pipeline because the orchestrator has no WebSearch/WebFetch (cannot inline) and stop-gate hooks deterministically validate output completeness. See `docs/CHANGELOG.md` for per-version migration evidence.
+
 ## State Management
 
 State is split into a **slim coordination index** and **per-session results directories**:
@@ -174,6 +176,17 @@ confidence, groundedness assessment.
 - **GOAL/CONSTRAINTS/STRATEGIES prompt structure** — Agent prompts define
   the goal and hard constraints, with strategies as advisory. Better models
   find better reasoning paths; constraints maintain quality floor.
+- **Session-agnostic agent prompts** — Files under `.claude/agents/` must not
+  reference specific session IDs, cycle numbers, or ephemeral session-level
+  findings. Agents run on any user's machine with their own sessions; a prompt
+  that says "this is the S024 failure mode" is meaningless to an agent
+  executing on a fresh install. When documenting a failure mode discovered in
+  a specific session, describe the GENERIC pattern (e.g. "author-identifier
+  pairing is a frequent parametric error: paper exists, authors exist, but
+  the cited PMID belongs to a different paper on the same topic") rather than
+  naming the session. Project history (session IDs, specific evidence, dated
+  decisions) belongs in `docs/CHANGELOG.md`, `knowledge/meta-insights.md`,
+  and `docs/methodology-v5.md`, NOT in agent prompt files.
 - **Reflection loops** — SELF-CRITIQUE (Generator), META-CRITIQUE (Critic),
   TARGET QUALITY CHECK (Scout), META-VALIDATION (Quality Gate), RETRIEVAL
   QUALITY CHECK (Literature Scout), EVOLUTION QUALITY CHECK (Evolver).
@@ -306,3 +319,15 @@ When modifying the pipeline (agents, hooks, skills, commands), update:
 - `docs/methodology-v5.md` — Full methodology with evidence
 - `docs/CHANGELOG.md` — Version history with motivations and evidence
 Keep all four aligned. Docs drift = architectural confusion.
+
+**Where session-specific content belongs** (and does NOT belong):
+- **Agent prompts** (`.claude/agents/*.md`): session-agnostic only. Describe
+  failure modes and design rationale generically. No session IDs, no cycle
+  numbers, no dated evidence. See "Session-agnostic agent prompts" above.
+- **CHANGELOG** (`docs/CHANGELOG.md`): session IDs and specific evidence are
+  encouraged — this is project history and helps readers understand why a
+  change was made.
+- **Meta-insights** (`knowledge/meta-insights.md`): per-session meta-learning,
+  strategy performance, kill patterns. Session IDs are core content here.
+- **Methodology** (`docs/methodology-v5.md`): references to sessions acceptable
+  as evidence for design decisions, but the rules themselves must be general.

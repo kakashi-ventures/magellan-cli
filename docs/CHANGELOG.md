@@ -5,6 +5,76 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.22 — Citation Fabrication Hardening (18 aprile 2026)
+
+**Motivazione**: La sessione 2026-04-16-scout-024 (pulsatile wave physics x vascular aging) ha rivelato un failure mode sistematico nel Generator: 5 di 6 ipotesi cycle-1 avevano errori di citazione, e cycle-2 (tentando repair) ne ha introdotti di nuovi. Pattern specifico: le citazioni non sono completamente inventate, ma author-PMID pairing e' sbagliato. Esempi: "Hashimoto/Ito 2016" citato per PMC5079032 che appartiene a Phan et al.; "Zhang 2016 Aging-US" citato per PMID che appartiene a Guina 2016 psichiatria; "Groenendijk 2005" citato con PMID 15920022 invece del corretto 15920020. I paper esistono, gli autori citati esistono, ma non come autori di QUEL PMID.
+
+**Causa radice**: La SELF-CRITIQUE del Generator (v5.4) verifica "paper exists" ma non author-identifier coherence. I PMID sono interi arbitrari senza contenuto semantico, quindi sono l'elemento piu' facile da confondere nella knowledge parametrica. Topic giusto + autore giusto per il topic + PMID preso da paper adiacente sullo stesso topic = citazione fabbricata che sembra plausibile al check "il paper esiste".
+
+**Decisioni**:
+1. **Generator SELF-CRITIQUE step 5 esteso** (v5.4 → v5.5): "Citation specificity" diventa "Citation specificity AND author-identifier pairing". Rule of thumb: se il claim sopravvive con solo "author + year + topic", e' piu' sicuro di "author + year + journal + PMID" quando c'e' dubbio sul pairing. Tre opzioni quando incerti: (a) downgrade a [PARAMETRIC], (b) citare senza identifier specifico, (c) omettere la citazione e usare grounding topic-level.
+
+2. **Critic attack vector 9 esteso** (v5.4 → v5.5): nuovo sotto-check "Verify author-identifier pairing". Il Critic deve cercare il PMID direttamente (pubmed.ncbi.nlm.nih.gov/<PMID>) o cercare "[First author] [Year] [Journal]" e confrontare il PMID restituito con quello citato. Author-PMID mismatch = CITAZIONE FABBRICATA anche se paper e autori esistono separatamente.
+
+3. **META-CRITIQUE reflection esteso**: domanda esplicita su mismatched author-identifier pairing. Cross-hypothesis propagation flaggata come segnale di confusione parametrica sistematica (non slip isolato).
+
+**File modificati**:
+- `.claude/agents/generator.md`: SELF-CRITIQUE step 5 riscritto, aggiunta sezione "Why step 5 matters" (descrizione generica del failure mode, session-agnostic)
+- `.claude/agents/critic.md`: attack vector 9 esteso, META-CRITIQUE step 4 riscritto
+- `CLAUDE.md`: nuovo design principle "Session-agnostic agent prompts" in Architecture, sezione "Where session-specific content belongs" in Documentation Rules
+- `.claude/agents/discovery-orchestrator.md`, `cross-model-validator.md`, `holdout-evaluator.md`: esempi di session ID concreti sostituiti con placeholder `{SESSION_ID}` / `<YYYY-MM-DD-mode-NNN>` per coerenza con la nuova regola
+- `docs/CHANGELOG.md`: questa entry
+
+**Evidenza**: S024 Quality Gate ha killato E3-H3 (composite 6.0) per "2 fabricated citations inherited from cycle 2 (Zhang 2016 Aging-US / Dijk 2005 Hypertension) at core mechanism claims". GPT-5.4 cross-model ha rilevato 3 issues residui su E2-C2-H8. Layered verification (Critic → QG → cross-model) ha catturato tutte le fabrication a core mechanism, ma il costo computazionale di intercettarle tardi e' alto. Spostare il check al Generator riduce waste nelle cycles successive.
+
+**Correzione mid-drafting**: la prima versione delle modifiche agli agent aveva embedded il session ID "S024" nei prompt ("this is the S024 failure mode"). Errore: gli agent prompt sono distribuiti open source e girano su macchine di altri utenti con sessioni proprie. Riferimenti a sessioni specifiche sono opachi e potenzialmente confondenti per un'installazione fresca. Fixato: descrizioni generiche del failure mode + nuova regola in CLAUDE.md che vieta session ID in `.claude/agents/*.md` (storia per-sessione va in CHANGELOG, meta-insights, result dirs).
+
+**Non-regressione**: il change e' additivo. Le ipotesi che usano citation grounding corretta non sono affette. La tolleranza per "cito senza PMID specifico" e' nuova e concede flessibilita' al Generator quando incerto, invece di forzarlo a inventare un PMID specifico.
+
+---
+
+## v5.21 — Opus 4.7 Migration (18 aprile 2026)
+
+**Motivazione**: Il 16 aprile 2026 Anthropic ha rilasciato Claude Opus 4.7, sostituendo Opus 4.6 come modello Opus di default. La documentazione ufficiale (announcement, what's-new, best-practices, migration-guide) elenca diversi behavioral change potenzialmente impattanti per un pipeline multi-agent: "fewer subagents spawned by default", "fewer tool calls by default", "more literal instruction following", "stricter effort calibration", "response length calibrates to task complexity". Tokenizer nuovo con fino al 35% in piu' di token. Nuovo effort tier `xhigh` consigliato come default per use case agentic.
+
+**Stato empirico**: La sessione 2026-04-16-scout-024 e' stata eseguita con Claude Code aggiornato a Opus 4.7 (frontmatter `model: opus` e' un alias che risolve al modello current-latest). Risultati: pipeline intero dispatchato (14 agenti), 2 cycle completi, 23 markdown deliverables prodotti (vs 8 in S018 con v5.18 regression), cross-model validation completata (GPT-5.4: 73 web search + 7 code execution; Gemini: analysis completa), Dataset Evidence Miner ha verificato 19 claim molecolari, outcome 1 PASS (composite 10.0) + 3 CONDITIONAL_PASS. Nessuna delle preoccupazioni della migration guide si e' manifestata nel pipeline MAGELLAN.
+
+**Perche' i behavioral change non si manifestano qui**:
+- "Fewer subagents": l'orchestratore non ha WebSearch/WebFetch disponibili (vincolo architetturale esplicito), quindi non PUO' inlinare le fasi. Deve dispatchare.
+- "Fewer tool calls": gli agenti retrieval-heavy (Literature Scout, Critic, Cross-Model Validator via GPT/Gemini) hanno prompt che esplicitano quando e perche' chiamare i tool, e il vincolo "Web search required per hypothesis" e' hard constraint nel Critic.
+- "More literal instruction following": la calibrazione "Reduced MUST/CRITICAL density" fatta in v5.2 per Opus 4.6 adaptive thinking si applica naturalmente a 4.7 (che amplifica la stessa tendenza).
+- "Stricter effort calibration": gli agenti sono pinned a `high`/`max` via frontmatter, mai a `low`/`medium` che sono i tier affetti da under-thinking.
+- Stop-gate hooks deterministici bloccano output incompleti indipendentemente dal comportamento del modello.
+
+**Decisioni**:
+1. **Doc sync**: tutti i riferimenti "Opus 4.6" in docs/methodology-v5.md, prompts/validation-prompt-gpt.md, launch-creators.md, launch-media-pitches.md, scripts/init-session.sh aggiornati a "Opus 4.7". I riferimenti storici in CHANGELOG v5.2 e in validation/results/retrospective-retrodiction-all-sessions.md NON sono modificati (descrivono accuratamente lo stato del tempo).
+
+2. **CLAUDE.md**: aggiunta sezione "Model alias resolution" che documenta la strategia di alias (`opus` → Opus 4.7, `sonnet` → Sonnet 4.6 ad aprile 2026) e cita S024 come evidenza empirica che il pipeline e' compatibile con 4.7.
+
+3. **methodology-v5.md**: nuova entry benchmark per Opus 4.7 (affiancata alla entry 4.6 per reference storica), nota su "more literal instruction following" che allinea con la riduzione MUST/CRITICAL gia' fatta.
+
+4. **scripts/init-session.sh**: metadata default `"model": "opus-4.7"` per le nuove sessioni.
+
+**Non-modifiche deliberate**:
+- Effort levels non cambiati (Opus=max, Sonnet=high). A/B test `xhigh` vs `max` considerato ma non necessario: S024 ha prodotto output qualitativamente eccellente con `max`, nessun segnale di overthinking o diminishing returns.
+- Prompts degli agenti non re-baseline. L'evidenza empirica S024 mostra che funzionano bene su 4.7.
+- Scaffolding anti-inlining dell'orchestratore non rinforzato. Il dispatch e' robusto.
+- Nessuna adozione di task_budgets (beta, solo Messages API, non accessibile via Claude Code).
+- Nessuna modifica per high-resolution image support (MAGELLAN e' text-only).
+
+**File modificati**:
+- `CLAUDE.md`: sezione "Model alias resolution" aggiunta
+- `docs/methodology-v5.md`: 8 righe aggiornate (linee 12, 207, 219, 490, 611, 622, 687, 700-701, 762)
+- `prompts/validation-prompt-gpt.md`: linea 19
+- `launch-creators.md`: linea 224
+- `launch-media-pitches.md`: linea 150
+- `scripts/init-session.sh`: linea 47
+- `docs/CHANGELOG.md`: questa entry
+
+**Evidenza**: S024 (2026-04-16-scout-024) con 44 file totali, 23 markdown, phase `complete`, 2 cycle pieni, tutti i post-QG agent completati, 1 PASS + 3 CONDITIONAL_PASS. Confronto con S018 (pre-4.7, post-v5.18 regression): 25 file totali, 8 markdown, phase `complete` ma con deliverables mancanti. S024 e' qualitativamente superiore a S018 lungo ogni dimensione misurabile.
+
+---
+
 ## v5.20 — Deliverables Verification Gate (12 aprile 2026)
 
 **Motivazione**: La sessione 2026-04-10-scout-018 (reservoir computing x gut microbiome) ha completato il core pipeline con successo (2 PASS + 3 CONDITIONAL_PASS), ma l'orchestratore ha dichiarato `phase: "complete"` con diversi deliverables mancanti: 5 report markdown (raw-hypotheses, critiqued, ranked, target-evaluation, cross-model-consensus), cross-model validation incompleta, `knowledge/meta-insights.md` non aggiornato, upload 400.

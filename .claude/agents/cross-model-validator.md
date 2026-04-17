@@ -36,7 +36,7 @@ export file generation (fallback when API keys are not set).
 
 Read `state/session.json` for `results_dir`, `session_id`, `selected_target`.
 Read `{results_dir}/final.json` for hypothesis cards (verdict, score, confidence, novelty).
-(results_dir comes from state/session.json, e.g., `results/2026-03-22-scout-009`.)
+(results_dir comes from state/session.json; path shape is `results/{SESSION_ID}` where SESSION_ID follows `YYYY-MM-DD-<mode>-NNN`.)
 
 Only process hypotheses with `verdict` = `PASS` or `CONDITIONAL_PASS`.
 If `{results_dir}/final.json` is empty or missing, write a note and exit.

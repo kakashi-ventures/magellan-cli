@@ -144,7 +144,7 @@ Write `validation/results/{holdout_id}-evaluation.json`:
 ```json
 {
   "holdout_id": "holdout-001",
-  "session_id": "2026-03-25-scout-015",
+  "session_id": "<YYYY-MM-DD-mode-NNN>",
   "verdict": "GENUINE_REDISCOVERY|PARTIAL_REDISCOVERY|ADJACENT_DISCOVERY|CONTAMINATED|MISSED",
   "contamination": {
     "contaminated": false,
