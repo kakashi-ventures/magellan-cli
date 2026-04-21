@@ -156,7 +156,7 @@ try:
                             "quality-gate (and in scout mode also scout, target-evaluator, "
                             "literature-scout) via the Agent tool. Do NOT mark the session "
                             "complete until the missing sub-agents have actually been "
-                            f"dispatched. See docs/forensics-S026-inline-execution.md. "
+                            f"dispatched. See docs/CHANGELOG.md (v5.23). "
                             f"Dispatched so far: {pipeline_dispatches or '[none]'}."
                         )
                     }))
