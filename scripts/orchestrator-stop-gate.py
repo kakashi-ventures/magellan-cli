@@ -131,6 +131,36 @@ try:
                 if not evolver_skipped:
                     required.add("evolver")
                 missing = required - dispatched
+                # v5.23: the only reliable signal of a correct MAGELLAN run is the
+                # dispatch-log itself. The pipeline must produce real Agent-tool calls
+                # against the 14 sub-agents; inline execution is a fabrication vector.
+                # If critical sub-agents are missing, BLOCK completion (not just warn).
+                critical = {"generator", "critic", "quality-gate"}
+                missing_critical = critical & missing
+                zero_subagents = len([d for d in dispatched if d not in ("Plan", "general-purpose", "discovery-orchestrator")]) == 0
+                if (missing_critical or zero_subagents) and status not in ("failed",):
+                    pipeline_dispatches = sorted(
+                        a for a in dispatched
+                        if a not in ("Plan", "general-purpose", "discovery-orchestrator", "")
+                    )
+                    print(json.dumps({
+                        "decision": "block",
+                        "reason": (
+                            "INLINE_EXECUTION_DETECTED: the session is marked "
+                            f"'{status}' but dispatch-log.json records only {len(pipeline_dispatches)} "
+                            "pipeline sub-agent dispatch(es). Missing critical "
+                            f"agents: {', '.join(sorted(missing_critical)) or 'none individually, but zero pipeline sub-agent dispatches total'}. "
+                            "Per v5.23 the orchestration runs in the top-level session "
+                            "(loaded from .claude/agents/discovery-orchestrator.md by "
+                            "/discover) and MUST dispatch generator, critic, ranker, "
+                            "quality-gate (and in scout mode also scout, target-evaluator, "
+                            "literature-scout) via the Agent tool. Do NOT mark the session "
+                            "complete until the missing sub-agents have actually been "
+                            f"dispatched. See docs/forensics-S026-inline-execution.md. "
+                            f"Dispatched so far: {pipeline_dispatches or '[none]'}."
+                        )
+                    }))
+                    sys.exit(0)
                 if missing and status not in ("failed",):
                     warnings.append(f"Missing agent dispatches: {', '.join(sorted(missing))}")
 

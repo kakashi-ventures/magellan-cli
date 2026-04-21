@@ -10,13 +10,21 @@ linked yet — with zero human input on what to explore.
 MAGELLAN is a Claude Code application. The entire pipeline — agents, commands,
 skills, hooks, MCP servers — runs within Claude Code's infrastructure.
 
-- **Dispatch model**: Only the `discovery-orchestrator` has Agent tool access.
-  It dispatches 14 sub-agents sequentially. Sub-agents communicate exclusively
-  via files in `results/{session-id}/`, never via shared memory or direct messaging.
+- **Dispatch model**: `/discover` loads `.claude/agents/discovery-orchestrator.md`
+  into the top-level session and the top-level Claude acts as the orchestrator,
+  dispatching the 14 pipeline sub-agents via `Agent`. Sub-agents cannot spawn
+  further sub-agents (Claude Code runtime constraint), so orchestration must
+  run top-level. Sub-agents communicate exclusively via files in
+  `results/{session-id}/`.
 - **Quality enforcement**: SubagentStop hooks (`scripts/*-stop-gate.py`) validate
-  every agent's output before allowing completion. Hook schema: `exit 2` = block,
-  `exit 0` = approve. These are deterministic — not advisory like CLAUDE.md rules.
-- **Required env**: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` (set in `.claude/settings.json`).
+  each sub-agent's output. A Stop hook (`scripts/orchestrator-stop-gate.py`)
+  BLOCKS session termination when required sub-agent dispatches are missing
+  from `state/dispatch-log.json` (critical set: `generator`, `critic`,
+  `quality-gate`). Hook schema: `exit 2` = block, `exit 0` = approve.
+- **Optional env**: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set in
+  `.claude/settings.json`. Not required for `/discover` (MAGELLAN uses classic
+  sub-agent dispatch, not agent teams). Retained for unrelated workflows in
+  this repository.
 - **Config locations**: agents in `.claude/agents/`, commands in `.claude/commands/`,
   skills in `.claude/skills/`, hooks + permissions in `.claude/settings.json`,
   MCP servers in `.mcp.json`.

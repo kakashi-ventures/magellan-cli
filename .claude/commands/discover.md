@@ -54,46 +54,43 @@ After init, update `state/session.json` metadata with the license fields determi
 - `metadata.output_license_reason`: `autonomous`, `guided_target`, `guided_context`, `guided_papers`, or `guided_interactive`
 - `metadata.contributor_role`: `runner`, `director`, or `domain_expert`
 
-## Step 3: Launch Orchestrator
+## Step 3: Load Orchestrator and Act as It
 
-Launch `discovery-orchestrator` agent via Agent IMMEDIATELY.
-Do NOT ask for confirmation. Do NOT present a plan first.
+1. **Read `.claude/agents/discovery-orchestrator.md` in full**. Ignore its frontmatter; follow the body as your orchestration brief. You (top-level session) are the orchestrator — sub-agents in Claude Code cannot call `Agent`, so orchestration runs here.
 
-Include these in the orchestrator dispatch if present:
-- If `--context` was provided: "Contributor domain context: [text]"
-- If `--papers` was provided: "Seed papers (contributor-provided): [DOIs]"
-- If `--interactive` was set: "INTERACTIVE MODE: Pause after Scout target selection for user approval before proceeding."
+2. **Apply the mode-specific directive** based on Step 1's mode determination:
 
 **SCOUT MODE:**
-> Run a full SCOUT MODE discovery session.
-> Phase 0: Launch scout and literature-scout in parallel.
-> Scout identifies 3 promising targets; Literature Scout provides
-> landscape context. Select best target and run 2 complete cycles.
-> Do not stop for user input (unless --interactive). Write all results to results/{session-id}/.
-> Manage state in state/session.json.
+> Phase 0: dispatch `scout` and `literature-scout` sub-agents in parallel via the `Agent` tool.
+> Scout identifies 3 promising targets; Literature Scout provides landscape context.
+> Select best target and run 2 complete cycles.
+> Do not stop for user input (unless `--interactive`). Write all results to `results/{session-id}/`.
+> Manage state in `state/session.json`.
 
 **TARGETED MODE:**
-> Run a full TARGETED discovery session.
 > Field A: [extracted field 1]
 > Field C: [extracted field 2]
-> Skip Scout. Launch Literature Scout for these specific fields.
-> Then run 2 complete generation cycles.
+> Skip Scout. Dispatch `literature-scout` for these specific fields, then run 2 complete generation cycles.
 > Do not stop for user input.
 
 **OPEN MODE:**
-> Run a full OPEN discovery session.
 > Starting domain: [topic]
-> Launch Literature Scout to identify 3 fields that [topic] might
-> connect to unexpectedly. Pick the best and run targeted discovery.
+> Dispatch `literature-scout` to identify 3 fields that [topic] might connect to unexpectedly. Pick the best and run targeted discovery.
 
 **PROBLEM MODE:**
-> Run a full PROBLEM-DRIVEN discovery session.
 > Unsolved problem: [problem]
-> Launch Literature Scout to identify 3 unrelated fields whose insights
-> might help solve this. Pick best and run targeted discovery.
+> Dispatch `literature-scout` to identify 3 unrelated fields whose insights might help solve this. Pick best and run targeted discovery.
+
+3. **Include context flags if present in the first sub-agent dispatch**:
+- If `--context` was provided: include "Contributor domain context: [text]"
+- If `--papers` was provided: include "Seed papers (contributor-provided): [DOIs]"
+- If `--interactive` was set: include "INTERACTIVE MODE: Pause after Scout target selection for user approval before proceeding."
+
+Do NOT ask for confirmation. Do NOT present a plan first. Just start dispatching.
 
 ## CRITICAL RULES
 - If $ARGUMENTS is empty → SCOUT MODE
 - Do NOT ask "which fields are you interested in?"
 - Do NOT ask "shall I proceed?"
-- Just launch the orchestrator and let it run
+- Do NOT launch `discovery-orchestrator` as a sub-agent via `Agent` (it cannot dispatch further). Load its file, then act as the orchestrator yourself from the top-level session.
+- DO dispatch every pipeline role (scout, literature-scout, generator, critic, ranker, evolver, quality-gate, cross-model-validator, convergence-scanner, dataset-evidence-miner, computational-validator, session-analyst, target-evaluator) via the `Agent` tool. Those sub-agents have the MCP, WebSearch, WebFetch, and API tools they need — you are the coordinator, not the executor.
