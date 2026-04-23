@@ -26,10 +26,14 @@ diverso. Questo riduce il confirmation bias.
 
 1. In Claude Code: `/export gemini`
 2. Apri `results/export-gemini.md`
-3. Apri Gemini AI Studio → seleziona **3.1 Pro** o **Deep Think**
+3. Apri Google AI Studio → seleziona l'agent **Deep Research Max**
+   (oppure chiama direttamente l'Interactions API con agent
+   `deep-research-max-preview-04-2026` — vedi ai.google.dev/gemini-api/docs/deep-research)
 4. Incolla il contenuto
-5. Gemini è particolarmente utile se il bridge tra i campi è una
-   struttura matematica formale
+5. Gemini DR Max è particolarmente utile se il bridge tra i campi è una
+   struttura matematica formale: fa un autonomous research loop con
+   ~80-160 search + URL reads + code execution e restituisce un report
+   completamente citato (10-30 min tipici)
 
 ### Opzione 3: Entrambi
 

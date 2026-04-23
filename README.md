@@ -23,13 +23,14 @@ sacrificing novelty or rigor.
 
 2. **[Node.js](https://nodejs.org/) 20+** — Required for cross-model validation scripts and website upload. Run `npm install` after cloning to install dependencies.
 
-3. **API keys for cross-model validation** _(optional)_ — For GPT-5.4 Pro and Gemini 3.1 Pro independent review. Create a `.env.local` file in the project root:
+3. **API keys for cross-model validation** _(optional)_ — For GPT-5.4 Pro and Gemini Deep Research Max independent review. Create a `.env.local` file in the project root:
    ```
    OPENAI_API_KEY=sk-...
    GEMINI_API_KEY=AI...
    ```
    Get your keys: [OpenAI](https://platform.openai.com/api-keys) · [Google AI Studio](https://aistudio.google.com/app/api-keys)
    Without these, the pipeline generates export files for manual copy-paste validation.
+   Note: Gemini Deep Research Max is **paid-tier only** (not available on the free Gemini API tier). Typical per-session Gemini-side cost ~$4.80.
 
 ## Quick Start
 
@@ -82,7 +83,8 @@ Phase 6:  Quality Gate — 10-point rubric + web grounding + per-claim verificat
           → META-VALIDATION reflection before output
           → Session Analyst — meta-learning metrics → knowledge/meta-insights.md
 Phase 7:  Cross-Model Validation — GPT-5.4 Pro (web search + code interpreter) +
-          Gemini 3.1 Pro (code execution + Google Search grounding) → consensus report
+          Gemini Deep Research Max (Interactions API agent: google_search + url_context
+          + code_execution, ~80-160 searches/task) → consensus report
           (automatic if API keys set, export files only otherwise)
 Phase 7b: Convergence Scanner — ClinicalTrials.gov, NIH Reporter, patents (non-blocking)
           Dataset Evidence Miner — HPA, GWAS, ChEMBL, UniProt, PDB queries + follow-up suggestions (non-blocking)
@@ -98,8 +100,10 @@ Typical runtime: 20-55 minutes. Check progress with `/status`.
 
 **Automatic**: If `OPENAI_API_KEY` and/or `GEMINI_API_KEY` are set in `.env.local`,
 the pipeline automatically calls GPT-5.4 Pro (with web search + code interpreter)
-and Gemini 3.1 Pro (with code execution + Google Search grounding) for
-independent validation and generates a consensus report.
+and Gemini Deep Research Max (agent `deep-research-max-preview-04-2026` on the
+Interactions API, with google_search + url_context + code_execution, running an
+autonomous research loop of ~80-160 web searches + URL reads + code execution)
+for independent validation and generates a consensus report.
 
 ```bash
 # Create .env.local in the project root (one-time setup)
@@ -231,7 +235,7 @@ results/                                     ← All session outputs (markdown +
     export-gpt.md                            ← GPT validation prompt
     export-gemini.md                         ← Gemini validation prompt
     validation-gpt.md                        ← GPT-5.4 Pro response (if API key set)
-    validation-gemini.md                     ← Gemini 3.1 Pro response (if API key set)
+    validation-gemini.md                     ← Gemini Deep Research Max report (if API key set)
     cross-model-consensus.md                 ← Consensus report (if any API key set)
     cross-model.json                         ← Cross-model validation consensus
     session-summary.md                       ← Session overview
@@ -264,7 +268,7 @@ verification/
 - **Evolver** [Sonnet, high] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
 - **Quality Gate** [Opus, max, 35 turns] — 10-point rubric + web novelty + per-claim grounding verification + impact annotation (informational) + META-VALIDATION reflection
 - **Session Analyst** [Sonnet, high] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
-- **Cross-Model Validator** [Sonnet, high] — Calls GPT-5.4 Pro (web search + code interpreter) + Gemini 3.1 Pro (code execution + Google Search grounding) APIs for independent validation → consensus report (requires API keys; falls back to export files)
+- **Cross-Model Validator** [Sonnet, high] — Calls GPT-5.4 Pro (web search + code interpreter) + Gemini Deep Research Max (Interactions API agent: google_search + url_context + code_execution) for independent validation → consensus report (requires API keys; falls back to export files)
 - **Convergence Scanner** [Sonnet, high] — Post-QG: searches ClinicalTrials.gov, NIH Reporter, patents for independent convergence signals + partial mechanism confirmations from non-pipeline sources
 - **Dataset Evidence Miner** [Sonnet, high] — Post-QG: queries HPA, GWAS Catalog, ChEMBL, UniProt, PDB via `scripts/query-biodata.py` to verify specific molecular claims in passing hypotheses. Suggests computational follow-up queries
 - **Holdout Evaluator** [Opus, max] — Validation framework: compares MAGELLAN output against known post-cutoff discoveries with contamination check + mechanism similarity scoring

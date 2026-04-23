@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 // Cross-Model Hypothesis Validation Script
-// Calls OpenAI (GPT-5.4 Pro) and Google Gemini (3.1 Pro) APIs in parallel
+// Calls OpenAI (GPT-5.4 Pro) and Google Gemini (Deep Research Max) APIs in parallel
 // for independent validation of MAGELLAN hypotheses.
 //
 // Tools enabled:
 //   GPT-5.4 Pro: web_search_preview (high), code_interpreter
-//   Gemini 3.1 Pro: codeExecution, googleSearch
+//   Gemini Deep Research Max: google_search, url_context, code_execution (SDK defaults for deep-research agents)
 //
 // Usage:
 //   node --env-file=.env.local scripts/validate-crossmodel.mjs \
@@ -215,124 +215,248 @@ async function callOpenAI(promptFile, outputFile) {
 }
 
 // ---------------------------------------------------------------------------
-// Google Gemini — 3.1 Pro with thinking HIGH
+// Google Gemini — Deep Research Max (agentic: google_search + url_context + code_execution)
+// Uses the Interactions API (background + streaming + reconnection).
+// Runtime: 10-30 min typical, up to 60 min max per docs. We allow 90 min wall-clock.
 // ---------------------------------------------------------------------------
+const GEMINI_AGENT = 'deep-research-max-preview-04-2026';
+const GEMINI_MAX_RUNTIME_MS = 90 * 60 * 1000;
+const GEMINI_POLL_INTERVAL_MS = 15 * 1000;
+
 async function callGemini(promptFile, outputFile) {
   const { GoogleGenAI } = await import('@google/genai');
-  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+  const client = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
   const prompt = readFileSync(promptFile, 'utf8');
   const start = Date.now();
 
-  process.stderr.write('[Gemini] Calling gemini-3.1-pro-preview (thinking: HIGH, streaming)...\n');
+  process.stderr.write(`[Gemini DR Max] Creating interaction (agent: ${GEMINI_AGENT})...\n`);
 
-  // Use streaming to show thinking progress in real-time
-  const stream = await ai.models.generateContentStream({
-    model: 'gemini-3.1-pro-preview',
-    contents: prompt,
-    config: {
-      tools: [
-        { codeExecution: {} },
-        { googleSearch: {} },
-      ],
-      thinkingConfig: {
-        thinkingLevel: 'HIGH',
-        includeThoughts: true,
-      },
+  let interactionId = null;
+  let lastEventId = null;
+  let isComplete = false;
+  let errorMessage = null;
+  let thoughts = '';
+  let report = '';
+  let images = [];
+  let citations = [];
+  const unknownDeltaTypes = new Set();
+  const unknownOutputTypes = new Set();
+  let firstAnnotationLogged = false;
+
+  const elapsedS = () => Math.round((Date.now() - start) / 1000);
+  const elapsedM = () => Math.round((Date.now() - start) / 60000);
+
+  async function consume(stream) {
+    for await (const chunk of stream) {
+      if (Date.now() - start > GEMINI_MAX_RUNTIME_MS) {
+        throw new Error(`[Gemini DR Max] wall-clock budget exceeded (${elapsedM()} min)`);
+      }
+      if (chunk.event_type === 'interaction.start') {
+        interactionId = chunk.interaction?.id || interactionId;
+        if (interactionId) {
+          process.stderr.write(`[Gemini DR Max] Interaction: ${interactionId} (${elapsedS()}s)\n`);
+        }
+      }
+      if (chunk.event_id) lastEventId = chunk.event_id;
+
+      if (chunk.event_type === 'content.delta') {
+        const d = chunk.delta || {};
+        if (d.type === 'text') {
+          if (!report) process.stderr.write(`[Gemini DR Max] Report streaming (${elapsedS()}s)...\n`);
+          report += d.text || '';
+        } else if (d.type === 'thought_summary') {
+          const t = d.content?.text || d.text || '';
+          thoughts += t;
+          if (thoughts.length % 400 < t.length) process.stderr.write('.');
+        } else if (d.type === 'image') {
+          images.push(d);
+          process.stderr.write(`[Gemini DR Max] Image chunk (${elapsedS()}s)\n`);
+        } else if (d.type === 'text_annotation') {
+          // Citation/annotation delta (empirically observed; not in official JS samples).
+          // The schema isn't formally documented — probe multiple common field paths.
+          // Dump the first one to stderr so we can refine the extraction on real data.
+          if (!firstAnnotationLogged) {
+            firstAnnotationLogged = true;
+            try {
+              process.stderr.write(`[Gemini DR Max] first text_annotation delta shape: ${JSON.stringify(chunk).slice(0, 600)}\n`);
+            } catch (_) { /* ignore stringify issues */ }
+          }
+          const url = d.url || d.uri || d.web?.uri || d.web?.url || d.source?.url || d.source?.uri;
+          const title = d.title || d.web?.title || d.source?.title || d.source_title;
+          if (url) citations.push({ title: title || 'Source', uri: url });
+        } else if (d.type) {
+          unknownDeltaTypes.add(d.type);
+        }
+      } else if (chunk.event_type === 'interaction.complete') {
+        isComplete = true;
+        process.stderr.write(`\n[Gemini DR Max] interaction.complete (${elapsedM()} min)\n`);
+      } else if (chunk.event_type === 'error') {
+        errorMessage = chunk.error?.message || chunk.message || 'unknown stream error';
+        isComplete = true;
+        process.stderr.write(`\n[Gemini DR Max] error event: ${errorMessage}\n`);
+      }
+    }
+  }
+
+  function absorbOutputs(outputs) {
+    for (const o of outputs || []) {
+      const type = o.type;
+      if (type === 'text' || (!type && typeof o.text === 'string')) {
+        if (o.text && !report.includes(o.text)) report += (report ? '\n\n' : '') + o.text;
+      } else if (type === 'image') {
+        images.push(o);
+      } else if (type === 'thought_summary' || type === 'thinking') {
+        const t = o.content?.text || o.text || '';
+        if (t && !thoughts.includes(t)) thoughts += (thoughts ? '\n\n' : '') + t;
+      } else if (type) {
+        unknownOutputTypes.add(type);
+      }
+      const annos = o.annotations || o.citations || [];
+      for (const a of annos) {
+        const url = a.url || a.uri || a.source?.url;
+        if (url) citations.push({ title: a.title || a.source_title || 'Source', uri: url });
+      }
+    }
+  }
+
+  // 1. Open the streaming interaction
+  // store: true is mandatory when background: true (per Python docs).
+  // JS docs samples don't show it explicitly, but passing it is defensive and harmless.
+  const initial = await client.interactions.create({
+    input: prompt,
+    agent: GEMINI_AGENT,
+    background: true,
+    store: true,
+    stream: true,
+    agent_config: {
+      type: 'deep-research',
+      thinking_summaries: 'auto',
+      visualization: 'auto',
+      collaborative_planning: false,
     },
   });
 
-  let thoughts = '';
-  let answer = '';
-  let thinkingStarted = false;
-  let answerStarted = false;
-  let codeBlocks = [];
-  let codeResults = [];
-  let groundingSources = [];
+  try {
+    await consume(initial);
+  } catch (err) {
+    process.stderr.write(`[Gemini DR Max] initial stream error: ${err.message}\n`);
+  }
 
-  for await (const chunk of stream) {
-    const parts = chunk.candidates?.[0]?.content?.parts || [];
-    for (const part of parts) {
-      // Thinking and answer text
-      if (part.text) {
-        if (part.thought) {
-          if (!thinkingStarted) {
-            thinkingStarted = true;
-            const elapsed = Math.round((Date.now() - start) / 1000);
-            process.stderr.write(`[Gemini] Thinking started (${elapsed}s)...\n`);
-          }
-          thoughts += part.text;
-          if (thoughts.length % 200 < part.text.length) {
-            process.stderr.write('.');
-          }
-        } else {
-          if (!answerStarted) {
-            answerStarted = true;
-            const elapsed = Math.round((Date.now() - start) / 1000);
-            process.stderr.write(`\n[Gemini] Thinking done, answer streaming (${elapsed}s)...\n`);
-          }
-          answer += part.text;
-        }
-      }
+  // 2. Reconnect loop — the connection can drop at ~10 min per docs
+  let reconnects = 0;
+  while (!isComplete && interactionId) {
+    if (Date.now() - start > GEMINI_MAX_RUNTIME_MS) {
+      throw new Error(`[Gemini DR Max] wall-clock budget exceeded during reconnect (${elapsedM()} min)`);
+    }
+    let status;
+    try {
+      status = await client.interactions.get(interactionId);
+    } catch (err) {
+      process.stderr.write(`[Gemini DR Max] get() error (retrying in ${GEMINI_POLL_INTERVAL_MS / 1000}s): ${err.message}\n`);
+      await new Promise(r => setTimeout(r, GEMINI_POLL_INTERVAL_MS));
+      continue;
+    }
+    const statusStr = String(status.status || status.state || '').toLowerCase();
+    process.stderr.write(`[Gemini DR Max] status=${statusStr || 'unknown'} (${elapsedM()} min, reconnects=${reconnects})\n`);
 
-      // Code execution parts
-      if (part.executableCode) {
-        process.stderr.write(`[Gemini] Executing code...\n`);
-        codeBlocks.push(part.executableCode.code);
+    if (statusStr === 'completed') {
+      absorbOutputs(status.outputs);
+      // Top-level citations field on the interaction if present
+      for (const a of (status.citations || [])) {
+        const url = a.url || a.uri;
+        if (url) citations.push({ title: a.title || 'Source', uri: url });
       }
-      if (part.codeExecutionResult) {
-        codeResults.push({
-          outcome: part.codeExecutionResult.outcome,
-          output: part.codeExecutionResult.output,
-        });
-        process.stderr.write(`[Gemini] Code result: ${part.codeExecutionResult.outcome}\n`);
-      }
+      isComplete = true;
+      break;
+    }
+    if (statusStr === 'failed') {
+      absorbOutputs(status.outputs);
+      errorMessage = status.error || 'interaction failed without error message';
+      throw new Error(`[Gemini DR Max] failed: ${errorMessage}`);
     }
 
-    // Grounding metadata (at chunk level, not part level)
-    const candidate = chunk.candidates?.[0];
-    if (candidate?.groundingMetadata) {
-      groundingSources = (candidate.groundingMetadata.groundingChunks || [])
-        .filter(c => c.web)
-        .map(c => ({ title: c.web.title, uri: c.web.uri }));
+    // Still in_progress — try to resume the stream from last event
+    try {
+      const resume = await client.interactions.get(interactionId, {
+        stream: true,
+        last_event_id: lastEventId,
+      });
+      reconnects += 1;
+      await consume(resume);
+    } catch (err) {
+      process.stderr.write(`[Gemini DR Max] resume stream error (will poll): ${err.message}\n`);
+      await new Promise(r => setTimeout(r, GEMINI_POLL_INTERVAL_MS));
+    }
+  }
+
+  // 3. Final sweep — in case stream ended with complete but we haven't pulled outputs yet
+  if (interactionId && !report) {
+    try {
+      const finalStatus = await client.interactions.get(interactionId);
+      absorbOutputs(finalStatus.outputs);
+    } catch (err) {
+      process.stderr.write(`[Gemini DR Max] final get() failed: ${err.message}\n`);
     }
   }
 
   const duration = Math.round((Date.now() - start) / 1000);
-  process.stderr.write(`[Gemini] Completed in ${duration}s\n`);
+  process.stderr.write(`[Gemini DR Max] Completed in ${Math.round(duration / 60)} min ${duration % 60}s\n`);
 
-  // Write full output
+  if (unknownDeltaTypes.size) {
+    process.stderr.write(`[Gemini DR Max] unknown delta types seen: ${[...unknownDeltaTypes].join(', ')}\n`);
+  }
+  if (unknownOutputTypes.size) {
+    process.stderr.write(`[Gemini DR Max] unknown output types seen: ${[...unknownOutputTypes].join(', ')}\n`);
+  }
+
+  // Write full markdown
   let output = '';
   if (thoughts) {
-    output += `## Gemini Thinking Process\n\n${thoughts}\n---\n\n`;
+    output += `## Gemini Deep Research Max — Thinking Process\n\n${thoughts}\n\n---\n\n`;
   }
-  output += answer;
+  output += `## Report\n\n${report || '(no report text returned)'}`;
 
-  if (codeBlocks.length > 0) {
-    output += '\n\n---\n\n## Computational Verification\n\n';
-    for (let i = 0; i < codeBlocks.length; i++) {
-      output += `### Code Block ${i + 1}\n\`\`\`python\n${codeBlocks[i]}\n\`\`\`\n`;
-      if (codeResults[i]) {
-        output += `**Result** (${codeResults[i].outcome}):\n\`\`\`\n${codeResults[i].output || '(no output)'}\n\`\`\`\n\n`;
+  if (images.length > 0) {
+    output += '\n\n---\n\n## Visualizations\n\n';
+    for (let i = 0; i < images.length; i++) {
+      const img = images[i];
+      const mime = img.mime_type || 'image/png';
+      if (img.data) {
+        output += `### Image ${i + 1}\n\n![visualization-${i + 1}](data:${mime};base64,${img.data.slice(0, 64)}...)\n\n_(truncated base64 preview; ${img.data.length} bytes total)_\n\n`;
+      } else if (img.uri) {
+        output += `### Image ${i + 1}\n\n![visualization-${i + 1}](${img.uri})\n\n`;
       }
     }
   }
 
-  if (groundingSources.length > 0) {
-    output += '\n\n---\n\n## Grounding Sources\n\n';
-    for (const s of groundingSources) {
+  // Deduplicate citations by URI
+  const seen = new Set();
+  const uniqueCitations = citations.filter(c => {
+    if (!c.uri || seen.has(c.uri)) return false;
+    seen.add(c.uri);
+    return true;
+  });
+  if (uniqueCitations.length > 0) {
+    output += '\n\n---\n\n## Citations\n\n';
+    for (const s of uniqueCitations) {
       output += `- [${s.title || 'Source'}](${s.uri})\n`;
     }
   }
 
   writeFileSync(outputFile, output);
   return {
-    status: 'completed',
-    model: 'gemini-3.1-pro-preview',
+    status: errorMessage ? 'partial' : 'completed',
+    model: GEMINI_AGENT,
+    agent: GEMINI_AGENT,
     duration_s: duration,
     has_thoughts: !!thoughts,
-    code_executions: codeResults.length,
-    grounding_sources: groundingSources.length,
+    grounding_sources: uniqueCitations.length,   // preserved key name for main() aggregator
+    citations: uniqueCitations.length,
+    code_executions: 0,                          // DR Max runs code internally; not exposed as discrete events
+    visualizations: images.length,
+    interaction_id: interactionId,
+    error: errorMessage || undefined,
   };
 }
 

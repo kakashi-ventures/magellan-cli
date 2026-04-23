@@ -73,7 +73,7 @@ Fifteen agents. Orchestrator dispatches to all — never executes phases inline.
 | **Evolver** | Sonnet | high | Genetic operations with diversity constraint. EVOLUTION QUALITY CHECK reflection. Conditionally skippable |
 | **Quality Gate** | Opus | max | 10-point rubric + web novelty + per-claim grounding verification. META-VALIDATION reflection |
 | **Session Analyst** | Sonnet | high | Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis, creativity metrics (disciplinary distance, abstraction level, novelty type) → knowledge/meta-insights.md |
-| **Cross-Model Validator** | Sonnet | high | Calls GPT-5.4 Pro (web search + code interpreter) + Gemini 3.1 Pro (code execution + Google Search grounding) APIs for independent hypothesis validation. Generates consensus report |
+| **Cross-Model Validator** | Sonnet | high | Calls GPT-5.4 Pro (web search + code interpreter) + Gemini Deep Research Max (Interactions API agent: google_search + url_context + code_execution, autonomous ~80-160 searches) for independent hypothesis validation. Generates consensus report |
 | **Convergence Scanner** | Sonnet | high | Post-QG: searches ClinicalTrials.gov, NIH Reporter, patents for independent convergence signals. Finds partial mechanism confirmations from sources not consulted by pipeline |
 | **Dataset Evidence Miner** | Sonnet | high | Post-QG: queries bioinformatics databases (HPA, GWAS Catalog, ChEMBL, UniProt, PDB) to verify specific molecular claims in passing hypotheses. Suggests computational follow-up queries |
 | **Holdout Evaluator** | Opus | max | Validation framework: compares MAGELLAN output against known post-cutoff discoveries. Contamination check + mechanism similarity scoring |
@@ -237,13 +237,19 @@ confidence, groundedness assessment.
   DISJOINT 84% pass+cond rate vs PARTIALLY_EXPLORED 30%.
 - **Cross-model validation** — After Quality Gate, surviving
   hypotheses are automatically sent to GPT-5.4 Pro (empirical validation with
-  web search + code interpreter) and Gemini 3.1 Pro (structural analysis with
-  code execution + Google Search grounding) via their APIs. GPT verifies novelty
-  against current literature and checks arithmetic computationally. Gemini verifies
-  formal mappings computationally. Consensus report synthesizes where models
-  agree/diverge. Requires `OPENAI_API_KEY` and/or `GEMINI_API_KEY`
+  web search + code interpreter) and Gemini Deep Research Max (agent
+  `deep-research-max-preview-04-2026` on the Gemini Interactions API; autonomous
+  research loop with google_search + url_context + code_execution, typically
+  ~80-160 searches per task) via their APIs. GPT verifies novelty against current
+  literature and checks arithmetic computationally. Gemini DR Max produces a
+  fully cited structural analysis with literature review, formal mapping checks,
+  and code-verified quantitative predictions. The consensus report synthesizes
+  where models agree/diverge. Requires `OPENAI_API_KEY` and/or `GEMINI_API_KEY`
   (stored in `.env.local` — agents must source this file before checking);
   falls back to export file generation if keys are absent. Non-blocking.
+  Typical per-session Gemini-side cost ~$4.80 (DR Max is paid-tier only).
+  Typical phase runtime ~30-60 min (DR Max: 10-30 min typical, up to 60 min;
+  GPT: 30-45 min; both run in parallel).
 - **Empirical validation layer** — Two post-QG agents provide evidence
   from sources the pipeline never consults: Convergence Scanner searches
   ClinicalTrials.gov, NIH Reporter, and patents for independent convergence

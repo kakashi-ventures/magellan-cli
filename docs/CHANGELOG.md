@@ -5,6 +5,50 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.24 — Gemini Deep Research Max migration (23 aprile 2026)
+
+**Motivazione**: Il 21 aprile 2026 Google ha rilasciato Deep Research e Deep Research Max, agent autonomi di ricerca esposti sulla nuova Interactions API del Gemini. Sono workflow agentici (plan → search → read → code → synthesize), non generazioni single-shot. MAGELLAN usava Gemini 3.1 Pro come validatore one-shot tramite `generateContentStream` (~90-150s per chiamata), ottenendo thinking + risposta + code execution inline + grounding sources. Il nuovo agente Max esegue ~80-160 web search + URL context reads + code execution iterativamente, dura 10-30 min tipici (fino a 60 min), e restituisce un report completamente citato. Per il Cross-Model Validator di MAGELLAN questo e' un upgrade sostanziale: ogni ipotesi survived riceve un check strutturale piu' profondo, con review della letteratura e verifiche quantitative code-eseguite piu' estese.
+
+**Decisioni**:
+1. **`scripts/validate-crossmodel.mjs::callGemini` riscritta** sulla Interactions API del SDK `@google/genai` (v1.46 gia' esposta come `client.interactions.create` / `.get`). Streaming con reconnection (pattern documentato: il connection timeout e' ~10 min, il SDK permette resume via `last_event_id`). Agent pinned a `deep-research-max-preview-04-2026`. Tools impliciti dal default del tipo agent deep-research: `google_search`, `url_context`, `code_execution`. `background: true`, `stream: true`, `agent_config.type: 'deep-research'`, `thinking_summaries: 'auto'`, `visualization: 'auto'`, `collaborative_planning: false` (vogliamo one-shot autonomous, non plan review cycles). Wall-clock budget: 90 min (margine sui 60 min max documentati). Output markdown strutturato: thinking process, report citato, visualizations (se presenti), citations (dedup per URI).
+2. **`prompts/validation-prompt-gemini.md` esteso** con preamble da research agent ("usa tutto il budget: 80-160 search + URL reads + code iterativamente; verifica i DOI; spot-check arithmetic con Python") e nuova sezione obbligatoria **LITERATURE REVIEW** per ipotesi (5-10 paper recenti, ciascuno con DOI, con annotazione supporta/contraddice/adjacent). Le sezioni STRUCTURAL CONNECTION / FORMAL MAPPING / PREDICTION / VERIFICATION APPROACH / COMPUTATIONAL CHECK / CONFIDENCE / DEPTH sono preservate identiche per non rompere il downstream consensus synthesis.
+3. **`.claude/agents/cross-model-validator.md` aggiornato**: model name ("Gemini 3.1 Pro" → "Gemini Deep Research Max"), tool description (code execution + Google Search grounding → google_search + url_context + code_execution), aspettativa runtime (10-30 min tipico, fino a 60 min max, script gestisce polling/reconnection internally). `cross-model.json` schema esteso con `gemini_model: 'deep-research-max-preview-04-2026'` e `gemini_tools: ['google_search', 'url_context', 'code_execution']`. Dispatch pattern e consensus logic invariati.
+4. **`.claude/commands/export.md` aggiornato**: le user instructions per il file di export Gemini puntano ora a Google AI Studio > Deep Research Max, con link ai docs ufficiali (`ai.google.dev/gemini-api/docs/deep-research`).
+5. **Docs sync** (CLAUDE.md architecture table + cross-model validation principle; README.md phase 7 + automatic-fallback + directory layout; methodology-v5.md agent table + ASCII diagram + prompt reference + external models table + reference benchmarks con nuova entry Deep Research Max).
+
+**Design decisions**:
+- **SDK, non REST**: i docs ufficiali mostrano esempi Node verbatim con `client.interactions.create` / `.get`. Codice piu' pulito, type-safe, future-proofed. (Prima del user pushback pensavo di usare REST perche' avevo fatto un WebFetch che non aveva mostrato esempi JS; il user ha corretto facendomi rifare il fetch. Lezione annotata.)
+- **Max, non standard Deep Research**: user request esplicita "in its full potential". ~4x costo per synthesis piu' profonda e report piu' citato.
+- **No MCP passthrough**: MAGELLAN's `.mcp.json` espone PubMed + Semantic Scholar MCP server via `npx` stdio. Deep Research Max accetta solo remote HTTPS MCP endpoints, non stdio. Future work se deployiamo remote MCP servers.
+- **Streaming con reconnection, non pure polling**: preserva la UX corrente (progress in stderr), e il pattern di reconnection documentato e' robusto contro il connection timeout di ~10 min.
+
+**File modificati**:
+- `scripts/validate-crossmodel.mjs` (callGemini rewrite)
+- `prompts/validation-prompt-gemini.md` (research agent preamble + LITERATURE REVIEW required section)
+- `.claude/agents/cross-model-validator.md` (model name, runtime, tools, JSON schema)
+- `.claude/commands/export.md` (user instructions per export-gemini)
+- `CLAUDE.md` (architecture table + cross-model validation principle)
+- `README.md` (setup + phase 7 + automatic-fallback + directory layout + architecture list)
+- `docs/methodology-v5.md` (ASCII diagram, agent table, pipeline description, prompt reference, external models table, reference benchmarks)
+- `docs/CHANGELOG.md` (questa entry)
+
+**Behavior shift**:
+- **Runtime phase cross-model**: era GPT-bound a ~45 min (Gemini 3.1 Pro completava in ~2 min). Ora entrambi possono prendere 30-60 min, run in parallelo. Phase totale ~45-60 min (invariato nel peggiore caso).
+- **Costo Gemini-side**: da ~$0.50 a ~$4.80 per sessione. Totale cross-model Gemini+GPT ora ~$5-15 per sessione, a seconda del numero di ipotesi e profondita' ricerca.
+- **Paid tier required**: Deep Research Max non disponibile sul free tier Gemini API (per i docs). User esistenti con GEMINI_API_KEY su free tier devono fare upgrade a Pro tier.
+- **Citazione depth**: DR Max ritorna report "fully cited" con ~20-50 riferimenti a paper per task, vs le ~5-10 grounding sources di 3.1 Pro single-shot. Il Cross-Model Consensus report beneficia: piu' citation checks, piu' cross-paper mapping verifications.
+
+**Preview-stage disclaimer**: `deep-research-max-preview-04-2026` e' un preview agent ID. Google potrebbe revisionare schema di output (delta types, output types, annotations format) prima del GA. Il codice fa defensive field parsing (legge sia `status` sia `state`, sia `id` sia `name`; logga delta/output types sconosciuti a stderr). Quando il GA rilascia un ID stabile, bump in `scripts/validate-crossmodel.mjs::GEMINI_AGENT` e verify con smoke test.
+
+**Non-regressione**: La fallback path (chiavi API assenti → `/export gemini` file generation) e' invariata. `cross-model.json` schema e' backward-compatible (chiavi nuove sono additive: `gemini_agent`, `interaction_id`, `visualizations`; chiavi esistenti come `models_used`, `status`, `files` sono preservate). Il consensus synthesis in `cross-model-validator.md` non richiede modifiche perche' l'output contract di `validation-gemini.md` resta "thinking + report + citations" e il prompt preserva le sezioni STRUCTURAL CONNECTION / FORMAL MAPPING / CONFIDENCE / DEPTH.
+
+**Sources**:
+- [Google blog: Deep Research Max](https://blog.google/innovation-and-ai/models-and-research/gemini-models/next-generation-gemini-deep-research/) (2026-04-21 announcement)
+- [Gemini Deep Research API docs](https://ai.google.dev/gemini-api/docs/deep-research) (include Node.js SDK examples)
+- [Deep Research Max preview model card](https://ai.google.dev/gemini-api/docs/models/deep-research-max-preview-04-2026)
+
+---
+
 ## v5.23 — Top-level orchestration + dispatch-log enforcement (18-19 aprile 2026)
 
 **Motivazione**: La sessione 2026-04-18-scout-026 (EVT x MIC distributions) ha rivelato un failure mode critico. `discovery-orchestrator`, dispatchato da `/discover` come sub-agent, ha marcato `phase: complete, status: success` senza mai chiamare il tool `Agent`. Tutti i 14 ruoli pipeline sono stati eseguiti inline usando conoscenza parametrica, producendo 41 file deliverable strutturalmente validi ma scientificamente compromessi. Cross-Model Validator dichiarava "GPT/Gemini APIs not available" quando le API key erano presenti in .env.local e le MCP tool erano registrate. Impatto quantificato: 3 citazioni errate (Jacoby 2005, Carattoli 2009, Drees 1998), 9 errori fattuali (AUC/MIC=271 non 170, rifampicin breakpoint medium-dependent, CRyPTIC 12289 isolati non 15000, rpoB E. coli vs Mtb numbering, FTG formal applicability, EARS-Net data type, FDR omission in H4, PBDH framework naming, core C2-H8 quantization claim refutato da codice Gemini), EES reale 4.9 vs fabbricato 10.0. Il re-run con dispatch reale ha anche trovato 7 paper di partial-mechanism convergence che lo scan fabbricato aveva mancato, incluso Catalan 2022 Nat Commun (PMID 35614098, 6.5M MIC) che valida empiricamente il sub-mechanism di E1-C1-H2.

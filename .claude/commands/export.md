@@ -55,8 +55,11 @@ Tell user:
 "File saved to {results_dir}/export-gemini.md.
 Steps:
 1. Copy all content
-2. Open Gemini AI Studio → select 3.1 Pro or Deep Think
-3. Paste and send"
+2. Open Google AI Studio (aistudio.google.com) and select the Deep Research Max agent,
+   OR paste the prompt into a Gemini Interactions API call with
+   agent='deep-research-max-preview-04-2026' (see docs: ai.google.dev/gemini-api/docs/deep-research)
+3. Paste and send
+4. Wait 10-30 min for the cited research report (up to 60 min for complex prompts)"
 
 ### For both
 Generate both files. Show both sets of instructions.
