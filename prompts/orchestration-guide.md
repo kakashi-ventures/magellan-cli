@@ -15,11 +15,11 @@ diverso. Questo riduce il confirmation bias.
    /export gpt
    ```
 2. Apri il file `results/export-gpt.md`
-3. Apri ChatGPT → seleziona **GPT-5.4 Thinking** (o Pro)
-4. Attiva **Deep Research** se disponibile
-5. Incolla TUTTO il contenuto del file
-6. Aspetta il report (5-30 minuti)
-7. Confronta: dove GPT-5.4 dà alta confidenza E Claude dà alta
+3. Apri ChatGPT → seleziona **GPT-5.5 Pro**
+4. Incolla TUTTO il contenuto del file
+5. Aspetta il report (30-90 minuti; gpt-5.5-pro non supporta lo streaming,
+   ChatGPT mostra "Working..." mentre il modello ragiona)
+6. Confronta: dove GPT-5.5 dà alta confidenza E Claude dà alta
    confidenza → candidata forte. Dove divergono → indaga perché.
 
 ### Opzione 2: Validazione con Gemini (per connessioni matematiche)

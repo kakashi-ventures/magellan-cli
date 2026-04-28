@@ -108,7 +108,7 @@ PHASE 3 — FINAL VALIDATION + META-LEARNING
            └──────────┬───────────┘
                       ▼
 ┌──────────────────────────┐
-│  Cross-Model Validator    │  GPT-5.4 Pro + Gemini DR Max
+│  Cross-Model Validator    │  GPT-5.5 Pro + Gemini DR Max
 │    [Sonnet]               │  consensus report
 └──────────┬───────────────┘
            ▼
@@ -148,7 +148,7 @@ CROSS-CUTTING LAYER — GUARDS & HOOKS
 | **Evolver** | Sonnet | high | Evolutionary operations with diversity constraint + EVOLUTION QUALITY CHECK reflection. Conditionally skippable |
 | **Quality Gate** | Opus | max | 10-point rubric (incl. per-claim grounding verification) + web grounding + META-VALIDATION reflection |
 | **Session Analyst** | Sonnet | high | Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md |
-| **Cross-Model Validator** | Sonnet | high | Calls GPT-5.4 Pro (reasoning high, web search, code interpreter) + Gemini Deep Research Max (Interactions API agent `deep-research-max-preview-04-2026`; google_search + url_context + code_execution; ~80-160 autonomous searches/task) via API for independent validation → consensus report. Falls back to export files if API keys are absent |
+| **Cross-Model Validator** | Sonnet | high | Calls GPT-5.5 Pro (reasoning xhigh, background submit + 30s polling because gpt-5.5-pro does not support streaming, web search + code interpreter + shell; response.id persisted to disk for auto-resume) + Gemini Deep Research Max (Interactions API agent `deep-research-max-preview-04-2026`; google_search + url_context + code_execution; ~80-160 autonomous searches/task) via API for independent validation → consensus report. Falls back to export files if API keys are absent |
 | **Convergence Scanner** | Sonnet | high | Post-QG: searches for convergence signals on ClinicalTrials.gov, NIH Reporter, patents + partial sub-mechanism confirmations from sources not consulted by the pipeline |
 | **Dataset Evidence Miner** | Sonnet | high | Post-QG: verifies specific molecular claims against HPA, GWAS Catalog, ChEMBL, UniProt, PDB via `scripts/query-biodata.py`. Complements the pre-generation CV |
 | **Holdout Evaluator** | Opus | max | Validation framework: compares MAGELLAN output against known post-cutoff discoveries. Contamination check + mechanistic similarity scoring |
@@ -216,7 +216,7 @@ The Critic can write specific questions in `results/{session-id}/cycle{N}-critiq
 
 ### The evidence
 
-Frontier models (Opus 4.7, GPT-5.4, Gemini 3.1 Pro) score 91–94% on GPQA Diamond — PhD-level questions in biology, physics, and chemistry. This is a 55-point jump from GPT-4 (39%, 2023). Parametric knowledge has improved enormously.
+Frontier models (Opus 4.7, GPT-5.5 Pro, Gemini 3.1 Pro) score 91–94%+ on GPQA Diamond, PhD-level questions in biology, physics, and chemistry. This is a 55-point jump from GPT-4 (39%, 2023). Parametric knowledge has improved enormously.
 
 However:
 - **AA-Omniscience** (open factual recall): the best model reaches only 55% accuracy
@@ -238,7 +238,7 @@ Parametric knowledge is **the generative engine** — it is where the non-obviou
 7. **Ranker**: Scores across 6 dimensions including **Groundedness** (20%), diversity check, Elo tournament sanity check
 8. **Evolver**: Operates on top hypotheses with a **diversity constraint**
 9. **Session Analyst**: Post-Quality-Gate, analyzes strategy performance, kill patterns, bridge type survival rates, disjointness correlation. Produces `knowledge/meta-insights.md` for subsequent sessions
-10. **Cross-Model Validator**: Post-Session-Analyst. Generates validation prompts tailored to specific hypotheses, then calls the OpenAI (GPT-5.4 Pro, reasoning high) and Google (Gemini Deep Research Max — agent `deep-research-max-preview-04-2026` on the Interactions API, autonomous research loop with google_search + url_context + code_execution) APIs in parallel via `scripts/validate-crossmodel.mjs`. Produces a consensus report identifying convergences and divergences between models. If API keys are not configured, generates only export files for manual validation. **Non-blocking**: failures do not change session status
+10. **Cross-Model Validator**: Post-Session-Analyst. Generates validation prompts tailored to specific hypotheses, then calls the OpenAI (GPT-5.5 Pro, reasoning `xhigh`, background submit + 30s polling, web search + code interpreter + shell; response.id persisted for auto-resume) and Google (Gemini Deep Research Max, agent `deep-research-max-preview-04-2026` on the Interactions API, autonomous research loop with google_search + url_context + code_execution) APIs in parallel via `scripts/validate-crossmodel.mjs`. Produces a consensus report identifying convergences and divergences between models. If API keys are not configured, generates only export files for manual validation. **Non-blocking**: failures do not change session status
 11. **Knowledge Persistence**: At session end, the Orchestrator updates both `knowledge/discovery-log.json` (structured: explored pairs, productive bridges, surviving and killed hypotheses, strategy performance metrics) and `knowledge/meta-insights.md` (cumulative prose: strategy performance trends, bridge type survival rates, kill pattern observations). Both files are required -- skipping either means the session's insights are lost to future sessions
 
 ---
@@ -624,7 +624,7 @@ Agent prompts follow 2026 best practices for frontier models. Choices are empiri
 
 ### Prompts for external models
 
-- **GPT-5.4** (`prompts/validation-prompt-gpt.md`): Output contract (mandatory sections per hypothesis), completeness checklist, empty-result recovery, explicit citation grounding, Plan→Retrieve→Synthesize research flow.
+- **GPT-5.5 Pro** (`prompts/validation-prompt-gpt.md`): Outcome-first prompt per OpenAI's GPT-5.5 prompt guidance: role + dimensions to cover (novelty, counter-evidence, mechanism plausibility, experimental design, calibrated final assessment), explicit citation grounding (no fabricated URLs), arithmetic verification via code, "INSUFFICIENT DATA: <what you searched for>" as a valid outcome. No process-heavy scaffolding (no rigid Output Contract, no ALWAYS/NEVER list, no Completeness Checklist), since GPT-5.5 prompt guidance explicitly discourages these patterns.
 - **Gemini Deep Research Max** (`prompts/validation-prompt-gemini.md`): Research agent briefing, behavioral constraints, 1 complete few-shot example, context-first (hypothesis cards at top, task at bottom), strict grounding ("If you cannot write the formal mapping, do not claim one exists"), required LITERATURE REVIEW section to exploit DR Max's ~80-160 search budget.
 
 ---
@@ -691,15 +691,16 @@ The evidence shows that:
 
 | Phase | Model | API | Rationale |
 |---|---|---|---|
-| Empirical validation | GPT-5.4 Pro | OpenAI Responses API, `reasoning.effort: "high"`, `web_search_preview` (high), `code_interpreter` | OpenAI's most factual model (33% fewer errors vs 5.2), novelty verification grounded via web search, arithmetic verification via code, citation checking, experimental design |
+| Empirical validation | GPT-5.5 Pro | OpenAI Responses API, `reasoning.effort: "xhigh"` (with `"high"` fallback if rejected), `web_search_preview` (high), `code_interpreter`, `shell`. Background submit (`background: true, store: true`) + 30s polling because gpt-5.5-pro does not support streaming; `response.id` persisted to disk to auto-resume on retry; 4-hour wall-clock cap that never cancels the in-flight response | Current frontier on novelty verification grounded via web search, arithmetic verification via Python code interpreter, CLI tooling via shell, citation checking, experimental design. 1.05M context window, knowledge cutoff December 2025 |
 | Structural analysis | Gemini Deep Research Max | Google GenAI SDK, Interactions API, agent `deep-research-max-preview-04-2026`, default tools `google_search` + `url_context` + `code_execution`, `thinking_summaries: auto`, streaming with reconnection | Built on Gemini 3.1 Pro (ARC-AGI-2 leader), now an autonomous research agent: ~80-160 web searches + URL reads + code execution per task, returns a fully cited report. Used for formal structural mappings with computational verification, quantitative predictions, and deep literature grounding |
 
-Cross-model validation is **automatic**: the Cross-Model Validator generates the prompts, calls both APIs in parallel via `scripts/validate-crossmodel.mjs` with active tools (GPT: web search + code interpreter; Gemini DR Max: google_search + url_context + code_execution), and produces a consensus report. GPT verifies novelty against current literature via web search and checks arithmetic via code interpreter. Gemini DR Max runs an autonomous research loop that verifies formal mappings computationally, reviews 5-10 recent papers per hypothesis, and surfaces discrepancies between stated and computed values. Requires `OPENAI_API_KEY` and/or `GEMINI_API_KEY` (DR Max is paid-tier only). If absent, generates only export files for manual validation (`/export gpt|gemini`).
+Cross-model validation is **automatic**: the Cross-Model Validator generates the prompts, calls both APIs in parallel via `scripts/validate-crossmodel.mjs` with active tools (GPT-5.5 Pro: web search + code interpreter + shell; Gemini DR Max: google_search + url_context + code_execution), and produces a consensus report. GPT-5.5 Pro verifies novelty against current literature via web search and checks arithmetic via code interpreter. Gemini DR Max runs an autonomous research loop that verifies formal mappings computationally, reviews 5-10 recent papers per hypothesis, and surfaces discrepancies between stated and computed values. Requires `OPENAI_API_KEY` and/or `GEMINI_API_KEY` (both gpt-5.5-pro and DR Max are paid-tier only). If absent, generates only export files for manual validation (`/export gpt|gemini`).
 
 ### Reference benchmarks (April 2026)
 - **Claude Opus 4.7** (April 2026): +13% coding improvement over Opus 4.6, 3x more production task resolution on select benchmarks, 10-14% multi-step workflow gains with fewer tool errors. 1M context window at standard pricing. Same $5/$25 per MTok pricing as 4.6. Source: [Anthropic announcement](https://www.anthropic.com/news/claude-opus-4-7), [What's new](https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-7)
 - **Claude Opus 4.6** (Feb 2026): GPQA Diamond 91.3%, ARC-AGI-2 68.8%, HLE 53.1% with tools. Time horizon METR: 14h30m. Context: 200K (1M beta). Source: [Anthropic announcement](https://www.anthropic.com/news/claude-opus-4-6), [System Card](https://www.anthropic.com/claude-opus-4-6-system-card)
-- **GPT-5.4 / 5.4 Pro** (March 5, 2026): ARC-AGI-2 73.3% (standard), 83.3% (Pro). SWE-bench ~80%. Context: up to 1M tokens. 33% fewer false claims vs GPT-5.2. Source: [OpenAI announcement](https://openai.com/index/introducing-gpt-5-4/)
+- **GPT-5.5 Pro** (April 2026, current external validator): Snapshot `gpt-5.5-pro-2026-04-23`. Context window 1.05M tokens, max output 128k, knowledge cutoff December 1, 2025. Streaming not supported (script uses background submit + polling); tools supported include web search, code interpreter, shell, file search, MCP. Pricing $30/$180 per 1M tokens (input/output). Source: [OpenAI model docs](https://developers.openai.com/api/docs/models/gpt-5.5-pro), [GPT-5.5 prompt guidance](https://developers.openai.com/api/docs/guides/prompt-guidance)
+- **GPT-5.4 / 5.4 Pro** (March 5, 2026, prior external validator, retired): ARC-AGI-2 73.3% (standard), 83.3% (Pro). SWE-bench ~80%. Context: up to 1M tokens. 33% fewer false claims vs GPT-5.2. Source: [OpenAI announcement](https://openai.com/index/introducing-gpt-5-4/)
 - **Gemini 3.1 Pro** (Feb 2026): GPQA Diamond 94.3%, ARC-AGI-2 77.1%. Deep Think for mathematical structures. Source: [Google announcement](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-pro/)
 - **Gemini Deep Research Max** (April 21, 2026): Autonomous research agent built on Gemini 3.1 Pro, exposed via the new Interactions API. Runs ~80-160 web searches + URL context reads + code execution per task (up to 60 min runtime), returns a fully cited report. Agent ID: `deep-research-max-preview-04-2026`. Paid-tier only. Sources: [Google blog](https://blog.google/innovation-and-ai/models-and-research/gemini-models/next-generation-gemini-deep-research/), [API docs](https://ai.google.dev/gemini-api/docs/deep-research)
 
@@ -763,7 +764,7 @@ The license is determined automatically at session initialization and tracked in
 2. **Parallel Literature Scout**: Real-time verification that the Scout's targets are not already explored, providing literature context to enrich generation
 3. **Opus 4.6/4.7 time horizon 14h30m+ (METR)**: Sustained autonomy at this level is a new capability — no pre-2026 model could operate coherently over these durations. Opus 4.7 is advertised as performing exceptionally well on long-horizon agentic work, extending this capability further
 4. **MCP servers**: Structured retrieval independent of generic web search, reducing fragility
-5. **GPT-5.4 as external validator**: 33% fewer factual errors compared to GPT-5.2, with Deep Research for exhaustive literature grounding. Reduces the risk of Claude validating its own hallucinations
+5. **GPT-5.5 Pro as external validator**: Current OpenAI frontier model with 1.05M context, web search, code interpreter, and shell tools. Provides empirical literature grounding and computational verification independent of Claude. Reduces the risk of Claude validating its own hallucinations
 6. **Auto Mode (March 12, 2026)**: Eliminates permission interruptions, allowing the pipeline to flow without intervention
 7. **JSON-based state management**: Survives context compaction, maintaining coherence over 30–60 minute runs
 
@@ -774,7 +775,7 @@ The license is determined automatically at session initialization and tracked in
 | Failure mode | Probability | Mitigation |
 |---|---|---|
 | Scout gravitates toward popular topics (not genuinely underexplored) | High | Strategies 7 (Swanson ABC) and 8 (Contradiction Mining) force non-obvious exploration. Literature Scout verifies targets are not already published. Discovery-log prevents re-exploration |
-| Hallucination cascade (errors accumulate across agents) | Medium | Critic with mandatory web search. Groundedness scoring. Hallucination-as-novelty check. Cross-model validation with GPT-5.4 |
+| Hallucination cascade (errors accumulate across agents) | Medium | Critic with mandatory web search. Groundedness scoring. Hallucination-as-novelty check. Cross-model validation with GPT-5.5 Pro |
 | Illusory novelty (appears new because it is wrong) | Medium | Critic attack vector #8. Si & Hashimoto (2025): AI overall quality drops from 5.4 to 3.4 after testing. Cross-model triangulation reduces the risk |
 | Hypothesis convergence | Medium | Diversity check in the Ranker + diversity constraint in the Evolver — double layer |
 | Context drift on long runs | Medium-low | State in JSON, not in conversational context. Each agent re-reads state. PreCompact/PostCompact hooks for backup/restore |
@@ -802,7 +803,7 @@ The license is determined automatically at session initialization and tracked in
 Given that the user has no domain expertise, the evaluation workflow is:
 
 1. **MAGELLAN produces hypotheses** → `results/{session-id}/session-summary.md`
-2. **Cross-model validation** → `/export gpt` and `/export gemini` → paste into GPT-5.4 Pro and Gemini Deep Think
+2. **Cross-model validation** → `/export gpt` and `/export gemini` → paste into GPT-5.5 Pro and Gemini Deep Research Max
 3. **Triangulation**: If at least 2 of 3 models assign high confidence and novelty, the hypothesis is a candidate
 4. **Expert review**: Candidate hypotheses are presented to domain experts (professors, researchers) for qualitative evaluation. This is the ground truth
 5. **Iteration**: Expert feedback informs subsequent sessions

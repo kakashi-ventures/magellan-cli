@@ -5,6 +5,49 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.25: Migrazione a GPT-5.5 Pro (28 aprile 2026)
+
+**Motivazione**: Il 28 aprile 2026 OpenAI ha rilasciato `gpt-5.5-pro`, il nuovo modello di punta sulla Responses API (snapshot `gpt-5.5-pro-2026-04-23`, context 1.05M token, output max 128k, knowledge cutoff dicembre 2025). Il Cross-Model Validator di MAGELLAN passa da `gpt-5.4-pro` a `gpt-5.5-pro`. Il nuovo modello introduce quattro vincoli operativi che cambiano la forma del codice: (a) niente streaming, quindi background submit + polling; (b) latenze multi-minuto (decine di minuti tipici, fino a ore); (c) prompt guidance outcome-first che deprecano i pattern legacy (Output Contract, ALWAYS/NEVER, Completeness Checklist); (d) un terzo tool disponibile, `shell`, accanto a `web_search_preview` e `code_interpreter`.
+
+**Decisioni**:
+
+1. **`scripts/validate-crossmodel.mjs::callOpenAI` riscritta**. Pattern submit + poll, mirror del lato Gemini: `client.responses.create({ ..., background: true, store: true })`, poi loop di `client.responses.retrieve(id)` ogni 30 secondi fino a stato terminale. Stati gestiti: `completed` (estrae output), `incomplete` (estrae l'output parziale presente in `response.output[]` e ritorna `status: 'partial'` con `incomplete_reason`), `failed` / `cancelled` (throw e rinomina del response-id file in `.response-id.failed` per forensics). Counter `web_searches` / `code_executions` / `shell_executions` derivati contando gli item type in `response.output[]` finale.
+
+2. **Reasoning effort `xhigh`** con fallback automatico a `high`. Valori accettati da gpt-5.5-pro: `medium`, `high`, `xhigh`. Lo script usa `xhigh` (massimo) di default; se per qualche motivo l'API restituisce 400 menzionando `reasoning`/`effort`/`xhigh`, fa un singolo retry con `effort: 'high'` e logga la downgrade su stderr.
+
+3. **`shell` come terzo tool**. `OPENAI_TOOLS` contiene `web_search_preview` (high), `code_interpreter` (auto container), e `shell`. Il nome del tool nell'API e' `shell` (non `hosted_shell`). L'estrazione gestisce sia `shell_call` (la richiesta del modello) che `shell_call_output` (paired item con `stdout`/`stderr`/`outcome.exit_code`), che vengono renderizzati in una sezione "Shell Execution Outputs" del markdown finale.
+
+4. **Persistenza response.id + auto-resume**. Subito dopo `create()` lo script scrive `response.id` su `${outputFile}.response-id`. All'avvio, se quel file esiste, il polling riparte da quell'id invece di sottomettere una nuova request. Su `completed` il file viene cancellato; su `failed`/`cancelled` rinominato `.response-id.failed`; su `incomplete` rinominato `.response-id.incomplete`. Sul wall-clock cap di 4 ore lo script NON cancella la response su OpenAI: la lascia retrievable e logga istruzioni di recovery. Cosi' una sessione che va oltre 60 minuti (o anche oltre 4 ore) non viene mai persa: il bash background task killato (Ctrl+C, parent death) si recupera rilanciando lo script.
+
+5. **Wall-clock cap esteso da 45 min a 4 ore**. SDK timeout impostato a `cap + 5 min` per non scattare prima del nostro check.
+
+6. **Prompt template ristrutturato per le GPT-5.5 prompt guidance**. `prompts/validation-prompt-gpt.md` riscritto in stile outcome-first ("Shorter, outcome-oriented prompts: describe what good looks like, what constraints matter, what evidence is available"; "Avoid carrying over every instruction from an older prompt stack"). Eliminati: Output Contract con sezioni obbligatorie, Behavioral Constraints in stile ALWAYS/NEVER, Completeness Checklist. Mantenuti come outcome statements: dimensioni da coprire (Novelty / Counter-evidence / Mechanism plausibility / Experimental design / Final assessment), groundedness (no fabricated URLs, citation only of retrieved sources), arithmetic verification via code, "INSUFFICIENT DATA" come outcome valido.
+
+7. **`scripts/validate-gpt54.mjs` rimosso**. Era un fallback ad-hoc per gli errori "terminated" di gpt-5.4-pro; non ha caller esterni e non si applica a gpt-5.5-pro.
+
+8. **Pricing context**: gpt-5.5-pro costa $30/$180 per 1M token vs $5/$15 di gpt-5.4-pro standard (~6x). Accettato come costo del nuovo frontier; non blocca la pipeline.
+
+9. **Docs sync** (CLAUDE.md architecture table + cross-model validation principle; README.md setup + phase 7 + tree + summary; methodology-v5.md ASCII diagram + agent table + Cross-Model Validator description + frontier-models claim + template description + external models table + reference benchmarks con nuova entry GPT-5.5 Pro + risk-table mitigation + operational pointer; `.claude/agents/cross-model-validator.md`; `.claude/commands/export.md`; `prompts/orchestration-guide.md` italiano + `prompts/session-summary-format.md`).
+
+**File modificati**:
+- `scripts/validate-crossmodel.mjs` (callOpenAI riscritta)
+- `scripts/validate-gpt54.mjs` (rimosso)
+- `prompts/validation-prompt-gpt.md` (ristrutturato outcome-first)
+- `prompts/orchestration-guide.md`
+- `prompts/session-summary-format.md`
+- `.claude/agents/cross-model-validator.md`
+- `.claude/commands/export.md`
+- `CLAUDE.md`
+- `README.md`
+- `docs/methodology-v5.md`
+- `docs/CHANGELOG.md` (questa entry)
+
+**Note operative**:
+- `code_interpreter_call.outputs` e' `null` in background mode: lo stdout dell'esecuzione non e' esposto in `response.output[]`, ma il modello referenzia i valori computati nel `message.output_text` finale (che e' quello che il Cross-Model Validator agent legge per il consensus report). Il `code` field con il sorgente Python e' preservato.
+- Il prompt di validazione ristrutturato e' moderato: comportamento empirico va osservato sulle prime sessioni reali per capire se serve aggiungere/togliere guidance.
+
+---
+
 ## v5.24 — Gemini Deep Research Max migration (23 aprile 2026)
 
 **Motivazione**: Il 21 aprile 2026 Google ha rilasciato Deep Research e Deep Research Max, agent autonomi di ricerca esposti sulla nuova Interactions API del Gemini. Sono workflow agentici (plan → search → read → code → synthesize), non generazioni single-shot. MAGELLAN usava Gemini 3.1 Pro come validatore one-shot tramite `generateContentStream` (~90-150s per chiamata), ottenendo thinking + risposta + code execution inline + grounding sources. Il nuovo agente Max esegue ~80-160 web search + URL context reads + code execution iterativamente, dura 10-30 min tipici (fino a 60 min), e restituisce un report completamente citato. Per il Cross-Model Validator di MAGELLAN questo e' un upgrade sostanziale: ogni ipotesi survived riceve un check strutturale piu' profondo, con review della letteratura e verifiche quantitative code-eseguite piu' estese.

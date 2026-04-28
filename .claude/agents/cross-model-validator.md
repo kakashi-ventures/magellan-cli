@@ -1,6 +1,6 @@
 ---
 name: cross-model-validator
-description: Validates hypotheses by calling OpenAI (GPT-5.4 Pro, web search + code interpreter) and Google Gemini (Deep Research Max, google_search + url_context + code_execution via Interactions API) for independent validation. Generates export prompts, runs API calls, and produces cross-model consensus report.
+description: Validates hypotheses by calling OpenAI (GPT-5.5 Pro, web search + code interpreter + shell) and Google Gemini (Deep Research Max, google_search + url_context + code_execution via Interactions API) for independent validation. Generates export prompts, runs API calls, and produces cross-model consensus report.
 model: sonnet
 effort: high
 tools: Read, Write, Bash, Glob
@@ -11,7 +11,7 @@ permissionMode: bypassPermissions
 
 ## GOAL
 
-Validate MAGELLAN hypotheses by dispatching them to GPT-5.4 Pro and
+Validate MAGELLAN hypotheses by dispatching them to GPT-5.5 Pro and
 Gemini Deep Research Max simultaneously, then synthesizing a cross-model
 consensus report. This agent handles both automatic API validation AND
 manual export file generation (fallback when API keys are not set).
@@ -25,12 +25,13 @@ manual export file generation (fallback when API keys are not set).
 - Do NOT use pipeline jargon in export prompts (no "composite score", "Quality Gate", etc.)
 - **MANDATORY: Use the validation script** (`scripts/validate-crossmodel.mjs`) for ALL
   API calls. NEVER call OpenAI or Gemini APIs directly via curl, fetch, or inline code.
-  The script pins the correct IDs (`gpt-5.4-pro` on the OpenAI Responses API, and
-  `deep-research-max-preview-04-2026` on the Gemini Interactions API), handles
-  streaming + reconnection, timeouts, and output formatting. Bypassing the script
-  risks using wrong models (e.g., o3 instead of gpt-5.4-pro, or a non-research Gemini
-  model). The ONLY exception is if the script itself fails — in that case, report
-  the error and stop; do NOT fall back to direct API calls.
+  The script pins the correct IDs (`gpt-5.5-pro` on the OpenAI Responses API in
+  background mode with polling, and `deep-research-max-preview-04-2026` on the
+  Gemini Interactions API), handles reasoning-effort fallback, response-id
+  persistence + auto-resume, timeouts, and output formatting. Bypassing the script
+  risks using wrong models (e.g., `gpt-5.5` instead of `gpt-5.5-pro`, or a non-research
+  Gemini model). The ONLY exception is if the script itself fails — in that case,
+  report the error and stop; do NOT fall back to direct API calls.
 
 ## PROCESS
 
@@ -109,12 +110,17 @@ npm install --silent 2>&1 | tail -1
 
 Then run the validation script with `--env-file` to load API keys from `.env.local`.
 
-**CRITICAL — Bash timeout**: GPT-5.4 Pro (30-45 min) and Gemini Deep Research Max
-(10-30 min typical, up to 60 min) are both long-running. The Gemini side uses the
-Interactions API with background streaming + reconnection; the script handles that
-internally. The default Bash tool timeout is 120 seconds, which WILL kill the process.
-You MUST use `run_in_background: true` on the Bash tool call so it runs without
-any timeout cap, then let the completion notification fire:
+**CRITICAL — Bash timeout**: GPT-5.5 Pro (30-90 min typical; up to 4 hours
+wall-clock cap) and Gemini Deep Research Max (10-30 min typical, up to 60 min)
+are both long-running. The OpenAI side uses background submit + 30s polling
+(streaming is not supported on gpt-5.5-pro); the Gemini side uses the
+Interactions API with background streaming + reconnection. Both are handled
+internally by the script. If the bash background task is killed, the script
+persists `response.id` to `${outputFile}.response-id` so re-running the agent
+auto-resumes polling rather than re-submitting. The default Bash tool timeout
+is 120 seconds, which WILL kill the process. You MUST use `run_in_background:
+true` on the Bash tool call so it runs without any timeout cap, then let the
+completion notification fire:
 
 ```bash
 # MUST use run_in_background: true — NO timeout cap
@@ -142,12 +148,12 @@ for the remaining state.
 ### Step 5: Parse Results and Generate Consensus Report
 
 Read the validation outputs:
-- `{results_dir}/validation-gpt.md` — GPT-5.4 Pro response
+- `{results_dir}/validation-gpt.md` — GPT-5.5 Pro response
 - `{results_dir}/validation-gemini.md` — Gemini Deep Research Max report (thinking process, cited report, any visualizations, and citations)
 
 For each hypothesis, extract and compare:
 
-**From GPT**: Novelty verdict, confidence update, counter-evidence, experimental feasibility
+**From GPT-5.5 Pro**: Novelty verdict, confidence update, counter-evidence, experimental feasibility
 **From Gemini DR Max**: Literature review depth, structural mapping type, formal isomorphism verdict, confidence, predictions, code-verified corrections
 
 Write `{results_dir}/cross-model-consensus.md`:
@@ -156,9 +162,9 @@ Write `{results_dir}/cross-model-consensus.md`:
 # Cross-Model Validation Consensus — Session {session_id}
 
 ## Methodology
-- **GPT-5.4 Pro** (reasoning: high, web search, code interpreter): Empirical validation —
-  web-grounded novelty verification, arithmetic verification via code, citations,
-  mechanism plausibility, counter-evidence, experimental design
+- **GPT-5.5 Pro** (reasoning: xhigh, background mode, web search + code interpreter + shell):
+  Empirical validation — web-grounded novelty verification, arithmetic verification via code,
+  citations, mechanism plausibility, counter-evidence, experimental design
 - **Gemini Deep Research Max** (Interactions API, agent: `deep-research-max-preview-04-2026`;
   tools: google_search + url_context + code_execution; ~80-160 searches per task):
   Autonomous research pass — literature review, structural mapping verification via
@@ -168,7 +174,7 @@ Write `{results_dir}/cross-model-consensus.md`:
 
 ### {Hypothesis Title}
 
-| Dimension | GPT-5.4 Pro | Gemini DR Max | Consensus |
+| Dimension | GPT-5.5 Pro | Gemini DR Max | Consensus |
 |-----------|-------------|---------------|-----------|
 | Novelty | {verdict} | {literature-review depth} | {agree/diverge} |
 | Confidence | {X}/10 | {Y}/10 | {averaged or range} |
@@ -204,11 +210,11 @@ Write `{results_dir}/cross-model.json` with:
 {
   "cross_model_validation": {
     "status": "completed",
-    "gpt_model": "gpt-5.4-pro",
+    "gpt_model": "gpt-5.5-pro",
     "gemini_model": "deep-research-max-preview-04-2026",
     "gemini_agent": "deep-research-max-preview-04-2026",
     "models_used": ["openai", "gemini"],
-    "gpt_tools": ["web_search_preview", "code_interpreter"],
+    "gpt_tools": ["web_search_preview", "code_interpreter", "shell"],
     "gemini_tools": ["google_search", "url_context", "code_execution"],
     "consensus": {
       "{hypothesis_id}": {

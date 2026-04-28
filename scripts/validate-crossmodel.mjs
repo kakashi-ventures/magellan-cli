@@ -1,11 +1,16 @@
 #!/usr/bin/env node
 // Cross-Model Hypothesis Validation Script
-// Calls OpenAI (GPT-5.4 Pro) and Google Gemini (Deep Research Max) APIs in parallel
+// Calls OpenAI (GPT-5.5 Pro) and Google Gemini (Deep Research Max) APIs in parallel
 // for independent validation of MAGELLAN hypotheses.
 //
 // Tools enabled:
-//   GPT-5.4 Pro: web_search_preview (high), code_interpreter
+//   GPT-5.5 Pro: web_search_preview (high), code_interpreter, shell
 //   Gemini Deep Research Max: google_search, url_context, code_execution (SDK defaults for deep-research agents)
+//
+// GPT-5.5 Pro does not support streaming; this script uses background submit
+// + poll, mirroring the Gemini Interactions API pattern. The OpenAI response
+// is stored remotely (store: true), so we persist response.id to disk on submit
+// and auto-resume on retry, so long-running validations are never wasted.
 //
 // Usage:
 //   node --env-file=.env.local scripts/validate-crossmodel.mjs \
@@ -18,7 +23,7 @@
 //   At least one must be set.
 //   Put keys in .env.local and use --env-file=.env.local flag.
 
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, unlinkSync, renameSync } from 'fs';
 
 // ---------------------------------------------------------------------------
 // Argument parsing
@@ -35,157 +40,196 @@ const geminiPromptFile = getArg('--gemini-prompt');
 const geminiOutFile    = getArg('--gemini-out');
 
 // ---------------------------------------------------------------------------
-// OpenAI — GPT-5.4 Pro with reasoning effort high
+// OpenAI: GPT-5.5 Pro, background submit + poll (streaming not supported).
+//
+// Reasoning effort: 'xhigh' (with single fallback to 'high'). Supported values
+// on gpt-5.5-pro: 'medium', 'high', 'xhigh'.
+//
+// Tools: web_search_preview (high), code_interpreter, shell.
+//
+// Response shape notes:
+//   - shell tool produces paired items: shell_call (the request) and
+//     shell_call_output (with stdout/stderr/outcome.exit_code).
+//   - code_interpreter_call.outputs is null in background mode; computed
+//     values appear inline in the final message output_text. The 'code'
+//     field is preserved in the call item.
+//   - response.output_text is a convenience shortcut equivalent to
+//     concatenated message output_text content.
+//
+// 4-hour wall-clock cap. On timeout the response is NOT cancelled:
+// response.id is preserved on disk so the next run auto-resumes.
 // ---------------------------------------------------------------------------
+const OPENAI_WALL_CLOCK_MS = 4 * 60 * 60 * 1000; // 4 hours
+const OPENAI_POLL_INTERVAL_MS = 30 * 1000;       // 30 s
+
+const OPENAI_TOOLS = [
+  { type: 'web_search_preview', search_context_size: 'high' },
+  { type: 'code_interpreter', container: { type: 'auto' } },
+  { type: 'shell' },
+];
+
+async function submitOpenAI(client, prompt, effort) {
+  return client.responses.create({
+    model: 'gpt-5.5-pro',
+    input: [{ role: 'user', content: [{ type: 'input_text', text: prompt }] }],
+    reasoning: { effort, summary: 'auto' },
+    tools: OPENAI_TOOLS,
+    background: true,
+    store: true,
+  });
+}
+
 async function callOpenAI(promptFile, outputFile) {
   const { default: OpenAI } = await import('openai');
-  const client = new OpenAI({ timeout: 45 * 60 * 1000 }); // 45 min timeout — GPT-5.4 Pro with all tools can take 30+ min
+  // SDK request timeout slightly above our wall-clock so it never trips first.
+  const client = new OpenAI({ timeout: OPENAI_WALL_CLOCK_MS + 5 * 60 * 1000 });
 
   const prompt = readFileSync(promptFile, 'utf8');
   const start = Date.now();
+  const responseIdFile = `${outputFile}.response-id`;
+  let responseId = null;
 
-  process.stderr.write('[OpenAI] Calling gpt-5.4-pro (reasoning: high, streaming)...\n');
+  // Auto-resume from a previous run that left a response-id file behind.
+  if (existsSync(responseIdFile)) {
+    responseId = readFileSync(responseIdFile, 'utf8').trim();
+    process.stderr.write(`[OpenAI] Resuming response ${responseId} from ${responseIdFile}\n`);
+  } else {
+    process.stderr.write('[OpenAI] Submitting gpt-5.5-pro (reasoning: xhigh, background, web_search + code_interpreter + shell)...\n');
+    let submitted;
+    try {
+      submitted = await submitOpenAI(client, prompt, 'xhigh');
+    } catch (err) {
+      const msg = err?.message || String(err);
+      if (/reasoning|effort|xhigh/i.test(msg)) {
+        process.stderr.write(`[OpenAI] xhigh rejected, retrying with high: ${msg}\n`);
+        submitted = await submitOpenAI(client, prompt, 'high');
+      } else {
+        throw err;
+      }
+    }
+    responseId = submitted.id;
+    writeFileSync(responseIdFile, responseId);
+    process.stderr.write(`[OpenAI] Submitted ${responseId} (saved to ${responseIdFile})\n`);
+  }
 
-  // Use streaming to show progress in real-time
-  const stream = await client.responses.create({
-    model: 'gpt-5.4-pro',
-    input: [
-      {
-        role: 'user',
-        content: [{ type: 'input_text', text: prompt }],
-      },
-    ],
-    reasoning: { effort: 'high', summary: 'auto' },
-    tools: [
-      { type: 'web_search_preview', search_context_size: 'high' },
-      { type: 'code_interpreter', container: { type: 'auto' } },
-    ],
-    stream: true,
-  });
+  // Poll until terminal status, but never cancel mid-flight on timeout.
+  // Terminal states: completed (full output), incomplete (partial output, e.g.
+  // hit max_output_tokens), failed / cancelled (no recoverable output).
+  let response;
+  let terminalStatus = null;
+  while (true) {
+    if (Date.now() - start > OPENAI_WALL_CLOCK_MS) {
+      const minutes = Math.round((Date.now() - start) / 60000);
+      process.stderr.write(
+        `[OpenAI] Wall-clock budget exceeded (${minutes} min). Response ${responseId} preserved at ${responseIdFile}.\n` +
+        `         Re-run this script to auto-resume polling, or call client.responses.retrieve('${responseId}') manually.\n`
+      );
+      return {
+        status: 'partial',
+        model: 'gpt-5.5-pro',
+        duration_s: Math.round((Date.now() - start) / 1000),
+        recovery_id: responseId,
+        recovery_file: responseIdFile,
+        error: `wall-clock ${minutes}min exceeded; response preserved on OpenAI side`,
+      };
+    }
+    await new Promise(r => setTimeout(r, OPENAI_POLL_INTERVAL_MS));
+    try {
+      response = await client.responses.retrieve(responseId);
+    } catch (err) {
+      process.stderr.write(`[OpenAI] retrieve() error (will retry in ${OPENAI_POLL_INTERVAL_MS / 1000}s): ${err.message}\n`);
+      continue;
+    }
+    const elapsed = Math.round((Date.now() - start) / 1000);
+    process.stderr.write(`[OpenAI] status=${response.status} (${elapsed}s)\n`);
+    if (response.status === 'completed') {
+      terminalStatus = 'completed';
+      break;
+    }
+    if (response.status === 'incomplete') {
+      // The response stopped early but response.output[] still contains whatever
+      // was generated before the cutoff. Save it as partial rather than throw.
+      const reason = response.incomplete_details?.reason || 'unknown';
+      process.stderr.write(`[OpenAI] status=incomplete (reason=${reason}). Salvaging partial output.\n`);
+      terminalStatus = 'incomplete';
+      try { renameSync(responseIdFile, `${responseIdFile}.incomplete`); } catch (_) { /* ignore */ }
+      break;
+    }
+    if (response.status === 'failed' || response.status === 'cancelled') {
+      // No recoverable output. Move the id file aside for forensics; next run
+      // will start a fresh submission.
+      try { renameSync(responseIdFile, `${responseIdFile}.failed`); } catch (_) { /* ignore */ }
+      throw new Error(`OpenAI ${response.status}: ${response.error?.message || 'no error message'}`);
+    }
+  }
 
+  // Extract from response.output[]. Works for both completed and incomplete.
+  // Item types:
+  //   - message: { content: [{ type: 'output_text', text, annotations }] }
+  //   - reasoning: { summary: [{ type: 'summary_text', text }] }
+  //   - web_search_call / code_interpreter_call / shell_call: tool invocations
+  //   - shell_call_output: paired output with stdout/stderr/outcome.exit_code
   let text = '';
   let reasoningSummary = '';
   let annotations = [];
-  let reasoningStarted = false;
-  let outputStarted = false;
+  let codeOutputs = [];
+  let shellOutputs = [];
   let searchCount = 0;
   let codeRuns = 0;
-  let codeOutputs = [];
-
-  // Helper: write partial output on error so 48 min of GPT work isn't lost
-  const writePartial = (error) => {
-    if (!text && !reasoningSummary) return; // nothing to save
-    let partial = `> **PARTIAL OUTPUT** — GPT-5.4 Pro crashed after ${Math.round((Date.now() - start) / 1000)}s\n`;
-    partial += `> Error: ${error}\n`;
-    partial += `> Web searches: ${searchCount}, Code executions: ${codeRuns}\n\n---\n\n`;
-    if (reasoningSummary) partial += `## GPT-5.4 Pro Reasoning Summary\n\n${reasoningSummary}\n\n---\n\n`;
-    if (text) partial += text;
-    if (codeOutputs.length > 0) {
-      partial += '\n\n---\n\n## Code Execution Outputs (partial)\n\n';
-      for (let i = 0; i < codeOutputs.length; i++) {
-        partial += `### Execution ${i + 1}\n\`\`\`\n${codeOutputs[i]}\n\`\`\`\n\n`;
+  let shellRuns = 0;
+  const unknownItemTypes = new Set();
+  for (const item of response.output || []) {
+    if (item.type === 'message') {
+      for (const c of item.content || []) {
+        if (c.type === 'output_text') {
+          text += c.text || '';
+          if (Array.isArray(c.annotations)) annotations = annotations.concat(c.annotations);
+        }
       }
-    }
-    writeFileSync(outputFile, partial);
-    process.stderr.write(`[OpenAI] Partial output saved to ${outputFile} (${partial.length} chars)\n`);
-  };
-
-  try {
-  for await (const event of stream) {
-    // Track reasoning phase
-    if (event.type === 'response.reasoning_summary_part.added') {
-      if (!reasoningStarted) {
-        reasoningStarted = true;
-        const elapsed = Math.round((Date.now() - start) / 1000);
-        process.stderr.write(`[OpenAI] Reasoning started (${elapsed}s)...\n`);
+    } else if (item.type === 'reasoning') {
+      for (const s of item.summary || []) {
+        if (s.type === 'summary_text') reasoningSummary += s.text || '';
       }
-    }
-
-    // Reasoning summary text deltas
-    if (event.type === 'response.reasoning_summary_text.delta') {
-      reasoningSummary += event.delta;
-      // Print a dot every ~200 chars to show progress
-      if (reasoningSummary.length % 200 < event.delta.length) {
-        process.stderr.write('.');
-      }
-    }
-
-    // Reasoning done, output starting
-    if (event.type === 'response.reasoning_summary_text.done') {
-      const elapsed = Math.round((Date.now() - start) / 1000);
-      process.stderr.write(`\n[OpenAI] Reasoning complete (${elapsed}s), generating output...\n`);
-    }
-
-    // Output text deltas
-    if (event.type === 'response.output_text.delta') {
-      if (!outputStarted) {
-        outputStarted = true;
-        const elapsed = Math.round((Date.now() - start) / 1000);
-        process.stderr.write(`[OpenAI] Output streaming started (${elapsed}s)...\n`);
-      }
-      text += event.delta;
-    }
-
-    // Web search progress
-    if (event.type === 'response.web_search_call.in_progress') {
+    } else if (item.type === 'web_search_call') {
       searchCount++;
-      process.stderr.write(`[OpenAI] Web search #${searchCount}...\n`);
-    }
-    if (event.type === 'response.web_search_call.searching') {
-      process.stderr.write('s');
-    }
-    if (event.type === 'response.web_search_call.completed') {
-      process.stderr.write(`\n[OpenAI] Search #${searchCount} completed\n`);
-    }
-
-    // Code interpreter progress
-    if (event.type === 'response.code_interpreter_call.in_progress') {
+    } else if (item.type === 'code_interpreter_call') {
       codeRuns++;
-      process.stderr.write(`[OpenAI] Code execution #${codeRuns}...\n`);
-    }
-    if (event.type === 'response.code_interpreter_call.interpreting') {
-      process.stderr.write('x');
-    }
-    if (event.type === 'response.code_interpreter_call.completed') {
-      process.stderr.write(`\n[OpenAI] Code execution #${codeRuns} completed\n`);
-    }
-
-    // Completed — extract annotations and code outputs
-    if (event.type === 'response.completed') {
-      const response = event.response;
-      for (const item of response?.output || []) {
-        if (item.type === 'message') {
-          annotations = item.content?.[0]?.annotations || [];
-        }
-        if (item.type === 'code_interpreter_call') {
-          for (const out of item.outputs || []) {
-            if (out.type === 'logs') codeOutputs.push(out.logs);
-          }
-        }
+      // outputs is null in background mode but we keep the loop for forward-compat.
+      for (const out of item.outputs || []) {
+        if (out.type === 'logs') codeOutputs.push(out.logs);
       }
+    } else if (item.type === 'shell_call') {
+      shellRuns++;
+    } else if (item.type === 'shell_call_output') {
+      // Per OpenAI shell tool docs: paired with shell_call, contains stdout/stderr/outcome.
+      const stdout = item.stdout || '';
+      const stderr = item.stderr || '';
+      const exitCode = item.outcome?.exit_code;
+      shellOutputs.push({ stdout, stderr, exit_code: exitCode });
+    } else if (item.type !== undefined) {
+      unknownItemTypes.add(item.type);
     }
   }
-  } catch (streamError) {
-    process.stderr.write(`[OpenAI] Error: ${streamError.message}\n`);
-    writePartial(streamError.message);
-    return {
-      status: 'partial',
-      model: 'gpt-5.4-pro',
-      duration_s: Math.round((Date.now() - start) / 1000),
-      error: streamError.message,
-      web_searches: searchCount,
-      code_executions: codeRuns,
-      partial_output_saved: true,
-    };
+  if (unknownItemTypes.size > 0) {
+    process.stderr.write(`[OpenAI] Unrecognized response.output[] item types: ${[...unknownItemTypes].join(', ')}\n`);
+  }
+
+  if (terminalStatus === 'completed') {
+    // Success: clean up the response-id file.
+    try { unlinkSync(responseIdFile); } catch (_) { /* ignore */ }
   }
 
   const duration = Math.round((Date.now() - start) / 1000);
-  process.stderr.write(`[OpenAI] Completed in ${duration}s\n`);
+  process.stderr.write(`[OpenAI] ${terminalStatus} in ${duration}s (web_searches=${searchCount}, code_runs=${codeRuns}, shell_runs=${shellRuns})\n`);
 
-  // Write full output
   let output = '';
+  if (terminalStatus === 'incomplete') {
+    const reason = response.incomplete_details?.reason || 'unknown';
+    output += `> **PARTIAL OUTPUT** (status=incomplete, reason=${reason}, after ${duration}s).\n`;
+    output += `> Response id ${responseId} preserved at ${responseIdFile}.incomplete for forensics.\n\n---\n\n`;
+  }
   if (reasoningSummary) {
-    output += `## GPT-5.4 Pro Reasoning Summary\n\n${reasoningSummary}\n\n---\n\n`;
+    output += `## GPT-5.5 Pro Reasoning Summary\n\n${reasoningSummary}\n\n---\n\n`;
   }
   output += text;
   if (annotations.length > 0) {
@@ -194,23 +238,35 @@ async function callOpenAI(promptFile, outputFile) {
       if (a.url) output += `- [${a.title || 'Source'}](${a.url})\n`;
     }
   }
-
   if (codeOutputs.length > 0) {
     output += '\n\n---\n\n## Code Execution Outputs\n\n';
     for (let i = 0; i < codeOutputs.length; i++) {
       output += `### Execution ${i + 1}\n\`\`\`\n${codeOutputs[i]}\n\`\`\`\n\n`;
     }
   }
+  if (shellOutputs.length > 0) {
+    output += '\n\n---\n\n## Shell Execution Outputs\n\n';
+    for (let i = 0; i < shellOutputs.length; i++) {
+      const s = shellOutputs[i];
+      output += `### Command ${i + 1}` + (s.exit_code !== undefined ? ` (exit=${s.exit_code})` : '') + '\n';
+      if (s.stdout) output += `stdout:\n\`\`\`\n${s.stdout}\n\`\`\`\n`;
+      if (s.stderr) output += `stderr:\n\`\`\`\n${s.stderr}\n\`\`\`\n`;
+      output += '\n';
+    }
+  }
 
   writeFileSync(outputFile, output);
   return {
-    status: 'completed',
-    model: 'gpt-5.4-pro',
+    status: terminalStatus === 'completed' ? 'completed' : 'partial',
+    model: 'gpt-5.5-pro',
     duration_s: duration,
     citations: annotations.length,
     has_reasoning: !!reasoningSummary,
     web_searches: searchCount,
     code_executions: codeRuns,
+    shell_executions: shellRuns,
+    response_id: responseId,
+    incomplete_reason: terminalStatus === 'incomplete' ? (response.incomplete_details?.reason || 'unknown') : undefined,
   };
 }
 

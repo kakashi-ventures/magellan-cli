@@ -23,7 +23,7 @@ sacrificing novelty or rigor.
 
 2. **[Node.js](https://nodejs.org/) 20+** — Required for cross-model validation scripts and website upload. Run `npm install` after cloning to install dependencies.
 
-3. **API keys for cross-model validation** _(optional)_ — For GPT-5.4 Pro and Gemini Deep Research Max independent review. Create a `.env.local` file in the project root:
+3. **API keys for cross-model validation** _(optional)_ — For GPT-5.5 Pro and Gemini Deep Research Max independent review. Create a `.env.local` file in the project root:
    ```
    OPENAI_API_KEY=sk-...
    GEMINI_API_KEY=AI...
@@ -82,7 +82,7 @@ Phase 5:  Evolver recombines top candidates (conditionally skippable)
 Phase 6:  Quality Gate — 10-point rubric + web grounding + per-claim verification
           → META-VALIDATION reflection before output
           → Session Analyst — meta-learning metrics → knowledge/meta-insights.md
-Phase 7:  Cross-Model Validation — GPT-5.4 Pro (web search + code interpreter) +
+Phase 7:  Cross-Model Validation — GPT-5.5 Pro (background poll, web search + code interpreter + shell) +
           Gemini Deep Research Max (Interactions API agent: google_search + url_context
           + code_execution, ~80-160 searches/task) → consensus report
           (automatic if API keys set, export files only otherwise)
@@ -99,7 +99,7 @@ Typical runtime: 20-55 minutes. Check progress with `/status`.
 ## After Discovery: Cross-Model Validation
 
 **Automatic**: If `OPENAI_API_KEY` and/or `GEMINI_API_KEY` are set in `.env.local`,
-the pipeline automatically calls GPT-5.4 Pro (with web search + code interpreter)
+the pipeline automatically calls GPT-5.5 Pro (background submit + 30s poll, with web search + code interpreter + shell)
 and Gemini Deep Research Max (agent `deep-research-max-preview-04-2026` on the
 Interactions API, with google_search + url_context + code_execution, running an
 autonomous research loop of ~80-160 web searches + URL reads + code execution)
@@ -137,7 +137,7 @@ See `prompts/orchestration-guide.md` for step-by-step instructions.
 | `/connect <key>` | Link CLI to your MAGELLAN web profile for attribution |
 | `/validate [hypothesis]` | Deep novelty + counter-evidence check |
 | `/evolve` | Another evolutionary cycle on current results |
-| `/export gpt` | Self-contained prompt for GPT-5.4 validation |
+| `/export gpt` | Self-contained prompt for GPT-5.5 Pro validation |
 | `/export gemini` | Self-contained prompt for Gemini Deep Think |
 | `/status` | Check pipeline progress mid-run |
 | `/validate-holdout` | Run holdout validation test (rediscovery check) |
@@ -194,7 +194,7 @@ CLAUDE.md                                    ← Project instructions for Claude
     domain-life-sciences/SKILL.md            ← Bio/med domain knowledge
     domain-physics-math/SKILL.md             ← Physics/math domain knowledge
 prompts/
-  validation-prompt-gpt.md                    ← GPT-5.4 validation prompt
+  validation-prompt-gpt.md                    ← GPT-5.5 Pro validation prompt
   validation-prompt-gemini.md                 ← Gemini mathematical structure prompt
   orchestration-guide.md                     ← Cross-model validation step-by-step
   session-summary-format.md                  ← Session summary formatting per status type
@@ -234,7 +234,7 @@ results/                                     ← All session outputs (markdown +
     meta-insights.json                       ← Session analyst structured output
     export-gpt.md                            ← GPT validation prompt
     export-gemini.md                         ← Gemini validation prompt
-    validation-gpt.md                        ← GPT-5.4 Pro response (if API key set)
+    validation-gpt.md                        ← GPT-5.5 Pro response (if API key set)
     validation-gemini.md                     ← Gemini Deep Research Max report (if API key set)
     cross-model-consensus.md                 ← Consensus report (if any API key set)
     cross-model.json                         ← Cross-model validation consensus
@@ -268,7 +268,7 @@ verification/
 - **Evolver** [Sonnet, high] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
 - **Quality Gate** [Opus, max, 35 turns] — 10-point rubric + web novelty + per-claim grounding verification + impact annotation (informational) + META-VALIDATION reflection
 - **Session Analyst** [Sonnet, high] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
-- **Cross-Model Validator** [Sonnet, high] — Calls GPT-5.4 Pro (web search + code interpreter) + Gemini Deep Research Max (Interactions API agent: google_search + url_context + code_execution) for independent validation → consensus report (requires API keys; falls back to export files)
+- **Cross-Model Validator** [Sonnet, high] — Calls GPT-5.5 Pro (background poll, reasoning xhigh, web search + code interpreter + shell) + Gemini Deep Research Max (Interactions API agent: google_search + url_context + code_execution) for independent validation → consensus report (requires API keys; falls back to export files)
 - **Convergence Scanner** [Sonnet, high] — Post-QG: searches ClinicalTrials.gov, NIH Reporter, patents for independent convergence signals + partial mechanism confirmations from non-pipeline sources
 - **Dataset Evidence Miner** [Sonnet, high] — Post-QG: queries HPA, GWAS Catalog, ChEMBL, UniProt, PDB via `scripts/query-biodata.py` to verify specific molecular claims in passing hypotheses. Suggests computational follow-up queries
 - **Holdout Evaluator** [Opus, max] — Validation framework: compares MAGELLAN output against known post-cutoff discoveries with contamination check + mechanism similarity scoring

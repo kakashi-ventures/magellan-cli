@@ -40,12 +40,12 @@ If cross_model_validation.status == "completed":
 - Include the consensus summary from {results_dir}/cross-model-consensus.md
 - Highlight HIGH PRIORITY candidates (where both models agree)
 - Flag divergences that need investigation
-- "Cross-model validation was performed automatically by GPT-5.4 Pro and Gemini Deep Research Max."
+- "Cross-model validation was performed automatically by GPT-5.5 Pro and Gemini Deep Research Max."
 
 If cross_model_validation.status == "manual_export_only":
 - "Export files were generated for manual validation (no API keys configured)."
 - Include instructions:
-  1. "Open `{results_dir}/export-gpt.md` and paste into ChatGPT with GPT-5.4 Pro"
+  1. "Open `{results_dir}/export-gpt.md` and paste into ChatGPT with GPT-5.5 Pro"
   2. "Open `{results_dir}/export-gemini.md` and paste into Google AI Studio with the Deep Research Max agent"
   3. "Hypotheses where 2+ models agree on high novelty + confidence are your best candidates"
 - "To enable automatic validation in future sessions, set OPENAI_API_KEY and/or GEMINI_API_KEY."

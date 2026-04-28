@@ -1,5 +1,5 @@
 ---
-description: "Export hypothesis cards as a self-contained prompt ready to paste into GPT-5.4 or Gemini for validation. Usage: /export [gpt|gemini|both]"
+description: "Export hypothesis cards as a self-contained prompt ready to paste into GPT-5.5 Pro or Gemini Deep Research Max for validation. Usage: /export [gpt|gemini|both]"
 allowed-tools: Read, Write, Glob
 ---
 
@@ -40,10 +40,10 @@ At the end, tell the user:
 "File saved to {results_dir}/export-gpt.md.
 Steps:
 1. Open the file and copy all its content
-2. Open ChatGPT → select GPT-5.4 Thinking or Pro
-3. Enable Deep Research if available
-4. Paste everything and send
-5. Wait 5-30 min for the validation report"
+2. Open ChatGPT → select GPT-5.5 Pro
+3. Paste everything and send
+4. Wait 30-90 min for the validation report (no streaming on gpt-5.5-pro;
+   ChatGPT shows a 'Working...' indicator while the model reasons)"
 
 ### For Gemini (argument: gemini)
 
