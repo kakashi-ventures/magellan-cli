@@ -202,10 +202,15 @@ const NARRATIVE_ALIASES = {
   'raw-hypotheses-cycle1':  'hypotheses-cycle1',
   'raw-hypotheses-cycle2':  'hypotheses-cycle2',
 };
-// No skiplist (v5.26.1): the frontend explicitly renders export-gpt/export-gemini
-// as "GPT Validation Prompt" / "Gemini Validation Prompt" sections. Auto-discovery
-// uploads them too. Frontend treats unknown keys as opt-out — safe forward.
-const NARRATIVE_SKIPLIST = new Set([]);
+// Skiplist (v5.26.2): export-gpt/export-gemini are raw API request prompts —
+// useful for debugging the cross-model validator but noise on the visitor-facing
+// session page. Their actual model outputs are already in validation-gpt.md and
+// validation-gemini.md. Frontend dropped them from PHASE_ORDER in the same
+// release; keeping them out of the payload too avoids inflating the JSONB blob.
+const NARRATIVE_SKIPLIST = new Set([
+  'export-gpt',
+  'export-gemini',
+]);
 const pipelineNarratives = {};
 try {
   const mdFiles = fs.readdirSync(dir).filter(f => f.endsWith('.md'));
