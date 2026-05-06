@@ -159,37 +159,64 @@ try { crossModelConsensus = JSON.parse(fs.readFileSync(path.join(dir, 'cross-mod
 try { computationalValidation = JSON.parse(fs.readFileSync(path.join(dir, 'computational.json'), 'utf-8')); } catch {
   try { computationalValidation = JSON.parse(fs.readFileSync(path.join(dir, 'computational-validation.json'), 'utf-8')); } catch {}
 }
-try { sessionAnalysis = JSON.parse(fs.readFileSync(path.join(dir, 'session-analyst.json'), 'utf-8')); } catch {
-  try { sessionAnalysis = JSON.parse(fs.readFileSync(path.join(dir, 'session-analysis.json'), 'utf-8')); } catch {}
+// Session-analyst structured output. Filename has varied across versions:
+//   v5.13+:   meta-insights.json       (current canonical — written by session-analyst agent)
+//   pre-5.13: session-analysis.json or session-analyst.json (legacy)
+try { sessionAnalysis = JSON.parse(fs.readFileSync(path.join(dir, 'meta-insights.json'), 'utf-8')); } catch {
+  try { sessionAnalysis = JSON.parse(fs.readFileSync(path.join(dir, 'session-analyst.json'), 'utf-8')); } catch {
+    try { sessionAnalysis = JSON.parse(fs.readFileSync(path.join(dir, 'session-analysis.json'), 'utf-8')); } catch {}
+  }
 }
 try { literatureData = JSON.parse(fs.readFileSync(path.join(dir, 'literature.json'), 'utf-8')); } catch {}
 try { scoutData = JSON.parse(fs.readFileSync(path.join(dir, 'scout.json'), 'utf-8')); } catch {}
 
-// Read pipeline narratives (all markdown files → { key: content })
+// Read pipeline narratives — auto-discover ALL .md files in results dir.
+// Forward-compatible: any new .md file the pipeline produces is uploaded.
+//
+// Aliases map filename stems (what agents actually write today) → canonical
+// keys (what the magellan-web frontend's PHASE_ORDER in
+// `app/sessions/[id]/page.tsx` expects). The frontend filters narratives by
+// these exact keys, so any mismatch silently hides the section.
+//
+// CONTRACT WITH FRONTEND: any change to a canonical key requires a coordinated
+// magellan-web frontend update. Adding NEW canonicals is safe (frontend ignores
+// unknown keys); RENAMING an existing canonical breaks the journey rendering.
+const NARRATIVE_ALIASES = {
+  // agent-written stem → frontend-expected canonical key (PHASE_ORDER)
+  'critiqued-cycle1':       'critique-cycle1',
+  'cycle1-critique':        'critique-cycle1',
+  'critiqued-cycle2':       'critique-cycle2',
+  'cycle2-critique':        'critique-cycle2',
+  'ranked-cycle1':          'ranking-cycle1',
+  'cycle1-ranked':          'ranking-cycle1',
+  'ranked-cycle2':          'ranking-cycle2',
+  'cycle2-ranked':          'ranking-cycle2',
+  'cycle1-evolved':         'evolved-cycle1',
+  'evolution-cycle1':       'evolved-cycle1',
+  'cycle2-evolved':         'evolved-cycle2',
+  'evolution-cycle2':       'evolved-cycle2',
+  'literature-landscape':   'literature-context',
+  'gpt-validation':         'validation-gpt',
+  'gemini-validation':      'validation-gemini',
+  'raw-hypotheses-cycle1':  'hypotheses-cycle1',
+  'raw-hypotheses-cycle2':  'hypotheses-cycle2',
+};
+// No skiplist (v5.26.1): the frontend explicitly renders export-gpt/export-gemini
+// as "GPT Validation Prompt" / "Gemini Validation Prompt" sections. Auto-discovery
+// uploads them too. Frontend treats unknown keys as opt-out — safe forward.
+const NARRATIVE_SKIPLIST = new Set([]);
 const pipelineNarratives = {};
-const mdMappings = [
-  ['session-summary', 'session-summary.md'],
-  ['quality-gate', 'quality-gate.md'],
-  ['quality-gate-cycle1', 'quality-gate-cycle1.md'],
-  ['quality-gate-cycle2', 'quality-gate-cycle2.md'],
-  ['critique-cycle1', 'critique-cycle1.md'], ['critique-cycle1', 'cycle1-critique.md'], ['critique-cycle1', 'critiqued-cycle1.md'],
-  ['critique-cycle2', 'critique-cycle2.md'], ['critique-cycle2', 'cycle2-critique.md'],
-  ['ranking-cycle1', 'ranking-cycle1.md'], ['ranking-cycle1', 'cycle1-ranked.md'], ['ranking-cycle1', 'ranked-cycle1.md'],
-  ['cross-model-consensus', 'cross-model-consensus.md'],
-  ['computational-validation', 'computational-validation.md'],
-  ['scout-targets', 'scout-targets.md'],
-  ['target-evaluation', 'target-evaluation.md'],
-  ['literature-context', 'literature-context.md'], ['literature-context', 'literature-landscape.md'],
-  ['session-analysis', 'session-analysis.md'],
-  ['evolved-cycle1', 'evolution-cycle1.md'], ['evolved-cycle1', 'cycle1-evolved.md'], ['evolved-cycle1', 'evolved-cycle1.md'],
-  ['final-hypotheses', 'final-hypotheses.md'],
-  ['dataset-evidence', 'dataset-evidence.md'],
-  ['validation-gpt', 'validation-gpt.md'], ['validation-gpt', 'gpt-validation.md'],
-  ['validation-gemini', 'validation-gemini.md'], ['validation-gemini', 'gemini-validation.md'],
-];
-for (const [key, filename] of mdMappings) {
-  if (pipelineNarratives[key]) continue; // first match wins
-  try { pipelineNarratives[key] = fs.readFileSync(path.join(dir, filename), 'utf-8'); } catch {}
+try {
+  const mdFiles = fs.readdirSync(dir).filter(f => f.endsWith('.md'));
+  for (const filename of mdFiles) {
+    const stem = filename.slice(0, -3); // strip .md
+    if (NARRATIVE_SKIPLIST.has(stem)) continue;
+    const key = NARRATIVE_ALIASES[stem] || stem;
+    if (pipelineNarratives[key]) continue; // first match wins
+    try { pipelineNarratives[key] = fs.readFileSync(path.join(dir, filename), 'utf-8'); } catch {}
+  }
+} catch (e) {
+  console.log('Warning: could not auto-discover .md files in ' + dir + ': ' + e.message);
 }
 
 // Read empirical validation (v5.13) — optional, backward-compatible

@@ -5,6 +5,27 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.26: Upload script auto-discovery dei file `.md` (6 maggio 2026)
+
+**Motivazione**: La sessione `2026-05-05-targeted-031` (TheraSAM, SFRT × PDAC) ha rivelato un bug latente in `scripts/upload-session.mjs`: la lista hardcoded `mdMappings` era incompleta e diversi file critici della pipeline non venivano caricati sul sito web. File mancanti dall'upload: `raw-hypotheses-cycle1.md`, `raw-hypotheses-cycle2.md` (le ipotesi originali H1-H13 incluse le 3 uccise dal critic in cycle 2), `critiqued-cycle2.md` (mismatch di naming: lo script si aspettava `critique-cycle2.md` o `cycle2-critique.md`, l'agente scriveva `critiqued-cycle2.md`), `ranked-cycle2.md` (cycle 2 ranking completamente assente dalle mappature — solo cycle 1 era mappato), `convergence.md` (output post-QG del Convergence Scanner), `contributor-context.md` (CRITICO per sessioni guidate `--context` come questa). Il problema era invisibile perché lo script falliva silenziosamente sui mapping mancanti.
+
+**Decisione**: Refactoring di `scripts/upload-session.mjs` da whitelist hardcoded a auto-discovery. Lo script ora legge `fs.readdirSync(dir).filter(f => f.endsWith('.md'))` e carica ogni file come entry in `pipelineNarratives`, con la chiave derivata dal filename stem. **Gli alias mappano gli stem agent-written sui nomi canonici che il frontend `magellan-web/app/sessions/[id]/page.tsx::PHASE_ORDER` si aspetta** (es. `critiqued-cycle1` → `critique-cycle1`; `ranked-cycle1` → `ranking-cycle1`; `cycle1-evolved` / `evolution-cycle1` → `evolved-cycle1`; `literature-landscape` → `literature-context`; `raw-hypotheses-cycle{1,2}` → `hypotheses-cycle{1,2}`). Direzione invertita rispetto al primo tentativo: il contratto col frontend ha priorità sullo stem del file. Skiplist svuotata: il frontend renderizza esplicitamente `export-gpt`/`export-gemini` come "GPT/Gemini Validation Prompt" sections, quindi vanno caricati. **Fix collaterale**: il file `meta-insights.json` (output strutturato del Session Analyst da v5.13) non veniva caricato perché lo script cercava nomi legacy (`session-analyst.json`, `session-analysis.json`); aggiunto come primo fallback nella chain di lettura sessionAnalysis. Coordinato con frontend: PHASE_ORDER esteso con `convergence` (Convergence Scanning, post-QG agent v5.13) e `contributor-context` (in evidenza nella hero come pannello sextant-gold per sessioni guidate CC-BY-4.0); session-summary non è più filtrato dal pipeline journey, così il contenuto completo (post-QG amendments, EES/IPS, application pathways, recurring failures, next-session priorities) è accessibile oltre al preview di 15 righe nella hero.
+
+**Effetto sulla sessione 2026-05-05-targeted-031**: 12 narrative caricate originariamente → 19 narrative dopo re-upload con script corretto. Aggiunte: `contributor-context`, `convergence`, `critiqued-cycle2`, `ranked-cycle2`, `raw-hypotheses-cycle1`, `raw-hypotheses-cycle2`. La sessione è stata re-uploadata e ora il backend possiede tutti i contenuti (frontend del sito magellan-discover.ai deve essere aggiornato separatamente per renderizzare le nuove chiavi e mettere in evidenza `contributor-context` per sessioni guidate).
+
+**Vantaggi forward-compatibility**: ogni nuovo `.md` che la pipeline produce in futuro viene caricato automaticamente, senza modifiche allo script. Il principio "primary deliverable = markdown narrative" del v5.18+ è ora rispettato end-to-end fino al sito.
+
+**Documentazione**:
+- `CLAUDE.md` -- nuovo principio "Upload script auto-discovers `.md` files" nella sezione Operational
+- `.claude/agents/discovery-orchestrator.md` -- DELIVERABLES VERIFICATION estesa (aggiunge cycle2 + post-QG + guided sections); aggiunta sezione "Pre-Upload Narrative Audit" con check Bash auto-discovery prima del run di upload-session.mjs
+
+**File modificati**:
+- `scripts/upload-session.mjs` -- mdMappings sostituito da auto-discovery + NARRATIVE_ALIASES + NARRATIVE_SKIPLIST
+- `.claude/agents/discovery-orchestrator.md` -- DELIVERABLES VERIFICATION rivista; nuova sezione Pre-Upload Narrative Audit
+- `CLAUDE.md` -- principio operativo aggiornato
+
+---
+
 ## v5.25: Migrazione a GPT-5.5 Pro (28 aprile 2026)
 
 **Motivazione**: Il 28 aprile 2026 OpenAI ha rilasciato `gpt-5.5-pro`, il nuovo modello di punta sulla Responses API (snapshot `gpt-5.5-pro-2026-04-23`, context 1.05M token, output max 128k, knowledge cutoff dicembre 2025). Il Cross-Model Validator di MAGELLAN passa da `gpt-5.4-pro` a `gpt-5.5-pro`. Il nuovo modello introduce quattro vincoli operativi che cambiano la forma del codice: (a) niente streaming, quindi background submit + polling; (b) latenze multi-minuto (decine di minuti tipici, fino a ore); (c) prompt guidance outcome-first che deprecano i pattern legacy (Output Contract, ALWAYS/NEVER, Completeness Checklist); (d) un terzo tool disponibile, `shell`, accanto a `web_search_preview` e `code_interpreter`.

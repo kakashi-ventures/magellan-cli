@@ -305,6 +305,16 @@ confidence, groundedness assessment.
   markdown report is missing, the orchestrator re-dispatches the original agent to
   write it (markdown is the primary deliverable, JSON is thin routing metadata).
   `phase: "complete"` cannot be set until verification passes.
+- **Upload script auto-discovers `.md` files** (v5.26) — `scripts/upload-session.mjs`
+  no longer maintains a hardcoded whitelist of narrative filenames. It reads every
+  `.md` in `results/{session-id}/` and uploads each as a `pipelineNarratives` entry
+  keyed by filename stem. Aliases collapse legacy/synonymous names (e.g.
+  `cycle1-critique`/`critique-cycle1`/`critiqued-cycle1` → `critiqued-cycle1`).
+  This guarantees forward-compatibility: any new pipeline `.md` output is uploaded
+  automatically, no script change required. Skip-list is small (`export-gpt`,
+  `export-gemini` are payload bloat; their content is captured by `validation-*.md`).
+  Contributor-context (guided sessions), raw hypothesis cards (cycle1/2), and post-QG
+  narratives (convergence, dataset-evidence, cross-model-consensus) are all included.
 - **Artifact verification in Guard Protocol** — After each agent dispatch, the
   orchestrator verifies both the phase JSON and corresponding markdown report exist.
   If markdown is missing, re-dispatches the agent. Catches agents that write

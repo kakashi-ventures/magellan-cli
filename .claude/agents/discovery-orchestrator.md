@@ -632,15 +632,41 @@ Before writing the session summary, verify ALL required artifacts exist.
 Run this check via Bash:
 
 ```bash
-for f in scout.json scout-targets.md literature.json literature-landscape.md \
-         target-evaluation.json target-evaluation.md \
-         computational.json computational-validation.md \
-         cycle1-raw.json raw-hypotheses-cycle1.md \
-         cycle1-critiqued.json critiqued-cycle1.md \
-         cycle1-ranked.json ranked-cycle1.md \
-         quality-gate.json quality-gate.md final.json final-hypotheses.md; do
+# Core pipeline (always required)
+CORE="scout.json scout-targets.md literature.json literature-landscape.md \
+      target-evaluation.json target-evaluation.md \
+      computational.json computational-validation.md \
+      cycle1-raw.json raw-hypotheses-cycle1.md \
+      cycle1-critiqued.json critiqued-cycle1.md \
+      cycle1-ranked.json ranked-cycle1.md \
+      quality-gate.json quality-gate.md \
+      final.json final-hypotheses.md \
+      session-summary.md ingest.json"
+
+# Cycle 2 (when standard cycle decision)
+CYCLE2="cycle2-raw.json raw-hypotheses-cycle2.md \
+        cycle2-critiqued.json critiqued-cycle2.md \
+        cycle2-ranked.json ranked-cycle2.md"
+
+# Evolver outputs (when cycle 1 evolver ran)
+EVOLVER="cycle1-evolved.json evolved-cycle1.md"
+
+# Post-QG agents (when status SUCCESS or PARTIAL)
+POSTQG="cross-model.json cross-model-consensus.md \
+        validation-gpt.md validation-gemini.md \
+        convergence.json convergence.md \
+        dataset-evidence.json dataset-evidence.md \
+        meta-insights.json session-analysis.md"
+
+# Targeted/Open/Problem mode with --context (CC-BY-4.0)
+GUIDED="contributor-context.md"
+
+for f in $CORE $CYCLE2 $EVOLVER $POSTQG; do
   [ -f "{results_dir}/$f" ] || echo "MISSING: $f"
 done
+# In targeted/open/problem mode with --context, scout-targets.md and target-evaluation.* are skipped.
+# In SCOUT mode without --context, contributor-context.md is skipped.
+# Adjust the check based on actual mode.
 ```
 
 For each MISSING markdown file where the corresponding JSON exists, RE-DISPATCH
@@ -654,11 +680,35 @@ evidence, analysis, and justifications. The JSON is thin metadata for pipeline
 routing. Do NOT fabricate markdown from JSON yourself -- the rich content must
 come from the specialized agent.
 
-If cycle 2 ran, also check cycle2 variants of the above files.
-
 Log all missing files and fallback generation actions to dispatch-log.json.
 
 **Do NOT set `phase: "complete"` until this verification passes.**
+
+### Pre-Upload Narrative Audit (v5.26 — every session, before upload-session.mjs)
+
+The website ingestion script (`scripts/upload-session.mjs`) auto-discovers `.md`
+files in the results directory and uploads them as `pipelineNarratives`. Before
+running upload, verify the upload payload completeness:
+
+```bash
+node -e "
+const fs = require('fs');
+const dir = '{results_dir}';
+const SKIP = new Set(['export-gpt', 'export-gemini']);
+const md = fs.readdirSync(dir).filter(f => f.endsWith('.md')).map(f => f.slice(0,-3));
+const willUpload = md.filter(s => !SKIP.has(s));
+console.log('Will upload', willUpload.length, 'narratives:');
+for (const k of willUpload.sort()) console.log('  -', k);
+"
+```
+
+The upload script's auto-discovery means that any new `.md` file the pipeline
+produces is automatically uploaded — there is no whitelist to maintain.
+
+If a critical narrative file is unexpectedly absent from this list, RE-DISPATCH
+the originating agent to produce it BEFORE running upload. Once uploaded, the
+session URL is locked: missing files cannot be backfilled without a re-upload
+of the entire session.
 
 ## SESSION SUMMARY (AFTER post-QG agents -- not before)
 
