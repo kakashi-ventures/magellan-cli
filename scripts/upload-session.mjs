@@ -160,12 +160,13 @@ try { computationalValidation = JSON.parse(fs.readFileSync(path.join(dir, 'compu
   try { computationalValidation = JSON.parse(fs.readFileSync(path.join(dir, 'computational-validation.json'), 'utf-8')); } catch {}
 }
 // Session-analyst structured output. Filename has varied across versions:
-//   v5.13+:   meta-insights.json       (current canonical — written by session-analyst agent)
-//   pre-5.13: session-analysis.json or session-analyst.json (legacy)
-try { sessionAnalysis = JSON.parse(fs.readFileSync(path.join(dir, 'meta-insights.json'), 'utf-8')); } catch {
-  try { sessionAnalysis = JSON.parse(fs.readFileSync(path.join(dir, 'session-analyst.json'), 'utf-8')); } catch {
-    try { sessionAnalysis = JSON.parse(fs.readFileSync(path.join(dir, 'session-analysis.json'), 'utf-8')); } catch {}
-  }
+//   pre-5.13: session-analysis.json or session-analyst.json (session-specific)
+//   v5.13+:   meta-insights.json (cumulative/forward-looking, NOT session-specific —
+//             feeds Scout/Generator in future sessions; intentionally NOT uploaded
+//             to the per-session DB slot. The session-analysis.md narrative is
+//             already in pipelineNarratives for the visitor-facing view.)
+try { sessionAnalysis = JSON.parse(fs.readFileSync(path.join(dir, 'session-analyst.json'), 'utf-8')); } catch {
+  try { sessionAnalysis = JSON.parse(fs.readFileSync(path.join(dir, 'session-analysis.json'), 'utf-8')); } catch {}
 }
 try { literatureData = JSON.parse(fs.readFileSync(path.join(dir, 'literature.json'), 'utf-8')); } catch {}
 try { scoutData = JSON.parse(fs.readFileSync(path.join(dir, 'scout.json'), 'utf-8')); } catch {}
