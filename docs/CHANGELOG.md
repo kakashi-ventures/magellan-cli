@@ -5,6 +5,76 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.28: Migrazione Opus 4.8 (9 giugno 2026)
+
+**Motivazione**: Anthropic ha rilasciato Claude Opus 4.8, nuovo modello Opus di default (model id `claude-opus-4-8`). Costruisce su Opus 4.7 e ne eredita invariata la superficie API: adaptive-thinking-only (`thinking: {type: "enabled", budget_tokens: N}` restituisce 400), nessun parametro di sampling (`temperature`/`top_p`/`top_k`), nessun prefill sull'ultimo turno assistant. Pricing identico ($5/$25 per 1M token), contesto 1M, output max 128K. Codice che gira su 4.7 gira su 4.8 senza modifiche, e la guida ufficiale indica che 4.8 funziona bene out of the box sui prompt 4.7. I miglioramenti rilevanti per una pipeline multi-agent: coding agentico long-horizon (meno compaction, miglior recovery dopo compaction, miglior gestione del long-context), calibrazione dell'effort più affidabile per livello, e tool-triggering migliore (meno casi di tool-call richieste ma saltate, problema occasionale di 4.7). Novità a livello API/feature: mid-conversation system messages (senza beta header), fast mode in research preview (`speed: "fast"`), minimo cacheable prompt sceso a 1024 token, effort default `high`.
+
+**Stato empirico**: MAGELLAN non fa chiamate dirette all'API Anthropic; Claude è invocato solo via dispatch di Claude Code con gli alias di frontmatter `model: opus`/`model: sonnet`. L'alias `opus` risolve al modello Opus current-latest al momento del dispatch, quindi risolve già a 4.8 senza modifiche al frontmatter. L'ultima validazione end-to-end completa è stata su Opus 4.7 (14 agenti dispatchati, tool usage abbondante, esiti PASS + CONDITIONAL_PASS). Una validazione equivalente su 4.8 è raccomandata come follow-up e NON è stata eseguita in questa migrazione (scelta esplicita: documentare ora, validare dopo). I doc quindi non dichiarano "validato su 4.8".
+
+**Decisioni**:
+
+1. **Alias `model: opus` mantenuto, niente pinning esplicito a `claude-opus-4-8`**. L'alias preserva l'auto-risoluzione al modello più recente ed è coerente col design documentato (sezione "Model alias resolution" in CLAUDE.md). Pinnare darebbe riproducibilità esplicita ma richiederebbe un bump manuale ad ogni release futura e perderebbe l'auto-risoluzione: valutato e scartato per questa migrazione.
+
+2. **Effort Opus mantenuto a `max`** per i 5 agenti Opus (Scout, Target Evaluator, Generator, Critic, Quality Gate) più Holdout Evaluator e Orchestrator. La guida 4.8 indica `xhigh` come ottimo per il lavoro agentico e avverte che `max` può portare a overthinking con rendimenti decrescenti, ma per un esperimento quality-first tollerante a latenza e costo si mantiene il floor di qualità massimo. Da rivalutare con dati empirici da una sessione di validazione su 4.8 (monitorare overthinking e token spend).
+
+3. **Prompt body degli agenti non re-baseline**. 4.8 eredita la superficie 4.7 e funziona out of the box; la de-emphasis del linguaggio enfatico (Reduced MUST/CRITICAL density) era già stata fatta in v5.2 per adaptive thinking e si applica a 4.8 (che amplifica "more literal instruction following"). I guardrail funzionali dell'Orchestratore (anti-inlining: "you MUST dispatch every role", stop-gate hooks) restano invariati: gli shift comportamentali di 4.8 (meno subagent e meno tool-call di default) non si manifestano in MAGELLAN perché l'Orchestratore non ha WebSearch/WebFetch (non può fare lavoro inline) e gli stop-gate validano deterministicamente la completezza dell'output. Se una validazione su 4.8 mostrasse sotto-retrieval, il fix mirato sarà rinforzare le righe specifiche di tool-triggering già presenti (Literature Scout MCP-first, Critic web-search-per-hypothesis, Quality Gate verifica per-claim), non un softening generalizzato.
+
+4. **Capacità nuove di 4.8 non adottate, e perché**: mid-conversation system messages e fast mode non sono applicabili (nessuna chiamata API diretta; per fast mode la pipeline privilegia qualità a velocità, con pricing premium). Il minimo cacheable prompt a 1024 token è un beneficio automatico lato Claude Code, nessuna azione richiesta.
+
+5. **Doc sync**: aggiornati i riferimenti da Opus 4.7 a 4.8 in `CLAUDE.md` (Model alias resolution), `docs/methodology-v5.md` (overview, tabella agente-modello, benchmark di riferimento con nuova entry 4.8 affiancata a 4.7, language calibration, model-specific tuning, time horizon, metadata example), `prompts/validation-prompt-gpt.md`, `launch-creators.md`, `launch-media-pitches.md`, e l'etichetta metadati in `scripts/init-session.sh` (`opus-4.7` -> `opus-4-8`). `README.md` non contiene una versione Opus esplicita: nessuna modifica. I riferimenti storici (entry CHANGELOG precedenti, descrizioni dello stato del tempo) non sono modificati.
+
+**File modificati**:
+- `CLAUDE.md` -- sezione "Model alias resolution" riscritta (4.8, giugno 2026, framing validazione onesto)
+- `docs/methodology-v5.md` -- overview, tabella interna agente-modello, benchmark di riferimento (nuova entry Opus 4.8), language calibration, model-specific tuning, time horizon, metadata example
+- `scripts/init-session.sh` -- etichetta metadati `model` per le nuove sessioni
+- `prompts/validation-prompt-gpt.md` -- riferimento al modello generatore
+- `launch-creators.md`, `launch-media-pitches.md` -- riferimenti marketing a Opus
+- `docs/CHANGELOG.md` -- questa entry
+
+---
+
+## v5.27: Migrazione schema Gemini Interactions API (12 maggio 2026)
+
+**Motivazione**: Il 7 maggio 2026 Google ha rilasciato la revisione `2026-05-20` dello schema delle Interactions API, con timeline di sunset del legacy schema fissata al 26 maggio (default flip, SDK 1.x ancora ok con legacy responses) e all'8 giugno (legacy schema rimosso, SDK 1.x fail su Interactions API). I cambiamenti rilevanti per il Cross-Model Validator di MAGELLAN sono: (a) `interaction.outputs[]` rinominato a `interaction.steps[]` con type discriminator; (b) il testo del messaggio del modello si trova ora in `step.content[i].text` (con `step.type === 'model_output'` e `content[]` tipizzato come `TextContent | ImageContent | AudioContent | DocumentContent | VideoContent`); il thinking trace e' su step separato `step.type === 'thought'` con field `summary[]` (NON `content[]`); (c) gli eventi streaming sono rinominati: `interaction.start` -> `interaction.created`, `content.delta` -> `step.delta`, `interaction.complete` -> `interaction.completed`, `content.start`/`content.stop` -> `step.start`/`step.stop`; (d) nuovi step type espliciti per i tool server-side (`user_input`, `function_call`/`_result`, `code_execution_call`/`_result`, `url_context_call`/`_result`, `google_search_call`/`_result`, `file_search_call`/`_result`, `mcp_server_tool_call`/`_result`, `google_maps_call`/`_result`); (e) `@google/genai` >=2.0.0 emette automaticamente lo schema nuovo. Senza migrazione, il pipeline si rompe all'8 giugno.
+
+**Doc vs SDK divergenze incontrate**: La doc ufficiale Google (`interactions-breaking-changes-may-2026`) aveva 4 punti che NON corrispondono allo schema effettivamente esposto da `@google/genai@2.1.0`. Verificato leggendo `node_modules/@google/genai/dist/genai.d.ts` prima del dry-run: (1) la doc dichiara `error` rinominato in `interaction.error`, ma l'SDK emette ancora event_type `'error'` (interfaccia `ErrorEvent_2`); (2) la doc dichiara `interaction.status_update` splittato in `interaction.in_progress` + `interaction.requires_action`, ma sull'SSE stream l'evento `interaction.status_update` esiste ancora e il `status` field interno copre tutti gli stati (`in_progress | requires_action | completed | failed | cancelled | incomplete`); lo split webhook-only e' un'altra cosa; (3) la doc parla genericamente di "type: text" e "content[0].text" come pattern singolo, ma in realta' lo step type del modello e' `model_output` (non `message`) e quello del pensiero e' `thought` con `summary[]` (non `content[]`); (4) il delta del citation streaming e' `text_annotation_delta` con `annotations: Array<URLCitation|FileCitation|PlaceCitation>`, non un singolo `text_annotation` o `citation`. Tutti 4 i bug sono stati colti nel codice prima del dry-run e fixati in questa stessa entry.
+
+**Decisioni**:
+
+1. **Bump SDK a `^2.0.0`**. `@google/genai` passa da `^1.45` (risolveva 1.46.0) a `^2.0.0` (risolve 2.1.0). Il nuovo SDK adotta lo schema v2 senza opt-in header. Per l'uso che ne facciamo (Deep Research Max agent autonomo, payload `agent_config` con `deep-research-max-preview-04-2026`, no streaming generation single-shot), non sono attese altre breaking changes oltre allo schema.
+
+2. **Riscrittura `scripts/validate-crossmodel.mjs` su schema v2 solo, niente codice difensivo dual-schema**. La scelta favorisce coerenza/leggibilita' del codice rispetto alla possibilita' di un rollback temporaneo dell'SDK (rischio considerato accettabile, gestibile via re-bump del `package.json` se necessario). Cambiamenti:
+   - **`consume(stream)`**: matcha i nomi degli eventi effettivi dell'SDK 2.1.0 (`interaction.created`, `step.delta`, `interaction.completed`, `error`). Gli eventi che non modificano lo state machine (`step.start`/`step.stop`, `interaction.status_update`) non sono gestiti; le terminal failure detection passa dal polling di `client.interactions.get()` come prima. Inner delta type discriminators per `step.delta` (per la union `StepDelta.*`): `text` / `thought_summary` / `image` / `text_annotation_delta` / vari tool deltas. Il citation streaming espande `d.annotations[]` (array di `URLCitation` con `{url, title}` o `FileCitation` con `{document_uri, title}`).
+   - **`absorbOutputs` rinominata `absorbSteps`**: discrimina su `step.type === 'model_output'` (legge `content[]` Content_2 union) e `step.type === 'thought'` (legge `summary[]`); skippa esplicitamente tutti i tool call/result step (10 varianti totali: function/code_execution/url_context/google_search/file_search/mcp_server_tool/google_maps + user_input). Citazioni dentro `TextContent.annotations[]` raccolte inline. Tracking unknown step types preservato via `unknownOutputTypes` Set per refinement futuro.
+   - **3 callsites** (handler `completed`, handler `failed`, final sweep) aggiornati da `status.outputs` a `status.steps`.
+
+3. **Niente cambiamenti lato request**. La `client.interactions.create()` corrente non usa parametri deprecati (`response_mime_type`, `generation_config.image_config`); il payload `agent_config` di Deep Research Max e' invariato. La create call rimane:
+   ```js
+   client.interactions.create({
+     input: prompt,
+     agent: 'deep-research-max-preview-04-2026',
+     background: true,
+     store: true,
+     stream: true,
+     agent_config: { type: 'deep-research', thinking_summaries: 'auto', visualization: 'auto', collaborative_planning: false },
+   });
+   ```
+
+**Note operative**:
+- OpenAI / GPT-5.5 Pro non e' coinvolto da questi cambiamenti: e' una API diversa (Responses API), gestita lato OpenAI con un suo lifecycle indipendente.
+- Il sito web (`magellan-web/`) consuma i file `validation-gemini.md` downstream, il cui formato Markdown e' invariato. Nessuna modifica needed lato web.
+- Verifica end-to-end: lo stderr durante una sessione reale deve mostrare `Interaction: <id>` (event `interaction.created` riconosciuto), `Report streaming` (event `step.delta` con inner type `text`/`output_text`), `interaction.completed` a fine corsa. La presenza di righe `unknown delta types seen` o `unknown output types seen` indica field che la v2 ha aggiunto e che vanno gestiti in un follow-up.
+- Dependency note: il bump trascina `protobufjs` ad una versione con CVE critica pendente (GHSA-xq3m-2v4x-88gg, "Arbitrary code execution in protobufjs"). Non bloccante per la pipeline (transitive runtime dep di `@google/genai`); valutare upgrade separato via `npm audit fix` o waiting su un patch upstream.
+- **Smoke test eseguito**: prima del merge ho aperto un'interaction reale con il prompt `Briefly characterize UCP1-driven thermogenesis...`, consumato 5 eventi, cancellato. Verificato che SDK 2.1.0 accetta la create call con `agent: 'deep-research-max-preview-04-2026'`, e gli eventi reali sono: `interaction.created` -> `interaction.status_update` (status='in_progress') -> `step.start` (step.type='thought') -> `step.delta` (delta.type='thought_summary' con `content.text`) -> `step.delta` (delta.type='thought_signature'). Questa run ha esposto un ultimo bug: `thought_signature` (hash di validazione backend) e i deltas dei tool autonomi (`arguments_delta`, vari `*_call`/`*_result`) sarebbero finiti in `unknownDeltaTypes` con log spam su stderr durante una sessione lunga. Aggiunto skip esplicito di tutte queste varianti di `StepDelta` (no-op silenzioso). Il `client.interactions.cancel()` ha restituito 500 con messaggio benigno "You will not be charged", non bloccante per il pipeline (la connection drop sufficient a fermare il cost meter).
+
+**File modificati**:
+- `package.json` -- `@google/genai` da `^1.45` a `^2.0.0`
+- `package-lock.json` -- aggiornato da `npm install` (`@google/genai` 1.46.0 -> 2.1.0; transitive deps cambiate)
+- `scripts/validate-crossmodel.mjs` -- top comment block + commento GEMINI_AGENT + `consume()` su eventi v2 + `absorbOutputs` rinominata `absorbSteps` (iteration su `step.content[]`, skip dei server-tool step types) + 3 callsites `status.outputs` -> `status.steps`
+- `docs/CHANGELOG.md` -- questa entry
+
+---
+
 ## v5.26: Upload script auto-discovery dei file `.md` (6 maggio 2026)
 
 **Motivazione**: La sessione `2026-05-05-targeted-031` (TheraSAM, SFRT × PDAC) ha rivelato un bug latente in `scripts/upload-session.mjs`: la lista hardcoded `mdMappings` era incompleta e diversi file critici della pipeline non venivano caricati sul sito web. File mancanti dall'upload: `raw-hypotheses-cycle1.md`, `raw-hypotheses-cycle2.md` (le ipotesi originali H1-H13 incluse le 3 uccise dal critic in cycle 2), `critiqued-cycle2.md` (mismatch di naming: lo script si aspettava `critique-cycle2.md` o `cycle2-critique.md`, l'agente scriveva `critiqued-cycle2.md`), `ranked-cycle2.md` (cycle 2 ranking completamente assente dalle mappature — solo cycle 1 era mappato), `convergence.md` (output post-QG del Convergence Scanner), `contributor-context.md` (CRITICO per sessioni guidate `--context` come questa). Il problema era invisibile perché lo script falliva silenziosamente sui mapping mancanti.

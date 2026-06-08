@@ -9,7 +9,7 @@ MAGELLAN is an **experiment in whether modern agentic AI systems can make autono
 
 It is not a tool for researchers. It is a capability test. The user runs `/discover`, leaves the room, and comes back to find testable scientific hypotheses. These are then cross-model validated and, ideally, submitted to domain experts for evaluation.
 
-Built for Claude Code (April 2026) with Opus 4.7 (deep reasoning) and Sonnet 4.6 (structured tasks), it leverages Agent Teams, deterministic hooks, MCP servers for structured retrieval, and a hybrid **parametric-generation + retrieval-validation** paradigm.
+Built for Claude Code (April 2026) with Opus 4.8 (deep reasoning) and Sonnet 4.6 (structured tasks), it leverages Agent Teams, deterministic hooks, MCP servers for structured retrieval, and a hybrid **parametric-generation + retrieval-validation** paradigm.
 
 ---
 
@@ -204,7 +204,7 @@ The Orchestrator has 3 decision points to adapt the pipeline to output quality:
 
 3. **Conditional Evolution** (cycle 2, after ranking): If top-3 ≥ 6.5, diversity passed, no shared bridges → skip Evolver, proceed to Quality Gate. `orchestrator-stop-gate.py` updated to not block on legitimate evolver skips.
 
-**Why this scales**: A better model produces higher-quality output earlier in the pipeline. Without adaptivity, the system wastes compute. With it, Opus 5 could complete in 1 cycle what Opus 4.7 needs 2.
+**Why this scales**: A better model produces higher-quality output earlier in the pipeline. Without adaptivity, the system wastes compute. With it, Opus 5 could complete in 1 cycle what Opus 4.8 needs 2.
 
 ### Indirect bidirectional feedback
 
@@ -216,7 +216,7 @@ The Critic can write specific questions in `results/{session-id}/cycle{N}-critiq
 
 ### The evidence
 
-Frontier models (Opus 4.7, GPT-5.5 Pro, Gemini 3.1 Pro) score 91–94%+ on GPQA Diamond, PhD-level questions in biology, physics, and chemistry. This is a 55-point jump from GPT-4 (39%, 2023). Parametric knowledge has improved enormously.
+Frontier models (Opus 4.8, GPT-5.5 Pro, Gemini 3.1 Pro) score 91–94%+ on GPQA Diamond, PhD-level questions in biology, physics, and chemistry. This is a 55-point jump from GPT-4 (39%, 2023). Parametric knowledge has improved enormously.
 
 However:
 - **AA-Omniscience** (open factual recall): the best model reaches only 55% accuracy
@@ -487,7 +487,7 @@ The system runs on a dual track:
   "final": [...],
   "diversity_scores": [...],
   "metadata": {
-    "start_time": "...", "model": "opus-4.7",
+    "start_time": "...", "model": "opus-4-8",
     "total_hypotheses_generated": 0, "kill_rate": 0,
     "fallback_used": false, "literature_unavailable": false,
     "generation_degraded": false, "web_search_failures": 0,
@@ -608,7 +608,7 @@ Agent prompts follow 2026 best practices for frontier models. Choices are empiri
 
 ### Language calibration
 
-- **Reduced MUST/CRITICAL/MANDATORY density**: Opus 4.7 uses adaptive thinking — emphatic instructions cause overthinking and token waste. Normal-tone instructions produce better results. Exception: the Orchestrator's functional guardrails (anti-inlining) remain unchanged. Opus 4.7's "more literal instruction following" (per Anthropic's migration guide) amplifies this: prescriptive/emphatic prompts are interpreted more rigidly, so the calibration done for 4.6 carries over cleanly.
+- **Reduced MUST/CRITICAL/MANDATORY density**: Opus 4.8 uses adaptive thinking — emphatic instructions cause overthinking and token waste. Normal-tone instructions produce better results. Exception: the Orchestrator's functional guardrails (anti-inlining) remain unchanged. Opus 4.8's "more literal instruction following" (per Anthropic's migration guide) amplifies this: prescriptive/emphatic prompts are interpreted more rigidly, so the calibration done for 4.6 carries over cleanly to 4.7 and 4.8.
 - **Positive framing**: Instructions framed as actions to take rather than prohibitions. "Continue autonomously between phases" instead of "Do NOT stop to ask questions."
 - **WHY explanations on constraints**: Explaining the reason behind a constraint lets the model generalize correctly to edge cases. Example: "bridge concepts required — the Generator uses bridge concepts as seeds, so vague bridges produce vague hypotheses."
 
@@ -619,7 +619,7 @@ Agent prompts follow 2026 best practices for frontier models. Choices are empiri
 
 ### Model-specific tuning
 
-- **Opus 4.7**: General instructions rather than prescriptive steps ("general instructions often produce better reasoning than prescriptive plans"). Anti-overengineering: "Select 3 targets and move on" (Scout), "Generate all 6-8 before refining" (Generator). No "Think very hard" — adaptive thinking decides autonomously.
+- **Opus 4.8**: General instructions rather than prescriptive steps ("general instructions often produce better reasoning than prescriptive plans"). Anti-overengineering: "Select 3 targets and move on" (Scout), "Generate all 6-8 before refining" (Generator). No "Think very hard" — adaptive thinking decides autonomously.
 - **Sonnet 4.6**: Explicit step sequences in the Ranker (Sonnet benefits more from scaffolding). Structured examples as format anchors.
 
 ### Prompts for external models
@@ -684,7 +684,7 @@ The evidence shows that:
 
 | Agent | Model | Rationale |
 |---|---|---|
-| Scout, Target Evaluator, Generator, Critic, Quality Gate, Holdout Evaluator, Orchestrator | Claude Opus 4.7 | Deep reasoning, cross-disciplinary creativity, adversarial evaluation |
+| Scout, Target Evaluator, Generator, Critic, Quality Gate, Holdout Evaluator, Orchestrator | Claude Opus 4.8 | Deep reasoning, cross-disciplinary creativity, adversarial evaluation |
 | Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator, Convergence Scanner, Dataset Evidence Miner | Claude Sonnet 4.6 | Structured, search-intensive tasks; ~30% cost reduction |
 
 ### External models (automatic cross-model validation)
@@ -696,7 +696,8 @@ The evidence shows that:
 
 Cross-model validation is **automatic**: the Cross-Model Validator generates the prompts, calls both APIs in parallel via `scripts/validate-crossmodel.mjs` with active tools (GPT-5.5 Pro: web search + code interpreter + shell; Gemini DR Max: google_search + url_context + code_execution), and produces a consensus report. GPT-5.5 Pro verifies novelty against current literature via web search and checks arithmetic via code interpreter. Gemini DR Max runs an autonomous research loop that verifies formal mappings computationally, reviews 5-10 recent papers per hypothesis, and surfaces discrepancies between stated and computed values. Requires `OPENAI_API_KEY` and/or `GEMINI_API_KEY` (both gpt-5.5-pro and DR Max are paid-tier only). If absent, generates only export files for manual validation (`/export gpt|gemini`).
 
-### Reference benchmarks (April 2026)
+### Reference benchmarks (June 2026)
+- **Claude Opus 4.8** (June 2026): Anthropic's most capable GA model. Improvements over 4.7 in long-horizon agentic coding (fewer compactions, better compaction recovery), more reliable effort calibration per level, and tool triggering (fewer required tool calls skipped). Same API surface as 4.7 (adaptive-thinking-only, no sampling parameters, no last-turn prefill). New at launch: mid-conversation system messages (no beta header), fast mode research preview, 1024-token minimum cacheable prompt, effort default `high`. 1M context, same $5/$25 per MTok pricing as 4.7. Source: [What's new](https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-8), [Migration guide](https://platform.claude.com/docs/en/about-claude/models/migration-guide)
 - **Claude Opus 4.7** (April 2026): +13% coding improvement over Opus 4.6, 3x more production task resolution on select benchmarks, 10-14% multi-step workflow gains with fewer tool errors. 1M context window at standard pricing. Same $5/$25 per MTok pricing as 4.6. Source: [Anthropic announcement](https://www.anthropic.com/news/claude-opus-4-7), [What's new](https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-7)
 - **Claude Opus 4.6** (Feb 2026): GPQA Diamond 91.3%, ARC-AGI-2 68.8%, HLE 53.1% with tools. Time horizon METR: 14h30m. Context: 200K (1M beta). Source: [Anthropic announcement](https://www.anthropic.com/news/claude-opus-4-6), [System Card](https://www.anthropic.com/claude-opus-4-6-system-card)
 - **GPT-5.5 Pro** (April 2026, current external validator): Snapshot `gpt-5.5-pro-2026-04-23`. Context window 1.05M tokens, max output 128k, knowledge cutoff December 1, 2025. Streaming not supported (script uses background submit + polling); tools supported include web search, code interpreter, shell, file search, MCP. Pricing $30/$180 per 1M tokens (input/output). Source: [OpenAI model docs](https://developers.openai.com/api/docs/models/gpt-5.5-pro), [GPT-5.5 prompt guidance](https://developers.openai.com/api/docs/guides/prompt-guidance)
@@ -762,7 +763,7 @@ The license is determined automatically at session initialization and tracked in
 
 1. **Scout with 10 strategies**: It does not choose randomly — it has structured heuristics (including structural isomorphism and serendipity) to identify where unlinked knowledge is most likely hiding
 2. **Parallel Literature Scout**: Real-time verification that the Scout's targets are not already explored, providing literature context to enrich generation
-3. **Opus 4.6/4.7 time horizon 14h30m+ (METR)**: Sustained autonomy at this level is a new capability — no pre-2026 model could operate coherently over these durations. Opus 4.7 is advertised as performing exceptionally well on long-horizon agentic work, extending this capability further
+3. **Opus 4.7/4.8 time horizon 14h30m+ (METR)**: Sustained autonomy at this level is a new capability — no pre-2026 model could operate coherently over these durations. Opus 4.8 improves further on long-horizon agentic work (better long-context handling and compaction recovery), extending this capability further
 4. **MCP servers**: Structured retrieval independent of generic web search, reducing fragility
 5. **GPT-5.5 Pro as external validator**: Current OpenAI frontier model with 1.05M context, web search, code interpreter, and shell tools. Provides empirical literature grounding and computational verification independent of Claude. Reduces the risk of Claude validating its own hallucinations
 6. **Auto Mode (March 12, 2026)**: Eliminates permission interruptions, allowing the pipeline to flow without intervention
