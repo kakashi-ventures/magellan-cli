@@ -7,10 +7,20 @@
 //   GPT-5.5 Pro: web_search_preview (high), code_interpreter, shell
 //   Gemini Deep Research Max: google_search, url_context, code_execution (SDK defaults for deep-research agents)
 //
-// GPT-5.5 Pro does not support streaming; this script uses background submit
-// + poll, mirroring the Gemini Interactions API pattern. The OpenAI response
-// is stored remotely (store: true), so we persist response.id to disk on submit
-// and auto-resume on retry, so long-running validations are never wasted.
+// API contracts:
+//   OpenAI: Responses API. GPT-5.5 Pro does not support streaming; this script
+//     uses background submit + poll. The response is stored remotely
+//     (store: true), so we persist response.id to disk on submit and auto-resume
+//     on retry, so long-running validations are never wasted.
+//   Gemini: Interactions API, schema revision 2026-05-20 (v2). The v2 schema
+//     rolled out 7 May 2026; v1 schema sunsets 8 June 2026. This script targets
+//     v2 EXCLUSIVELY. Streaming events (per SDK 2.x InteractionSSEEvent union):
+//     `interaction.created` / `step.delta` / `step.start` / `step.stop` /
+//     `interaction.completed` / `interaction.status_update` / `error`. Outputs
+//     are read via `interaction.steps[]` (Step union: model_output / thought /
+//     user_input / *_call / *_result), with ModelOutputStep.content[] holding
+//     TextContent | ImageContent etc., and ThoughtStep.summary[] holding the
+//     thought trace. Requires `@google/genai >=2.0.0`.
 //
 // Usage:
 //   node --env-file=.env.local scripts/validate-crossmodel.mjs \
@@ -18,8 +28,8 @@
 //     --gemini-prompt <file> --gemini-out <file>
 //
 // Environment:
-//   OPENAI_API_KEY  — required for GPT validation
-//   GEMINI_API_KEY  — required for Gemini validation
+//   OPENAI_API_KEY  -- required for GPT validation
+//   GEMINI_API_KEY  -- required for Gemini validation
 //   At least one must be set.
 //   Put keys in .env.local and use --env-file=.env.local flag.
 
@@ -271,8 +281,9 @@ async function callOpenAI(promptFile, outputFile) {
 }
 
 // ---------------------------------------------------------------------------
-// Google Gemini — Deep Research Max (agentic: google_search + url_context + code_execution)
-// Uses the Interactions API (background + streaming + reconnection).
+// Google Gemini -- Deep Research Max (agentic: google_search + url_context + code_execution)
+// Uses the Interactions API at schema revision 2026-05-20 (v2). Background
+// streaming with reconnection on the ~10-min connection drop documented by Google.
 // Runtime: 10-30 min typical, up to 60 min max per docs. We allow 90 min wall-clock.
 // ---------------------------------------------------------------------------
 const GEMINI_AGENT = 'deep-research-max-preview-04-2026';
@@ -308,7 +319,9 @@ async function callGemini(promptFile, outputFile) {
       if (Date.now() - start > GEMINI_MAX_RUNTIME_MS) {
         throw new Error(`[Gemini DR Max] wall-clock budget exceeded (${elapsedM()} min)`);
       }
-      if (chunk.event_type === 'interaction.start') {
+      const eventType = chunk.event_type;
+
+      if (eventType === 'interaction.created') {
         interactionId = chunk.interaction?.id || interactionId;
         if (interactionId) {
           process.stderr.write(`[Gemini DR Max] Interaction: ${interactionId} (${elapsedS()}s)\n`);
@@ -316,7 +329,12 @@ async function callGemini(promptFile, outputFile) {
       }
       if (chunk.event_id) lastEventId = chunk.event_id;
 
-      if (chunk.event_type === 'content.delta') {
+      if (eventType === 'step.delta') {
+        // step.delta payload: chunk.delta is a StepDelta.* variant per SDK 2.x.
+        // Known type discriminators: text | image | audio | document | video |
+        // thought_summary | thought_signature | text_annotation_delta |
+        // arguments_delta | {google_search,url_context,code_execution,
+        // file_search,mcp_server_tool,google_maps}_call|_result.
         const d = chunk.delta || {};
         if (d.type === 'text') {
           if (!report) process.stderr.write(`[Gemini DR Max] Report streaming (${elapsedS()}s)...\n`);
@@ -328,50 +346,133 @@ async function callGemini(promptFile, outputFile) {
         } else if (d.type === 'image') {
           images.push(d);
           process.stderr.write(`[Gemini DR Max] Image chunk (${elapsedS()}s)\n`);
-        } else if (d.type === 'text_annotation') {
-          // Citation/annotation delta (empirically observed; not in official JS samples).
-          // The schema isn't formally documented — probe multiple common field paths.
-          // Dump the first one to stderr so we can refine the extraction on real data.
+        } else if (d.type === 'text_annotation_delta') {
+          // SDK 2.x: d.annotations is Array<URLCitation | FileCitation | PlaceCitation>.
+          // URLCitation has {url, title}; FileCitation has {document_uri, title}.
           if (!firstAnnotationLogged) {
             firstAnnotationLogged = true;
             try {
-              process.stderr.write(`[Gemini DR Max] first text_annotation delta shape: ${JSON.stringify(chunk).slice(0, 600)}\n`);
+              process.stderr.write(`[Gemini DR Max] first annotation delta shape: ${JSON.stringify(chunk).slice(0, 600)}\n`);
             } catch (_) { /* ignore stringify issues */ }
           }
-          const url = d.url || d.uri || d.web?.uri || d.web?.url || d.source?.url || d.source?.uri;
-          const title = d.title || d.web?.title || d.source?.title || d.source_title;
-          if (url) citations.push({ title: title || 'Source', uri: url });
+          for (const a of (d.annotations || [])) {
+            const url = a.url || a.document_uri || a.uri;
+            if (url) citations.push({ title: a.title || 'Source', uri: url });
+          }
+        } else if (
+          // Known StepDelta variants with no user-visible payload: silently drop.
+          // Tool deltas fire during DR Max's autonomous loop; the resulting evidence
+          // ends up attached to text content via text_annotation_delta + step.content
+          // annotations, so we don't need to surface the raw call/result chunks.
+          d.type === 'thought_signature' ||
+          d.type === 'arguments_delta' ||
+          d.type === 'audio' || d.type === 'document' || d.type === 'video' ||
+          d.type === 'code_execution_call' || d.type === 'code_execution_result' ||
+          d.type === 'url_context_call'    || d.type === 'url_context_result' ||
+          d.type === 'google_search_call'  || d.type === 'google_search_result' ||
+          d.type === 'file_search_call'    || d.type === 'file_search_result' ||
+          d.type === 'mcp_server_tool_call' || d.type === 'mcp_server_tool_result' ||
+          d.type === 'google_maps_call'    || d.type === 'google_maps_result'
+        ) {
+          // expected, no-op
         } else if (d.type) {
           unknownDeltaTypes.add(d.type);
         }
-      } else if (chunk.event_type === 'interaction.complete') {
+      } else if (eventType === 'interaction.completed') {
         isComplete = true;
-        process.stderr.write(`\n[Gemini DR Max] interaction.complete (${elapsedM()} min)\n`);
-      } else if (chunk.event_type === 'error') {
+        process.stderr.write(`\n[Gemini DR Max] interaction.completed (${elapsedM()} min)\n`);
+      } else if (eventType === 'error') {
         errorMessage = chunk.error?.message || chunk.message || 'unknown stream error';
         isComplete = true;
         process.stderr.write(`\n[Gemini DR Max] error event: ${errorMessage}\n`);
       }
+      // Other v2 events not affecting our state machine:
+      //   step.start / step.stop -- step boundaries; we accumulate via step.delta
+      //   interaction.in_progress -- periodic tick (replaces v1 interaction.status_update)
+      //   interaction.requires_action -- tool approval (DR Max is autonomous; not expected)
     }
   }
 
-  function absorbOutputs(outputs) {
-    for (const o of outputs || []) {
+  // v2 schema: interaction.steps[] is a Step union per SDK 2.x. Type discriminators:
+  //   user_input | model_output | thought |
+  //   {function,code_execution,url_context,google_search,file_search,mcp_server_tool,google_maps}_call|_result
+  // ModelOutputStep.content[] is Array<Content_2>: TextContent | ImageContent |
+  //   AudioContent | DocumentContent | VideoContent. TextContent carries `annotations`.
+  // ThoughtStep has .summary[] (Array<TextContent | ImageContent>) -- NOT .content[].
+  // All *_call / *_result step types carry no user-visible text; citations attach
+  // to model_output.content[i].annotations.
+  function absorbSteps(steps) {
+    for (const o of steps || []) {
       const type = o.type;
-      if (type === 'text' || (!type && typeof o.text === 'string')) {
-        if (o.text && !report.includes(o.text)) report += (report ? '\n\n' : '') + o.text;
-      } else if (type === 'image') {
-        images.push(o);
-      } else if (type === 'thought_summary' || type === 'thinking') {
-        const t = o.content?.text || o.text || '';
-        if (t && !thoughts.includes(t)) thoughts += (thoughts ? '\n\n' : '') + t;
-      } else if (type) {
+
+      if (
+        type === 'user_input' ||
+        type === 'function_call' || type === 'function_result' ||
+        type === 'code_execution_call' || type === 'code_execution_result' ||
+        type === 'url_context_call'    || type === 'url_context_result' ||
+        type === 'google_search_call'  || type === 'google_search_result' ||
+        type === 'file_search_call'    || type === 'file_search_result' ||
+        type === 'mcp_server_tool_call' || type === 'mcp_server_tool_result' ||
+        type === 'google_maps_call'    || type === 'google_maps_result'
+      ) {
+        // Defensive: drain any citations that happen to ride on these steps.
+        const skipAnnos = o.annotations || o.citations || [];
+        for (const a of skipAnnos) {
+          const url = a.url || a.document_uri || a.uri;
+          if (url) citations.push({ title: a.title || 'Source', uri: url });
+        }
+        continue;
+      }
+
+      const textParts = [];
+      const thoughtParts = [];
+
+      // model_output: content[] is Content_2 union; TextContent has annotations[].
+      if (type === 'model_output' && Array.isArray(o.content)) {
+        for (const c of o.content) {
+          if (c.type === 'text' && typeof c.text === 'string') {
+            textParts.push(c.text);
+          } else if (c.type === 'image') {
+            images.push(c);
+          }
+          for (const a of (c.annotations || [])) {
+            const url = a.url || a.document_uri || a.uri;
+            if (url) citations.push({ title: a.title || 'Source', uri: url });
+          }
+        }
+      }
+
+      // thought: summary[] is Array<TextContent | ImageContent>, NOT content[].
+      if (type === 'thought' && Array.isArray(o.summary)) {
+        for (const c of o.summary) {
+          if (c.type === 'text' && typeof c.text === 'string') {
+            thoughtParts.push(c.text);
+          } else if (c.type === 'image') {
+            images.push(c);
+          }
+        }
+      }
+
+      // Merge into running buffers with dedupe.
+      const textBlock = textParts.join('');
+      const thoughtBlock = thoughtParts.join('');
+      if (textBlock && !report.includes(textBlock)) {
+        report += (report ? '\n\n' : '') + textBlock;
+      }
+      if (thoughtBlock && !thoughts.includes(thoughtBlock)) {
+        thoughts += (thoughts ? '\n\n' : '') + thoughtBlock;
+      }
+
+      // Track unrecognized step types for forensics.
+      if (type && type !== 'model_output' && type !== 'thought') {
         unknownOutputTypes.add(type);
       }
+
+      // Top-level annotations (defensive; not in SDK type defs but cheap to drain).
       const annos = o.annotations || o.citations || [];
       for (const a of annos) {
-        const url = a.url || a.uri || a.source?.url;
-        if (url) citations.push({ title: a.title || a.source_title || 'Source', uri: url });
+        const url = a.url || a.document_uri || a.uri;
+        if (url) citations.push({ title: a.title || 'Source', uri: url });
       }
     }
   }
@@ -417,7 +518,7 @@ async function callGemini(promptFile, outputFile) {
     process.stderr.write(`[Gemini DR Max] status=${statusStr || 'unknown'} (${elapsedM()} min, reconnects=${reconnects})\n`);
 
     if (statusStr === 'completed') {
-      absorbOutputs(status.outputs);
+      absorbSteps(status.steps);
       // Top-level citations field on the interaction if present
       for (const a of (status.citations || [])) {
         const url = a.url || a.uri;
@@ -427,7 +528,7 @@ async function callGemini(promptFile, outputFile) {
       break;
     }
     if (statusStr === 'failed') {
-      absorbOutputs(status.outputs);
+      absorbSteps(status.steps);
       errorMessage = status.error || 'interaction failed without error message';
       throw new Error(`[Gemini DR Max] failed: ${errorMessage}`);
     }
@@ -450,7 +551,7 @@ async function callGemini(promptFile, outputFile) {
   if (interactionId && !report) {
     try {
       const finalStatus = await client.interactions.get(interactionId);
-      absorbOutputs(finalStatus.outputs);
+      absorbSteps(finalStatus.steps);
     } catch (err) {
       process.stderr.write(`[Gemini DR Max] final get() failed: ${err.message}\n`);
     }
