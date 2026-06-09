@@ -1,6 +1,8 @@
 {
   "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_CODE_NO_FLICKER": "1",
+    "DISABLE_AUTOUPDATER": "1"
   },
   "permissions": {
     "allow": [
@@ -34,13 +36,26 @@
     ]
   },
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/version-check-hook.py"],
+            "timeout": 10
+          }
+        ]
+      }
+    ],
     "SubagentStop": [
       {
         "matcher": "scout",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/scout-stop-gate.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/scout-stop-gate.py"],
             "timeout": 10
           }
         ]
@@ -50,7 +65,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/generator-stop-gate.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/generator-stop-gate.py"],
             "timeout": 10
           }
         ]
@@ -60,7 +76,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/critic-stop-hook.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/critic-stop-hook.py"],
             "timeout": 10
           }
         ]
@@ -70,7 +87,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/literature-scout-stop-gate.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/literature-scout-stop-gate.py"],
             "timeout": 10
           }
         ]
@@ -80,7 +98,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/ranker-stop-gate.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/ranker-stop-gate.py"],
             "timeout": 10
           }
         ]
@@ -90,7 +109,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/target-evaluator-stop-gate.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/target-evaluator-stop-gate.py"],
             "timeout": 10
           }
         ]
@@ -100,7 +120,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/computational-validator-stop-gate.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/computational-validator-stop-gate.py"],
             "timeout": 10
           }
         ]
@@ -110,7 +131,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/session-analyst-stop-gate.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/session-analyst-stop-gate.py"],
             "timeout": 10
           }
         ]
@@ -120,7 +142,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/cross-model-validator-stop-gate.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/cross-model-validator-stop-gate.py"],
             "timeout": 10
           }
         ]
@@ -130,7 +153,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/convergence-scanner-stop-gate.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/convergence-scanner-stop-gate.py"],
             "timeout": 10
           }
         ]
@@ -140,7 +164,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/dataset-evidence-miner-stop-gate.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/dataset-evidence-miner-stop-gate.py"],
             "timeout": 10
           }
         ]
@@ -150,7 +175,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/holdout-evaluator-stop-gate.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/holdout-evaluator-stop-gate.py"],
             "timeout": 10
           }
         ]
@@ -160,7 +186,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/subagent-stop-hook.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/subagent-stop-hook.py"],
             "timeout": 10
           }
         ]
@@ -171,7 +198,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/orchestrator-stop-gate.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/orchestrator-stop-gate.py"],
             "timeout": 10
           }
         ]
@@ -183,7 +211,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/post-write-hook.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/post-write-hook.py"],
             "timeout": 10
           }
         ]
@@ -193,7 +222,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/verify-dispatch.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/verify-dispatch.py"],
             "timeout": 10
           }
         ]
@@ -205,7 +235,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/tool-failure-hook.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/tool-failure-hook.py"],
             "timeout": 10
           }
         ]
@@ -215,7 +246,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/tool-failure-hook.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/tool-failure-hook.py"],
             "timeout": 10
           }
         ]
@@ -226,7 +258,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/pre-compact-hook.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/pre-compact-hook.py"],
             "timeout": 10
           }
         ]
@@ -237,7 +270,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/post-compact-hook.py\"",
+            "command": "python3",
+            "args": ["${CLAUDE_PROJECT_DIR}/scripts/post-compact-hook.py"],
             "timeout": 10
           }
         ]

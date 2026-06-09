@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Stop hook for orchestrator. Blocks premature termination if pipeline is incomplete.
 Also validates kill rate and dispatch log on completion.
-v5.18: Staleness check — if session hasn't been updated in >30 min, consider it
+v5.18: Staleness check: if session hasn't been updated in >30 min, consider it
 abandoned by another conversation and approve (don't block unrelated work)."""
 import sys, json, os
 from datetime import datetime, timezone, timedelta
@@ -35,16 +35,14 @@ try:
 
         # Allow stop if no session active (no mode set = not a discovery run)
         if not d.get("mode"):
-            print(json.dumps({"decision": "approve"}))
-            sys.exit(0)
+            sys.exit(0)  # allow stop (omit decision; "approve" is not a valid Stop value)
 
         # Allow stop if session is stale (abandoned by another conversation)
         if phase not in ("complete", "failed") and status not in ("success", "partial", "degraded", "failed", "interrupted"):
             if is_session_stale(d):
                 sid = d.get("session_id", "unknown")
                 print(json.dumps({
-                    "decision": "approve",
-                    "feedback": f"Session {sid} is stale (no update in >{STALE_THRESHOLD_MINUTES}min). Approving stop — session likely belongs to another conversation."
+                    "systemMessage": f"Session {sid} is stale (no update in >{STALE_THRESHOLD_MINUTES}min). Approving stop; session likely belongs to another conversation."
                 }))
                 sys.exit(0)
 
@@ -164,14 +162,15 @@ try:
                 if missing and status not in ("failed",):
                     warnings.append(f"Missing agent dispatches: {', '.join(sorted(missing))}")
 
-            if warnings:
-                print(json.dumps({
-                    "feedback": f"Orchestrator gate PASSED with warnings: {'; '.join(warnings)}"
-                }))
-            else:
-                print(json.dumps({
-                    "feedback": "Orchestrator gate PASSED: pipeline complete."
-                }))
+            # Desktop notification on completion (terminalSequence; hooks have no
+            # controlling terminal, so Claude Code emits the escape sequence for us).
+            # OSC 9 covers iTerm2/Windows Terminal/WezTerm/ConEmu; add 99/777 if needed.
+            passed = d.get("health", {}).get("passed_quality_gate", "?")
+            notify_body = f"MAGELLAN: session {session_id} complete, {passed} hypothesis(es) passed QG"
+            notify_seq = f"\033]9;{notify_body}\007"
+            msg = (f"Orchestrator gate PASSED with warnings: {'; '.join(warnings)}"
+                   if warnings else "Orchestrator gate PASSED: pipeline complete.")
+            print(json.dumps({"systemMessage": msg, "terminalSequence": notify_seq}))
             sys.exit(0)
 
         # Block: pipeline is mid-run
@@ -184,10 +183,8 @@ try:
         sys.exit(0)
     else:
         # No state file = not a discovery session, allow stop
-        print(json.dumps({"decision": "approve"}))
-        sys.exit(0)
+        sys.exit(0)  # allow stop (omit decision)
 
 except Exception as e:
     # On error, allow stop to prevent deadlock
-    print(json.dumps({"decision": "approve"}))
-    sys.exit(0)
+    sys.exit(0)  # allow stop (omit decision)

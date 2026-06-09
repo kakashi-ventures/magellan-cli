@@ -47,7 +47,7 @@ try:
     with open(dispatch_log_path, "w") as f:
         json.dump(log, f, indent=2)
 
-    # Always allow — this is a logging hook, not a gate
+    # Always allow: this is a logging hook, not a gate
     sys.exit(0)
 
 except Exception as e:

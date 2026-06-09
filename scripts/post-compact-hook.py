@@ -23,7 +23,7 @@ try:
         shutil.copy2(backup_path, state_path)
         feedback_prefix = "STATE RESTORED from backup after compaction. "
     elif not state_ok:
-        print(json.dumps({"feedback": "No state/session.json found and no backup available. If running discovery pipeline, initialize state first."}))
+        print(json.dumps({"systemMessage": "No state/session.json found and no backup available. If running discovery pipeline, initialize state first."}))
         raise SystemExit(0)
     else:
         feedback_prefix = "CONTEXT RESTORED after compaction. "
@@ -59,9 +59,9 @@ try:
         feedback += f", Target: {target_summary}"
     feedback += ". Read state/session.json for full state. Continue pipeline from current phase."
 
-    print(json.dumps({"feedback": feedback}))
+    print(json.dumps({"systemMessage": feedback}))
 
 except SystemExit:
     pass
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: post-compact hook error: {e}"}))
+    print(json.dumps({"systemMessage": f"WARNING: post-compact hook error: {e}"}))

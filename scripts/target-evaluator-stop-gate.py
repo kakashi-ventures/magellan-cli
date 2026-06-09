@@ -10,9 +10,9 @@ try:
         scores = d.get("target_quality_scores", [])
 
         if not scores or not isinstance(scores, list):
-            # No scores written — warn but allow through
+            # No scores written - warn but allow through
             print(json.dumps({
-                "feedback": "WARNING: target-evaluator produced no scores. Allowing through."
+                "systemMessage": "WARNING: target-evaluator produced no scores. Allowing through."
             }))
             sys.exit(0)
 
@@ -27,7 +27,7 @@ try:
 
         if not all_scores:
             print(json.dumps({
-                "feedback": "WARNING: target-evaluator scores unreadable. Allowing through."
+                "systemMessage": "WARNING: target-evaluator scores unreadable. Allowing through."
             }))
             sys.exit(0)
 
@@ -40,20 +40,20 @@ try:
 
         if low_targets:
             print(json.dumps({
-                "feedback": f"Target evaluator PASSED with warnings: {len(low_targets)} target(s) scored < 3 ({', '.join(low_targets)}). Consider replacing weak targets."
+                "systemMessage": f"Target evaluator PASSED with warnings: {len(low_targets)} target(s) scored < 3 ({', '.join(low_targets)}). Consider replacing weak targets."
             }))
         else:
             best = max(all_scores)
             print(json.dumps({
-                "feedback": f"Target evaluator PASSED: best score {best}/10. All targets viable."
+                "systemMessage": f"Target evaluator PASSED: best score {best}/10. All targets viable."
             }))
         sys.exit(0)
     else:
         print(json.dumps({
-            "feedback": "WARNING: state/session.json not found. Allowing through."
+            "systemMessage": "WARNING: state/session.json not found. Allowing through."
         }))
         sys.exit(0)
 
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: target-evaluator gate error: {e}. Allowing through."}))
+    print(json.dumps({"systemMessage": f"WARNING: target-evaluator gate error: {e}. Allowing through."}))
     sys.exit(0)

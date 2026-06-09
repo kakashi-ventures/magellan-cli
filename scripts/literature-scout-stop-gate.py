@@ -50,15 +50,15 @@ try:
         sys.exit(2)
     elif warnings:
         print(json.dumps({
-            "feedback": f"Literature scout gate PASSED with warnings: {'; '.join(warnings)}. Pipeline will proceed in degraded mode."
+            "systemMessage": f"Literature scout gate PASSED with warnings: {'; '.join(warnings)}. Pipeline will proceed in degraded mode."
         }))
         sys.exit(0)
     else:
         print(json.dumps({
-            "feedback": f"Literature scout gate PASSED: {paper_count} papers saved."
+            "systemMessage": f"Literature scout gate PASSED: {paper_count} papers saved."
         }))
         sys.exit(0)
 
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: literature-scout gate error: {e}. Allowing through."}))
+    print(json.dumps({"systemMessage": f"WARNING: literature-scout gate error: {e}. Allowing through."}))
     sys.exit(0)

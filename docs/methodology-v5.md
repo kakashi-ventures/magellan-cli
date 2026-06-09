@@ -570,6 +570,9 @@ Additional hooks:
 - `PostToolUseFailure`: Tracks WebSearch/WebFetch failures. After 3+ failures, the Scout switches to parametric-only mode
 - `PreCompact`: Backs up state before context compaction
 - `PostCompact`: Restores from backup if state is corrupted after compaction
+- `version-check-hook.py`: SessionStart hook that warns (fail-open) when the running Claude Code version is below the pipeline floor (v2.1.166)
+
+Non-blocking hook guidance uses the canonical `systemMessage` field; the older `feedback` field is not recognized by Claude Code and is silently dropped. The orchestrator Stop hook also emits a `terminalSequence` desktop notification on completion. All hook commands use exec-form (`command` + `args`) for path-placeholder robustness.
 
 ### 3. Deliverables verification gate (v5.20)
 

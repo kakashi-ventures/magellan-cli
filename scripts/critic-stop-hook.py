@@ -10,7 +10,7 @@ try:
         critiqued = d.get("hypotheses", {}).get(f"cycle{cycle}", {}).get("critiqued", None)
 
         if not critiqued:
-            print(json.dumps({"feedback": f"WARNING: Critic finished but no critiqued data found for cycle {cycle} in state. Verify critic wrote results."}))
+            print(json.dumps({"systemMessage": f"WARNING: Critic finished but no critiqued data found for cycle {cycle} in state. Verify critic wrote results."}))
         else:
             survivors = 0
             killed = 0
@@ -30,8 +30,8 @@ try:
                 feedback += " WARNING: ALL hypotheses killed. Guard logic in orchestrator will handle retry."
             else:
                 feedback += f" Survivors: {survivors}, Killed: {killed}."
-            print(json.dumps({"feedback": feedback}))
+            print(json.dumps({"systemMessage": feedback}))
     else:
-        print(json.dumps({"feedback": "WARNING: state/session.json not found after Critic run."}))
+        print(json.dumps({"systemMessage": "WARNING: state/session.json not found after Critic run."}))
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: critic stop hook error: {e}"}))
+    print(json.dumps({"systemMessage": f"WARNING: critic stop hook error: {e}"}))

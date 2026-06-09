@@ -19,7 +19,7 @@ sacrificing novelty or rigor.
 
 ## Prerequisites
 
-1. **[Claude Code](https://claude.com/product/claude-code)** — Anthropic's terminal-based AI tool. NOT the web chat or desktop app — the CLI version. Requires a Claude subscription (Pro minimum, Max/Team recommended for Opus access). [Install docs →](https://code.claude.com/docs/it/overview)
+1. **[Claude Code](https://claude.com/product/claude-code)** — Anthropic's terminal-based AI tool. NOT the web chat or desktop app — the CLI version. **Requires v2.1.166 or later** (the pipeline relies on canonical hook output, `terminalSequence` notifications, hook exec-form, and the `opus` alias resolving to Opus 4.8). Requires a Claude subscription (Pro minimum, Max/Team recommended for Opus access). [Install docs →](https://code.claude.com/docs/it/overview)
 
 2. **[Node.js](https://nodejs.org/) 20+** — Required for cross-model validation scripts and website upload. Run `npm install` after cloning to install dependencies.
 

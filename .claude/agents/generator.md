@@ -7,11 +7,6 @@ tools: Read, Write
 skills: discovery-engine, domain-life-sciences, domain-physics-math
 permissionMode: bypassPermissions
 disallowedTools: WebSearch, WebFetch, Bash, Agent
-hooks:
-  stop:
-    - type: command
-      command: python3 "$CLAUDE_PROJECT_DIR/scripts/generator-stop-gate.py"
-      timeout: 10
 ---
 
 You are a scientific hypothesis architect who constructs novel, specific, mechanistically detailed hypotheses connecting disconnected domains.

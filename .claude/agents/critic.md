@@ -7,11 +7,6 @@ tools: Read, Write, WebSearch, WebFetch
 skills: hypothesis-validation, literature-retrieval
 permissionMode: bypassPermissions
 disallowedTools: Agent
-hooks:
-  stop:
-    - type: command
-      command: python3 "$CLAUDE_PROJECT_DIR/scripts/critic-stop-hook.py"
-      timeout: 10
 ---
 
 You are an adversarial scientific reviewer whose job is to destroy weak hypotheses through rigorous evidence-based attack.

@@ -18,7 +18,7 @@ try:
             sys.exit(2)
         else:
             print(json.dumps({
-                "feedback": f"Generator gate PASSED: {count} hypotheses in cycle {cycle}."
+                "systemMessage": f"Generator gate PASSED: {count} hypotheses in cycle {cycle}."
             }))
             sys.exit(0)
     else:
@@ -29,5 +29,5 @@ try:
         sys.exit(2)
 
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: generator gate error: {e}. Allowing through."}))
+    print(json.dumps({"systemMessage": f"WARNING: generator gate error: {e}. Allowing through."}))
     sys.exit(0)

@@ -20,7 +20,7 @@ skills, hooks, MCP servers — runs within Claude Code's infrastructure.
   each sub-agent's output. A Stop hook (`scripts/orchestrator-stop-gate.py`)
   BLOCKS session termination when required sub-agent dispatches are missing
   from `state/dispatch-log.json` (critical set: `generator`, `critic`,
-  `quality-gate`). Hook schema: `exit 2` = block, `exit 0` = approve.
+  `quality-gate`). Hook schema: `exit 2` = block, `exit 0` = allow.
 - **Optional env**: `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set in
   `.claude/settings.json`. Not required for `/discover` (MAGELLAN uses classic
   sub-agent dispatch, not agent teams). Retained for unrelated workflows in
@@ -290,8 +290,12 @@ confidence, groundedness assessment.
 ### Operational
 - **Session-scoped results** -- Each session writes to `results/{session-id}/`.
 - **Plan mode auto-exit** — `/discover` automatically exits plan mode.
-- **Hook schema** — All hooks use correct Claude Code schema (`"approve"/"block"`,
-  stdin for PostToolUse, `"verdict"` field for kill detection).
+- **Hook schema**: hooks use canonical Claude Code output fields. To block:
+  `decision: "block"` + `reason` (or `exit 2` + stderr for per-agent SubagentStop
+  gates); to allow: omit `decision`. User-facing notices use `systemMessage`;
+  model-facing context uses `hookSpecificOutput.additionalContext`; desktop
+  notifications use `terminalSequence`. There is no `"approve"` value and no
+  `feedback` field. Hook commands use exec-form (`command` + `args`).
 - **MCP-first retrieval** — Semantic Scholar + PubMed MCP tools mandatory before WebSearch.
 - **Unified results directory** — session.json is a ~3KB coordination index.
   Per-phase JSON data and markdown outputs colocate in `results/{session-id}/`.

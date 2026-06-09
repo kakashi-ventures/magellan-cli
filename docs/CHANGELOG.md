@@ -5,6 +5,41 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.29: Allineamento hook allo schema canonico + quick wins changelog CC (9 giugno 2026)
+
+**Motivazione**: Review del changelog ufficiale di Claude Code (maggio-giugno 2026) per individuare nuove funzioni utili alla pipeline (esclusi i bugfix). La verifica sui file reali ha rivelato un difetto di correttezza: tutti gli stop-gate emettevano la guida non bloccante nel campo `feedback`, che NON e' un campo riconosciuto dallo schema hook di Claude Code (campi validi: `decision`, `reason`, `continue`, `stopReason`, `suppressOutput`, `systemMessage`, `terminalSequence`, `hookSpecificOutput.additionalContext`). Claude Code lo scartava in silenzio: i blocchi hard funzionavano (usano `decision:block` o `exit 2` + stderr) ma i messaggi "PASSED", i warning e i "continue" non arrivavano da nessuna parte. Inoltre l'orchestrator-stop-gate usava `decision:"approve"`, valore inesistente (per consentire lo stop si omette `decision`).
+
+**Decisioni (quick wins implementati)**:
+
+1. **Output hook canonico**: migrato ogni `feedback` non bloccante a `systemMessage` (visibile all'utente) in tutti gli stop-gate, `subagent-stop-hook.py`, i compact hook e `tool-failure-hook.py`. Scelto `systemMessage` e non `additionalContext` perche' su un percorso di PASS `additionalContext` farebbe continuare il turno (impedirebbe lo stop o terrebbe vivo il sub-agente). Rimosso `decision:"approve"` dall'orchestrator-stop-gate (ora omette `decision`). `post-write-hook.py` reso silenzioso in caso di successo (scatta ad ogni Write) e con `systemMessage` solo su errore. Blocchi hard invariati.
+
+2. **Notifica desktop (`terminalSequence`, v2.1.141)**: l'orchestrator-stop-gate emette una notifica OSC 9 al completamento della sessione ("session X complete, N hypotheses passed QG"). Utile per le sessioni autonome lunghe (30-90 min) dove l'utente torna a fine run.
+
+3. **Hook in exec-form (`args`, v2.1.139)**: tutte le voci hook in `.claude/settings.json` convertite da shell-form (`python3 "$CLAUDE_PROJECT_DIR/..."`) a `command` + `args` con `${CLAUDE_PROJECT_DIR}`. Elimina la fragilita' di quoting e il problema Windows (bash invocato esplicitamente). I blocchi `hooks.stop` inline in `generator.md`/`critic.md` usavano uno schema NON documentato (lista diretta sotto chiave lowercase `stop`; lo schema corretto e' `hooks.<Event>: - matcher/hooks: [...]`), quasi certamente non scattavano mai ed erano ridondanti coi matcher `SubagentStop` in settings.json: rimossi (i gate restano attivi via settings.json).
+
+4. **Version floor (v2.1.166)**: nuovo hook `SessionStart` `scripts/version-check-hook.py` (fail-open) che avvisa via `systemMessage` se la versione CC e' < 2.1.166. Il floor copre le funzioni adottate piu' `opus`=Opus 4.8 (che richiede 2.1.154). Per le org si puo' usare la managed setting `requiredMinimumVersion`. Documentato in README (Prerequisites).
+
+5. **`fallbackModel` (v2.1.166) NON persistito in settings**: la chiave non e' ancora nello schema pubblicato (aggiunta il 6 giugno, lo schema e' indietro) e non e' confermato se cascata ai dispatch dei sub-agenti. Un fallback silenzioso a Sonnet su Generator/Critic/Quality-Gate (pinnati Opus per il ragionamento cross-disciplinare) degraderebbe la qualita' senza fallire. Raccomandato invece il flag di lancio `claude --fallback-model <model>` (session-scoped, confermato in `--help` su 2.1.168). Da rivalutare quando schema e comportamento di cascata saranno documentati.
+
+**Non adottato ora (Tier 2)**: dynamic Workflows (v2.1.154) come possibile architettura v6 (prototipo consigliato sul fan-out post-QG, oggi sequenziale); `background_tasks`/`session_crons` negli hook (v2.1.145) solo come guardia difensiva nel gate cross-model, dato che l'ordine e' gia' garantito dal wait sincrono dell'orchestratore e il poller bash vive nel contesto del sub-agente; `continueOnBlock` su PostToolUse (v2.1.139); `/goal` (v2.1.139).
+
+**Note di correttezza**: `PostToolUseFailure` e `PostCompact` sono eventi hook validi (nessun bug latente). NON impostare `CLAUDE_CODE_SUBAGENT_MODEL` (sovrascriverebbe il pin per-agente opus/sonnet di tutti i sub-agenti). Corretto in questa entry: i blocchi `hooks.stop` inline in `generator.md`/`critic.md` usavano uno schema non documentato (non scattavano) ed erano ridondanti coi matcher `SubagentStop` in `settings.json`; rimossi.
+
+**File modificati**:
+- `scripts/orchestrator-stop-gate.py` -- feedback->systemMessage, rimosso decision:approve, terminalSequence al completamento, fix em dash nel docstring
+- 13 stop-gate/stop-hook (`subagent-stop-hook.py`, `scout-`, `generator-`, `critic-`, `literature-scout-`, `ranker-`, `target-evaluator-`, `computational-validator-`, `session-analyst-`, `cross-model-validator-`, `convergence-scanner-`, `dataset-evidence-miner-`, `holdout-evaluator-`) -- feedback->systemMessage
+- `scripts/pre-compact-hook.py`, `scripts/post-compact-hook.py`, `scripts/tool-failure-hook.py` -- feedback->systemMessage
+- `scripts/post-write-hook.py` -- silenzioso su successo, systemMessage su errore
+- `scripts/version-check-hook.py` -- nuovo (SessionStart version floor)
+- `.claude/settings.json` -- hook in exec-form + registrazione hook SessionStart
+- `.claude/agents/generator.md`, `.claude/agents/critic.md` -- rimosso blocco `hooks.stop` malformato/ridondante dal frontmatter (schema non documentato; gate attivi via matcher SubagentStop in settings.json)
+- `CLAUDE.md` -- bullet "Hook schema" riscritto (campi canonici), "exit 0 = allow"
+- `README.md` -- Prerequisites: floor versione Claude Code 2.1.166
+- `docs/methodology-v5.md` -- sezione hook: version-check-hook, output canonico, exec-form
+- `docs/CHANGELOG.md` -- questa entry
+
+---
+
 ## v5.28: Migrazione Opus 4.8 (9 giugno 2026)
 
 **Motivazione**: Anthropic ha rilasciato Claude Opus 4.8, nuovo modello Opus di default (model id `claude-opus-4-8`). Costruisce su Opus 4.7 e ne eredita invariata la superficie API: adaptive-thinking-only (`thinking: {type: "enabled", budget_tokens: N}` restituisce 400), nessun parametro di sampling (`temperature`/`top_p`/`top_k`), nessun prefill sull'ultimo turno assistant. Pricing identico ($5/$25 per 1M token), contesto 1M, output max 128K. Codice che gira su 4.7 gira su 4.8 senza modifiche, e la guida ufficiale indica che 4.8 funziona bene out of the box sui prompt 4.7. I miglioramenti rilevanti per una pipeline multi-agent: coding agentico long-horizon (meno compaction, miglior recovery dopo compaction, miglior gestione del long-context), calibrazione dell'effort più affidabile per livello, e tool-triggering migliore (meno casi di tool-call richieste ma saltate, problema occasionale di 4.7). Novità a livello API/feature: mid-conversation system messages (senza beta header), fast mode in research preview (`speed: "fast"`), minimo cacheable prompt sceso a 1024 token, effort default `high`.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Session Analyst SubagentStop gate. WARN-ONLY — never blocks.
+"""Session Analyst SubagentStop gate. WARN-ONLY - never blocks.
 Checks that meta-insights file was produced."""
 import sys, json, os
 
@@ -22,16 +22,16 @@ try:
 
     if warnings:
         print(json.dumps({
-            "feedback": f"Session analyst PASSED with warnings: {'; '.join(warnings)}"
+            "systemMessage": f"Session analyst PASSED with warnings: {'; '.join(warnings)}"
         }))
     else:
         analysis_size = os.path.getsize(analysis_file)
         meta_size = os.path.getsize(meta_file)
         print(json.dumps({
-            "feedback": f"Session analyst PASSED: session-analysis.md ({analysis_size}B), meta-insights.md ({meta_size}B)"
+            "systemMessage": f"Session analyst PASSED: session-analysis.md ({analysis_size}B), meta-insights.md ({meta_size}B)"
         }))
     sys.exit(0)
 
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: session-analyst gate error: {e}. Allowing through."}))
+    print(json.dumps({"systemMessage": f"WARNING: session-analyst gate error: {e}. Allowing through."}))
     sys.exit(0)

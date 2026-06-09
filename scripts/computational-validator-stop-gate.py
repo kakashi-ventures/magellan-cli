@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Computational Validator SubagentStop gate. WARN-ONLY — never blocks.
+"""Computational Validator SubagentStop gate. WARN-ONLY - never blocks.
 Reports computational readiness status for pipeline awareness."""
 import sys, json, os
 
@@ -11,7 +11,7 @@ try:
 
         if not cv:
             print(json.dumps({
-                "feedback": "WARNING: computational-validator produced no readiness data. Proceeding anyway."
+                "systemMessage": "WARNING: computational-validator produced no readiness data. Proceeding anyway."
             }))
             sys.exit(0)
 
@@ -40,15 +40,15 @@ try:
 
         summary = "; ".join(checks) if checks else "no checks completed"
         print(json.dumps({
-            "feedback": f"Computational validator PASSED (warn-only): {summary}"
+            "systemMessage": f"Computational validator PASSED (warn-only): {summary}"
         }))
         sys.exit(0)
     else:
         print(json.dumps({
-            "feedback": "WARNING: state/session.json not found. Allowing through."
+            "systemMessage": "WARNING: state/session.json not found. Allowing through."
         }))
         sys.exit(0)
 
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: computational-validator gate error: {e}. Allowing through."}))
+    print(json.dumps({"systemMessage": f"WARNING: computational-validator gate error: {e}. Allowing through."}))
     sys.exit(0)

@@ -34,10 +34,10 @@ try:
         sys.exit(2)
 
     print(json.dumps({
-        "feedback": f"Ranker gate PASSED: {ranked_file} is {size} bytes."
+        "systemMessage": f"Ranker gate PASSED: {ranked_file} is {size} bytes."
     }))
     sys.exit(0)
 
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: ranker gate error: {e}. Allowing through."}))
+    print(json.dumps({"systemMessage": f"WARNING: ranker gate error: {e}. Allowing through."}))
     sys.exit(0)

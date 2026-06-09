@@ -15,10 +15,10 @@ try:
         current = progress.get("current_phase", phase)
 
         print(json.dumps({
-            "feedback": f"State backed up to session.json.backup. Current phase: {current}. Continue pipeline from this phase after compaction."
+            "systemMessage": f"State backed up to session.json.backup. Current phase: {current}. Continue pipeline from this phase after compaction."
         }))
     else:
-        print(json.dumps({"feedback": "No state/session.json to backup before compaction."}))
+        print(json.dumps({"systemMessage": "No state/session.json to backup before compaction."}))
 
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: pre-compact backup error: {e}"}))
+    print(json.dumps({"systemMessage": f"WARNING: pre-compact backup error: {e}"}))

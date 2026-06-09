@@ -21,9 +21,9 @@ try:
             f"Try alternative query or different search terms. "
             f"If 3+ failures, consider switching to parametric-only mode."
         )
-        print(json.dumps({"feedback": feedback}))
+        print(json.dumps({"systemMessage": feedback}))
     else:
-        print(json.dumps({"feedback": f"{tool_name} failed. No state file to track failure count."}))
+        print(json.dumps({"systemMessage": f"{tool_name} failed. No state file to track failure count."}))
 
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: tool-failure hook error: {e}"}))
+    print(json.dumps({"systemMessage": f"WARNING: tool-failure hook error: {e}"}))

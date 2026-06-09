@@ -1,20 +1,14 @@
 #!/usr/bin/env python3
-"""PostToolUse hook for Write tool. Inspects file path and provides context-aware feedback."""
-import sys, json, os
+"""PostToolUse hook for the Write tool. Fires on every Write, so it stays silent on
+success to avoid per-write noise (state and results are already tracked in
+state/session.json and the dispatch log). Errors are surfaced via the canonical
+`systemMessage` field; the previous `feedback` field is not recognized by Claude Code
+and was silently dropped."""
+import sys, json
 
 try:
-    data = json.load(sys.stdin)
-    path = data.get("tool_input", {}).get("file_path", "")
-
-    if path.endswith("state/session.json"):
-        d = json.load(open("state/session.json"))
-        phase = d.get("phase", "?")
-        cycle = d.get("cycle", "?")
-        hyps = d.get("metadata", {}).get("total_hypotheses_generated", 0)
-        results_dir = d.get("results_dir", "results")
-        print(json.dumps({"feedback": f"State OK \u2014 phase={phase}, cycle={cycle}, hypotheses={hyps}, results_dir={results_dir}"}))
-    elif "/results/" in path and path.endswith(".md"):
-        print(json.dumps({"feedback": f"Result file saved: {os.path.basename(path)}"}))
-    # Other files: exit silently
+    json.load(sys.stdin)  # consume the hook stdin payload
+    sys.exit(0)           # silent on success
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: post-write hook error: {e}"}))
+    print(json.dumps({"systemMessage": f"post-write hook error: {e}"}))
+    sys.exit(0)

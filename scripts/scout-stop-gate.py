@@ -17,7 +17,7 @@ try:
             sys.exit(2)
         else:
             print(json.dumps({
-                "feedback": f"Scout gate PASSED: {count} targets found. Continue pipeline."
+                "systemMessage": f"Scout gate PASSED: {count} targets found. Continue pipeline."
             }))
             sys.exit(0)
     else:
@@ -29,5 +29,5 @@ try:
 
 except Exception as e:
     # On hook error, allow through to avoid deadlock
-    print(json.dumps({"feedback": f"WARNING: scout gate error: {e}. Allowing through."}))
+    print(json.dumps({"systemMessage": f"WARNING: scout gate error: {e}. Allowing through."}))
     sys.exit(0)

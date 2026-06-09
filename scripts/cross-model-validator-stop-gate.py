@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cross-Model Validator SubagentStop gate. WARN-ONLY — never blocks.
+"""Cross-Model Validator SubagentStop gate. WARN-ONLY - never blocks.
 Checks that export files and/or validation outputs were produced."""
 import sys, json, os
 
@@ -58,10 +58,10 @@ try:
         parts.append(f"warnings=[{'; '.join(warnings)}]")
 
     print(json.dumps({
-        "feedback": f"Cross-model validator PASSED: {', '.join(parts)}"
+        "systemMessage": f"Cross-model validator PASSED: {', '.join(parts)}"
     }))
     sys.exit(0)
 
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: cross-model-validator gate error: {e}. Allowing through."}))
+    print(json.dumps({"systemMessage": f"WARNING: cross-model-validator gate error: {e}. Allowing through."}))
     sys.exit(0)

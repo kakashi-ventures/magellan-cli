@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Convergence Scanner SubagentStop gate. WARN-ONLY — never blocks.
+"""Convergence Scanner SubagentStop gate. WARN-ONLY - never blocks.
 Checks that convergence report and JSON were produced."""
 import sys, json, os
 
@@ -41,10 +41,10 @@ try:
         parts.append(f"warnings=[{'; '.join(warnings)}]")
 
     print(json.dumps({
-        "feedback": f"Convergence scanner PASSED: {', '.join(parts)}"
+        "systemMessage": f"Convergence scanner PASSED: {', '.join(parts)}"
     }))
     sys.exit(0)
 
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: convergence-scanner gate error: {e}. Allowing through."}))
+    print(json.dumps({"systemMessage": f"WARNING: convergence-scanner gate error: {e}. Allowing through."}))
     sys.exit(0)

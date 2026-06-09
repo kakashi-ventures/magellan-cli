@@ -45,7 +45,7 @@ try:
         feedback += " WARNINGS: " + "; ".join(warnings)
     feedback += " Read state/session.json for current state. Continue with next phase without waiting for user input."
 
-    print(json.dumps({"feedback": feedback}))
+    print(json.dumps({"systemMessage": feedback}))
 
 except Exception as e:
-    print(json.dumps({"feedback": f"Subagent completed. WARNING: hook error: {e}. Read state/session.json and continue."}))
+    print(json.dumps({"systemMessage": f"Subagent completed. WARNING: hook error: {e}. Read state/session.json and continue."}))

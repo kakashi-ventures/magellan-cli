@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Holdout Evaluator SubagentStop gate. WARN-ONLY — never blocks.
+"""Holdout Evaluator SubagentStop gate. WARN-ONLY - never blocks.
 Checks that evaluation report was produced in validation/results/."""
 import sys, json, os, glob
 
@@ -26,10 +26,10 @@ try:
         parts.append(f"reports={len(report_files)}")
 
     print(json.dumps({
-        "feedback": f"Holdout evaluator PASSED: {', '.join(parts)}"
+        "systemMessage": f"Holdout evaluator PASSED: {', '.join(parts)}"
     }))
     sys.exit(0)
 
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: holdout-evaluator gate error: {e}. Allowing through."}))
+    print(json.dumps({"systemMessage": f"WARNING: holdout-evaluator gate error: {e}. Allowing through."}))
     sys.exit(0)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Dataset Evidence Miner SubagentStop gate. WARN-ONLY — never blocks.
+"""Dataset Evidence Miner SubagentStop gate. WARN-ONLY - never blocks.
 Checks that evidence report and JSON were produced."""
 import sys, json, os
 
@@ -41,10 +41,10 @@ try:
         parts.append(f"warnings=[{'; '.join(warnings)}]")
 
     print(json.dumps({
-        "feedback": f"Dataset evidence miner PASSED: {', '.join(parts)}"
+        "systemMessage": f"Dataset evidence miner PASSED: {', '.join(parts)}"
     }))
     sys.exit(0)
 
 except Exception as e:
-    print(json.dumps({"feedback": f"WARNING: dataset-evidence-miner gate error: {e}. Allowing through."}))
+    print(json.dumps({"systemMessage": f"WARNING: dataset-evidence-miner gate error: {e}. Allowing through."}))
     sys.exit(0)
