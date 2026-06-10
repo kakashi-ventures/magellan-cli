@@ -5,6 +5,20 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.32: Cross-Model Validator -- split per-ipotesi GPT-5.5 Pro (completa la cura TPM di v5.30) (10 giugno 2026)
+
+**Motivazione**: completa la cura del problema TPM diagnosticato in v5.30. Test in ISOLAMENTO (nessuna response concorrente): una singola validazione GPT-5.5 Pro a `xhigh` che copre ENTRAMBE le ipotesi esegue ~23-26 web_search ad alto consumo e raggiunge ~970k/1.000.000 token-al-minuto dell'org, fallendo con `rate_limit_exceeded`. Quindi NON era (solo) colpa delle verifiche lanciate in parallelo durante il debug: anche una sola response satura il tier TPM con questo carico. (Perche' non si vedeva prima: il validator e' stato migrato a gpt-5.5-pro solo di recente; il precedente gpt-5.4-pro era piu' leggero per-minuto. Vedi v5.30.)
+
+**Decisione**: validare UNA ipotesi per chiamata GPT. Dimezza i tool call (e quindi i token/minuto) per response, cosi' ogni chiamata resta sotto il limite e completa in stato `completed` invece di essere salvata da `failed`. Chiamate SEQUENZIALI (mai concorrenti: la concorrenza ricrea la contesa TPM). medium context + `max_tool_calls` da soli riducono il picco ma non bastano (il test in isolamento lo conferma); il dimezzamento per-ipotesi e' la leva strutturale.
+
+**Implementazione** (`scripts/validate-crossmodel.mjs`): nuovo `callOpenAISplit` divide il prompt sui marker `## HYPOTHESIS`, riusa `callOpenAI` per-ipotesi (eredita medium context, `max_tool_calls`, salvage-on-failed, resume), e concatena gli output in `validation-gpt.md`. Fallback automatico al singolo invio se le ipotesi sono <2. Guard di resume: una ipotesi gia' validata (output presente, nessun `.response-id` residuo) viene riusata senza ri-fatturare. Gemini NON e' splittato (modello unico, non consuma il pool TPM OpenAI). Logica di split verificata in unit-test sul prompt reale (2 sotto-prompt, preambolo condiviso); conferma end-to-end alla prossima sessione reale.
+
+**File modificati**:
+- `scripts/validate-crossmodel.mjs` -- `splitGptPrompt` + `callOpenAISplit`; `main()` usa `callOpenAISplit` per il task OpenAI (Gemini invariato)
+- `docs/methodology-v5.md` -- riga GPT-5.5 Pro aggiornata: medium context, `max_tool_calls`, split per-ipotesi, salvage-on-failed (allineata alla v5.30/v5.32, prima diceva ancora "high")
+
+---
+
 ## v5.31: Migrazione pipeline a Claude Fable 5 + harvest prompting + fallback anti-refusal (10 giugno 2026)
 
 **Motivazione**: Il 9 giugno 2026 Anthropic ha rilasciato Claude Fable 5

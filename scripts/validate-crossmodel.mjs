@@ -668,6 +668,68 @@ async function callGemini(promptFile, outputFile) {
 }
 
 // ---------------------------------------------------------------------------
+// Per-hypothesis split (TPM cure). A single GPT-5.5 Pro call validating BOTH
+// hypotheses runs ~30 high-context tool calls and pushes the org to ~1M
+// tokens/min, saturating the TPM tier (S032). Validating ONE hypothesis per
+// call roughly halves the per-minute token rate so each call stays under the
+// limit and completes cleanly. Calls are SEQUENTIAL (never concurrent;
+// concurrency re-creates the contention). Each sub-call reuses callOpenAI, so
+// it inherits medium search context, max_tool_calls, salvage-on-failed and
+// response-id resume. Falls back to a single call if <2 hypotheses are present.
+// Gemini is NOT split: it is one model and does not consume the OpenAI TPM pool.
+// ---------------------------------------------------------------------------
+function splitGptPrompt(prompt) {
+  const lines = prompt.split('\n');
+  const heads = [];
+  lines.forEach((l, i) => { if (/^##\s+HYPOTHESIS\b/i.test(l)) heads.push(i); });
+  if (heads.length < 2) return null; // single hypothesis or unrecognized format: no split
+  const preamble = lines.slice(0, heads[0]).join('\n');
+  return heads.map((startAt, k) => {
+    const endAt = k + 1 < heads.length ? heads[k + 1] : lines.length;
+    const section = lines.slice(startAt, endAt).join('\n');
+    return `${preamble}\n\n${section}\n\n---\n` +
+      `NOTE: Validate ONLY the single hypothesis above. It is sent on its own ` +
+      `(hypothesis ${k + 1} of ${heads.length}) so each response stays within API ` +
+      `rate limits; do not reference or wait for the others.\n`;
+  });
+}
+
+async function callOpenAISplit(promptFile, outputFile) {
+  const subs = splitGptPrompt(readFileSync(promptFile, 'utf8'));
+  if (!subs) return callOpenAI(promptFile, outputFile); // single-hypothesis path unchanged
+  process.stderr.write(`[OpenAI] Per-hypothesis split: ${subs.length} sequential calls (TPM-safe).\n`);
+  const parts = [];
+  const statuses = [];
+  for (let k = 0; k < subs.length; k++) {
+    const subPromptFile = `${promptFile}.h${k + 1}`;
+    const subOutFile = `${outputFile}.h${k + 1}`;
+    // Resume guard: a hypothesis already validated in a prior run leaves its
+    // output file with no lingering response-id; reuse it instead of re-billing.
+    if (existsSync(subOutFile) && !existsSync(`${subOutFile}.response-id`)) {
+      process.stderr.write(`[OpenAI] Hypothesis ${k + 1}/${subs.length} already validated; reusing.\n`);
+      statuses.push('completed');
+    } else {
+      writeFileSync(subPromptFile, subs[k]);
+      process.stderr.write(`[OpenAI] Validating hypothesis ${k + 1}/${subs.length}...\n`);
+      try {
+        const r = await callOpenAI(subPromptFile, subOutFile);
+        statuses.push(r.status || 'completed');
+      } catch (e) {
+        process.stderr.write(`[OpenAI] Hypothesis ${k + 1} failed: ${e.message}\n`);
+        statuses.push('failed');
+      }
+    }
+    let partText = '';
+    try { partText = readFileSync(subOutFile, 'utf8'); } catch (_) { /* ignore */ }
+    parts.push(`# Validation: Hypothesis ${k + 1} of ${subs.length}\n\n${partText || '_(no output recovered)_'}`);
+  }
+  writeFileSync(outputFile, parts.join('\n\n---\n\n'));
+  const status = statuses.every(s => s === 'completed') ? 'completed'
+    : statuses.some(s => s === 'completed' || s === 'partial') ? 'partial' : 'failed';
+  return { status, model: 'gpt-5.5-pro', mode: 'per-hypothesis-split', hypotheses: subs.length, statuses };
+}
+
+// ---------------------------------------------------------------------------
 // Main — run both in parallel
 // ---------------------------------------------------------------------------
 async function main() {
@@ -679,7 +741,7 @@ async function main() {
   if (gptPromptFile && gptOutFile) {
     if (process.env.OPENAI_API_KEY) {
       tasks.push(
-        callOpenAI(gptPromptFile, gptOutFile)
+        callOpenAISplit(gptPromptFile, gptOutFile)
           .then(r => { results.openai = r; })
           .catch(e => {
             process.stderr.write(`[OpenAI] Error: ${e.message}\n`);
