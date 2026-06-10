@@ -19,7 +19,7 @@ sacrificing novelty or rigor.
 
 ## Prerequisites
 
-1. **[Claude Code](https://claude.com/product/claude-code)** — Anthropic's terminal-based AI tool. NOT the web chat or desktop app — the CLI version. **Requires v2.1.166 or later** (the pipeline relies on canonical hook output, `terminalSequence` notifications, hook exec-form, and the `opus` alias resolving to Opus 4.8). Requires a Claude subscription (Pro minimum, Max/Team recommended for Opus access). [Install docs →](https://code.claude.com/docs/it/overview)
+1. **[Claude Code](https://claude.com/product/claude-code)**: Anthropic's terminal-based AI tool (the CLI version, not the web chat or desktop app). **Requires a version recent enough to support the `fable` model alias** (Claude Fable 5, released June 9 2026), plus canonical hook output, `terminalSequence` notifications, and hook exec-form. Run `claude --version` and update if `/model` does not offer Fable 5. Requires a Claude subscription (Pro minimum, Max/Team recommended for Fable 5 access). [Install docs](https://code.claude.com/docs/it/overview)
 
 2. **[Node.js](https://nodejs.org/) 20+** — Required for cross-model validation scripts and website upload. Run `npm install` after cloning to install dependencies.
 
@@ -82,7 +82,7 @@ Phase 5:  Evolver recombines top candidates (conditionally skippable)
 Phase 6:  Quality Gate — 10-point rubric + web grounding + per-claim verification
           → META-VALIDATION reflection before output
           → Session Analyst — meta-learning metrics → knowledge/meta-insights.md
-Phase 7:  Cross-Model Validation — GPT-5.5 Pro (background poll, web search + code interpreter + shell) +
+Phase 7:  Cross-Model Validation — GPT-5.5 Pro (background poll, web search + code interpreter) +
           Gemini Deep Research Max (Interactions API agent: google_search + url_context
           + code_execution, ~80-160 searches/task) → consensus report
           (automatic if API keys set, export files only otherwise)
@@ -99,7 +99,7 @@ Typical runtime: 20-55 minutes. Check progress with `/status`.
 ## After Discovery: Cross-Model Validation
 
 **Automatic**: If `OPENAI_API_KEY` and/or `GEMINI_API_KEY` are set in `.env.local`,
-the pipeline automatically calls GPT-5.5 Pro (background submit + 30s poll, with web search + code interpreter + shell)
+the pipeline automatically calls GPT-5.5 Pro (background submit + 30s poll, with web search + code interpreter)
 and Gemini Deep Research Max (agent `deep-research-max-preview-04-2026` on the
 Interactions API, with google_search + url_context + code_execution, running an
 autonomous research loop of ~80-160 web searches + URL reads + code execution)
@@ -169,17 +169,17 @@ CLAUDE.md                                    ← Project instructions for Claude
 .claude/
   settings.json                              ← Permissions, hooks, Agent Teams
   agents/
-    discovery-orchestrator.md                 ← Dispatches to agents, guard logic [Opus, max]
-    scout.md                                 ← Finds WHERE (10 strategies) [Opus, max]
-    target-evaluator.md                      ← Adversarial target challenge [Opus, max]
-    literature-scout.md                      ← Retrieves literature context [Sonnet, high]
-    computational-validator.md               ← Programmatic bridge checks [Sonnet, high]
-    generator.md                             ← Creates hypotheses [Opus, max]
-    critic.md                                ← Attacks hypotheses (9 attack vectors) [Opus, max]
-    ranker.md                                ← 6-dimension scoring + Elo sanity check [Sonnet, high]
-    evolver.md                               ← Recombines with diversity constraint [Sonnet, high]
-    quality-gate.md                          ← 10-point rubric + web grounding [Opus, max]
-    session-analyst.md                       ← Post-pipeline meta-learning [Sonnet, high]
+    discovery-orchestrator.md                 ← Dispatches to agents, guard logic [Fable, max]
+    scout.md                                 ← Finds WHERE (10 strategies) [Fable, max]
+    target-evaluator.md                      ← Adversarial target challenge [Fable, max]
+    literature-scout.md                      ← Retrieves literature context [Fable, high]
+    computational-validator.md               ← Programmatic bridge checks [Fable, high]
+    generator.md                             ← Creates hypotheses [Fable, max]
+    critic.md                                ← Attacks hypotheses (9 attack vectors) [Fable, max]
+    ranker.md                                ← 6-dimension scoring + Elo sanity check [Fable, high]
+    evolver.md                               ← Recombines with diversity constraint [Fable, high]
+    quality-gate.md                          ← 10-point rubric + web grounding [Fable, max]
+    session-analyst.md                       ← Post-pipeline meta-learning [Fable, high]
   commands/
     discover.md                              ← /discover (main entry point)
     connect.md                               ← /connect contributor key
@@ -256,23 +256,23 @@ verification/
 
 ## Architecture
 
-15 specialized agents with model differentiation (Opus for deep reasoning, Sonnet for structured tasks). Effort levels are pinned per agent (Opus: max, Sonnet: high) to guarantee quality regardless of the user's session-level effort setting:
+15 specialized agents, all running on Claude Fable 5 (`fable`), Anthropic's flagship released June 9 2026. The deep/structured distinction is carried by effort, not model tier: effort `max` for deep reasoning agents, `high` for structured/search agents, pinned per agent to guarantee quality regardless of the user's session-level effort setting. Because Fable 5's safety classifiers can refuse biology/life-sciences content, each agent has a documented rollback to Opus 4.8 (deep) / Sonnet 4.6 (structured), and the orchestrator auto-falls-back on refusal; see `docs/CHANGELOG.md` and `CLAUDE.md`:
 
-- **Scout** [Opus, max] — 10 strategies to find WHERE undiscovered connections hide (incl. structural isomorphism + serendipity). TARGET QUALITY CHECK + strategy diversification + exploration slot + rotating creativity constraint
-- **Target Evaluator** [Opus, max] — Adversarial challenge of Scout targets on 4 axes (popularity, vagueness, impossibility, local-optima)
-- **Literature Scout** [Sonnet, high] — MCP servers (mandatory first step) + WebSearch fallback + full-text paper retrieval + RETRIEVAL QUALITY CHECK reflection
-- **Computational Validator** [Sonnet+Bash, high] — Programmatic bridge verification: KEGG, STRING, PubMed co-occurrence, back-of-envelope physics
-- **Generator** [Opus, max] — Parametric creativity + literature + computational validation → 6-8 hypotheses per cycle. SELF-CRITIQUE + claim-level verification reflection
-- **Critic** [Opus, max] — 9 adversarial attack vectors (incl. claim-level fact verification) + META-CRITIQUE reflection + critic_questions feedback
-- **Ranker** [Sonnet, high] — 6-dimension scoring (Impact decomposed into Paradigm 5% + Translational 5%) + diversity check + Elo tournament sanity check
-- **Evolver** [Sonnet, high] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
-- **Quality Gate** [Opus, max, 35 turns] — 10-point rubric + web novelty + per-claim grounding verification + impact annotation (informational) + META-VALIDATION reflection
-- **Session Analyst** [Sonnet, high] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
-- **Cross-Model Validator** [Sonnet, high] — Calls GPT-5.5 Pro (background poll, reasoning xhigh, web search + code interpreter + shell) + Gemini Deep Research Max (Interactions API agent: google_search + url_context + code_execution) for independent validation → consensus report (requires API keys; falls back to export files)
-- **Convergence Scanner** [Sonnet, high] — Post-QG: searches ClinicalTrials.gov, NIH Reporter, patents for independent convergence signals + partial mechanism confirmations from non-pipeline sources
-- **Dataset Evidence Miner** [Sonnet, high] — Post-QG: queries HPA, GWAS Catalog, ChEMBL, UniProt, PDB via `scripts/query-biodata.py` to verify specific molecular claims in passing hypotheses. Suggests computational follow-up queries
-- **Holdout Evaluator** [Opus, max] — Validation framework: compares MAGELLAN output against known post-cutoff discoveries with contamination check + mechanism similarity scoring
-- **Orchestrator** [Opus, max, 200 turns circuit breaker] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health, meta-learning metrics
+- **Scout** [Fable, max] — 10 strategies to find WHERE undiscovered connections hide (incl. structural isomorphism + serendipity). TARGET QUALITY CHECK + strategy diversification + exploration slot + rotating creativity constraint
+- **Target Evaluator** [Fable, max] — Adversarial challenge of Scout targets on 4 axes (popularity, vagueness, impossibility, local-optima)
+- **Literature Scout** [Fable, high] — MCP servers (mandatory first step) + WebSearch fallback + full-text paper retrieval + RETRIEVAL QUALITY CHECK reflection
+- **Computational Validator** [Fable+Bash, high] — Programmatic bridge verification: KEGG, STRING, PubMed co-occurrence, back-of-envelope physics
+- **Generator** [Fable, max] — Parametric creativity + literature + computational validation → 6-8 hypotheses per cycle. SELF-CRITIQUE + claim-level verification reflection
+- **Critic** [Fable, max] — 9 adversarial attack vectors (incl. claim-level fact verification) + META-CRITIQUE reflection + critic_questions feedback
+- **Ranker** [Fable, high] — 6-dimension scoring (Impact decomposed into Paradigm 5% + Translational 5%) + diversity check + Elo tournament sanity check
+- **Evolver** [Fable, high] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
+- **Quality Gate** [Fable, max, 35 turns] — 10-point rubric + web novelty + per-claim grounding verification + impact annotation (informational) + META-VALIDATION reflection
+- **Session Analyst** [Fable, high] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
+- **Cross-Model Validator** [Fable, high] — Calls GPT-5.5 Pro (background poll, reasoning xhigh, web search + code interpreter) + Gemini Deep Research Max (Interactions API agent: google_search + url_context + code_execution) for independent validation → consensus report (requires API keys; falls back to export files)
+- **Convergence Scanner** [Fable, high] — Post-QG: searches ClinicalTrials.gov, NIH Reporter, patents for independent convergence signals + partial mechanism confirmations from non-pipeline sources
+- **Dataset Evidence Miner** [Fable, high] — Post-QG: queries HPA, GWAS Catalog, ChEMBL, UniProt, PDB via `scripts/query-biodata.py` to verify specific molecular claims in passing hypotheses. Suggests computational follow-up queries
+- **Holdout Evaluator** [Fable, max] — Validation framework: compares MAGELLAN output against known post-cutoff discoveries with contamination check + mechanism similarity scoring
+- **Orchestrator** [Fable, max, 200 turns circuit breaker] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health, meta-learning metrics
 
 ## Conceptual Foundation
 

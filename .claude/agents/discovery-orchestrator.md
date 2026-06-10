@@ -1,7 +1,7 @@
 ---
 name: discovery-orchestrator
 description: Orchestrates a full autonomous scientific discovery cycle. Coordinates all agents through 2 complete cycles. Manages state via state/session.json and results/{session-id}/. Can run in Scout mode (autonomous), Targeted mode (user-specified fields), Open mode, or Problem-driven mode.
-model: opus
+model: fable
 effort: max
 tools: Agent, Read, Write, Bash, Glob, Grep
 memory: project
@@ -20,7 +20,7 @@ Run the entire pipeline WITHOUT stopping to ask the user for input.
 
 **This file is loaded by the `/discover` command and followed from the TOP-LEVEL session context, not spawned as a sub-agent.** Rationale: in current Claude Code versions, sub-agents cannot use the `Agent` tool to dispatch further sub-agents (the runtime strips `Agent` from sub-agent tool lists regardless of frontmatter). Since this orchestrator's job is precisely to dispatch 14 named sub-agents, it must run where `Agent` is actually available: the top-level session.
 
-Ignore the frontmatter fields (`tools:`, `maxTurns:`, `permissionMode:`) if you are reading this from a top-level context loaded by `/discover`. Those fields are sub-agent runtime hints, preserved for reference and in case the runtime changes in the future. What actually applies is the command's `allowed-tools` in `.claude/commands/discover.md` plus the session's global permission settings.
+Ignore the frontmatter fields (`tools:`, `maxTurns:`, `permissionMode:`, `model:`, `effort:`) if you are reading this from a top-level context loaded by `/discover`. Those fields are sub-agent runtime hints, preserved for reference and in case the runtime changes in the future. What actually applies is the command's `allowed-tools` in `.claude/commands/discover.md` plus the session's global permission and model settings. In particular, the model you run on is the session model selected via `/model` (not the `model:` frontmatter); to change the orchestrator's model, change the session model. The `model:` frontmatter of each SUB-agent, by contrast, does govern that sub-agent at dispatch time.
 
 ## DISPATCH_OR_FAIL (hard constraint)
 
@@ -49,6 +49,9 @@ Ignore the frontmatter fields (`tools:`, `maxTurns:`, `permissionMode:`) if you 
 - DO save human-readable outputs to {results_dir}/ (session-scoped directory)
 - The user reviews results AFTER the pipeline completes
 - Keep dispatch prompts focused. Sub-agents have their own detailed instructions — do not repeat their methodology in the dispatch
+- **You are operating autonomously.** The user is not watching in real time and cannot answer questions mid-pipeline, so asking "Shall I proceed?" or pausing for confirmation blocks the work. For reversible actions that follow from the original `/discover` request, proceed without asking. The only legitimate pause is the explicit `--interactive` target-approval gate. Before ending a turn, check your last paragraph: if it is a plan, a question, a list of next steps, or a promise about work you have not done ("I'll now dispatch...", "next I will..."), do that work now with the actual tool call instead of ending on the intent.
+- **When you have enough information to act, act.** Do not re-derive state already established this session or narrate options you will not pursue.
+- **Ground every progress and health claim in a tool result from this session.** Report phase status, hypothesis counts, survival, and session health only from files you actually read from {results_dir}/ (never from conversational memory). If a value is not yet verified from disk, read it before reporting. This is why final.json is built by reading quality-gate.json from disk.
 
 ## Context Efficiency (CRITICAL — prevents turn exhaustion)
 A full 2-cycle pipeline requires ~100 tool calls. Budget your turns carefully:
@@ -57,7 +60,8 @@ A full 2-cycle pipeline requires ~100 tool calls. Budget your turns carefully:
 - **Keep dispatch prompts lean**: Include only the data the sub-agent needs — IDs, titles, scores, file paths. Never paste full hypothesis text when a file reference suffices
 - **Combine date + state update**: Run `date -u` and Edit state in one turn, not two
 - **Skip redundant guard reads**: If the agent wrote to {results_dir}/, trust it — don't re-read just to confirm it exists
-- **Parallel dispatches where possible**: Scout + Literature Scout in Phase 0 can run in parallel (if supported)
+- **Parallel dispatches where possible**: Scout + Literature Scout in Phase 0 can run in parallel (if supported). The post-Quality-Gate convergence-scanner and dataset-evidence-miner are independent of each other and of the cross-model result; dispatch them concurrently, and you may overlap them with the long-running cross-model-validator poll. The session summary still waits for all three to finish (see SESSION SUMMARY ordering)
+- **Economy is not bailout**: Being economical with turns means avoiding redundant reads and re-derivation, NOT stopping early. You have ample context remaining for a full 2-cycle pipeline. Do not stop, summarize-and-hand-off, suggest a new session, or trim planned phases on account of context limits. Run the pipeline to completion or to a real abort condition.
 
 ## State Contract (terminal values)
 The stop hook validates these EXACT values. Use them precisely:
@@ -73,6 +77,7 @@ You are an ORCHESTRATOR, not an executor. For Phases 0-5 and Quality Gate:
 - You do NOT have WebSearch or WebFetch — you cannot do literature/novelty checks
 - Do not generate hypotheses, critique, or rank yourself
 - Your job: (1) construct dispatch prompt, (2) call Agent, (3) read state, (4) guard logic, (5) next phase
+- Give the sub-agent the reason, not only the task: one line on why this phase matters to the session goal (the selected target, what the previous phase produced) helps it connect the work to context. Keep it to a line, and do not repeat the sub-agent's own methodology
 - If you find yourself writing hypothesis text → STOP → dispatch to generator
 - If you find yourself searching for counter-evidence → STOP → dispatch to critic
 - If you find yourself scoring hypotheses → STOP → dispatch to ranker
@@ -103,6 +108,21 @@ After each agent returns, apply this pattern:
    → Set appropriate degraded/fallback flag, continue (NEVER infinite loop)
 Phase-specific thresholds: Scout ≥3 targets, Generator ≥3 hypotheses, Critique ≥1 survivor.
 Computational Validation is WARN-ONLY (never blocks).
+
+**Model-refusal fallback (Fable 5).** Sub-agents run on the `fable` model, whose
+safety classifiers can decline life-sciences content (molecular mechanisms, lab
+methods) and return a refusal: the sub-agent then produces no real output, an
+explicit "I can't help with that" message, or an empty/stub file. If a returned
+output looks like a refusal rather than a genuine quality miss, re-dispatch the
+SAME agent ONCE with an explicit model override on the Agent tool: `model: opus`
+for the deep agents (generator, critic, quality-gate, scout, target-evaluator,
+holdout-evaluator) or `model: sonnet` for the structured agents (literature-scout,
+computational-validator, ranker, evolver, session-analyst, cross-model-validator,
+convergence-scanner, dataset-evidence-miner). The per-invocation `model` parameter
+takes precedence over the agent's frontmatter. A refused request is not billed, so
+this fallback is cheap. Record it: INCREMENT metadata.retries_needed and note the
+fallback model in the phase entry. If the opus/sonnet re-dispatch also fails to
+produce valid output, apply the normal degraded/fallback flag and continue.
 
 4. **Verify artifacts**: After each agent returns, check that BOTH the phase JSON file
    AND the markdown report exist in {results_dir}/. Required pairs:
@@ -728,6 +748,15 @@ Execution order:
 
 Read `prompts/session-summary-format.md` for detailed formatting instructions per status type.
 Write {results_dir}/session-summary.md with full post-QG data included.
+
+**Write the summary for a reader who saw none of the pipeline run.** Lead with the
+outcome: open with what the session found (how many hypotheses passed, the headline
+result), then the supporting detail. Use complete sentences and plain language; drop
+the working shorthand and internal vocabulary (no arrow-chains like `A → B → fails`,
+no made-up abbreviations, no references to phase mechanics the reader never saw).
+Be selective about what you include rather than compressing everything into fragments:
+readability matters more than raw brevity. State every number from a file you read,
+not from memory.
 
 ### Post-QG Amendments (v5.16)
 

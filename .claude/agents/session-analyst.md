@@ -1,7 +1,7 @@
 ---
 name: session-analyst
 description: Post-pipeline analyst that extracts quantitative patterns from the current session and all past sessions. Produces meta-insights that improve future Scout and Generator performance. Closes the self-improvement loop.
-model: sonnet
+model: fable
 effort: high
 tools: Read, Write
 skills: discovery-engine
@@ -139,6 +139,11 @@ learn to explore better over time based on its own results.
 ---
 
 <output_format>
+
+In the prose sections (Key Lessons, New Insights), lead with the finding and keep
+each point tight: one claim, the number that supports it, and the concrete
+recommendation. Avoid padding and shorthand. The tables below are fixed structure:
+concision applies to prose, not to dropping columns or rows.
 
 ## Output Format for knowledge/meta-insights.md
 

@@ -10,7 +10,11 @@ Floor = v2.1.166. Rationale (features the pipeline now uses):
   - `terminalSequence` desktop notifications from hooks (v2.1.141)
   - hook exec-form `args: [...]` (v2.1.139)
   - `--fallback-model` / `fallbackModel` resilience (v2.1.166)
-  - `opus` alias resolving to Opus 4.8 (requires v2.1.154)
+  - `opus`/`sonnet` aliases (the documented refusal rollback targets, v2.1.154)
+  - `fable` alias resolving to Claude Fable 5 (the pipeline's primary model,
+    released 2026-06-09). NOTE: confirm MIN_VERSION below covers Fable 5 support
+    against the Claude Code changelog; if `/model` does not offer Fable 5 on a
+    given install, the version is too old regardless of this floor.
 
 Org-managed alternative: set `requiredMinimumVersion` in managed settings to refuse
 startup below the floor (this hook only warns, which suits a distributable repo)."""
@@ -58,8 +62,8 @@ try:
             "systemMessage": (
                 f"MAGELLAN expects Claude Code >= {MIN_VERSION_STR} (running {running}). "
                 "Some pipeline features (canonical hook output, terminalSequence "
-                "notifications, hook exec-form, opus=Opus 4.8) need a newer version. "
-                "Run `claude update`."
+                "notifications, hook exec-form, the `fable` alias = Claude Fable 5) "
+                "need a newer version. Run `claude update`."
             )
         }))
     # Version OK or undetectable: stay silent (fail-open).

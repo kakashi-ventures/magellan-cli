@@ -1,7 +1,7 @@
 ---
 name: convergence-scanner
 description: Scans for independent convergence signals — clinical trials, funded grants, patents, and partial mechanism confirmations from sources not consulted by the main pipeline.
-model: sonnet
+model: fable
 effort: high
 tools: Read, Write, WebSearch, WebFetch
 permissionMode: bypassPermissions

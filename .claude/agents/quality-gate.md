@@ -1,7 +1,7 @@
 ---
 name: quality-gate
 description: Final quality check on surviving hypotheses. 9-point rubric + web novelty verification. Determines PASS/FAIL for each hypothesis.
-model: opus
+model: fable
 effort: max
 tools: Read, Write, WebSearch, WebFetch
 skills: hypothesis-validation, discovery-engine
@@ -169,6 +169,10 @@ Review your own verdicts:
 <output_format>
 
 ## Output Format
+Keep the Evidence cells terse and concrete: the specific reason for PASS/FAIL plus
+the search or source that supports it, not a restatement of the claim. Plain
+sentences, no shorthand. Fill every row of the rubric exactly as specified:
+concision applies to the prose, never to skipping a check.
 
 ```
 # Quality Gate Results

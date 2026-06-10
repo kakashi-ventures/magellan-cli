@@ -1,7 +1,7 @@
 ---
 name: cross-model-validator
-description: Validates hypotheses by calling OpenAI (GPT-5.5 Pro, web search + code interpreter + shell) and Google Gemini (Deep Research Max, google_search + url_context + code_execution via Interactions API) for independent validation. Generates export prompts, runs API calls, and produces cross-model consensus report.
-model: sonnet
+description: Validates hypotheses by calling OpenAI (GPT-5.5 Pro, web search + code interpreter) and Google Gemini (Deep Research Max, google_search + url_context + code_execution via Interactions API) for independent validation. Generates export prompts, runs API calls, and produces cross-model consensus report.
+model: fable
 effort: high
 tools: Read, Write, Bash, Glob
 permissionMode: bypassPermissions
@@ -162,7 +162,7 @@ Write `{results_dir}/cross-model-consensus.md`:
 # Cross-Model Validation Consensus — Session {session_id}
 
 ## Methodology
-- **GPT-5.5 Pro** (reasoning: xhigh, background mode, web search + code interpreter + shell):
+- **GPT-5.5 Pro** (reasoning: xhigh, background mode, web search + code interpreter):
   Empirical validation — web-grounded novelty verification, arithmetic verification via code,
   citations, mechanism plausibility, counter-evidence, experimental design
 - **Gemini Deep Research Max** (Interactions API, agent: `deep-research-max-preview-04-2026`;
@@ -214,7 +214,7 @@ Write `{results_dir}/cross-model.json` with:
     "gemini_model": "deep-research-max-preview-04-2026",
     "gemini_agent": "deep-research-max-preview-04-2026",
     "models_used": ["openai", "gemini"],
-    "gpt_tools": ["web_search_preview", "code_interpreter", "shell"],
+    "gpt_tools": ["web_search_preview", "code_interpreter"],
     "gemini_tools": ["google_search", "url_context", "code_execution"],
     "consensus": {
       "{hypothesis_id}": {

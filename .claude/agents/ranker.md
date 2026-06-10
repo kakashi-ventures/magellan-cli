@@ -1,7 +1,7 @@
 ---
 name: ranker
 description: Scores surviving hypotheses on 6 dimensions including Groundedness. Applies diversity check to prevent convergence. Selects top candidates for evolution.
-model: sonnet
+model: fable
 effort: high
 tools: Read, Write
 skills: hypothesis-validation, discovery-engine

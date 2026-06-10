@@ -5,6 +5,123 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.31: Migrazione pipeline a Claude Fable 5 + harvest prompting + fallback anti-refusal (10 giugno 2026)
+
+**Motivazione**: Il 9 giugno 2026 Anthropic ha rilasciato Claude Fable 5
+(`claude-fable-5`, alias `fable`), il flagship GA piu' capace, e Claude Mythos 5
+(`claude-mythos-5`, stesse capacita' senza classificatori, gated su Project
+Glasswing). Fable 5 migliora Opus 4.8 in autonomia long-horizon, correttezza
+al primo colpo, vision, recall di code review/debugging, e soprattutto delega
+di sub-agenti in parallelo: capacita' centrali per una pipeline a 15 agenti.
+Decisione dell'autore: testare Fable 5 il piu' possibile in tutta la pipeline,
+con rollback per-agente dove i classificatori dovessero rifiutare.
+
+**Tensione strutturale (dichiarata, non ipotizzata)**: la guida ufficiale dice
+che Fable 5 esegue classificatori che possono rifiutare contenuti di biologia e
+scienze della vita (`molecular mechanisms`, `lab methods`) con
+`stop_reason: "refusal"`, e che "Claude Fable 5 is not intended for ... biology
+and life sciences work". MAGELLAN e' ottimizzato proprio per le scienze della
+vita, quindi gli agenti che generano/verificano meccanismi molecolari sono i
+piu' esposti. Questa e' la ragione del layer di fallback sotto.
+
+**Cambiamenti**:
+1. **Modello**: tutti i 15 file `.claude/agents/*.md` passano da
+   `model: opus` / `model: sonnet` a `model: fable`. Effort INVARIATO (`max`
+   per i 7 deep, `high` per gli 8 structured: entrambi validi su Fable 5,
+   verificato sulla doc sub-agents di Claude Code). La distinzione deep/structured
+   ora la porta l'effort, non il tier di modello.
+2. **Orchestratore**: gira sul modello di sessione (`/model`), non sul
+   frontmatter (al top-level il `model:`/`effort:` di frontmatter e' informativo).
+   Esteso il commento "Execution context" per documentarlo; il rollback
+   dell'orchestratore e' un `/model`, non una modifica al file.
+3. **Fallback anti-refusal nel Guard Protocol**: se un sub-agente ritorna un
+   refusal o output vuoto/stub, l'orchestratore lo ri-dispatcha UNA volta con
+   override `model: opus` (deep) o `model: sonnet` (structured) come parametro
+   per-invocazione del tool Agent (ha priorita' sul frontmatter; verificato
+   sull'ordine di risoluzione: env > per-invocation > frontmatter > sessione).
+   Un refusal non e' fatturato, quindi il fallback e' economico. Rollback
+   persistente per i refuser sistematici: frontmatter a `opus`/`sonnet`.
+   Mappa di esposizione (dal piu' esposto): generator, critic, quality-gate,
+   computational-validator, literature-scout, dataset-evidence-miner,
+   convergence-scanner (alta); holdout-evaluator, scout (media); il resto bassa.
+4. **Harvest prompting (model-agnostic + Fable-5)** su `discovery-orchestrator.md`:
+   reminder di operazione autonoma (non chiedere conferma mid-pipeline; non
+   chiudere il turno su un intento, esegui la tool call); rassicurazione
+   context-budget ("economia != bailout: non interrompere/riassumere/proporre
+   nuova sessione per i limiti di contesto"); grounding di ogni progress/health
+   claim su un tool result letto da disco; "when you have enough info, act";
+   "give the reason, not only the task" nei dispatch; dispatch concorrente di
+   convergence-scanner + dataset-evidence-miner (in overlap col poll lungo del
+   cross-model). Addendum brevita'/leggibilita' (lead-with-outcome, frasi
+   complete, niente arrow-chain) su session summary e sulle sezioni output di
+   Critic, Quality-Gate, Session-Analyst. I contratti di output validati dagli
+   hook (campi JSON, tag `[GROUNDED]`, rubriche, tassonomie di verdetto) sono
+   stati preservati: la concisione tocca solo la prosa.
+5. **Audit reasoning_extraction (rischio basso, nessuna modifica)**: la guida
+   Fable 5 avverte che istruzioni a "trascrivere/echeggiare il ragionamento"
+   possono scatenare il refuso `reasoning_extraction`. Verificato: nessun prompt
+   o `output_format` chiede una trascrizione del ragionamento interno. Le
+   reflection loop (SELF-CRITIQUE, META-CRITIQUE, ecc.) producono output
+   strutturato (ipotesi riviste, verdetti, punteggi), non chain-of-thought:
+   restano invariate. Nota: l'auto-verifica via sub-agent a contesto fresco che
+   Fable 5 raccomanda MAGELLAN ce l'ha gia' (Critic e Quality Gate separati).
+6. **Audit skills (nessuna modifica)**: le 5 skill (`discovery-engine`,
+   `domain-life-sciences`, `domain-physics-math`, `hypothesis-validation`,
+   `literature-retrieval`) sono snelle (36-136 righe) e referenziali (zone di
+   connessione, pattern di ricerca, scoring), non istruzioni comportamentali
+   sovra-prescrittive: nessuna potatura giustificata. Nota: `domain-life-sciences`
+   inietta contenuto molecolare nei prompt che la caricano, contribuendo
+   all'esposizione ai refusal.
+7. **Docs sync**: CLAUDE.md (tabella architettura -> Fable; principio
+   modello+effort; nuovo principio fallback; alias resolution); README.md
+   (prerequisiti, tag agenti, principio); methodology-v5.md (overview, tabella
+   modelli interni, nuova reference benchmark Fable 5); `scripts/init-session.sh`
+   (stamp `model` -> `claude-fable-5`); `scripts/version-check-hook.py`
+   (rationale e messaggio: alias `fable`, floor da confermare contro il changelog
+   CC per il supporto Fable 5).
+
+**Costo**: Fable 5 e' $10/$50 per MTok, contro Opus 4.8 $5/$25 e Sonnet 4.6
+$3/$15. La migrazione alza il costo Anthropic ~2x sugli agenti gia' Opus e ~3.3x
+su quelli gia' Sonnet (~2-3x per sessione). Gli agenti structured/search sono
+dove Fable 5 costa di piu' e porta meno valore di ragionamento: opzione informata
+se il costo diventa un problema, tenerli su Sonnet 4.6.
+
+**Stato di validazione (NON ancora validato end-to-end)**: questa e' una
+migrazione di alias + harvest + fallback; il request surface di Fable 5 e' lo
+stesso su cui girava la pipeline (adaptive-thinking-only, no sampling params, no
+prefill), quindi nessuna modifica API/codice. Da fare prima di dichiararla
+validata: (1) una sessione `/discover` completa su Fable 5, monitorando
+`stop_reason: refusal`, output vuoti/troncati, trigger degli stop-gate e
+l'effettivo scatto del fallback automatico; (2) un confronto A/B
+`/validate-holdout` Fable 5 vs baseline Opus 4.8/Sonnet 4.6 (verdetto di
+rediscovery, similarita' di meccanismo, composito/groundedness QG) per misurare
+il beneficio reale, non solo l'assenza di refusal. La pipeline e' stata
+validata end-to-end l'ultima volta su Opus 4.7.
+
+---
+
+## v5.30: Cross-Model Validator GPT-5.5 Pro -- causa reale (saturazione TPM), shell rimossa, hardening (9 giugno 2026)
+
+**Motivazione**: Nella sessione S032 (`2026-06-09-scout-032`) la validazione GPT-5.5 Pro non si e' mai completata: la response restava `in_progress` per oltre 7 ore (431 min), ben oltre il cap di 4 ore, senza output, senza errore, senza `required_action`. Gemini DR Max invece completava regolarmente (~14 min). Indagine con probe controllati + documentazione ufficiale OpenAI (guides/tools-shell): `scripts/validate-crossmodel.mjs` passava il tool `{ type: 'shell' }`, che l'API espande di default a una shell CLIENT-SIDE (`environment.type: 'local'`). Una local shell richiede che l'integratore esegua i `shell_call` e rimandi `shell_call_output` in un turno successivo; lo script fa solo submit in background + polling e non serve mai quelle chiamate, quindi alla prima invocazione della shell la response si bloccherebbe. ATTENZIONE (correzione lasciata a memoria): questa era la PRIMA ipotesi ed era SBAGLIATA come causa del blocco S032 -- un re-run SENZA shell si e' bloccato ugualmente per 4 ore. La shell e' un bug latente reale (rimosso comunque), ma NON la causa di questo blocco. La prova "0 output = stallo" era anch'essa errata: per le response background `in_progress`, `output[]` e' sempre vuoto fino allo stato terminale.
+
+**Probe di isolamento** (hanno anche corretto una mia prima diagnosi sbagliata, "0 output = stallo", in realta' `output[]` e' vuoto per qualsiasi response background `in_progress`): response minimale (no tool, effort high) completa in 15s; `web_search_preview` + `code_interpreter` (no shell, effort high) completa in 45s con web search + code realmente eseguiti. Quindi background mode e tool server-side funzionano: l'unica differenza nel caso bloccato era la local shell.
+
+**Scoperta API (mutua esclusione)**: l'unica shell background-safe e' quella HOSTED (`environment.type: 'container_auto'`, server-side come code_interpreter), MA l'API rifiuta code_interpreter + hosted shell insieme: *"code_interpreter and shell with an OpenAI-managed container cannot be used together at the same time"* (`mutually_exclusive_parameters`). Tenere la shell imporrebbe quindi di rimuovere code_interpreter. La config originale (code_interpreter + shell:local) era la peggiore: teneva code_interpreter ma aggiungeva una local shell che si blocca, e non avrebbe potuto usare la hosted shell comunque.
+
+**Decisione**: per la validazione (verifica aritmetica/statistica + novelty) il sandbox Python di `code_interpreter` e' lo strumento managed-container piu' utile (gli errori che il QG ha trovato su E5 erano proprio esponenti/aritmetica); `web_search_preview` copre la novelty. La capacita' shell (curl/wget/pip/CLI per dataset reali) e' secondaria. Quindi: rimossa la shell, mantenuti `code_interpreter` + `web_search_preview`. Se in futuro servisse il data-fetching, usare hosted-shell-DA-SOLA (senza code_interpreter) e aggiornare la logica di estrazione `shell_call_output`.
+
+**Aggiunto**: flag `--effort` in `validate-crossmodel.mjs` (default invariato `xhigh`, scelta confermata dall'autore) per poter usare `high` quando la latenza conta. Default produzione resta `xhigh` (l'orchestratore chiama lo script senza flag). Nota operativa: con `xhigh` la response GPT-5.5 Pro impiega 30-90 min, quindi la finestra di attesa dell'orchestratore deve tollerare l'intero range (lo script polla fino a 4 ore). La causa del blocco S032 NON era la shell ma la saturazione del rate-limit TPM (vedi sotto).
+
+**Causa reale (misurata, non ipotizzata)**: la validazione di 2 ipotesi a `xhigh` con ~30 tool call (web_search ad alto contesto + code_interpreter) consuma ~1.000.000 token/minuto e satura il tier TPM dell'org. Probe controllati: response minimale 15s; web+code con prompt banale 45s; ma il prompt di validazione completo (147 righe, 2 ipotesi) genera 23-26 web_search ad alto contesto e fallisce con `rate_limit_exceeded` ("Used 990297 / Limit 1000000 TPM"). Senza cap la response viene strozzata e resta `in_progress` per ore; con `max_tool_calls` termina in 7-16 min ma puo' toccare il limite TPM ALLA FINE, dopo aver gia' prodotto il report completo.
+
+**Fix TPM**: (1) `search_context_size` `'high'`->`'medium'` (ogni ricerca ad alto contesto inietta molti token; con ~30 ricerche e' la leva principale); (2) `max_tool_calls: 40` (la response termina sempre); (3) **salvage-on-failed** (se `failed` ma con un messaggio gia' generato, recupera il report invece di scartarlo -- cosi' e' stato recuperato il report reale di S032: E7 4/10, E5 4/10); (4) output **report-first** (verdetti prima del reasoning verboso, cosi' l'estratto da 5000 char caricato da `upload-session.mjs` contiene i verdetti). Per il completamento PULITO senza toccare il TPM: validare UNA ipotesi per chiamata (dimezza i token/min per call) o alzare il tier TPM dell'org.
+
+**File modificati**:
+- `scripts/validate-crossmodel.mjs` -- `search_context_size` medium, `max_tool_calls: 40`, salvage-on-failed, output report-first; rimosso `{ type: 'shell' }` (bug latente local-shell + mutua esclusione con code_interpreter, NON la causa del blocco); aggiunto flag `--effort` (default xhigh); aggiornati commenti header e log di submit
+- `CLAUDE.md`, `README.md`, `docs/methodology-v5.md`, `.claude/agents/cross-model-validator.md` -- rimosso "shell" dalla descrizione dei tool GPT-5.5 Pro effettivamente usati e dall'array `gpt_tools`. Mantenuta in `methodology-v5.md` (sezione reference benchmark) la riga che elenca i tool *supportati dal modello* (che includono davvero shell/file_search/MCP): e' un dato di fatto sul modello, non sulla nostra config
+
+---
+
 ## v5.29: Allineamento hook allo schema canonico + quick wins changelog CC (9 giugno 2026)
 
 **Motivazione**: Review del changelog ufficiale di Claude Code (maggio-giugno 2026) per individuare nuove funzioni utili alla pipeline (esclusi i bugfix). La verifica sui file reali ha rivelato un difetto di correttezza: tutti gli stop-gate emettevano la guida non bloccante nel campo `feedback`, che NON e' un campo riconosciuto dallo schema hook di Claude Code (campi validi: `decision`, `reason`, `continue`, `stopReason`, `suppressOutput`, `systemMessage`, `terminalSequence`, `hookSpecificOutput.additionalContext`). Claude Code lo scartava in silenzio: i blocchi hard funzionavano (usano `decision:block` o `exit 2` + stderr) ma i messaggi "PASSED", i warning e i "continue" non arrivavano da nessuna parte. Inoltre l'orchestrator-stop-gate usava `decision:"approve"`, valore inesistente (per consentire lo stop si omette `decision`).

@@ -1,7 +1,7 @@
 ---
 name: evolver
 description: Recombines and refines top hypotheses through crossover, mutation, specification, and generalization. Enforces diversity constraint to prevent convergence.
-model: sonnet
+model: fable
 effort: high
 tools: Read, Write
 skills: discovery-engine

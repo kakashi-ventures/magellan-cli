@@ -4,7 +4,8 @@
 // for independent validation of MAGELLAN hypotheses.
 //
 // Tools enabled:
-//   GPT-5.5 Pro: web_search_preview (high), code_interpreter, shell
+//   GPT-5.5 Pro: web_search_preview (high), code_interpreter (server-side only;
+//     no client-side `shell` tool — see OPENAI_TOOLS note below)
 //   Gemini Deep Research Max: google_search, url_context, code_execution (SDK defaults for deep-research agents)
 //
 // API contracts:
@@ -48,6 +49,10 @@ const gptPromptFile   = getArg('--gpt-prompt');
 const gptOutFile      = getArg('--gpt-out');
 const geminiPromptFile = getArg('--gemini-prompt');
 const geminiOutFile    = getArg('--gemini-out');
+// Reasoning effort for GPT-5.5 Pro. Default 'xhigh' (deepest). 'high' is much
+// faster and sufficient for validation (novelty + arithmetic checks) — pass
+// `--effort high` when latency matters. Supported: 'medium' | 'high' | 'xhigh'.
+const reasoningEffort = getArg('--effort') || 'xhigh';
 
 // ---------------------------------------------------------------------------
 // OpenAI: GPT-5.5 Pro, background submit + poll (streaming not supported).
@@ -55,7 +60,7 @@ const geminiOutFile    = getArg('--gemini-out');
 // Reasoning effort: 'xhigh' (with single fallback to 'high'). Supported values
 // on gpt-5.5-pro: 'medium', 'high', 'xhigh'.
 //
-// Tools: web_search_preview (high), code_interpreter, shell.
+// Tools: web_search_preview (high), code_interpreter (both server-side).
 //
 // Response shape notes:
 //   - shell tool produces paired items: shell_call (the request) and
@@ -72,11 +77,36 @@ const geminiOutFile    = getArg('--gemini-out');
 const OPENAI_WALL_CLOCK_MS = 4 * 60 * 60 * 1000; // 4 hours
 const OPENAI_POLL_INTERVAL_MS = 30 * 1000;       // 30 s
 
+// NOTE: do NOT add the `shell` tool here. Two empirically-verified reasons (2026-06-09):
+//  1. Bare `{ type: 'shell' }` defaults to a CLIENT-SIDE local shell
+//     (`environment.type: 'local''`): the model emits shell_call items and the
+//     integrator must execute them and submit shell_call_output back in a follow-up
+//     turn. This background submit+poll flow never services those calls, so the
+//     response stalls in `in_progress` forever (no error, no required_action) past
+//     the wall-clock cap. (A real latent bug, removed -- but NOT the cause of the
+//     S032 hang; that was TPM-rate saturation from heavy tool use. See CHANGELOG v5.30.)
+//  2. The only background-safe shell is HOSTED (`environment.type: 'container_auto'`),
+//     but the API rejects code_interpreter + hosted shell together:
+//     "code_interpreter and shell with an OpenAI-managed container cannot be used
+//     together at the same time" (mutually_exclusive_parameters). So keeping shell
+//     would force DROPPING code_interpreter.
+// For validation (arithmetic/statistics verification + novelty), code_interpreter's
+// Python sandbox is the more valuable managed-container tool; web_search_preview
+// covers novelty. If a future validation genuinely needs data-fetching/CLI tools,
+// switch to hosted-shell-ALONE (drop code_interpreter) and update the extraction
+// logic below to read shell_call_output items.
 const OPENAI_TOOLS = [
-  { type: 'web_search_preview', search_context_size: 'high' },
+  // 'medium' (not 'high') search context: a high-context web search pulls a large
+  // amount of content into the token stream; with ~30 searches per validation that
+  // saturates the org TPM tier (S032: gpt-5.5-pro xhigh hit the 1,000,000 tokens/min
+  // limit, hanging/failing the response). 'medium' cuts per-search token intake.
+  { type: 'web_search_preview', search_context_size: 'medium' },
   { type: 'code_interpreter', container: { type: 'auto' } },
-  { type: 'shell' },
 ];
+// Bound the tool-calling loop so the response always terminates. Uncapped, the
+// 2-hypothesis validation ran 4-7h without finishing (S032). A full report needs
+// ~30 calls; 40 leaves headroom while preventing a runaway loop.
+const OPENAI_MAX_TOOL_CALLS = 40;
 
 async function submitOpenAI(client, prompt, effort) {
   return client.responses.create({
@@ -84,6 +114,7 @@ async function submitOpenAI(client, prompt, effort) {
     input: [{ role: 'user', content: [{ type: 'input_text', text: prompt }] }],
     reasoning: { effort, summary: 'auto' },
     tools: OPENAI_TOOLS,
+    max_tool_calls: OPENAI_MAX_TOOL_CALLS,
     background: true,
     store: true,
   });
@@ -104,14 +135,14 @@ async function callOpenAI(promptFile, outputFile) {
     responseId = readFileSync(responseIdFile, 'utf8').trim();
     process.stderr.write(`[OpenAI] Resuming response ${responseId} from ${responseIdFile}\n`);
   } else {
-    process.stderr.write('[OpenAI] Submitting gpt-5.5-pro (reasoning: xhigh, background, web_search + code_interpreter + shell)...\n');
+    process.stderr.write(`[OpenAI] Submitting gpt-5.5-pro (reasoning: ${reasoningEffort}, background, web_search + code_interpreter)...\n`);
     let submitted;
     try {
-      submitted = await submitOpenAI(client, prompt, 'xhigh');
+      submitted = await submitOpenAI(client, prompt, reasoningEffort);
     } catch (err) {
       const msg = err?.message || String(err);
-      if (/reasoning|effort|xhigh/i.test(msg)) {
-        process.stderr.write(`[OpenAI] xhigh rejected, retrying with high: ${msg}\n`);
+      if (/reasoning|effort|xhigh/i.test(msg) && reasoningEffort !== 'high') {
+        process.stderr.write(`[OpenAI] ${reasoningEffort} rejected, retrying with high: ${msg}\n`);
         submitted = await submitOpenAI(client, prompt, 'high');
       } else {
         throw err;
@@ -165,11 +196,24 @@ async function callOpenAI(promptFile, outputFile) {
       try { renameSync(responseIdFile, `${responseIdFile}.incomplete`); } catch (_) { /* ignore */ }
       break;
     }
-    if (response.status === 'failed' || response.status === 'cancelled') {
-      // No recoverable output. Move the id file aside for forensics; next run
-      // will start a fresh submission.
+    if (response.status === 'failed') {
+      // A heavy validation can hit the org TPM rate limit AFTER generating its full
+      // report (S032: ~990k/1M tokens-per-min). If a message with text exists, salvage
+      // it as partial rather than discard a complete report; only throw if truly empty.
+      const hasText = (response.output || []).some(
+        it => it.type === 'message' && (it.content || []).some(c => c.type === 'output_text' && c.text)
+      );
       try { renameSync(responseIdFile, `${responseIdFile}.failed`); } catch (_) { /* ignore */ }
-      throw new Error(`OpenAI ${response.status}: ${response.error?.message || 'no error message'}`);
+      if (hasText) {
+        process.stderr.write(`[OpenAI] status=failed (${response.error?.message || 'no message'}) but report present. Salvaging.\n`);
+        terminalStatus = 'failed_salvaged';
+        break;
+      }
+      throw new Error(`OpenAI failed (no recoverable output): ${response.error?.message || 'no error message'}`);
+    }
+    if (response.status === 'cancelled') {
+      try { renameSync(responseIdFile, `${responseIdFile}.cancelled`); } catch (_) { /* ignore */ }
+      throw new Error(`OpenAI cancelled: ${response.error?.message || 'no error message'}`);
     }
   }
 
@@ -237,10 +281,12 @@ async function callOpenAI(promptFile, outputFile) {
     const reason = response.incomplete_details?.reason || 'unknown';
     output += `> **PARTIAL OUTPUT** (status=incomplete, reason=${reason}, after ${duration}s).\n`;
     output += `> Response id ${responseId} preserved at ${responseIdFile}.incomplete for forensics.\n\n---\n\n`;
+  } else if (terminalStatus === 'failed_salvaged') {
+    output += `> **SALVAGED REPORT** (status=failed: ${response.error?.message || 'terminal error'}, after ${duration}s).\n`;
+    output += `> The model produced this report before the terminal error (typically the org TPM rate limit); content recovered. Response id ${responseId} preserved at ${responseIdFile}.failed.\n\n---\n\n`;
   }
-  if (reasoningSummary) {
-    output += `## GPT-5.5 Pro Reasoning Summary\n\n${reasoningSummary}\n\n---\n\n`;
-  }
+  // Report first: the verdicts are the deliverable and the upload excerpt is the head.
+  // (The reasoning summary, appended at the end, is supplementary and can be verbose.)
   output += text;
   if (annotations.length > 0) {
     output += '\n\n---\n\n## Citations\n\n';
@@ -263,6 +309,10 @@ async function callOpenAI(promptFile, outputFile) {
       if (s.stderr) output += `stderr:\n\`\`\`\n${s.stderr}\n\`\`\`\n`;
       output += '\n';
     }
+  }
+
+  if (reasoningSummary) {
+    output += `\n\n---\n\n## GPT-5.5 Pro Reasoning Summary (supplementary)\n\n${reasoningSummary}\n`;
   }
 
   writeFileSync(outputFile, output);
