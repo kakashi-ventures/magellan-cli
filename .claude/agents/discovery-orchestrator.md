@@ -626,6 +626,26 @@ For each hypothesis in `final.json`, merge from quality-gate.json (match by `id`
 
 **Verify** after writing: hypothesis count, verdicts, composites match QG; all text fields meet length minimums. Rewrite from QG if mismatch.
 
+### Enrich final.json (typed counter-evidence / contradictions)
+
+As the **LAST writer of final.json** (run this after the rubric+text enrichment above,
+so the block is not clobbered), run the deterministic counter-evidence enrichment:
+
+```bash
+python3 scripts/enrich-final-counter-evidence.py {results_dir}
+```
+
+This attaches a typed `counter_evidence` block to every hypothesis in `final.json`,
+assembled DETERMINISTICALLY from `quality-gate.json` + `cycle*-critiqued.json` (JSON
+sources only — never by scraping markdown). It satisfies the project rule "Every
+hypothesis MUST have ... counter-evidence" by carrying the Critic's per-vector attacks,
+survival note, and the QG `key_risk` / `claims_failed` / `conditions` through to the
+published artifact instead of dropping them at the final.json boundary. The script is
+idempotent, schema-tolerant (handles every observed Critic/QG schema variant), and
+writes a one-time `final.json.bak`. Do NOT hand-author this block — it must be the
+deterministic merge so the values are compression-immune. Confirm via the printed
+`N/N hypotheses carry adversarial signal; markdown-scrape fallbacks: 0` line.
+
 ## DELIVERABLES VERIFICATION (before session summary)
 
 Before writing the session summary, verify ALL required artifacts exist.

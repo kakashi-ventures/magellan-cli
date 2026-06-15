@@ -114,6 +114,9 @@ The orchestrator delegates operational code and reference schemas to external fi
 - `prompts/session-summary-format.md` — Session summary formatting per status type
 - `prompts/ingest-schema.json` — Schema for the ingest manifest
 - `prompts/knowledge-schema.json` — Schema for discovery-log entries
+- `scripts/enrich-final-counter-evidence.py` — Deterministic merge of the typed
+  adversarial record (Critic attacks + QG key_risk/claims_failed) into final.json's
+  `counter_evidence` field. JSON sources only, schema-tolerant, idempotent.
 
 ## Commands
 - `/discover` — Full autonomous (Scout finds targets)
@@ -307,6 +310,14 @@ confidence, groundedness assessment.
 - **final.json text enrichment** — The orchestrator extracts mechanism,
   supporting_evidence, and test_protocol text from final-hypotheses.md into
   final.json. The upload script requires these fields (>= 200, >= 50, >= 100 chars).
+- **final.json counter-evidence enrichment** — As the LAST writer of final.json, the
+  orchestrator runs `scripts/enrich-final-counter-evidence.py {results_dir}` to attach
+  a typed `counter_evidence` block (Critic per-vector attacks + survival note + QG
+  `key_risk`/`claims_failed`/`conditions`) to every hypothesis. Assembled
+  DETERMINISTICALLY from `quality-gate.json` + `cycle*-critiqued.json` (no markdown
+  scraping), so the contradictions that shaped each verdict survive to the published
+  artifact — satisfying the "Every hypothesis MUST have counter-evidence" rule, which
+  the old final.json (verdict/composite/mechanism only) violated.
 - **DEM follow-up suggestions** — The Dataset Evidence Miner appends
   "Suggested Computational Follow-Ups" with specific, actionable database queries
   a researcher could run to further validate hypotheses without wet-lab work.
