@@ -9,7 +9,7 @@ MODE="${1:?Usage: init-session.sh <MODE> <NEXT_NUM>}"
 NEXT_NUM="${2:?Usage: init-session.sh <MODE> <NEXT_NUM>}"
 
 # Read contributor key if connected to MAGELLAN web profile
-CONTRIBUTOR_KEY=$(cat .magellan/config.json 2>/dev/null | grep -o '"contributor_key":"[^"]*"' | cut -d'"' -f4)
+CONTRIBUTOR_KEY=$(cat .magellan/config.json 2>/dev/null | grep -o '"contributor_key":"[^"]*"' | cut -d'"' -f4 || true)
 
 # Generate session_id, then create directories
 SESSION_ID="$(date +%Y-%m-%d)-${MODE}-$(printf '%03d' "$NEXT_NUM")"
