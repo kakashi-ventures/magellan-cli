@@ -1,9 +1,12 @@
 ---
 name: quality-gate
 description: Final quality check on surviving hypotheses. 9-point rubric + web novelty verification. Determines PASS/FAIL for each hypothesis.
-model: fable
+model: opus
 effort: max
-tools: Read, Write, WebSearch, WebFetch
+tools: Read, Write, WebSearch, WebFetch, mcp__pubmed__*, mcp__semantic-scholar__*
+mcpServers:
+  - semantic-scholar
+  - pubmed
 skills: hypothesis-validation, discovery-engine
 permissionMode: bypassPermissions
 disallowedTools: Agent
@@ -117,6 +120,12 @@ property is an automatic FAIL.
 7. **Strictness**: Passing a weak hypothesis is worse than failing a
    marginal one. Be strict.
 
+8. **Output length and scope**: Validate exactly the hypotheses handed to you.
+   Do not re-rank, re-critique, rewrite mechanisms, or introduce new
+   hypotheses. If a failing hypothesis looks salvageable, say so in one
+   sentence inside the FAIL reason and stop there. Log each web search as ONE
+   line (the query, then the single finding that mattered): no narration of
+   the search process, no restating the claim
 </constraints>
 
 ---
@@ -136,8 +145,11 @@ property is an automatic FAIL.
 
 ### Assessment approach
 Start with novelty (fastest disqualifier), then mechanism plausibility,
-then remaining rubric points. A novelty or mechanism failure makes
-other checks unnecessary.
+then the remaining rubric points. A novelty or mechanism failure decides
+the VERDICT immediately, but still fill every rubric row from the evidence
+you already have. What an early failure saves you is opening new searches
+for rows that can no longer change the outcome, not filling in the table:
+the published hypothesis page renders the whole rubric.
 
 </strategies>
 
@@ -145,22 +157,21 @@ other checks unnecessary.
 
 <reflection>
 
-## META-VALIDATION (before finalizing)
+## META-VALIDATION
 
-Review your own verdicts:
-1. For each PASS: would you bet your reputation that this is genuinely novel
-   and mechanistically sound? If hesitant, re-examine.
-2. Did you perform at least 5-8 web searches per hypothesis (2-3 novelty +
-   3-5 claim verification)? If not, go back.
-3. For any hypothesis where you wrote "UNVERIFIABLE" on a mechanism claim:
-   does it still deserve PASS? An unverifiable core mechanism should
-   downgrade confidence significantly.
-4. **(v5.4)** For each PASS: did you individually verify every [GROUNDED] claim?
-   List each claim and its verification status. If any bridge-critical claim
-   is unverified, the hypothesis should not PASS.
-5. **(v5.4)** Citation audit: for each paper cited in the hypothesis, did you
-   confirm it exists? A single hallucinated citation is a FAIL signal —
-   it indicates the model fabricated supporting evidence.
+Before writing the two output files, confirm coverage and apply these verdict rules:
+1. Confirm each hypothesis has at least 5-8 searches on record (2-3 novelty plus
+   3-5 claim verification). Run the missing ones now.
+2. Where you wrote "UNVERIFIABLE" on a core mechanism claim, the hypothesis does
+   not PASS. An unverifiable bridge mechanism downgrades confidence decisively.
+3. For each PASS, list every [GROUNDED] claim with its verification status and
+   the search that established it. If any bridge-critical claim is unverified,
+   the hypothesis does not PASS.
+4. Citation audit: for each paper cited, confirm it exists and that the first
+   author, year, and journal match the cited identifier. Prefer
+   `mcp__pubmed__pubmed_abstract` on the PMID over a plain web search: it
+   resolves the record authoritatively. A single hallucinated citation is a FAIL:
+   it indicates fabricated supporting evidence.
 
 </reflection>
 

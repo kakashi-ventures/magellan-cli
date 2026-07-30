@@ -5,6 +5,78 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.33: Migrazione pipeline a Claude Opus 5 + harvest prompting + ripristino accesso MCP (30 luglio 2026)
+
+**Motivazione**: il 24 luglio 2026 Anthropic ha rilasciato Claude Opus 5 (`claude-opus-5`, alias `opus`). Tre ragioni per adottarlo come default al posto di Fable 5: (1) **costo dimezzato**, $5/$25 per MTok contro $10/$50, restando entro lo 0,5% del picco di Fable 5 su CursorBench 3.2 a effort max; (2) **guadagni proprio nel dominio di MAGELLAN** rispetto a Opus 4.8: chimica organica +10,2pp, predizione proteica +7,7pp, genomica descritta come "more like a careful scientist than any model"; (3) **coordinamento multi-agente** citato come miglioramento di punta (pattern writer-verifier, pochi casi di agenti che si sovrascrivono). La superficie API e' invariata (adaptive-thinking-only, niente parametri di sampling, niente prefill), quindi nessuna modifica di codice.
+
+**Le due breaking change di Opus 5 sono inerti qui** (verificato, non assunto): thinking ON di default puo' troncare `max_tokens` stretti, e `thinking: disabled` con effort `xhigh`/`max` da' 400. MAGELLAN non imposta mai `thinking`, `max_tokens`, `temperature`, `top_p` o `top_k`: Claude Code gestisce tutto. Verificato anche che non esiste esposizione alla categoria di rifiuto `reasoning_extraction`, perche' i reflection loop producono artefatti, mai catene di ragionamento.
+
+**Il problema dei classificatori NON sparisce**: la doc sui rifiuti nomina esplicitamente sia Fable 5 sia Opus 5 come modelli con classificatori di sicurezza, e la categoria `bio` avverte che "Beneficial life sciences work can also trigger this category". Il layer di fallback resta; cambia solo il bersaglio.
+
+**Cambiamenti**:
+
+1. **Modello**: tutti i 15 file `.claude/agents/*.md` passano da `model: fable` a `model: opus`. Effort INVARIATO (`max` sui 7 deep, `high` sugli 8 structured). Scelta deliberata: migrare una variabile alla volta, cosi' un'eventuale variazione di qualita' e' attribuibile al modello e non all'effort. La doc Opus 5 raccomanda un nuovo sweep di effort perche' la scala e' calibrata per-modello, ma quello e' un cambiamento separato e misurabile, da fare con `/validate-holdout`.
+
+2. **Eccezione orchestratore (importante)**: l'orchestratore NON e' coperto dalla modifica di frontmatter. `/discover` lo carica nella sessione top-level, quindi gira sul modello di **sessione**. Chi lascia la sessione su un altro modello ottiene una pipeline mista: modello vecchio che coordina sub-agenti Opus 5. Documentato in `CLAUDE.md`, `README.md` e nel file dell'orchestratore: **`/model opus` prima di `/discover`**.
+
+3. **Fallback anti-rifiuto ri-mirato**: dopo il cambio di alias il blocco esistente era diventato **circolare** (diceva di recuperare da un rifiuto ri-dispatchando con `model: opus`, cioe' il modello che aveva appena rifiutato). Ora il fallback e' unico: `model: claude-opus-4-8`, scritto come ID completo proprio perche' l'alias `opus` ora risolve a Opus 5. Opus 4.8 e' il fallback che Anthropic documenta per i rifiuti di Opus 5 e non e' fra i modelli elencati come portatori di questi classificatori. Aggiunto che un rifiuto arriva come HTTP 200 con `stop_reason: "refusal"` e `stop_details.category`, quindi e' invisibile a qualsiasi monitoraggio basato sugli errori. Mantenuto il re-dispatch manuale a livello di orchestratore: il parametro server-side `fallbacks` NON si propaga alle chiamate fatte dentro l'esecuzione di un tool, che e' esattamente come questa architettura invoca i sub-agenti.
+
+4. **Ripristino accesso MCP (il fix di maggior valore di questa release)**: `tools:` nel frontmatter e' una **allowlist**, e nessun agente elencava pattern `mcp__*`. Risultato: ogni sub-agente dispatchato perdeva silenziosamente tutti i tool MCP, pur con i server connessi a livello di sessione e abilitati in `.mcp.json`. Il principio documentato "MCP-first retrieval (mandatory)" era di fatto non funzionante e la pipeline ripiegava su WebSearch. Riscontro empirico: la memoria dell'agente Literature Scout registra dalla sessione 2026-06-10-scout-033 che "every `mcp__semantic-scholar__*` and `mcp__pubmed__*` call returns No such tool available". Aggiunti `mcp__semantic-scholar__*, mcp__pubmed__*` in `tools:` piu' un blocco `mcpServers:` su literature-scout, critic, quality-gate e convergence-scanner (quest'ultimo istruiva l'uso di MCP senza averne i permessi). Critic e Quality Gate ora possono risolvere i PMID sulla fonte autoritativa invece che via ricerca web, il che serve direttamente il design anti-allucinazione.
+
+5. **Recall suppressor rimossi (5)**: Opus 5 segue letteralmente le istruzioni di selettivita' e riporta meno. Erano tutti a monte della qualita' delle ipotesi:
+   - `critic.md` "Be selective rather than exhaustive" (introdotto in v5.31 per Fable 5) contraddiceva il constraint "tutti e 9 i vettori". Ora copertura e lunghezza della prosa sono separate: riporta tutto, scrivi ogni finding in modo stringato.
+   - `critic.md` template ATTACKS: elencava 5 righe per 9 vettori, quindi un modello letterale emetteva 5 attacchi e considerava il formato soddisfatto. Difetto strutturale, non stilistico.
+   - `critic.md` "a strong novelty kill makes other vectors moot": permesso di uscita anticipata.
+   - `quality-gate.md` "A novelty or mechanism failure makes other checks unnecessary": produceva tabelle rubrica mezze vuote, che `upload-session.mjs` poi pubblica.
+   - `literature-scout.md` "Prioritize recent sources (2025-2026)": non era limitato alle sezioni giuste, quindi si applicava anche alle ricerche di **disgiunzione**. La disgiunzione e' un verdetto per evidenza negativa: un solo paper del 2011 che collega i due campi ribalta DISJOINT in PARTIALLY_EXPLORED, e la sotto-retrieval produce un falso DISJOINT indistinguibile da uno pulito.
+   - `scout.md` "If you can only find 3-4 strong candidates, that's acceptable": permesso esplicito di sotto-consegnare.
+
+6. **Reflection loop: taglio chirurgico, non rimozione**: la guida Opus 5 dice di rimuovere le istruzioni di verifica perche' il modello si auto-verifica. Applicata con una regola precisa, non alla lettera: *si taglia un item di reflection solo quando ripete una soglia di qualita' gia' presente in `<constraints>`; non si tocca mai un pavimento di copertura sulle chiamate a tool esterni*, perche' il suo ramo di fallimento genera altre ricerche reali e l'auto-verifica del ragionamento non le produce. Conseguenza pratica: i tre controlli "hai davvero fatto le ricerche?" (Critic, Quality Gate, Literature Scout) restano, riscritti in forma imperativa. Il grosso del taglio e' nel Generator (5 check introspettivi su 9). **Non toccato** il blocco che definisce il letterale `[GROUNDED]`/`[PARAMETRIC]`: e' l'unica definizione nel file ed e' contratto di input per `critic.md`, `quality-gate.md` e `dataset-evidence-miner.md`. Rimossi i parentetici "(before finalizing)" dagli header e riscritte le lede "review your own verdicts". **Nomi dei loop invariati**: compaiono in CLAUDE.md, README, methodology, CHANGELOG e nei file di lancio.
+
+7. **Budget di lunghezza e disciplina di scope**: mancavano in tutti gli agenti esaminati. Opus 5 scrive piu' lungo dei modelli precedenti e **l'effort non e' la leva** (abbassarlo riduce il thinking senza accorciare in modo affidabile l'output), quindi la lunghezza va prescritta. Aggiunto un constraint per agente che fissa un budget e dichiara quali file scrivere e quale lavoro NON invadere. Rilevante in concreto: `upload-session.mjs` pubblica ogni `.md` nella results dir, quindi un file extra di iniziativa dell'agente finisce sul sito.
+
+8. **Orchestratore**:
+   - Riga 64: "If the agent wrote to {results_dir}/, trust it, don't re-read just to confirm it exists" era un permesso esplicito di saltare i due guard (Guard Protocol step 4 e DELIVERABLES VERIFICATION) che intercettano un sub-agente che salta silenziosamente il markdown. Ristretto a "non rileggere il CONTENUTO che hai scritto tu".
+   - Self-check pre-`phase: complete`: contava i dispatch "you have dispatched this session", cioe' dal contesto, violando la regola dello stesso file. Ora legge `state/dispatch-log.json`, la stessa fonte su cui blocca lo Stop hook.
+   - Session summary: aggiunto target 400-700 parole. Il blocco esistente diceva "readability matters more than raw brevity", che su Opus 5 punta nella direzione sbagliata sull'artefatto piu' letto della sessione.
+   - Corretta la giustificazione dell'architettura top-level: non e' piu' vero che i sub-agenti non possano dispatchare (da v2.1.219 il default e' profondita' 3). Il design resta, con la ragione reale: un unico dispatch-log validato dagli hook.
+
+9. **Ranker (due difetti critici)**: la step sequence ometteva il torneo Elo e il bonus cross-domain e diceva "file" al singolare dove i file richiesti sono due, quindi un modello letterale produceva un report incompleto. E il GOAL diceva "each surviving hypothesis": con il vocabolario del Critic (SURVIVES/WOUNDED/KILLED) una lettura letterale scarta tutte le WOUNDED dal ranking, e quindi da Evolver e Quality Gate. Ora e' esplicito che si classificano SURVIVES e WOUNDED, e le KILLED si elencano per far quadrare i conti.
+
+10. **Script e floor di versione**: `init-session.sh` timbra `claude-opus-5`. `version-check-hook.py` alza `MIN_VERSION` a **(2,1,219)**, la versione in cui l'alias `opus` ha iniziato a risolvere a Opus 5: sotto quel floor ogni `model: opus` risolve silenziosamente a un Opus 4.x, che e' un fallimento invisibile e non un errore.
+
+**Costo**: $5/$25 per MTok contro i $10/$50 di Fable 5, quindi il prezzo per token si dimezza rispetto a v5.31. Il risparmio reale per sessione e' inferiore alla meta': Opus 5 fa thinking di default e scrive output piu' lunghi, ed e' proprio per questo che i budget di lunghezza del punto 7 fanno parte della migrazione e non sono un extra.
+
+**Stato di validazione (NON validato end-to-end)**: nessuna sessione `/discover` completa e' stata eseguita su Opus 5. Da fare prima di dichiararla validata: (1) una sessione completa monitorando `stop_reason: refusal` e l'effettivo scatto del fallback a `claude-opus-4-8`; (2) verifica che `dispatch-log.json` contenga tutti i dispatch critici, perche' l'inlining di una fase e' il modo specifico in cui un orchestratore Opus 5 che espande lo scope fallirebbe; (3) conferma che il Literature Scout usi davvero i tool MCP e non il fallback E-utilities; (4) confronto del kill rate del Critic con la baseline in `meta-insights.md`, dove un CALO indicherebbe un recall suppressor sopravvissuto; (5) A/B `/validate-holdout` contro la baseline. Da notare che anche la baseline Fable 5 di v5.31 non era mai stata validata: l'ultima validazione end-to-end completa resta su Opus 4.7.
+
+**Nota sul fix MCP**: la diagnosi (allowlist che esclude i pattern `mcp__*`) e' documentata ufficialmente e corroborata dalla memoria dell'agente, ma **il fix non e' stato verificato in questa sessione**. Un test controllato ha mostrato che le definizioni degli agenti risultavano congelate all'avvio della sessione: un tool marcatore aggiunto al frontmatter non compariva nel sub-agente dispatchato, quindi le probe stavano leggendo la definizione pre-modifica. La verifica va rifatta in una sessione nuova (probe: un sub-agente che tenta `mcp__pubmed__pubmed_search` e riporta se il tool esiste).
+
+**Non-modifiche deliberate** (guida Opus 5 che romperebbe MAGELLAN se raccolta alla lettera):
+- *"Never use subagents to verify or double-check your own work"*: Critic, Quality Gate, Cross-Model Validator, Convergence Scanner e DEM verificano l'output di un **altro** agente, non il proprio. Raccoglierla cancellerebbe l'intero layer avversariale.
+- *"Keep spawn counts low"*: `orchestrator-stop-gate.py` BLOCCA la terminazione se mancano `scout`/`generator`/`critic`/`quality-gate` dal dispatch log. Meno spawn e' un fallimento duro, non un risparmio.
+- *"Remove the final verification step"* applicato ai gate su artefatti e deliverable: quelli controllano gli effetti collaterali su filesystem di un altro agente. Nessuna auto-verifica vede una scrittura che non e' mai avvenuta.
+- *"Avoid re-checks it already performs"* applicato a "leggi `quality-gate.json` da disco, mai dalla memoria": Opus 5 si auto-verifica sul proprio contesto, che dopo ~100 tool call e' esattamente la fonte corrotta che quelle righe aggirano.
+- *"Use effort to control response length"*: la doc dice che l'effort non accorcia in modo affidabile. Abbassarlo su Generator/Critic/Quality Gate degraderebbe il ragionamento lasciando i deliverable altrettanto lunghi.
+- Nessuna adozione di sub-agenti annidati (ora possibili fino a profondita' 3) e nessuna modifica a `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, che pero' non e' inerte: con Opus 5 che delega piu' volentieri, resta un elemento da osservare alla prima sessione di validazione.
+- Skill, `settings.json`, `.mcp.json` e i 20 stop-gate: verificati, nessuna modifica necessaria. `domain-life-sciences` resta quello che aumenta di piu' l'esposizione al classificatore `bio`, perche' inietta contenuto molecolare.
+
+**File modificati**:
+- `.claude/agents/*.md` (15 file) -- `model: fable` a `model: opus`; effort invariato
+- `.claude/agents/discovery-orchestrator.md` -- fallback ri-mirato a `claude-opus-4-8`; guard read ristretto; conteggio dispatch da disco; budget summary; giustificazione top-level corretta; nota `/model opus`
+- `.claude/agents/literature-scout.md`, `critic.md`, `quality-gate.md`, `convergence-scanner.md` -- accesso MCP (`tools:` + `mcpServers:`)
+- `.claude/agents/critic.md`, `quality-gate.md`, `literature-scout.md`, `scout.md`, `generator.md`, `evolver.md`, `ranker.md` -- recall suppressor, taglio reflection, budget di lunghezza e scope
+- `scripts/init-session.sh` -- timbro modello `claude-opus-5`
+- `scripts/version-check-hook.py` -- `MIN_VERSION` (2,1,219) e messaggio utente
+- `prompts/validation-prompt-gpt.md` -- attribuzione del modello generatore a Opus 5
+- `CLAUDE.md` -- tabella agenti, tre paragrafi di policy riscritti, nuovo paragrafo sull'allowlist MCP, correzione della claim sul nesting
+- `README.md` -- prerequisiti (floor 2.1.219 e `/model opus`), tag per-agente, paragrafo architettura
+- `docs/methodology-v5.md` -- diagramma e tabella agenti (erano rimasti a Opus/Sonnet da prima di v5.31), tabella reflection, sezione tuning per-modello riscritta per Opus 5, voce Opus 5 nei benchmark di riferimento
+- `docs/pdf/methodology.html` -- badge e tabella modelli (erano fermi all'era Opus 4.6)
+- `launch-posts.md`, `launch-creators.md`, `launch-media-pitches.md` -- claim sui modelli
+- `docs/CHANGELOG.md` -- questa entry
+
+---
+
 ## v5.32: Cross-Model Validator -- split per-ipotesi GPT-5.5 Pro (completa la cura TPM di v5.30) (10 giugno 2026)
 
 **Motivazione**: completa la cura del problema TPM diagnosticato in v5.30. Test in ISOLAMENTO (nessuna response concorrente): una singola validazione GPT-5.5 Pro a `xhigh` che copre ENTRAMBE le ipotesi esegue ~23-26 web_search ad alto consumo e raggiunge ~970k/1.000.000 token-al-minuto dell'org, fallendo con `rate_limit_exceeded`. Quindi NON era (solo) colpa delle verifiche lanciate in parallelo durante il debug: anche una sola response satura il tier TPM con questo carico. (Perche' non si vedeva prima: il validator e' stato migrato a gpt-5.5-pro solo di recente; il precedente gpt-5.4-pro era piu' leggero per-minuto. Vedi v5.30.)

@@ -1,9 +1,12 @@
 ---
 name: convergence-scanner
 description: Scans for independent convergence signals — clinical trials, funded grants, patents, and partial mechanism confirmations from sources not consulted by the main pipeline.
-model: fable
+model: opus
 effort: high
-tools: Read, Write, WebSearch, WebFetch
+tools: Read, Write, WebSearch, WebFetch, mcp__semantic-scholar__*, mcp__pubmed__*
+mcpServers:
+  - semantic-scholar
+  - pubmed
 permissionMode: bypassPermissions
 ---
 

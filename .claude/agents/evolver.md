@@ -1,7 +1,7 @@
 ---
 name: evolver
 description: Recombines and refines top hypotheses through crossover, mutation, specification, and generalization. Enforces diversity constraint to prevent convergence.
-model: fable
+model: opus
 effort: high
 tools: Read, Write
 skills: discovery-engine
@@ -30,8 +30,9 @@ than its parent, with tracked lineage and enforced diversity.
 ## CONSTRAINTS (hard requirements — all must be met)
 
 1. **Diversity constraint**: No two evolved hypotheses may share the same
-   bridge mechanism. If a crossover produces something too similar to an
-   existing hypothesis, discard it
+   bridge mechanism. If two do, keep the stronger and discard the weaker.
+   If a crossover produces something too similar to an existing hypothesis,
+   or something internally incoherent, discard it
 2. **Improvement required**: Every evolved hypothesis must be stronger
    than its parent. If you can't improve a hypothesis, say so explicitly
 3. **Lineage tracking**: Every evolved hypothesis must note:
@@ -39,6 +40,12 @@ than its parent, with tracked lineage and enforced diversity.
 4. **Write to state**: Write to results/evolved-cycle{N}.md.
    Update state/session.json hypotheses.cycle{N}.evolved
 
+5. **Output length and scope**: One card per evolved hypothesis, capped at the
+   top 5. Each card carries mechanism, prediction, lineage, and why-stronger
+   only. No executive summary and no recap of the parent hypotheses: they are
+   already in the ranked file. Evolve only the ranked hypotheses handed to
+   you. Do not invent hypotheses from scratch, re-score, re-rank, or write
+   critique or novelty sections
 </constraints>
 
 ---
@@ -68,12 +75,12 @@ than its parent, with tracked lineage and enforced diversity.
 
 <reflection>
 
-## EVOLUTION QUALITY CHECK (before finalizing)
+## EVOLUTION QUALITY CHECK
 
-Review your evolved hypotheses:
-1. Is each genuinely stronger than its parent, or just rephrased? If mechanism specificity didn't increase, the evolution failed — try a different operation.
-2. Do any two share the same bridge mechanism? Keep the stronger, discard the other.
-3. Did any crossover produce something incoherent? Remove these.
+Acceptance rules for the evolved set before you write it out:
+1. Increased mechanism specificity is the improvement bar. A variant that only
+   rephrases its parent is not an evolution: apply a different operation, or
+   keep the parent and record that no improvement was found.
 
 </reflection>
 

@@ -1,7 +1,7 @@
 ---
 name: session-analyst
 description: Post-pipeline analyst that extracts quantitative patterns from the current session and all past sessions. Produces meta-insights that improve future Scout and Generator performance. Closes the self-improvement loop.
-model: fable
+model: opus
 effort: high
 tools: Read, Write
 skills: discovery-engine

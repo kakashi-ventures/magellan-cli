@@ -9,7 +9,7 @@ MAGELLAN is an **experiment in whether modern agentic AI systems can make autono
 
 It is not a tool for researchers. It is a capability test. The user runs `/discover`, leaves the room, and comes back to find testable scientific hypotheses. These are then cross-model validated and, ideally, submitted to domain experts for evaluation.
 
-Built for Claude Code, all fifteen agents run on Claude Fable 5 (deep agents at effort `max`, structured agents at `high`), with documented rollback to Opus 4.8 / Sonnet 4.6 where Fable 5's life-sciences safety classifiers refuse. It leverages classic multi-agent sub-agent dispatch, deterministic hooks, MCP servers for structured retrieval, and a hybrid **parametric-generation + retrieval-validation** paradigm.
+Built for Claude Code, all fifteen agents run on Claude Opus 5 (deep agents at effort `max`, structured agents at `high`), with documented rollback to `claude-opus-4-8` where Opus 5's life-sciences safety classifiers refuse. It leverages classic multi-agent sub-agent dispatch, deterministic hooks, MCP servers for structured retrieval, and a hybrid **parametric-generation + retrieval-validation** paradigm.
 
 ---
 
@@ -52,7 +52,7 @@ The ABC model remains the structural backbone of the output: every MAGELLAN hypo
 PHASE 1 — EXPLORATION (Sequential Narrowing)
 ┌──────────────┐
 │    Scout      │  Phase 0a: generates 5–6 candidates
-│  [Opus]       │
+│  [Opus 5]       │
 │ 10 strategies │
 │ + diversif.   │
 │ + exploration │
@@ -63,20 +63,20 @@ PHASE 1 — EXPLORATION (Sequential Narrowing)
        ▼
 ┌──────────────────┐
 │ Literature Scout  │  Phase 0b: verifies disjointness for ALL
-│    [Sonnet]       │  + domain-aware retrieval
+│    [Opus 5]       │  + domain-aware retrieval
 │ MCP + WebSearch   │  + bridge validation
 └──────┬───────────┘
        ▼
-  Orchestrator [Opus]   Phase 0c: narrows from 5–6 to 3
+  Orchestrator [Opus 5]   Phase 0c: narrows from 5–6 to 3
   (DISJOINT priority    (WELL_EXPLORED excluded, DISJOINT preferred)
    + strategy diversity)
        ▼
 ┌──────────────────────┐
 │  Target Evaluator     │  Phase 0d: adversarial challenge
-│  [Opus] 4 attack axes │
+│  [Opus 5] 4 attack axes │
 └──────────┬───────────┘
        ▼
-  Orchestrator [Opus]   Phase 1: select + dispatch
+  Orchestrator [Opus 5]   Phase 1: select + dispatch
   (disjointness hard constraint)
        ▼
 ┌──────────────────────────┐
@@ -88,7 +88,7 @@ PHASE 1 — EXPLORATION (Sequential Narrowing)
 PHASE 2 — GENERATION & CRITIQUE (2 cycles)
 ┌────────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
 │  Generator  │──▶│  Critic   │──▶│  Ranker   │──▶│  Evolver  │
-│   [Opus]    │   │  [Opus]   │   │ [Sonnet]  │   │ [Sonnet]  │
+│   [Opus 5]    │   │  [Opus 5]   │   │ [Opus 5]  │   │ [Opus 5]  │
 │ parametric  │   │ 9 attack  │   │ 6 dimens. │   │ evolution │
 │ + lit.contxt│   │ + web     │   │ + grounded│   │ + diversit│
 │ + comp.val. │   │           │   │ + Elo chk │   │           │
@@ -101,7 +101,7 @@ PHASE 2 — GENERATION & CRITIQUE (2 cycles)
 PHASE 3 — FINAL VALIDATION + META-LEARNING
 ┌──────────────────┐   ┌──────────────────┐
 │  Quality Gate     │   │ Session Analyst   │
-│    [Opus]         │──▶│   [Sonnet]        │
+│    [Opus 5]         │──▶│   [Opus 5]        │
 │ 10-point rubric   │   │ meta-learning     │
 │ + web grounding   │   │ → meta-insights   │
 └──────────┬───────┘   └──────────┬───────┘
@@ -109,12 +109,12 @@ PHASE 3 — FINAL VALIDATION + META-LEARNING
                       ▼
 ┌──────────────────────────┐
 │  Cross-Model Validator    │  GPT-5.5 Pro + Gemini DR Max
-│    [Sonnet]               │  consensus report
+│    [Opus 5]               │  consensus report
 └──────────┬───────────────┘
            ▼
 ┌──────────────────────┐   ┌───────────────────────┐
 │  Convergence Scanner  │   │ Dataset Evidence Miner │
-│    [Sonnet]           │   │    [Sonnet]            │
+│    [Opus 5]           │   │    [Opus 5]            │
 │ ClinicalTrials, NIH   │   │ HPA, GWAS, ChEMBL,    │
 │ Reporter, patents     │   │ UniProt, PDB           │
 └──────────┬───────────┘   └──────────┬────────────┘
@@ -138,23 +138,23 @@ CROSS-CUTTING LAYER — GUARDS & HOOKS
 
 | Agent | Model | Effort | Role |
 |---|---|---|---|
-| **Scout** | Opus | max | Identifies WHERE to look: 10 strategies (incl. structural isomorphism + serendipity), mandatory bridge concepts, strategy diversification, exploration slot, rotating creativity constraint, TARGET QUALITY CHECK reflection |
-| **Target Evaluator** | Opus | max | Adversarial challenge of Scout targets on 4 axes: popularity bias, vagueness, structural impossibility, local-optima |
-| **Literature Scout** | Sonnet | high | Structured retrieval: MCP servers (Semantic Scholar, PubMed) mandatory + WebSearch fallback + full-text + disjunction verification + RETRIEVAL QUALITY CHECK reflection |
-| **Computational Validator** | Sonnet | high | Programmatic bridge concept verification: KEGG pathway cross-check, STRING interaction scores, PubMed co-occurrence, back-of-envelope physics |
-| **Generator** | Opus | max | Structured Relationship Map + 6–8 hypotheses (parametric + lit. context + computational validation) + SELF-CRITIQUE with claim-level verification |
-| **Critic** | Opus | max | 9 attack vectors (incl. claim-level fact verification) + META-CRITIQUE reflection + critic_questions feedback |
-| **Ranker** | Sonnet | high | Scoring across 6 dimensions with fixed canonical weights + mandatory per-hypothesis table + diversity check + Elo tournament sanity check |
-| **Evolver** | Sonnet | high | Evolutionary operations with diversity constraint + EVOLUTION QUALITY CHECK reflection. Conditionally skippable |
-| **Quality Gate** | Opus | max | 10-point rubric (incl. per-claim grounding verification) + web grounding + META-VALIDATION reflection |
-| **Session Analyst** | Sonnet | high | Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md |
-| **Cross-Model Validator** | Sonnet | high | Calls GPT-5.5 Pro (reasoning xhigh, background submit + 30s polling because gpt-5.5-pro does not support streaming, web search + code interpreter; response.id persisted to disk for auto-resume) + Gemini Deep Research Max (Interactions API agent `deep-research-max-preview-04-2026`; google_search + url_context + code_execution; ~80-160 autonomous searches/task) via API for independent validation → consensus report. Falls back to export files if API keys are absent |
-| **Convergence Scanner** | Sonnet | high | Post-QG: searches for convergence signals on ClinicalTrials.gov, NIH Reporter, patents + partial sub-mechanism confirmations from sources not consulted by the pipeline |
-| **Dataset Evidence Miner** | Sonnet | high | Post-QG: verifies specific molecular claims against HPA, GWAS Catalog, ChEMBL, UniProt, PDB via `scripts/query-biodata.py`. Complements the pre-generation CV |
-| **Holdout Evaluator** | Opus | max | Validation framework: compares MAGELLAN output against known post-cutoff discoveries. Contamination check + mechanistic similarity scoring |
-| **Orchestrator** | Opus | max | Mandatory dispatch, adaptive cycles, guard logic, session health, knowledge log, meta-learning metrics |
+| **Scout** | Opus 5 | max | Identifies WHERE to look: 10 strategies (incl. structural isomorphism + serendipity), mandatory bridge concepts, strategy diversification, exploration slot, rotating creativity constraint, TARGET QUALITY CHECK reflection |
+| **Target Evaluator** | Opus 5 | max | Adversarial challenge of Scout targets on 4 axes: popularity bias, vagueness, structural impossibility, local-optima |
+| **Literature Scout** | Opus 5 | high | Structured retrieval: MCP servers (Semantic Scholar, PubMed) mandatory + WebSearch fallback + full-text + disjunction verification + RETRIEVAL QUALITY CHECK reflection |
+| **Computational Validator** | Opus 5 | high | Programmatic bridge concept verification: KEGG pathway cross-check, STRING interaction scores, PubMed co-occurrence, back-of-envelope physics |
+| **Generator** | Opus 5 | max | Structured Relationship Map + 6–8 hypotheses (parametric + lit. context + computational validation) + SELF-CRITIQUE with claim-level verification |
+| **Critic** | Opus 5 | max | 9 attack vectors (incl. claim-level fact verification) + META-CRITIQUE reflection + critic_questions feedback |
+| **Ranker** | Opus 5 | high | Scoring across 6 dimensions with fixed canonical weights + mandatory per-hypothesis table + diversity check + Elo tournament sanity check |
+| **Evolver** | Opus 5 | high | Evolutionary operations with diversity constraint + EVOLUTION QUALITY CHECK reflection. Conditionally skippable |
+| **Quality Gate** | Opus 5 | max | 10-point rubric (incl. per-claim grounding verification) + web grounding + META-VALIDATION reflection |
+| **Session Analyst** | Opus 5 | high | Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md |
+| **Cross-Model Validator** | Opus 5 | high | Calls GPT-5.5 Pro (reasoning xhigh, background submit + 30s polling because gpt-5.5-pro does not support streaming, web search + code interpreter; response.id persisted to disk for auto-resume) + Gemini Deep Research Max (Interactions API agent `deep-research-max-preview-04-2026`; google_search + url_context + code_execution; ~80-160 autonomous searches/task) via API for independent validation → consensus report. Falls back to export files if API keys are absent |
+| **Convergence Scanner** | Opus 5 | high | Post-QG: searches for convergence signals on ClinicalTrials.gov, NIH Reporter, patents + partial sub-mechanism confirmations from sources not consulted by the pipeline |
+| **Dataset Evidence Miner** | Opus 5 | high | Post-QG: verifies specific molecular claims against HPA, GWAS Catalog, ChEMBL, UniProt, PDB via `scripts/query-biodata.py`. Complements the pre-generation CV |
+| **Holdout Evaluator** | Opus 5 | max | Validation framework: compares MAGELLAN output against known post-cutoff discoveries. Contamination check + mechanistic similarity scoring |
+| **Orchestrator** | Opus 5 | max | Mandatory dispatch, adaptive cycles, guard logic, session health, knowledge log, meta-learning metrics |
 
-Model selection follows a clear principle: **Opus for deep, creative reasoning; Sonnet for structured, search-intensive tasks**. Effort levels are pinned per agent (Opus: max, Sonnet: high) to guarantee quality regardless of the user's session-level effort setting. Scout, Target Evaluator, Generator, Critic, Quality Gate, and Holdout Evaluator require cross-disciplinary reasoning and deep evaluation. Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator, Convergence Scanner, and Dataset Evidence Miner execute more structured tasks where judgment matters but does not demand Opus-level depth.
+Model selection follows a clear principle: **one model, two effort tiers**. Since the whole fleet runs on Claude Opus 5, the deep/structured distinction is carried by effort rather than by model tier: `max` for deep creative reasoning, `high` for structured, search-intensive tasks. Effort is pinned per agent to guarantee quality regardless of the user's session-level effort setting. Scout, Target Evaluator, Generator, Critic, Quality Gate, and Holdout Evaluator require cross-disciplinary reasoning and deep evaluation. Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator, Convergence Scanner, and Dataset Evidence Miner execute more structured tasks where judgment matters but does not demand maximum-effort depth.
 
 ### Mandatory dispatch
 
@@ -178,18 +178,18 @@ The Orchestrator is NOT restructured this way — it is a dispatcher, not a reas
 
 ### Reflection loops
 
-Six agents have self-review sections before producing final output:
+Six agents have a final-pass section before producing output:
 
 | Agent | Reflection | What it does |
 |--------|-----------|---------|
-| **Generator** | SELF-CRITIQUE | Verifies mechanism specificity, bridge duplication, parametric error sources |
-| **Critic** | META-CRITIQUE | Calibrates kill rate, identifies the strongest reason to kill each SURVIVES, verifies web search completeness |
-| **Scout** | TARGET QUALITY CHECK | Verifies bridge specificity, strategic diversity, non-obviousness |
-| **Quality Gate** | META-VALIDATION | Verifies confidence in PASS verdicts, web search completeness, impact of UNVERIFIABLE claims |
+| **Generator** | SELF-CRITIQUE | Writes the counter-argument for parametric claims; calibrates [GROUNDED]/[PARAMETRIC] tagging across citation pairing, direction, compartment, magnitude, protein identity |
+| **Critic** | META-CRITIQUE | States kill rate, identifies the strongest reason to kill each SURVIVES, confirms web-search coverage, records citation evidence per survivor |
+| **Scout** | TARGET QUALITY CHECK | Enforces non-obviousness, strategy diversity, the exploration slot, meta-insights kill patterns, and the impact floor |
+| **Quality Gate** | META-VALIDATION | Enforces the web-search floor, the UNVERIFIABLE-blocks-PASS rule, per-claim verification listing, and the citation audit |
 | **Literature Scout** | RETRIEVAL QUALITY CHECK | Verifies MCP completeness, paper count per field, gap analysis specificity |
-| **Evolver** | EVOLUTION QUALITY CHECK | Verifies genuine improvement over parent, bridge duplication, crossover coherence |
+| **Evolver** | EVOLUTION QUALITY CHECK | Applies the improvement bar: mechanism specificity increased, not merely rephrased |
 
-Reflection is a capability multiplier: a better model reflects more effectively. External evaluation structures (SubagentStop hooks, ranker 3KB gate) prevent reflection from degenerating into self-congratulation.
+On Opus 5, self-verification is native, so these loops were reduced to the steps that gather external evidence or write a pipeline artifact; generic self-recheck steps were removed as redundant (Anthropic documents that they cause over-verification with no capability gain). What remains is not the model checking its own reasoning but the model meeting a coverage floor on real tool calls, or producing a field a downstream agent consumes. External evaluation structures (SubagentStop hooks, ranker 3KB gate) keep these honest.
 
 ### Adaptive cycles
 
@@ -204,7 +204,7 @@ The Orchestrator has 3 decision points to adapt the pipeline to output quality:
 
 3. **Conditional Evolution** (cycle 2, after ranking): If top-3 ≥ 6.5, diversity passed, no shared bridges → skip Evolver, proceed to Quality Gate. `orchestrator-stop-gate.py` updated to not block on legitimate evolver skips.
 
-**Why this scales**: A better model produces higher-quality output earlier in the pipeline. Without adaptivity, the system wastes compute. With it, Opus 5 could complete in 1 cycle what Opus 4.8 needs 2.
+**Why this scales**: A better model produces higher-quality output earlier in the pipeline. Without adaptivity, the system wastes compute. With it, Opus 5 may complete in 1 cycle what Opus 4.8 needed 2. This is a hypothesis to measure against the early-complete rate, not a settled result.
 
 ### Indirect bidirectional feedback
 
@@ -216,7 +216,7 @@ The Critic can write specific questions in `results/{session-id}/cycle{N}-critiq
 
 ### The evidence
 
-Frontier models (Opus 4.8, GPT-5.5 Pro, Gemini 3.1 Pro) score 91–94%+ on GPQA Diamond, PhD-level questions in biology, physics, and chemistry. This is a 55-point jump from GPT-4 (39%, 2023). Parametric knowledge has improved enormously.
+Frontier models (Opus 5, GPT-5.5 Pro, Gemini 3.1 Pro) score 91–94%+ on GPQA Diamond, PhD-level questions in biology, physics, and chemistry. This is a 55-point jump from GPT-4 (39%, 2023). Parametric knowledge has improved enormously.
 
 However:
 - **AA-Omniscience** (open factual recall): the best model reaches only 55% accuracy
@@ -487,7 +487,7 @@ The system runs on a dual track:
   "final": [...],
   "diversity_scores": [...],
   "metadata": {
-    "start_time": "...", "model": "opus-4-8",
+    "start_time": "...", "model": "claude-opus-5",
     "total_hypotheses_generated": 0, "kill_rate": 0,
     "fallback_used": false, "literature_unavailable": false,
     "generation_degraded": false, "web_search_failures": 0,
@@ -611,19 +611,22 @@ Agent prompts follow 2026 best practices for frontier models. Choices are empiri
 
 ### Language calibration
 
-- **Reduced MUST/CRITICAL/MANDATORY density**: Opus 4.8 uses adaptive thinking — emphatic instructions cause overthinking and token waste. Normal-tone instructions produce better results. Exception: the Orchestrator's functional guardrails (anti-inlining) remain unchanged. Opus 4.8's "more literal instruction following" (per Anthropic's migration guide) amplifies this: prescriptive/emphatic prompts are interpreted more rigidly, so the calibration done for 4.6 carries over cleanly to 4.7 and 4.8.
+- **Reduced MUST/CRITICAL/MANDATORY density**: Opus 5 uses adaptive thinking, so emphatic instructions cause overthinking and token waste. Normal-tone instructions produce better results. Exception: the Orchestrator's functional guardrails (anti-inlining) remain unchanged. Opus 5 follows instructions more literally than earlier models, which amplifies this in two ways: prescriptive prompts are interpreted rigidly, and any internal contradiction between two parts of the same prompt now produces unpredictable behaviour rather than being smoothed over. Auditing each agent for self-contradiction matters as much as tone.
 - **Positive framing**: Instructions framed as actions to take rather than prohibitions. "Continue autonomously between phases" instead of "Do NOT stop to ask questions."
 - **WHY explanations on constraints**: Explaining the reason behind a constraint lets the model generalize correctly to edge cases. Example: "bridge concepts required — the Generator uses bridge concepts as seeds, so vague bridges produce vague hypotheses."
 
 ### Content enrichment
 
 - **Few-shot examples**: Generator (2 examples: strong + weak), Critic (1 complete attack), Ranker (1 scoring table), Evolver (1 evolutionary operation). Both Anthropic ("3-5 examples dramatically improve accuracy") and Google ("Prompts without few-shot examples are likely less effective") recommend this. Synthetic, domain-neutral examples to avoid biasing future sessions.
-- **Additional reflection loops**: RETRIEVAL QUALITY CHECK for the Literature Scout (verifies MCP completeness, paper count, gap analysis specificity) and EVOLUTION QUALITY CHECK for the Evolver (verifies genuine improvement, bridge duplication, crossover coherence).
+- **Additional reflection loops**: RETRIEVAL QUALITY CHECK for the Literature Scout (verifies MCP completeness, paper count, gap analysis specificity) and EVOLUTION QUALITY CHECK for the Evolver (applies the improvement bar: specificity increased, not rephrased).
 
 ### Model-specific tuning
 
-- **Opus 4.8**: General instructions rather than prescriptive steps ("general instructions often produce better reasoning than prescriptive plans"). Anti-overengineering: "Select 3 targets and move on" (Scout), "Generate all 6-8 before refining" (Generator). No "Think very hard" — adaptive thinking decides autonomously.
-- **Sonnet 4.6**: Explicit step sequences in the Ranker (Sonnet benefits more from scaffolding). Structured examples as format anchors.
+- **General instructions over prescriptive steps**: general instructions often produce better reasoning than prescriptive plans. Anti-overengineering: "Select 5-6 candidates and move on" (Scout), "Generate all 6-8 before refining" (Generator). No "Think very hard": adaptive thinking decides autonomously.
+- **No verification scaffolding** (Opus 5): the model verifies its own work unprompted, and explicit verification instructions cause over-verification with no capability gain. Generic self-recheck steps were therefore removed from the six reflection loops. What was kept, deliberately, is any step that gathers EXTERNAL evidence or writes a pipeline artifact: those are the agent's job, not redundant self-checking, and the model does not perform them spontaneously. The rule applied: trim a reflection item when it restates a quality bar already in `<constraints>`; never trim a coverage floor on external tool calls, whose failure branch triggers more real searches.
+- **No recall suppressors on review agents** (Opus 5): review prompts that say "be selective", "only report high-severity issues", or that permit an early exit are followed literally and measurably reduce what gets reported. On the Critic, Quality Gate, Literature Scout, and Scout this directly degrades the pipeline's core function. Coverage and prose length are now stated separately: report everything, write each finding tersely, and let a later stage filter.
+- **Explicit length budgets** (Opus 5): responses and written deliverables run longer than on prior models, and effort is NOT a length lever (lowering effort reduces thinking without reliably shortening output). Every agent that writes a markdown deliverable now carries an explicit word or section budget.
+- **Explicit scope discipline** (Opus 5): the model expands task scope on its own judgment. Each agent now states which files it writes and which neighbouring agent's job it must not take over. This matters concretely because `upload-session.mjs` auto-publishes every `.md` in the results directory, so a self-initiated extra file ships to the website.
 
 ### Prompts for external models
 
@@ -685,14 +688,14 @@ The evidence shows that:
 
 ### Internal models (MAGELLAN pipeline)
 
-All fifteen agents run on **Claude Fable 5** (`fable`), Anthropic's flagship released June 9 2026. The former Opus/Sonnet tier split is now an effort split on a single model:
+All fifteen agents run on **Claude Opus 5** (`opus`), Anthropic's flagship released July 24 2026. The former Opus/Sonnet tier split is an effort split on a single model:
 
 | Agent group | Model | Effort | Rationale |
 |---|---|---|---|
-| Scout, Target Evaluator, Generator, Critic, Quality Gate, Holdout Evaluator, Orchestrator | Claude Fable 5 | `max` | Deep reasoning, cross-disciplinary creativity, adversarial evaluation |
-| Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator, Convergence Scanner, Dataset Evidence Miner | Claude Fable 5 | `high` | Structured, search-intensive tasks |
+| Scout, Target Evaluator, Generator, Critic, Quality Gate, Holdout Evaluator, Orchestrator | Claude Opus 5 | `max` | Deep reasoning, cross-disciplinary creativity, adversarial evaluation |
+| Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator, Convergence Scanner, Dataset Evidence Miner | Claude Opus 5 | `high` | Structured, search-intensive tasks |
 
-**Fallback (life-sciences classifiers).** Fable 5 runs safety classifiers that can decline biology/life-sciences content (molecular mechanisms, lab methods) with `stop_reason: "refusal"`. Because MAGELLAN is life-sciences-optimized, the molecular-content agents (Generator, Critic, Quality Gate, Literature Scout, Computational Validator, Dataset Evidence Miner, Convergence Scanner) are most exposed. The orchestrator Guard Protocol auto-re-dispatches a refusing agent once with a per-invocation override (`opus` for deep, `sonnet` for structured); persistent refusers are rolled back via frontmatter. The classifier-free Claude Mythos 5 (`claude-mythos-5`) would remove the exposure but is gated behind Project Glasswing. Cost note: Fable 5 is $10/$50 per MTok, versus Opus 4.8 at $5/$25 and Sonnet 4.6 at $3/$15. The migration therefore raises Anthropic-side cost roughly 2x on the agents that were Opus and ~3.3x on those that were Sonnet (~2-3x per session); the structured/search agents are where Fable 5 costs the most for the least reasoning benefit.
+**Fallback (life-sciences classifiers).** Opus 5 runs safety classifiers that can decline biology/life-sciences content (molecular mechanisms, lab methods). A refusal is HTTP 200 with `stop_reason: "refusal"` and a `stop_details.category` such as `bio`, so it never shows up in error-rate monitoring. Because MAGELLAN is life-sciences-optimized, the molecular-content agents (Generator, Critic, Quality Gate, Literature Scout, Computational Validator, Dataset Evidence Miner, Convergence Scanner) are most exposed. The orchestrator Guard Protocol auto-re-dispatches a refusing agent once with the per-invocation override `model: claude-opus-4-8`, written as a full model ID because the `opus` alias now resolves to the model that just refused; persistent refusers are rolled back via frontmatter. The server-side `fallbacks` parameter is not usable here: it does not propagate into model calls made from inside tool execution, which is exactly how a 15-agent dispatch architecture invokes its sub-agents. Cost note: Opus 5 is $5/$25 per MTok, half of Fable 5's $10/$50, so this migration roughly halves the per-token cost relative to v5.31. The realised saving is smaller than that, since Opus 5 thinks by default and writes longer output unless length is explicitly budgeted in the prompt.
 
 ### External models (automatic cross-model validation)
 
@@ -704,7 +707,8 @@ All fifteen agents run on **Claude Fable 5** (`fable`), Anthropic's flagship rel
 Cross-model validation is **automatic**: the Cross-Model Validator generates the prompts, calls both APIs in parallel via `scripts/validate-crossmodel.mjs` with active tools (GPT-5.5 Pro: web search + code interpreter; Gemini DR Max: google_search + url_context + code_execution), and produces a consensus report. GPT-5.5 Pro verifies novelty against current literature via web search and checks arithmetic via code interpreter. Gemini DR Max runs an autonomous research loop that verifies formal mappings computationally, reviews 5-10 recent papers per hypothesis, and surfaces discrepancies between stated and computed values. Requires `OPENAI_API_KEY` and/or `GEMINI_API_KEY` (both gpt-5.5-pro and DR Max are paid-tier only). If absent, generates only export files for manual validation (`/export gpt|gemini`).
 
 ### Reference benchmarks (June 2026)
-- **Claude Fable 5** (June 9 2026, current pipeline model): Anthropic's most capable widely released model, built for demanding reasoning and long-horizon agentic work. Improves on Opus 4.8 in long-horizon autonomy, first-shot correctness on complex specs, vision, code review/debugging recall, navigating ambiguity, and parallel subagent delegation. Adaptive-thinking-only (raw chain-of-thought never returned; `display: summarized` for summaries). Effort `low/medium/high/xhigh` (default `high`); lower effort often exceeds prior models' `xhigh`. 1M context, 128k output, $10/$50 per MTok. Runs safety classifiers that can decline biology/life-sciences and offensive-cybersecurity content with `stop_reason: "refusal"` (HTTP 200, not billed if refused before output); fallback to Opus 4.8 recommended. The classifier-free sibling Claude Mythos 5 (`claude-mythos-5`) is Glasswing-gated. Sources: [Introducing Fable 5 and Mythos 5](https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5), [Prompting Fable 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5)
+- **Claude Opus 5** (July 24 2026, current pipeline model): Anthropic's flagship. Versus Opus 4.8: organic chemistry +10.2pp, protein prediction +7.7pp, genomics described as behaving "more like a careful scientist than any model", plus gains in long-horizon agentic work, code review, and multi-agent coordination. Scores within 0.5% of Fable 5's peak on CursorBench 3.2 at max effort, at half the cost. Adaptive-thinking-only and thinking is ON by default (a breaking change vs 4.8, where omitting `thinking` meant no thinking). Effort `low/medium/high/xhigh/max`, default `high`; the effort scale is calibrated per model, so settings do not transfer from earlier models. Disabling thinking at effort `xhigh` or `max` returns 400. 1M context (default and maximum, no smaller variant), 128k output, $5/$25 per MTok, knowledge cutoff May 2026, prompt-cache minimum 512 tokens. Priority Tier not supported. Runs safety classifiers that can decline `bio` and `cyber` content with `stop_reason: "refusal"` (HTTP 200, not billed if refused before output); documented fallback is Opus 4.8. Prompting notes that drove the v5.33 harvest: it self-verifies unprompted (remove verification scaffolding), follows severity and selectivity instructions literally (remove recall suppressors from review agents), and writes longer output where effort is not a length lever (budget length explicitly). Sources: [What's new in Opus 5](https://platform.claude.com/docs/en/about-claude/models/whats-new-opus-5), [Prompting Opus 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5)
+- **Claude Fable 5** (June 9 2026, previous pipeline model): Anthropic's most capable widely released model, built for demanding reasoning and long-horizon agentic work. Improves on Opus 4.8 in long-horizon autonomy, first-shot correctness on complex specs, vision, code review/debugging recall, navigating ambiguity, and parallel subagent delegation. Adaptive-thinking-only (raw chain-of-thought never returned; `display: summarized` for summaries). Effort `low/medium/high/xhigh` (default `high`); lower effort often exceeds prior models' `xhigh`. 1M context, 128k output, $10/$50 per MTok. Runs safety classifiers that can decline biology/life-sciences and offensive-cybersecurity content with `stop_reason: "refusal"` (HTTP 200, not billed if refused before output); fallback to Opus 4.8 recommended. The classifier-free sibling Claude Mythos 5 (`claude-mythos-5`) is Glasswing-gated. Sources: [Introducing Fable 5 and Mythos 5](https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5), [Prompting Fable 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5)
 - **Claude Opus 4.8** (June 2026): Anthropic's most capable GA model. Improvements over 4.7 in long-horizon agentic coding (fewer compactions, better compaction recovery), more reliable effort calibration per level, and tool triggering (fewer required tool calls skipped). Same API surface as 4.7 (adaptive-thinking-only, no sampling parameters, no last-turn prefill). New at launch: mid-conversation system messages (no beta header), fast mode research preview, 1024-token minimum cacheable prompt, effort default `high`. 1M context, same $5/$25 per MTok pricing as 4.7. Source: [What's new](https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-8), [Migration guide](https://platform.claude.com/docs/en/about-claude/models/migration-guide)
 - **Claude Opus 4.7** (April 2026): +13% coding improvement over Opus 4.6, 3x more production task resolution on select benchmarks, 10-14% multi-step workflow gains with fewer tool errors. 1M context window at standard pricing. Same $5/$25 per MTok pricing as 4.6. Source: [Anthropic announcement](https://www.anthropic.com/news/claude-opus-4-7), [What's new](https://platform.claude.com/docs/en/about-claude/models/whats-new-claude-4-7)
 - **Claude Opus 4.6** (Feb 2026): GPQA Diamond 91.3%, ARC-AGI-2 68.8%, HLE 53.1% with tools. Time horizon METR: 14h30m. Context: 200K (1M beta). Source: [Anthropic announcement](https://www.anthropic.com/news/claude-opus-4-6), [System Card](https://www.anthropic.com/claude-opus-4-6-system-card)
