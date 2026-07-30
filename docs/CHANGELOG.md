@@ -5,6 +5,45 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.34: Riparazione contratti fra agenti (difetti pre-esistenti emersi dall'audit v5.33) (30 luglio 2026)
+
+**Motivazione**: l'audit per-agente condotto per la migrazione a Opus 5 ha fatto emergere una serie di difetti di correttezza che NON dipendono dal modello: sono sbagliati su qualunque modello, ma la maggiore letteralita' di Opus 5 li rende piu' probabili. Sono tenuti in un commit separato da v5.33 di proposito: mescolarli alla migrazione renderebbe impossibile attribuire al modello un'eventuale variazione di qualita' nell'A/B.
+
+**Difetti corretti**:
+
+1. **L'Evolver non produceva nessuno dei due artefatti che la pipeline consuma.** Il constraint diceva di scrivere `results/evolved-cycle{N}.md` (senza il segmento `{session-id}/`) e di aggiornare `state/session.json`; `cycle{N}-evolved.json` non era mai nominato. Ma l'orchestratore lo legge (righe 442 e 470) e il deliverables gate lo richiede esplicitamente (riga 672). Ora il constraint dichiara entrambi i file sotto `{results_dir}/`.
+
+2. **`subagent-stop-hook.py` avvisava su chiavi che nessuno scrive.** I controlli per critic, ranker ed evolver cercavano `hypotheses.cycle{N}.{critiqued,ranked,evolved}` dentro `session.json`, che per architettura non contiene mai contenuto di ipotesi (verificato: l'orchestratore non scrive quella chiave). Riscritti per verificare i file effettivi in `{results_dir}/`, cioe' la stessa fonte che legge l'orchestratore.
+
+3. **Loop di feedback bidirezionale rotto silenziosamente.** `critic.md` diceva di scrivere `critic_questions` in `state/session.json`, mentre il constraint 5 dello stesso file e l'orchestratore (riga 437) usano `{results_dir}/cycle{N}-critiqued.json`. Con la lettura letterale le domande non arrivavano mai al Generator nel ciclo 2, e il principio di design documentato falliva senza errori.
+
+4. **Critic, conteggio dei vettori**: il GOAL diceva "all 8 attack vectors", il constraint 1 dice 9. Corretto a 9 (gia' in v5.33, perche' era prerequisito del fix sul template ATTACKS).
+
+5. **Critic, tre soglie di kill rate incompatibili**: constraint 4 "30-50% sano, sotto 15% insufficiente" contro constraint 6 "50-70% e' normale e sano". Un tasso del 55% era simultaneamente fuori banda e normale. Ora il constraint 4 e' l'unica fonte.
+
+6. **Quality Gate, rubrica 9 contro 10**: il `description` del frontmatter diceva "9-point rubric" mentre GOAL, constraint 1 e la tabella dicono 10.
+
+7. **Quality Gate, verdetti duplicati in `session.json`**: il constraint chiedeva di scriverli sia li' sia in `quality-gate.json`. Ma il flusso documentato e' che l'orchestratore costruisce `final.json` leggendo `quality-gate.json` DA DISCO, proprio per non fidarsi della memoria conversazionale. Ora l'agente aggiorna solo il contatore `health.passed_quality_gate`, che e' l'unico campo letto da `orchestrator-stop-gate.py`.
+
+8. **Scout, denominatore sbagliato nelle quote**: i constraint 6 e 11 dicono 5-6 candidati, ma GOAL, constraint 4, 4b e la riga 180 dicevano 3. Le quote di diversita' ed exploration slot erano quindi espresse contro il numero sbagliato ("almeno 2 strategie diverse su 3" applicato a un pool di 6 e' molto piu' debole). Allineato tutto a 5-6, con la riduzione a 3 dichiarata come lavoro dell'Orchestratore.
+
+9. **`maxTurns` documentato in modo scorretto**: `CLAUDE.md` diceva 200, il frontmatter dice 500, e al top-level il valore di frontmatter e' comunque informativo. Ora la doc descrive il comportamento reale invece di scegliere un numero.
+
+**Non corretto (deliberato)**: `scout.md` continua a scrivere `scout_targets` in `session.json`. Non e' una violazione: sono metadati di coordinamento, non contenuto di ipotesi, e `scout-stop-gate.py` legge esattamente quel campo. Restano da valutare in un passaggio separato le letture dirette di `session.json` da parte di target-evaluator, convergence-scanner, session-analyst e dataset-evidence-miner, che sono in tensione con il principio "gli agenti ricevono i dati dal dispatch prompt" ma non sono rotte.
+
+**Stato di validazione**: correzioni statiche verificate (hook Python parsano, contratti di file coerenti fra agente, orchestratore e gate). Il comportamento end-to-end va confermato nella stessa sessione `/discover` che valida v5.33.
+
+**File modificati**:
+- `.claude/agents/evolver.md` -- contratto di output a due file sotto `{results_dir}/`
+- `.claude/agents/critic.md` -- percorso di `critic_questions`, banda di kill rate unica
+- `.claude/agents/quality-gate.md` -- rubrica 10 punti nel description, solo contatore health in state
+- `.claude/agents/scout.md` -- quote allineate a 5-6 candidati
+- `scripts/subagent-stop-hook.py` -- controlli critic/ranker/evolver su file reali invece che su chiavi di state inesistenti
+- `CLAUDE.md` -- descrizione corretta di `maxTurns`
+- `docs/CHANGELOG.md` -- questa entry
+
+---
+
 ## v5.33: Migrazione pipeline a Claude Opus 5 + harvest prompting + ripristino accesso MCP (30 luglio 2026)
 
 **Motivazione**: il 24 luglio 2026 Anthropic ha rilasciato Claude Opus 5 (`claude-opus-5`, alias `opus`). Tre ragioni per adottarlo come default al posto di Fable 5: (1) **costo dimezzato**, $5/$25 per MTok contro $10/$50, restando entro lo 0,5% del picco di Fable 5 su CursorBench 3.2 a effort max; (2) **guadagni proprio nel dominio di MAGELLAN** rispetto a Opus 4.8: chimica organica +10,2pp, predizione proteica +7,7pp, genomica descritta come "more like a careful scientist than any model"; (3) **coordinamento multi-agente** citato come miglioramento di punta (pattern writer-verifier, pochi casi di agenti che si sovrascrivono). La superficie API e' invariata (adaptive-thinking-only, niente parametri di sampling, niente prefill), quindi nessuna modifica di codice.

@@ -54,7 +54,8 @@ Your value comes from finding genuine weaknesses. Honest destruction of weak hyp
      attacks_summary, revised_confidence, survival_note, critic_questions}]. Read by
      orchestrator for routing
 6. **Genuinely adversarial**: Be genuinely adversarial, not performatively.
-   Killing 50-70% of hypotheses is normal and healthy
+   Constraint 4 defines the single healthy band; a rate above it is not a
+   defect for this agent, since finding real weaknesses is the job
 7. **Document absence**: If you can't find counter-evidence, say so —
    that's a GOOD sign
 
@@ -193,8 +194,12 @@ early kill saves you is further searching, not the reporting.
 ## QUESTIONS FOR GENERATOR (when mechanism is ambiguous)
 
 If a hypothesis mechanism is too vague to properly attack:
-- Write specific questions in state/session.json under
-  hypotheses.cycle{N}.critic_questions: [{hypothesis_id, question}]
+- Write specific questions into the `critic_questions` field of
+  `{results_dir}/cycle{N}-critiqued.json`: [{hypothesis_id, question}].
+  The orchestrator reads them from that file and forwards them to the
+  Generator in cycle 2. Do not write them into state/session.json: it is a
+  slim coordination index and the orchestrator never reads hypothesis
+  content from it, so questions placed there are silently lost
 - Still produce a verdict (WOUNDED, not SURVIVES or KILLED)
 
 ---

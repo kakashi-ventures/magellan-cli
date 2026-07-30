@@ -190,7 +190,7 @@ confidence, groundedness assessment.
 
 ### Architecture
 - **Mandatory agent dispatch** — Orchestrator has no WebSearch/WebFetch,
-  maxTurns=200 (circuit breaker only). Sub-agents have no turn limit (stop hooks validate output quality). Cannot execute phases inline. Must dispatch to sub-agents.
+  The orchestrator's `maxTurns: 500` frontmatter is a circuit breaker that applies only if it is ever dispatched AS a sub-agent; under `/discover` it runs top-level, where the session governs turns and the frontmatter value is informational. Sub-agents have no turn limit (stop hooks validate output quality). Cannot execute phases inline. Must dispatch to sub-agents.
 - **GOAL/CONSTRAINTS/STRATEGIES prompt structure** — Agent prompts define
   the goal and hard constraints, with strategies as advisory. Better models
   find better reasoning paths; constraints maintain quality floor.

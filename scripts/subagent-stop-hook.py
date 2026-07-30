@@ -22,23 +22,23 @@ try:
             if hyps == 0:
                 warnings.append("Generator finished but no hypotheses recorded in state")
 
-        elif agent_type == "critic":
+        # Phase agents write their artifacts to {results_dir}/, never into
+        # session.json: it is a slim coordination index and must not carry
+        # hypothesis content. Check the files the orchestrator actually reads.
+        elif agent_type in ("critic", "ranker", "evolver"):
             cycle = d.get("cycle", 1)
-            critiqued = d.get("hypotheses", {}).get(f"cycle{cycle}", {}).get("critiqued", None)
-            if not critiqued:
-                warnings.append(f"Critic finished but no critiqued data for cycle{cycle} in state")
-
-        elif agent_type == "ranker":
-            cycle = d.get("cycle", 1)
-            ranked = d.get("hypotheses", {}).get(f"cycle{cycle}", {}).get("ranked", None)
-            if not ranked:
-                warnings.append(f"Ranker finished but no ranked data for cycle{cycle} in state")
-
-        elif agent_type == "evolver":
-            cycle = d.get("cycle", 1)
-            evolved = d.get("hypotheses", {}).get(f"cycle{cycle}", {}).get("evolved", None)
-            if not evolved:
-                warnings.append(f"Evolver finished but no evolved data for cycle{cycle} in state")
+            results_dir = d.get("results_dir", "")
+            expected = {
+                "critic": (f"cycle{cycle}-critiqued.json", f"critiqued-cycle{cycle}.md"),
+                "ranker": (f"cycle{cycle}-ranked.json", f"ranked-cycle{cycle}.md"),
+                "evolver": (f"cycle{cycle}-evolved.json", f"evolved-cycle{cycle}.md"),
+            }[agent_type]
+            if results_dir:
+                for fname in expected:
+                    if not os.path.exists(os.path.join(results_dir, fname)):
+                        warnings.append(
+                            f"{agent_type.capitalize()} finished but {fname} is missing from {results_dir}"
+                        )
 
     feedback = f"Subagent [{agent_type}] completed."
     if warnings:

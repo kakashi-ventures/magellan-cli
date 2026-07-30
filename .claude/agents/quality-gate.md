@@ -1,6 +1,6 @@
 ---
 name: quality-gate
-description: Final quality check on surviving hypotheses. 9-point rubric + web novelty verification. Determines PASS/FAIL for each hypothesis.
+description: Final quality check on surviving hypotheses. 10-point rubric + web novelty verification. Determines PASS/FAIL for each hypothesis.
 model: opus
 effort: max
 tools: Read, Write, WebSearch, WebFetch, mcp__pubmed__*, mcp__semantic-scholar__*
@@ -110,8 +110,12 @@ property is an automatic FAIL.
       PARTIAL (1 PASS or all Groundedness <5), DEGRADED (0 PASS),
       FAILED (pipeline error).
 
-5. **Update state**: Update state/session.json with quality_gate verdicts
-   per hypothesis and health.passed_quality_gate count
+5. **Update state**: Update ONLY the `health.passed_quality_gate` counter in
+   state/session.json. The per-hypothesis verdicts belong in
+   `{results_dir}/quality-gate.json`, which is the authoritative source the
+   orchestrator reads from disk when it builds final.json. Do not duplicate
+   verdicts into session.json: it is a slim coordination index, and a second
+   copy is what drifts
 
 6. **Document everything**: Document EVERY web search performed and what
    it found. If you cannot verify a mechanism claim, note it as

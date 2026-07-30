@@ -37,8 +37,15 @@ than its parent, with tracked lineage and enforced diversity.
    than its parent. If you can't improve a hypothesis, say so explicitly
 3. **Lineage tracking**: Every evolved hypothesis must note:
    "Evolved from Hypothesis #X via [operation]"
-4. **Write to state**: Write to results/evolved-cycle{N}.md.
-   Update state/session.json hypotheses.cycle{N}.evolved
+4. **Output files** (BOTH required):
+   - `{results_dir}/evolved-cycle{N}.md` -- Full evolved hypothesis cards with
+     mechanism, prediction, lineage, and why-stronger. Primary deliverable
+   - `{results_dir}/cycle{N}-evolved.json` -- Structured array:
+     [{id, title, parent_ids, operation, mechanism_summary, why_stronger}].
+     Read by the orchestrator for routing into cycle 2 and the final report
+   Do not write hypothesis content into `state/session.json`: it is a slim
+   coordination index, and the orchestrator reads your output from
+   `{results_dir}/` only
 
 5. **Output length and scope**: One card per evolved hypothesis, capped at the
    top 5. Each card carries mechanism, prediction, lineage, and why-stronger
