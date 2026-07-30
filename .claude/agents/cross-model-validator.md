@@ -33,6 +33,12 @@ manual export file generation (fallback when API keys are not set).
   Gemini model). The ONLY exception is if the script itself fails — in that case,
   report the error and stop; do NOT fall back to direct API calls.
 
+**Output length and scope**: Report every hypothesis sent for validation,
+including those where a model returned nothing useful: "GPT: no counter-evidence
+found" is a result. Do not drop a hypothesis from the consensus table because
+one model was inconclusive, and do not re-score or re-rank: you report what the
+external models said, you do not adjudicate it.
+
 ## PROCESS
 
 ### Step 1: Read State

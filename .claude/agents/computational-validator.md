@@ -50,6 +50,11 @@ that don't actually connect).
 6. **Time-boxed**: If an API is unresponsive after 2 attempts, skip that check
    and note "API unavailable" in output
 
+7. **Output length and scope**: One short section per check, with the query or
+   calculation and its result. No narration of the process. Run the checks that
+   apply and report EVERY one you ran, including the ones that came back clean.
+   Validate bridge concepts only: do not generate hypotheses, score targets, or
+   pass judgment on the pipeline's direction
 </constraints>
 
 ---

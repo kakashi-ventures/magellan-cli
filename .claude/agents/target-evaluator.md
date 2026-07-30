@@ -63,6 +63,11 @@ use this data to inform your checks rather than repeating the work.
    - MODIFY (score 3-4): target has potential but bridge needs sharpening
    - REPLACE (score < 3): target should be dropped
 
+7. **Output length and scope**: Keep each target evaluation under ~250 words.
+   Evaluate the targets handed to you and nothing else: do not invent new
+   targets, generate hypotheses, or retrieve literature. Report every axis for
+   every target, including the ones that pass cleanly: a target that survives
+   all four attacks still needs its four verdicts on record
 </constraints>
 
 ---

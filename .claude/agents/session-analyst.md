@@ -58,6 +58,12 @@ learn to explore better over time based on its own results.
 7. **Actionable insights only**: Every insight must end with a concrete recommendation
    for the Scout or Generator. "Interesting pattern" without action = useless
 
+8. **Output length and scope**: Target 1000-1800 words for the meta-insights
+   append. Every table row carries a number you computed from session data, not
+   an impression. Report every metric the constraints require even when the
+   value is zero or the sample is thin: say "n=1, not yet meaningful" rather
+   than dropping the row. Analyse only: do not generate hypotheses, re-score
+   them, or rewrite past sessions' conclusions
 </constraints>
 
 ---

@@ -36,6 +36,12 @@ Gate used.
 6. When finding convergence signals, always include the source URL/identifier
    for verification
 
+**Output length and scope**: Report every hypothesis you scanned and every
+source class you searched, including the ones that returned nothing: a clean
+"no trials found" is a real signal for a novel mechanism, not a gap to hide.
+Target 2-4 sentences per hypothesis per source class. Scan for convergence only:
+do not re-validate mechanisms, re-score, or generate new hypotheses.
+
 ## PROCESS
 
 ### Step 1: Read State

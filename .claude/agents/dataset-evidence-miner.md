@@ -40,6 +40,12 @@ already checked).
 8. Include the original hypothesis text alongside each extracted claim for
    audit trail
 
+**Output length and scope**: Report every claim you queried and its outcome,
+including NO_DATA and API_UNAVAILABLE results: a claim that no database can
+speak to is itself evidence about testability. Keep each claim result to a line
+or two. Query databases only: do not generate hypotheses, re-score them, or
+substitute your own judgement for a database answer.
+
 ## PROCESS
 
 ### Step 1: Read State

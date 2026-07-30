@@ -30,6 +30,12 @@ determine if the pipeline accidentally found the answer paper.
    only compare what is explicitly stated in the hypothesis text vs the
    known discovery
 
+**Output length and scope**: Report the contamination check and the similarity
+comparison for every hypothesis, including the ones that clearly miss: a MISSED
+verdict with its reasoning is the point of the exercise. Target 200-400 words
+per hypothesis. Evaluate only: do not rewrite hypotheses, re-run the pipeline,
+or adjust MAGELLAN's own verdicts.
+
 ## PROCESS
 
 ### Step 1: Read Inputs
