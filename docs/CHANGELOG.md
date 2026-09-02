@@ -5,6 +5,93 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.35 (fase 0): verifiche preliminari alla migrazione a Claude Fable 5.1 (2 settembre 2026)
+
+**Motivazione**: il 1 settembre 2026 Anthropic ha rilasciato Claude Fable 5.1
+(`claude-fable-5-1`), che estende Fable 5 allo stesso prezzo di listino
+($10/$50 per MTok) con cache read a $0.25/MTok. Prima di toccare i 15 agenti,
+quattro verifiche bloccanti: due riguardano la fattibilita' della migrazione, una
+il floor di versione, e una ha fatto emergere un difetto pre-esistente.
+
+**Questo commit non cambia nessun comportamento**: registra soltanto le prove, che
+sono il presupposto delle fasi successive. La migrazione vera e' un commit separato.
+
+**Cautela sul merito, prima delle verifiche**: la doc Anthropic raccomanda Opus 5
+come default e indica Fable 5.1 per "demanding reasoning and long-horizon agentic
+work, **or when your evals on Claude Opus 5 at higher effort still fall short**".
+MAGELLAN quegli eval non li ha mai eseguiti: v5.33 chiude ammettendo che Opus 5
+non e' validato end-to-end e che l'ultima validazione reale e' su Opus 4.7. La
+migrazione raddoppia il costo per token senza la misura che la giustifica, e
+sarebbe la terza migrazione non validata in tre mesi. Resta consigliato un
+`/validate-holdout` su Opus 5 a effort `max` prima di procedere.
+
+**Verifiche**:
+
+1. **Alias contro ID completo -- si pinna l'ID.** Su Claude Code 2.1.258 e provider
+   `firstParty`, sia `fable` sia `claude-fable-5-1` risolvono a `claude-fable-5-1`
+   (campo `canonicalModel` in `--output-format json`). L'alias oggi funzionerebbe,
+   ma non e' stabile: il changelog di Claude Code 2.1.243 recita "Changed `fable`
+   and `best` in Claude apps gateway sessions to keep resolving to Fable 5 for
+   now". Lo stesso alias risolve a modelli diversi a seconda del tipo di sessione,
+   ed e' esattamente il fallimento silenzioso che v5.33 ha documentato per `opus`.
+   Per un repo che gira sulle macchine altrui, l'alias e' la classe di bug, non la
+   soluzione.
+
+   **Verificato che il frontmatter dei sub-agenti accetta gli ID completi**: probe
+   temporanea con `model: claude-opus-4-8`, dispatch via CLI annidata, `modelUsage`
+   riporta due voci distinte (`claude-opus-5` per la sessione padre,
+   `claude-opus-4-8` con `canonicalModel: "claude-opus-4-8"` per il sub-agente). Il
+   sub-agente ha davvero girato sul modello dichiarato nel frontmatter. La fase 1
+   usera' quindi `model: claude-fable-5-1`, non `model: fable`.
+
+2. **Zero data retention: nessun blocco.** Fable 5.1 richiede 30 giorni di
+   retention, e' designato Covered Model e non e' disponibile sotto ZDR se non con
+   autorizzazione esplicita di Anthropic; un'org ZDR riceve `400
+   invalid_request_error` su ogni chiamata. Opus 5 invece e' disponibile sotto ZDR,
+   quindi questo vincolo e' nuovo e non poteva essere ereditato. Due chiamate di
+   prova a `claude-fable-5-1` sono andate a buon fine: l'org non e' bloccata.
+
+3. **Floor Claude Code: 2.1.257.** Fable 5.1 entra come opzione in 2.1.240; la
+   2.1.257 e' la voce che dichiara "Added Claude Fable 5.1 (`claude-fable-5-1`), now
+   the default Fable model". Il floor attuale del repo e' 2.1.219 (alzato da v5.33).
+   Versione locale di sviluppo: 2.1.258.
+
+4. **Difetto pre-esistente confermato: il fallback anti-rifiuto di v5.33 non puo'
+   eseguire.** Il parametro `model` del tool Agent accetta soltanto i quattro alias.
+   Verificato empiricamente:
+
+   ```
+   InputValidationError: expected one of "sonnet"|"opus"|"haiku"|"fable"
+       path: ["model"]
+   ```
+
+   L'istruzione scritta da v5.33 -- "re-dispatch the SAME agent ONCE with `model:
+   claude-opus-4-8`. Use the full model ID, not an alias" -- fallisce in validazione
+   prima di partire. Il **layer 1** della mitigazione anti-rifiuto e' quindi non
+   funzionante dal 30 luglio 2026. Il **layer 2** (rollback persistente via
+   frontmatter con ID completo) funziona, come dimostrato dalla verifica 1.
+
+   L'asimmetria e' precisa e vale la pena fissarla: **il frontmatter accetta gli ID
+   completi, il parametro per-invocazione del tool Agent accetta solo i quattro
+   alias**. Correzione in fase 2.
+
+**Dati raccolti di passaggio** (rilevanti per i budget di lunghezza e per il costo):
+- Claude Code espone `contextWindow: 1000000` ma `maxOutputTokens: 64000`, cioe'
+  meta' dei 128K che l'API dichiara per Fable 5.1.
+- Il cache write di Fable 5.1 e' $12.50/MTok contro i $6.25 di Opus 5. Una chiamata
+  banale con 9.6K token di cache creation e' costata $0.195. Su 15 agenti che
+  partono ciascuno da un system prompt proprio, il raddoppio pesa soprattutto sul
+  cache write, non sugli input.
+
+**Conseguenza sul piano**: la fase 2 (fallback anti-rifiuto) va riscritta piu' a
+fondo del previsto, perche' deve sostituire un meccanismo che non valida, non solo
+aggiornarne il bersaglio.
+
+**File modificati**:
+- `docs/CHANGELOG.md` -- questa entry
+
+---
+
 ## v5.34: Riparazione contratti fra agenti (difetti pre-esistenti emersi dall'audit v5.33) (30 luglio 2026)
 
 **Motivazione**: l'audit per-agente condotto per la migrazione a Opus 5 ha fatto emergere una serie di difetti di correttezza che NON dipendono dal modello: sono sbagliati su qualunque modello, ma la maggiore letteralita' di Opus 5 li rende piu' probabili. Sono tenuti in un commit separato da v5.33 di proposito: mescolarli alla migrazione renderebbe impossibile attribuire al modello un'eventuale variazione di qualita' nell'A/B.
