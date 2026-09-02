@@ -1,7 +1,7 @@
 ---
 name: dataset-evidence-miner
 description: Queries bioinformatics databases (Human Protein Atlas, GWAS Catalog, ChEMBL, UniProt, PDB) to verify specific molecular claims in passing hypotheses. Complements the pre-generation Computational Validator with post-generation claim-level evidence.
-model: opus
+model: claude-fable-5-1
 effort: high
 tools: Read, Write, Bash
 permissionMode: bypassPermissions

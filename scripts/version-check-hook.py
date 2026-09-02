@@ -5,28 +5,29 @@ Claude Code version is below the floor this MAGELLAN pipeline depends on.
 Fail-open by design: it never blocks startup and never errors loudly. If the version
 cannot be determined, it stays silent.
 
-Floor = v2.1.219. Rationale (features the pipeline now uses):
+Floor = v2.1.257. Rationale (features the pipeline now uses):
   - canonical hook output `systemMessage`/`additionalContext` (v2.1.163)
   - `terminalSequence` desktop notifications from hooks (v2.1.141)
   - hook exec-form `args: [...]` (v2.1.139)
   - `--fallback-model` / `fallbackModel` resilience (v2.1.166)
-  - `opus` alias resolving to Claude Opus 5 (the pipeline's primary model,
-    released 2026-07-24). This is the floor-setting feature: on older builds the
-    `opus` alias in every agent's frontmatter resolves to an Opus 4.x model, so
-    the pipeline silently runs on the wrong model rather than failing loudly.
-  - `claude-opus-4-8` still addressable by full model ID in agent frontmatter (the
+  - `claude-fable-5-1` available as a model (the pipeline's primary model, pinned by
+    full ID in every agent's frontmatter). This is the floor-setting feature: it
+    enters as an option in v2.1.240 and becomes the default Fable model in
+    v2.1.257, which is the floor taken here. On older builds the model ID is
+    unknown, which fails loudly, unlike the previous alias-based pin.
+  - `claude-opus-5` still addressable by full model ID in agent frontmatter (the
     persistent rollback target for classifier declines; the Agent tool's
     per-invocation `model` parameter accepts only aliases, so a full ID cannot be
     used there).
 NOTE: the orchestrator itself runs on the SESSION model, not frontmatter, so a
-correct version is necessary but not sufficient: the user must also select Opus 5
-via `/model` before `/discover`.
+correct version is necessary but not sufficient: the user must also select
+Fable 5.1 via `/model claude-fable-5-1` before `/discover`.
 
 Org-managed alternative: set `requiredMinimumVersion` in managed settings to refuse
 startup below the floor (this hook only warns, which suits a distributable repo)."""
 import sys, json, os, re, subprocess
 
-MIN_VERSION = (2, 1, 219)
+MIN_VERSION = (2, 1, 257)
 MIN_VERSION_STR = ".".join(map(str, MIN_VERSION))
 
 
@@ -68,7 +69,7 @@ try:
             "systemMessage": (
                 f"MAGELLAN expects Claude Code >= {MIN_VERSION_STR} (running {running}). "
                 "Some pipeline features (canonical hook output, terminalSequence "
-                "notifications, hook exec-form, the `opus` alias = Claude Opus 5) "
+                "notifications, hook exec-form, the `claude-fable-5-1` model) "
                 "need a newer version. Run `claude update`."
             )
         }))

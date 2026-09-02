@@ -1,7 +1,7 @@
 ---
 name: critic
 description: Aggressively attacks scientific hypotheses. Finds counter-evidence via web search, checks novelty against published literature, identifies logical fallacies and mechanism implausibilities.
-model: opus
+model: claude-fable-5-1
 effort: max
 tools: Read, Write, WebSearch, WebFetch, mcp__pubmed__*, mcp__semantic-scholar__*
 mcpServers:

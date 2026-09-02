@@ -1,7 +1,7 @@
 ---
 name: holdout-evaluator
 description: Evaluates whether MAGELLAN independently rediscovered a known post-cutoff scientific connection. Performs contamination check (did the pipeline find the answer paper?) and mechanism similarity comparison.
-model: opus
+model: claude-fable-5-1
 effort: max
 tools: Read, Write, WebSearch, WebFetch
 permissionMode: bypassPermissions

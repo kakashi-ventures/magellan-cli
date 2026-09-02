@@ -44,7 +44,7 @@ cat > state/session.json << EOF
   "metadata": {
     "start_time": "",
     "last_updated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-    "model": "claude-opus-5",
+    "model": "claude-fable-5-1",
     "contributor_key": "${CONTRIBUTOR_KEY:-null}",
     "output_license": "",
     "output_license_reason": "",

@@ -1,7 +1,7 @@
 ---
 name: discovery-orchestrator
 description: Orchestrates a full autonomous scientific discovery cycle. Coordinates all agents through 2 complete cycles. Manages state via state/session.json and results/{session-id}/. Can run in Scout mode (autonomous), Targeted mode (user-specified fields), Open mode, or Problem-driven mode.
-model: opus
+model: claude-fable-5-1
 effort: max
 tools: Agent, Read, Write, Bash, Glob, Grep
 memory: project
@@ -22,7 +22,7 @@ Run the entire pipeline WITHOUT stopping to ask the user for input.
 
 Ignore the frontmatter fields (`tools:`, `maxTurns:`, `permissionMode:`, `model:`, `effort:`) if you are reading this from a top-level context loaded by `/discover`. Those fields are sub-agent runtime hints, preserved for reference and in case the runtime changes in the future. What actually applies is the command's `allowed-tools` in `.claude/commands/discover.md` plus the session's global permission and model settings. In particular, the model you run on is the session model selected via `/model` (not the `model:` frontmatter); to change the orchestrator's model, change the session model. The `model:` frontmatter of each SUB-agent, by contrast, does govern that sub-agent at dispatch time.
 
-**Set the session model to Claude Opus 5 (`/model opus`) before running `/discover`.** The 14 sub-agents are pinned to `opus` in their own frontmatter, but this orchestrator is not: on any other session model you get a mismatched pipeline, an old model coordinating Opus 5 sub-agents. Rolling the orchestrator back is likewise a `/model` change, never an edit to this file.
+**Set the session model to Claude Fable 5.1 (`/model claude-fable-5-1`) before running `/discover`.** The 14 sub-agents pin the full model ID `claude-fable-5-1` in their own frontmatter, not the `fable` alias, which resolves to different models depending on session type. This orchestrator is not pinned at all: on any other session model you get a mismatched pipeline, a weaker model coordinating Fable 5.1 sub-agents. Rolling the orchestrator back is likewise a `/model` change, never an edit to this file.
 
 ## DISPATCH_OR_FAIL (hard constraint)
 
@@ -118,14 +118,14 @@ a sub-agent that produced no real output, an explicit "I can't help with that"
 message, or an empty/stub file. Branch on `stop_reason`, never on the inner
 `stop_details` fields.
 
-Scope of the risk on the current primary: sub-agents run on `opus` (Claude Opus 5),
-which runs cybersecurity-only classifiers. Expect `cyber`, not `bio`. Benign work
-can still trigger it, so the layer stays — it costs nothing when it does not fire.
-The exposure is much larger on a Fable-tier primary, whose classifiers cover a
-broader set including `bio`, the category that warns that beneficial life-sciences
-work can trigger it. On such a primary the most exposed agents, in order, are
-generator, critic, quality-gate, literature-scout, computational-validator,
-dataset-evidence-miner, convergence-scanner.
+Scope of the risk on the current primary: sub-agents run on `claude-fable-5-1`,
+whose classifiers cover a broader set than Claude Opus 5's cybersecurity-only ones,
+including `bio` — the category whose own documentation warns that beneficial
+life-sciences work can trigger it. Because MAGELLAN is life-sciences-optimized, this
+layer is load-bearing on this primary rather than precautionary; on the previous
+Opus 5 primary the expected category was `cyber` and this exposure did not exist.
+Most exposed agents, in order: generator, critic, quality-gate, literature-scout,
+computational-validator, dataset-evidence-miner, convergence-scanner.
 
 **The `model` parameter of the Agent tool accepts only the four aliases `sonnet`,
 `opus`, `haiku`, `fable`.** A full model ID fails schema validation before the
@@ -135,16 +135,16 @@ the two mitigation layers:
 
 **Layer 1, per-invocation retry (alias only).** If a returned output looks like a
 refusal rather than a genuine quality miss, re-dispatch the SAME agent ONCE with
-`model: sonnet`. Sonnet 5 is not among the models documented as running these
-classifiers, and it is the only alias that is neither circular (`opus` is the model
-that just refused) nor a step up in classifier coverage (`fable` resolves to a
-Fable-tier model, which carries more). The per-invocation `model` parameter takes
-precedence over the agent's frontmatter.
+`model: opus`. On a Fable-tier primary this is the correct target: Claude Opus 5
+runs cybersecurity-only classifiers, so it does not carry the `bio` classifier that
+most plausibly fired, and the alias is neither circular (`fable` is the tier that
+just declined) nor a capability downgrade (`sonnet`, `haiku`). The per-invocation
+`model` parameter takes precedence over the agent's frontmatter.
 
-**Layer 2, persistent rollback (full ID).** If an agent refuses systematically, set
-its frontmatter `model:` to a full model ID such as `claude-opus-4-8`. This is the
-only path to a model with no alias, and it is a file edit, not something you do
-mid-session.
+**Layer 2, persistent rollback (full ID).** If an agent declines systematically, set
+its frontmatter `model:` to a full model ID — `claude-opus-5` is the previous
+pipeline baseline. Frontmatter is the only path to a model with no alias, and this
+is a file edit, not something you do mid-session.
 
 Record it: INCREMENT metadata.retries_needed and note the fallback model in the
 phase entry. If the re-dispatch also fails to produce valid output, apply the

@@ -1,7 +1,7 @@
 ---
 name: literature-scout
 description: Retrieves and analyzes scientific literature from databases (Semantic Scholar, PubMed, arXiv via web search) to provide grounding context for hypothesis generation and validation.
-model: opus
+model: claude-fable-5-1
 effort: high
 tools: Read, Write, Edit, WebSearch, WebFetch, mcp__semantic-scholar__*, mcp__pubmed__*
 mcpServers:

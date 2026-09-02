@@ -5,6 +5,95 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.35 (fase 1): migrazione della pipeline a Claude Fable 5.1 (2 settembre 2026)
+
+**Motivazione**: la fase 0 ha verificato che la migrazione e' fattibile (ID completo
+accettato nel frontmatter, org non bloccata dal vincolo di retention, floor Claude
+Code 2.1.257) e la fase 2 ha riparato il layer anti-rifiuto che era rotto dal 30
+luglio. Questo commit fa la migrazione vera: cambia il modello primario dei 15
+agenti da Claude Opus 5 a Claude Fable 5.1 (`claude-fable-5-1`, rilasciato il 1
+settembre 2026).
+
+**Cambiamenti**:
+
+1. **Quindici agenti passano a `model: claude-fable-5-1`.** Si pinna l'ID completo,
+   non l'alias `fable`, per la ragione registrata in fase 0: la 2.1.243 ha mantenuto
+   `fable` su Fable 5 nelle sessioni gateway, quindi lo stesso alias risolve a
+   modelli diversi a seconda del tipo di sessione. E' la stessa classe di bug
+   silenzioso che il repo ha gia' subito con `opus`. Il frontmatter accetta gli ID
+   completi (verificato in fase 0 via `modelUsage`/`canonicalModel`).
+
+2. **L'orchestratore resta l'eccezione.** Gira sul modello di sessione perche'
+   `/discover` lo carica top-level: l'istruzione ora e' `/model claude-fable-5-1`,
+   non `/model opus`. Il suo `model:` di frontmatter e' informativo.
+
+3. **Portata dei classificatori: si inverte rispetto alla fase 2.** Su Opus 5
+   l'esposizione life-sciences non esisteva (classificatori cyber-only). Fable 5.1
+   ne esegue un insieme piu' ampio che include `bio`, la categoria la cui stessa
+   documentazione avverte che il lavoro benigno in scienze della vita puo' farla
+   scattare. Per una pipeline life-sciences-optimized il layer anti-rifiuto passa da
+   precauzionale a portante: e' il costo di merito principale di questa migrazione,
+   non un dettaglio.
+
+4. **Bersaglio del layer 1: da `sonnet` a `opus`.** Con un primario Fable-tier,
+   `opus` smette di essere circolare e diventa il fallback corretto: Claude Opus 5 e'
+   cyber-only, quindi non porta il classificatore che con maggiore probabilita' e'
+   scattato, e a differenza di `sonnet`/`haiku` non e' un downgrade di capacita'.
+   Resta l'unico alias sensato fra i quattro ammessi dal tool Agent.
+
+5. **Bersaglio del layer 2: da `claude-opus-4-8` a `claude-opus-5`.** Il rollback
+   persistente via frontmatter punta ora alla baseline precedente della pipeline.
+
+6. **Floor Claude Code: da 2.1.219 a 2.1.257** (`scripts/version-check-hook.py`),
+   la voce che dichiara `claude-fable-5-1` come modello Fable di default. Nota di
+   robustezza: con l'ID completo un build vecchio fallisce in modo rumoroso, mentre
+   il pin ad alias falliva in silenzio eseguendo il modello sbagliato.
+
+7. **Vincolo operativo nuovo, documentato nei prerequisiti del README**: Fable 5.1 e'
+   Covered Model e richiede 30 giorni di retention. Un'org sotto zero data retention
+   riceve `400 invalid_request_error` su ogni chiamata e non puo' eseguire la
+   pipeline cosi' configurata; il rimedio e' il rollback a `claude-opus-5`, che sotto
+   ZDR e' disponibile. Opus 5 non aveva questo vincolo, quindi non poteva essere
+   ereditato dal setup precedente.
+
+8. **Costo**: $10/$50 per MTok contro i $5/$25 di Opus 5, cache write $12.50 contro
+   $6.25, cache read $0.25. Su 15 agenti che partono ciascuno dal proprio system
+   prompt il peso maggiore e' sul cache write, come rilevato in fase 0.
+
+9. **Breaking changes di Fable 5.1 verificati inerti qui**: forced tool use
+   (`tool_choice` `any`/`tool`) restituisce 400, i thinking block sono legati al
+   modello che li produce, e l'edit di turni precedenti li invalida ("preserved
+   thinking"). MAGELLAN non imposta `tool_choice`, `thinking`, `max_tokens` ne'
+   parametri di sampling, e la gestione della history e' dell'harness Claude Code.
+
+**Deliberatamente NON in questo commit**: l'harvest di prompting per Fable 5.1. La
+sua guida avverte che i prompt scritti per modelli precedenti sono spesso troppo
+prescrittivi e abbassano la qualita' dell'output — gli 15 agenti sono stati calibrati
+per Opus 5 in v5.33. Tenerlo separato e' la stessa disciplina di v5.34: se l'A/B
+mostra una variazione di qualita', dev'essere attribuibile o al modello o ai prompt,
+non a entrambi insieme.
+
+**Stato di validazione**: non validata end-to-end. Serve una sessione `/discover`
+completa (osservando `stop_reason: refusal` e verificando che il re-dispatch su
+`opus` scatti davvero) piu' un A/B `/validate-holdout` contro Opus 5. La cautela di
+merito della fase 0 resta in piedi e non e' stata rimossa dalla documentazione:
+Anthropic indica questo tier quando gli eval su Opus 5 a effort piu' alto risultano
+insufficienti, e MAGELLAN quegli eval non li ha mai eseguiti. L'ultima validazione
+end-to-end reale resta su Opus 4.7.
+
+**File modificati**:
+- `.claude/agents/*.md` (15 file) -- `model: claude-fable-5-1`
+- `.claude/agents/discovery-orchestrator.md` -- modello di sessione, portata dei classificatori, bersagli dei due layer
+- `scripts/version-check-hook.py` -- floor 2.1.257, rationale e messaggio
+- `scripts/init-session.sh` -- `metadata.model`
+- `prompts/validation-prompt-gpt.md` -- attribuzione del modello generatore
+- `CLAUDE.md` -- tabella agenti, principio di selezione modello/effort, principio di fallback, pinning per ID completo
+- `README.md` -- prerequisiti (floor, `/model`, avviso ZDR), tabella e lista agenti, sezione Architecture
+- `docs/methodology-v5.md` -- abstract, diagrammi, tabelle agenti, sezione multi-model, benchmark di riferimento (voce Fable 5.1 aggiunta, Opus 5 ridefinito come bersaglio di rollback)
+- `docs/CHANGELOG.md` -- questa entry
+
+---
+
 ## v5.35 (fase 2): riparazione del fallback anti-rifiuto e correzione della portata dei classificatori (2 settembre 2026)
 
 **Motivazione**: la fase 0 ha confermato che il layer 1 della mitigazione

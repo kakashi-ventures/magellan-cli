@@ -1,7 +1,7 @@
 ---
 name: quality-gate
 description: Final quality check on surviving hypotheses. 10-point rubric + web novelty verification. Determines PASS/FAIL for each hypothesis.
-model: opus
+model: claude-fable-5-1
 effort: max
 tools: Read, Write, WebSearch, WebFetch, mcp__pubmed__*, mcp__semantic-scholar__*
 mcpServers:

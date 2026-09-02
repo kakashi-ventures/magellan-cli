@@ -19,9 +19,11 @@ sacrificing novelty or rigor.
 
 ## Prerequisites
 
-1. **[Claude Code](https://claude.com/product/claude-code)**: Anthropic's terminal-based AI tool (the CLI version, not the web chat or desktop app). **Requires v2.1.219 or newer**, the version where the `opus` alias began resolving to Claude Opus 5 (released July 24 2026); on older builds every agent's `model: opus` silently resolves to an Opus 4.x model instead. Also needs canonical hook output, `terminalSequence` notifications, and hook exec-form. Run `claude --version` and update if `/model` does not offer Opus 5. Requires a Claude subscription (Pro minimum, Max/Team recommended). [Install docs](https://code.claude.com/docs/it/overview)
+1. **[Claude Code](https://claude.com/product/claude-code)**: Anthropic's terminal-based AI tool (the CLI version, not the web chat or desktop app). **Requires v2.1.257 or newer**, the version where `claude-fable-5-1` (released September 1 2026) becomes the default Fable model; every agent pins that full model ID in its frontmatter, so older builds fail loudly instead of silently running the wrong model. Also needs canonical hook output, `terminalSequence` notifications, and hook exec-form. Run `claude --version` and update if `/model` does not offer Fable 5.1. Requires a Claude subscription (Pro minimum, Max/Team recommended). [Install docs](https://code.claude.com/docs/it/overview)
 
-   **Before running `/discover`, set the session model with `/model opus`.** The 14 sub-agents are pinned to Opus 5 in their own frontmatter, but the orchestrator runs on the *session* model, so leaving the session on another model gives you an older model coordinating Opus 5 sub-agents.
+   **Before running `/discover`, set the session model with `/model claude-fable-5-1`.** The 14 sub-agents pin that model ID in their own frontmatter, but the orchestrator runs on the *session* model, so leaving the session on another model gives you a weaker model coordinating Fable 5.1 sub-agents.
+
+   **Zero data retention orgs cannot run this pipeline as configured.** Fable 5.1 is a Covered Model requiring 30-day retention; under ZDR every call returns `400 invalid_request_error` unless Anthropic has expressly authorized it. Roll the fleet back to `claude-opus-5`, which is available under ZDR.
 
 2. **[Node.js](https://nodejs.org/) 20+** — Required for cross-model validation scripts and website upload. Run `npm install` after cloning to install dependencies.
 
@@ -171,17 +173,17 @@ CLAUDE.md                                    ← Project instructions for Claude
 .claude/
   settings.json                              ← Permissions, hooks, Agent Teams
   agents/
-    discovery-orchestrator.md                 ← Dispatches to agents, guard logic [Opus 5, max]
-    scout.md                                 ← Finds WHERE (10 strategies) [Opus 5, max]
-    target-evaluator.md                      ← Adversarial target challenge [Opus 5, max]
-    literature-scout.md                      ← Retrieves literature context [Opus 5, high]
-    computational-validator.md               ← Programmatic bridge checks [Opus 5, high]
-    generator.md                             ← Creates hypotheses [Opus 5, max]
-    critic.md                                ← Attacks hypotheses (9 attack vectors) [Opus 5, max]
-    ranker.md                                ← 6-dimension scoring + Elo sanity check [Opus 5, high]
-    evolver.md                               ← Recombines with diversity constraint [Opus 5, high]
-    quality-gate.md                          ← 10-point rubric + web grounding [Opus 5, max]
-    session-analyst.md                       ← Post-pipeline meta-learning [Opus 5, high]
+    discovery-orchestrator.md                 ← Dispatches to agents, guard logic [Fable 5.1, max]
+    scout.md                                 ← Finds WHERE (10 strategies) [Fable 5.1, max]
+    target-evaluator.md                      ← Adversarial target challenge [Fable 5.1, max]
+    literature-scout.md                      ← Retrieves literature context [Fable 5.1, high]
+    computational-validator.md               ← Programmatic bridge checks [Fable 5.1, high]
+    generator.md                             ← Creates hypotheses [Fable 5.1, max]
+    critic.md                                ← Attacks hypotheses (9 attack vectors) [Fable 5.1, max]
+    ranker.md                                ← 6-dimension scoring + Elo sanity check [Fable 5.1, high]
+    evolver.md                               ← Recombines with diversity constraint [Fable 5.1, high]
+    quality-gate.md                          ← 10-point rubric + web grounding [Fable 5.1, max]
+    session-analyst.md                       ← Post-pipeline meta-learning [Fable 5.1, high]
   commands/
     discover.md                              ← /discover (main entry point)
     connect.md                               ← /connect contributor key
@@ -258,23 +260,23 @@ verification/
 
 ## Architecture
 
-15 specialized agents, all running on Claude Opus 5 (`opus`), Anthropic's flagship released July 24 2026. The deep/structured distinction is carried by effort, not model tier: effort `max` for deep reasoning agents, `high` for structured/search agents, pinned per agent to guarantee quality regardless of the user's session-level effort setting. Opus 5 costs $5/$25 per MTok, half of Fable 5, and gains materially in MAGELLAN's own domain (organic chemistry, protein prediction, genomics). Because its safety classifiers can still refuse biology/life-sciences content, each agent has a documented rollback to `claude-opus-4-8` and the orchestrator auto-falls-back on refusal; see `docs/CHANGELOG.md` and `CLAUDE.md`:
+15 specialized agents, all running on Claude Fable 5.1 (`claude-fable-5-1`, released September 1 2026), Anthropic's most capable widely released model. The deep/structured distinction is carried by effort, not model tier: effort `max` for deep reasoning agents, `high` for structured/search agents, pinned per agent to guarantee quality regardless of the user's session-level effort setting. Fable 5.1 costs $10/$50 per MTok, double Opus 5, and is the tier Anthropic points to for demanding reasoning and long-horizon agentic work. Its safety classifiers cover a broader set than Opus 5's cybersecurity-only ones, including biology, so each agent has a documented rollback to `claude-opus-5` and the orchestrator auto-falls-back on a decline; see `docs/CHANGELOG.md` and `CLAUDE.md`:
 
-- **Scout** [Opus 5, max] — 10 strategies to find WHERE undiscovered connections hide (incl. structural isomorphism + serendipity). TARGET QUALITY CHECK + strategy diversification + exploration slot + rotating creativity constraint
-- **Target Evaluator** [Opus 5, max] — Adversarial challenge of Scout targets on 4 axes (popularity, vagueness, impossibility, local-optima)
-- **Literature Scout** [Opus 5, high] — MCP servers (mandatory first step) + WebSearch fallback + full-text paper retrieval + RETRIEVAL QUALITY CHECK reflection
-- **Computational Validator** [Opus 5 + Bash, high] — Programmatic bridge verification: KEGG, STRING, PubMed co-occurrence, back-of-envelope physics
-- **Generator** [Opus 5, max] — Parametric creativity + literature + computational validation → 6-8 hypotheses per cycle. SELF-CRITIQUE + claim-level verification reflection
-- **Critic** [Opus 5, max] — 9 adversarial attack vectors (incl. claim-level fact verification) + META-CRITIQUE reflection + critic_questions feedback
-- **Ranker** [Opus 5, high] — 6-dimension scoring (Impact decomposed into Paradigm 5% + Translational 5%) + diversity check + Elo tournament sanity check
-- **Evolver** [Opus 5, high] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
-- **Quality Gate** [Opus 5, max] — 10-point rubric + web novelty + per-claim grounding verification + impact annotation (informational) + META-VALIDATION reflection
-- **Session Analyst** [Opus 5, high] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
-- **Cross-Model Validator** [Opus 5, high] — Calls GPT-5.5 Pro (background poll, reasoning xhigh, web search + code interpreter) + Gemini Deep Research Max (Interactions API agent: google_search + url_context + code_execution) for independent validation → consensus report (requires API keys; falls back to export files)
-- **Convergence Scanner** [Opus 5, high] — Post-QG: searches ClinicalTrials.gov, NIH Reporter, patents for independent convergence signals + partial mechanism confirmations from non-pipeline sources
-- **Dataset Evidence Miner** [Opus 5, high] — Post-QG: queries HPA, GWAS Catalog, ChEMBL, UniProt, PDB via `scripts/query-biodata.py` to verify specific molecular claims in passing hypotheses. Suggests computational follow-up queries
-- **Holdout Evaluator** [Opus 5, max] — Validation framework: compares MAGELLAN output against known post-cutoff discoveries with contamination check + mechanism similarity scoring
-- **Orchestrator** [Opus 5, max] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health, meta-learning metrics
+- **Scout** [Fable 5.1, max] — 10 strategies to find WHERE undiscovered connections hide (incl. structural isomorphism + serendipity). TARGET QUALITY CHECK + strategy diversification + exploration slot + rotating creativity constraint
+- **Target Evaluator** [Fable 5.1, max] — Adversarial challenge of Scout targets on 4 axes (popularity, vagueness, impossibility, local-optima)
+- **Literature Scout** [Fable 5.1, high] — MCP servers (mandatory first step) + WebSearch fallback + full-text paper retrieval + RETRIEVAL QUALITY CHECK reflection
+- **Computational Validator** [Fable 5.1 + Bash, high] — Programmatic bridge verification: KEGG, STRING, PubMed co-occurrence, back-of-envelope physics
+- **Generator** [Fable 5.1, max] — Parametric creativity + literature + computational validation → 6-8 hypotheses per cycle. SELF-CRITIQUE + claim-level verification reflection
+- **Critic** [Fable 5.1, max] — 9 adversarial attack vectors (incl. claim-level fact verification) + META-CRITIQUE reflection + critic_questions feedback
+- **Ranker** [Fable 5.1, high] — 6-dimension scoring (Impact decomposed into Paradigm 5% + Translational 5%) + diversity check + Elo tournament sanity check
+- **Evolver** [Fable 5.1, high] — Crossover, mutation, specification with diversity constraint + EVOLUTION QUALITY CHECK reflection (conditionally skippable)
+- **Quality Gate** [Fable 5.1, max] — 10-point rubric + web novelty + per-claim grounding verification + impact annotation (informational) + META-VALIDATION reflection
+- **Session Analyst** [Fable 5.1, high] — Post-pipeline meta-learning: strategy performance, kill patterns, bridge type analysis → knowledge/meta-insights.md
+- **Cross-Model Validator** [Fable 5.1, high] — Calls GPT-5.5 Pro (background poll, reasoning xhigh, web search + code interpreter) + Gemini Deep Research Max (Interactions API agent: google_search + url_context + code_execution) for independent validation → consensus report (requires API keys; falls back to export files)
+- **Convergence Scanner** [Fable 5.1, high] — Post-QG: searches ClinicalTrials.gov, NIH Reporter, patents for independent convergence signals + partial mechanism confirmations from non-pipeline sources
+- **Dataset Evidence Miner** [Fable 5.1, high] — Post-QG: queries HPA, GWAS Catalog, ChEMBL, UniProt, PDB via `scripts/query-biodata.py` to verify specific molecular claims in passing hypotheses. Suggests computational follow-up queries
+- **Holdout Evaluator** [Fable 5.1, max] — Validation framework: compares MAGELLAN output against known post-cutoff discoveries with contamination check + mechanism similarity scoring
+- **Orchestrator** [Fable 5.1, max] — Dispatches to all agents, adaptive cycle decisions, guard logic, session health, meta-learning metrics
 
 ## Conceptual Foundation
 

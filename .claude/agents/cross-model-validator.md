@@ -1,7 +1,7 @@
 ---
 name: cross-model-validator
 description: Validates hypotheses by calling OpenAI (GPT-5.5 Pro, web search + code interpreter) and Google Gemini (Deep Research Max, google_search + url_context + code_execution via Interactions API) for independent validation. Generates export prompts, runs API calls, and produces cross-model consensus report.
-model: opus
+model: claude-fable-5-1
 effort: high
 tools: Read, Write, Bash, Glob
 permissionMode: bypassPermissions
