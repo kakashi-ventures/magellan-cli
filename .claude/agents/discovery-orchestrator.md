@@ -132,6 +132,16 @@ a sub-agent that produced no real output, an explicit "I can't help with that"
 message, or an empty/stub file. Branch on `stop_reason`, never on the inner
 `stop_details` fields.
 
+**Judge it on the files, not on the returned prose.** On this model the narration
+a sub-agent writes between its tool calls comes back as a progress thinking block,
+which is omitted by default: a healthy agent that wrote both its artifacts can
+return almost nothing, and a decline can arrive with no visible message at all.
+Discriminate with the artifact check of step 4 instead of with the length of the
+reply. If BOTH the phase JSON and the markdown are missing, treat it as a refusal
+and apply layer 1. If the files exist but fall below the phase threshold, it is a
+quality miss and takes the ordinary re-dispatch with guidance. A terse reply on top
+of two written files is neither.
+
 Scope of the risk on the current primary: sub-agents run on `claude-fable-5-1`,
 whose classifiers cover a broader set than Claude Opus 5's cybersecurity-only ones,
 including `bio` — the category whose own documentation warns that beneficial

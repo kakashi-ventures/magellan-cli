@@ -5,6 +5,41 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.35 (fase 4): rilevamento dei rifiuti sugli artefatti invece che sulla risposta (2 settembre 2026)
+
+**Motivazione**: l'audit per-agente della fase 4 ha trovato un solo elemento
+davvero legato a Fable 5.1; sta qui, separato dai difetti pre-esistenti che lo
+stesso audit ha fatto emergere (quelli sono in v5.36, per la stessa disciplina di
+attribuzione delle fasi precedenti).
+
+**Il problema**: la Guard Protocol decideva "questo output sembra un rifiuto"
+guardando cosa torna dal sub-agente — "nessun output reale, un messaggio esplicito
+di rifiuto, o un file vuoto". Su Fable 5.1 il testo che il modello scrive *fra* le
+tool call torna come blocco di thinking di progresso, vuoto sotto il default
+`omitted`. Le due situazioni diventano quindi indistinguibili dalla lunghezza della
+risposta: un agente sano che ha scritto entrambi gli artefatti puo' rispondere
+quasi nulla, e un rifiuto puo' arrivare senza nessun messaggio visibile. Con la
+regola scritta per i modelli precedenti, il layer 1 (re-dispatch su `model: opus`)
+scatta sui falsi positivi e non scatta sui rifiuti silenziosi.
+
+**La correzione**: il discriminante e' il controllo di artefatti che
+l'orchestratore ha gia' (Guard Protocol passo 4). JSON di fase E markdown entrambi
+assenti = rifiuto, si applica il layer 1. File presenti ma sotto la soglia di fase
+= quality miss ordinaria, re-dispatch con guidance. Una risposta breve sopra due
+file scritti non e' nessuna delle due.
+
+**Stato di validazione**: statica, come le fasi 1-3. La verifica vera resta quella
+gia' in agenda: una sessione `/discover` completa in cui si osservi
+`stop_reason: refusal` e si confermi che il re-dispatch su `opus` scatta.
+
+**File modificati**:
+- `.claude/agents/discovery-orchestrator.md` -- blocco "Model-refusal fallback"
+- `CLAUDE.md` -- "Refusal fallback principle"
+- `docs/methodology-v5.md` -- paragrafo "Fallback (safety classifiers)"
+- `docs/CHANGELOG.md` -- questa entry
+
+---
+
 ## v5.35 (fase 3): harvest di prompting per Claude Fable 5.1 (2 settembre 2026)
 
 **Motivazione**: la fase 1 ha spostato i 15 agenti su Fable 5.1 lasciando fuori di
