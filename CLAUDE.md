@@ -194,6 +194,12 @@ confidence, groundedness assessment.
 - **GOAL/CONSTRAINTS/STRATEGIES prompt structure** — Agent prompts define
   the goal and hard constraints, with strategies as advisory. Better models
   find better reasoning paths; constraints maintain quality floor.
+- **Dispatch preamble** — The orchestrator appends a fixed two-sentence block to
+  the END of every dispatch prompt: write the deliverable once (at effort `max`
+  Fable 5.1 otherwise drafts a long document in its reasoning and again in the
+  reply), lead with the outcome, prefer literal statement to metaphor, and use
+  structure where it aids reading. It lives in the dispatch prompt rather than in
+  the sub-agent files because that is where style instructions actually hold.
 - **Session-agnostic agent prompts** — Files under `.claude/agents/` must not
   reference specific session IDs, cycle numbers, or ephemeral session-level
   findings. Agents run on any user's machine with their own sessions; a prompt

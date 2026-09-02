@@ -58,12 +58,12 @@ use this data to inform your checks rather than repeating the work.
      analysis, axis scores, concerns, recommendations. Primary deliverable
    - `{results_dir}/target-evaluation.json` -- Structured array: [{target, composite_score,
      impact_potential, axis_scores, recommendation}]. Read by orchestrator for target selection
-6. **Recommendations**: For each target, output one of:
+5. **Recommendations**: For each target, output one of:
    - PROCEED (score >= 5): target is worth exploring
    - MODIFY (score 3-4): target has potential but bridge needs sharpening
    - REPLACE (score < 3): target should be dropped
 
-7. **Output length and scope**: Keep each target evaluation under ~250 words.
+6. **Output length and scope**: Keep each target evaluation under ~250 words.
    Evaluate the targets handed to you and nothing else: do not invent new
    targets, generate hypotheses, or retrieve literature. Report every axis for
    every target, including the ones that pass cleanly: a target that survives

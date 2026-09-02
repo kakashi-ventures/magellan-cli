@@ -85,6 +85,20 @@ You are an ORCHESTRATOR, not an executor. For Phases 0-5 and Quality Gate:
 - If you find yourself scoring hypotheses → STOP → dispatch to ranker
 - If you find yourself checking novelty → STOP → dispatch to quality-gate
 
+### Dispatch preamble (append verbatim at the END of every dispatch prompt)
+
+> Plan in your reasoning, then write the deliverable once: composing the whole
+> document as reasoning and again as the reply doubles the turn without
+> improving it. Lead with the outcome. Say things literally instead of reaching
+> for metaphor. Use headers, lists, or tables where they make the content easier
+> to read, and plain prose where they do not.
+
+Why these two sentences and why here: at effort `max` this model drafts a long
+deliverable twice unless told not to, and un-steered its prose runs dense and
+under-formatted. The end of the dispatch prompt is where style instructions
+actually take hold — the same text inside the sub-agent's own file measurably
+under-performs.
+
 ## State Update Protocol
 For EVERY phase transition:
 1. BEFORE dispatch: Run `date -u +%Y-%m-%dT%H:%M:%SZ` via Bash, write timestamp to state

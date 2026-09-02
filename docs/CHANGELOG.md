@@ -5,6 +5,86 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.35 (fase 3): harvest di prompting per Claude Fable 5.1 (2 settembre 2026)
+
+**Motivazione**: la fase 1 ha spostato i 15 agenti su Fable 5.1 lasciando fuori di
+proposito l'adeguamento dei prompt, calibrati per Opus 5 in v5.33. Questa e' quella
+parte. Tenuta separata perche' un A/B possa attribuire una variazione di qualita' al
+modello o ai prompt, non a entrambi.
+
+**Cosa e' cambiato davvero** (poco, ed e' il risultato interessante):
+
+1. **Preambolo di dispatch, in coda a ogni prompt di dispatch.** Due frasi, aggiunte
+   dall'orchestratore: scrivi il deliverable una volta sola (pianifica nel
+   ragionamento, scrivi nell'output), apri con l'esito, dillo in modo letterale
+   invece che per metafora, usa struttura dove aiuta la lettura.
+
+   Il primo pezzo e' il comportamento Fable-specifico piu' costoso per questa
+   pipeline: a effort `xhigh`/`max` il modello tende a comporre un deliverable lungo
+   dentro il ragionamento e poi a riscriverlo come risposta — stesso risultato,
+   circa il doppio di token di output e di attesa. Sette agenti girano a `max` e
+   tutti e sette scrivono un markdown lungo. Il secondo pezzo inverte la direzione
+   rispetto ai modelli precedenti: Fable 5.1 formatta di MENO (meno header e liste)
+   e scrive piu' denso, e i deliverable MAGELLAN finiscono pubblicati sul sito.
+
+   Sta in coda al prompt di dispatch e non nei file degli agenti perche' e' li' che
+   le istruzioni di stile tengono davvero — la stessa frase nel system prompt del
+   sub-agente rende misurabilmente meno.
+
+2. **Retirata la regola "niente scaffolding di verifica" di v5.33.** La guida di
+   migrazione a Fable 5.1 dice esplicitamente di TENERE le istruzioni di verifica
+   quando si migra: il consiglio di Opus 5 non vale qui. La regola e' quindi
+   ritirata, non invertita: non e' stato tolto nient'altro, e i passi rimossi da
+   v5.33 non sono stati ripristinati alla cieca — rimetterli senza misura
+   contaminerebbe lo stesso A/B per cui questi commit sono separati.
+
+3. **Due difetti di enumerazione corretti.** La SELF-CRITIQUE del Generator era
+   numerata 1, 5, 3; i constraint del Target Evaluator saltavano il 5. Su un modello
+   che legge letteralmente, un'enumerazione rotta e' un rischio concreto, non un
+   refuso estetico.
+
+**Audit di prescrittivita' (l'avvertimento principale della guida): la pipeline lo
+precede in larga parte.** La guida avverte che i prompt scritti per modelli
+precedenti sono troppo prescrittivi e abbassano la qualita' su Fable 5.1. Misurato
+sui 15 agenti: la struttura GOAL/CONSTRAINTS/STRATEGIES gia' enuncia obiettivo e
+vincoli invece di elencare passi, e v5.33 aveva gia' portato la densita' di marcatori
+enfatici (MUST/CRITICAL/MANDATORY/ALWAYS/NEVER) a 0-2 per sub-agente. Quel che resta
+sono guardrail funzionali — "usa lo script", "esegui in background", "il controllo di
+contaminazione viene prima del confronto" — cioe' l'eccezione gia' documentata. Non
+e' stato riscritto nessun agente: una de-prescrizione di massa senza A/B e'
+esattamente cio' che la guida dice di misurare, non di presumere.
+
+**Cercato e non trovato**: linguaggio anti-formattazione ("niente elenchi puntati",
+"solo prosa", "nessun header"), che sotto questa guida andrebbe rimosso perche'
+Fable 5.1 gia' sotto-formatta. Nessuna occorrenza nei 15 agenti, quindi nessuna
+cancellazione.
+
+**Non applicato, con la ragione**:
+- *Nudge di batching delle tool call*: la guida lo condiziona a una misura (quota di
+  turni con piu' di una tool call) che non abbiamo, e avverte che aggiungerlo alla
+  cieca produce chiamate emesse prima dei risultati da cui dipendono.
+- *Delega asincrona ai sub-agenti*: e' una modifica al modello di dispatch, non ai
+  prompt. Fuori scope di un harvest di prompting.
+- *Istruzioni su aggiornamenti di progresso, autonomia e "ansia da contesto"*: gia'
+  presenti nell'orchestratore da v5.33 (blocchi "Autonomous Operation" e "Context
+  Efficiency"), verificate riga per riga contro il testo della guida. Nessuna
+  modifica necessaria.
+
+**Stato di validazione**: come la fase 1, statica. L'effetto del preambolo di
+dispatch si misura solo su una sessione reale, confrontando la lunghezza dei
+deliverable e i token di output per agente a effort `max`. Da fare nello stesso A/B
+raccomandato dopo la fase 1.
+
+**File modificati**:
+- `.claude/agents/discovery-orchestrator.md` -- preambolo di dispatch
+- `.claude/agents/generator.md` -- numerazione della SELF-CRITIQUE
+- `.claude/agents/target-evaluator.md` -- numerazione dei constraint
+- `CLAUDE.md` -- principio "Dispatch preamble"
+- `docs/methodology-v5.md` -- sezione Model-specific tuning (tre voci nuove, una regola ritirata), voce benchmark Fable 5.1
+- `docs/CHANGELOG.md` -- questa entry
+
+---
+
 ## v5.35 (fase 1): migrazione della pipeline a Claude Fable 5.1 (2 settembre 2026)
 
 **Motivazione**: la fase 0 ha verificato che la migrazione e' fattibile (ID completo

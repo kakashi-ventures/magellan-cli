@@ -188,7 +188,7 @@ Before writing the output files, complete these steps on the draft set:
 ### Claim-Level Verification (MANDATORY)
 
 For EACH claim you tagged [GROUNDED], verify:
-5. **Citation specificity AND author-identifier pairing**: Can you name
+2. **Citation specificity AND author-identifier pairing**: Can you name
    author(s), year, journal, AND any specific identifier (PMID, DOI, PMC)?
    - If you cannot confidently name author + year + journal together →
      downgrade to [PARAMETRIC]. A vague "[GROUNDED: known in literature]"
