@@ -81,7 +81,7 @@ PHASE 1 — EXPLORATION (Sequential Narrowing)
        ▼
 ┌──────────────────────────┐
 │  Computational Validator  │  KEGG, STRING, PubMed
-│  [Sonnet + Bash]         │  co-occurrence, physics
+│  [Fable 5.1 + Bash]      │  co-occurrence, physics
 └──────────┬───────────────┘
        ▼
 

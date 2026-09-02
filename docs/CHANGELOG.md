@@ -5,6 +5,66 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.35 (fase 5): allineamento del documento pubblico di metodologia (2 settembre 2026)
+
+**Motivazione**: `docs/pdf/methodology.html` — il sorgente del PDF pubblicato — era
+l'unico file toccato da v5.33 che la migrazione a Fable 5.1 non aveva mai aggiornato.
+Ultimo commit sul file: f0c8fe0. Restava quindi il solo artefatto che dichiarava una
+pipeline su Opus 5, ed e' anche quello che leggono i lettori esterni.
+
+**Cosa e' cambiato**:
+
+1. **31 badge `Opus 5` → `Fable 5.1`** nel diagramma dei 15 agenti, nella tabella
+   agente/modello/effort e nell'intro. Classe CSS `.badge-opus` rinominata in
+   `.badge-model`: un badge di classe "opus" che stampa "Fable 5.1" e' la trappola
+   che qualcuno decodifica alle 3 di notte. Colore invariato.
+
+2. **Tabella di ripartizione dell'effort**: `Fable 5.1 · max` per i 7 deep,
+   `Fable 5.1 · high` per gli 8 structured.
+
+3. **Bullet di riferimento del modello**: sostituito Opus 5 con Fable 5.1 (1M
+   contesto, 128k output, effort `low`–`max` con default `high`, $10/$50 per MTok con
+   cache write a $12.50, Covered Model con retention a 30 giorni). Opus 5 resta come
+   voce successiva, dichiarato rollback target con la ragione: classificatori
+   cyber-only. Intestazione della sezione da "March 2026" a "September 2026".
+
+4. **La frase sul tier split** diceva ancora *"Opus for deep, creative reasoning;
+   Sonnet for structured, search-intensive tasks"*. Descriveva l'assetto v4.3–v5.31:
+   Sonnet e' uscito dal frontmatter degli 8 agenti structured in v5.31 (99d5a99),
+   quando la distinzione deep/structured e' passata dal tier di modello all'effort, e
+   dal fallback del Guard Protocol in v5.33. Ora la frase dice "un modello, due tier
+   di effort". Cancellata anche `.badge-sonnet`, unica classe CSS senza usi.
+
+5. **Validatori esterni fermi a pre-v5.24/v5.25 in otto punti** (non solo nel box del
+   Cross-Model Validator): `GPT-5.4 Pro` → `GPT-5.5 Pro` e `Gemini 3.1 Pro` →
+   `Gemini Deep Research Max`, con i dettagli ripresi da `methodology-v5.md` invece
+   che riscritti. Rimossa la claim "33% fewer factual errors vs GPT-5.2", specifica
+   di GPT-5.4. Gemini 3.1 Pro resta dove e' corretto: modello base di DR Max e voce
+   benchmark dei modelli di frontiera.
+
+6. **`docs/methodology-v5.md`**: il box del Computational Validator nello schema
+   ASCII diceva ancora `[Sonnet + Bash]`, unica occorrenza sfuggita alla fase 1.
+   Ora `[Fable 5.1 + Bash]`, larghezza del box invariata.
+
+**Non toccato, deliberato**: la riga "Frontier models (Opus 5, GPT-5.5 Pro, Gemini
+3.1 Pro) score 91–94% on GPQA Diamond" e' identica in HTML e in `methodology-v5.md`.
+E' un'affermazione sui modelli di frontiera, non un badge di pipeline; cambiarla in un
+file solo produrrebbe drift fra i due.
+
+**Copertura di f0c8fe0**: con questa fase i file toccati da v5.33 sono tutti allineati
+a Fable 5.1. Cio' che resta oltre f0c8fe0 e' la validazione end-to-end, che v5.33 non
+aveva: una sessione `/discover` completa piu' l'A/B holdout contro Opus 5.
+
+**Da rigenerare a mano**: il PDF distribuito. Nel repo non esiste uno script che lo
+produca da `docs/pdf/methodology.html`.
+
+**File modificati**:
+- `docs/pdf/methodology.html` -- badge, tabella effort, bullet del modello, frase del tier split, validatori esterni, CSS morto
+- `docs/methodology-v5.md` -- schema ASCII del Computational Validator
+- `docs/CHANGELOG.md` -- questa entry
+
+---
+
 ## v5.36: Riparazione contratti fra agenti (difetti pre-esistenti emersi dall'audit di fase 4) (2 settembre 2026)
 
 **Motivazione**: l'audit per-agente della fase 4 (lettura riga per riga dei 15 file

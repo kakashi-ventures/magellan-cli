@@ -106,8 +106,7 @@ thead th { font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; text-tran
 tbody td { padding: 5px 8px; border-bottom: 1px solid var(--grid-line); vertical-align: top; }
 tbody tr:nth-child(even) { background: rgba(17, 24, 39, 0.5); }
 .badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 7pt; padding: 1px 6px; border-radius: 2px; }
-.badge-opus { background: rgba(200,164,94,0.15); color: var(--sextant-gold); border: 1px solid rgba(200,164,94,0.3); }
-.badge-sonnet { background: rgba(74,123,199,0.15); color: var(--lapis); border: 1px solid rgba(74,123,199,0.3); }
+.badge-model { background: rgba(200,164,94,0.15); color: var(--sextant-gold); border: 1px solid rgba(200,164,94,0.3); }
 .badge-max { background: rgba(200,164,94,0.1); color: var(--sextant-gold); border: 1px solid rgba(200,164,94,0.2); font-size: 6.5pt; }
 .badge-high { background: rgba(74,123,199,0.1); color: var(--lapis); border: 1px solid rgba(74,123,199,0.2); font-size: 6.5pt; }
 .badge-high-prob { background: rgba(197,75,62,0.15); color: var(--cinnabar); border: 1px solid rgba(197,75,62,0.3); }
@@ -231,9 +230,9 @@ tr { page-break-inside: avoid; }
 
   <p>MAGELLAN is an <strong>experiment in whether modern agentic AI systems can make autonomous scientific discoveries</strong>. The core hypothesis: a well-designed multi-agent architecture running frontier models (March 2026) can find real connections between existing bodies of knowledge that humans have not yet linked — operating in full autonomy, with zero domain input from the user.</p>
 
-  <p>It is not a tool for researchers. It is a capability test. The user runs <code>/discover</code>, leaves the room, and comes back to find testable scientific hypotheses. These are then cross-model validated by GPT-5.4 and Gemini 3.1, and ideally submitted to domain experts for evaluation.</p>
+  <p>It is not a tool for researchers. It is a capability test. The user runs <code>/discover</code>, leaves the room, and comes back to find testable scientific hypotheses. These are then cross-model validated by GPT-5.5 Pro and Gemini Deep Research Max, and ideally submitted to domain experts for evaluation.</p>
 
-  <p>Built for Claude Code on Claude Opus 5 (deep agents at maximum effort, structured agents at high effort), the system deploys 15 specialized AI agents that read across disciplinary boundaries, identify where established knowledge in one field connects to another through an unexplored bridge, and generate testable hypotheses about what that connection means. Then it <strong>attacks its own ideas</strong> — adversarially, rigorously — and presents only the survivors.</p>
+  <p>Built for Claude Code on Claude Fable 5.1 (deep agents at maximum effort, structured agents at high effort), the system deploys 15 specialized AI agents that read across disciplinary boundaries, identify where established knowledge in one field connects to another through an unexplored bridge, and generate testable hypotheses about what that connection means. Then it <strong>attacks its own ideas</strong> — adversarially, rigorously — and presents only the survivors.</p>
 
   <h3>An honest framing</h3>
   <p>We don't know yet if it works. We believe multi-agent AI can find connections humans miss — but every hypothesis here needs testing by real scientists. We're not claiming discoveries. We're claiming a system that generates hypotheses worth investigating.</p>
@@ -277,50 +276,50 @@ tr { page-break-inside: avoid; }
     <div class="phase-header">Phase 1 — Exploration (Sequential Narrowing)</div>
     <div class="phase-body">
       <div class="agent-row agent-row-single"><div class="agent-box">
-        <div class="agent-name">Scout <span class="badge badge-opus">Opus 5</span></div>
+        <div class="agent-name">Scout <span class="badge badge-model">Fable 5.1</span></div>
         <div class="agent-detail">10 strategies + diversification + exploration slot + creativity constraint</div>
       </div></div>
       <div class="flow-arrow">▼</div>
       <div class="agent-row agent-row-single"><div class="agent-box">
-        <div class="agent-name">Literature Scout <span class="badge badge-opus">Opus 5</span></div>
+        <div class="agent-name">Literature Scout <span class="badge badge-model">Fable 5.1</span></div>
         <div class="agent-detail">Verifies disjointness for ALL candidates · MCP servers + WebSearch · Bridge validation</div>
       </div></div>
       <div class="flow-arrow">▼</div>
       <div class="flow-note">Orchestrator narrows 5–6 → 3 (DISJOINT priority + strategy diversity)</div>
       <div class="flow-arrow">▼</div>
       <div class="agent-row">
-        <div class="agent-box"><div class="agent-name">Target Evaluator <span class="badge badge-opus">Opus 5</span></div><div class="agent-detail">4 adversarial attack axes</div></div>
-        <div class="agent-box"><div class="agent-name">Computational Validator <span class="badge badge-opus">Opus 5</span></div><div class="agent-detail">KEGG · STRING · PubMed co-occurrence</div></div>
+        <div class="agent-box"><div class="agent-name">Target Evaluator <span class="badge badge-model">Fable 5.1</span></div><div class="agent-detail">4 adversarial attack axes</div></div>
+        <div class="agent-box"><div class="agent-name">Computational Validator <span class="badge badge-model">Fable 5.1</span></div><div class="agent-detail">KEGG · STRING · PubMed co-occurrence</div></div>
       </div>
     </div>
     <div class="phase-header">Phase 2 — Generation &amp; Critique (2 Cycles)</div>
     <div class="phase-body">
       <div class="agent-row">
-        <div class="agent-box"><div class="agent-name">Generator <span class="badge badge-opus">Opus 5</span></div><div class="agent-detail">Parametric + literature context + computational validation + bisociation</div></div>
-        <div class="agent-box"><div class="agent-name">Critic <span class="badge badge-opus">Opus 5</span></div><div class="agent-detail">9 attack vectors + web search + META-CRITIQUE</div></div>
+        <div class="agent-box"><div class="agent-name">Generator <span class="badge badge-model">Fable 5.1</span></div><div class="agent-detail">Parametric + literature context + computational validation + bisociation</div></div>
+        <div class="agent-box"><div class="agent-name">Critic <span class="badge badge-model">Fable 5.1</span></div><div class="agent-detail">9 attack vectors + web search + META-CRITIQUE</div></div>
       </div>
       <div class="flow-arrow">▼</div>
       <div class="agent-row">
-        <div class="agent-box"><div class="agent-name">Ranker <span class="badge badge-opus">Opus 5</span></div><div class="agent-detail">6 dimensions + Groundedness + Elo sanity check</div></div>
-        <div class="agent-box"><div class="agent-name">Evolver <span class="badge badge-opus">Opus 5</span></div><div class="agent-detail">Genetic operations + diversity constraint</div></div>
+        <div class="agent-box"><div class="agent-name">Ranker <span class="badge badge-model">Fable 5.1</span></div><div class="agent-detail">6 dimensions + Groundedness + Elo sanity check</div></div>
+        <div class="agent-box"><div class="agent-name">Evolver <span class="badge badge-model">Fable 5.1</span></div><div class="agent-detail">Genetic operations + diversity constraint</div></div>
       </div>
       <div class="flow-note" style="color:var(--sextant-gold)">↻ Cycle 2 feedback loop</div>
     </div>
     <div class="phase-header">Phase 3 — Final Validation + Meta-Learning</div>
     <div class="phase-body">
       <div class="agent-row">
-        <div class="agent-box"><div class="agent-name">Quality Gate <span class="badge badge-opus">Opus 5</span></div><div class="agent-detail">10-point rubric + web grounding + META-VALIDATION</div></div>
-        <div class="agent-box"><div class="agent-name">Session Analyst <span class="badge badge-opus">Opus 5</span></div><div class="agent-detail">Meta-learning → strategy optimization</div></div>
+        <div class="agent-box"><div class="agent-name">Quality Gate <span class="badge badge-model">Fable 5.1</span></div><div class="agent-detail">10-point rubric + web grounding + META-VALIDATION</div></div>
+        <div class="agent-box"><div class="agent-name">Session Analyst <span class="badge badge-model">Fable 5.1</span></div><div class="agent-detail">Meta-learning → strategy optimization</div></div>
       </div>
       <div class="flow-arrow">▼</div>
       <div class="agent-row agent-row-single"><div class="agent-box">
-        <div class="agent-name">Cross-Model Validator <span class="badge badge-opus">Opus 5</span></div>
-        <div class="agent-detail">GPT-5.4 Pro (web search + code interpreter) + Gemini 3.1 Pro (code execution + Google Search) → consensus report</div>
+        <div class="agent-name">Cross-Model Validator <span class="badge badge-model">Fable 5.1</span></div>
+        <div class="agent-detail">GPT-5.5 Pro (web search + code interpreter) + Gemini Deep Research Max (google_search + url_context + code_execution) → consensus report</div>
       </div></div>
       <div class="flow-arrow">▼</div>
       <div class="agent-row">
-        <div class="agent-box"><div class="agent-name">Convergence Scanner <span class="badge badge-opus">Opus 5</span></div><div class="agent-detail">ClinicalTrials · NIH Reporter · Patents</div></div>
-        <div class="agent-box"><div class="agent-name">Dataset Evidence Miner <span class="badge badge-opus">Opus 5</span></div><div class="agent-detail">HPA · GWAS · ChEMBL · UniProt · PDB</div></div>
+        <div class="agent-box"><div class="agent-name">Convergence Scanner <span class="badge badge-model">Fable 5.1</span></div><div class="agent-detail">ClinicalTrials · NIH Reporter · Patents</div></div>
+        <div class="agent-box"><div class="agent-name">Dataset Evidence Miner <span class="badge badge-model">Fable 5.1</span></div><div class="agent-detail">HPA · GWAS · ChEMBL · UniProt · PDB</div></div>
       </div>
     </div>
     <div class="crosscut-bar">
@@ -333,24 +332,24 @@ tr { page-break-inside: avoid; }
   <table>
     <thead><tr><th>Agent</th><th>Model</th><th>Effort</th><th>Role</th></tr></thead>
     <tbody>
-      <tr><td><strong>Scout</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-max">max</span></td><td>Identifies WHERE to look: 10 strategies, mandatory bridge concepts, strategy diversification, rotating creativity constraint</td></tr>
-      <tr><td><strong>Target Evaluator</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-max">max</span></td><td>Adversarial challenge on 4 axes: popularity bias, vagueness, structural impossibility, local-optima</td></tr>
-      <tr><td><strong>Literature Scout</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-high">high</span></td><td>Structured retrieval via Semantic Scholar + PubMed MCP servers, full-text paper retrieval, disjunction verification</td></tr>
-      <tr><td><strong>Computational Validator</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-high">high</span></td><td>Programmatic bridge verification: KEGG pathways, STRING protein interactions, PubMed co-occurrence, back-of-envelope physics</td></tr>
-      <tr><td><strong>Generator</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-max">max</span></td><td>Builds on-the-fly knowledge graph per field, generates 6–8 hypotheses with specific mechanisms, runs SELF-CRITIQUE</td></tr>
-      <tr><td><strong>Critic</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-max">max</span></td><td>9 adversarial attack vectors including claim-level fact verification. META-CRITIQUE reflection</td></tr>
-      <tr><td><strong>Ranker</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-high">high</span></td><td>6-dimension weighted scoring + diversity check + Elo tournament sanity check</td></tr>
-      <tr><td><strong>Evolver</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-high">high</span></td><td>Evolutionary operations (crossover, mutation, refinement) with diversity constraint. Conditionally skippable</td></tr>
-      <tr><td><strong>Quality Gate</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-max">max</span></td><td>10-point rubric with per-claim grounding verification. META-VALIDATION reflection</td></tr>
-      <tr><td><strong>Session Analyst</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-high">high</span></td><td>Post-pipeline meta-learning: strategy performance, kill patterns, bridge type survival rates</td></tr>
-      <tr><td><strong>Cross-Model Validator</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-high">high</span></td><td>Sends hypotheses to GPT-5.4 Pro and Gemini 3.1 Pro for genuinely independent assessment</td></tr>
-      <tr><td><strong>Convergence Scanner</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-high">high</span></td><td>Searches ClinicalTrials.gov, NIH Reporter, and patents for independent convergence signals</td></tr>
-      <tr><td><strong>Dataset Evidence Miner</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-high">high</span></td><td>Verifies molecular claims against Human Protein Atlas, GWAS Catalog, ChEMBL, UniProt, PDB</td></tr>
-      <tr><td><strong>Holdout Evaluator</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-max">max</span></td><td>Validation framework: compares output against known post-cutoff discoveries. Contamination + similarity check</td></tr>
-      <tr><td><strong>Orchestrator</strong></td><td><span class="badge badge-opus">Opus 5</span></td><td><span class="badge badge-max">max</span></td><td>Pure dispatcher: no web access, cannot execute phases inline. Guard logic, adaptive cycles, session health</td></tr>
+      <tr><td><strong>Scout</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-max">max</span></td><td>Identifies WHERE to look: 10 strategies, mandatory bridge concepts, strategy diversification, rotating creativity constraint</td></tr>
+      <tr><td><strong>Target Evaluator</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-max">max</span></td><td>Adversarial challenge on 4 axes: popularity bias, vagueness, structural impossibility, local-optima</td></tr>
+      <tr><td><strong>Literature Scout</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-high">high</span></td><td>Structured retrieval via Semantic Scholar + PubMed MCP servers, full-text paper retrieval, disjunction verification</td></tr>
+      <tr><td><strong>Computational Validator</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-high">high</span></td><td>Programmatic bridge verification: KEGG pathways, STRING protein interactions, PubMed co-occurrence, back-of-envelope physics</td></tr>
+      <tr><td><strong>Generator</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-max">max</span></td><td>Builds on-the-fly knowledge graph per field, generates 6–8 hypotheses with specific mechanisms, runs SELF-CRITIQUE</td></tr>
+      <tr><td><strong>Critic</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-max">max</span></td><td>9 adversarial attack vectors including claim-level fact verification. META-CRITIQUE reflection</td></tr>
+      <tr><td><strong>Ranker</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-high">high</span></td><td>6-dimension weighted scoring + diversity check + Elo tournament sanity check</td></tr>
+      <tr><td><strong>Evolver</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-high">high</span></td><td>Evolutionary operations (crossover, mutation, refinement) with diversity constraint. Conditionally skippable</td></tr>
+      <tr><td><strong>Quality Gate</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-max">max</span></td><td>10-point rubric with per-claim grounding verification. META-VALIDATION reflection</td></tr>
+      <tr><td><strong>Session Analyst</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-high">high</span></td><td>Post-pipeline meta-learning: strategy performance, kill patterns, bridge type survival rates</td></tr>
+      <tr><td><strong>Cross-Model Validator</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-high">high</span></td><td>Sends hypotheses to GPT-5.5 Pro and Gemini Deep Research Max for genuinely independent assessment</td></tr>
+      <tr><td><strong>Convergence Scanner</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-high">high</span></td><td>Searches ClinicalTrials.gov, NIH Reporter, and patents for independent convergence signals</td></tr>
+      <tr><td><strong>Dataset Evidence Miner</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-high">high</span></td><td>Verifies molecular claims against Human Protein Atlas, GWAS Catalog, ChEMBL, UniProt, PDB</td></tr>
+      <tr><td><strong>Holdout Evaluator</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-max">max</span></td><td>Validation framework: compares output against known post-cutoff discoveries. Contamination + similarity check</td></tr>
+      <tr><td><strong>Orchestrator</strong></td><td><span class="badge badge-model">Fable 5.1</span></td><td><span class="badge badge-max">max</span></td><td>Pure dispatcher: no web access, cannot execute phases inline. Guard logic, adaptive cycles, session health</td></tr>
     </tbody>
   </table>
-  <p><strong>Opus for deep, creative reasoning; Sonnet for structured, search-intensive tasks.</strong> Effort levels are pinned per agent to guarantee quality regardless of user settings. Each phase is dispatched to a specialized sub-agent — the Orchestrator can only coordinate, never execute — ensuring tool isolation, fresh context, and full auditability.</p>
+  <p><strong>One model, two effort tiers: <code>max</code> for deep creative reasoning, <code>high</code> for structured, search-intensive tasks.</strong> Effort levels are pinned per agent to guarantee quality regardless of user settings. Each phase is dispatched to a specialized sub-agent — the Orchestrator can only coordinate, never execute — ensuring tool isolation, fresh context, and full auditability.</p>
 
   <h3>Self-review before output</h3>
   <p>Six agents have reflection loops before producing final output: the Generator verifies its own mechanism specificity (SELF-CRITIQUE), the Critic calibrates its kill rate (META-CRITIQUE), the Scout checks bridge specificity (TARGET QUALITY CHECK), the Quality Gate verifies confidence in its PASS verdicts (META-VALIDATION), and both the Literature Scout and Evolver verify output completeness.</p>
@@ -378,7 +377,7 @@ tr { page-break-inside: avoid; }
     <li><span class="item-title">Generator (parametric + context)</span> <span class="item-desc">— Builds an on-the-fly parametric Knowledge Graph for each field, then generates hypotheses using deep reasoning + full papers + computational signals</span></li>
     <li><span class="item-title">Critic (adversarial + web)</span> <span class="item-desc">— 9 attack vectors: web-searches EVERY [GROUNDED] claim individually. Citation hallucination = automatic KILL</span></li>
     <li><span class="item-title">Ranker</span> <span class="item-desc">— 6-dimension weighted scoring including Groundedness (20%), diversity check, Elo tournament sanity check</span></li>
-    <li><span class="item-title">Cross-Model Validator</span> <span class="item-desc">— GPT-5.4 Pro (web search + code interpreter) and Gemini 3.1 Pro (code execution + Google Search grounding) provide genuinely independent assessment</span></li>
+    <li><span class="item-title">Cross-Model Validator</span> <span class="item-desc">— GPT-5.5 Pro (web search + code interpreter) and Gemini Deep Research Max (google_search + url_context + code_execution) provide genuinely independent assessment</span></li>
   </ol>
 </section>
 
@@ -458,7 +457,7 @@ tr { page-break-inside: avoid; }
       <tr><td>Discovery strategy</td><td>None</td><td>10 autonomous strategies with diversity constraints and exploration slots</td></tr>
       <tr><td>Literature validation</td><td>None</td><td>Per-claim fact-checking via PubMed, KEGG, STRING + MCP servers</td></tr>
       <tr><td>Quality control</td><td>None</td><td>9 adversarial attack vectors + 10-point quality gate rubric</td></tr>
-      <tr><td>Cross-model validation</td><td>None</td><td>Independent assessment by GPT-5.4 Pro + Gemini 3.1 Pro</td></tr>
+      <tr><td>Cross-model validation</td><td>None</td><td>Independent assessment by GPT-5.5 Pro + Gemini Deep Research Max</td></tr>
       <tr><td>Transparency</td><td>Black-box output</td><td>Every claim tagged GROUNDED / PARAMETRIC / SPECULATIVE with sources</td></tr>
       <tr><td>Kill rate</td><td>0%</td><td>70–86%</td></tr>
       <tr><td>Self-critique</td><td>None</td><td>6 reflection loops, hallucination-as-novelty detection</td></tr>
@@ -547,24 +546,25 @@ tr { page-break-inside: avoid; }
   <table>
     <thead><tr><th>Agent Group</th><th>Model</th><th>Rationale</th></tr></thead>
     <tbody>
-      <tr><td>Scout, Target Evaluator, Generator, Critic, Quality Gate, Holdout Evaluator, Orchestrator</td><td><span class="badge badge-opus">Opus 5 · max</span></td><td>Deep reasoning, cross-disciplinary creativity, adversarial evaluation</td></tr>
-      <tr><td>Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator, Convergence Scanner, Dataset Evidence Miner</td><td><span class="badge badge-opus">Opus 5 · high</span></td><td>Structured, search-intensive tasks</td></tr>
+      <tr><td>Scout, Target Evaluator, Generator, Critic, Quality Gate, Holdout Evaluator, Orchestrator</td><td><span class="badge badge-model">Fable 5.1 · max</span></td><td>Deep reasoning, cross-disciplinary creativity, adversarial evaluation</td></tr>
+      <tr><td>Literature Scout, Computational Validator, Ranker, Evolver, Session Analyst, Cross-Model Validator, Convergence Scanner, Dataset Evidence Miner</td><td><span class="badge badge-model">Fable 5.1 · high</span></td><td>Structured, search-intensive tasks</td></tr>
     </tbody>
   </table>
 
   <h3>External models (automatic cross-model validation)</h3>
   <p>Survivors are independently assessed by two external models with active tools — not just text review:</p>
   <ul>
-    <li><strong>GPT-5.4 Pro</strong> (OpenAI Responses API): reasoning=high, web search, code interpreter. Verifies novelty against current literature via web search, checks arithmetic computationally. 33% fewer factual errors vs GPT-5.2</li>
-    <li><strong>Gemini 3.1 Pro</strong> (Google GenAI SDK): thinkingLevel=HIGH, code execution, Google Search grounding. Verifies formal mappings computationally. ARC-AGI-2 leader (77.1%) for mathematical structures</li>
+    <li><strong>GPT-5.5 Pro</strong> (OpenAI Responses API): reasoning effort xhigh, web search, code interpreter. Verifies novelty against current literature via web search, checks arithmetic computationally. One hypothesis per call, background submit + polling (streaming unsupported)</li>
+    <li><strong>Gemini Deep Research Max</strong> (Google GenAI SDK, Interactions API): autonomous research agent on Gemini 3.1 Pro — ~80-160 searches plus URL reads and code execution per task. Verifies formal mappings computationally and returns a fully cited structural analysis</li>
   </ul>
   <p>Cross-model validation is automatic: the pipeline generates tailored prompts, calls both APIs in parallel, and produces a consensus report. Where models agree, confidence increases. Where they diverge, the divergence flags areas needing deeper investigation.</p>
 
-  <h3>Reference benchmarks (March 2026)</h3>
+  <h3>Reference benchmarks (September 2026)</h3>
   <ul>
-    <li><strong>Claude Opus 5</strong> (July 2026): organic chemistry +10.2pp and protein prediction +7.7pp over Opus 4.8. 1M context, 128k output, $5/$25 per MTok, knowledge cutoff May 2026</li>
-    <li><strong>GPT-5.4 Pro</strong>: ARC-AGI-2 83.3%. SWE-bench ~80%. Context: up to 1M tokens</li>
-    <li><strong>Gemini 3.1 Pro</strong>: GPQA Diamond 94.3%, ARC-AGI-2 77.1%. Deep Think for mathematical structures</li>
+    <li><strong>Claude Fable 5.1</strong> (September 1 2026, current pipeline model): extends Fable 5 in the same tier at the same list price. 1M context, 128k output, effort <code>low</code>–<code>max</code> (default <code>high</code>), $10/$50 per MTok with cache write at $12.50. Covered Model: 30-day retention required, so zero-data-retention orgs cannot run the pipeline as configured</li>
+    <li><strong>Claude Opus 5</strong> (July 24 2026, rollback target): organic chemistry +10.2pp and protein prediction +7.7pp over Opus 4.8. 1M context, 128k output, $5/$25 per MTok, knowledge cutoff May 2026. Cybersecurity-only safety classifiers, which is what makes it the fallback for a life-sciences pipeline</li>
+    <li><strong>GPT-5.5 Pro</strong> (April 2026, current external validator): snapshot <code>gpt-5.5-pro-2026-04-23</code>. Context 1.05M tokens, max output 128k, knowledge cutoff December 1 2025. $30/$180 per 1M tokens</li>
+    <li><strong>Gemini 3.1 Pro</strong> (Feb 2026, base model of Deep Research Max): GPQA Diamond 94.3%, ARC-AGI-2 77.1%. Deep Think for mathematical structures</li>
   </ul>
 </section>
 
@@ -608,7 +608,7 @@ tr { page-break-inside: avoid; }
     <li><span class="item-title">Scout with 10 formalized strategies</span> <span class="item-desc">— It does not choose randomly. Structural isomorphism, bisociation, serendipity, and 7 other strategies are elicitation mechanisms designed to surface where unlinked knowledge is most likely hiding</span></li>
     <li><span class="item-title">Parallel Literature Scout</span> <span class="item-desc">— Real-time verification that targets are not already explored, providing literature context to enrich generation. MCP servers (Semantic Scholar, PubMed) enable structured retrieval independent of generic web search</span></li>
     <li><span class="item-title">Opus-class time horizon: 14h30m+ (METR)</span> <span class="item-desc">— Sustained autonomy at this level is a new capability. No pre-2026 model could operate coherently over these durations</span></li>
-    <li><span class="item-title">GPT-5.4 as external validator</span> <span class="item-desc">— 33% fewer factual errors vs GPT-5.2, with web search and code interpreter for exhaustive literature grounding. Reduces the risk of Claude validating its own hallucinations</span></li>
+    <li><span class="item-title">GPT-5.5 Pro as external validator</span> <span class="item-desc">— reasoning effort xhigh, with web search and code interpreter for exhaustive literature grounding. Reduces the risk of Claude validating its own hallucinations</span></li>
     <li><span class="item-title">Auto Mode</span> <span class="item-desc">— Eliminates permission interruptions, allowing the pipeline to flow without intervention across 15–45 minute sessions</span></li>
     <li><span class="item-title">JSON-based state management</span> <span class="item-desc">— Survives context compaction, maintaining coherence over long runs. Each agent re-reads state at dispatch</span></li>
     <li><span class="item-title">Growing with AI</span> <span class="item-desc">— The architecture is designed so that as models improve, every stage becomes more powerful: deeper reasoning → deeper connections, fewer hallucinations → higher groundedness, broader knowledge → more diverse targets. Every model improvement is a MAGELLAN improvement</span></li>
@@ -635,7 +635,7 @@ tr { page-break-inside: avoid; }
     <thead><tr><th>Failure Mode</th><th>Prob.</th><th>Mitigation</th></tr></thead>
     <tbody>
       <tr><td>Scout gravitates toward popular topics</td><td><span class="badge badge-high-prob">High</span></td><td>Strategies 7–8 force non-obvious exploration. Literature Scout verifies novelty. Discovery-log prevents re-exploration</td></tr>
-      <tr><td>Hallucination cascade</td><td><span class="badge badge-medium-prob">Med</span></td><td>Critic with mandatory web search per claim. Groundedness scoring (20%). Cross-model validation with GPT-5.4</td></tr>
+      <tr><td>Hallucination cascade</td><td><span class="badge badge-medium-prob">Med</span></td><td>Critic with mandatory web search per claim. Groundedness scoring (20%). Cross-model validation with GPT-5.5 Pro</td></tr>
       <tr><td>Illusory novelty (appears new because wrong)</td><td><span class="badge badge-medium-prob">Med</span></td><td>Critic attack vector #8 directly targets Si et al. finding: AI novelty drops from 5.38→3.41 after testing</td></tr>
       <tr><td>Hypothesis convergence</td><td><span class="badge badge-medium-prob">Med</span></td><td>Double-layer: diversity check in Ranker + diversity constraint in Evolver</td></tr>
       <tr><td>Context drift on long runs</td><td><span class="badge badge-medium-prob">Med-Low</span></td><td>State in JSON, not conversational context. Each agent re-reads state. Backup/restore on compaction</td></tr>
