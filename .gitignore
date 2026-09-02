@@ -22,3 +22,7 @@ validation/results/*
 
 # PDF generation fonts (download via build script)
 docs/pdf/fonts/
+
+# Python bytecode
+__pycache__/
+*.pyc
