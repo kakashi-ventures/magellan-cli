@@ -5,6 +5,74 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.35 (fase 2): riparazione del fallback anti-rifiuto e correzione della portata dei classificatori (2 settembre 2026)
+
+**Motivazione**: la fase 0 ha confermato che il layer 1 della mitigazione
+anti-rifiuto scritto da v5.33 non puo' eseguire, e la doc di migrazione a Fable 5.1
+ha corretto un presupposto di merito su cui v5.33 aveva costruito l'intero
+paragrafo. Le due cose si riparano insieme perche' toccano lo stesso testo.
+**Entrambe le correzioni valgono sulla baseline attuale (Opus 5) e restano valide
+anche se la migrazione a Fable 5.1 non viene fatta.**
+
+**Correzioni**:
+
+1. **Portata dei classificatori: Opus 5 e' cyber-only.** v5.33 affermava che "Opus 5
+   runs safety classifiers that can decline biology and life-sciences content" e
+   costruiva su questo l'esposizione di sette agenti. L'inferenza veniva dalla
+   tabella generale delle categorie di rifiuto, che elenca le categorie esistenti
+   ma non la loro attribuzione per-modello. La guida di migrazione a Fable 5.1
+   fornisce l'attribuzione esplicita: i classificatori di Fable 5.1 coprono "a
+   broader set than **Claude Opus 5's cybersecurity-only classifiers**". Sul
+   primario attuale la categoria attesa e' `cyber`, non `bio`: il rischio
+   life-sciences descritto dal paragrafo non esiste su Opus 5.
+
+   Il layer resta comunque, per due ragioni: `cyber` puo' scattare su lavoro
+   benigno, e l'esposizione rientra per intero se il primario passa a un modello
+   Fable-tier. Il testo ora distingue le due situazioni invece di descriverne una
+   sola come se valesse sempre.
+
+2. **Layer 1 riparato: il tool Agent accetta solo alias.** Verificato in fase 0 che
+   `model: claude-opus-4-8` produce `InputValidationError: expected one of
+   "sonnet"|"opus"|"haiku"|"fable"`. Il re-dispatch per-invocazione ora usa
+   `model: sonnet`, che e' l'unico alias contemporaneamente non circolare (`opus` e'
+   il modello che ha appena rifiutato), non un aumento di copertura dei
+   classificatori (`fable` risolve a un modello Fable-tier, che ne porta di piu'), e
+   non elencato fra i modelli che eseguono questi classificatori.
+
+3. **L'asimmetria della piattaforma e' ora documentata come tale**: il parametro
+   `model` per-invocazione del tool Agent accetta solo i quattro alias, mentre il
+   frontmatter degli agenti accetta gli ID completi (entrambi verificati in fase 0).
+   Il layer 2 (rollback persistente a `claude-opus-4-8`) e' quindi l'unica via verso
+   un modello privo di alias, ed e' una modifica di file, non un'azione di sessione.
+   Distinguere i due layer evita che la prossima migrazione ripeta l'errore.
+
+4. **Precisione sulla fatturazione**: v5.33 diceva "a refused request is not
+   billed". Vale solo per un rifiuto che arriva prima di qualunque output; un
+   rifiuto a meta' stream fattura la parte gia' trasmessa.
+
+5. **Aggiunto che il branch va su `stop_reason`**, mai sui campi interni di
+   `stop_details`: `category` ed `explanation` possono essere `null`, ed e' un
+   valore normale e permanente, non un placeholder.
+
+**Nessun cambiamento di modello in questo commit.** Il primario resta `opus`
+(Claude Opus 5). La fase 1 della migrazione e' separata: quando il primario diventa
+Fable-tier, il bersaglio del layer 1 va rivalutato, perche' `opus` smettera' di
+essere circolare e diventera' il fallback corretto (Opus 5 e' un target permesso per
+Fable 5.1 e non esegue il classificatore `bio`).
+
+**Stato di validazione**: correzioni statiche. Il layer 1 riparato non e' stato
+esercitato end-to-end, perche' richiede un rifiuto reale; il difetto che sostituisce
+era invece dimostrabile staticamente e lo e' stato.
+
+**File modificati**:
+- `.claude/agents/discovery-orchestrator.md` -- blocco "Model-refusal fallback" riscritto: portata per-modello, asimmetria alias/ID, due layer separati, fatturazione
+- `CLAUDE.md` -- "Refusal fallback principle" riscritto; nota di validazione allineata a `sonnet`
+- `docs/methodology-v5.md` -- paragrafo "Fallback" riscritto in coerenza
+- `scripts/version-check-hook.py` -- rationale: `claude-opus-4-8` raggiungibile solo via frontmatter
+- `docs/CHANGELOG.md` -- questa entry
+
+---
+
 ## v5.35 (fase 0): verifiche preliminari alla migrazione a Claude Fable 5.1 (2 settembre 2026)
 
 **Motivazione**: il 1 settembre 2026 Anthropic ha rilasciato Claude Fable 5.1

@@ -111,28 +111,45 @@ After each agent returns, apply this pattern:
 Phase-specific thresholds: Scout ≥3 targets, Generator ≥3 hypotheses, Critique ≥1 survivor.
 Computational Validation is WARN-ONLY (never blocks).
 
-**Model-refusal fallback.** Sub-agents run on `opus` (Claude Opus 5), whose safety
-classifiers can decline life-sciences content (molecular mechanisms, lab methods)
-and return a refusal. A refusal is not an error: it arrives as a normal HTTP 200
-response with `stop_reason: "refusal"` and a `stop_details.category` such as
-`bio`, so nothing surfaces in error logs. What you observe is a sub-agent that
-produced no real output, an explicit "I can't help with that" message, or an
-empty/stub file.
+**Model-refusal fallback.** A refusal is not an error: it arrives as a normal
+HTTP 200 response with `stop_reason: "refusal"` and a `stop_details.category`
+(which can also be `null`), so nothing surfaces in error logs. What you observe is
+a sub-agent that produced no real output, an explicit "I can't help with that"
+message, or an empty/stub file. Branch on `stop_reason`, never on the inner
+`stop_details` fields.
 
-If a returned output looks like a refusal rather than a genuine quality miss,
-re-dispatch the SAME agent ONCE with an explicit model override on the Agent tool:
-`model: claude-opus-4-8`. Use the full model ID, not an alias: `opus` now resolves
-to Opus 5, the model that just refused, so re-dispatching on the alias would burn
-the single retry on the same classifier. Opus 4.8 is the fallback Anthropic
-documents for Opus 5 refusals and is not itself listed as carrying these
-classifiers. The per-invocation `model` parameter takes precedence over the
-agent's frontmatter. A refused request is not billed, so this fallback is cheap.
-
-Record it: INCREMENT metadata.retries_needed and note the fallback model in the
-phase entry. If the Opus 4.8 re-dispatch also fails to produce valid output, apply
-the normal degraded/fallback flag and continue. Most exposed agents, in order:
+Scope of the risk on the current primary: sub-agents run on `opus` (Claude Opus 5),
+which runs cybersecurity-only classifiers. Expect `cyber`, not `bio`. Benign work
+can still trigger it, so the layer stays — it costs nothing when it does not fire.
+The exposure is much larger on a Fable-tier primary, whose classifiers cover a
+broader set including `bio`, the category that warns that beneficial life-sciences
+work can trigger it. On such a primary the most exposed agents, in order, are
 generator, critic, quality-gate, literature-scout, computational-validator,
 dataset-evidence-miner, convergence-scanner.
+
+**The `model` parameter of the Agent tool accepts only the four aliases `sonnet`,
+`opus`, `haiku`, `fable`.** A full model ID fails schema validation before the
+dispatch runs, so a per-invocation override cannot reach a model that has no alias.
+Agent frontmatter, by contrast, does accept full model IDs. This asymmetry splits
+the two mitigation layers:
+
+**Layer 1, per-invocation retry (alias only).** If a returned output looks like a
+refusal rather than a genuine quality miss, re-dispatch the SAME agent ONCE with
+`model: sonnet`. Sonnet 5 is not among the models documented as running these
+classifiers, and it is the only alias that is neither circular (`opus` is the model
+that just refused) nor a step up in classifier coverage (`fable` resolves to a
+Fable-tier model, which carries more). The per-invocation `model` parameter takes
+precedence over the agent's frontmatter.
+
+**Layer 2, persistent rollback (full ID).** If an agent refuses systematically, set
+its frontmatter `model:` to a full model ID such as `claude-opus-4-8`. This is the
+only path to a model with no alias, and it is a file edit, not something you do
+mid-session.
+
+Record it: INCREMENT metadata.retries_needed and note the fallback model in the
+phase entry. If the re-dispatch also fails to produce valid output, apply the
+normal degraded/fallback flag and continue. A refusal arriving before any output is
+not billed; one arriving mid-stream bills the partial that was streamed.
 
 4. **Verify artifacts**: After each agent returns, check that BOTH the phase JSON file
    AND the markdown report exist in {results_dir}/. Required pairs:

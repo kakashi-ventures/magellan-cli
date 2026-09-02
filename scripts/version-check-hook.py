@@ -14,8 +14,10 @@ Floor = v2.1.219. Rationale (features the pipeline now uses):
     released 2026-07-24). This is the floor-setting feature: on older builds the
     `opus` alias in every agent's frontmatter resolves to an Opus 4.x model, so
     the pipeline silently runs on the wrong model rather than failing loudly.
-  - `claude-opus-4-8` still addressable by full model ID (the documented refusal
-    fallback target for Opus 5 `bio`/`cyber` classifier declines).
+  - `claude-opus-4-8` still addressable by full model ID in agent frontmatter (the
+    persistent rollback target for classifier declines; the Agent tool's
+    per-invocation `model` parameter accepts only aliases, so a full ID cannot be
+    used there).
 NOTE: the orchestrator itself runs on the SESSION model, not frontmatter, so a
 correct version is necessary but not sufficient: the user must also select Opus 5
 via `/model` before `/discover`.
