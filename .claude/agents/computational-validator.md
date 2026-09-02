@@ -44,8 +44,17 @@ that don't actually connect).
 2. **Never block the pipeline** — this is warn-only. Even if all checks fail,
    output results and let the Orchestrator decide. The rationale: absence of evidence
    in databases is not evidence of absence, especially for novel connections
-3. **Write results** to {results_dir}/computational-validation.md
-4. **Update state**: Write `computational_readiness` object to state/session.json
+3. **Output files** (BOTH required):
+   - `{results_dir}/computational-validation.md` -- One section per check with the
+     query or calculation and its result. Primary deliverable
+   - `{results_dir}/computational.json` -- The same `computational_readiness` object
+     in structured form: one entry per check run (`kegg_cross_check`,
+     `string_scores`, `pubmed_cooccurrence`, `quantitative_checks`), each with its
+     query, its result, and a verdict of PLAUSIBLE / INCONCLUSIVE / IMPLAUSIBLE,
+     plus an overall `readiness` field. The Orchestrator reads this file for the
+     Generator dispatch and the website upload publishes it
+4. **Update state**: Write the same `computational_readiness` object to
+   state/session.json (the stop gate reads it there)
 5. **Use Bash for computation** — Python one-liners for calculations, curl for APIs
 6. **Time-boxed**: If an API is unresponsive after 2 attempts, skip that check
    and note "API unavailable" in output

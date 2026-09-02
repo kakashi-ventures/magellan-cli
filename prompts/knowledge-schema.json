@@ -10,7 +10,7 @@
         "field_c": "[Field C]",
         "bridge_concepts": ["concept1", "concept2"],
         "strategy": "[which of the 10 Scout strategies produced this target]",
-        "disjointness": "[DISJOINT|PARTIALLY EXPLORED|WELL-EXPLORED]",
+        "disjointness": "[DISJOINT|PARTIALLY_EXPLORED|NEWLY_OPENED_PARTIALLY_EXPLORED|WELL_EXPLORED]",
         "outcome": "[success|partial|degraded|failed]"
       }
     ],

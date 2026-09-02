@@ -70,7 +70,8 @@ than its parent, with tracked lineage and enforced diversity.
 **Combination**: Can two hypotheses unify into a more powerful single one?
 
 ### Suggested process
-1. Read ranked hypotheses from state
+1. Read the ranked hypotheses from the `{results_dir}/cycle{N}-ranked.json` path
+   given in your dispatch prompt (state/session.json never holds hypothesis content)
 2. For each, generate 2-3 variants via different operations
 3. Evaluate: is the variant stronger than original?
 4. Apply diversity constraint

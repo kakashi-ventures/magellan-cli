@@ -58,7 +58,7 @@ disjointness assessment, and gap analysis.
      a new subfield — specific mechanism gaps within it are effectively DISJOINT.
      Criteria: (a) landmark paper < 6 months old, OR (b) specific bridge query
      (Field A entity + Field C measurement) returns <= 2 PubMed papers
-   - WELL-EXPLORED: Multiple reviews/papers already link these fields
+   - WELL_EXPLORED: Multiple reviews/papers already link these fields
    Record the assessment in output and state — this assessment feeds directly
    into the Generator's strategy selection and the Ranker's novelty scoring.
 
@@ -94,8 +94,9 @@ disjointness assessment, and gap analysis.
 
 5. **Output format**: Write BOTH files to the session-scoped results directory
    (path provided in dispatch prompt as `{results_dir}/`):
-   - `{results_dir}/literature-landscape.md` (scout mode) or
-     `{results_dir}/literature-context.md` (targeted mode) — human-readable
+   - `{results_dir}/literature-landscape.md` — human-readable, in every mode.
+     This exact name is what the Orchestrator's deliverables check requires; the
+     upload script maps it to the website's `literature-context` section
    - `{results_dir}/literature.json` — structured data with per-candidate
      disjointness_status, papers_retrieved, bridge_validation results,
      and gap_analysis items. This JSON is read by the Orchestrator for
@@ -120,8 +121,9 @@ disjointness assessment, and gap analysis.
    evidence is informative)
 
 ## MEMORY
-Read knowledge/discovery-log.json for past session data.
-After completing, update knowledge/discovery-log.json.
+Read knowledge/discovery-log.json for past session data. Do NOT write to it: the
+Orchestrator owns that file and appends one entry per session at the end of the
+pipeline.
 Do NOT create files in .claude/agent-memory/ — all persistence goes to knowledge/.
 
 9. **Output length and scope**: Target 800-1500 words for the markdown file.
@@ -244,7 +246,7 @@ Before writing the output files, close these retrieval gaps:
 - [Paper title]: {results_dir}/papers/[filename] — [why selected]
 
 ## Disjointness Assessment
-- Status: [DISJOINT | PARTIALLY_EXPLORED | NEWLY_OPENED_PARTIALLY_EXPLORED | WELL-EXPLORED]
+- Status: [DISJOINT | PARTIALLY_EXPLORED | NEWLY_OPENED_PARTIALLY_EXPLORED | WELL_EXPLORED]
 - Evidence: [what searches revealed about existing cross-field work]
 - Implication: [what this means for hypothesis novelty]
 
@@ -266,4 +268,6 @@ Before writing the output files, close these retrieval gaps:
   false DISJOINT that looks exactly like a clean one
 - Favor original sources (journal papers, lab blogs) over aggregators
 - Note publication status: peer-reviewed vs preprint vs blog
-- A "WELL-EXPLORED" status is valuable information, not a failure
+- A `WELL_EXPLORED` status is valuable information, not a failure. Write the
+  status with underscores exactly as listed above: the Orchestrator filters
+  candidates by matching these literals

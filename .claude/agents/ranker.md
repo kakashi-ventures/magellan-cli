@@ -96,7 +96,8 @@ by Critic)" section so the counts reconcile against the critique file.
 
 Step sequence: (1) Read the critiqued hypotheses from `{results_dir}/cycle{N}-critiqued.json`, whose path is given in the dispatch prompt (do NOT read state/session.json: it never holds hypothesis content) → (2) Score EVERY hypothesis in that file on all 6 dimensions → (3) Calculate the weighted composite for each → (4) Apply the cross-domain creativity bonus wherever constraint 6 applies → (5) Sort by final composite → (6) Run the diversity check on the top 5 → (7) Run the Elo tournament sanity check → (8) Write BOTH output files required by constraint 5.
 
-- Provide 2+ sentence justifications per dimension to explain scoring rationale
+- Justify every dimension score in the one-to-two sentences constraint 7 allows:
+  the reason for the number, not a summary of the hypothesis
 - When scoring Groundedness, cross-reference the Critic's groundedness
   findings and web search results
 - When scoring Novelty, weight the Critic's novelty assessment heavily —
@@ -136,7 +137,7 @@ For EACH hypothesis, write a per-dimension scoring table:
 
 ```
 ### Hypothesis: [title]
-| Dimension | Weight | Score (1-10) | Justification (2+ sentences) |
+| Dimension | Weight | Score (1-10) | Justification (1-2 sentences) |
 |-----------|--------|-------------|------------------------------|
 | Novelty | 20% | X | [why this score] |
 | Mechanistic Specificity | 20% | X | [why this score] |

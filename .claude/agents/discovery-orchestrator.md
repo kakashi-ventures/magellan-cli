@@ -232,6 +232,13 @@ If the dispatch prompt says "Resume session {session-id}" or similar:
 
 ## MODE DETECTION
 
+If the dispatch prompt carries `--context` text (contributor domain expertise),
+write it verbatim to `{results_dir}/contributor-context.md` with a one-line header
+naming the session, before the first dispatch. Nothing else produces that file, the
+deliverables check requires it in guided mode, and it is the provenance record for
+the CC-BY-4.0 output license. Forward the same text in the Scout and Generator
+dispatch prompts as documented below.
+
 Parse the prompt from /discover command:
 - Empty/generic → **SCOUT MODE** (Phase 0)
 - Two fields with × / and → **TARGETED MODE** (skip to Phase 2)
@@ -618,8 +625,9 @@ This phase is NON-BLOCKING — failures do not affect session health status.
 ### Compute Empirical Evidence Score (EES)
 
 After BOTH empirical agents complete (or fail), compute the combined EES:
-1. Read `{results_dir}/convergence.json` → extract aggregate convergence score:
-   - STRONG present → 9, MODERATE present → 6, WEAK only → 3, none → 0
+1. Read `{results_dir}/convergence.json` → derive the convergence score from
+   `convergence.aggregate`: `strong_count > 0` → 9, else `moderate_count > 0` → 6,
+   else `weak_count > 0` → 3, else 0
 2. Read `{results_dir}/dataset-evidence.json` → extract aggregate dataset score:
    - `(confirmed × 10 + supported × 6 - contradicted × 5) / total_claims`, clamped [0, 10]
 3. `EES = dataset_score × 0.55 + convergence_score × 0.45`
@@ -633,10 +641,11 @@ If both are missing, skip EES entirely.
 
 After EES computation, compute IPS to quantify real-world relevance:
 1. Read `impact_potential` from `selected_target` in state (Scout's score, 1-10)
-2. Read convergence data from `{results_dir}/convergence.json`:
-   - `clinical_trials_found > 0` → trial_signal = 1
-   - `grants_found > 0` → grant_signal = 1
-   - `patents_found > 0` → patent_signal = 1
+2. Read convergence data from `{results_dir}/convergence.json` (the counters live
+   under `convergence.aggregate`):
+   - `total_trials_found > 0` → trial_signal = 1
+   - `total_grants_found > 0` → grant_signal = 1
+   - `total_patents_found > 0` → patent_signal = 1
    - `signal_count = trial_signal + grant_signal + patent_signal`
 3. If convergence data available:
    `IPS = (scout_impact_potential × 0.4) + ((signal_count / 3) × 10 × 0.6)`
@@ -725,8 +734,8 @@ EVOLVER="cycle1-evolved.json evolved-cycle1.md"
 # Post-QG agents (when status SUCCESS or PARTIAL)
 POSTQG="cross-model.json cross-model-consensus.md \
         validation-gpt.md validation-gemini.md \
-        convergence.json convergence.md \
-        dataset-evidence.json dataset-evidence.md \
+        convergence.json convergence-report.md \
+        dataset-evidence.json dataset-evidence-report.md \
         meta-insights.json session-analysis.md"
 
 # Targeted/Open/Problem mode with --context (CC-BY-4.0)

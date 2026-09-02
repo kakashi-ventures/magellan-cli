@@ -5,6 +5,195 @@ Per la reference operativa, vedi `CLAUDE.md`.
 
 ---
 
+## v5.36: Riparazione contratti fra agenti (difetti pre-esistenti emersi dall'audit di fase 4) (2 settembre 2026)
+
+**Motivazione**: l'audit per-agente della fase 4 (lettura riga per riga dei 15 file
+contro Fable 5.1, piu' i 18 hook, l'orchestratore e `upload-session.mjs`) ha fatto
+emergere una serie di difetti di correttezza indipendenti dal modello — sbagliati su
+qualunque modello, ma piu' probabili su uno che legge letteralmente. Stanno in un
+commit separato dalla fase 4 per la stessa ragione per cui v5.34 era separata da
+v5.33: mescolarli renderebbe impossibile attribuire all'A/B una variazione di
+qualita'. Nessuno di questi e' un difetto introdotto dalla migrazione.
+
+**Deliverable richiesti che nessuno scriveva** (la classe piu' costosa: il gate
+deliverables li segnala MISSING e ri-dispatcha l'agente, che scrive di nuovo un file
+con un altro nome):
+
+1. **`computational.json` non esisteva.** Il Computational Validator scriveva solo il
+   markdown e `computational_readiness` in `session.json`, ma l'orchestratore legge
+   `{results_dir}/computational.json` per il dispatch del Generator, il gate
+   deliverables lo richiede, e `upload-session.mjs` lo legge (con fallback su
+   `computational-validation.json`, che nessuno scrive nemmeno): la validazione
+   computazionale non e' mai arrivata al sito. Ora e' nel contratto dell'agente,
+   con verdetto PLAUSIBLE/INCONCLUSIVE/IMPLAUSIBLE per check.
+
+2. **`{results_dir}/meta-insights.json` non esisteva.** Il Session Analyst scriveva
+   `session-analysis.md` e `knowledge/meta-insights.md`, mai il JSON di fase. Ma
+   l'orchestratore lo legge subito dopo il dispatch e ne ricava la voce di
+   `knowledge/discovery-log.json`: il loop di meta-apprendimento leggeva un file
+   inesistente. Aggiunto al contratto con le metriche strutturate che
+   l'orchestratore inoltra.
+
+3. **`contributor-context.md`** era richiesto dal gate in modalita' guidata e non lo
+   scriveva ne' un agente, ne' un comando, ne' uno script. Ora lo scrive
+   l'orchestratore dal testo di `--context`: e' anche il record di provenienza della
+   licenza CC-BY-4.0.
+
+4. **Nomi dei due markdown post-QG.** Convergence Scanner e Dataset Evidence Miner
+   scrivono `convergence-report.md` e `dataset-evidence-report.md` (ed e' quello che
+   controllano i rispettivi stop gate); il gate deliverables dell'orchestratore
+   chiedeva `convergence.md` e `dataset-evidence.md`. Allineato l'orchestratore agli
+   agenti, cioe' ai file che vengono davvero prodotti e che l'upload ha sempre
+   pubblicato.
+
+5. **Lo Scout scriveva `results/scout-targets.md`**, senza il segmento
+   `{session-id}/` — identico al difetto dell'Evolver corretto in v5.34.
+
+**Contratti di dati sbagliati**:
+
+6. **Il tag `[GROUNDED]`/`[PARAMETRIC]` non era mai richiesto.** E' il difetto piu'
+   grave trovato. Critic (vettore 9), Quality Gate (check 2b) e Dataset Evidence
+   Miner iterano tutti "su ogni claim taggato `[GROUNDED]`", il DEM legge
+   `final-hypotheses.md` "for full tagged text", e il Groundedness score (20% del
+   composite) e' il rapporto fra i due tag. Ma il Generator non aveva nessuna
+   istruzione di emettere quei letterali: il constraint diceva soltanto "note which
+   parts come from parametric knowledge vs literature context", l'output format
+   chiedeva un giudizio HIGH/MEDIUM/LOW, e l'esempio di calibrazione non conteneva un
+   solo tag. Con lettura letterale il meccanismo esce senza marcatori e i tre
+   controlli anti-allucinazione non hanno su cosa operare. Ora il tag inline e'
+   dichiarato come contratto (constraint 2), compare nell'output format e l'esempio
+   STRONG e' taggato claim per claim.
+
+7. **`CONDITIONAL_PASS` non era definito da nessuna parte.** Orchestratore,
+   Convergence Scanner, Dataset Evidence Miner, Cross-Model Validator, Holdout
+   Evaluator e `upload-session.mjs` instradano tutti su
+   `PASS or CONDITIONAL_PASS`, e il `summary` del Quality Gate deve contenere
+   `conditional_pass` e `conditional_pass_ids`. Ma il file del Quality Gate diceva
+   "PASS/FAIL" nel GOAL, nei verdetti e nell'output format, e nominava
+   `CONDITIONAL_PASS` una volta sola, di passaggio. Un modello letterale non emette
+   un verdetto che il suo prompt non prevede: le ipotesi marginali cadevano come
+   FAIL. Ora i tre verdetti sono definiti, con il criterio e il limite (un bridge
+   non verificabile non e' mai CONDITIONAL_PASS), e i trigger di FAIL automatico
+   sono un constraint separato.
+
+8. **Chiavi IPS sbagliate.** L'orchestratore leggeva `clinical_trials_found`,
+   `grants_found`, `patents_found`; `convergence.json` li espone come
+   `total_trials_found`, `total_grants_found`, `total_patents_found` sotto
+   `convergence.aggregate`. Il `signal_count` era quindi sempre 0 e l'IPS collassava
+   sul 40% del solo stimato dello Scout. Stessa correzione, per esplicitezza, sul
+   punteggio di convergenza dell'EES.
+
+9. **`cross-model.json` non trasportava i dati delle Post-QG Amendments.**
+   L'orchestratore scrive la sezione di errata leggendo arithmetic, correzioni di
+   citazione e counter-evidence da quel file; lo schema conteneva solo confidenze,
+   novelty e raccomandazione. Aggiunti i tre campi, con la distinzione fra
+   "controllato, niente trovato" e "non controllato".
+
+10. **Etichette di disgiunzione divergenti.** Il Literature Scout scriveva
+    `WELL-EXPLORED` (trattino) mentre l'orchestratore esclude i candidati
+    confrontando `WELL_EXPLORED` (underscore), e `knowledge-schema.json` usava
+    `PARTIALLY EXPLORED` con lo spazio. Il filtro piu' importante del narrowing
+    dipende da un match letterale. Standardizzato sugli underscore in tutti i punti
+    del contratto (invariato il vocabolario NOVEL / PARTIALLY EXPLORED / ALREADY
+    KNOWN dei prompt di validazione, che e' un'altra cosa).
+
+11. **Un solo nome per il deliverable del Literature Scout.** Scriveva
+    `literature-landscape.md` in scout mode e `literature-context.md` in targeted
+    mode, ma il gate deliverables richiede il primo in ogni modalita'. Ora e' sempre
+    `literature-landscape.md` (l'upload lo mappa comunque sulla sezione
+    `literature-context` del sito).
+
+12. **Tre scrittori su `knowledge/discovery-log.json`.** Scout, Literature Scout e
+    Orchestratore. Scout e Literature Scout scrivevano prima che l'esito della
+    sessione esistesse, e con una forma diversa da `prompts/knowledge-schema.json`:
+    la stessa sessione finiva nel log due volte, e quel log e' esattamente cio' da
+    cui lo Scout conta "quali strategie nelle ultime 2 sessioni" per i propri
+    constraint di diversificazione ed exploration slot. Ora lo scrittore e' solo
+    l'Orchestratore, a fine pipeline; i due agenti leggono.
+
+13. **Il Session Analyst leggeva la fonte dati sbagliata.** Il constraint 1 diceva
+    "state/session.json (current) + discovery-log.json", ma `session.json` per
+    architettura non contiene contenuto di ipotesi: kill reason, composite e verdetti
+    stanno nei JSON di fase. Le metriche richieste dai constraint 2 e 3 non erano
+    calcolabili dalla fonte indicata. Ora il constraint elenca i file di
+    `{results_dir}/`.
+
+14. **Il Target Evaluator leggeva i candidati non filtrati.** Il suo GOAL dice
+    "receive the Orchestrator's top 3 pre-filtered candidates", ma le strategie
+    dicevano "Read state/session.json for scout_targets", cioe' tutti i 5-6
+    candidati, WELL_EXPLORED inclusi, che l'orchestratore aveva appena escluso. E'
+    la lettura diretta di stato che v5.34 aveva lasciato "da valutare in un
+    passaggio separato". Ora prende i tre dal dispatch prompt e i dettagli da
+    `scout.json`.
+
+15. **L'Evolver leggeva "ranked hypotheses from state"**, dove non ci sono mai
+    state. Corretto al file di ranking del dispatch prompt (v5.34 aveva corretto il
+    lato output dello stesso agente).
+
+**Contraddizioni interne** (due parti dello stesso prompt che dicono cose diverse —
+Fable 5.1 non le smussa):
+
+16. **Ranker**: il constraint 7 fissa "una o due frasi per dimensione", le strategie
+    chiedevano "2+ sentence justifications" e l'header della tabella diceva
+    "Justification (2+ sentences)". Allineati al constraint, che e' la fonte unica.
+
+17. **Scout**: il constraint 4 chiede almeno 3 strategie distinte, la TARGET QUALITY
+    CHECK ne chiedeva almeno 2. Allineata a 3. `CLAUDE.md` e `methodology-v5.md`
+    riportavano ancora "almeno 2 su 3 target", denominatore pre-v5.34.
+
+18. **Quality Gate**: l'annotazione di impatto era numerata "11." dentro il
+    constraint "10-point rubric (ALL required for PASS)", pur dichiarandosi
+    informativa. De-numerata.
+
+19. **Critic**: l'esempio di calibrazione mostrava 8 attacchi su 9 (mancava il
+    vettore 9, Claim-Level Verification, che il file stesso definisce "the most
+    important attack vector"). E' la stessa classe del template ATTACKS corretto in
+    v5.33: un modello letterale copia il formato dell'esempio.
+
+**Verificato e trovato in ordine**: l'allowlist MCP dei 4 agenti con retrieval
+strutturato (Literature Scout, Critic, Quality Gate, Convergence Scanner) dichiara
+ancora sia i pattern `mcp__*` in `tools:` sia `mcpServers:`, coerenti con i nomi in
+`.mcp.json` — nessuna regressione del fix piu' importante di v5.33. Nessun recall
+suppressor rientrato (il solo filtro temporale rimasto nel Literature Scout e'
+quello correttamente circoscritto da v5.33). Contratti di Holdout Evaluator e degli
+stop gate per-agente coerenti. Dopo le correzioni, ogni artefatto richiesto dal gate
+deliverables ha un produttore dichiarato (verificato programmaticamente).
+
+**Aperto, non corretto perche' non verificabile da qui**: `upload-session.mjs` non ha
+alias per `convergence-report` e `dataset-evidence-report`, quindi le due narrative
+post-QG arrivano al sito con quelle chiavi. Se `PHASE_ORDER` del frontend attende
+`convergence`/`dataset-evidence`, le due sezioni non si sono mai renderizzate e
+servono due voci di alias; indovinare il nome canonico da questo repo
+rischia di rompere una sezione che funziona, quindi la verifica va fatta in
+`magellan-web`.
+
+**Stato di validazione**: correzioni statiche. Contratti verificati incrociando
+agenti, orchestratore, stop gate e upload script; hook Python e upload script
+ricompilati; `knowledge-schema.json` e `settings.json` riparsati. Il comportamento
+end-to-end va confermato nella stessa sessione `/discover` che deve validare la
+migrazione a Fable 5.1.
+
+**File modificati**:
+- `.claude/agents/computational-validator.md` -- contratto a due file, `computational.json`
+- `.claude/agents/session-analyst.md` -- `meta-insights.json`, fonti dati corrette
+- `.claude/agents/generator.md` -- tag inline come contratto, output format, esempio taggato
+- `.claude/agents/quality-gate.md` -- tre verdetti definiti, trigger di FAIL separati, annotazione impatto de-numerata, constraint rinumerati
+- `.claude/agents/scout.md` -- percorso session-scoped, soglia di diversita', discovery-log in sola lettura
+- `.claude/agents/literature-scout.md` -- nome unico del deliverable, `WELL_EXPLORED`, discovery-log in sola lettura
+- `.claude/agents/target-evaluator.md` -- candidati dal dispatch prompt
+- `.claude/agents/evolver.md` -- ranked dal file di fase
+- `.claude/agents/ranker.md` -- lunghezza delle giustificazioni allineata
+- `.claude/agents/critic.md` -- vettore 9 nell'esempio
+- `.claude/agents/cross-model-validator.md` -- campi per le Post-QG Amendments
+- `.claude/agents/discovery-orchestrator.md` -- nomi dei markdown post-QG, chiavi IPS/EES, scrittura di `contributor-context.md`
+- `prompts/knowledge-schema.json` -- enum di disjointness
+- `CLAUDE.md` -- diversificazione strategie, contratto dei tag
+- `README.md` -- albero dei risultati (file mancanti)
+- `docs/methodology-v5.md` -- diversificazione, etichette di disgiunzione, scrittore della discovery-log
+- `docs/CHANGELOG.md` -- questa entry
+
+---
+
 ## v5.35 (fase 4): rilevamento dei rifiuti sugli artefatti invece che sulla risposta (2 settembre 2026)
 
 **Motivazione**: l'audit per-agente della fase 4 ha trovato un solo elemento

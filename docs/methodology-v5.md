@@ -228,7 +228,7 @@ However:
 
 Parametric knowledge is **the generative engine** — it is where the non-obvious cross-disciplinary connections reside. But every factual claim is verified through retrieval. The flow:
 
-1. **Scout (parametric)**: Identifies WHERE to look using deep reasoning with 10 strategies. Produces **mandatory bridge concepts** — specific mechanisms connecting Field A to Field C. Generates 5–6 candidates (wide pool). Consults `knowledge/discovery-log.json` and `knowledge/meta-insights.md` to avoid re-exploration, reuse productive bridges, and prioritize strategies with high survival rates
+1. **Scout (parametric)**: Identifies WHERE to look using deep reasoning with 10 strategies. Produces **mandatory bridge concepts** — specific mechanisms connecting Field A to Field C. Generates 5–6 candidates (wide pool). Reads (never writes) `knowledge/discovery-log.json` and `knowledge/meta-insights.md` to avoid re-exploration, reuse productive bridges, and prioritize strategies with high survival rates
 1b. **Literature Scout (verification)**: Verifies disjointness for ALL 5–6 Scout candidates using domain-appropriate sources. Validates bridge concepts. The Orchestrator then filters down to 3 candidates (DISJOINT priority)
 2. **Target Evaluator (adversarial)**: Challenges the 3 filtered targets on 4 axes: popularity bias, vagueness, structural impossibility, local-optima. Prevents wasted sessions on targets that look interesting but are already explored, vague, or structurally impossible
 3. **Literature Scout (retrieval)**: Verifies that targets are not already explored; finds recent literature in the target fields. Uses **MCP servers** (Semantic Scholar, PubMed) as the primary source and WebSearch as fallback. **Retrieves full text for the top 5–10 papers**. Performs a **disjunction verification** to confirm the connection is genuinely UPK
@@ -272,9 +272,9 @@ The difference: "Field A studies autophagy" vs. "paragraph 3.2 of Zhang et al. d
 
 Before finalizing the literature context, the Literature Scout verifies that the proposed connection is genuinely underexplored:
 - Searches for reviews, surveys, and meta-analyses explicitly linking the two fields
-- Classifies the result as **DISJOINT** (no cross-field literature), **PARTIALLY EXPLORED** (some connections but gaps in mechanisms), or **WELL-EXPLORED** (connection already widely published)
+- Classifies the result as `DISJOINT` (no cross-field literature), `PARTIALLY_EXPLORED` (some connections but gaps in mechanisms), `NEWLY_OPENED_PARTIALLY_EXPLORED` (a landmark paper < 6 months old opened the subfield), or `WELL_EXPLORED` (connection already widely published). These literals are written with underscores because the Orchestrator filters candidates by matching them exactly
 
-This prevents the pipeline from wasting cycles on connections that are not genuinely UPK. A "WELL-EXPLORED" result is high-value information — not a failure.
+This prevents the pipeline from wasting cycles on connections that are not genuinely UPK. A `WELL_EXPLORED` result is high-value information — not a failure.
 
 ---
 
@@ -297,9 +297,9 @@ Bridge concepts are **mandatory for every target**, not just for the Swanson str
 
 ### Strategy diversification + exploration slot
 
-Of the 3 selected targets, at least 2 must use different strategies and at least 1 must use a strategy not employed in the last 2 sessions (verified via discovery-log). This prevents strategic path-lock: less-used strategies are not necessarily worse — they are less explored.
+Of the Scout's 5-6 candidates, at least 3 must use different strategies and at least 1 must use a strategy not employed in the last 2 sessions (verified via discovery-log); the Orchestrator's narrowing then preserves at least 2 distinct strategies among the 3 it selects. This prevents strategic path-lock: less-used strategies are not necessarily worse — they are less explored.
 
-**Exploration slot**: At least 1 of the 3 targets MUST use a strategy with fewer than 2 sessions of primary data. This prevents the pipeline from always converging on the strategy with the best QG pass rate (e.g., network_gap_analysis at 39%) at the expense of more creative but less tested strategies.
+**Exploration slot**: At least 1 candidate MUST use a strategy with fewer than 2 sessions of primary data. This prevents the pipeline from always converging on the strategy with the best QG pass rate (e.g., network_gap_analysis at 39%) at the expense of more creative but less tested strategies.
 
 ### Rotating creativity constraint
 

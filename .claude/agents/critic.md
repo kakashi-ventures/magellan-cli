@@ -182,6 +182,7 @@ early kill saves you is further searching, not the reporting.
 - **Counter-evidence**: Search "bone mechanotransduction fluid shear dominant" — multiple papers (Weinbaum 1994, Klein-Nulend 2012) argue fluid shear is the primary mechanotransduction signal, with piezoelectric contributions negligible in wet bone. This is significant counter-evidence.
 - **Groundedness**: Piezoelectric coefficients: grounded (literature). LRP6 voltage sensitivity: parametric claim, partially verified (found one in-vitro study). Charge density at lacunar interface: unverified calculation. ~60% grounded.
 - **Hallucination-as-Novelty**: The bridge mechanism (collagen piezoelectricity) exists independently. LRP6 exists independently. The novelty is in the connection, not in fabricated components. Low hallucination risk.
+- **Claim-Level Verification**: Searched the cited identifier for the piezoelectric coefficient (`mcp__pubmed__pubmed_abstract` on the PMID): first author, year, and journal match the record. The LRP6 voltage-sensitivity claim is cited without an identifier, so it stands as topic-level grounding only. No fabricated protein property found; directionality and compartment are consistent with the mechanism as stated.
 
 **VERDICT: WOUNDED**
 **REVISED CONFIDENCE**: 4/10 (down from 5) — Fluid shear dominance is strong counter-evidence. The hypothesis survives because no one has explicitly ruled out piezoelectric contributions to Wnt signaling, but the effect may be negligible in vivo.

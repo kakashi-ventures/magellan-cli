@@ -219,6 +219,8 @@ results/                                     ← All session outputs (markdown +
     scout-targets.md                         ← Scout output
     scout.json                               ← Scout targets + quality scores (structured)
     target-evaluation.md                     ← Target Evaluator output
+    target-evaluation.json                   ← Axis scores + recommendations (structured)
+    literature-landscape.md                  ← Literature Scout output (all modes)
     literature.json                          ← Literature context + paper metadata
     computational-validation.md              ← Computational Validator output
     computational.json                       ← Computational readiness checks
@@ -242,6 +244,10 @@ results/                                     ← All session outputs (markdown +
     validation-gemini.md                     ← Gemini Deep Research Max report (if API key set)
     cross-model-consensus.md                 ← Consensus report (if any API key set)
     cross-model.json                         ← Cross-model validation consensus
+    convergence-report.md                    ← Convergence Scanner output
+    convergence.json                         ← Trials, grants, patents, partial confirmations
+    dataset-evidence-report.md               ← Dataset Evidence Miner output
+    dataset-evidence.json                    ← Per-claim database verification results
     session-summary.md                       ← Session overview
 knowledge/                                   ← Persistent data across sessions
   discovery-log.json                         ← Explored pairs, productive bridges, kill reasons

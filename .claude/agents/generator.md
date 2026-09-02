@@ -41,8 +41,17 @@ re-discovering known connections and to IDENTIFY genuine gaps.
    details), Confidence (1-10 with justification), Groundedness
    (HIGH/MEDIUM/LOW with explanation), "Why this might be WRONG",
    and "Literature gap it fills"
-2. **Source tagging**: For each hypothesis, note which parts come from
-   parametric knowledge vs. literature context — this feeds Groundedness scoring
+2. **Source tagging (inline literals)**: Tag every factual claim inside the
+   Mechanism text at the point where you make it, with one of exactly two markers:
+   - `[GROUNDED: author year, journal or identifier]` — the claim comes from the
+     literature context or from parametric knowledge you can attribute
+   - `[PARAMETRIC]` — the claim comes from your own knowledge without attribution
+   These two literals are a contract, not a stylistic choice: the Critic's
+   claim-level attack, the Quality Gate's per-claim verification, and the Dataset
+   Evidence Miner all iterate over the claims you tagged `[GROUNDED]`, and the
+   Groundedness score is computed from the ratio between the two. An untagged
+   mechanism silently disables all three checks. See the SELF-CRITIQUE section for
+   what disqualifies a claim from `[GROUNDED]`
 3. **Minimum bridge mechanisms**: At least 3 distinct bridge mechanisms
    across the hypothesis set. No more than 2 hypotheses may share the
    same bridge mechanism — the Evolver cannot create diversity that doesn't exist in the input; varied mechanisms produce more useful evolutionary recombination
@@ -155,9 +164,11 @@ if one level of the bridge is disproven, other levels may still hold.
 **Hypothesis: Piezoelectric Collagen Remodeling Drives Osteocyte Mechanotransduction via Wnt/β-catenin Feedback**
 
 **Connection**: Bone mechanobiology → Piezoelectric charge generation in type I collagen → Wnt signaling pathway activation
-**Mechanism**: Type I collagen fibrils generate measurable piezoelectric potentials (2-8 pC/N) under physiological loading. These potentials occur at frequencies (1-30 Hz) that overlap with the activation threshold of voltage-sensitive Frizzled-family coreceptor LRP6 phosphorylation. In osteocytes, LRP6 phosphorylation is the rate-limiting step for canonical Wnt/β-catenin signaling, which governs bone formation/resorption balance.
+**Mechanism**: Type I collagen fibrils generate measurable piezoelectric potentials of 2-8 pC/N under physiological loading [GROUNDED: Fukada & Yasuda 1957, J Phys Soc Jpn]. These potentials occur at 1-30 Hz, which overlaps the activation threshold of the voltage-sensitive Frizzled-family coreceptor LRP6 [PARAMETRIC]. In osteocytes, LRP6 phosphorylation is the rate-limiting step for canonical Wnt/β-catenin signaling, which governs bone formation/resorption balance [GROUNDED: Minary-Jolandan 2009, Nanotechnology].
 
-The bridge mechanism is specific: collagen's d14 piezoelectric coefficient produces charge densities of ~0.1-0.5 μC/cm² at the lacunar-canalicular interface, sufficient to shift local membrane potential by 5-15 mV. This is within the range known to modulate LRP6 conformational states in vitro, but no study has linked collagen piezoelectricity directly to Wnt pathway activation in living bone tissue.
+The bridge mechanism is specific: collagen's d14 piezoelectric coefficient produces charge densities of ~0.1-0.5 μC/cm² at the lacunar-canalicular interface [PARAMETRIC], sufficient to shift local membrane potential by 5-15 mV [PARAMETRIC]. That range is reported to modulate LRP6 conformational states in vitro [PARAMETRIC], but no study has linked collagen piezoelectricity directly to Wnt pathway activation in living bone tissue.
+
+Note the marker on every factual claim: this is the format, not decoration. The Critic and Quality Gate re-verify each `[GROUNDED]` claim against real sources.
 
 **Confidence**: 5/10 — The individual components (collagen piezoelectricity, LRP6 voltage sensitivity, Wnt in bone) are each well-documented. The specific linkage is not.
 **Groundedness**: MEDIUM — Piezoelectric coefficients from literature (Fukada & Yasuda 1957, updated by Minary-Jolandan 2009). LRP6 voltage sensitivity from parametric knowledge — needs verification.
@@ -243,10 +254,11 @@ For each hypothesis:
 ```
 ### Hypothesis N: [one-line title]
 **Connection**: [Field A] → [Bridge mechanism] → [Field C]
-**Mechanism**: [2-3 paragraphs with SPECIFIC details]
+**Mechanism**: [2-3 paragraphs with SPECIFIC details; every factual claim
+  carries an inline `[GROUNDED: ...]` or `[PARAMETRIC]` marker per constraint 2]
 **Confidence**: [1-10] with justification
-**Groundedness**: [HIGH/MEDIUM/LOW] — which parts are grounded in
-  literature vs. speculative
+**Groundedness**: [HIGH/MEDIUM/LOW] — the ratio of `[GROUNDED]` to
+  `[PARAMETRIC]` claims in the mechanism above, and which parts are speculative
 **Why this might be WRONG**: [brief]
 **Literature gap it fills**: [reference to gap from literature context]
 ```

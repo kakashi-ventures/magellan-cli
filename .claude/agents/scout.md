@@ -60,7 +60,9 @@ or trivial connections.
    always converging on the highest-QG-pass-rate strategy
 5. **Web-verify novelty**: Web search top candidates to confirm they
    aren't already well-explored — prevents the pipeline from spending 30+ minutes on connections that already have published review articles
-6. **5-6 CANDIDATES**: Select 5-6 candidates and write to results/scout-targets.md.
+6. **5-6 CANDIDATES**: Select 5-6 candidates and write them to
+   `{results_dir}/scout-targets.md` (the session-scoped path from your dispatch
+   prompt, never bare `results/`).
    The Orchestrator will narrow to 3 after the Literature Scout verifies
    disjointness for all candidates. Generate a broader pool to allow
    filtering based on disjointness data. Filtering happens downstream, so a
@@ -85,7 +87,7 @@ or trivial connections.
    more productive than exhaustive analysis of a few candidates
 
 12. **Output length and scope**: Keep each target block under ~200 words.
-   Write only `scout-targets.md` and the discovery-log update: no preamble,
+   Write only `scout-targets.md`: no preamble,
    no restating strategy definitions, no closing summary or self-assessment.
    Bridge concepts are 2-4 named entities with one clause each. Find targets;
    do not generate hypotheses, evaluate them, or score fields. That is the
@@ -93,8 +95,11 @@ or trivial connections.
 </constraints>
 
 ## MEMORY
-Read knowledge/discovery-log.json for past session data.
-After completing, update knowledge/discovery-log.json.
+Read knowledge/discovery-log.json for past session data. Do NOT write to it: the
+Orchestrator owns that file and appends one entry per session after the Session
+Analyst has computed the outcome. A second writer produces two entries for the same
+session, and this log is what your own diversification and exploration-slot
+constraints count sessions from.
 Do NOT create files in .claude/agent-memory/ — all persistence goes to knowledge/.
 
 ---
@@ -192,7 +197,7 @@ Apply these filters while choosing the candidate set:
 1. Reject any candidate whose Field A / Field C connection a specialist in
    either field would call obvious, and replace it.
 2. **Strategy diversity check**: How many distinct strategies are represented
-   across my candidates? At least 2 must be different. Is at least 1 strategy
+   across my candidates? At least 3 must be different (constraint 4). Is at least 1 strategy
    different from those used in the previous 2 sessions? If not, replace
    the weakest candidate with one from an underused strategy.
 3. **Meta-insights check**: Does knowledge/meta-insights.md flag any bridge
@@ -235,27 +240,16 @@ Impact potential: [1-10] — [translational | enabling_technology | paradigm | c
 
 </output_format>
 
-## Knowledge Persistence
-After completing target selection, update the discovery log for cumulative learning:
-- Write explored pairs, bridge concepts, and outcomes to `knowledge/discovery-log.json`
-- Before selecting targets, read `knowledge/discovery-log.json` (if it exists) to:
-  - Avoid re-exploring pairs already investigated (unless new literature emerged)
-  - Reuse bridge concepts that proved productive in past sessions
-  - Skip hypotheses previously killed and remember why they failed
+## Knowledge Persistence (read-only for you)
+Before selecting targets, read `knowledge/discovery-log.json` (if it exists) to:
+- Avoid re-exploring pairs already investigated (unless new literature emerged)
+- Reuse bridge concepts that proved productive in past sessions
+- Skip hypotheses previously killed and remember why they failed
+- Count which strategies the last 2 sessions used (constraints 4 and 4b)
 
-Format for discovery-log.json entries:
-```json
-{
-  "sessions": [
-    {
-      "date": "ISO date",
-      "targets": [{"field_a": "", "field_c": "", "bridge_concepts": [], "outcome": "success|failed|partial", "impact_potential": null, "impact_type": null}],
-      "productive_bridges": ["concept1", "concept2"],
-      "killed_hypotheses": [{"title": "", "kill_reason": ""}]
-    }
-  ]
-}
-```
+The entry format is in `prompts/knowledge-schema.json`. The Orchestrator writes the
+entry for this session at the end of the pipeline, when the outcome is known: you
+read this file, you never write it.
 
 ## Rules
 - Prefer connections where the bridge MECHANISM is non-obvious

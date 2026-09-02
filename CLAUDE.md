@@ -222,8 +222,11 @@ confidence, groundedness assessment.
 ### Quality safeguards
 - **Groundedness scoring** (20% weight) — prevents fluent hallucinations
   from scoring high. Always integer 1-10 in JSON.
-- **Claim-level fact verification** — Generator SELF-CRITIQUE verifies each
-  [GROUNDED] tag. Critic has a dedicated attack vector for per-claim web search.
+- **Claim-level fact verification** — The Generator tags every factual claim
+  inline in the mechanism text with the literal `[GROUNDED: author year, source]`
+  or `[PARAMETRIC]`; those two markers are the input contract for every downstream
+  check, so an untagged mechanism silently disables all of them. Generator
+  SELF-CRITIQUE verifies each [GROUNDED] tag. Critic has a dedicated attack vector for per-claim web search.
   Quality Gate verifies every [GROUNDED] claim individually. Citation
   hallucination or fabricated protein property = automatic FAIL.
 - **Diversity constraint** — Double-level: Ranker diversity check + Evolver
@@ -241,10 +244,12 @@ confidence, groundedness assessment.
   patterns, bridge type survival rates. Orchestrator persists to BOTH
   `knowledge/discovery-log.json` (structured) and `knowledge/meta-insights.md`
   (cumulative prose). Scout and Generator read both in future sessions.
-- **Strategy diversification** — Scout must use at least 2 different strategies
-  across 3 targets, with at least 1 not used in the last 2 sessions.
-  At least 1 target must use a strategy with < 2 sessions of primary data
+- **Strategy diversification** — Of the Scout's 5-6 candidates, at least 3 must
+  use different strategies, with at least 1 not used in the last 2 sessions.
+  At least 1 candidate must use a strategy with < 2 sessions of primary data
   (exploration slot) to prevent convergence on safe-but-boring strategies.
+  The Orchestrator then keeps at least 2 distinct strategies and the exploration
+  slot among the 3 it narrows to.
 - **Rotating creativity constraint** — Orchestrator assigns a different
   creativity constraint per session (mod 5): cross-discipline bridge,
   mathematical bridge, temporal gap, tool transfer, unsolved problem.

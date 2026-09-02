@@ -76,7 +76,11 @@ use this data to inform your checks rather than repeating the work.
 
 ## STRATEGIES (recommended approaches)
 
-1. Read state/session.json for scout_targets
+1. Take the top-3 narrowed candidates from your dispatch prompt; read
+   `{results_dir}/scout.json` for their bridge concepts and the disjointness
+   status the Literature Scout assigned. Do NOT read `scout_targets` from
+   state/session.json: that array still holds all 5-6 pre-narrowing candidates,
+   including the ones the Orchestrator already excluded
 2. Read knowledge/discovery-log.json for past sessions
 3. Read knowledge/meta-insights.md (if exists) for accumulated patterns
 4. For each target:

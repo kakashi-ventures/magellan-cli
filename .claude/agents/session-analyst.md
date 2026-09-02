@@ -34,7 +34,14 @@ learn to explore better over time based on its own results.
 
 ## CONSTRAINTS (hard requirements — all must be met)
 
-1. **Read ALL session data**: state/session.json (current) + knowledge/discovery-log.json (all past)
+1. **Read ALL session data**: the per-phase JSON files in `{results_dir}/`
+   (`scout.json` for strategies and disjointness, `cycle{N}-critiqued.json` for
+   verdicts and kill reasons, `cycle{N}-ranked.json` for composites,
+   `quality-gate.json` for final verdicts, plus `convergence.json` and
+   `dataset-evidence.json` when present) + `knowledge/discovery-log.json` for all
+   past sessions. `state/session.json` carries coordination metadata only
+   (session_id, mode, selected_target, health counters): the metrics below cannot
+   be computed from it, because by design it never holds hypothesis content
 2. **Compute strategy_performance metrics** for state/session.json:
    ```json
    {
@@ -54,6 +61,12 @@ learn to explore better over time based on its own results.
    - Field pair disjointness vs survival correlation
 4. **Write session analysis** to {results_dir}/session-analysis.md
 5. **Write or update meta-insights** to knowledge/meta-insights.md
+5b. **Write `{results_dir}/meta-insights.json`** — the same metrics in structured
+   form: `strategy_performance`, `bridge_type_performance`,
+   `kill_reason_distribution`, `creativity_metrics`, `impact_metrics`, and
+   `computational_validation_summary`. The Orchestrator reads this file to build
+   its `knowledge/discovery-log.json` entry, so a metric that exists only in the
+   markdown never reaches cumulative learning
 6. **Update state** with session_meta_insights array
 7. **Actionable insights only**: Every insight must end with a concrete recommendation
    for the Scout or Generator. "Interesting pattern" without action = useless

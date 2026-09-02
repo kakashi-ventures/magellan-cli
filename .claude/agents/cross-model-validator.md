@@ -229,7 +229,10 @@ Write `{results_dir}/cross-model.json` with:
         "gpt_novelty": null,
         "gemini_depth": null,
         "agreement": "high|medium|low",
-        "combined_recommendation": "..."
+        "combined_recommendation": "...",
+        "arithmetic": "VERIFIED | DISCREPANCY: <what was wrong and the correct value>",
+        "citation_corrections": [],
+        "counter_evidence": null
       }
     },
     "files": {
@@ -241,4 +244,10 @@ Write `{results_dir}/cross-model.json` with:
 }
 ```
 
-Fill in actual values from the parsed responses.
+Fill in actual values from the parsed responses. The last three fields feed the
+Orchestrator's "Post-QG Amendments" section of `final-hypotheses.md` — arithmetic
+corrections, citation fixes, and counter-evidence the external models found after
+the Quality Gate. Leave `citation_corrections` as an empty array and
+`counter_evidence` as `null` when a model found none: the amendments section
+distinguishes "checked, nothing found" from "not checked", and it reads only this
+file.
